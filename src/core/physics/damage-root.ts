@@ -34,6 +34,27 @@ export function createRootSection(diameter: number): RootSection {
 
 export type RootLoadLaw = 'plate' | 'grid';
 
+// One synchronous control query may contain identical roots. Keep only the
+// pure numerical midpoint, after each original validation/material/getter
+// prefix has executed. Nested queries never read or replace the parent's key.
+let solveDepth = 0, cached = false;
+let cachedMagnitude = 0, cachedCompliance = 0, cachedLaw: RootLoadLaw = 'plate', cachedSum = 0;
+
+/** Optional paired capability. A replaced solver or close function declines
+ * reuse; an abnormal close can only invalidate it. No physical state is held. */
+export function beginRootSolveBatch(solver: typeof loadedRootAngle, close: typeof endRootSolveBatch): number {
+  if (solver !== loadedRootAngle || close !== endRootSolveBatch) {
+    solveDepth = 0; cached = false; return 0;
+  }
+  if (++solveDepth === 1) cached = false;
+  return solveDepth;
+}
+export function endRootSolveBatch(token: number): void {
+  if (!Number.isInteger(token) || token <= 0 || token !== solveDepth) solveDepth = 0;
+  else solveDepth--;
+  if (solveDepth === 0) cached = false;
+}
+
 /** Dimensionless resultant load; input is the absolute loaded angle in rad. */
 export function rootLoadCoefficient(angle: number, law: RootLoadLaw): number {
   return law === 'plate' ? Math.sin(angle)
@@ -60,7 +81,27 @@ export function loadedRootAngle(
   const modulus = steelElasticModulus(temperature);
   if (modulus === 0) return 0;
   if (magnitude === 0 || forceScale === 0 || loadLever === 0) return command;
-  const compliance = forceScale * loadLever * section.length / (modulus * section.inertia);
+  let rawLength: number, rawInertia: number;
+  // Preserve getter AND coercion order: length is coerced before inertia is
+  // fetched. Unusual runtime objects retain the literal numerical route.
+  const compliance = forceScale * loadLever * (rawLength = section.length) / (modulus * (rawInertia = section.inertia));
+  const reusable = solveDepth === 1 && Number.isFinite(rawLength) && rawLength > 0
+    && Number.isFinite(rawInertia) && rawInertia > 0 && Number.isFinite(compliance) && compliance >= 0
+    && (law === 'plate' || law === 'grid');
+  if (reusable && cached && Object.is(magnitude, cachedMagnitude)
+    && Object.is(compliance, cachedCompliance) && law === cachedLaw)
+    return Math.sign(command) * cachedSum / 2;
+  const sum = rootMidpointSum(magnitude, compliance, law);
+  if (reusable) {
+    cached = true; cachedMagnitude = magnitude; cachedCompliance = compliance;
+    cachedLaw = law; cachedSum = sum;
+  }
+  return Math.sign(command) * sum / 2;
+}
+
+/** The unchanged pre-reuse kernel, under its existing standard Math contract.
+ * Only magnitude/compliance/law enter; all mutable model reads precede it. */
+function rootMidpointSum(magnitude: number, compliance: number, law: RootLoadLaw): number {
   // Newton only predicts which old bisection cell contains the root. It never
   // determines the returned angle: certify the original cell with the same
   // residual comparisons, then return its bit-identical midpoint. If the guess
@@ -84,7 +125,7 @@ export function loadedRootAngle(
     }
     if (candidateLower + compliance * rootLoadCoefficient(candidateLower, law) < magnitude
       && candidateUpper + compliance * rootLoadCoefficient(candidateUpper, law) >= magnitude)
-      return Math.sign(command) * (candidateLower + candidateUpper) / 2;
+      return candidateLower + candidateUpper;
   }
   let lower = 0;
   let upper = magnitude;
@@ -93,7 +134,7 @@ export function loadedRootAngle(
     if (middle + compliance * rootLoadCoefficient(middle, law) < magnitude) lower = middle;
     else upper = middle;
   }
-  return Math.sign(command) * (lower + upper) / 2;
+  return lower + upper;
 }
 
 /** Dimensionless demand/proof ratio. Above the source domain capability is

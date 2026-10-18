@@ -74,6 +74,15 @@ After three failed diagnoses, obtain fresh independent high review before
 another cycle. Full golden replay/audit, units, coverage, mutations and coherent
 Fidelity acceptance remain open. No golden fixture has been regenerated here.
 
+## C2 — Root-kernel correction measured, broader CPU acceptance open
+
+The [scoped root-kernel Refactor](root-reuse/README.md) and its one changed
+reentry capture are complete as bounded work. Frozen oracles/43 focused checks
+across selections, build 299.6 kB/lint and identical truth pass. The entire
+recorded reentry trace is byte-identical; the original physical assertion stays
+red. Reduced numerical work is proved, not broad timing acceptance. Do not
+repeat the consumed root-reuse/attempt1 unchanged. ISA preparation remains held.
+
 ## C1 — Booster orbital feasibility before full controller
 
 Use the [held design](orbital-targeting-design.md), independently reviewed by

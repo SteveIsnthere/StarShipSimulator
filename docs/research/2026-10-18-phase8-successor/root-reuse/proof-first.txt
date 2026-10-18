@@ -1,0 +1,23 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/proofs/root-scoped-reuse.test.ts tests/core/damage-root.test.ts tests/core/damage-root-solver.test.ts tests/core/damage-controls.test.ts tests/core/booster-terminal-allocation.test.ts tests/core/booster-terminal-coallocation.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=docs/research/2026-10-18-phase8-successor/root-reuse/proof-first.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |unit| tests/proofs/root-scoped-reuse.test.ts (10 tests) 492ms
+   ✓ matches complete control outputs/masks and preserves both vehicle states  381ms
+ ✓ |unit| tests/core/booster-terminal-allocation.test.ts (7 tests) 70ms
+ ✓ |unit| tests/core/booster-terminal-coallocation.test.ts (14 tests) 20ms
+ ✓ |unit| tests/core/damage-controls.test.ts (5 tests) 10ms
+ ✓ |unit| tests/core/damage-root.test.ts (5 tests) 6ms
+ ✓ |unit| tests/core/damage-root-solver.test.ts (1 test) 949ms
+     ✓ retains every original bit over cold/hot temperatures, signed commands and extreme loads  945ms
+
+ Test Files  6 passed (6)
+      Tests  42 passed (42)
+   Start at  16:28:07
+   Duration  3.16s (transform 536ms, setup 0ms, import 818ms, tests 1.55s, environment 1ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/root-reuse/proof-first.json

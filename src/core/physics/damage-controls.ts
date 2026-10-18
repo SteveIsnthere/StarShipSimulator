@@ -7,6 +7,7 @@ import { finDragCoefficient } from '../constants';
 import type { VehicleDefinition } from '../vehicle';
 import type { VehicleComponentPartition } from './vehicle-components';
 import { loadedRootAngle, rootLoadCoefficient, rootUtilization, type RootSection } from './damage-root';
+import * as rootSolve from './damage-root';
 import { steelProofStrength } from './damage-material';
 
 interface ControlColumn {
@@ -77,45 +78,52 @@ export function validateDamageControlForcing(state: DamageState, model: DamageCo
 export function writeDamageControls(state: DamageState, model: DamageControlModel,
   q: number, incidence: number, frontCommand: number, aftCommand: number,
   out: DamageControlForces): void {
-  validateDamageControlForcing(state, model, q, incidence, out);
-  out.frontArea = out.aftArea = out.gridLiftArea = out.gridDragArea = 0;
-  out.frontFraction = out.aftFraction = 0;
-  out.proofMask = out.domainMask = 0;
-  out.loadedAngles.fill(0);
-  for (const column of model.columns) {
-    const component = state.components[column.index]!;
-    if (!component.attached || component.permanentFailure !== ComponentFailure.None) continue;
-    if (!component.root.valid || steelProofStrength(component.root.temperature) === 0) {
-      out.domainMask |= 1 << column.index;
-      continue;
-    }
-    const grid = column.group === 'grid';
-    const command = column.group === 'aft' ? aftCommand : frontCommand;
-    const forceScale = q * column.area * (grid ? 1 : finDragCoefficient * incidence);
-    const law = grid ? 'grid' : 'plate';
-    const angle = loadedRootAngle(command, forceScale, column.lever,
-      component.root.temperature, model.root, law);
-    out.loadedAngles[column.index] = angle;
-    const moment = forceScale * rootLoadCoefficient(Math.abs(angle), law) * column.lever;
-    if (rootUtilization(moment, component.root.temperature, model.root) > 1) {
-      out.proofMask |= 1 << column.index;
-      continue;
-    }
-    if (grid) {
-      out.gridLiftArea += column.area * Math.sin(2 * angle);
-      out.gridDragArea += column.area * 1.2 * Math.sin(angle) ** 2;
-    } else {
-      const projected = Math.sin(angle);
-      // Each catalogue flap owns half its pair. Accumulate the fraction
-      // directly so unloaded hardware exactly retains the initializer's sin,
-      // without a gratuitous area multiply/divide rounding round-trip.
-      if (column.group === 'front') {
-        out.frontArea += column.area * projected;
-        out.frontFraction += .5 * projected;
+  // Missing/partly mocked optional capability retains the original six-argument
+  // helper calls. Capture the pair once, but keep the solver lookup per column.
+  const begin = 'beginRootSolveBatch' in rootSolve ? rootSolve.beginRootSolveBatch : undefined;
+  const end = 'endRootSolveBatch' in rootSolve ? rootSolve.endRootSolveBatch : undefined;
+  const token = typeof begin === 'function' && typeof end === 'function' ? begin(loadedRootAngle, end) : 0;
+  try {
+    validateDamageControlForcing(state, model, q, incidence, out);
+    out.frontArea = out.aftArea = out.gridLiftArea = out.gridDragArea = 0;
+    out.frontFraction = out.aftFraction = 0;
+    out.proofMask = out.domainMask = 0;
+    out.loadedAngles.fill(0);
+    for (const column of model.columns) {
+      const component = state.components[column.index]!;
+      if (!component.attached || component.permanentFailure !== ComponentFailure.None) continue;
+      if (!component.root.valid || steelProofStrength(component.root.temperature) === 0) {
+        out.domainMask |= 1 << column.index;
+        continue;
+      }
+      const grid = column.group === 'grid';
+      const command = column.group === 'aft' ? aftCommand : frontCommand;
+      const forceScale = q * column.area * (grid ? 1 : finDragCoefficient * incidence);
+      const law = grid ? 'grid' : 'plate';
+      const angle = loadedRootAngle(command, forceScale, column.lever,
+        component.root.temperature, model.root, law);
+      out.loadedAngles[column.index] = angle;
+      const moment = forceScale * rootLoadCoefficient(Math.abs(angle), law) * column.lever;
+      if (rootUtilization(moment, component.root.temperature, model.root) > 1) {
+        out.proofMask |= 1 << column.index;
+        continue;
+      }
+      if (grid) {
+        out.gridLiftArea += column.area * Math.sin(2 * angle);
+        out.gridDragArea += column.area * 1.2 * Math.sin(angle) ** 2;
       } else {
-        out.aftArea += column.area * projected;
-        out.aftFraction += .5 * projected;
+        const projected = Math.sin(angle);
+        // Each catalogue flap owns half its pair. Accumulate the fraction
+        // directly so unloaded hardware exactly retains the initializer's sin,
+        // without a gratuitous area multiply/divide rounding round-trip.
+        if (column.group === 'front') {
+          out.frontArea += column.area * projected;
+          out.frontFraction += .5 * projected;
+        } else {
+          out.aftArea += column.area * projected;
+          out.aftFraction += .5 * projected;
+        }
       }
     }
-  }
+  } finally { if (token) end!(token); }
 }

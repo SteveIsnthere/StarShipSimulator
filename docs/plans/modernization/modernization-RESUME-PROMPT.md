@@ -125,8 +125,16 @@ within unchanged4shared advances,16trials and future publication deadlines.
 Neither an unpowered hint nor arbitrary terminal tilt grants range authority.
 Keep reentry716km range failure and paid orbital feasibility separate.
 Profiles identify grid-root/control work, not ISA, as the stronger CPU path.
-Pure-kernel reuse remains held until concrete review, frozen oracle, complete
-keys, original validation/material/getter calls and literal mock/generic fallback.
+The scoped pure-root-kernel Refactor is now implemented/reviewed, with original
+per-component six-argument helper, material/getter/validation prefixes and literal
+fallback preserved. Frozen whole old solver/control oracles: 43 focused tests
+across selections (11 strengthened proofs), build 299.6 kB/lint and identical truth
+pass. See root-reuse/README.md. Exactly one changed reentry capture is consumed:
+its entire recorded trace is byte-identical (392 samples+initial/terminal/result),
+crash 350.850 s / 42,102 ticks; case 23.015 s vsprior instrumented 23.429 s establishes no
+wall-time cure. Numerical work of 3 identical kernels → 1 is proved. Full CPU/gate acceptance
+remains open; do not repeat the unchanged capture or treat statistical profile weights
+as exact CPU attribution. Additional source epoch 3fa8 changes remain explicit.
 2. C1 orbital: follow orbital-targeting-design.md. First establish one reviewed
 original-state, live-coast, nominal 150 m/s paid scheduling/trajectory witness;
 prove genuine fine catch and publication before future ignition/cutoff. Use

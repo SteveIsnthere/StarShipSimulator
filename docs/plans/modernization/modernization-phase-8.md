@@ -62,6 +62,13 @@ engineering-surrogate damage model that affects flight and visible structure.
 Use existing TypeScript/PixiJS/Vitest/Playwright, fixed 120 Hz, shared sun,
 startup geometry and pooled resources; no new runtime dependency.
 
+The independently reviewed [scoped root-kernel Refactor](../../research/2026-10-18-phase8-successor/root-reuse/README.md)
+now passes 43 focused tests across selections, build 299.6 kB/scoped lint and
+identical truth. One changed reentry diagnostic retains the entire recorded
+trace byte-for-byte and the same crash. Reduced kernel work is proved;
+23.015 s versus prior instrumented 23.429 s does not establish a wall-time cure.
+Broad CPU, matrix, golden, coverage, gate and release acceptance stay open.
+
 ## Owner realism amendment — 2026-10-03
 
 Steve rejects current Ship and Super Heavy appearance as unrealistic and requests deep online/image research, faithful simplification of real hardware, possible structural disintegration, and an external ChatGPT Pro review. This supersedes Task5 visual acceptance; existing passing framing/control checks remain regression evidence only. Do not close Task5 or merge Phase8 on those checks alone.

@@ -151,6 +151,13 @@ already has channels, cursor, previous-flight overlay and CSV; preserve them.
 Include HUD/slider follow, phone obstruction/clock/card placement, hosted menu
 flakes, accessibility/focus and assigned audio/tilt work. No unphased expansion.
 
+The independently reviewed [scoped root-kernel Refactor](../../research/2026-10-18-phase8-successor/root-reuse/README.md)
+now passes 43 focused tests across selections, build 299.6 kB/scoped lint and
+identical truth. One changed reentry diagnostic retains the entire recorded
+trace byte-for-byte and the same crash. Reduced kernel work is proved;
+23.015 s versus prior instrumented 23.429 s does not establish a wall-time cure.
+Broad CPU, matrix, golden, coverage, gate and release acceptance stay open.
+
 ## Evidence and preservation
 
 - [Remaining-work audit](../../research/2026-10-18-modernization-remaining-audit/README.md)

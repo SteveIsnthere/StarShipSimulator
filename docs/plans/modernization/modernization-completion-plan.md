@@ -77,10 +77,16 @@ remains binding; independent C2/C3 work continues.
       acquisition from this retained paid trace. Establish future-event proof
       scheduling feasibility before adding coast authority; keep current caps,
       deadlines and actual paid mechanics. Do not rerun the consumed torque row.
-- [ ] Address measured grid-root/control CPU work only after a concrete reviewed
-      pure-kernel design with frozen oracle, complete scalar key, original per-
-      component validation/getter/material prefix and literal mock/generic
-      fallback. No direct helper cache, looser comparisons or ISA speculation.
+- [x] Implemented reviewed call-local root-kernel reuse with exact scalar key,
+      original per-component helper/validation/material/getter prefix and literal
+      fallback. Frozen old oracles, 43 focused tests across selections, build
+      299.6 kB/scoped lint and identical truth pass. One changed reentry diagnostic
+      retains the same crash and entire recorded trace byte-for-byte; case
+      23.015 s versus prior instrumented 23.429 s establishes no wall-time cure.
+      [Proof and preserved failure](../../research/2026-10-18-phase8-successor/root-reuse/README.md).
+- [ ] Complete remaining CPU/timeouts and full gate performance acceptance.
+      Reduced numerical work is proved; broad timing remains open. Preserve
+      source comparison/provenance and do not speculate on ISA.
 - [ ] **Next bounded orbital task:** review one original-state, model-derived
       opportunity and nominal 150 m/s paid scheduling/trajectory witness before
       implementing the complete booster orbital controller. Validate proof

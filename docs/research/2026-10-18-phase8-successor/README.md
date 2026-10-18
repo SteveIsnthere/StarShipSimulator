@@ -67,10 +67,13 @@ The [bounded diagnostic handoff](next-diagnostics.md) specifies those tasks and
 the independent reviews. It is a proposal, not an implemented or passing fix. Ship's fitted entry
 range and unpowered force approximation cannot supply booster cutoff authority.
 
-A separate fresh CPU source review proposes one-call force preparation but
-requires complete canonical ownership/admission. That candidate remains held
-until its proof can be supplied without broad qualification infrastructure;
-no physics/controller change or performance claim is made here.
+The narrower [scoped root-kernel Refactor](root-reuse/README.md) is implemented
+and independently reviewed. It retains every public-helper/material/getter
+prefix, proves exact old outputs and reduced kernel work, and passes 43 focused
+tests across selections with build 299.6 kB/scoped lint and identical truth.
+The single changed reentry capture retains its entire recorded trace byte-for-
+byte and the same crash. Observed 23.015 s versus 23.429 s is no timing cure;
+broad CPU/gate acceptance and ISA preparation remain open.
 
 The [fresh optical attempt](optical/README.md) passed five actual body-presence/
 absence cases; catch setup exceeded its unchanged 60 s timeout, and teardown
