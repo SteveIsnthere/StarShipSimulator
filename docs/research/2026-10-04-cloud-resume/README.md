@@ -1,5 +1,15 @@
 # Cloud modernization resume — 2026-10-04
 
+**Current continuation — 2026-10-18 UTC.** Use the
+[active goal](../../plans/modernization/modernization-GOAL.md),
+[handover](../../plans/modernization/modernization-handover.md) and
+[C0–C6 completion plan](../../plans/modernization/modernization-completion-plan.md).
+The fresh checkout lacks part of the latest documented source/evidence;
+the [audit](../2026-10-18-modernization-remaining-audit/README.md) enumerates it.
+Earlier recovery snapshots and consumed run packets below are historical;
+valid digests do not authorize reapplying them over current work. No newer
+runtime acceptance is established by this documentation update.
+
 **Latest cloud qualification checkpoint — 2026-10-06 UTC.** See the [current bounded-check checkpoint](../2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md) for newly accepted proof-reader, source-copy and graphics-data observations and preserved failures. Their private receipts are not yet portably preserved. Phases 8 and 9 remain open (80%); main/live remain `e8a06ffe3e0fc5b28f6aad0ad733e6be25917428`. No recovery patch was reapplied; earlier checkpoints retain their original source domains.
 
 **Current R2 cloud CPU checkpoint — 2026-10-06 UTC.** Phases 8 and 9 remain open (80%); main/live remain `e8a06ffe3e0fc5b28f6aad0ad733e6be25917428`. Fresh cloud activation and its actual Chromium functional check passed before implementation. User-authorized cloud acceptance preserves the original budgets, coverage floors, samples and independent reviews; software rendering and viewport emulation establish no physical-device or hardware-GPU claim.

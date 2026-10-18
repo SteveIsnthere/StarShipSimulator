@@ -1,0 +1,30 @@
+{
+  "kind": "lossless-planning-history-preservation",
+  "scope": "Four working documents including the prior fresh-checkout audit annotations, before consolidation. Historical commands are evidence, not execution instructions.",
+  "files": [
+    {
+      "original": "docs/plans/modernization/modernization-GOAL.md",
+      "archive": "docs/research/2026-10-18-modernization-remaining-audit/plans-before-update/modernization-GOAL.md",
+      "bytes": 202732,
+      "sha256": "b934ffa5e80c4138135f69385ba73316269eb59782886433757a956fa9c10eb1"
+    },
+    {
+      "original": "docs/plans/modernization/modernization-roadmap.md",
+      "archive": "docs/research/2026-10-18-modernization-remaining-audit/plans-before-update/modernization-roadmap.md",
+      "bytes": 134231,
+      "sha256": "8b32a29e20869d53858e1c3d12c21b4a83853b68cc5c6d6192d91936691e273b"
+    },
+    {
+      "original": "docs/plans/modernization/modernization-phase-8.md",
+      "archive": "docs/research/2026-10-18-modernization-remaining-audit/plans-before-update/modernization-phase-8.md",
+      "bytes": 223465,
+      "sha256": "fc63faa0be638f5abec9a3345ca267a35078ae6f08711fdce617d99e4f04e258"
+    },
+    {
+      "original": "docs/plans/modernization/modernization-handover.md",
+      "archive": "docs/research/2026-10-18-modernization-remaining-audit/plans-before-update/modernization-handover.md",
+      "bytes": 217691,
+      "sha256": "c86cd5ece40ab8728fdd86ca44d676a5570e36f54c48ca8442e6099f9a1e705e"
+    }
+  ]
+}
