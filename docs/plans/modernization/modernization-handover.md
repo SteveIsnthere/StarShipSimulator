@@ -38,7 +38,10 @@ The reviewed documentation audit was committed/pushed as `8126077a` on
 `audit/remaining-work`. Current branch `claude/visuals` was fast-forwarded to
 that checkpoint before the bounded successor edits; no reset/rebase/worktree.
 The remaining-work audit itself ran no implementation acceptance workload.
-Subsequent source changes and their actual checks are recorded below.
+The reviewed source/evidence/plans checkpoint was committed and pushed on
+`claude/visuals` as `a41df348`. Subsequent documentation-only corrections
+record this pin and raw-log whitespace; the checked implementation is unchanged.
+Source changes and their actual checks are recorded below.
 
 V22's retained manifest has 803 paths: 726 exact matches, 52 changed and
 25 absent. The newer 18-row scenario matrix, lint wrapper, one production

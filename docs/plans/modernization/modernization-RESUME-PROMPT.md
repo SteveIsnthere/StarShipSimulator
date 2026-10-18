@@ -31,6 +31,8 @@ audited at e8a06ffe3e0fc5b28f6aad0ad733e6be25917428; recheck before integration.
 C0 already admitted a fresh independently reviewed successor from committed
 8126077a851b3a31e2b662a6953859adb112169b (runtime ancestor cd0118c0).
 The requested dd72908e9e5e277f63af27fbdb64d560bc9af355 is an ancestor.
+The reviewed source/evidence/plans checkpoint is a41df348 on claude/visuals;
+later documentation-only corrections preserve the same checked implementation.
 These historical pins never authorize overwriting newer work.
 
 V22's 803-path manifest differs from this basis at 52 paths and lacks 25;

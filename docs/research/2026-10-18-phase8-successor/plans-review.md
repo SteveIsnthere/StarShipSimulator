@@ -18,7 +18,11 @@ without claiming runtime or release acceptance. No instruction remains to redo
 C0 or ask the duration decision again.
 
 Available documentation checks: local relative links in thirteen active plan/
-successor Markdown files resolve; git diff --check passes; Phase 8 from the
+successor Markdown files resolve; authored source/tests/docs pass whitespace
+checks. A complete staged diff check reports two trailing spaces in verbatim
+baseline/changed Vite output (build-before.txt:43 and build-after.txt:43).
+Those raw logs are preserved unchanged with their recorded hashes; the earlier
+tracked-only check did not include the new logs. Phase 8 from the
 owner realism amendment onward is byte-identical to prior HEAD; frozen old
 planning archive/manifest are unchanged. Twelve input pins and fifteen result
 artifact hashes/sizes match. Global repo-docs-maid remains unavailable; these

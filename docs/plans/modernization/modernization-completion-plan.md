@@ -25,7 +25,8 @@ not a proposal, source review alone or an unrelated passing subset.
       source-pinned allocation delta with original logs/exits/environment.
       [Successor evidence](../../research/2026-10-18-phase8-successor/README.md).
 - [x] Updated handover with actual basis, changed source/check scope and next
-      task. Commit/push this coherent checkpoint; this is not phase integration.
+      task. Coherent source/evidence/plans checkpoint `a41df348` was committed
+      and pushed on `claude/visuals`; this is not phase integration.
 
 C0 source-basis admission is complete. Exact restoration is not claimed.
 Do not repeat recovery searches without new evidence or turn this into another
