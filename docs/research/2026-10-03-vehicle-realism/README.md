@@ -16,6 +16,11 @@ starts/targets fixed. The reviewed test-only deadline is now frozen; structural
 checks pass 4/4, while actual paid phase witnesses and flight acceptance remain
 open. C1 source/tests and new diagnostic are checkpointed as unfinished WIP;
 preserve newer dirty work and follow the [next diagnostic handoff](../2026-10-18-phase8-successor/next-diagnostics.md).
+The reviewed [terminal coallocation correction](../2026-10-18-phase8-successor/terminal-coallocation/README.md)
+prevents the earlier tumble but its one changed before-flip row still fails
+lateral catch bounds and impacts at 16.658 s. Earlier acquisition is next;
+71 focused checks across selections, 299.2 kB build, identical truth and 2/2
+built-render smoke are bounded evidence, not whole Fidelity or phase acceptance.
 
 The [latest cloud qualification checkpoint](../2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md) adds accepted bounded proof-reader and graphics-data checks. It leaves Phase 8/9, the complete gate, rendering and release open; private proof preservation remains unfinished.
 

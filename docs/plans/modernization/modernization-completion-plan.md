@@ -65,13 +65,18 @@ remains binding; independent C2/C3 work continues.
       valid hull domains and attached components before reset; retained fuel
       18.47 t / 281 kg. Reentry impacts about 716 km short. Build/lint and 14
       focused controls pass; final naming controls 9/9. [Evidence](../../research/2026-10-18-phase8-successor/descending-diagnosis/README.md).
-- [ ] **Next bounded physical correction:** demonstrate terminal gimbal
-      over-allocation with a recorded-constraint boundary fixture, then project
-      translation through actual grid/paid-RCS/engine/slew constraints. Intersect
-      both admitted thrust-coefficient endpoints; a maximum alone can falsely
-      claim attitude feasibility. Keep ordinary alignment unchanged. Review,
-      build and focused checks precede one changed before-flip row. Earlier
-      lateral acquisition remains independently required. [Design](../../research/2026-10-18-phase8-successor/descending-diagnosis/coallocation-design.md).
+- [x] Corrected demonstrated terminal torque over-allocation through both
+      admitted thrust endpoints, actual grid/paid-RCS and gimbal/slew constraints;
+      ordinary alignment is preserved. Independent HIGH review, 71 focused tests
+      across selections, build/scoped lint and identical truth pass. One changed
+      before-flip row still impacts at 16.658 s: pitch/downspeed pass at the catch
+      plane, but lateral error −129.26 m and speed +11.84 m/s reject contact.
+      This is a bounded correction, not scenario acceptance.
+      [Evidence and retained failed trials](../../research/2026-10-18-phase8-successor/terminal-coallocation/README.md).
+- [ ] **Next bounded physical task:** design and review earlier lateral/range
+      acquisition from this retained paid trace. Establish future-event proof
+      scheduling feasibility before adding coast authority; keep current caps,
+      deadlines and actual paid mechanics. Do not rerun the consumed torque row.
 - [ ] Address measured grid-root/control CPU work only after a concrete reviewed
       pure-kernel design with frozen oracle, complete scalar key, original per-
       component validation/getter/material prefix and literal mock/generic

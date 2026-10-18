@@ -52,9 +52,14 @@ The assigned projection allocation debt is addressed at six render call sites.
 [Allocation evidence](allocation/README.md) records build/lint, focused 5/5 and
 expanded 85/85 with high independent code review, not optical/frame acceptance.
 
-**Next:** correct the demonstrated terminal torque over-allocation from a
-failing boundary witness, then earlier lateral/range acquisition and one paid
-orbital feasibility witness. The single [physical/CPU capture](descending-diagnosis/README.md)
+**Next:** earlier lateral/range acquisition and one paid orbital feasibility
+witness. The reviewed [terminal coallocation correction](terminal-coallocation/README.md)
+passes 71 focused checks across selections, identical truth and build/lint.
+One changed before-flip row still impacts at 16.658 s: pitch/downspeed pass at
+the catch plane, but lateral error −129.26 m and speed +11.84 m/s reject contact.
+Two earlier booster regression catches remain passing. A GLSL comment relocation
+with identical executable tokens keeps the build at 299.2/300 kB; separate
+built-render smoke passes 2/2. These are bounded results, not full acceptance. The single [physical/CPU capture](descending-diagnosis/README.md)
 is complete: both impacts reproduce, reentry about 716 km short, no pre-impact
 detachment/domain loss. Grid-root/control CPU work has measured support; ISA
 preparation stays held. Do not repeat that capture unchanged.

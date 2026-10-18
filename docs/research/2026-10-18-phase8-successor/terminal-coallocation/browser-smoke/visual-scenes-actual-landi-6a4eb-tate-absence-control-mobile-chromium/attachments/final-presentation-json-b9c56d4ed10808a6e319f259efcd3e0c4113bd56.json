@@ -1,0 +1,1622 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "presentation": {
+    "nozzleX": 640.2490747871263,
+    "nozzleY": 290.59672917097834,
+    "bell": {
+      "visibleMounts": 3
+    },
+    "particles": [
+      {
+        "effect": "raptorPlumeCore",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "raptorPlume",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "raptorShutdown",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "plasmaTrail",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "velocityStreak",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "aeroTrail",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "groundSmoke",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "sonicBoom",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "aeroHeat",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      },
+      {
+        "effect": "explosion",
+        "count": 0,
+        "ageMin": 0,
+        "ageMax": 0,
+        "lifeMin": 0,
+        "lifeMax": 0,
+        "alphaMin": 0,
+        "alphaMax": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0,
+        "dt": 0,
+        "scale": 0,
+        "intensity": 0,
+        "spread": 0
+      }
+    ],
+    "components": [
+      {
+        "id": "ship-front-flap-left",
+        "vehicle": "starship",
+        "detached": false,
+        "visible": true,
+        "meshes": 1,
+        "meshIds": [
+          129
+        ],
+        "x": 627.210692946725,
+        "y": 121.5591564772231,
+        "left": 626.6195607418624,
+        "top": 114.44169976198823,
+        "width": 0.683323878596866,
+        "height": 26.210252748059943
+      },
+      {
+        "id": "ship-aft-flap-left",
+        "vehicle": "starship",
+        "detached": false,
+        "visible": true,
+        "meshes": 1,
+        "meshIds": [
+          132
+        ],
+        "x": 625.4687554896057,
+        "y": 255.95746831950586,
+        "left": 624.5937794050722,
+        "top": 234.23806537548666,
+        "width": 1.156403309043526,
+        "height": 53.35354636659446
+      },
+      {
+        "id": "ship-nose",
+        "vehicle": "starship",
+        "detached": false,
+        "visible": true,
+        "meshes": 2,
+        "meshIds": [
+          135,
+          136
+        ],
+        "x": 642.3597789539086,
+        "y": 127.7464070222513,
+        "left": 625.8457468964012,
+        "top": 103.20249933604494,
+        "width": 33.028064115014786,
+        "height": 49.08781537241272
+      },
+      {
+        "id": "ship-hull-forward",
+        "vehicle": "starship",
+        "detached": false,
+        "visible": true,
+        "meshes": 2,
+        "meshIds": [
+          139,
+          140
+        ],
+        "x": 641.5106450959814,
+        "y": 193.26090443840587,
+        "left": 624.778264362406,
+        "top": 151.87041403672987,
+        "width": 33.464761467150765,
+        "height": 82.78098080335201
+      },
+      {
+        "id": "ship-hull-aft",
+        "vehicle": "starship",
+        "detached": false,
+        "visible": true,
+        "meshes": 2,
+        "meshIds": [
+          143,
+          144
+        ],
+        "x": 640.6554459962118,
+        "y": 259.2433625503901,
+        "left": 624.1353487137699,
+        "top": 234.23149547287096,
+        "width": 33.040194564883905,
+        "height": 50.023734155038255
+      },
+      {
+        "id": "ship-engine-support",
+        "vehicle": "starship",
+        "detached": false,
+        "visible": true,
+        "meshes": 19,
+        "meshIds": [
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165
+        ],
+        "x": 640.2915314856716,
+        "y": 287.3210043001706,
+        "left": 624.1098746914581,
+        "top": 283.83532865579923,
+        "width": 32.42275295936065,
+        "height": 6.885038236205105
+      },
+      {
+        "id": "ship-front-flap-right",
+        "vehicle": "starship",
+        "detached": false,
+        "visible": true,
+        "meshes": 1,
+        "meshIds": [
+          168
+        ],
+        "x": 657.6641351522562,
+        "y": 121.95386375403982,
+        "left": 657.4166732897163,
+        "top": 114.84086135250865,
+        "width": 0.7802565216471748,
+        "height": 26.211509092722537
+      },
+      {
+        "id": "ship-aft-flap-right",
+        "vehicle": "starship",
+        "detached": false,
+        "visible": true,
+        "meshes": 1,
+        "meshIds": [
+          171
+        ],
+        "x": 655.9221976951369,
+        "y": 256.3521755963226,
+        "left": 655.5121873416115,
+        "top": 234.6387990763858,
+        "width": 1.287547491344867,
+        "height": 53.355246127255896
+      },
+      {
+        "id": "booster-grid-1",
+        "vehicle": "super-heavy",
+        "detached": false,
+        "visible": false,
+        "meshes": 3,
+        "meshIds": [
+          176,
+          177,
+          178
+        ],
+        "x": 2.8925442435894277,
+        "y": -28.799999999999997,
+        "left": 1.6515537240658071,
+        "top": -29.34000002145767,
+        "width": 5.143123030662537,
+        "height": 1.0800000429153442
+      },
+      {
+        "id": "booster-grid-2",
+        "vehicle": "super-heavy",
+        "detached": false,
+        "visible": false,
+        "meshes": 3,
+        "meshIds": [
+          181,
+          182,
+          183
+        ],
+        "x": -4.431634888554935,
+        "y": -28.799999999999997,
+        "left": -8.70565508356226,
+        "top": -29.34000002145767,
+        "width": 4.679020196199417,
+        "height": 1.0800000429153442
+      },
+      {
+        "id": "booster-hull-forward",
+        "vehicle": "super-heavy",
+        "detached": false,
+        "visible": false,
+        "meshes": 3,
+        "meshIds": [
+          186,
+          187,
+          188
+        ],
+        "x": 0,
+        "y": -16.199999999999996,
+        "left": -4.5,
+        "top": -34.74000091552734,
+        "width": 9,
+        "height": 34.7400016784668
+      },
+      {
+        "id": "booster-hull-aft",
+        "vehicle": "super-heavy",
+        "detached": false,
+        "visible": false,
+        "meshes": 4,
+        "meshIds": [
+          191,
+          192,
+          193,
+          194
+        ],
+        "x": 0,
+        "y": 16.919999999999998,
+        "left": -4.994999885559082,
+        "top": -7.629394715991111e-8,
+        "width": 9.989999771118164,
+        "height": 33.84000015258789
+      },
+      {
+        "id": "booster-engine-support",
+        "vehicle": "super-heavy",
+        "detached": false,
+        "visible": false,
+        "meshes": 100,
+        "meshIds": [
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291,
+          292,
+          293,
+          294,
+          295,
+          296
+        ],
+        "x": 0,
+        "y": 34.92,
+        "left": -4.5,
+        "top": 33.83999995708466,
+        "width": 9,
+        "height": 2.1600000858306885
+      },
+      {
+        "id": "booster-hot-stage",
+        "vehicle": "super-heavy",
+        "detached": false,
+        "visible": false,
+        "meshes": 14,
+        "meshIds": [
+          299,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307,
+          308,
+          309,
+          310,
+          311,
+          312
+        ],
+        "x": 0,
+        "y": -34.19999999999999,
+        "left": -4.562931537628174,
+        "top": -35.99999995231627,
+        "width": 9.125863075256348,
+        "height": 3.5999999046325684
+      },
+      {
+        "id": "booster-grid-0",
+        "vehicle": "super-heavy",
+        "detached": false,
+        "visible": false,
+        "meshes": 3,
+        "meshIds": [
+          315,
+          316,
+          317
+        ],
+        "x": 1.5390906449655093,
+        "y": -28.799999999999997,
+        "left": 0.016788613448480483,
+        "top": -29.34000002145767,
+        "width": 4.262330889701843,
+        "height": 1.0800000429153442
+      }
+    ],
+    "bodies": [
+      {
+        "id": "starship",
+        "x": 641.4621231612427,
+        "y": 197.00459000504327,
+        "rotation": 0.012960281284164824,
+        "width": 32.4,
+        "height": 187.20000091838835
+      }
+    ],
+    "width": 1280,
+    "height": 720,
+    "worldDt": 0,
+    "quality": {
+      "requested": {
+        "mode": "full",
+        "particleCapacity": 4000,
+        "combinedParticleCapacity": 8000,
+        "hullDetail": true,
+        "gridOpenings": true,
+        "heatPost": true
+      },
+      "actualBodies": [
+        {
+          "id": "ship",
+          "particleCapacity": 4000,
+          "particleAlive": 0,
+          "materials": [
+            {
+              "componentId": "ship-front-flap-left",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-aft-flap-left",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-nose",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-nose",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-hull-forward",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-hull-forward",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-hull-aft",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-hull-aft",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 2,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 3,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 4,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 5,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 6,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 7,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 8,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 9,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 10,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 11,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 12,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 13,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 14,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 15,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 16,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 17,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-engine-support",
+              "materialIndex": 18,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-front-flap-right",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "ship-aft-flap-right",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            }
+          ]
+        },
+        {
+          "id": "super-heavy",
+          "particleCapacity": 4000,
+          "particleAlive": 0,
+          "materials": [
+            {
+              "componentId": "booster-grid-1",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-grid-1",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-grid-1",
+              "materialIndex": 2,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-grid-2",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-grid-2",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-grid-2",
+              "materialIndex": 2,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hull-forward",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hull-forward",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hull-forward",
+              "materialIndex": 2,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hull-aft",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hull-aft",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hull-aft",
+              "materialIndex": 2,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hull-aft",
+              "materialIndex": 3,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 2,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 3,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 4,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 5,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 6,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 7,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 8,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 9,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 10,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 11,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 12,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 13,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 14,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 15,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 16,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 17,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 18,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 19,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 20,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 21,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 22,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 23,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 24,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 25,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 26,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 27,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 28,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 29,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 30,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 31,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 32,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 33,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 34,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 35,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 36,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 37,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 38,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 39,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 40,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 41,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 42,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 43,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 44,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 45,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 46,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 47,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 48,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 49,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 50,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 51,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 52,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 53,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 54,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 55,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 56,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 57,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 58,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 59,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 60,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 61,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 62,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 63,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 64,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 65,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 66,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 67,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 68,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 69,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 70,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 71,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 72,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 73,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 74,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 75,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 76,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 77,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 78,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 79,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 80,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 81,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 82,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 83,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 84,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 85,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 86,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 87,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 88,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 89,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 90,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 91,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 92,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 93,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 94,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 95,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 96,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 97,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 98,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-engine-support",
+              "materialIndex": 99,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 2,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 3,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 4,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 5,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 6,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 7,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 8,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 9,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 10,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 11,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 12,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-hot-stage",
+              "materialIndex": 13,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-grid-0",
+              "materialIndex": 0,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-grid-0",
+              "materialIndex": 1,
+              "detail": 1,
+              "glow": 0
+            },
+            {
+              "componentId": "booster-grid-0",
+              "materialIndex": 2,
+              "detail": 1,
+              "glow": 0
+            }
+          ]
+        }
+      ]
+    },
+    "renderer": {
+      "backend": "webgl",
+      "backendType": 1,
+      "resolution": 1,
+      "screen": {
+        "width": 1280,
+        "height": 720
+      },
+      "backing": {
+        "width": 1280,
+        "height": 720
+      },
+      "antialias": true,
+      "webgl": {
+        "drawingBufferWidth": 1280,
+        "drawingBufferHeight": 720,
+        "antialias": true,
+        "contextLost": false
+      },
+      "filters": [
+        {
+          "id": "bloom",
+          "attached": true,
+          "enabled": true,
+          "compatible": true,
+          "resolution": "inherit",
+          "antialias": "inherit",
+          "inputResolution": 1,
+          "inputAntialias": true
+        },
+        {
+          "id": "heat",
+          "attached": false,
+          "enabled": true,
+          "compatible": true,
+          "resolution": 1,
+          "antialias": "off",
+          "inputResolution": null,
+          "inputAntialias": null
+        }
+      ]
+    }
+  },
+  "deviceDpr": 1,
+  "webglIdentity": {
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)"
+  }
+}

@@ -26,9 +26,13 @@ proof exist; both landing-burn rows pass after a bounded reviewed booster
 initialization correction. Super Heavy/intro also passes, but before-flip and reentry crash; reentry
 also exceeds the original 30 s case budget. Other rows and whole integration
 remain open. C1 source/tests are checkpointed as unfinished WIP, not accepted Fidelity.
-The declared physical/CPU capture reproduced both impacts; next correct terminal
-torque over-allocation from a failing boundary witness, while earlier lateral/
-range acquisition and paid orbital feasibility remain open.
+The declared physical/CPU capture reproduced both impacts. The reviewed
+terminal coallocation correction now prevents the earlier tumble, but its one
+changed before-flip row still impacts at 16.658 s: pitch/downspeed pass at the
+catch plane, lateral error −129.26 m and speed +11.84 m/s reject contact.
+Next design/review earlier lateral/range acquisition and paid orbital feasibility.
+[Bounded checks, failed flight and 299.2 kB build](../../research/2026-10-18-phase8-successor/terminal-coallocation/README.md)
+do not establish full Fidelity, matrix or release acceptance.
 All starts/targets, other fourteen 900 s caps and physical/control/work/health/
 catch limits remain binding. [Evidence](../../research/2026-10-18-phase8-successor/README.md).
 

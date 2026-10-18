@@ -72,7 +72,7 @@ See the [successor checkpoint](../../research/2026-10-18-phase8-successor/README
 |---|---|---|
 | RTLS scheduling feasibility | Completed bounded task; paid receipts and default-catch evidence retained in research | Preserve; do not restart this task |
 | V3/damage source | Catalogue, propulsion, thermal/material/control/mass/detachment/debris and shared rendering exist | Whole R1/R2/R3 acceptance open |
-| Lint/build | Successor baseline and changed builds exit 0; changed JS 299.8/300 kB; scoped lint exit 0 | Current bounded patch only; full lint/gate open |
+| Lint/build | Latest bounded build passes 299.2/300 kB; scoped lint 0. Retained 300.4 kB and removed esbuild 308.2 kB trials fail | Current bounded patch only; full lint/gate open |
 | Scenario matrix | New 30-test successor includes all 18 ID/model rows; horizon 4/4, model proof/existing 53/53, mocked clock/contact 4/4 | Ship/landing-burn, Super Heavy/landing-burn and Super Heavy/intro pass across separate selections. Super Heavy/before-flip and reentry fail; other 13 rows unrun |
 | Descending booster mode | Auto-land now starts coast when descending unless explicit boostback is requested; existing phases/ascending initialization preserved | 25/25 direct/boundary checks and changed genuine catch pass; full golden replay/audit and whole Fidelity acceptance open |
 | Projection allocation | Six render sites use factory-owned output; focused 5/5 and expanded 85/85 pass, independent high code review | One C3 allocation debt addressed; no optical/frame/gate acceptance |
@@ -110,9 +110,15 @@ and physical acceptance; a duration ruling alone does not establish it.
 
 1. Preserve the C0 reviewed successor/source-result checkpoint. Exact latest
    recovery remains unknown; do not reapply historical patches or inherit results.
-2. C1 (next): implement the reviewed terminal torque coallocation correction
-   from the measured before-flip constraint, then address earlier lateral
-   acquisition and model-correct reentry/orbital targeting. The one declared
+2. C1 (next): design/review earlier lateral acquisition and model-correct
+   reentry/orbital targeting. Terminal coallocation is implemented and reviewed:
+   71 focused checks across selections, identical truth, build/scoped lint pass.
+   One changed before-flip row still impacts at 16.658 s, but catch-plane pitch/
+   downspeed now pass; lateral error −129.26 m and speed +11.84 m/s reject contact.
+   Both Super Heavy landing-burn and intro regression catches pass. Separate
+   built-render smoke passes 2/2 with actual SwiftShader metadata and unchanged
+   shader tokens. [Bounded evidence](../../research/2026-10-18-phase8-successor/terminal-coallocation/README.md).
+   No whole Fidelity, matrix, frame or release acceptance follows. The one declared
    [physical/CPU diagnostic](../../research/2026-10-18-phase8-successor/descending-diagnosis/README.md)
    reproduced both impacts; no thermal-domain loss or pre-impact detachment.
    Reentry impacts approximately 716 km short. Do not repeat this capture unchanged. Preserve the failures and source pins

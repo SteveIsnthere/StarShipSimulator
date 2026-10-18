@@ -107,11 +107,23 @@ and all components attached before reset. Before-flip retains 18.47 t fuel; reen
 retains 281 kg and impacts about 716 km short. It is not thermal impossibility or
 proof of fuel exhaustion. Do not repeat the capture unchanged. The new observer
 and trace controls pass 14/14 (final classification controls 9/9), build/lint exit 0.
-Next implement only the reviewed terminal torque coallocation correction from
-a failing recorded-constraint witness, preserving ordinary alignment and every
-paid authority/engine/slew limit. Intersect both admitted thrust-coefficient
-endpoints; Bmax-only can falsely claim attitude feasibility. See descending-diagnosis/coallocation-design.md. Then one changed before-flip row may inspect rotation; earlier lateral
-acquisition independently remains required, so a torque fix alone is no catch.
+The independently reviewed terminal coallocation correction is implemented:
+71 focused checks across selections, build/scoped lint and identical truth pass.
+It intersects BOTH admitted thrust endpoints and actual grid/paid-RCS/gimbal/slew
+bounds, preserving ordinary alignment and actual payment. One changed before-flip
+row is consumed: impact16.658s/1999ticks, catch-plane pitch−8.52e−7rad and
+downspeed−1.65071m/s pass, but lateralerror−129.25676m and vx+11.84070m/s fail.
+Do not repeat it unchanged. Both booster landing-burn and intro still catch.
+See terminal-coallocation/README.md and its801-input flight-plan.json.
+The build passes299.2/300kB after moving authoredGLSLcomments to TypeScript docs;
+all1519shader tokens and568startup source-map entries remain unchanged.
+Removed esbuild trial failed308.2kB; preserve it. Two built-render smoke checks
+pass on SwiftShader1280x720/DPR1, not reference/frame/whole Fidelity acceptance.
+NEXT design/review earlier lateral acquisition from the paid trace. A future
+coast switch needs scheduling feasibility and source-matched paid validation
+within unchanged4shared advances,16trials and future publication deadlines.
+Neither an unpowered hint nor arbitrary terminal tilt grants range authority.
+Keep reentry716km range failure and paid orbital feasibility separate.
 Profiles identify grid-root/control work, not ISA, as the stronger CPU path.
 Pure-kernel reuse remains held until concrete review, frozen oracle, complete
 keys, original validation/material/getter calls and literal mock/generic fallback.

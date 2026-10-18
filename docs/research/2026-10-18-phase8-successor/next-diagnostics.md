@@ -1,12 +1,28 @@
 # Next bounded implementation and diagnosis
 
 Updated 2026-10-18 UTC. The C1/C2 observer/profile capture below is complete;
-its design is retained for traceability. Next implement the reviewed bounded
-physical correction from [measured evidence](descending-diagnosis/README.md). The bounded
+its design is retained for traceability. The reviewed
+[terminal correction](terminal-coallocation/README.md) is implemented: the single
+changed before-flip row is still red at 16.658 s, with pitch/downspeed now inside
+catch bounds and lateral error/speed outside. Next design/review earlier lateral
+acquisition under the same paid future-event/work/deadline contracts. Do not
+repeat either consumed diagnostic unchanged. The bounded
 C3 getter/catch work has since been implemented; see its status below. No
 whole-phase flight/performance acceptance is implied. Follow the active GOAL and C1–C3
 contracts. Preserve the current C1 WIP source/tests and exact result pins; `0d87c758`
 does not contain those changes. No new product decision is pending.
+
+**Next physical design, independently recommended:** generic early paid
+three-centre range acquisition from the coupled translation/attitude envelope.
+Show the retained pre-terminal state is vertically stoppable but laterally
+unsupported, with an aligned in-envelope control and failed/depleted hardware.
+Derive the trigger from ignition, slew, torque, thrust, reserve and target
+geometry; no fitted altitude. Review actual non-upright force/rotation and a
+measured handoff into the existing fixed-deadline terminal policy. Introduce
+no new forecasts, trial allowance or authority. This is unimplemented design
+work; free-coast stopping prediction alone is insufficient. A separate future
+coast-switch proposal would require full paid validation before that switch,
+including source-prefix and terminal work under the same four-advance budget.
 
 ## C1/C2 — Two failed descending booster rows
 

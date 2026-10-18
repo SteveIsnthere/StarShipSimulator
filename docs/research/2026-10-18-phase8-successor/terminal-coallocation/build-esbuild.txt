@@ -1,0 +1,84 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+design contract: ok (11 rules, self-test passed)
+copy contract: ok (9 rules, self-test passed)
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 2551 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     2.04 kB │ gzip:   0.88 kB
+dist/assets/InterTight-SemiBold-DJfiTN08.woff2     11.10 kB
+dist/assets/Inter-Regular-BVdEcXjD.woff2           12.00 kB
+dist/assets/Inter-SemiBold-DlULF7c_.woff2          12.46 kB
+dist/assets/JetBrainsMono-Medium-CMl9fZ9Q.woff2    16.54 kB
+dist/assets/charts-BBZhrHKM.css                     0.69 kB │ gzip:   0.35 kB
+dist/assets/plots-D2GbP0iN.css                      1.17 kB │ gzip:   0.46 kB
+dist/assets/uPlot-CnsZ1jie.css                      1.64 kB │ gzip:   0.69 kB
+dist/assets/index-DYrQxXkX.css                     64.35 kB │ gzip:  11.68 kB
+dist/assets/webworkerAll-Clf_LEJW.js                0.05 kB │ gzip:   0.06 kB
+dist/assets/getTextureBatchBindGroup-au6HmcKn.js    0.41 kB │ gzip:   0.32 kB │ map:     1.80 kB
+dist/assets/rolldown-runtime-CXHxssQy.js            0.71 kB │ gzip:   0.42 kB
+dist/assets/CanvasPool-CGx0m2QU.js                  0.81 kB │ gzip:   0.46 kB │ map:     3.55 kB
+dist/assets/plots--Sxd7HBi.js                       4.69 kB │ gzip:   2.33 kB │ map:    24.84 kB
+dist/assets/debug-OxF1fCYc.js                       5.05 kB │ gzip:   2.05 kB │ map:    21.30 kB
+dist/assets/canvasUtils-CCQ80eXh.js                 6.17 kB │ gzip:   2.01 kB │ map:    22.03 kB
+dist/assets/Debrief-qIedjPFg.js                     6.47 kB │ gzip:   2.54 kB │ map:    19.27 kB
+dist/assets/BlackBox-DY9gzM7j.js                    9.98 kB │ gzip:   4.19 kB │ map:    37.50 kB
+dist/assets/BufferResource-B0Db0rqY.js             11.22 kB │ gzip:   2.91 kB │ map:    27.48 kB
+dist/assets/init-Bo_1HRGR.js                       15.81 kB │ gzip:   5.05 kB │ map:    55.64 kB
+dist/assets/Menu-BJjv0fQl.js                       23.11 kB │ gzip:   7.79 kB │ map:    71.88 kB
+dist/assets/Button-DHApoqJu.js                     37.16 kB │ gzip:  12.47 kB │ map:   175.91 kB
+dist/assets/Dialog-DGsT2Kqb.js                     40.78 kB │ gzip:  14.11 kB │ map:   186.40 kB
+dist/assets/browserAll-B1EesyWS.js                 43.10 kB │ gzip:  11.37 kB │ map:   157.29 kB
+dist/assets/uPlot.esm-CBMZj5NF.js                  52.12 kB │ gzip:  23.43 kB │ map:   255.42 kB
+dist/assets/RenderTargetSystem-rf5QKH_o.js         77.79 kB │ gzip:  22.33 kB │ map:   283.97 kB
+dist/assets/Geometry-DB7nzCHU.js                  105.19 kB │ gzip:  32.40 kB │ map:   511.32 kB
+dist/assets/simulation-CxlBqsns.js                137.92 kB │ gzip:  42.86 kB │ map:   741.77 kB
+dist/assets/index-DQJxnh6p.js                     635.29 kB │ gzip: 201.89 kB │ map: 2,895.32 kB
+
+✓ built in 6.03s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[33m[PLUGIN_TIMINGS] [0mYour build spent 97% of 6.0s inside plugin hooks (5.8s).
+Measured inside the callback, so queue time is excluded and time the callback itself awaited is not:
+  - @tailwindcss/vite:generate:build transform (83%, 5.0s, 4 calls)
+Those rows are 83% of the build; the rest of the 97% is below.
+Not measurable — 3 hooks whose calls overlap, so elapsed time covers work other calls were doing. Profile with `node --cpu-prof`:
+  - vite:esbuild-transpile renderChunk (22 calls)
+  - vite:css-post renderChunk (22 calls)
+  - vite:css transform (4 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+service worker: 41 assets precached, version 5e0fac2406de
+  assets/index-DQJxnh6p.js                           195.6 kB gzip
+  assets/rolldown-runtime-CXHxssQy.js                  0.4 kB gzip
+  assets/Button-DHApoqJu.js                           12.1 kB gzip
+  assets/simulation-CxlBqsns.js                       41.5 kB gzip
+  assets/Geometry-DB7nzCHU.js                         31.4 kB gzip
+  assets/canvasUtils-CCQ80eXh.js                       2.0 kB gzip
+  assets/RenderTargetSystem-rf5QKH_o.js               21.6 kB gzip
+  assets/getTextureBatchBindGroup-au6HmcKn.js          0.3 kB gzip
+  assets/CanvasPool-CGx0m2QU.js                        0.5 kB gzip
+  assets/BufferResource-B0Db0rqY.js                    2.8 kB gzip
+  TOTAL first-load JS                                308.2 kB gzip
+  BUDGET                                             300.0 kB gzip
+  (lazy chunks, not counted: BlackBox-DY9gzM7j.js, Debrief-qIedjPFg.js, Dialog-DGsT2Kqb.js, Menu-BJjv0fQl.js, browserAll-B1EesyWS.js, debug-OxF1fCYc.js, init-Bo_1HRGR.js, plots--Sxd7HBi.js, uPlot.esm-CBMZj5NF.js, webworkerAll-Clf_LEJW.js)
+  assets/index-DYrQxXkX.css                           11.3 kB gzip (css)
+  Inter-Regular-BVdEcXjD.woff2                        11.7 kB raw
+  Inter-SemiBold-DlULF7c_.woff2                       12.2 kB raw
+  InterTight-SemiBold-DJfiTN08.woff2                  10.8 kB raw
+  JetBrainsMono-Medium-CMl9fZ9Q.woff2                 16.2 kB raw
+  TOTAL fonts                                         50.9 kB raw
+  FONT BUDGET                                         80.0 kB raw
+  TOTAL audio                                          0.0 kB raw
+  AUDIO BUDGET                                       250.0 kB raw
+
+budget: FAIL — 308.2 kB exceeds 300.0 kB JS
+budget: OK — 50.9 kB of 80.0 kB fonts
+budget: OK — 0.0 kB of 250.0 kB audio

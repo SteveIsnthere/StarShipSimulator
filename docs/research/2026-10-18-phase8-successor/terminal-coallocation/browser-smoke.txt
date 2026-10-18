@@ -1,0 +1,11 @@
+[WebServer] (node:17913) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:17938) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/render.spec.ts:77:1 › the renderer draws frames without erroring (5.5s)
+  ✓  2 [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (23.7s)
+
+  2 passed (31.9s)

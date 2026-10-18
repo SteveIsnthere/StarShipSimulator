@@ -27,9 +27,13 @@ and 85/85 expanded checks; frame/optical acceptance remains open. C1 has frozen 
 reviewed physical deadline and reconstructed 18 rows. Both landing-burn rows now
 pass after a reviewed descending-booster initialization fix; broader mission
 acceptance remains open. The declared physical/CPU capture reproduced both
-impacts; next is torque-feasible terminal allocation from a failing boundary
-witness, earlier lateral/range acquisition and one paid orbital feasibility
-witness. Root/control CPU work has measured support; ISA preparation stays held.
+impacts. Reviewed terminal coallocation now prevents the earlier tumble; its
+one changed before-flip row still impacts at 16.658 s, with pitch/downspeed
+inside catch bounds but lateral error −129.26 m and speed +11.84 m/s outside.
+Next is earlier lateral/range acquisition and one paid orbital feasibility
+witness. [Bounded evidence](../../research/2026-10-18-phase8-successor/terminal-coallocation/README.md)
+includes 71 focused checks across selections, 299.2 kB build, unchanged truth
+and 2/2 built-render smoke; no full Fidelity/matrix/release pass. Root/control CPU work has measured support; ISA preparation stays held.
 Original body-presence optics passed five cases and timed out at catch. The
 reviewed lightweight progress getter then enabled the changed catch assertions
 in 18.5 s; saved shell/Playwright pass conflicts with outer tool exit 1 and is

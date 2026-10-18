@@ -5,7 +5,7 @@ import type { SimState } from '../state';
 import type { VehicleDefinition } from '../vehicle';
 import { rad, type Rad } from '../units';
 import { CENTRE_ENGINES, RETURN_ENGINES, CATCH } from '../vehicles/super-heavy';
-import { shutdownEngine, getTotalMaxThrust, gimballedShare, IGNITION_DELAY_MAX_S } from '../physics/engines';
+import { shutdownEngine, getTotalMaxThrust, getFuelFlowRate, gimballedShare, IGNITION_DELAY_MAX_S } from '../physics/engines';
 import { createMassProperties } from '../physics/mass';
 import { createGridFinForces } from '../physics/grid-fins';
 import { createDamageMassProperties } from '../physics/damage-mass';
@@ -21,6 +21,7 @@ import type { MechanicalAdvance } from '../control/mechanical';
 import { ensureBoosterSource, advanceBoosterSource, verifyBoosterSource,prepareBoosterSourceCredit,boosterSourceCreditMatches } from '../control/booster-source';
 import { advanceBoosterPrediction } from '../control/booster-prediction';
 import { invalidateBoosterReturn, invalidateStaleBoosterReturn } from '../control/booster-return-plan';
+import { createTerminalGimbalAllocation, writeTerminalGimbalAllocation } from '../control/booster-terminal-allocation';
 
 const arms = createMassProperties();
 const retained = createDamageMassProperties();
@@ -30,6 +31,7 @@ const fall = createFallResult();
 const thrustRequest=createBoosterThrustRequest();
 const TERMINAL_ATTITUDE_TIME=.5;
 const arrival=createBoosterArrival();
+const terminalAllocation=createTerminalGimbalAllocation();
 const clamp = (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value));
 
 function setEngines(state: SimState, group: readonly number[]): void {
@@ -65,7 +67,8 @@ function commandGridTorque(state:SimState,vx:number,vy:number,torque:number,mode
 
 /** Grid and gimbal/RCS are independent hardware: allocate the requested torque
  * first to aerodynamic or engine authority, then to paid proportional RCS. */
-function align(state: SimState, goal: Rad, time: number, model: VehicleDefinition, poweredGrid=false): void {
+function align(state: SimState, goal: Rad, time: number, model: VehicleDefinition, poweredGrid=false,
+  terminalGimbal?: number, dt=0): void {
   const k = state.kinematics, a = state.autopilot;
   const error = Math.atan2(Math.sin(goal - k.pitch), Math.cos(goal - k.pitch));
   writeFlightMassQuery(state, model, retained, arms);
@@ -81,8 +84,29 @@ function align(state: SimState, goal: Rad, time: number, model: VehicleDefinitio
     *Math.sin(state.vehicle.gimbalPosition*.01*C.gimbalAngleLimit);
   const supplied=deliveredGridTorque + deliveredGimbalTorque;
   if (steerable > 0) {
-    const angle = Math.asin(clamp((torque-deliveredGridTorque) / (steerable * arms.engineArm), -Math.sin(C.gimbalAngleLimit), Math.sin(C.gimbalAngleLimit)));
-    a.pitchControl = angle / C.gimbalAngleLimit * 100;
+    if (terminalGimbal === undefined) {
+      const angle = Math.asin(clamp((torque-deliveredGridTorque) / (steerable * arms.engineArm), -Math.sin(C.gimbalAngleLimit), Math.sin(C.gimbalAngleLimit)));
+      a.pitchControl = angle / C.gimbalAngleLimit * 100;
+    } else {
+      // Current paid thrust can precede the final centre ignition. Bound the
+      // already-running cohort at both possible next throttle positions; no
+      // unlit/pending engine or unfunded propellant supplies authority.
+      const share=gimballedShare(state.engines.running,state.atmosphere.airPressure,model);
+      const maximum=getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model);
+      const lowThrottle=clamp(state.vehicle.throttleCurrent-C.throttleSpeed*dt,0,100);
+      const highThrottle=clamp(state.vehicle.throttleCurrent+C.throttleSpeed*dt,0,100);
+      const funding=getFuelFlowRate(state.engines.running,highThrottle,model)*dt;
+      const paidFraction=funding>0?clamp(state.vehicle.propellantMass/funding,0,1):1;
+      const nextLow=maximum*lowThrottle*.01*share*paidFraction;
+      const nextHigh=maximum*highThrottle*.01*share*paidFraction;
+      const reserveFraction=dt>0?clamp(state.vehicle.rcsRunTimeRemaining/dt,0,1)
+        :state.vehicle.rcsRunTimeRemaining>0?1:0;
+      const rcsCapacity=C.rcsMaxThrust*Math.abs(arms.rcsArm)*reserveFraction;
+      writeTerminalGimbalAllocation(torque,deliveredGridTorque,rcsCapacity,
+        Math.min(steerable,nextLow)*arms.engineArm,Math.max(steerable,nextHigh)*arms.engineArm,
+        state.vehicle.gimbalPosition,terminalGimbal,dt,terminalAllocation);
+      a.pitchControl=terminalAllocation.commandPercent;
+    }
     if(poweredGrid) {
       state.status.finActive=true;
       commandGridTorque(state,vx,vy,torque-deliveredGimbalTorque,model);
@@ -313,9 +337,9 @@ export function runBoosterPolicy(state:SimState,dt:number,model:VehicleDefinitio
     writeBoosterThrustRequest(state,arrival.centreAX,arrival.centreAY,model,thrustRequest);
     // Active terminal translation spends gimbal torque. Coallocate grids while
     // RCS still pays only the actual delivered grid/gimbal residual.
-    align(state,rad(0),TERMINAL_ATTITUDE_TIME,model,true);
     const directionError=Math.atan2(Math.sin(thrustRequest.pitch-k.pitch),Math.cos(thrustRequest.pitch-k.pitch));
-    a.pitchControl=clamp(-directionError/C.gimbalAngleLimit*100,-100,100);
+    const translationGimbal=clamp(-directionError/C.gimbalAngleLimit*100,-100,100);
+    align(state,rad(0),TERMINAL_ATTITUDE_TIME,model,true,translationGimbal,dt);
     state.vehicle.throttle=boosterDeliveredThrottle(state,arrival.centreAY,model);
     // Actual running flags, pressure and throttle still determine the force.
     if (getTotalMaxThrust(state.engines.running, state.atmosphere.airPressure, model) === 0) state.vehicle.throttle = 100;

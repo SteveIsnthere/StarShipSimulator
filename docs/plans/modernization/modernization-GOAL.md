@@ -92,8 +92,12 @@ See [source-pinned results](../../research/2026-10-18-phase8-successor/README.md
 
 The single declared physical/CPU capture reproduced both impacts with all
 components attached and valid hull domains beforehand. Reentry impacts about
-716 km short. Next fix the demonstrated terminal torque over-allocation from a
-failing boundary witness, then address earlier lateral/range acquisition. CPU
+716 km short. The independently reviewed terminal coallocation correction now prevents the
+earlier tumble. Its one changed before-flip row still impacts at 16.658 s:
+catch-plane pitch/downspeed pass, but lateral error −129.26 m and speed +11.84 m/s
+reject contact. Next address earlier lateral/range acquisition with a reviewed
+scheduling-feasibility design. [Torque evidence](../../research/2026-10-18-phase8-successor/terminal-coallocation/README.md)
+retains RED, corrected checks, 299.2/300 kB build and separate 2/2 built-render smoke. CPU
 profiles support grid-root/control work, not the held ISA theory. For booster orbital targeting, first establish one paid
 scheduling/trajectory witness under unchanged caps; do not borrow Ship's fitted
 entry range. The orbital deadline decision is resolved and must not be reasked.
