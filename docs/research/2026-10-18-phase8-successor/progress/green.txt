@@ -1,0 +1,45 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/app/debug-progress.test.ts tests/app/debug.test.ts tests/ui/mission-session.test.ts tests/ui/session-debug-loading.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/progress/green.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |unit| tests/app/debug-progress.test.ts (11 tests) 68ms
+ ✓ |unit| tests/ui/mission-session.test.ts (9 tests) 153ms
+ ✓ |unit| tests/app/debug.test.ts (10 tests) 40ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/ui/session-debug-loading.test.ts (1 test | 1 failed) 19ms
+     × loads diagnostics only when requested and installs before view setup 18ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/session-debug-loading.test.ts > optional session diagnostics > loads diagnostics only when requested and installs before view setup
+AssertionError: expected [Function] to throw error including 'view boundary' but got '[vitest] No "attachSceneWitness" expo…'
+
+- Expected
++ Received
+
+- view boundary
++ [vitest] No "attachSceneWitness" export is defined on the "$app/debug" mock. Did you forget to return it from "vi.mock"?
++ If you need to partially mock a module, you can use "importOriginal" helper inside:
++
+
+ ❯ tests/ui/session-debug-loading.test.ts:26:48
+     24|     probe.requested = true;
+     25|     probe.events.length = 0;
+     26|     await expect(createSession().mount(canvas)).rejects.toThrow('view …
+       |                                                ^
+     27|     expect(probe.loads).toBe(1);
+     28|     expect(probe.events).toEqual(['debug', 'view']);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 30 passed (31)
+   Start at  15:05:36
+   Duration  3.29s (transform 1.22s, setup 0ms, import 1.85s, tests 280ms, environment 653ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/progress/green.json

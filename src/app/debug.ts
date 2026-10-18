@@ -72,6 +72,15 @@ export interface DebugPresentation {
   renderer?: DebugRendererMetadata;
 }
 
+/** On-demand scalars for bounded flight polling, without traversing forecasts. */
+export interface DebugFlightProgress {
+  readonly landed: boolean;
+  readonly crashed: boolean;
+  readonly inFlightBreakUp: boolean;
+  readonly altitude: number;
+  readonly speedY: number;
+}
+
 export interface SimDebug {
   /**
    * Start a flight from a scenario id, optionally moved, as the flight editor
@@ -94,6 +103,8 @@ export interface SimDebug {
   step(n: number): void;
   /** Every number and boolean in the live state, by flattened path. */
   telemetry(): Readonly<Record<string, number | boolean>>;
+  /** Read the current selected flight without flattening its planner trees. */
+  flightProgress(): DebugFlightProgress;
   presentation(): DebugPresentation;
   /** Hide particles for an otherwise identical background control render. */
   setParticlesVisible(visible: boolean): void;
@@ -192,6 +203,12 @@ export function createSimDebug(deps: SimDebugDeps): SimDebug {
       }
     },
     telemetry: () => flatten(live().state),
+    flightProgress() {
+      const { status, failures, kinematics } = live().state;
+      return { landed: status.landed, crashed: failures.crashed,
+        inFlightBreakUp: failures.inFlightBreakUp, altitude: kinematics.altitude,
+        speedY: kinematics.speedY };
+    },
     presentation() {
       if (!deps.presentation) throw new Error("presentation is not mounted");
       return deps.presentation();

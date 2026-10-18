@@ -79,7 +79,7 @@ See the [successor checkpoint](../../research/2026-10-18-phase8-successor/README
 | Goldens | Full ten-fixture Linux Node 22 recording preserved; replay timed out on separation | Recording is not replay acceptance; do not regenerate to pass |
 | Truth | Fresh initializer before/after reports are byte-identical: 25/26, all Tier A IN; Tier B max-Q altitude 9,528 m OUT | Current bounded source evidence; retain rows and the existing data limitation |
 | Damage demonstration | Selected CPU/browser natural-loss assertions reported passing | Narrow evidence; recent bundles absent, full integration/visual acceptance open |
-| Body-presence optics | Fresh Chromium attempt: launch, staging, belly flop, entry and landing pass presence/absence checks; catch setup times out at 60 s, with teardown timeout too | 5/6 only; no catch image, plume/reference/damage-motion or frame acceptance. SwiftShader requested; unmasked renderer identity not retained |
+| Body-presence optics | Fresh Chromium attempt: launch, staging, belly flop, entry and landing pass presence/absence checks; catch setup times out at 60 s, with teardown timeout too | Original epoch 5/6 only. Later reviewed progress getter records the changed catch assertion pass in 18.5 s, saved shell 0 but conflicting outer tool 1; actual SwiftShader retained. No single current-source six-scene, plume/reference/motion or frame acceptance |
 | Frame budgets | Latest documented seven-case desktop diagnostic failed; no actionable source path in trace diagnosis | No performance acceptance; no unchanged trace retry/speculative edit |
 | Full browser/mutations/review | Historical focused results exist | Current whole-phase release checks remain open |
 | Main/CI/deploy | API observed main/last successful Pages `e8a06ff`; last three CI success/success/failure | Final phase integration and three-green condition unmet |
@@ -124,11 +124,11 @@ and physical acceptance; a duration ruling alone does not establish it.
    for the read-only observer/profile and orbital feasibility witness; do not
    rerun these failed flights unchanged to seek a pass.
 3. C2: close physics/damage, CPU timeouts, golden replay, coverage and mutations.
-4. C3: first prove a lightweight live debug progress getter preserves the catch
-   setup loop, then retry only the changed catch case at its original limits.
-   Develop exhaust captures through actual RAF/physics advancement. Finish V3
-   reference/motion verification and measured full/reduced budgets.
-   [Optical failure and artifacts](../../research/2026-10-18-phase8-successor/optical/README.md).
+4. C3: the lightweight live getter and changed catch assertions now pass their
+   bounded checks; preserve the outer tool exit conflict and exact scope in
+   [progress evidence](../../research/2026-10-18-phase8-successor/progress/README.md).
+   Next develop exhaust captures through actual RAF/physics advancement, then
+   finish V3 reference/motion verification and measured full/reduced budgets.
 5. C4: whole-phase independent review, ordered release gate, main/CI/Pages/live
    verification; then close Phase 8.
 6. C5/C6: plan and implement complete Phase 9, publish motion review and finish

@@ -140,13 +140,15 @@ selected scene/flight does not depend on it. Use the same source basis.
       teardown also times out. Source/build receipts match for completed cases;
       no catch PNG/state/after-receipt exists. This records an attempt, not R3
       acceptance. [Raw artifacts and scope](../../research/2026-10-18-phase8-successor/optical/README.md).
-- [ ] **Next bounded optical task:** add a live debug progress snapshot to avoid
-      recursive full-state telemetry on each catch setup tick. First prove
-      equivalent terminal tick/state/counters/observers and no stale or mutated
-      state; retain step(1), predicate order, 108,000 cap, final full telemetry,
-      original 60 s limits and zero retries. Review, build and focused checks
-      precede retrying only changed catch. This is a removable source cost, not
-      a measured exclusive cause. [Diagnostic contract](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
+- [x] Added/reviewed the lightweight live progress getter and proved snapshot,
+      traversal, terminal-step and canonical two-body delegation behavior. Fixed
+      a stale existing optional-debug mock without weakening its assertion;
+      final build/scoped lint and focused 31/31 pass. Single changed catch records
+      genuine body-presence/absence assertions passing in 18.5 s at original
+      limits, with exact source/build and actual SwiftShader metadata. Saved shell
+      exit 0/Playwright pass conflicts with outer tool exit 1; retain both.
+      This is a bounded witness, not unequivocal whole-command, six-current-build,
+      R3 or frame acceptance. [Evidence](../../research/2026-10-18-phase8-successor/progress/README.md).
 - [ ] Capture developed exhaust with actual resume/RAF and observed simulation
       advancement, then pause. Existing paused zero-particle captures do not
       accept plumes. Keep this separate from shared performance setup initially.

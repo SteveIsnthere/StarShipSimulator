@@ -1,7 +1,8 @@
 # Next bounded implementation and diagnosis
 
-Updated 2026-10-18 UTC. This records reviewed proposals, not implemented fixes
-or successful flight/performance evidence. Follow the active GOAL and C1–C3
+Updated 2026-10-18 UTC. C1/C2 below remain reviewed proposals. The bounded
+C3 getter/catch work has since been implemented; see its status below. No
+whole-phase flight/performance acceptance is implied. Follow the active GOAL and C1–C3
 contracts. Preserve the current uncommitted C1 source/tests and exact result
 pins; `0d87c758` does not contain those changes. No new product decision is pending.
 
@@ -70,6 +71,12 @@ Do not teleport coast, enlarge caps, add TPS/reserves, copy Ship's fitted
 complete production orbital controller until feasibility is demonstrated.
 
 ## C3 — Catch optical setup and developed exhaust
+
+**Bounded getter/catch steps 1–4 are complete:** [progress result](progress/README.md)
+records 31/31 focused checks and the genuine catch assertion pass, with outer
+exit conflict explicitly open. The following design is retained for traceability,
+not an instruction to redo the getter or unchanged catch. Step 5 and full R3
+remain open.
 
 Fresh independent design/image review: `/root/plans_goal_review`.
 [Optical attempt](optical/README.md): five body-presence/absence cases pass;

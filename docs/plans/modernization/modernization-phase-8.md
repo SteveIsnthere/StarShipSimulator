@@ -35,8 +35,10 @@ independent high code review accepts the bounded change. See the
 [successor checkpoint](../../research/2026-10-18-phase8-successor/README.md).
 Fresh body-presence optics pass five scenes; catch setup times out at its
 original 60 s limit. This is no reference/plume/motion/frame, full gate,
-whole-phase or release acceptance. The next bounded catch getter proof and
-physical/CPU diagnosis are specified in the
+whole-phase or release acceptance. A subsequent reviewed progress getter and
+31/31 focused checks enabled the changed catch assertion pass in 18.5 s, with
+saved shell 0 but conflicting outer tool 1; retain the bounded scope. The next
+physical/CPU diagnosis and remaining optical work are specified in the
 [diagnostic handoff](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
 
 The checklists below retain the original physical and visual obligations.

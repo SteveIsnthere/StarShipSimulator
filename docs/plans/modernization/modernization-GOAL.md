@@ -94,8 +94,10 @@ scheduling/trajectory witness under unchanged caps; do not borrow Ship's fitted
 entry range. The orbital deadline decision is resolved and must not be reasked.
 The allocation fix closes one C3 debt. A fresh body-presence optical attempt
 passed five scenes but timed out setting up catch; it provides no full realism,
-plume, motion or frame acceptance. Prove the lightweight catch progress getter
-before a changed-case retry. [Exact next tasks](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
+plume, motion or frame acceptance. The subsequently reviewed progress getter
+and 31/31 focused checks enabled a changed catch body-presence/absence assertion
+pass in 18.5 s; saved shell 0 conflicts with outer tool exit 1. Retain both, the
+actual SwiftShader metadata and the separate source epoch. [Exact next tasks](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
 Finish Phase 8 before Phase 9 implementation. Do not redo completed RTLS
 scheduling feasibility, Phase 7 release or Phase 6b fallback work.
 

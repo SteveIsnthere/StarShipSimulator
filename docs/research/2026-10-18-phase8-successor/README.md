@@ -67,7 +67,11 @@ The [fresh optical attempt](optical/README.md) passed five actual body-presence/
 absence cases; catch setup exceeded its unchanged 60 s timeout, and teardown
 also timed out. There is no catch capture or after-runtime receipt. Paused
 zero-particle scenes do not accept plumes. Reference/motion/frame acceptance
-remains open; prove the lightweight progress getter before a changed catch retry.
+remains open. The subsequent reviewed [progress getter/catch witness](progress/README.md)
+passes 31/31 focused checks and records the changed genuine catch image/absence
+assertions within 18.5 s, with stable source/build and actual SwiftShader identity.
+Its saved shell/Playwright pass conflicts with outer tool exit 1; both are
+preserved. This is no full six-scene/current-build, R3 or frame acceptance.
 
 Current C1 code and tests are uncommitted WIP after documentation checkpoint
 `0d87c758`; input hashes in each result identify that exact local delta. Do not

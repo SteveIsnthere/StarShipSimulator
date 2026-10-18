@@ -6,7 +6,8 @@ const probe = vi.hoisted(() => ({ requested: false, loads: 0, events: [] as stri
 vi.mock('$app/debug-request', () => ({ wantsSimDebug: () => probe.requested }));
 vi.mock('$app/debug', () => {
   probe.loads++;
-  return { installSimDebug: () => { probe.events.push('debug'); return true; } };
+  return { installSimDebug: () => { probe.events.push('debug'); return true; },
+    attachSceneWitness: () => { probe.events.push('witness'); } };
 });
 vi.mock('$view/app', () => ({
   createView: async () => { probe.events.push('view'); throw new Error('view boundary'); },

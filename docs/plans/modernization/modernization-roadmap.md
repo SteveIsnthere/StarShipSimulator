@@ -28,8 +28,11 @@ reviewed physical deadline and reconstructed 18 rows. Both landing-burn rows now
 pass after a reviewed descending-booster initialization fix; broader mission
 acceptance remains open. Next: measured before-flip/reentry crash and CPU diagnosis, then model-aware
 paid orbital targeting, starting with one bounded feasibility witness.
-Fresh body-presence optics pass five cases; catch setup times out. R3 realism,
-motion and frame budgets remain open. Current C1 code/tests are uncommitted WIP
+Original body-presence optics passed five cases and timed out at catch. The
+reviewed lightweight progress getter then enabled the changed catch assertions
+in 18.5 s; saved shell/Playwright pass conflicts with outer tool exit 1 and is
+preserved. Source epochs stay separate; R3 realism, motion and frame budgets
+remain open. Current C1 code/tests are uncommitted WIP
 after `0d87c758`; preserve them before further changes.
 [Current successor evidence](../../research/2026-10-18-phase8-successor/README.md).
 Do not apply historical recovery patches to existing work.

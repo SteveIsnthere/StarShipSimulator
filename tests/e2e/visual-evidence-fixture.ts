@@ -1,6 +1,6 @@
 import { expect, test as base } from '@playwright/test';
 import type { SimDebug } from '../../src/app/debug';
-import { attachVisualRuntimeReceipt, visualRuntimeReceipt } from './visual-runtime-receipt';
+import { attachVisualRuntimeReceipt, visualRuntimeReceipt, writeVisualJSON } from './visual-runtime-receipt';
 import { byTestId } from '../../src/ui/testids';
 
 /** Dedicated motion runs pin their artifacts; ordinary gate specs pay no extra work. */
@@ -24,9 +24,7 @@ export const test = base.extend<{ visualEvidence: void }>({
           renderer: String(gl.getParameter(extension ? extension.UNMASKED_RENDERER_WEBGL : gl.RENDERER)),
           vendor: String(gl.getParameter(extension ? extension.UNMASKED_VENDOR_WEBGL : gl.VENDOR)) } : null };
     }, byTestId('world-canvas'));
-    await info.attach('final-presentation.json', {
-      body: JSON.stringify({ viewport: page.viewportSize(), ...observed }), contentType: 'application/json',
-    });
+    await writeVisualJSON(info, 'final-presentation.json', { viewport: page.viewportSize(), ...observed });
     const after = await visualRuntimeReceipt(browser, info);
     await attachVisualRuntimeReceipt(info, 'after', after);
     expect(after.source.sha256, 'source must remain pinned throughout visual capture').toBe(before.source.sha256);

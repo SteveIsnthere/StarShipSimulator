@@ -34,8 +34,8 @@ export async function visualScene(page: Page, scene: VisualScene): Promise<void>
       // The unchanged900s flight cap, genuine guidance and physical catch.
       for (steps = 0; steps < 108000; steps++) {
         debug.step(1);
-        const state = debug.telemetry();
-        if (state['status.landed'] || state['failures.crashed'] || state['failures.inFlightBreakUp']) break;
+        const state = debug.flightProgress();
+        if (state.landed || state.crashed || state.inFlightBreakUp) break;
       }
     } else debug.step(steps);
     return { steps, state: debug.telemetry() };

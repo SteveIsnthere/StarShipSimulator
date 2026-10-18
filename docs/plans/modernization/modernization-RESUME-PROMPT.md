@@ -115,15 +115,17 @@ Keep four shared advances per scheduler call, original trial/publication policy,
 4,000 advances/900 s per rollout. Planning wait consumes that same allowance.
 No teleport, extra TPS/reserve, Ship fitted 841,800 m range, force-only cutoff
 authority or speculative full controller before feasibility evidence.
-3. C3 independently: prove a lightweight flightProgress() debug getter follows
-the current selected live loop, reads only the five progress fields and mutates
-nothing. Prove old/new catch loops stop on identical first terminal ticks with
-identical final state/counters/observers, including first-tick/cap cases. Keep
-step(1), predicate order, 108,000 cap and final full telemetry. Review, build and
-focused checks precede retrying ONLY changed catch at original 60 s limits and
-zero retries. Recursive telemetry is a removable cost, not an exclusive measured
-cause. Capture developed exhaust separately using actual resume/RAF physics
-advancement, initially without changing shared performance setup.
+3. C3 independently: the lightweight flightProgress getter is already implemented
+and independently reviewed. Snapshot/traversal/terminal/canonical two-body checks
+plus existing cohort pass 31/31 after correcting a stale debug mock. Changed catch
+records a genuine body-presence/absence assertion pass in 18.5 s at original limits.
+Saved shell 0/Playwright pass conflicts with execution tool outer exit 1; preserve
+both. Source/build stable; actual SwiftShader identity retained, viewport1280x720
+but post-catch canvas1280x347/DPR1. See successor/progress/README.md. Do not redo
+this getter or rerun unchanged catch to seek another status. Prior five images
+retain their earlier epoch; no single current-build six-scene pass. Next capture
+developed exhaust separately using actual resume/RAF physics advancement,
+initially without changing shared performance setup. Finish R3 and frame acceptance.
 
 FINISH THE REST OF C1–C6
 C1: implement only supported model-correct guidance and achieve every row's

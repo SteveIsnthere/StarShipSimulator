@@ -1,0 +1,294 @@
+{
+  "kind": "phase8-lightweight-progress-result-v1",
+  "sourceBasis": "6ab76a011353ac1ed582c0514a36add8565107b3",
+  "inputPins": [
+    {
+      "path": "src/app/debug.ts",
+      "bytes": 10233,
+      "sha256": "873cd1048b79a607e59b63e9c7e4f4a0fc7681b0460e41353444893fe7bcad1f"
+    },
+    {
+      "path": "tests/app/debug-progress.test.ts",
+      "bytes": 7342,
+      "sha256": "77ac481dced50a00a5cc95d72cc23772de6a14507fe75d091112c13387633d70"
+    },
+    {
+      "path": "tests/e2e/visual-scene-setup.ts",
+      "bytes": 3214,
+      "sha256": "010b8ba3fc220a9fa76e45af74f7f3de97c32c06219eec8947c04058d7dbc130"
+    },
+    {
+      "path": "tests/e2e/visual-evidence-fixture.ts",
+      "bytes": 2202,
+      "sha256": "c256143588f351d5b9ad64e5361b0f81cde4c9261ab627926de68bd6461e487a"
+    },
+    {
+      "path": "tests/ui/session-debug-loading.test.ts",
+      "bytes": 1305,
+      "sha256": "eb7eb6f182cdc577635e58e5a45773522fb575963f0fd5cbc102c69bc6443e1e"
+    },
+    {
+      "path": "src/ui/session/mission-controller.ts",
+      "bytes": 4828,
+      "sha256": "61426efaeabdade189e6169938fb04cf1d86452d34ca99e598c109e5a346897a"
+    },
+    {
+      "path": "src/ui/session/session.ts",
+      "bytes": 18927,
+      "sha256": "bbe84ba318100e1b9a71803a524b653b472fff46592b79d4a180d61796503628"
+    },
+    {
+      "path": "src/core/autopilot/booster.ts",
+      "bytes": 18602,
+      "sha256": "dc3f9f9fc7b1cda213aa07362698ac4d7645b42dc71056e737d6250bdc720d67"
+    },
+    {
+      "path": "tests/e2e/visual-scenes.spec.ts",
+      "bytes": 4129,
+      "sha256": "fe2eb05fdf38b9db0f3df145cd7501aa70563d1657a168225440e593440f7598"
+    },
+    {
+      "path": "tests/e2e/visual-runtime-receipt.ts",
+      "bytes": 4182,
+      "sha256": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e"
+    },
+    {
+      "path": "playwright.config.ts",
+      "bytes": 6230,
+      "sha256": "754bfd106fb9e711e744b85aa95e5411b213f286c9ec2d4dcc9533f425e5994b"
+    },
+    {
+      "path": "src/core/scenarios.ts",
+      "bytes": 14724,
+      "sha256": "6d946ae9f78ee26a7e28818f5657f62c96a4102ddd17cba17d1506954570bf89"
+    }
+  ],
+  "checks": {
+    "missingGetterRed": {
+      "passed": 0,
+      "failed": 10,
+      "exit": 1
+    },
+    "firstFocused": {
+      "passed": 30,
+      "failed": 1,
+      "exit": 1,
+      "failure": "Stale debug-loading mock lacks attachSceneWitness"
+    },
+    "finalBuild": {
+      "exit": 0
+    },
+    "finalFocused": {
+      "passed": 31,
+      "failed": 0,
+      "exit": 0
+    },
+    "scopedLint": {
+      "exit": 0
+    },
+    "singleCatch": {
+      "playwrightPassed": 1,
+      "durationSeconds": 18.5,
+      "commandSeconds": 20.6,
+      "savedShellExit": 0,
+      "playwrightLastRun": "passed",
+      "executionToolExit": 1,
+      "receiptConflictUnresolved": true,
+      "retry": 0,
+      "workers": 1,
+      "caseTimeoutMs": 60000
+    }
+  },
+  "review": "Independent HIGH code/mock/canonical witness review and real catch state/positive-absence image review accepted bounded assertion pass, with outer tool receipt conflict explicitly open.",
+  "sourceAndBuildBeforeAfterStable": true,
+  "scope": "Bounded progress API and narrow real catch capture witness only, with command receipt conflict. No whole gate/R3/frame/phase/release acceptance. Other C1 source remains uncommitted and explicitly pinned.",
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/build-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/build-before.txt",
+      "bytes": 6028,
+      "sha256": "693d5709f6b603cff80c05ba96fd54a0f747a2d0ce4a89c68b5d332b8192db47"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/build-final.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/build-final.txt",
+      "bytes": 6028,
+      "sha256": "50972b6d3a1476871777e894ba5fd30c6fbb94a67fd7cb872f6380ecb465ccc8"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/build-reviewed.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/build-reviewed.txt",
+      "bytes": 5994,
+      "sha256": "6bce0430eb863b2279e55e0e1eefdccd12683e6add3b82c3b8bdd64c26275bea"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/build.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/build.txt",
+      "bytes": 6028,
+      "sha256": "c8711116f93a7007142df6ee01d7555ad0ef97de87fce727516b0c582fcb53d2"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/after-runtime.json",
+      "bytes": 131817,
+      "sha256": "4207819530ae3aa72cfba2c6e53d6980e5efb654d553d96255e20e1bf3892211"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/attachments/after-runtime-json-61647fcf18fd3436e9f8b4627b20f04f4bc5a49d.json",
+      "bytes": 131817,
+      "sha256": "4207819530ae3aa72cfba2c6e53d6980e5efb654d553d96255e20e1bf3892211"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/attachments/before-runtime-json-1ebb8cd51cef558ac8fd10a51e51e34827ede56f.json",
+      "bytes": 131816,
+      "sha256": "5825c41b2e0e5a77057cbcc591729bf5abceb27ed04abb0e2daa65b18a49a253"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/attachments/final-presentation-json-e5f01185a14ab774e327406ee7853a93102ecd55.json",
+      "bytes": 40938,
+      "sha256": "688a6b1e99e0cf8d9b119267899911cd47901372b69f4d7d69a9a071d16e8534"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/before-runtime.json",
+      "bytes": 131816,
+      "sha256": "5825c41b2e0e5a77057cbcc591729bf5abceb27ed04abb0e2daa65b18a49a253"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/catch-state.json",
+      "bytes": 1725140,
+      "sha256": "7f57e522211cc7295a59386543c619e18ef2137ce3e22633668dda5d2cf9cb65"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/catch-without-vehicles.png",
+      "bytes": 113057,
+      "sha256": "35f0c82f8f4b95913458ac324ee4703a98330530500ef9a0c9b7609361a04196"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/catch.png",
+      "bytes": 116882,
+      "sha256": "701b23a1cadb9d813334eb1e5c04422fc41b0963e51729d539e8bb1077a1dfa3"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-artifacts/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/final-presentation.json",
+      "bytes": 40938,
+      "sha256": "688a6b1e99e0cf8d9b119267899911cd47901372b69f4d7d69a9a071d16e8534"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch-tool-exit.txt",
+      "bytes": 167,
+      "sha256": "ac022eb456b1f911ab4de764208151735bf902d0befb365714e09d6a50621453"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/catch.txt",
+      "bytes": 560,
+      "sha256": "e82ebcd2e2bcc746d5a2eee15418c27b6bc84974f5e630a5e2dac8cf090d537f"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/green-final.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/green-final.json",
+      "bytes": 10921,
+      "sha256": "999b1bcdfadc55aa1c0bcbf85efe9a6acfd0f38132b431903ee2d627055feb40"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/green-final.txt",
+      "bytes": 1126,
+      "sha256": "0ae178129637c1dfce109b714128f9ee522a5dd887dc5176f6fdd992ba9a65ee"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/green.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/green.json",
+      "bytes": 11666,
+      "sha256": "e3bb1f0f852b0a127230bacb2b11983ff0612b1697e7c87c2563fee4281f4599"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/green.txt",
+      "bytes": 2278,
+      "sha256": "32e6464685001f92faeffbaf52a740b381a135848d7e071268ddb23433e844e1"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/inputs-before-catch.json",
+      "bytes": 2173,
+      "sha256": "068b7d7db087e0dececaa47900a5899c994aa4d4ed08898caea46102d1368622"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/lint.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/lint.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/red.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/red.json",
+      "bytes": 12828,
+      "sha256": "5cf714068c8fc41b4f3dd2ada03a15cd48349da1f0fa072e3db28c7f00aaa34c"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/red.txt",
+      "bytes": 6031,
+      "sha256": "9149d1a80b4f5bbb5d5a2c04394eafc963a429802b94311b80e3fca9cea59b8c"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/review.md",
+      "bytes": 1112,
+      "sha256": "b1fdf470124eec94ffcc8a91dcfe16a0d40f71edad3b052921aa9afe7563f013"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/progress/startup.txt",
+      "bytes": 25642,
+      "sha256": "8831225a772af9388a9dbda61ad40e3d2992f32271f38b09a9b573f9116c719c"
+    }
+  ],
+  "captureEnvironment": {
+    "viewport": [
+      1280,
+      720
+    ],
+    "canvas": [
+      1280,
+      347
+    ],
+    "dpr": 1,
+    "actualRenderer": "WebGL2 / ANGLE Vulkan SwiftShader"
+  }
+}
