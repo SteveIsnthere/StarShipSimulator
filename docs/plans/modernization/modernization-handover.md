@@ -39,14 +39,19 @@ The reviewed documentation audit was committed/pushed as `8126077a` on
 that checkpoint before the bounded successor edits; no reset/rebase/worktree.
 The remaining-work audit itself ran no implementation acceptance workload.
 The reviewed source/evidence/plans checkpoint was committed and pushed on
-`claude/visuals` as `a41df348`. Subsequent documentation-only corrections
-record this pin and raw-log whitespace; the checked implementation is unchanged.
+`claude/visuals` as `a41df348`. Documentation checkpoint `0d87c758` records that pin and raw-log whitespace.
+The subsequent C1 constructor, horizon, matrix and descending-booster changes
+and their new tests are currently uncommitted WIP in this checkout. Their
+checks pin exact input hashes below; they are not part of `0d87c758`. Preserve
+the dirty source and new evidence before further implementation. No Phase 8
+merge or deployment has occurred.
 Source changes and their actual checks are recorded below.
 
 V22's retained manifest has 803 paths: 726 exact matches, 52 changed and
-25 absent. The newer 18-row scenario matrix, lint wrapper, one production
-instrumentation module and recent result/review bundles are missing from this
-checkout. [Source audit](../../research/2026-10-18-modernization-remaining-audit/source-audit.json)
+25 absent at the pre-change audit. Exact historical V22 matrix bytes, lint
+wrapper, one production instrumentation module and recent result/review bundles
+remain unavailable. The reconstructed 18-row successor is now present with its
+own source pins; it does not recover those historical bytes or results. [Source audit](../../research/2026-10-18-modernization-remaining-audit/source-audit.json)
 lists every mismatch. Different bytes do not prove a defect; they prevent
 assigning the previous working state's results to this source.
 
@@ -67,12 +72,14 @@ See the [successor checkpoint](../../research/2026-10-18-phase8-successor/README
 | RTLS scheduling feasibility | Completed bounded task; paid receipts and default-catch evidence retained in research | Preserve; do not restart this task |
 | V3/damage source | Catalogue, propulsion, thermal/material/control/mass/detachment/debris and shared rendering exist | Whole R1/R2/R3 acceptance open |
 | Lint/build | Successor baseline and changed builds exit 0; changed JS 299.8/300 kB; scoped lint exit 0 | Current bounded patch only; full lint/gate open |
-| Scenario matrix | Historical V21 20/30, ten failures; newer matrix absent | Duration ruling resolved; all 18 reconstructed rows and actual acceptance open |
+| Scenario matrix | New 30-test successor includes all 18 ID/model rows; horizon 4/4, model proof/existing 53/53, mocked clock/contact 4/4 | Ship/landing-burn, Super Heavy/landing-burn and Super Heavy/intro pass across separate selections. Super Heavy/before-flip and reentry fail; other 13 rows unrun |
+| Descending booster mode | Auto-land now starts coast when descending unless explicit boostback is requested; existing phases/ascending initialization preserved | 25/25 direct/boundary checks and changed genuine catch pass; full golden replay/audit and whole Fidelity acceptance open |
 | Projection allocation | Six render sites use factory-owned output; focused 5/5 and expanded 85/85 pass, independent high code review | One C3 allocation debt addressed; no optical/frame/gate acceptance |
 | Gate | Conversation records 2,737 pass/12 fail/one skip, stopped in units | Raw custody absent; complete gate/coverage not green |
 | Goldens | Full ten-fixture Linux Node 22 recording preserved; replay timed out on separation | Recording is not replay acceptance; do not regenerate to pass |
-| Truth | Reported 25/26, all 17 Tier A IN; Tier B max-Q altitude 9,528 m OUT | Preserve rows/data limitation; refresh only for actual source changes/required acceptance |
+| Truth | Fresh initializer before/after reports are byte-identical: 25/26, all Tier A IN; Tier B max-Q altitude 9,528 m OUT | Current bounded source evidence; retain rows and the existing data limitation |
 | Damage demonstration | Selected CPU/browser natural-loss assertions reported passing | Narrow evidence; recent bundles absent, full integration/visual acceptance open |
+| Body-presence optics | Fresh Chromium attempt: launch, staging, belly flop, entry and landing pass presence/absence checks; catch setup times out at 60 s, with teardown timeout too | 5/6 only; no catch image, plume/reference/damage-motion or frame acceptance. SwiftShader requested; unmasked renderer identity not retained |
 | Frame budgets | Latest documented seven-case desktop diagnostic failed; no actionable source path in trace diagnosis | No performance acceptance; no unchanged trace retry/speculative edit |
 | Full browser/mutations/review | Historical focused results exist | Current whole-phase release checks remain open |
 | Main/CI/deploy | API observed main/last successful Pages `e8a06ff`; last three CI success/success/failure | Final phase integration and three-green condition unmet |
@@ -90,9 +97,11 @@ All nine scenario IDs × both vehicles remain required. Deorbit starts about
 7,036 km. Current Ship return geometry/controller and Super Heavy tower-catch
 policy do not support the literal former duration contract. Steve answered on
 2026-10-18 UTC: “Keep starts and targets; approve a physically derived orbital
-mission horizon.” Derive/review the orbital bound before flight trials; the
-900-second non-orbital cap, test timeout, physical/control limits, starts and
-targets remain binding. No off-site target, missing row or weaker outcome is
+mission horizon.” Independent review has since frozen the test-only failure
+deadline at `Tground + TKepler + 900 s`, currently 11,381.230608843909 s /
+1,365,748 ticks. Four structural checks pass; actual controller success and paid
+phase witnesses remain open. The 900-second non-orbital cap, test timeout,
+physical/control limits, starts and targets remain binding. No off-site target, missing row or weaker outcome is
 approved. Current booster orbital-return support still needs implementation
 and physical acceptance; a duration ruling alone does not establish it.
 
@@ -100,16 +109,26 @@ and physical acceptance; a duration ruling alone does not establish it.
 
 1. Preserve the C0 reviewed successor/source-result checkpoint. Exact latest
    recovery remains unknown; do not reapply historical patches or inherit results.
-2. C1 (next): validate the pre-flight orbital-horizon derivation, then reconstruct
-   all 18 meaningful ID/model sequences. The conditional proposal is
-   `2T + 900 = 11,381.230608843909 s` at the unchanged 150 km start;
-   `ceil(H / DT) = 1,365,748` ticks. It applies only to circularize/deorbit ×
-   both models. Paid attitude, first firing opportunity, finite burn and transit
-   bounds still require witnesses; no new flight has run. Ship-specific deorbit
-   assumptions and absent booster orbital routing require reviewed model-aware
-   behavior. See the [ruling/review](../../research/2026-10-18-phase8-successor/mission-ruling.md).
+2. C1 (next): diagnose the measured before-flip/reentry failures, then
+   finish model-correct orbital targeting. Preserve the failures and source pins
+   in [descent evidence](../../research/2026-10-18-phase8-successor/booster-descent/README.md). The reviewed test-only deadline is
+   `Tground + TKepler + 900 = 11,381.230608843909 s` / 1,365,748 ticks at the
+   unchanged 150 km start and zero frame rotation. It applies only to four orbital
+   rows; actual paid preparation/burn/transit still need witnesses. The new
+   18-row source shares one charged loop. Two landing-burn rows now pass; other
+   outcomes remain open. Booster orbital targeting remains held until its range
+   proposal and actual paid validation fit original limits; Ship's 841,800 m entry
+   constant and unpowered approximation cannot supply cutoff authority.
+   [Current result scopes](../../research/2026-10-18-phase8-successor/README.md).
+   Use the [bounded diagnostic handoff](../../research/2026-10-18-phase8-successor/next-diagnostics.md)
+   for the read-only observer/profile and orbital feasibility witness; do not
+   rerun these failed flights unchanged to seek a pass.
 3. C2: close physics/damage, CPU timeouts, golden replay, coverage and mutations.
-4. C3: finish V3 reference/motion verification and measured full/reduced budgets.
+4. C3: first prove a lightweight live debug progress getter preserves the catch
+   setup loop, then retry only the changed catch case at its original limits.
+   Develop exhaust captures through actual RAF/physics advancement. Finish V3
+   reference/motion verification and measured full/reduced budgets.
+   [Optical failure and artifacts](../../research/2026-10-18-phase8-successor/optical/README.md).
 5. C4: whole-phase independent review, ordered release gate, main/CI/Pages/live
    verification; then close Phase 8.
 6. C5/C6: plan and implement complete Phase 9, publish motion review and finish
@@ -135,6 +154,8 @@ flakes, accessibility/focus and assigned audio/tilt work. No unphased expansion.
 Global skills/docs-maid access and external review authentication remain
 unverified/unavailable. Steve authorized best practices for missing guidance;
 independent high review remains required. Do not claim any unavailable tool ran.
-The source/result records accept only the bounded projection allocation change
-and its focused checks. Full gate, coverage, optics, frame, phase integration,
-main and deployment acceptance remain open; no final release is claimed.
+Source/result records support the bounded allocation and C1 checks described
+above and the five body-presence optical cases only. Full matrix, golden
+replay, gate, coverage, reference/motion optics, frame, phase integration, main
+and deployment acceptance remain open; no final release is claimed. This
+documentation pass runs no new flight or acceptance campaign.

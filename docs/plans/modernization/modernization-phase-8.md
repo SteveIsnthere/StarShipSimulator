@@ -17,19 +17,27 @@ records 52 different and 25 absent paths against the latest source manifest.
 | R3 vehicle/damage rendering / Task 5 | Implementation exists; reference/motion/integration acceptance incomplete |
 | Task 6 / R4 | Frame budgets and complete release acceptance open/failed |
 
-**Next: C1 pre-flight orbital-horizon derivation and matrix design.** C0
-selected committed `8126077a` as the independently reviewed successor basis;
-unknown later bytes/results remain unknown. Never apply historical patches.
-Steve approved a physically derived orbital horizon with starts/targets fixed.
-The conditional `2T + 900` candidate still needs paid-attitude/burn/transit
-witnesses before adoption; all 18 rows, other fourteen 900-second caps and
-physical/control/work/health/catch limits remain binding.
+**Next: C1 measured descending-row failures and model-aware orbital targeting.** C0
+selected committed `8126077a` as the reviewed successor basis; unknown later
+bytes/results remain unknown. Never apply historical patches. The reviewed
+source-derived orbital failure deadline is frozen; actual controller bounds
+are not thereby proved. New 18-row matrix source and exact default-constructor
+proof exist; both landing-burn rows pass after a bounded reviewed booster
+initialization correction. Super Heavy/intro also passes, but before-flip and reentry crash; reentry
+also exceeds the original 30 s case budget. Other rows and whole integration
+remain open. Current C1 source/tests are uncommitted WIP after `0d87c758`.
+All starts/targets, other fourteen 900 s caps and physical/control/work/health/
+catch limits remain binding. [Evidence](../../research/2026-10-18-phase8-successor/README.md).
 
 One C3 allocation debt is addressed: six projection call sites now use
 factory-owned output. Changed build/scoped lint and 85/85 expanded checks pass;
 independent high code review accepts the bounded change. See the
 [successor checkpoint](../../research/2026-10-18-phase8-successor/README.md).
-No optical/frame, full gate, whole-phase or release acceptance is implied.
+Fresh body-presence optics pass five scenes; catch setup times out at its
+original 60 s limit. This is no reference/plume/motion/frame, full gate,
+whole-phase or release acceptance. The next bounded catch getter proof and
+physical/CPU diagnosis are specified in the
+[diagnostic handoff](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
 
 The checklists below retain the original physical and visual obligations.
 An unchecked implementation obligation is not an instruction to rebuild code

@@ -1,0 +1,218 @@
+{
+  "schema": "phase8-booster-descent-result-v1",
+  "physicsTier": "Fidelity under approved Phase8 V3/progressive integration; no changed physical/work limits",
+  "sourceBasisCommit": "0d87c758ad573cf7a990c0a9e325cf32013b1325",
+  "inputPins": [
+    {
+      "path": "src/core/autopilot/booster.ts",
+      "bytes": 18602,
+      "sha256": "dc3f9f9fc7b1cda213aa07362698ac4d7645b42dc71056e737d6250bdc720d67"
+    },
+    {
+      "path": "src/core/scenarios.ts",
+      "bytes": 14724,
+      "sha256": "6d946ae9f78ee26a7e28818f5657f62c96a4102ddd17cba17d1506954570bf89"
+    },
+    {
+      "path": "tests/core/booster-descent-initialization.test.ts",
+      "bytes": 2666,
+      "sha256": "77adfe410dc1a57b73c8de77df663e6f776e1a8b16c6c4ff06ef06500bf24ff7"
+    },
+    {
+      "path": "tests/flies-every-scenario.test.ts",
+      "bytes": 9544,
+      "sha256": "6216e2a5160af48da4be4f0e56085db4b2eec2c7cb7801af4d891b24da07dd19"
+    },
+    {
+      "path": "tests/support/scenario-mission.ts",
+      "bytes": 6541,
+      "sha256": "abc2d803dce39df04d453dd25dca91dda1c7f013f1f0999887f54b989d3f893e"
+    },
+    {
+      "path": "tests/support/scenario-horizon.ts",
+      "bytes": 2003,
+      "sha256": "f79924d47dd70d3bd6459385e5448377d33c4e74c686ba4579a23efedc077b4e"
+    },
+    {
+      "path": "scripts/test/run.mjs",
+      "bytes": 11808,
+      "sha256": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d"
+    },
+    {
+      "path": "vitest.config.ts",
+      "bytes": 7480,
+      "sha256": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/build.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/build.txt",
+      "bytes": 6028,
+      "sha256": "8b877d60e977dc846e6d11dc0412d35b26bee9cfd705106d8490e4119da75611"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/descending-rows.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/descending-rows.json",
+      "bytes": 11358,
+      "sha256": "1b8d1ef2486edfb7e4fb469eebd2bd7c1ee4cf47546f91a831e5573d35c6b35a"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/descending-rows.txt",
+      "bytes": 4158,
+      "sha256": "91891fa6134eb0d08ad1c03a7007a1731fb30486e49f543486b8438d1b49cb73"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/flight-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/flight-after.json",
+      "bytes": 9244,
+      "sha256": "5f95fea90e519eb81a0787602ef4f80911308bda5a4ff65749ea58fd7c86ee0b"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/flight-after.txt",
+      "bytes": 921,
+      "sha256": "2f68ff47c52393d1cb39e6a0b36c0d0d3029fda79553aeece2260d3b84ff0ae0"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/green.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/green.json",
+      "bytes": 8061,
+      "sha256": "9a6239b189e87433f2371d1de84b7d7346dd6802b4bca8a88ae22bba11d468dc"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/green.txt",
+      "bytes": 905,
+      "sha256": "2002f146da8ee540b5553e7012a20565cbc67549b88306ca744ced13461e0a60"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/inputs-before-descending-rows.json",
+      "bytes": 1617,
+      "sha256": "d859667d3b74d8e902feef708e5edfd3894d0a41a1d48edb0c806015b2837d67"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/inputs-before-flight.json",
+      "bytes": 1602,
+      "sha256": "d71101986f720e52c7320359ceb1cef4e3b8087ed47a58c7724805b4b0ca5e5b"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/lint.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/lint.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/red.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/red.json",
+      "bytes": 5538,
+      "sha256": "50c46a4992ff89fca7c38396be9f2ff626b535cd232efa17ca2c2003ea03dd38"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/red.txt",
+      "bytes": 2676,
+      "sha256": "d8c0dbdf654e71512e65523ffb00f2d09b15ceb3d572b0266a5b6dfb7811ccca"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/truth-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/truth-after.txt",
+      "bytes": 2232,
+      "sha256": "44d4e7c0e0f0f40c6a0a0008291159d67daed51799daa12d218ae4f3ff6ea3a0"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/truth-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/booster-descent/truth-before.txt",
+      "bytes": 2232,
+      "sha256": "44d4e7c0e0f0f40c6a0a0008291159d67daed51799daa12d218ae4f3ff6ea3a0"
+    }
+  ],
+  "checks": {
+    "initializationRed": {
+      "failed": 2,
+      "selected": 2,
+      "exit": 1
+    },
+    "build": {
+      "exit": 0
+    },
+    "directAndBoundaries": {
+      "passed": 25,
+      "exit": 0
+    },
+    "changedLandingBurn": {
+      "passed": 1,
+      "unselected": 29,
+      "exit": 0
+    },
+    "remainingDescending": {
+      "passed": [
+        "super-heavy/intro"
+      ],
+      "failed": [
+        "super-heavy/reentry",
+        "super-heavy/before-flip"
+      ],
+      "unselected": 27,
+      "exit": 1,
+      "failureDetails": {
+        "super-heavy/reentry": {
+          "outcome": "crashed",
+          "simulatedSeconds": 350.85,
+          "testDurationMs": 35381,
+          "caseBudgetMs": 30000,
+          "note": "Synchronous Vitest case completed beyond timeout and failed its landing assertion; this does not satisfy the30s case contract."
+        },
+        "super-heavy/before-flip": {
+          "outcome": "crashed",
+          "simulatedSeconds": 13.875,
+          "testDurationMs": 897
+        }
+      }
+    },
+    "truthBeforeAfter": {
+      "exitBefore": 0,
+      "exitAfter": 0,
+      "byteIdentical": true,
+      "inBand": 25,
+      "total": 26,
+      "allTierAIn": true,
+      "existingTierBOut": "ascent.max-q.altitude9528m"
+    },
+    "scopedLint": {
+      "exit": 0
+    }
+  },
+  "goldenPrediction": "All eight Ship fixtures unaffected by booster-only correction; both booster fixtures startascending and retain align-boost and subsequent established phases. Predict no fixture moves. Complete replay/audit still pending; no fixtures regenerated.",
+  "review": "Independent HIGH source correction and bounded readiness; no reviewer workloads/edits. Explicit boostback priority/retained phases/manual-inactive-terminal guards preserved.",
+  "scope": "Three named real matrix rows pass across separate selections (Shiplandingburn,SHlandingburn,SHintro); SHbeforeflip andSHreentry fail. Remaining rows unrun. No fullmatrix/gate/coverage/golden/frame/phase/release acceptance."
+}

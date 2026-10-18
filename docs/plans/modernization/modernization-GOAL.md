@@ -57,8 +57,8 @@ The [successor record](../../research/2026-10-18-phase8-successor/README.md)
 documents the bounded search and independent review. It does not establish
 exact recovery or transfer absent acceptance. The latest
 V22 source manifest has 803 paths; the pre-change committed basis matches 726, differs in
-52 and lacks 25. The newer 18-row flight matrix and several result bundles
-are absent. The bounded exact-content search found none of the 77 expected
+52 and lacks 25. Exact historical V22 matrix bytes and several result bundles
+remain absent; the newly reconstructed 18-row successor is present and pinned. The bounded exact-content search found none of the 77 expected
 later digests in its stated domain. If a newer complete snapshot becomes
 available, verify its base, patch digest, applicability and every restored hash
 before importing it; do not restart the search without new evidence. Apply an
@@ -76,32 +76,48 @@ edits and checkpoint durable work with reviewed commits/pushes when possible.
 ## Remaining work and dependencies
 
 Execute [C0–C6](modernization-completion-plan.md) as bounded work packages.
-**Next bounded task: C1 orbital-horizon derivation and matrix design.** Validate
-the conditional two-period-plus-terminal proposal before adopting a flight cap;
-reconstruct all 18 meaningful ID/model rows and identify model-aware guidance
-gaps. Do not run another unchanged full-flight campaign. The allocation fix
-closes one C3 debt only; no frame improvement or whole-phase pass is claimed.
+**C1 is underway; source changes remain uncommitted WIP after `0d87c758`.**
+The reviewed test-only failure deadline is frozen at `Tground + TKepler + 900 s`
+for the four orbital rows; structural checks pass 4/4. This is a physical
+scheduling envelope, not a theorem that current guidance meets it. The new
+successor matrix contains all 18 rows. Constructor Refactor proof/existing
+checks pass 53/53; four mocked sequencing/contact units are not flight evidence.
+Across separate real selections, Ship/landing-burn, Super Heavy/landing-burn
+and Super Heavy/intro pass; Super Heavy/before-flip and reentry fail. Reentry
+also exceeds the unchanged 30 s case budget. The reviewed descending-auto-land
+initializer has 25/25 direct/boundary checks; full Fidelity acceptance is open.
+See [source-pinned results](../../research/2026-10-18-phase8-successor/README.md).
+
+Next capture compact physical/CPU evidence for those two failures, then fix only
+supported causes. For booster orbital targeting, first establish one paid
+scheduling/trajectory witness under unchanged caps; do not borrow Ship's fitted
+entry range. The orbital deadline decision is resolved and must not be reasked.
+The allocation fix closes one C3 debt. A fresh body-presence optical attempt
+passed five scenes but timed out setting up catch; it provides no full realism,
+plume, motion or frame acceptance. Prove the lightweight catch progress getter
+before a changed-case retry. [Exact next tasks](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
 Finish Phase 8 before Phase 9 implementation. Do not redo completed RTLS
 scheduling feasibility, Phase 7 release or Phase 6b fallback work.
 
 **Mission ruling — Steve, 2026-10-18 UTC:** “Keep starts and targets; approve a
 physically derived orbital mission horizon.” All nine IDs × both vehicles
 remain required. Preserve preset starts and Ship landing/Super Heavy tower
-targets. Derive and independently review the orbital horizon from the actual
-orbit/controller before flight testing; do not fit it to a successful flight.
+targets. The independent pre-flight review froze the source-derived deadline;
+do not fit it to a successful flight. Actual paid preparation, burn, transit and
+handoff still need witnesses within that same clock before mission acceptance.
 Only orbital mission duration is newly authorized. Non-orbital 900-second
 horizons, per-case wall time, physical/controller/work/health/catch limits and
 every land/catch assertion remain unchanged. The ruling is not acceptance of
 the missing matrix or evidence that current booster orbital guidance works.
 
-The latest documents report a 20/30 scenario result with ten failures, narrow
+Historical predecessor documents report a 20/30 scenario result with ten failures, narrow
 natural-damage witnesses, and truth 25/26 with all 17 Tier A rows IN. Those
 reports are historical until source/result correspondence is recovered. The
 previous conversation also records a gate stopped at 12 unit failures; raw
 gate custody is absent. Do not describe any of these as a current green gate.
-Visual/frame acceptance remains failed/open, without an actionable source
-bottleneck from the last trace diagnosis. Preserve failed evidence and select
-one falsifiable source hypothesis before another bounded measurement.
+Full visual/frame acceptance remains failed/open. The prior frame trace
+diagnosis identified no actionable source bottleneck; the separate optical
+catch setup has a reviewed removable telemetry cost, not a proven frame cause. Preserve failed evidence and select one falsifiable source hypothesis before another bounded measurement.
 
 ## Protected contracts and budgets
 

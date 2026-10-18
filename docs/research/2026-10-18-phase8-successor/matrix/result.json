@@ -1,0 +1,258 @@
+{
+  "schema": "phase8-matrix-successor-result-v1",
+  "sourceBasisCommit": "0d87c758ad573cf7a990c0a9e325cf32013b1325",
+  "inputPins": [
+    {
+      "path": "src/core/scenarios.ts",
+      "bytes": 14724,
+      "sha256": "6d946ae9f78ee26a7e28818f5657f62c96a4102ddd17cba17d1506954570bf89"
+    },
+    {
+      "path": "tests/proofs/scenario-model-selection.test.ts",
+      "bytes": 3384,
+      "sha256": "4eb0cacec2d5df155d74d87772c5c1f9037ba2c32d1a7ef2b4a36ebda5445cd3"
+    },
+    {
+      "path": "tests/core/scenario-mission-contract.test.ts",
+      "bytes": 4374,
+      "sha256": "8490e4865f910396002c2197b1b8b4ce7b48f2b994ca8d3131469324be1f0f6d"
+    },
+    {
+      "path": "tests/support/scenario-mission.ts",
+      "bytes": 6541,
+      "sha256": "abc2d803dce39df04d453dd25dca91dda1c7f013f1f0999887f54b989d3f893e"
+    },
+    {
+      "path": "tests/support/scenario-horizon.ts",
+      "bytes": 2003,
+      "sha256": "f79924d47dd70d3bd6459385e5448377d33c4e74c686ba4579a23efedc077b4e"
+    },
+    {
+      "path": "tests/core/scenario-horizon.test.ts",
+      "bytes": 3536,
+      "sha256": "70f265abdf49647a66bae1272aa2d3b55eb6e5848177f58d11b86944a3276961"
+    },
+    {
+      "path": "tests/flies-every-scenario.test.ts",
+      "bytes": 9544,
+      "sha256": "6216e2a5160af48da4be4f0e56085db4b2eec2c7cb7801af4d891b24da07dd19"
+    },
+    {
+      "path": "scripts/test/run.mjs",
+      "bytes": 11808,
+      "sha256": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d"
+    },
+    {
+      "path": "vitest.config.ts",
+      "bytes": 7480,
+      "sha256": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7"
+    },
+    {
+      "path": "package.json",
+      "bytes": 2614,
+      "sha256": "6c07c3f0935753725cdfbb6d7b39285210c7dd47cfc36d940dbab913df0ebbe5"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 218675,
+      "sha256": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    }
+  ],
+  "inputPinScope": "Final matrix/constructor/helper/proof/clock-test source; earlier model-only checks preceded matrix/helper addition; initial constructor RED preceded explicit Object.is comparator upgrade. All preserved raw records have their own limited scope.",
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/booster-landing-before.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/booster-landing-before.json",
+      "bytes": 10272,
+      "sha256": "ebc5518f5d786a127eccad0c93283adb73b2786cac6665fa8bed129447ce288d"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/booster-landing-before.txt",
+      "bytes": 3235,
+      "sha256": "aff367349b24da03af0362096b64e4c2797e01b01f94c94d9574444fd7b57c78"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/build-final.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/build-final.txt",
+      "bytes": 5994,
+      "sha256": "e3e3ce15ce4de26f9ca6dc05a0c83cd69f76cadccdb6fadcf178f9acfafaca31"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/build.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/build.txt",
+      "bytes": 5994,
+      "sha256": "a5aed847e41d29f44c5d9dbd31712130f671ca95d333742c2429ef31b589bd1e"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/contract-final.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/contract-final.json",
+      "bytes": 1765,
+      "sha256": "c66b01c18e603ae067b56e2c29e659c8a01a1a70c2c9645524d9738a11712b1d"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/contract-final.txt",
+      "bytes": 772,
+      "sha256": "6fff4303eae5d0eb15c785a85d6a41e562a6fdd5b778c955c30aa667b1482147"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/contract.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/contract.json",
+      "bytes": 1485,
+      "sha256": "34d7ce1402a4780d042661037369e6df9f869e82426a944f2a18203801cfbae5"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/contract.txt",
+      "bytes": 760,
+      "sha256": "c069feb41e1e550e9202fbfb53350b11c37ad4b39986c2d4317261750fc4aad9"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/inputs-before-booster-landing.json",
+      "bytes": 2041,
+      "sha256": "40449271eaf7313af34568084e4dec3d72c8922de96edd82be47fd467178969a"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/inputs-before-landing.json",
+      "bytes": 2034,
+      "sha256": "e76200b721a5313dcb353f62cf1e22165860fb051303727b251f5fc04eb774c6"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/lint.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/lint.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/model-build.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/model-build.txt",
+      "bytes": 6028,
+      "sha256": "9c9661af6aa6c2d7eb6ed46df654a3fa513b67817d33498fe16614f8759431b6"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/model-green.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/model-green.json",
+      "bytes": 16831,
+      "sha256": "3b8aea4bd6d64ff3781071804c5b564ad1ea830d16b434eb2c63b4fe0a5114e5"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/model-green.txt",
+      "bytes": 860,
+      "sha256": "034297caecb67a1558bb9ec46537f13e3b3bfcc0234379e5cdff955a85f982c7"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/model-red.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/model-red.json",
+      "bytes": 3641,
+      "sha256": "7bf592328dcce52e94df3aa972bafa0b7313a0b5d4f772a517752057f6a7fbb7"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/model-red.txt",
+      "bytes": 19000,
+      "sha256": "e378bb8b3aacb9c5d9822e191396a058352c900ec7302e3ed4f906b94f1c7918"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/ship-landing.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/ship-landing.json",
+      "bytes": 9245,
+      "sha256": "9812519bd49170738c6f3182658807ce03e92365a449eafa5591150cd1c2aaf0"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/matrix/ship-landing.txt",
+      "bytes": 827,
+      "sha256": "c816b7c948c8aa08928f758a747ec3448ada7bdc3fec14f19bef8a12ff556cd1"
+    }
+  ],
+  "checks": {
+    "constructorRed": {
+      "exit": 1,
+      "reason": "Old two-argument factory ignores selected booster model"
+    },
+    "constructorProofAndExisting": {
+      "exit": 0,
+      "passed": 53,
+      "files": 2,
+      "propertyInputs": 500,
+      "propertySeed": 20261018,
+      "numericDifference": "Every compared leaf Object.is; zero ULP difference; unchanged private builder text independently checked"
+    },
+    "finalBuild": {
+      "exit": 0,
+      "jsGzipKB": 299.8,
+      "jsBudgetKB": 300
+    },
+    "clockAndContactUnits": {
+      "exit": 0,
+      "passed": 4,
+      "mockedAdvance": true,
+      "flightAcceptance": false
+    },
+    "scopedLint": {
+      "exit": 0
+    },
+    "shipLandingBurn": {
+      "exit": 0,
+      "passed": 1,
+      "unselected": 29,
+      "actualPhysics": true
+    },
+    "boosterLandingBurnBefore": {
+      "exit": 1,
+      "failed": 1,
+      "unselected": 29,
+      "actualPhysics": true,
+      "failure": "crashed after3.608s; baseline before any descent-phase initialization correction"
+    }
+  },
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cpuCount": 5,
+    "node": "v22.23.3",
+    "npm": "10.9.9",
+    "runner": "official scripts/test/run.mjs ordinary SSR fallback",
+    "maxWorkers": 1,
+    "caseTimeoutMs": 30000,
+    "addedRetries": 0,
+    "coverage": false
+  },
+  "scope": "Constructor Refactor and reconstructed30-test matrix source; one real Ship row passed and one real booster row failed. No full matrix/gate/coverage/golden/frame/phase/release pass."
+}

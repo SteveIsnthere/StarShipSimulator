@@ -1,0 +1,57 @@
+[WebServer] (node:10278) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:10303) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (21.6s)
+  ✓  2 [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (23.8s)
+  ✓  3 [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (28.2s)
+  ✓  4 [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (22.7s)
+  ✓  5 [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (30.2s)
+  ✘  6 [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (2.0m)
+
+
+  1) [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile 
+
+    Test timeout of 60000ms exceeded.
+
+    Tearing down "visualEvidence" exceeded the test timeout of 60000ms.
+
+    Error: page.evaluate: Test ended.
+
+       at visual-scene-setup.ts:30
+
+      28 |   }
+      29 |   await painted(page);
+    > 30 |   const result = await page.evaluate(scene => {
+         |                             ^
+      31 |     const debug = (window as unknown as { __simDebug: SimDebug }).__simDebug;
+      32 |     let steps = scene === 'launch' ? 360 : scene === 'staging' || scene === 'landing' ? 180 : scene === 'entry' ? 120 : 1;
+      33 |     if (scene === 'catch') {
+        at visualScene (/workspace/StarShipSimulator/tests/e2e/visual-scene-setup.ts:30:29)
+        at /workspace/StarShipSimulator/tests/e2e/visual-scenes.spec.ts:14:5
+
+    Error: page.evaluate: Test ended.
+
+       at visual-evidence-fixture.ts:13
+
+      11 |     await attachVisualRuntimeReceipt(info, 'before', before);
+      12 |     await use();
+    > 13 |     const observed = await page.evaluate(selector => {
+         |                                 ^
+      14 |       const debug = (window as unknown as { __simDebug?: SimDebug }).__simDebug;
+      15 |       let presentation;
+      16 |       try { presentation = debug?.presentation() ?? null; } catch { presentation = null; }
+        at Object.base.extend.visualEvidence.auto (/workspace/StarShipSimulator/tests/e2e/visual-evidence-fixture.ts:13:33)
+
+    attachment #1: before-runtime.json (application/json) ──────────────────────────────────────────
+    ../../tmp/starship-c3-optical-20261018.RDtoQq/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/attachments/before-runtime-json-279b2ed7a2c6c7579765766180664795f69db2d4.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/starship-c3-optical-20261018.RDtoQq/visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/visual-scenes.spec.ts:13:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile 
+  5 passed (4.3m)

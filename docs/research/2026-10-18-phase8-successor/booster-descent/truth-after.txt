@@ -1,0 +1,32 @@
+
+> starship-simulator-v2@0.1.0 truth:report
+> vite-node scripts/truth-report.ts
+
+IN   A raptor2.sl.thrust          2,255,530 N        [2,142,753, 2,368,306]     
+IN   A raptor2.vac.isp            350 s              [336.59, 357.41]           
+IN   B raptor2.sl.isp             327 s              [317.19, 336.81]           
+IN   B raptor2.vac.thrust         2,414,175 N        [2,141,353, 2,668,609]     
+IN   A rvac2.vac.thrust           2,530,116 N        [2,403,610, 2,656,621]     
+IN   B rvac2.vac.isp              380 s              [368.6, 391.4]             
+IN   B ascent.max-q.value         30,537 Pa          [20,000, 50,000]           
+OUT  B ascent.max-q.altitude      9,528 m            [10,000, 15,000]           x1.050
+IN   B reentry.peak.heating       167,301 W/m²       [162,355, 179,445]         
+IN   A ship.propellant.capacity   1,200,000 kg       [1,140,000, 1,260,000]     
+IN   B ship.dry.mass              120,000 kg         [75,000, 125,000]          
+IN   A ship.engine.count          6 engines          [6, 6]                     
+IN   A earth.radius               6,371,000 m        [6,364,629, 6,377,371]     
+IN   A orbit.circular.200km       7,788 m/s          [7,750, 7,827]             
+IN   A super-heavy.height         71 m               [70.29, 71.71]             
+IN   A super-heavy.diameter       9 m                [8.91, 9.09]               
+IN   A super-heavy.propellant.capacity 3,400,000 kg       [3,230,000, 3,570,000]     
+IN   A super-heavy.engine.count   33 engines         [33, 33]                   
+IN   B super-heavy.dry.mass       200,000 kg         [160,000, 240,000]         
+IN   B super-heavy.grid-fin.area  24 m²              [18, 30]                   
+IN   A raptor3.sl.thrust          2,451,663 N        [2,427,146, 2,476,179]     
+IN   A rvac3.vac.thrust           2,696,829 N        [2,669,860, 2,723,797]     
+IN   A ship.v3.height             52 m               [51.48, 52.52]             
+IN   A ship.v3.propellant.capacity 1,600,000 kg       [1,584,000, 1,616,000]     
+IN   A super-heavy.v3.height      72 m               [71.28, 72.72]             
+IN   A super-heavy.v3.propellant.capacity 3,650,000 kg       [3,613,500, 3,686,500]     
+
+25 of 26 rows in band

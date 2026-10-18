@@ -23,8 +23,14 @@ records that recovery gap, missing recent evidence and remaining work.
 C0 admitted a fresh independently reviewed successor from committed
 `8126077a`; exact later restoration and absent acceptance are not claimed.
 Six render projection allocations were removed with source-pinned build/lint
-and 85/85 expanded checks; frame/optical acceptance remains open. The next
-bounded task is C1 orbital-horizon derivation and matrix design.
+and 85/85 expanded checks; frame/optical acceptance remains open. C1 has frozen the
+reviewed physical deadline and reconstructed 18 rows. Both landing-burn rows now
+pass after a reviewed descending-booster initialization fix; broader mission
+acceptance remains open. Next: measured before-flip/reentry crash and CPU diagnosis, then model-aware
+paid orbital targeting, starting with one bounded feasibility witness.
+Fresh body-presence optics pass five cases; catch setup times out. R3 realism,
+motion and frame budgets remain open. Current C1 code/tests are uncommitted WIP
+after `0d87c758`; preserve them before further changes.
 [Current successor evidence](../../research/2026-10-18-phase8-successor/README.md).
 Do not apply historical recovery patches to existing work.
 
@@ -50,9 +56,9 @@ Do not apply historical recovery patches to existing work.
   follows best practices; independent high review remains mandatory.
 - Steve approved a physically derived orbital mission horizon with starts
   and targets fixed on 2026-10-18 UTC. Preserve all 18 rows, non-orbital
-  900-second caps and all physical/work/terminal assertions. The candidate
-  orbital bound and missing model-aware guidance still need validation; the
-  decision is resolved, flight acceptance is open.
+  900-second caps and all physical/work/terminal assertions. The reviewed test-only
+  deadline is frozen; actual paid phase witnesses and missing model-aware
+  guidance remain open. The decision is resolved, flight acceptance is open.
 
 ## Phases
 

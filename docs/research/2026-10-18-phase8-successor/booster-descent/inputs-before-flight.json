@@ -1,0 +1,51 @@
+{
+  "basis": "0d87c758ad573cf7a990c0a9e325cf32013b1325",
+  "inputPins": [
+    {
+      "path": "src/core/autopilot/booster.ts",
+      "bytes": 18602,
+      "sha256": "dc3f9f9fc7b1cda213aa07362698ac4d7645b42dc71056e737d6250bdc720d67"
+    },
+    {
+      "path": "src/core/scenarios.ts",
+      "bytes": 14724,
+      "sha256": "6d946ae9f78ee26a7e28818f5657f62c96a4102ddd17cba17d1506954570bf89"
+    },
+    {
+      "path": "tests/core/booster-descent-initialization.test.ts",
+      "bytes": 2666,
+      "sha256": "77adfe410dc1a57b73c8de77df663e6f776e1a8b16c6c4ff06ef06500bf24ff7"
+    },
+    {
+      "path": "tests/flies-every-scenario.test.ts",
+      "bytes": 9544,
+      "sha256": "6216e2a5160af48da4be4f0e56085db4b2eec2c7cb7801af4d891b24da07dd19"
+    },
+    {
+      "path": "tests/support/scenario-mission.ts",
+      "bytes": 6541,
+      "sha256": "abc2d803dce39df04d453dd25dca91dda1c7f013f1f0999887f54b989d3f893e"
+    },
+    {
+      "path": "tests/support/scenario-horizon.ts",
+      "bytes": 2003,
+      "sha256": "f79924d47dd70d3bd6459385e5448377d33c4e74c686ba4579a23efedc077b4e"
+    },
+    {
+      "path": "scripts/test/run.mjs",
+      "bytes": 11808,
+      "sha256": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d"
+    },
+    {
+      "path": "vitest.config.ts",
+      "bytes": 7480,
+      "sha256": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7"
+    }
+  ],
+  "physicsTier": "Fidelity under approved Phase8",
+  "selection": "super-heavy/landing-burn: autopilot lands or catches",
+  "timeoutMs": 30000,
+  "maxWorkers": 1,
+  "addedRetries": 0,
+  "coverage": false
+}

@@ -44,18 +44,39 @@ remains binding; independent C2/C3 work continues.
 - [x] Recorded the exact answer and four affected rows: circularize/deorbit ×
       both models. Other fourteen retain 900 s/108,000 ticks; all 18 still
       require real land/catch outcomes.
-- [ ] **Next bounded task:** validate and freeze the conditional `2T + 900`
-      derivation (currently 11,381.230608843909 s / 1,365,748 ticks) before
-      flight trials. Prove/account for paid attitude preparation, a first firing
-      opportunity, finite burn and vacuum transit; all support/circularization
-      ticks count. Current zero frame rotation makes ground/Kepler periods equal;
-      do not silently reuse under changed frame physics. Review found this a
-      candidate mission policy, not proof current controllers meet it. See
-      [mission ruling](../../research/2026-10-18-phase8-successor/mission-ruling.md).
-- [ ] Restore or reconstruct the matrix with correct takeoff, boostback,
-      deorbit and landing handoffs. Charge support/takeoff ticks to the same
-      horizon; retain finite-state/terminal/fuel/catch checks. Verify Ship/RTLS
-      uses existing boostback-to-land behavior, not just auto-land.
+- [x] Froze the independently reviewed test-only failure deadline before
+      flights: `Tground + TKepler + 900`, currently 11,381.230608843909 s /
+      1,365,748 ticks. Structural formula/classification/rounding/domain checks 4/4.
+      It is an audit envelope, not a controller success guarantee. Rotation
+      changes recompute the ground period. [Horizon evidence](../../research/2026-10-18-phase8-successor/horizon/README.md).
+- [ ] Account for actual paid attitude, first firing opportunity, finite burn,
+      conic hypotheses, vacuum transit and terminal handoff within the same cap.
+- [x] Reconstructed 18 ID/model rows in a new 30-test successor, preserving
+      generic/heat/intro tests. One loop charges all phases; four mocked clock/
+      contact units prove sequencing only. Explicit model API Refactor retains
+      default bits; proof/existing checks 53/53. Ship/RTLS arms real boostback.
+      [Matrix evidence](../../research/2026-10-18-phase8-successor/matrix/README.md).
+- [x] Fixed demonstrated descending auto-land initialization with explicit
+      boostback priority retained. Booster landing-burn failed at 3.608 s before;
+      changed genuine catch and 25/25 boundaries pass. Ship landing-burn also
+      passes. This is one bounded Fidelity correction, not full matrix acceptance.
+- [ ] **Next bounded CPU/flight task:** instrument the existing mission helper
+      with an optional read-only observer, then run one predeclared selection of
+      Super Heavy/before-flip and reentry with compact physical traces and
+      in-worker CPU sampling. Baseline crashes: 13.875 s and 350.850 s; reentry
+      wall time 35.381 s also exceeds the unchanged 30 s case budget. Preserve
+      the passing intro. Do not change canonical stepping or assert a timing pass
+      because synchronous Vitest failed to interrupt. [Diagnostic contract](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
+- [ ] **Next bounded orbital task:** review one original-state, model-derived
+      opportunity and nominal 150 m/s paid scheduling/trajectory witness before
+      implementing the complete booster orbital controller. Validate proof
+      completion before future ignition/cutoff, genuine fine catch, paid RCS,
+      fuel, thermal/domain state and original shared work/publication budgets.
+      [Held design and accounting](../../research/2026-10-18-phase8-successor/orbital-targeting-design.md).
+- [ ] Complete missing production orbital routing, range proposals, paid
+      validation and handoffs only when supported by that witness. Do not copy
+      Ship's fitted entry range or use unpowered force-only range as cutoff
+      authority. Keep all finite, terminal, fuel, health, target and catch bounds.
 - [ ] Add only necessary missing behavior witnesses, then run a reviewed bounded
       selection for the changed behavior after build. Preserve original case
       timeouts, worker/work caps, retry zero and physical limits.
@@ -105,7 +126,7 @@ Phase 8 integration, with no unsupported source/result transfer.
 
 ## C3 — Finish V3 visuals, damage motion and budgets
 
-Can proceed independently of unfinished C1 horizon/guidance work where the
+Can proceed independently of unfinished C1 guidance/flight acceptance where the
 selected scene/flight does not depend on it. Use the same source basis.
 
 - [x] Addressed the assigned projection-output allocation debt at six render
@@ -114,6 +135,21 @@ selected scene/flight does not depend on it. Use the same source basis.
       high code review accepts this bounded patch only.
       [Source/result pins](../../research/2026-10-18-phase8-successor/allocation/result.json).
       No optical/frame improvement, full gate or phase acceptance follows.
+- [x] Preserved the fresh six-scene body-presence attempt and independent image
+      review: five cases pass, catch setup fails its original 60 s timeout and
+      teardown also times out. Source/build receipts match for completed cases;
+      no catch PNG/state/after-receipt exists. This records an attempt, not R3
+      acceptance. [Raw artifacts and scope](../../research/2026-10-18-phase8-successor/optical/README.md).
+- [ ] **Next bounded optical task:** add a live debug progress snapshot to avoid
+      recursive full-state telemetry on each catch setup tick. First prove
+      equivalent terminal tick/state/counters/observers and no stale or mutated
+      state; retain step(1), predicate order, 108,000 cap, final full telemetry,
+      original 60 s limits and zero retries. Review, build and focused checks
+      precede retrying only changed catch. This is a removable source cost, not
+      a measured exclusive cause. [Diagnostic contract](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
+- [ ] Capture developed exhaust with actual resume/RAF and observed simulation
+      advancement, then pause. Existing paused zero-particle captures do not
+      accept plumes. Keep this separate from shared performance setup initially.
 - [ ] Finish R3 reference checklist: generation-correct silhouette/three grids,
       steel/TPS separation, appendages, hot-stage retention, nozzle occlusion,
       shared attached/detached vertices and model-derived camera bounds.

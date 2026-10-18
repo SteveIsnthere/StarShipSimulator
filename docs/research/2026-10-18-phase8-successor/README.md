@@ -33,27 +33,46 @@ The 77-path gap is a preservation inventory, not a demand to recreate every
 consumed diagnostic configuration or environment-specific launcher. Preserve
 its unknown bytes and all original failure/approval history as unknown/history.
 
-The [mission ruling](mission-ruling.md) now approves a physically derived orbital
-horizon while preserving starts, targets and every other bound. The proposed
-`2T + 900` envelope is conditionally reviewed, not yet adopted or flight-tested.
-No matrix/physics/controller change occurred in this checkpoint.
+The [mission ruling](mission-ruling.md) approves a physically derived orbital
+horizon with starts/targets and every other bound preserved. The independently
+reviewed test-only deadline is now frozen; [horizon 4/4 checks](horizon/README.md)
+are not proof of controller success or full physical phase bounds.
 
-The assigned projection-output allocation debt is implemented at all six render
-call sites, retaining exact arithmetic and the original allocating API. Factory
-outputs remain independent. [Allocation evidence](allocation/README.md) and
-[result pins](allocation/result.json) record baseline/changed build, required
-negative control, focused 5/5 and expanded 85/85 pass, scoped lint and independent
-high code review. No frame-performance cure or optical acceptance is claimed.
+The [matrix successor](matrix/README.md) reconstructs 18 ID/model rows in 30 tests.
+The selected-model constructor API is a Refactor with 53/53 proof/existing checks;
+four mocked clock/contact units establish sequencing only. Ship/landing-burn
+passes. Super Heavy/landing-burn initially crashed at 3.608 s; a reviewed descending
+mode correction now passes that genuine catch, with 25/25 direct/boundary checks.
+The next reviewed selection passed Super Heavy/intro but failed before-flip
+(crash at 13.875 s) and reentry (crash at 350.850 s; 35.381 s test time beyond 30 s).
+[Descent result](booster-descent/README.md) preserves both physical/CPU failures.
+Other rows and full Fidelity/gate/release acceptance remain open.
 
-**Next:** validate/freeze the orbital-horizon derivation and reconstruct the
-meaningful 18-row mission matrix under C1. Account for all support ticks and
-paid physical attitude/burn/transit; review model-aware booster orbital routing
-before attempting unchanged-limit flight acceptance.
+The assigned projection allocation debt is addressed at six render call sites.
+[Allocation evidence](allocation/README.md) records build/lint, focused 5/5 and
+expanded 85/85 with high independent code review, not optical/frame acceptance.
+
+**Next:** capture compact physical/CPU traces for the two failed descending
+rows and establish one paid orbital feasibility witness under existing budgets.
+The [bounded diagnostic handoff](next-diagnostics.md) specifies those tasks and
+the independent reviews. It is a proposal, not an implemented or passing fix. Ship's fitted entry
+range and unpowered force approximation cannot supply booster cutoff authority.
 
 A separate fresh CPU source review proposes one-call force preparation but
 requires complete canonical ownership/admission. That candidate remains held
 until its proof can be supplied without broad qualification infrastructure;
 no physics/controller change or performance claim is made here.
+
+The [fresh optical attempt](optical/README.md) passed five actual body-presence/
+absence cases; catch setup exceeded its unchanged 60 s timeout, and teardown
+also timed out. There is no catch capture or after-runtime receipt. Paused
+zero-particle scenes do not accept plumes. Reference/motion/frame acceptance
+remains open; prove the lightweight progress getter before a changed catch retry.
+
+Current C1 code and tests are uncommitted WIP after documentation checkpoint
+`0d87c758`; input hashes in each result identify that exact local delta. Do not
+assume checking out the committed basis restores these files. Preserve the
+current workspace; no phase merge, deployment or whole-gate pass is claimed.
 
 C0 acceptance is source-basis/reconstruction admission only. Build/unit/browser/
 coverage/golden/mutation/frame, Phase 8, Phase 9 and release remain open.
