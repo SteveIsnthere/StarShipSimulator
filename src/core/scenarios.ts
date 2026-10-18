@@ -295,8 +295,8 @@ export function getScenario(id: string): ScenarioPreset | undefined {
  * cannot spawn inside the ground, X-position is relative to StarBase, pitch is
  * degrees, and propellant is tonnes capped at 1200 t.
  */
-export function createScenarioState(preset: ScenarioPreset, seed?: number): SimState {
-  return createStateForVehicle(preset, seed, SHIP);
+export function createScenarioState(preset: ScenarioPreset, seed?: number, model: VehicleDefinition = SHIP): SimState {
+  return createStateForVehicle(preset, seed, model);
 }
 
 /** Preset identity selects the physical vehicle; custom flights inherit their base. */
