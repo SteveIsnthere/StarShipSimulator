@@ -34,9 +34,11 @@ and the actual Chromium functional check passed. The existing isolated checkout
 was inspected clean and switched to `audit/remaining-work` at fetched visual
 HEAD `cd0118c0d9aeefdf2729581b9168caabb6eb75af`; no worktree was created.
 The requested `dd72908e9e5e277f63af27fbdb64d560bc9af355` is an ancestor.
-The current working edits are documentation/audit only and must be preserved.
-No implementation patch, build, flight, acceptance browser test or deployment
-ran during the remaining-work audit or this plan update.
+The reviewed documentation audit was committed/pushed as `8126077a` on
+`audit/remaining-work`. Current branch `claude/visuals` was fast-forwarded to
+that checkpoint before the bounded successor edits; no reset/rebase/worktree.
+The remaining-work audit itself ran no implementation acceptance workload.
+Subsequent source changes and their actual checks are recorded below.
 
 V22's retained manifest has 803 paths: 726 exact matches, 52 changed and
 25 absent. The newer 18-row scenario matrix, lint wrapper, one production
@@ -46,12 +48,14 @@ lists every mismatch. Different bytes do not prove a defect; they prevent
 assigning the previous working state's results to this source.
 
 Original pause/Recovery08 patch digests match, but their source states are
-historical and partially already committed. Do not apply them. First locate
-the previous dirty checkout or a newer complete snapshot and verify recovery
-as C0 specifies. If unavailable, preserve the missing inventory and implement
-a reviewed successor from known source; do not claim exact restoration or
-inherit missing acceptance. Ask only for access that cannot be obtained through
-available task/workspace artifacts and continue independent authorized work.
+historical and partially already committed. Do not apply them. A bounded
+exact-content search hashed 19,717 tracked research/design files plus 338
+bounded gzip contents and found none of the 77 missing later digests. No
+external/embedded-copy absence is inferred. C0 selected a fresh successor from
+committed `8126077a`, independently reviewed at high depth. The pre-change
+803-path manifest remains explicitly historical; changed input/result hashes
+are recorded separately. No patch was applied or historical acceptance inherited.
+See the [successor checkpoint](../../research/2026-10-18-phase8-successor/README.md).
 
 ## Acceptance state
 
@@ -59,8 +63,9 @@ available task/workspace artifacts and continue independent authorized work.
 |---|---|---|
 | RTLS scheduling feasibility | Completed bounded task; paid receipts and default-catch evidence retained in research | Preserve; do not restart this task |
 | V3/damage source | Catalogue, propulsion, thermal/material/control/mass/detachment/debris and shared rendering exist | Whole R1/R2/R3 acceptance open |
-| Lint/build | Prior working source reported 718-file lint and build pass, JS 278.5/300 kB | Different source/partial evidence here; not a fresh pass |
-| Scenario matrix | V21 reported 20/30 pass, ten fail; V22 narrow Ship/RTLS correction reviewed, unrun | Matrix source/results absent; mission decision pending |
+| Lint/build | Successor baseline and changed builds exit 0; changed JS 299.8/300 kB; scoped lint exit 0 | Current bounded patch only; full lint/gate open |
+| Scenario matrix | Historical V21 20/30, ten failures; newer matrix absent | Duration ruling resolved; all 18 reconstructed rows and actual acceptance open |
+| Projection allocation | Six render sites use factory-owned output; focused 5/5 and expanded 85/85 pass, independent high code review | One C3 allocation debt addressed; no optical/frame/gate acceptance |
 | Gate | Conversation records 2,737 pass/12 fail/one skip, stopped in units | Raw custody absent; complete gate/coverage not green |
 | Goldens | Full ten-fixture Linux Node 22 recording preserved; replay timed out on separation | Recording is not replay acceptance; do not regenerate to pass |
 | Truth | Reported 25/26, all 17 Tier A IN; Tier B max-Q altitude 9,528 m OUT | Preserve rows/data limitation; refresh only for actual source changes/required acceptance |
@@ -75,23 +80,31 @@ requires a complete gate within 300 seconds. Software-rendered/viewport results
 must state actual environment; they do not establish hardware-GPU or handset
 performance. Steve explicitly moved acceptance to cloud with thresholds intact.
 
-## Pending product decision
+## Mission ruling — resolved duration decision
 
 All nine scenario IDs × both vehicles remain required. Deorbit starts about
 20,015 km from Starbase at 150 km; 900 seconds at orbital speed spans about
 7,036 km. Current Ship return geometry/controller and Super Heavy tower-catch
-policy do not support the literal contract as written. Ask for intended
-orbital/cross-vehicle mission behavior, presenting the existing start, horizon
-and target. Do not silently use off-site landing, a longer horizon, different
-starts, fewer rows or a weaker success condition. There is no answer recorded.
-The independent C2/C3 work can proceed while this answer is pending.
+policy do not support the literal former duration contract. Steve answered on
+2026-10-18 UTC: “Keep starts and targets; approve a physically derived orbital
+mission horizon.” Derive/review the orbital bound before flight trials; the
+900-second non-orbital cap, test timeout, physical/control limits, starts and
+targets remain binding. No off-site target, missing row or weaker outcome is
+approved. Current booster orbital-return support still needs implementation
+and physical acceptance; a duration ruling alone does not establish it.
 
 ## Immediate next actions
 
-1. C0: recover/preserve the newest bytes, or record and review a fresh
-   reconstruction. Checkpoint durable docs/source without overwriting work.
-2. C1: obtain the mission ruling and implement meaningful per-ID flight
-   sequences; resolve real flight failures under fixed limits.
+1. Preserve the C0 reviewed successor/source-result checkpoint. Exact latest
+   recovery remains unknown; do not reapply historical patches or inherit results.
+2. C1 (next): validate the pre-flight orbital-horizon derivation, then reconstruct
+   all 18 meaningful ID/model sequences. The conditional proposal is
+   `2T + 900 = 11,381.230608843909 s` at the unchanged 150 km start;
+   `ceil(H / DT) = 1,365,748` ticks. It applies only to circularize/deorbit ×
+   both models. Paid attitude, first firing opportunity, finite burn and transit
+   bounds still require witnesses; no new flight has run. Ship-specific deorbit
+   assumptions and absent booster orbital routing require reviewed model-aware
+   behavior. See the [ruling/review](../../research/2026-10-18-phase8-successor/mission-ruling.md).
 3. C2: close physics/damage, CPU timeouts, golden replay, coverage and mutations.
 4. C3: finish V3 reference/motion verification and measured full/reduced budgets.
 5. C4: whole-phase independent review, ordered release gate, main/CI/Pages/live
@@ -119,4 +132,6 @@ flakes, accessibility/focus and assigned audio/tilt work. No unphased expansion.
 Global skills/docs-maid access and external review authentication remain
 unverified/unavailable. Steve authorized best practices for missing guidance;
 independent high review remains required. Do not claim any unavailable tool ran.
-No implementation result is newly accepted by this documentation checkpoint.
+The source/result records accept only the bounded projection allocation change
+and its focused checks. Full gate, coverage, optics, frame, phase integration,
+main and deployment acceptance remain open; no final release is claimed.

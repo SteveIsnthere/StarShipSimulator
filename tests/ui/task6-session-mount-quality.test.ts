@@ -2,6 +2,7 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { Container, DOMAdapter, RendererType, Texture } from 'pixi.js';
 import * as particles from '$view/particles';
+import * as cameraSpace from '$view/camera';
 import { createSession } from '$ui/session/session';
 import { installMemoryStorage } from '../memory-storage';
 import type { SimDebug } from '$app/debug';
@@ -45,6 +46,8 @@ afterEach(() => {
 let mountedView: ViewApp;
 vi.mock('$view/app', () => ({ createView: async () => mountedView }));
 it('mount routes actual public quality API through paused session, resize, restart and teardown', async () => {
+  expect(typeof cameraSpace.writeWorldToScreen).toBe('function');
+  const projection = vi.spyOn(cameraSpace, 'writeWorldToScreen');
   installMemoryStorage();
   vi.stubGlobal('matchMedia', () => ({ matches: true, addEventListener() {}, removeEventListener() {} } as unknown as MediaQueryList));
   vi.stubGlobal('ResizeObserver', undefined);
@@ -82,6 +85,7 @@ it('mount routes actual public quality API through paused session, resize, resta
     expect(resize).toHaveBeenLastCalledWith(390, 844);
     expect(mountedView.viewport).toBe(viewport);
     debug.pause(); frame(); expect(debug.paused).toBe(true);
+    const projectionOutput = projection.mock.calls.at(-1)![4];
     expect(mountedView.viewport).toBe(viewport);
     // Meaningful baseline RED: fail explicitly at the missing mounted public API.
     expect(typeof debug.setRenderQuality).toBe('function');
@@ -92,6 +96,7 @@ it('mount routes actual public quality API through paused session, resize, resta
     const physical = JSON.stringify(session.mission), steps = session.loop.totalSteps;
     for (const mode of ['reduced', 'full', 'reduced'] as const) {
       debug.setRenderQuality(mode); frame(); const actual = debug.presentation();
+      expect(projection.mock.calls.at(-1)![4]).toBe(projectionOutput);
       expect(actual.quality!.requested.mode).toBe(mode);
       expect(actual.quality!.actualBodies.flatMap(body => body.materials).every(row => row.detail === (row.componentId.startsWith('booster-grid-') ? 1 : Number(mode === 'full')))).toBe(true);
       expect(actual.components!.map(row => row.meshIds)).toEqual(meshes);
@@ -106,6 +111,9 @@ it('mount routes actual public quality API through paused session, resize, resta
     setWindowViewport(844, 390);
     expect([window.innerWidth, window.innerHeight]).toEqual([844, 390]);
     window.dispatchEvent(new Event('resize')); frame();
+    expect(projection.mock.calls.at(-1)![4]).toBe(projectionOutput);
+    expect(projectionOutput.x).toBe(mountedView.viewport.width / 2
+      + (session.loop.state.kinematics.downRangeDistance - mountedView.camera.posX - mountedView.camera.shakeX) * mountedView.viewport.scale);
     expect(resize).toHaveBeenLastCalledWith(844, 390);
     expect(mountedView.viewport).toBe(viewport);
     expect([viewport.width, viewport.height]).toEqual([844, 390]);

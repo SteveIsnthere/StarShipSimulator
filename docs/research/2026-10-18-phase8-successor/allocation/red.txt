@@ -1,0 +1,108 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/view/projection-write.test.ts tests/ui/task6-session-mount-quality.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/allocation/red.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/ui/task6-session-mount-quality.test.ts (1 test | 1 failed) 11ms
+   × mount routes actual public quality API through paused session, resize, restart and teardown 10ms
+ ❯ |unit| tests/view/projection-write.test.ts (4 tests | 4 failed) 14ms
+   × writes the original projection into owned outputs through pan, shake and zoom without changing its inputs 9ms
+   × keeps allocating callers independent of later writes and other outputs 1ms
+   × real worlds reuse private horizon/shadow/pad/scenery outputs across day, night and changed projection 1ms
+   × real near-ground effect drivers reuse independent outputs and emit at the current ground projection 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/task6-session-mount-quality.test.ts > mount routes actual public quality API through paused session, resize, restart and teardown
+AssertionError: expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ tests/ui/task6-session-mount-quality.test.ts:49:49
+     47| vi.mock('$view/app', () => ({ createView: async () => mountedView }));
+     48| it('mount routes actual public quality API through paused session, res…
+     49|   expect(typeof cameraSpace.writeWorldToScreen).toBe('function');
+       |                                                 ^
+     50|   const projection = vi.spyOn(cameraSpace, 'writeWorldToScreen');
+     51|   installMemoryStorage();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  |unit| tests/view/projection-write.test.ts > writes the original projection into owned outputs through pan, shake and zoom without changing its inputs
+AssertionError: expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ tests/view/projection-write.test.ts:16:49
+     14|
+     15| it('writes the original projection into owned outputs through pan, sha…
+     16|   expect(typeof cameraSpace.writeWorldToScreen).toBe('function');
+       |                                                 ^
+     17|   const out = { x: NaN, y: NaN, owner: 'caller' };
+     18|   for (const [width, height] of [[1280, 720], [390, 844], [844, 390]])…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  |unit| tests/view/projection-write.test.ts > keeps allocating callers independent of later writes and other outputs
+AssertionError: expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ tests/view/projection-write.test.ts:44:49
+     42|
+     43| it('keeps allocating callers independent of later writes and other out…
+     44|   expect(typeof cameraSpace.writeWorldToScreen).toBe('function');
+       |                                                 ^
+     45|   const viewport = cameraSpace.computeViewport(800, 600, SHIP.height);
+     46|   const camera = cameraSpace.createCamera(viewport, 0, 0, 0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  |unit| tests/view/projection-write.test.ts > real worlds reuse private horizon/shadow/pad/scenery outputs across day, night and changed projection
+AssertionError: expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ observeWrites tests/view/projection-write.test.ts:58:49
+     56|
+     57| function observeWrites() {
+     58|   expect(typeof cameraSpace.writeWorldToScreen).toBe('function');
+       |                                                 ^
+     59|   const original = cameraSpace.writeWorldToScreen;
+     60|   const samples: { out: object; x: number; y: number }[] = [];
+ ❯ tests/view/projection-write.test.ts:72:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  |unit| tests/view/projection-write.test.ts > real near-ground effect drivers reuse independent outputs and emit at the current ground projection
+AssertionError: expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ observeWrites tests/view/projection-write.test.ts:58:49
+     56|
+     57| function observeWrites() {
+     58|   expect(typeof cameraSpace.writeWorldToScreen).toBe('function');
+       |                                                 ^
+     59|   const original = cameraSpace.writeWorldToScreen;
+     60|   const samples: { out: object; x: number; y: number }[] = [];
+ ❯ tests/view/projection-write.test.ts:100:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  5 failed (5)
+   Start at  07:09:57
+   Duration  3.24s (transform 1.27s, setup 0ms, import 2.08s, tests 25ms, environment 777ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/allocation/red.json

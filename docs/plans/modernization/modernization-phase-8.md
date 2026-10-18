@@ -17,13 +17,19 @@ records 52 different and 25 absent paths against the latest source manifest.
 | R3 vehicle/damage rendering / Task 5 | Implementation exists; reference/motion/integration acceptance incomplete |
 | Task 6 / R4 | Frame budgets and complete release acceptance open/failed |
 
-**Next: C0 source/evidence recovery reconciliation.** The prior 18-row matrix
-and several later source/results are absent from this fetched checkpoint. Never
-apply original pause/Recovery08 over current code. Recover exact bytes where
-available; otherwise review a named successor reconstructed from preserved
-source/specification without inheriting missing acceptance. The orbital mission
-contract needs an explicit product ruling; work on independent C2/C3 gaps while
-waiting. Preserve every row/start/horizon/assertion until that answer.
+**Next: C1 pre-flight orbital-horizon derivation and matrix design.** C0
+selected committed `8126077a` as the independently reviewed successor basis;
+unknown later bytes/results remain unknown. Never apply historical patches.
+Steve approved a physically derived orbital horizon with starts/targets fixed.
+The conditional `2T + 900` candidate still needs paid-attitude/burn/transit
+witnesses before adoption; all 18 rows, other fourteen 900-second caps and
+physical/control/work/health/catch limits remain binding.
+
+One C3 allocation debt is addressed: six projection call sites now use
+factory-owned output. Changed build/scoped lint and 85/85 expanded checks pass;
+independent high code review accepts the bounded change. See the
+[successor checkpoint](../../research/2026-10-18-phase8-successor/README.md).
+No optical/frame, full gate, whole-phase or release acceptance is implied.
 
 The checklists below retain the original physical and visual obligations.
 An unchecked implementation obligation is not an instruction to rebuild code

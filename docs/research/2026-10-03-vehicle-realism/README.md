@@ -9,6 +9,10 @@ The [remaining-work audit](../2026-10-18-modernization-remaining-audit/README.md
 records exact mismatches and missing evidence. The original pause/Recovery08
 patches are historical and must not be applied over current implementation.
 Earlier scoped outcomes below retain their original source/evidence domains.
+C0 has since admitted the [reviewed successor](../2026-10-18-phase8-successor/README.md)
+from committed `8126077a`; exact later recovery is not claimed. Steve resolved
+the duration decision by approving a physically derived orbital horizon with
+starts/targets fixed; the candidate derivation and flight acceptance remain open.
 
 The [latest cloud qualification checkpoint](../2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md) adds accepted bounded proof-reader and graphics-data checks. It leaves Phase 8/9, the complete gate, rendering and release open; private proof preservation remains unfinished.
 

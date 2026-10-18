@@ -1,0 +1,11 @@
+{
+  "kind": "c0-exact-source-candidate-search-v1",
+  "head": "8126077a851b3a31e2b662a6953859adb112169b",
+  "filesInspected": 19717,
+  "rawBytesHashed": 1141012221,
+  "gzipMembersInspected": 338,
+  "matches": [],
+  "errors": [],
+  "elapsedSeconds": 8.034032526999908,
+  "scope": "Tracked research/design files and bounded gzip contents, hashes only. No historical code execution or patch application."
+}

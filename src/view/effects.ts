@@ -12,7 +12,7 @@
  */
 import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import type { SimState } from '$core/state';
-import { worldToScreen, type CameraState, type Viewport } from './camera';
+import { writeWorldToScreen, type CameraState, type Viewport } from './camera';
 import { streakIntensity, streakLength } from './motion-cues';
 import { EFFECTS, type ParticleSystem } from './particles';
 import { heatLimit } from '$core/constants';
@@ -101,6 +101,7 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
   // Edge detection state. Not in SimState: these are presentation facts, and
   // core/ must not know that a renderer exists.
   const nozzle = { x: 0, y: 0 };
+  const ground = { x: 0, y: 0 };
   const looks = model.engines.map(() => ({ spread: 0, scale: 0, diamonds: 0, cellLength: 0 }));
   let showedCrash = false;
   let showedBreakUp = false;
@@ -272,7 +273,7 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
         pitch < Math.PI * 0.15
       ) {
         const intensity = 1 - kinematics.altitude / 200;
-        const ground = worldToScreen(camera, viewport, kinematics.downRangeDistance, 0);
+        writeWorldToScreen(camera, viewport, kinematics.downRangeDistance, 0, ground);
         particles.emit('groundSmoke', ground.x, ground.y, -Math.PI / 2, intensity, dt, scale);
       }
 

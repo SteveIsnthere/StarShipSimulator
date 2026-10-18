@@ -1,0 +1,28 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/view/projection-write.test.ts tests/view/zoom.test.ts tests/view/coast.test.ts tests/view/engine-effects.test.ts tests/view/particles.test.ts tests/ui/task6-session-mount-quality.test.ts tests/ui/camera-follow.test.ts tests/ui/mission-camera.test.ts tests/ui/damage-scene.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/allocation/regression.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |unit| tests/view/particles.test.ts (50 tests) 1952ms
+     ✓ THE LEAK: ten thousand engine shutdowns add nothing  1378ms
+ ✓ |unit| tests/ui/damage-scene.test.ts (5 tests) 507ms
+   ✓ reuses every startup node through simultaneous breakup, pause and fifty mission resets  354ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ✓ |unit| tests/ui/task6-session-mount-quality.test.ts (1 test) 222ms
+ ✓ |unit| tests/ui/camera-follow.test.ts (10 tests) 986ms
+   ✓ preserves the original intro follow and native FOV at every real step on all five canvas sizes  706ms
+ ✓ |unit| tests/view/projection-write.test.ts (4 tests) 37ms
+ ✓ |unit| tests/view/coast.test.ts (5 tests) 28ms
+ ✓ |unit| tests/view/zoom.test.ts (7 tests) 6ms
+ ✓ |unit| tests/view/engine-effects.test.ts (2 tests) 67ms
+ ✓ |unit| tests/ui/mission-camera.test.ts (1 test) 21ms
+
+ Test Files  9 passed (9)
+      Tests  85 passed (85)
+   Start at  07:13:16
+   Duration  10.30s (transform 1.80s, setup 0ms, import 4.44s, tests 3.83s, environment 762ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/allocation/regression.json

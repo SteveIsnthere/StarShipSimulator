@@ -1,54 +1,56 @@
 # Modernization — remaining execution plan
 
 Updated 2026-10-18 UTC. This sequences the existing approved scope; it adds no
-roadmap phase and changes no acceptance limit. [GOAL](modernization-GOAL.md)
+roadmap phase and changes no acceptance limit beyond Steve's approved orbital
+mission horizon. [GOAL](modernization-GOAL.md)
 owns authorization and completion. [Phase 8](modernization-phase-8.md) owns
 model/material/render contracts. [Handover](modernization-handover.md) owns the
 current source/evidence state. Checkbox completion requires the stated output,
 not a proposal, source review alone or an unrelated passing subset.
 
-## C0 — Recover a durable, known working state (next)
+## C0 — Recover a durable, known source basis (admitted successor)
 
-- [ ] Complete fresh versioned startup and record branch/HEAD/dirty inventory.
-      Preserve current documentation edits; use this existing isolated checkout.
-- [ ] Read the audit's 77 nonmatching paths and V22's original 803 source pins.
-      Locate the previous dirty workspace/newest complete snapshot using
-      available task artifacts, preserved archives and documented lineage.
-      Inspect data without running old diagnostic commands.
-- [ ] Verify the candidate's clean base, complete manifest and patch digest;
-      check application, apply once only if applicable, then verify every
-      restored file hash including additions/deletions. Never overwrite dirty
-      files or combine historical snapshots. Original pause/Recovery08 are
-      inapplicable to this already implemented checkpoint.
-- [ ] If exact latest bytes are unavailable, record recoverable/unknown paths,
-      preserve every surviving version and create a bounded successor design
-      against committed source plus approved requirements. Obtain independent
-      source review before applying reconstructed changes; give them new
-      identities/results. Do not invent historical bytes or test success.
-- [ ] Save a portable source/evidence checkpoint: minimum source manifest,
-      relevant original logs/exits and a concise README. Keep private
-      credential-bearing receipts private. Commit/push coherent recoverable
-      work when access permits; request only genuinely missing access.
-- [ ] Update handover with the selected source, source changes, available
-      evidence and exact next bounded task. Required exit: future work has a
-      recoverable source basis and does not depend on phantom prior acceptance.
+- [x] Fresh versioned startup/reconciliation and actual Chromium functional
+      check passed; existing isolated checkout and dirty work preserved.
+- [x] Reconciled all 803 V22 paths: 726 match, 52 differ, 25 absent.
+      Bounded exact-content search found none of the 77 later digests in its
+      stated domain; external/embedded copies remain unknown.
+- [x] Verified historical patch digests but rejected application to already
+      implemented source. No patch was applied or dirty work overwritten.
+      Exact recovery is unavailable here; the successor alternative below applies.
+- [x] Selected committed `8126077a`/visual lineage as source basis; fresh
+      independent high review admitted a bounded successor without inheriting
+      missing bytes or runtime acceptance.
+- [x] Saved portable pre-change source manifest, search/review receipts and
+      source-pinned allocation delta with original logs/exits/environment.
+      [Successor evidence](../../research/2026-10-18-phase8-successor/README.md).
+- [x] Updated handover with actual basis, changed source/check scope and next
+      task. Commit/push this coherent checkpoint; this is not phase integration.
 
-C0 is source/evidence reconciliation, not another general infrastructure
-qualification campaign. Continue independent work from known source if missing
-external bytes block exact recovery; C1/C2 results must name that source.
+C0 source-basis admission is complete. Exact restoration is not claimed.
+Do not repeat recovery searches without new evidence or turn this into another
+infrastructure qualification campaign. C1/C2/C3 results name their own source.
 
 ## C1 — Settle and implement the per-ID mission contract
 
-Depends on a known source basis. Request the genuinely missing product answer
-early; continue independent C2/C3 work while awaiting it.
+Depends on a known source basis. Steve's 2026-10-18 UTC answer is: “Keep starts
+and targets; approve a physically derived orbital mission horizon.” Freeze the
+source-derived bound before flight evaluation. Every other limit and assertion
+remains binding; independent C2/C3 work continues.
 
-- [ ] Present the nine IDs × two vehicles, original starts, allowed controller
-      sequences, 900-second/108,000-step total and landing/catch targets. Explain
-      orbital/deorbit and cross-vehicle incompatibilities using existing source.
-      Ask which mission semantics are intended. Keep starts, horizon, targets
-      and all assertions intact until an explicit answer authorizes a change.
-- [ ] Record the answer exactly and its affected rows. Preserve all 18 rows;
-      do not turn supportedness gaps into skips or crash/orbit success.
+- [x] Presented the original orbital-start/900-second/tower-target conflict;
+      Steve approved a physically derived orbital horizon with starts/targets fixed.
+- [x] Recorded the exact answer and four affected rows: circularize/deorbit ×
+      both models. Other fourteen retain 900 s/108,000 ticks; all 18 still
+      require real land/catch outcomes.
+- [ ] **Next bounded task:** validate and freeze the conditional `2T + 900`
+      derivation (currently 11,381.230608843909 s / 1,365,748 ticks) before
+      flight trials. Prove/account for paid attitude preparation, a first firing
+      opportunity, finite burn and vacuum transit; all support/circularization
+      ticks count. Current zero frame rotation makes ground/Kepler periods equal;
+      do not silently reuse under changed frame physics. Review found this a
+      candidate mission policy, not proof current controllers meet it. See
+      [mission ruling](../../research/2026-10-18-phase8-successor/mission-ruling.md).
 - [ ] Restore or reconstruct the matrix with correct takeoff, boostback,
       deorbit and landing handoffs. Charge support/takeoff ticks to the same
       horizon; retain finite-state/terminal/fuel/catch checks. Verify Ship/RTLS
@@ -102,9 +104,15 @@ Phase 8 integration, with no unsupported source/result transfer.
 
 ## C3 — Finish V3 visuals, damage motion and budgets
 
-Can proceed independently of unresolved orbital mission semantics where the
-selected scene/flight does not depend on them. Use the same source basis.
+Can proceed independently of unfinished C1 horizon/guidance work where the
+selected scene/flight does not depend on it. Use the same source basis.
 
+- [x] Addressed the assigned projection-output allocation debt at six render
+      sites with factory-owned scratch and unchanged expression/allocating API.
+      Build/scoped lint pass; focused 5/5 and expanded 85/85 pass; independent
+      high code review accepts this bounded patch only.
+      [Source/result pins](../../research/2026-10-18-phase8-successor/allocation/result.json).
+      No optical/frame improvement, full gate or phase acceptance follows.
 - [ ] Finish R3 reference checklist: generation-correct silhouette/three grids,
       steel/TPS separation, appendages, hot-stage retention, nozzle occlusion,
       shared attached/detached vertices and model-derived camera bounds.

@@ -50,18 +50,24 @@ The requested `dd72908e9e5e277f63af27fbdb64d560bc9af355` is its ancestor.
 Recheck remotes before later integration; these are observed pins, not a request
 to check out an older revision over current work.
 
-**First task is recovery reconciliation, C0 in the completion plan.** The latest
-V22 source manifest has 803 paths; this fetched source matches 726, differs in
+**C0 source-basis admission is complete via the reviewed successor route.**
+Continue on `claude/visuals` from committed basis `8126077a` plus the
+[source-pinned allocation delta](../../research/2026-10-18-phase8-successor/allocation/result.json).
+The [successor record](../../research/2026-10-18-phase8-successor/README.md)
+documents the bounded search and independent review. It does not establish
+exact recovery or transfer absent acceptance. The latest
+V22 source manifest has 803 paths; the pre-change committed basis matches 726, differs in
 52 and lacks 25. The newer 18-row flight matrix and several result bundles
-are absent. Locate the previous dirty checkout or a newer complete snapshot;
-verify its base, patch digest, applicability and every restored hash before
-continuing. Apply an applicable complete recovery exactly once only to its
-verified clean base. Never chain snapshots or apply a historical patch over
+are absent. The bounded exact-content search found none of the 77 expected
+later digests in its stated domain. If a newer complete snapshot becomes
+available, verify its base, patch digest, applicability and every restored hash
+before importing it; do not restart the search without new evidence. Apply an
+applicable complete recovery exactly once only to its verified clean base. Never chain snapshots or apply a historical patch over
 current implementation. The original pause and Recovery08 patches are
 historical here; their valid digests do not make them applicable.
 
-If the newest bytes cannot be recovered, document the gap and create a fresh
-reviewed reconstruction from preserved source and the approved specification.
+The approved fallback has been selected: preserve the gap and make fresh
+reviewed changes from committed source and the approved specification.
 Keep unknown bytes/results unknown; a reconstructed successor cannot inherit
 absent runtime acceptance. Continue independent authorized work while a genuinely
 missing access or product answer is pending. Preserve the current docs/audit
@@ -70,18 +76,23 @@ edits and checkpoint durable work with reviewed commits/pushes when possible.
 ## Remaining work and dependencies
 
 Execute [C0–C6](modernization-completion-plan.md) as bounded work packages.
+**Next bounded task: C1 orbital-horizon derivation and matrix design.** Validate
+the conditional two-period-plus-terminal proposal before adopting a flight cap;
+reconstruct all 18 meaningful ID/model rows and identify model-aware guidance
+gaps. Do not run another unchanged full-flight campaign. The allocation fix
+closes one C3 debt only; no frame improvement or whole-phase pass is claimed.
 Finish Phase 8 before Phase 9 implementation. Do not redo completed RTLS
 scheduling feasibility, Phase 7 release or Phase 6b fallback work.
 
-The scenario mission contract is a genuinely pending product decision. All
-nine IDs × Ship/Super Heavy rows remain required. The unchanged deorbit start
-is half a lap from Starbase; its 900-second horizon and Super Heavy tower target
-are unsupported together by the current controllers. Ask for the intended
-orbital/cross-vehicle start, target and completion behavior with evidence.
-Do not silently extend horizons, move starts/targets, remove rows, accept a
-crash/orbit as landing or weaken catch assertions. The narrow V22 Ship/RTLS
-boostback selection alone cannot resolve the contract. Work on independent
-physics/rendering/coverage tasks while this answer is pending.
+**Mission ruling — Steve, 2026-10-18 UTC:** “Keep starts and targets; approve a
+physically derived orbital mission horizon.” All nine IDs × both vehicles
+remain required. Preserve preset starts and Ship landing/Super Heavy tower
+targets. Derive and independently review the orbital horizon from the actual
+orbit/controller before flight testing; do not fit it to a successful flight.
+Only orbital mission duration is newly authorized. Non-orbital 900-second
+horizons, per-case wall time, physical/controller/work/health/catch limits and
+every land/catch assertion remain unchanged. The ruling is not acceptance of
+the missing matrix or evidence that current booster orbital guidance works.
 
 The latest documents report a 20/30 scenario result with ten failures, narrow
 natural-damage witnesses, and truth 25/26 with all 17 Tier A rows IN. Those
@@ -107,10 +118,11 @@ one falsifiable source hypothesis before another bounded measurement.
   thermal/health/reserve/aim/landing/catch bounds, control authority, RNG,
   forecast deadlines, candidate/trial caps and mechanical-work budgets.
   Ship's shipped reserve is 18 t; changes need measurement and health tests.
-- Keep the 900 s / 108,000-step scenario horizon, 30,000 ms unit case timeout,
+- Keep the non-orbital 900 s / 108,000-step scenario horizon, 30,000 ms unit case timeout,
   existing distinct coverage timeout, zero added retries, worker contracts and
   no gated wall-clock assertions. A new product ruling must be explicit before
-  any scenario contract change; there is no implicit exception in this goal.
+  any other scenario contract change. The explicit mission ruling above permits
+  only a physically derived orbital horizon with starts/targets preserved.
 - Preserve the paid planner's maximum four mechanical advances per scheduler
   call and existing source-publication deadlines. The approved coast-only
   determinism-test exception uses the existing 4,000-advance cap and asserts

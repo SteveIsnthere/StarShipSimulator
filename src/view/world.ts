@@ -8,7 +8,7 @@
  */
 import { Container, Graphics, Sprite, TilingSprite, type Texture } from 'pixi.js';
 import { GROUND_OBJECTS, type GroundObject } from './assets';
-import { worldToScreen, type CameraState, type Viewport } from './camera';
+import { writeWorldToScreen, type CameraState, type Viewport } from './camera';
 import {
   groundTint,
   hazeIntensity,
@@ -85,6 +85,8 @@ export interface World {
  */
 export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTextures): World {
   const container = new Container({ label: 'worldContents' });
+  const horizon = { x: 0, y: 0 }, shadowPoint = { x: 0, y: 0 };
+  const pad = { x: 0, y: 0 }, screen = { x: 0, y: 0 };
 
   // The ground is a single rectangle redrawn on resize rather than a sprite:
   // it has to cover any viewport at any zoom.
@@ -179,7 +181,7 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
 
     update(camera, viewport, speedX, altitude, lighting): void {
       // Ground: a band from y = 0 downward, wide enough to always cover.
-      const horizon = worldToScreen(camera, viewport, camera.posX, 0);
+      writeWorldToScreen(camera, viewport, camera.posX, 0, horizon);
       // M11.4: the ground's light is the sky's, times the hour's. By day the
       // second factor is exactly one.
       const sun = lighting?.sun;
@@ -358,13 +360,14 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           shadow.ellipse(0, 0, lengthPx / 2, heightPx / 2);
           shadow.fill({ color: 0x000000, alpha: 1 });
         }
-        const at = worldToScreen(
+        writeWorldToScreen(
           camera,
           viewport,
           lighting.downRangeDistance + shadowGeometry.centreX,
           0,
+          shadowPoint,
         );
-        shadow.x = at.x;
+        shadow.x = shadowPoint.x;
         /*
           ON THE GROUND LINE, extending up from it. The camera's floor keeps
           the eye at ground height (M7.3), so the ground plane is seen edge-on
@@ -374,14 +377,14 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           streak and not a row. A camera above the ground (M11.6) sees the
           ellipse.
         */
-        shadow.y = at.y - heightPx / 2;
+        shadow.y = shadowPoint.y - heightPx / 2;
         shadow.alpha = shadowGeometry.alpha;
       }
 
       // The pad's own lights, which come up as the sky goes down.
       padGlow.visible = ground.visible && padLightIntensity(lightness) > 0.02;
       if (padGlow.visible) {
-        const pad = worldToScreen(camera, viewport, 0, 0);
+        writeWorldToScreen(camera, viewport, 0, 0, pad);
         padGlow.x = pad.x;
         padGlow.y = pad.y;
         const radius = Math.max(24, 90 * viewport.scale);
@@ -409,7 +412,7 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           }
         }
 
-        const screen = worldToScreen(camera, viewport, item.x, 0);
+        writeWorldToScreen(camera, viewport, item.x, 0, screen);
         item.sprite.x = screen.x;
         item.sprite.y = screen.y;
         item.sprite.width = item.object.width * viewport.scale;

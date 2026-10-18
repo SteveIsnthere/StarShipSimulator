@@ -1,0 +1,18 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/view/projection-write.test.ts tests/ui/task6-session-mount-quality.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/allocation/green.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |unit| tests/view/projection-write.test.ts (4 tests) 53ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ✓ |unit| tests/ui/task6-session-mount-quality.test.ts (1 test) 265ms
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  07:12:16
+   Duration  4.93s (transform 2.15s, setup 0ms, import 3.24s, tests 319ms, environment 964ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/allocation/green.json

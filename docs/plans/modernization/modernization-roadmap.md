@@ -20,8 +20,13 @@ A fresh checkout does not contain the latest documented working state: 52
 source files differ and 25 are absent against V22's 803-path manifest. The
 [remaining-work audit](../../research/2026-10-18-modernization-remaining-audit/README.md)
 records that recovery gap, missing recent evidence and remaining work.
-Recover/verify the latest state or build an explicitly reviewed successor from
-preserved source. Do not apply historical recovery patches to existing work.
+C0 admitted a fresh independently reviewed successor from committed
+`8126077a`; exact later restoration and absent acceptance are not claimed.
+Six render projection allocations were removed with source-pinned build/lint
+and 85/85 expanded checks; frame/optical acceptance remains open. The next
+bounded task is C1 orbital-horizon derivation and matrix design.
+[Current successor evidence](../../research/2026-10-18-phase8-successor/README.md).
+Do not apply historical recovery patches to existing work.
 
 ## Approved decisions retained
 
@@ -43,9 +48,11 @@ preserved source. Do not apply historical recovery patches to existing work.
 - Cloud acceptance supersedes earlier Mac-only wording, with unchanged budgets
   and honest CPU/browser/renderer/viewport metadata. Missing global guidance
   follows best practices; independent high review remains mandatory.
-- The orbital/cross-vehicle mission contract is a pending product decision.
-  Preserve all 18 scenario × vehicle rows, starts, horizon and targets until
-  an explicit answer. Continue independent authorized work while waiting.
+- Steve approved a physically derived orbital mission horizon with starts
+  and targets fixed on 2026-10-18 UTC. Preserve all 18 rows, non-orbital
+  900-second caps and all physical/work/terminal assertions. The candidate
+  orbital bound and missing model-aware guidance still need validation; the
+  decision is resolved, flight acceptance is open.
 
 ## Phases
 
@@ -68,7 +75,7 @@ Phases 2 and 3 both depend only on 1. The run takes them in table order.
 
 | Package | Required output |
 |---|---|
-| C0 Recovery | Known, portable source/evidence basis; exact recovery or explicitly reviewed reconstruction |
+| C0 Recovery | Admitted reviewed successor from committed source; exact later bytes/results remain unknown |
 | C1 Mission contract | Explicit product ruling and meaningful land/catch assertions for all IDs/both vehicles |
 | C2 Physics and CPU | Accepted R1/R2 integration, units, unchanged coverage, golden replay, truth and mutations |
 | C3 Visuals and budgets | Reference-based V3/damage motion, six scenes, full/reduced behavior and actual frame/cadence acceptance |
@@ -91,7 +98,7 @@ feasibility task is already complete and must not be restarted.
 - [x] Phase 6 — Ship realism (merged `080f108`, live 2026-10-01 Vancouver time). Complete gate green on main; branch full e2e 438 passed / 0 failed / 11 configured skips. CI `36956332929` and Pages `36956332944` succeeded at the merge SHA. Live deployment smoke 5/5 passed; served service worker matches the verified build byte for byte, cache version `b72a7b0bad39`. Hosted menu smoke needed existing retries on two checks; retained as Phase 9 debt. [Close evidence](../../research/2026-10-01-phase6-close.md). Earth's rate and the parked aero moved to 6b.
 - [x] Phase 6b — Closed under the approved broadside fallback (merged `c2ae5e4`, live 2026-10-02). Task 5/braking/debrief and continuous exhaust fixes ship; body-axis/fin/RCS/Earth-rate remain explicitly parked. Complete main gate, independent high review, final full browser 480 passes / zero failures / 11 configured skips / zero retries, all 21 mutation faults, main CI37071475434/Pages37071475425 and live smoke5/5 pass. All 44 served assets match version3da4ee45585e. Two existing hosted menu flakes remain Phase 9. [Closure evidence](../../research/2026-10-02-phase6b-close.md).
 - [x] Phase 7 — Super Heavy (runtime merge `17657d1`, verified harness merge `b3263a9`, live 2026-10-03). Actual main gate289.26s, main CI37128220108/Pages37128220122, post-deploy live13/13 and all44assets+worker pass. Five-project full browser505passes/zero failures/zero retries; all21mutations; all11TierA IN. Pages has two existing menu retry1 flakes, retained Phase9 debt. [Closure evidence](../../research/2026-10-03-phase7-close.md).
-- [ ] Phase 8 — Visuals
+- [ ] Phase 8 — V3 physics, progressive damage and visuals
 - [ ] Phase 9 — UX to flight_sim level
 
 Phases 7–9 get their phase plan when the phase before them lands, written by the run from this roadmap with `superpowers:writing-plans`.

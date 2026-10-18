@@ -14,7 +14,7 @@ import { SHIP } from '$core/vehicle';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import { damageModelFor } from '$core/physics/damage-model';
 import type { ViewApp } from '$view/app';
-import { worldToScreen } from '$view/camera';
+import { writeWorldToScreen } from '$view/camera';
 import { loadTextures } from '$view/assets';
 import { createWorld } from '$view/world';
 import { createCatchTower } from '$view/catch-tower';
@@ -58,6 +58,7 @@ export async function createSceneRuntime(view: ViewApp, isDisposed: () => boolea
   const sun = createSunLight();
   const worldLighting = { sun, downRangeDistance: 0, altitude: 0, pitch: 0, vehicleHeight: 52, vehicleDiameter: 9 };
   const noseUv = { x: 0, y: 0 };
+  const at = { x: 0, y: 0 };
 
   // One atlas for the particles and the cloud puffs.
   const particleTextures = createParticleTextures(view.app.renderer);
@@ -120,7 +121,7 @@ export async function createSceneRuntime(view: ViewApp, isDisposed: () => boolea
       vehicles.draw(s, previous, worldDt, sun, elapsed, controller);
 
       // Where the vehicle is going, as against where its nose points.
-      const at = worldToScreen(view.camera, view.viewport, s.kinematics.downRangeDistance, s.kinematics.altitude);
+      writeWorldToScreen(view.camera, view.viewport, s.kinematics.downRangeDistance, s.kinematics.altitude, at);
       // A disintegrated hull has no single physical flight path or hot nose.
       flightPath.update(at.x, at.y, s.kinematics.angleOfMotion,
         s.damage?.terminal.active ? 0 : s.kinematics.trueSpeed, view.viewport.height);

@@ -1,117 +1,152 @@
 # Goal prompt — finish the approved modernization
 
-Paste the following into a new goal/task. It is an execution request, not a
-claim that missing recovery, product decisions or acceptance have been resolved.
+Use this self-contained request to drive the remaining work. Read the linked
+live plans for full fixed contracts. No further routine approval is needed.
 
 ```text
-/goal Complete the approved StarShipSimulator modernization through Phase 8
-V3 physics/progressive flight damage/visuals and Phase 9 UX, then merge and
-verify the final deployed build. The pause is cleared. Continue independently
-within the existing approvals until every goal acceptance criterion passes.
+/goal Finish StarShipSimulator's approved modernization: Phase 8 V3 physics,
+progressive flight damage, reference-based rendering and performance; then
+all Phase 9 UX; then reviewed main integration and the final verified live build.
+The pause is cleared. Continue independently within existing approvals until
+EVERY completion criterion in modernization-GOAL.md is satisfied.
 
-Discover and follow the current cloud startup instructions. Use the existing
-isolated checkout at /workspace/StarShipSimulator; do not create a worktree.
-Read workspace/repository AGENTS.md and all four checked-in skills, run the
-versioned task-start.sh reconciliation and actual Chromium functional check,
-then source the sibling activate.sh for subsequent project commands. Preserve
-managed proxy/CA and strict TLS. Do not import personal configs or credentials.
+STARTUP AND SOURCE
+Discover workspace startup instructions. Use /workspace/StarShipSimulator's
+existing isolated checkout, no new worktree. Read workspace/repository AGENTS.md
+and the four checked-in skills. Run the versioned task-start.sh reconciliation
+and actual Chromium functional check; source its sibling activate.sh in every
+subsequent shell. Preserve managed proxy/CA/strict TLS and import no personal
+configuration or credentials. Use best practices for unavailable global skills,
+as Steve directed; independent high review is still required.
 
 Read docs/plans/modernization/modernization-GOAL.md FIRST among project plans,
 then modernization-handover.md, modernization-phase-8.md, the vehicle-realism
-research README, docs/research/2026-10-18-modernization-remaining-audit/README.md
-and modernization-completion-plan.md. Follow the current C0–C6 sequence.
-Earlier planning documents are archived byte for byte under that audit;
-their superseded commands and next steps are historical evidence.
+research README, modernization-completion-plan.md and
+docs/research/2026-10-18-phase8-successor/README.md.
+Follow the C0–C6 dependency sequence and preserve all completed phases.
 
-First resolve the source/evidence recovery gap. The audited main/latest
-successful Pages revision is e8a06ffe3e0fc5b28f6aad0ad733e6be25917428 and the
-fetched visual branch is cd0118c0d9aeefdf2729581b9168caabb6eb75af. The original
-requested dd72908e9e5e277f63af27fbdb64d560bc9af355 is its ancestor. Recheck
-actual branch/HEAD/dirty work/remotes before mutation; preserve all current
-edits. These pins do not authorize overwriting a newer checkout.
+Inventory actual branch/HEAD/dirty files/remotes before mutation. Continue the
+claude/visuals lineage and preserve all work. Main/latest successful Pages was
+audited at e8a06ffe3e0fc5b28f6aad0ad733e6be25917428; recheck before integration.
+C0 already admitted a fresh independently reviewed successor from committed
+8126077a851b3a31e2b662a6953859adb112169b (runtime ancestor cd0118c0).
+The requested dd72908e9e5e277f63af27fbdb64d560bc9af355 is an ancestor.
+These historical pins never authorize overwriting newer work.
 
-The V22 source manifest describes 803 paths: the audited fetched source has
-726 exact matches, 52 different files and 25 missing files. Its newer 18-row
-scenario matrix and several recent result/review bundles are absent. Locate
-the previous dirty checkout or newest complete snapshot. Verify clean base,
-patch digest and application, apply exactly once only if applicable, then
-verify every restored path hash. Never overwrite dirty work, chain snapshots
-or apply historical pause/Recovery08 patches over committed implementation.
-If latest bytes cannot be recovered, preserve the gap and implement a fresh
-independently reviewed successor from known source plus the approved spec;
-do not fabricate historical bytes or inherit absent test acceptance. Save
-portable source/results and coherent commits/pushes at useful checkpoints.
+V22's 803-path manifest differs from this basis at 52 paths and lacks 25;
+a bounded exact-content search found none of the 77 later digests in its stated
+domain. Preserve unknown bytes/results as unknown. No historical patch was
+applied. Never apply original pause/Recovery08 patches, chain snapshots, reset,
+rebase or overwrite dirty work. Do not restart recovery searches without new
+evidence. If a genuinely newer complete snapshot appears, verify its clean
+base/digest/applicability, apply once only if appropriate, verify every restored
+hash and independently reconcile it against current work.
 
-Preserve completed phases and the completed bounded RTLS scheduling-feasibility
-task. Do not restart old campaigns. Phase 8 already contains substantial V3,
-damage, shared vehicle geometry/material and visual code: inspect it and fill
-actual gaps rather than reimplementing unchecked historical steps.
+The successor allocation patch removes output allocation at six render
+projection sites, preserving exact math, private scratch and the allocating API.
+Its source/result pins and original logs are under the successor's allocation/:
+build and scoped lint pass, focused 5/5 and expanded 85/85 pass, fresh independent
+high review accepts the durable WIP checkpoint. This is no optical, frame,
+whole-gate, phase or release pass. Do not rerun unchanged passing checks merely
+to reproduce them. Check the current commit/delta pins before reusing evidence.
 
-Resolve the genuinely pending orbital/cross-vehicle mission contract early.
-All nine scenario IDs × both vehicles remain required. The unchanged deorbit
-start, 900-second horizon and Super Heavy tower target are unsupported by the
-current controllers. Ask for intended mission behavior using the recorded
-evidence; do not silently move starts/targets, extend horizons, remove rows or
-weaken success assertions. Continue independent C2/C3 work while awaiting that
-answer. The narrow V22 Ship/RTLS boostback selection alone does not close it.
+NEXT BOUNDED TASK — C1
+Steve ruled: "Keep starts and targets; approve a physically derived orbital
+mission horizon." Do not ask this decision again. All nine scenario IDs × both
+models still require actual Ship landings/Super Heavy Starbase tower catches.
+Preserve the starts/targets. Only circularize/deorbit × both models (four rows)
+may use the independently derived orbital duration. Other fourteen rows,
+including reentry, retain 900 seconds/108,000 ticks. Keep the original
+30,000 ms case timeout, distinct coverage timeout, workers and zero added retries.
 
-Complete R1/R2 physical integration, all supported per-ID land/catch flights,
-CPU timeout diagnosis, full golden replay, coverage and mutation acceptance.
-Complete R3 reference-based V3 rendering, real progressive loss and recognizable
-moving structural debris, six-scene screenshots, both-body/pause/reset behavior,
-full/reduced resources and Task 6 frame/cadence/onset budgets. Historical focused
-passes, recording success and source-only reviews do not establish whole-phase
-acceptance. Last recorded scenario matrix failed ten cases; CPU/golden timeouts
-and performance acceptance remain open. Missing raw evidence is not a pass.
+Validate/freeze a physical horizon BEFORE flight trials, then reconstruct the
+missing meaningful 18-row matrix and its proper takeoff/boostback/deorbit/landing
+handoffs. A fresh review conditionally supports 2T+900 as a candidate policy,
+not a proven controller bound: at R=6,371,000 m, h=150,000 m,
+mu=3.986004418e14 m^3/s^2 and frame rate zero, T=5,240.6153044219545 s;
+H=11,381.230608843909 s, ceil(H/DT)=1,365,748 ticks. Account for paid attitude
+preparation, first firing opportunity, finite burn and vacuum transit. All
+support/circularization/coast ticks count. Check actual conic hypotheses;
+do not fit a horizon to a passing duration or cite the stale passive-decay/RCS
+comments as proof. Rotation changes would require a ground-relative period.
 
-Preserve every physics tier, analytic truth/reference row, surrogate source
-assumption, 1533 K/50 kPa/13 g stop, reserve/aim/health/catch/control limit,
-RNG and paid-work/deadline/candidate cap. Preserve the original scenario horizon,
-case timeouts, coverage floors, worker contracts, zero added retries, 300 kB JS,
-300-second cloud gate and 20-minute CI budgets. Desktop p95 remains 16.67 ms
-with at least 59 fps; phone p95 33.33 ms with at least 29.5 fps. Keep original
-warmups, at least 300 measured frames per scene/profile, full-session work and
-GPU-completion accounting, both phone orientations and damage-onset checks.
-Do not regenerate goldens merely to pass or weaken any acceptance requirement.
+Current booster routing bypasses autoDeorbit, and Ship's orbital guidance
+contains Ship-specific assumptions. Review and implement necessary model-aware
+behavior under physics policy before flight acceptance. A duration change does
+not authorize extra TPS, reserve, control authority, off-site landing, skips or
+weaker health/aim/catch outcomes. Ship/RTLS needs real boostback-to-land behavior.
+Use a smallest useful failing witness, not another unchanged full-flight run.
 
-Use bounded source-backed diagnosis. After three failed diagnoses obtain a
-fresh independent high-depth review and a new evidence-backed approach before
-another cycle. Never rerun unchanged failures for luck or consumed launchers.
-The last trace diagnosis found no actionable source bottleneck; establish a
-falsifiable source hypothesis before another renderer edit/measurement. Keep
-product implementation primary; avoid unrelated proof/runner/infrastructure
-campaigns. Build before tests, keep heavy checks serial and retain raw outputs,
-exits, exact source/build and actual environment for required checks.
+REMAINING IMPLEMENTATION AND ACCEPTANCE
+C2: audit existing R1/R2 source rather than rebuild unchecked historical boxes.
+Complete model-correct V3 propulsion/geometry, genuine cold-to-weakened-to-loss
+flights, irreversible support/control loss, conserved mass/COM/inertia/momentum/
+energy and released mixture, forecast/live parity, attached/separated identity,
+terminal capture and reset. Resolve real CPU/unit failures, full golden replay,
+unchanged coverage floors, truth and every mutation. Recording alone is not
+replay acceptance. A proposed per-sweep mass/ISA preparation remains HELD until
+complete canonical ownership or literal generic fallback is proved; no measured
+timeout cause or performance cure has been established by that source review.
 
-Run implementation, complete gate, CPU, browser, rendering and frame checks
-in this reconciled cloud environment, as Steve explicitly requested. Fix
-supported execution problems without changing acceptance. Report the actual
-CPU/browser/backend/DPR/viewport; software rendering and viewport emulation
-are not hardware-GPU or physical-handset evidence. Unavailable global guidance
-uses best practices, as already directed; independent review is not waived.
+C3: complete reference-based V3 rendering and real damage motion, six scenes,
+50 px/200 px/close-up and sun-sweep comparison, positive/absence controls,
+recognizable inherited-motion pieces, failed emitters absent, no intact ghost,
+independent bodies, pause/reset and full/reduced resources. Frame budgets remain
+failed/open. Select one falsifiable source hypothesis before another bounded
+measurement; do not treat the allocation fix as a proven frame cure.
 
-Finish Phase 8's fresh independent protected high review, full ordered gate,
-five-project browser suite, truth/mutations and required performance acceptance;
-merge through the approved phase workflow and verify main/CI/Pages/live bytes
-and smoke before checking it complete. Then write and execute Phase 9's full
-plan: modern keyboard/rebinding/legend, gamepad/tilt permission, guided first
-flight/objectives/toasts, designed engine/HUD/slider states, graded comparative
-debrief, targeted Black Box polish, phone/layout/modal/accessibility fixes,
-hosted menu flakes and assigned audio work. Preserve existing functionality.
+C4: fresh independent high whole-phase/protected review, complete ordered gate,
+full five-project browser suite, truth/mutations and required CPU/frame checks;
+reviewed Phase 8 main merge, main/CI/Pages/live verification and closure.
+Then C5: write Phase 9's concrete plan before implementation. Complete modern
+keyboard/rebinding/conflicts/legend, gamepad/tilt permissions, guided first
+flight/objectives/toasts, six-engine/booster HUD and live sliders, graded
+comparative debrief, targeted Black Box polish, modal focus/pause/accessibility,
+phone/short layouts, assigned audio and hosted menu flakes. Preserve existing
+Black Box channels/cursor/previous-flight overlay/CSV and every 2021 capability.
+Publish the required actual-build motion review, record owner verdict separately
+and proceed without waiting for it. Release Phase 9 through the same workflow.
 
-Routine implementation, reviews, coherent commits/pushes, clean phase merges
-and deployment verification are already approved; do not ask again. Keep
-physics/goldens serial and use fresh independent reviewers with the documented
-fallback if external authentication fails. Ask only for genuinely missing
-access or a new product decision, and continue independent authorized work.
-Keep roadmap/handover/reference/backlog truthful; publish the required actual
-motion review and record owner verdict separately without waiting for it.
+FIXED LIMITS AND WORKFLOW
+Preserve every physics tier, analytic truth/reference row, declared surrogate
+assumption, 1533 K/50 kPa/13 g stop, 18 t Ship reserve, health/aim/catch limit,
+control authority, deterministic RNG and planner/predictor deadlines/work caps.
+At most four paid mechanical advances per scheduler call; preserve candidate/
+trial limits and the narrow approved coast-test exception. No golden regeneration
+merely to pass. Refactors need <=1 ULP proof; numerical changes follow their
+approved tier and complete trajectory audit/recording-platform procedure.
 
-Finish only when EVERY GOAL completion criterion is true: all roadmap phases
-merged/checked, complete timed gate green on final main in cloud, last three
-main CI green (or exact approved billing exception), all required truth,
-mutations, scenarios, visual/frame/UX acceptance, documentation checks and
-review pages complete, and the live Pages site serves the exact final verified
-build with passing live smoke. No focused subset, proposal or pending check
-counts as completion. Do not expand into unphased backlog work.
+Keep aggregate core coverage 99% branches/lines/statements and 98% functions,
+physics 100% and every configured module floor. Never add an allowance, exclusion,
+skip, retry or seal change to get green. Audit affected coverage closures or use
+full coverage. Preserve 300 kB JS, font/audio budgets, 300-second cloud gate,
+20-minute hosted CI; full-session desktop p95<=16.67 ms/cadence>=59 fps,
+phone p95<=33.33 ms/cadence>=29.5 fps, original warmups and >=300 frames per
+scene/profile, CPU/GPU completion, both phone orientations, onset/pool bounds.
+
+After three failed diagnoses, get a fresh independent high review and new
+evidence-backed approach before another cycle. Never retry for luck or rerun
+consumed launcher packets. Keep product work primary and avoid unrelated
+runner/compiler/process-custody qualification campaigns. Build before tests;
+heavy checks serial. Save raw output, exit, exact source/build/environment.
+Run supported implementation, CPU, browser, rendering and performance checks in
+cloud as Steve directed. Fix execution support without weakening acceptance.
+Report actual CPU/browser/backend/DPR/viewport; software rendering and emulation
+are not hardware-GPU/physical-handset results. Do not claim unrun checks passed.
+
+Routine implementation, coherent commits/pushes, fresh independent reviews,
+clean phase merges and deployment verification are authorized. No whole-program
+PR: follow the goal's phase workflow/merge records. Use the documented fresh
+reviewer fallback when external authentication is unavailable. Ask only for
+genuinely missing access or new product decisions, continuing independent work.
+Keep plans, handover, reference docs, skills and backlog truthful; preserve
+Phase 6b's approved fallback and named parked physics, the intro, presets and pig.
+Do not expand into unphased shareable flights, licensed audio or new presets.
+
+FINISH ONLY WHEN C6 AND EVERY GOAL CHECKBOX PASS
+Every roadmap phase merged/checked; timed complete gate green on final main;
+three green main CI runs or the precise approved billing exception; all required
+truth/mutation/scenario/physics/damage/visual/frame/UX/review/documentation
+acceptance; final live smoke and byte-identical served assets/service worker
+for the exact final verified build. Full roadmap completion is still open.
 ```
