@@ -182,6 +182,16 @@ function terminalBurnDue(state:SimState,model:VehicleDefinition):boolean {
   return start!==null && state.kinematics.altitude<=start+delayDistance;
 }
 
+/** Auto-land from an already descending body begins the return coast.
+ * Explicit boostback still owns its alignment; an established phase persists.
+ * Ascending separation/RTLS keep their original align-boost initialization.
+ */
+function initialiseReturnPhase(state: SimState): void {
+  const a = state.autopilot;
+  if (!a.boosterPhase) a.boosterPhase = a.autoLandOn && !a.autoBoostBackOn && state.kinematics.speedY < 0
+    ? 'coast' : 'align-boost';
+}
+
 export function runBoosterAutopilot(state: SimState, dt: number, model: VehicleDefinition, advance?:MechanicalAdvance): void {
   const a=state.autopilot;
   if(advance)verifyBoosterSource(state,dt);
@@ -189,7 +199,7 @@ export function runBoosterAutopilot(state: SimState, dt: number, model: VehicleD
     a.boosterFinControl=undefined;invalidateBoosterReturn(a);return;
   }
   if(state.status.landed || state.failures.crashed || state.failures.inFlightBreakUp)return;
-  if(!a.boosterPhase)a.boosterPhase='align-boost';
+  initialiseReturnPhase(state);
   if(!advance)predictReturn(state,dt,model);
   runBoosterPolicy(state,dt,model);
 }
@@ -222,7 +232,7 @@ export function runBoosterPolicy(state:SimState,dt:number,model:VehicleDefinitio
   state.status.translationModeOn = true;
   state.status.finLocked = false;
   state.status.dumpingFuel = false;
-  if (!a.boosterPhase) a.boosterPhase = 'align-boost';
+  initialiseReturnPhase(state);
   const error = a.boosterRangeError ?? k.downRangeDistance - C.starBaseXPos;
   const direction = error >= 0 ? -1 : 1;
   if (a.boosterPhase === 'align-boost') {

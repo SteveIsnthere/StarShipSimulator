@@ -60,13 +60,22 @@ remains binding; independent C2/C3 work continues.
       boostback priority retained. Booster landing-burn failed at 3.608 s before;
       changed genuine catch and 25/25 boundaries pass. Ship landing-burn also
       passes. This is one bounded Fidelity correction, not full matrix acceptance.
-- [ ] **Next bounded CPU/flight task:** instrument the existing mission helper
-      with an optional read-only observer, then run one predeclared selection of
-      Super Heavy/before-flip and reentry with compact physical traces and
-      in-worker CPU sampling. Baseline crashes: 13.875 s and 350.850 s; reentry
-      wall time 35.381 s also exceeds the unchanged 30 s case budget. Preserve
-      the passing intro. Do not change canonical stepping or assert a timing pass
-      because synchronous Vitest failed to interrupt. [Diagnostic contract](../../research/2026-10-18-phase8-successor/next-diagnostics.md).
+- [x] Completed one declared read-only observer/CPU diagnostic for before-flip
+      and reentry with original assertions/budgets. Both reproduce impact, with
+      valid hull domains and attached components before reset; retained fuel
+      18.47 t / 281 kg. Reentry impacts about 716 km short. Build/lint and 14
+      focused controls pass; final naming controls 9/9. [Evidence](../../research/2026-10-18-phase8-successor/descending-diagnosis/README.md).
+- [ ] **Next bounded physical correction:** demonstrate terminal gimbal
+      over-allocation with a recorded-constraint boundary fixture, then project
+      translation through actual grid/paid-RCS/engine/slew constraints. Intersect
+      both admitted thrust-coefficient endpoints; a maximum alone can falsely
+      claim attitude feasibility. Keep ordinary alignment unchanged. Review,
+      build and focused checks precede one changed before-flip row. Earlier
+      lateral acquisition remains independently required. [Design](../../research/2026-10-18-phase8-successor/descending-diagnosis/coallocation-design.md).
+- [ ] Address measured grid-root/control CPU work only after a concrete reviewed
+      pure-kernel design with frozen oracle, complete scalar key, original per-
+      component validation/getter/material prefix and literal mock/generic
+      fallback. No direct helper cache, looser comparisons or ISA speculation.
 - [ ] **Next bounded orbital task:** review one original-state, model-derived
       opportunity and nominal 150 m/s paid scheduling/trajectory witness before
       implementing the complete booster orbital controller. Validate proof

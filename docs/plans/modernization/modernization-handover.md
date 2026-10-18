@@ -40,10 +40,11 @@ that checkpoint before the bounded successor edits; no reset/rebase/worktree.
 The remaining-work audit itself ran no implementation acceptance workload.
 The reviewed source/evidence/plans checkpoint was committed and pushed on
 `claude/visuals` as `a41df348`. Documentation checkpoint `0d87c758` records that pin and raw-log whitespace.
-The subsequent C1 constructor, horizon, matrix and descending-booster changes
-and their new tests are currently uncommitted WIP in this checkout. Their
-checks pin exact input hashes below; they are not part of `0d87c758`. Preserve
-the dirty source and new evidence before further implementation. No Phase 8
+The constructor Refactor/proof is committed as `f76d740c`; the reviewed debug
+progress/catch checkpoint is `bd018042`. The C1 horizon/matrix/descending-mode
+source and new diagnostic are preserved with this handover as explicitly
+unfinished WIP, with source-pinned results. Full Fidelity/matrix acceptance is
+open; inspect actual HEAD/diff and preserve any newer dirty work. No Phase 8
 merge or deployment has occurred.
 Source changes and their actual checks are recorded below.
 
@@ -109,8 +110,12 @@ and physical acceptance; a duration ruling alone does not establish it.
 
 1. Preserve the C0 reviewed successor/source-result checkpoint. Exact latest
    recovery remains unknown; do not reapply historical patches or inherit results.
-2. C1 (next): diagnose the measured before-flip/reentry failures, then
-   finish model-correct orbital targeting. Preserve the failures and source pins
+2. C1 (next): implement the reviewed terminal torque coallocation correction
+   from the measured before-flip constraint, then address earlier lateral
+   acquisition and model-correct reentry/orbital targeting. The one declared
+   [physical/CPU diagnostic](../../research/2026-10-18-phase8-successor/descending-diagnosis/README.md)
+   reproduced both impacts; no thermal-domain loss or pre-impact detachment.
+   Reentry impacts approximately 716 km short. Do not repeat this capture unchanged. Preserve the failures and source pins
    in [descent evidence](../../research/2026-10-18-phase8-successor/booster-descent/README.md). The reviewed test-only deadline is
    `Tground + TKepler + 900 = 11,381.230608843909 s` / 1,365,748 ticks at the
    unchanged 150 km start and zero frame rotation. It applies only to four orbital
@@ -121,8 +126,8 @@ and physical acceptance; a duration ruling alone does not establish it.
    constant and unpowered approximation cannot supply cutoff authority.
    [Current result scopes](../../research/2026-10-18-phase8-successor/README.md).
    Use the [bounded diagnostic handoff](../../research/2026-10-18-phase8-successor/next-diagnostics.md)
-   for the read-only observer/profile and orbital feasibility witness; do not
-   rerun these failed flights unchanged to seek a pass.
+   for the remaining source-matched orbital feasibility witness. The observer/
+   profile is implemented and consumed; do not repeat it unchanged to seek a pass.
 3. C2: close physics/damage, CPU timeouts, golden replay, coverage and mutations.
 4. C3: the lightweight live getter and changed catch assertions now pass their
    bounded checks; preserve the outer tool exit conflict and exact scope in

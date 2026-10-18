@@ -43,7 +43,8 @@ exhaust, natural-damage motion, phone/reduced behavior, frame/GPU/cadence budget
 full gate, Phase 8, main or deployment. Prior five-scene images keep their earlier
 source scope; no single current-source six-scene campaign is claimed.
 
-C1 source/tests remain uncommitted WIP. The full capture source manifest pins
+At this capture, C1 source/tests were uncommitted WIP; the later C1 checkpoint
+preserves them without accepting the full phase. The full capture source manifest pins
 that local input delta; the committed documentation basis alone does not restore
 it. [Result and hash manifest](result.json). Next: measured C1/C2 descending-row
 diagnosis and paid orbital feasibility, plus remaining C3 references/motion and

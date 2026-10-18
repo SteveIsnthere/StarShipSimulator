@@ -76,7 +76,9 @@ edits and checkpoint durable work with reviewed commits/pushes when possible.
 ## Remaining work and dependencies
 
 Execute [C0–C6](modernization-completion-plan.md) as bounded work packages.
-**C1 is underway; source changes remain uncommitted WIP after `0d87c758`.**
+**C1 is underway; reviewed source is checkpointed as unfinished WIP.**
+Constructor Refactor `f76d740c` and debug/catch `bd018042` are bounded checkpoints,
+not whole-phase acceptance. Preserve newer dirty work and inspect actual HEAD.
 The reviewed test-only failure deadline is frozen at `Tground + TKepler + 900 s`
 for the four orbital rows; structural checks pass 4/4. This is a physical
 scheduling envelope, not a theorem that current guidance meets it. The new
@@ -88,8 +90,11 @@ also exceeds the unchanged 30 s case budget. The reviewed descending-auto-land
 initializer has 25/25 direct/boundary checks; full Fidelity acceptance is open.
 See [source-pinned results](../../research/2026-10-18-phase8-successor/README.md).
 
-Next capture compact physical/CPU evidence for those two failures, then fix only
-supported causes. For booster orbital targeting, first establish one paid
+The single declared physical/CPU capture reproduced both impacts with all
+components attached and valid hull domains beforehand. Reentry impacts about
+716 km short. Next fix the demonstrated terminal torque over-allocation from a
+failing boundary witness, then address earlier lateral/range acquisition. CPU
+profiles support grid-root/control work, not the held ISA theory. For booster orbital targeting, first establish one paid
 scheduling/trajectory witness under unchanged caps; do not borrow Ship's fitted
 entry range. The orbital deadline decision is resolved and must not be reasked.
 The allocation fix closes one C3 debt. A fresh body-presence optical attempt

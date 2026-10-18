@@ -26,14 +26,16 @@ Six render projection allocations were removed with source-pinned build/lint
 and 85/85 expanded checks; frame/optical acceptance remains open. C1 has frozen the
 reviewed physical deadline and reconstructed 18 rows. Both landing-burn rows now
 pass after a reviewed descending-booster initialization fix; broader mission
-acceptance remains open. Next: measured before-flip/reentry crash and CPU diagnosis, then model-aware
-paid orbital targeting, starting with one bounded feasibility witness.
+acceptance remains open. The declared physical/CPU capture reproduced both
+impacts; next is torque-feasible terminal allocation from a failing boundary
+witness, earlier lateral/range acquisition and one paid orbital feasibility
+witness. Root/control CPU work has measured support; ISA preparation stays held.
 Original body-presence optics passed five cases and timed out at catch. The
 reviewed lightweight progress getter then enabled the changed catch assertions
 in 18.5 s; saved shell/Playwright pass conflicts with outer tool exit 1 and is
 preserved. Source epochs stay separate; R3 realism, motion and frame budgets
-remain open. Current C1 code/tests are uncommitted WIP
-after `0d87c758`; preserve them before further changes.
+remain open. C1 source/tests and diagnostic evidence are preserved as unfinished WIP; the
+constructor Refactor is `f76d740c`. Preserve newer dirty work before changes.
 [Current successor evidence](../../research/2026-10-18-phase8-successor/README.md).
 Do not apply historical recovery patches to existing work.
 

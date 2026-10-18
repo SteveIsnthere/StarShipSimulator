@@ -14,8 +14,8 @@ from committed `8126077a`; exact later recovery is not claimed. Steve resolved
 the duration decision by approving a physically derived orbital horizon with
 starts/targets fixed. The reviewed test-only deadline is now frozen; structural
 checks pass 4/4, while actual paid phase witnesses and flight acceptance remain
-open. Current C1 source/tests are uncommitted WIP after `0d87c758`; preserve the
-workspace and follow the [next diagnostic handoff](../2026-10-18-phase8-successor/next-diagnostics.md).
+open. C1 source/tests and new diagnostic are checkpointed as unfinished WIP;
+preserve newer dirty work and follow the [next diagnostic handoff](../2026-10-18-phase8-successor/next-diagnostics.md).
 
 The [latest cloud qualification checkpoint](../2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md) adds accepted bounded proof-reader and graphics-data checks. It leaves Phase 8/9, the complete gate, rendering and release open; private proof preservation remains unfinished.
 

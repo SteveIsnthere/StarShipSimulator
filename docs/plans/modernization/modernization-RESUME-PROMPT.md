@@ -1,7 +1,7 @@
 # Goal prompt — finish the approved modernization
 
-Updated 2026-10-18 UTC. Paste the following as the next goal. The current
-workspace contains uncommitted implementation; preserve it. The linked plans
+Updated 2026-10-18 UTC. Paste the following as the next goal. Preserve the
+current source and any newer dirty work; C1 remains unfinished WIP. The linked plans
 own the complete fixed contracts. This prompt does not claim completion or
 request another routine approval.
 
@@ -37,9 +37,10 @@ mutation. Continue claude/visuals. Durable allocation checkpoint a41df348 and
 documentation checkpoint 0d87c758 follow admitted source basis
 8126077a851b3a31e2b662a6953859adb112169b (runtime ancestor cd0118c0).
 Requested dd72908e9e5e277f63af27fbdb64d560bc9af355 is an ancestor.
-Current constructor/booster/matrix changes and six new test/support/proof files
-are UNCOMMITTED WIP after 0d87c758; preserve them and their research artifacts.
-Do not check out an old pin or assume the committed basis contains this delta.
+Constructor Refactor/proof is committed as f76d740c; debug/catch as bd018042.
+The C1 horizon/matrix/descending initializer and diagnostic source/evidence are
+checkpointed as unfinished WIP with this handoff. Inspect actual HEAD/diff and
+preserve newer dirty work. Do not check out an old pin over this source.
 Input hashes in horizon/, matrix/ and booster-descent/ pin their actual epochs.
 
 C0 source-basis admission is complete via independent reviewed successor.
@@ -100,13 +101,20 @@ Paused zero-particle captures cannot accept developed exhaust, R3 realism or
 motion. Frame budgets remain failed/open.
 
 NEXT BOUNDED TASKS — IMPLEMENT PRODUCT FIXES FROM EVIDENCE
-1. C1/C2: follow successor/next-diagnostics.md. Add a proven optional read-only
-observer to the existing mission loop; predeclare ONE serial before-flip/reentry
-selection with compact phase/fuel/pointing/catch/thermal traces and in-worker
-CPU samples. Preserve stepping, original assertions, 30 s cases, worker/work
-caps and zero retries. Investigate actual causes before editing physics. Do not
-wrap canonical force helpers or clone whole states per tick. Mass/ISA preparation
-remains held until ownership/generic-fallback admission and <=1 ULP proof exist.
+1. C1/C2: the ONE declared observer/profile capture is already complete under
+successor/descending-diagnosis. Both impacts reproduce with valid hull domains
+and all components attached before reset. Before-flip retains 18.47 t fuel; reentry
+retains 281 kg and impacts about 716 km short. It is not thermal impossibility or
+proof of fuel exhaustion. Do not repeat the capture unchanged. The new observer
+and trace controls pass 14/14 (final classification controls 9/9), build/lint exit 0.
+Next implement only the reviewed terminal torque coallocation correction from
+a failing recorded-constraint witness, preserving ordinary alignment and every
+paid authority/engine/slew limit. Intersect both admitted thrust-coefficient
+endpoints; Bmax-only can falsely claim attitude feasibility. See descending-diagnosis/coallocation-design.md. Then one changed before-flip row may inspect rotation; earlier lateral
+acquisition independently remains required, so a torque fix alone is no catch.
+Profiles identify grid-root/control work, not ISA, as the stronger CPU path.
+Pure-kernel reuse remains held until concrete review, frozen oracle, complete
+keys, original validation/material/getter calls and literal mock/generic fallback.
 2. C1 orbital: follow orbital-targeting-design.md. First establish one reviewed
 original-state, live-coast, nominal 150 m/s paid scheduling/trajectory witness;
 prove genuine fine catch and publication before future ignition/cutoff. Use

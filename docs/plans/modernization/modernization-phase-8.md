@@ -25,7 +25,10 @@ are not thereby proved. New 18-row matrix source and exact default-constructor
 proof exist; both landing-burn rows pass after a bounded reviewed booster
 initialization correction. Super Heavy/intro also passes, but before-flip and reentry crash; reentry
 also exceeds the original 30 s case budget. Other rows and whole integration
-remain open. Current C1 source/tests are uncommitted WIP after `0d87c758`.
+remain open. C1 source/tests are checkpointed as unfinished WIP, not accepted Fidelity.
+The declared physical/CPU capture reproduced both impacts; next correct terminal
+torque over-allocation from a failing boundary witness, while earlier lateral/
+range acquisition and paid orbital feasibility remain open.
 All starts/targets, other fourteen 900 s caps and physical/control/work/health/
 catch limits remain binding. [Evidence](../../research/2026-10-18-phase8-successor/README.md).
 

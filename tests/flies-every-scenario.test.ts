@@ -1,29 +1,38 @@
-/**
- * M5.4 precondition: v2 flies every scenario.
- *
- * The 2021 tree is only retired once v2 can do what it did. "Can do what it
- * did" is not a feeling, so this is it as an assertion: every scenario, flown
- * by the autopilot from its starting state to a definite end, with the outcome
- * recorded rather than assumed.
- *
- * Note what this does NOT claim. It does not claim every scenario lands — the
- * Re-entry preset does not, and why is a known open question about `heatLimit`
- * (see PARITY.md@d2839b9). It claims each one runs to a definite outcome without
- * producing a non-finite number, getting stuck, or throwing, and that the
- * outcomes are the ones actually observed, written down.
+/** Every shipped ID must complete a meaningful mission on each real vehicle.
+ * Generic smoke flights, the thermal witness and protected intro stay intact.
+ * The missing later matrix is reconstructed as a new reviewed successor;
+ * historical results are not transferred to it.
  */
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle } from '$core/scenarios';
 import { step } from '$core/step';
 import { DT } from '$app/loop';
 import { toggleAutoLand } from '$core/control/commands';
 import type { SimState } from '$core/state';
 import { SHIP,type VehicleDefinition } from '$core/vehicle';
-import { CATCH } from '$core/vehicles/super-heavy';
+import { CATCH, SUPER_HEAVY } from '$core/vehicles/super-heavy';
+import { runScenarioMission } from './support/scenario-mission';
+import { scenarioMissionHorizon } from './support/scenario-horizon';
 import { createCatchPose,writeCatchPose } from '$core/physics/tower-catch';
 import * as C from '$core/constants';
 
 type Outcome = 'landed' | 'crashed' | 'brokeUp' | 'flying';
+
+// Diagnostic hooks own profiling outside the unchanged synchronous flight body.
+// An explicit two-row selection is required; ordinary gate runs import nothing.
+let diagnostic: Awaited<ReturnType<typeof import('./support/descent-diagnostic')['startDescentDiagnostic']>> | undefined;
+const diagnosticDirectory = process.env['STARSHIP_DESCENT_DIAGNOSTIC_DIR'];
+if (diagnosticDirectory) {
+  beforeEach(async context => {
+    const { startDescentDiagnostic } = await import('./support/descent-diagnostic');
+    diagnostic = await startDescentDiagnostic(context.task.name, diagnosticDirectory);
+  });
+  afterEach(async () => {
+    const active = diagnostic;
+    diagnostic = undefined;
+    await active?.finish();
+  });
+}
 
 /** Fly until something definite happens, or the clock runs out. */
 function fly(initial: SimState, maxSeconds: number, model:VehicleDefinition=SHIP): { outcome: Outcome; seconds: number; state: SimState } {
@@ -86,53 +95,60 @@ describe('every scenario runs to a definite outcome', () => {
   }
 });
 
-describe('the autopilot flies the ones it is meant to', () => {
-  /**
-   * The outcomes as measured, not as hoped.
-   *
-   * Writing the actual result down is the point: a test that asserted "lands"
-   * everywhere would have to be weakened the first time it met Re-entry, and a
-   * weakened test tells you nothing. These are the four scenarios where
-   * auto-land is the intended answer.
-   */
-  const AUTO_LAND: ReadonlyArray<{ id: string; expected: Outcome }> = [
-    { id: 'booster-sep', expected: 'landed' },
-    { id: 'rtls', expected: 'landed' },
-    { id: 'before-flip', expected: 'landed' },
-    { id: 'landing-burn', expected: 'landed' },
-    // M2.9(a): Re-entry joins the list. It broke up from M2.1 until the
-    // heatLimit was recalibrated, because the limit had been tuned against a
-    // model that understated both density and heating.
-    { id: 'reentry', expected: 'landed' },
-  ];
-
-  for (const { id, expected } of AUTO_LAND) {
-    it(`${id}: auto-land ${expected}`, () => {
-      const preset = ALL_SCENARIOS.find((p) => p.id === id)!;
-      const flight=createScenarioVehicle(preset),state=flight.state;
-      toggleAutoLand(state);
-
-      const result = fly(state, 900,flight.vehicle);
-      assertFinite(result.state, id);
-
-      expect(result.outcome, `${id} after ${result.seconds.toFixed(1)} s`).toBe(expected);
-      if(flight.vehicle.id==='super-heavy') {
-        expect(result.state.status.onTheGround,id).toBe(false);
-        expect(Object.values(result.state.failures).some(Boolean),id).toBe(false);
-        expect(result.state.vehicle.propellantMass,id).toBeGreaterThan(0);
-        const lug=createCatchPose();writeCatchPose(result.state,flight.vehicle,lug);
-        expect(lug.altitude,id).toBe(CATCH.planeAltitude);
-        expect(Math.abs(lug.x-C.starBaseXPos),id).toBeLessThanOrEqual(CATCH.halfWidth);
-        expect(Math.abs(result.state.kinematics.pitch),id).toBeLessThanOrEqual(CATCH.maxPitch);
-        expect(result.state.kinematics.speedX,id).toBe(0);
-        expect(result.state.kinematics.speedY,id).toBe(0);
-      }
-      if (expected === 'landed') {
-        // Landed means landed, not "stopped moving": within the touchdown limits.
-        expect(Math.abs(result.state.kinematics.speedY), id).toBeLessThan(10);
-        expect(result.state.kinematics.altitude, id).toBeGreaterThan(0);
-      }
-    });
+describe('the autopilot completes every scenario on both vehicles', () => {
+  for (const vehicle of [SHIP, SUPER_HEAVY]) {
+    for (const preset of ALL_SCENARIOS) {
+      it(`${vehicle.id}/${preset.id}: autopilot lands or catches`, () => {
+        const result = runScenarioMission(preset, vehicle, diagnostic?.observe);
+        diagnostic?.recordResult(result);
+        const { state } = result;
+        const label = `${vehicle.id}/${preset.id}: ${result.outcome} after ${result.seconds.toFixed(3)} s; events=${JSON.stringify(result.events)}`;
+        assertFinite(state, label);
+        expect(result.finite, label).toBe(true);
+        expect(result.ticks, label).toBeGreaterThan(0);
+        expect(result.ticks, label).toBeLessThanOrEqual(scenarioMissionHorizon(preset).steps);
+        expect(result.outcome, label).toBe('landed');
+        expect(Object.values(state.failures).some(Boolean), label).toBe(false);
+        expect(state.vehicle.propellantMass, label).toBeGreaterThan(0);
+        expect(result.peakTemperature, label).toBeLessThanOrEqual(C.TILE_LIMIT_KELVIN);
+        expect(result.peakPressure, label).toBeLessThanOrEqual(C.dynamicPressureLimit);
+        expect(result.peakG, label).toBeLessThanOrEqual(C.gLimit);
+        if (preset.id === 'launch-pad') {
+          expect(result.launchDeparted, label).toBe(true);
+          expect(result.ascentCompleted, label).toBe(true);
+        }
+        if (preset.id === 'circularize') expect(result.circularized, label).toBe(true);
+        if (preset.id === 'circularize' || preset.id === 'deorbit') {
+          expect(result.events.some(event => event.kind === 'burn-start'), label).toBe(true);
+          expect(result.events.some(event => event.kind === 'burn-cutoff'), label).toBe(true);
+          expect(result.events.some(event => event.kind === 'return-handoff'), label).toBe(true);
+        }
+        if (vehicle.id === 'super-heavy') {
+          expect(state.status.onTheGround, label).toBe(false);
+          const lug = createCatchPose(); writeCatchPose(state, vehicle, lug);
+          expect(lug.altitude, label).toBe(CATCH.planeAltitude);
+          expect(Math.abs(lug.x - C.starBaseXPos), label).toBeLessThanOrEqual(CATCH.halfWidth);
+          expect(Math.abs(state.kinematics.pitch), label).toBeLessThanOrEqual(CATCH.maxPitch);
+          expect(state.kinematics.speedX, label).toBe(0);
+          expect(state.kinematics.speedY, label).toBe(0);
+        } else {
+          expect(state.status.landed, label).toBe(true);
+          expect(result.touchdown, label).toBeDefined();
+          const incoming = result.touchdown!;
+          expect(incoming.altitude, label).toBeLessThanOrEqual(vehicle.height * Math.abs(Math.cos(incoming.pitch)) / 2);
+          expect(Math.abs(incoming.speedX), label).toBeLessThan(2);
+          expect(incoming.speedY, label).toBeLessThan(-0.5);
+          expect(Math.abs(incoming.speedY), label).toBeLessThan(C.touchDownSpeedLimit);
+          expect(Math.abs(incoming.pitch), label).toBeLessThan(C.touchDownPitchLimit);
+          expect(Math.abs(state.kinematics.speedY), label).toBeLessThan(C.touchDownSpeedLimit);
+          expect(Math.abs(state.kinematics.pitch), label).toBeLessThan(C.touchDownPitchLimit);
+          expect(state.kinematics.altitude, label).toBeGreaterThan(0);
+          // Retain the existing orbital demonstration's physical target bound.
+          // The separate 1 km deorbit-range health test remains unchanged.
+          expect(Math.abs(state.kinematics.downRangeDistance - C.starBaseXPos), label).toBeLessThan(10_000);
+        }
+      });
+    }
   }
 
   it('reentry: survives the heat it now actually meets', () => {

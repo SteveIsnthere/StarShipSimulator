@@ -52,8 +52,12 @@ The assigned projection allocation debt is addressed at six render call sites.
 [Allocation evidence](allocation/README.md) records build/lint, focused 5/5 and
 expanded 85/85 with high independent code review, not optical/frame acceptance.
 
-**Next:** capture compact physical/CPU traces for the two failed descending
-rows and establish one paid orbital feasibility witness under existing budgets.
+**Next:** correct the demonstrated terminal torque over-allocation from a
+failing boundary witness, then earlier lateral/range acquisition and one paid
+orbital feasibility witness. The single [physical/CPU capture](descending-diagnosis/README.md)
+is complete: both impacts reproduce, reentry about 716 km short, no pre-impact
+detachment/domain loss. Grid-root/control CPU work has measured support; ISA
+preparation stays held. Do not repeat that capture unchanged.
 The [bounded diagnostic handoff](next-diagnostics.md) specifies those tasks and
 the independent reviews. It is a proposal, not an implemented or passing fix. Ship's fitted entry
 range and unpowered force approximation cannot supply booster cutoff authority.
@@ -73,10 +77,12 @@ assertions within 18.5 s, with stable source/build and actual SwiftShader identi
 Its saved shell/Playwright pass conflicts with outer tool exit 1; both are
 preserved. This is no full six-scene/current-build, R3 or frame acceptance.
 
-Current C1 code and tests are uncommitted WIP after documentation checkpoint
-`0d87c758`; input hashes in each result identify that exact local delta. Do not
-assume checking out the committed basis restores these files. Preserve the
-current workspace; no phase merge, deployment or whole-gate pass is claimed.
+Constructor Refactor/proof is committed as `f76d740c`; debug/catch as `bd018042`.
+The remaining C1 horizon/matrix/descending initializer and diagnostic are
+checkpointed with this record as explicitly unfinished WIP. Input hashes retain
+their actual capture epochs, including earlier dirty deltas. Inspect actual
+HEAD/diff, preserve newer work, and inherit no absent acceptance. No phase merge,
+deployment or whole-gate pass is claimed.
 
 C0 acceptance is source-basis/reconstruction admission only. Build/unit/browser/
 coverage/golden/mutation/frame, Phase 8, Phase 9 and release remain open.

@@ -1,12 +1,18 @@
 # Next bounded implementation and diagnosis
 
-Updated 2026-10-18 UTC. C1/C2 below remain reviewed proposals. The bounded
+Updated 2026-10-18 UTC. The C1/C2 observer/profile capture below is complete;
+its design is retained for traceability. Next implement the reviewed bounded
+physical correction from [measured evidence](descending-diagnosis/README.md). The bounded
 C3 getter/catch work has since been implemented; see its status below. No
 whole-phase flight/performance acceptance is implied. Follow the active GOAL and C1–C3
-contracts. Preserve the current uncommitted C1 source/tests and exact result
-pins; `0d87c758` does not contain those changes. No new product decision is pending.
+contracts. Preserve the current C1 WIP source/tests and exact result pins; `0d87c758`
+does not contain those changes. No new product decision is pending.
 
 ## C1/C2 — Two failed descending booster rows
+
+**The following capture is consumed.** Do not rerun it unchanged. Both original
+physical failures reproduced; the result supports terminal torque allocation
+and earlier range acquisition work, not fuel/thermal excuses or a CPU cure.
 
 Fresh independent source review: `/root/cpu_source_diagnosis_fresh`.
 Current evidence is [the descent result](booster-descent/result.json):
