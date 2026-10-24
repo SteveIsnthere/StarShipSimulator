@@ -1,0 +1,56 @@
+{
+  "kind": "exact-source08-before-latebound-HOLD-preservation-v1",
+  "rows": [
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/capture-input.json",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/capture-input.json",
+      "sha256": "a4957932c91a0232930ea991379e262ed95f28fa3384e5d906a04cfa068418ae"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/capture.py.txt",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/capture.py.txt",
+      "sha256": "c303cc206378af36e4a1aa9b034c1b4a2da6518c3b25871b2737237ca4dde9f0"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/declaration.md",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/declaration.md",
+      "sha256": "f4b9620da07489fe10b2d45b7102e646aca19f84ab188b9b3620cf96c5447e35"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/finite-source-authority.json",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/finite-source-authority.json",
+      "sha256": "d0776ed53dd01f36cc479e3d49aa5e94ac899e871438203644924b6a6b93e86f"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-source-HIGH-HOLD-pins.json",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/independent-source-HIGH-HOLD-pins.json",
+      "sha256": "02e1c9e3643a51ae9b4c640a65a1377d5274cdf25c8db271c71ceae9f60de2a2"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-source-HIGH-HOLD-review.md",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/independent-source-HIGH-HOLD-review.md",
+      "sha256": "2b9e15d4021cb0f4fbc7d233ea134c05fd6501207943e7f577f361fa55022ed1"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/owner-input-template.json",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/owner-input-template.json",
+      "sha256": "df023fd5cb44032c25fa11d4d85556b9bdebd043c8e66b82984370de6316832a"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/owner-stage.mjs.txt",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/owner-stage.mjs.txt",
+      "sha256": "0fd9da552abdf9b5a9ef89d8db840815bc0ad48e3313efdaae5cb0a7f269048e"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/root-parent.py.txt",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/root-parent.py.txt",
+      "sha256": "3f5f71b56d22ebf82f928941f824f5ad63bbc4e54934988bd054dedb46a71d88"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/source-pins.json",
+      "retained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/before-final-internal-bound-repair/source-pins.json",
+      "sha256": "d16b691fe0cd8b7338e8af21f86df6b65892f60ef12f105bb35b7f77ddc75775"
+    }
+  ],
+  "captureExecuted": false
+}

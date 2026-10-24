@@ -1,0 +1,204 @@
+{
+  "kind": "offline artificial puregraph actual-source profile attribution",
+  "samples": 5200,
+  "profileNodes": 55,
+  "durationUs": 962949,
+  "timeDeltaSumUs": 962675,
+  "oracleScriptId": "398",
+  "oracleExecutingDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+  "metrics": {
+    "oracle": {
+      "selfSamples": 4367,
+      "selfSampleShare": 0.8398076923076923,
+      "selfTimeDeltaUs": 773784,
+      "selfWeightedShare": 0.8037852857921937,
+      "inclusiveUnionTimeDeltaUs": 905090,
+      "inclusiveUnionWeightedShare": 0.940182304516062
+    },
+    "walk": {
+      "selfSamples": 4208,
+      "selfSampleShare": 0.8092307692307692,
+      "selfTimeDeltaUs": 745595,
+      "selfWeightedShare": 0.7745033370556003,
+      "inclusiveUnionTimeDeltaUs": 904911,
+      "inclusiveUnionWeightedShare": 0.9399963642974005
+    },
+    "scalar": {
+      "selfSamples": 65,
+      "selfSampleShare": 0.0125,
+      "selfTimeDeltaUs": 11516,
+      "selfWeightedShare": 0.011962500324616303,
+      "inclusiveUnionTimeDeltaUs": 11516,
+      "inclusiveUnionWeightedShare": 0.011962500324616303
+    },
+    "nodeKeyComparisons": {
+      "selfSamples": 84,
+      "selfSampleShare": 0.016153846153846154,
+      "selfTimeDeltaUs": 14579,
+      "selfWeightedShare": 0.01514425948528839,
+      "inclusiveUnionTimeDeltaUs": 17270,
+      "inclusiveUnionWeightedShare": 0.01793959539823928
+    },
+    "viteNodeInteropGet": {
+      "selfSamples": 79,
+      "selfSampleShare": 0.015192307692307692,
+      "selfTimeDeltaUs": 14923,
+      "selfWeightedShare": 0.015501597112213364,
+      "inclusiveUnionTimeDeltaUs": 14923,
+      "inclusiveUnionWeightedShare": 0.015501597112213364
+    }
+  },
+  "walkPositionTicks": [
+    {
+      "oneBasedExecutingLine": 104,
+      "ticks": 1371,
+      "source": "\t\t\t\t]) __vite_ssr_import_0__.default.equal(xd[flag], yd[flag], `${path}.${String(key)}.${flag}`);"
+    },
+    {
+      "oneBasedExecutingLine": 105,
+      "ticks": 445,
+      "source": "\t\t\t\twalk(xd.value, yd.value, `${path}.${String(key)}`);"
+    },
+    {
+      "oneBasedExecutingLine": 99,
+      "ticks": 402,
+      "source": "\t\t\t\t(0,__vite_ssr_import_0__.default)(\"value\" in xd && \"value\" in yd, `${path}.${String(key)} accessor unsupported`);"
+    },
+    {
+      "oneBasedExecutingLine": 97,
+      "ticks": 395,
+      "source": "\t\t\t\t__vite_ssr_import_0__.default.equal(typeof key, \"string\", `${path} unsupported symbol`);"
+    },
+    {
+      "oneBasedExecutingLine": 73,
+      "ticks": 385,
+      "source": "\t\t\t(0,__vite_ssr_import_0__.default)(++edges <= 2e7 && ++totalEdges <= 2e10, \"oracle edge budget\");"
+    },
+    {
+      "oneBasedExecutingLine": 80,
+      "ticks": 335,
+      "source": "\t\t\t\t(0,__vite_ssr_import_0__.default)(Object.is(x, y), `${path}: ${scalar(x)} !== ${scalar(y)}`);"
+    },
+    {
+      "oneBasedExecutingLine": 98,
+      "ticks": 279,
+      "source": "\t\t\t\tconst xd = Object.getOwnPropertyDescriptor(x, key), yd = Object.getOwnPropertyDescriptor(y, key);"
+    },
+    {
+      "oneBasedExecutingLine": 94,
+      "ticks": 147,
+      "source": "\t\t\t__vite_ssr_import_0__.default.deepEqual(keys, Reflect.ownKeys(y), `${path} own keys`);"
+    },
+    {
+      "oneBasedExecutingLine": 93,
+      "ticks": 134,
+      "source": "\t\t\tconst keys = Reflect.ownKeys(x);"
+    },
+    {
+      "oneBasedExecutingLine": 95,
+      "ticks": 38,
+      "source": "\t\t\t__vite_ssr_import_0__.default.equal(Object.isFrozen(x), Object.isFrozen(y), `${path} frozen`);"
+    },
+    {
+      "oneBasedExecutingLine": 90,
+      "ticks": 35,
+      "source": "\t\t\t(0,__vite_ssr_import_0__.default)(xp === null === (yp === null), `${path} null prototype`);"
+    },
+    {
+      "oneBasedExecutingLine": 88,
+      "ticks": 32,
+      "source": "\t\t\t__vite_ssr_import_0__.default.equal(Array.isArray(x), Array.isArray(y), `${path} array`);"
+    },
+    {
+      "oneBasedExecutingLine": 91,
+      "ticks": 25,
+      "source": "\t\t\t(0,__vite_ssr_import_0__.default)(xp === null || xp === Object.prototype || xp === Array.prototype, `${path} unsupported prototype`);"
+    },
+    {
+      "oneBasedExecutingLine": 92,
+      "ticks": 25,
+      "source": "\t\t\t(0,__vite_ssr_import_0__.default)(yp === null || yp === Object.prototype || yp === Array.prototype, `${path} unsupported prototype`);"
+    },
+    {
+      "oneBasedExecutingLine": 83,
+      "ticks": 24,
+      "source": "\t\t\t(0,__vite_ssr_import_0__.default)(++nodes <= 2e6 && ++totalNodes <= 2e9, \"oracle node budget\");"
+    },
+    {
+      "oneBasedExecutingLine": 100,
+      "ticks": 18,
+      "source": "\t\t\t\tfor (const flag of ["
+    },
+    {
+      "oneBasedExecutingLine": 86,
+      "ticks": 16,
+      "source": "\t\t\tseen.add(x);"
+    },
+    {
+      "oneBasedExecutingLine": 68,
+      "ticks": 16,
+      "source": "\tconst scalar = (value) => typeof value === \"number\" ? Object.is(value, -0) ? \"-0\" : String(value) : String(value).slice(0, 128);"
+    },
+    {
+      "oneBasedExecutingLine": 72,
+      "ticks": 13,
+      "source": "\t\tfunction walk(x, y, path) {"
+    },
+    {
+      "oneBasedExecutingLine": 107,
+      "ticks": 12,
+      "source": "\t\t\tif (deeplyFrozen(x) && deeplyFrozen(y)) proven.set(x, y);"
+    },
+    {
+      "oneBasedExecutingLine": 87,
+      "ticks": 10,
+      "source": "\t\t\tif (proven.get(x) === y) return;"
+    },
+    {
+      "oneBasedExecutingLine": 79,
+      "ticks": 10,
+      "source": "\t\t\tif (!x || typeof x !== \"object\" || !y || typeof y !== \"object\") {"
+    },
+    {
+      "oneBasedExecutingLine": 56,
+      "ticks": 10,
+      "source": "\t\t\t\t};"
+    },
+    {
+      "oneBasedExecutingLine": 85,
+      "ticks": 9,
+      "source": "\t\t\tif (seen.has(x)) return;"
+    },
+    {
+      "oneBasedExecutingLine": 89,
+      "ticks": 7,
+      "source": "\t\t\tconst xp = Object.getPrototypeOf(x), yp = Object.getPrototypeOf(y);"
+    },
+    {
+      "oneBasedExecutingLine": 74,
+      "ticks": 6,
+      "source": "\t\t\tif (typeof x === \"function\" || typeof y === \"function\") {"
+    },
+    {
+      "oneBasedExecutingLine": 96,
+      "ticks": 4,
+      "source": "\t\t\tfor (const key of keys) {"
+    },
+    {
+      "oneBasedExecutingLine": 388,
+      "ticks": 2,
+      "source": null
+    },
+    {
+      "oneBasedExecutingLine": 108,
+      "ticks": 2,
+      "source": "\t\t}"
+    },
+    {
+      "oneBasedExecutingLine": 75,
+      "ticks": 1,
+      "source": "\t\t\t\t(0,__vite_ssr_import_0__.default)(typeof x === \"function\" && typeof y === \"function\" && functions.get(x) === y, `unmapped function ${path}`);"
+    }
+  ],
+  "limits": "weighted sample intervals approximate; inclusive union overlaps; function definitions not instruction positions; script0/inlined positions unknown; artificial graph not full flight CPU fraction"
+}

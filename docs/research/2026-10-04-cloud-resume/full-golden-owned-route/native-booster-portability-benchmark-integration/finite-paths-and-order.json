@@ -1,0 +1,221 @@
+{
+  "kind": "source-only-finite-integration-order-proposal-v1",
+  "currentSnapshotSha256": "0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b",
+  "applied": false,
+  "paths": [
+    {
+      "target": ".nvmrc",
+      "currentBaseSha256": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+      "groups": [
+        "post-golden-portability"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/nvmrc.txt",
+          "sha256": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/bench.mjs",
+      "currentBaseSha256": "21fdc2ab89e36de730e0bd3f72c4afc4cfd7cb41726e162cfd817a13706c53e3",
+      "groups": [
+        "original12-benchmark"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/bench.mjs.txt",
+          "sha256": "5731a2a7b768bc750deadd80de53739595a045a534f0839d67713a49149aee86"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/bench/build-native-guidance.mjs",
+      "currentBaseSha256": "5f2b66b655615473f358c08cd9a95af26bbedd6621d05107072d93b5c1d3aac7",
+      "groups": [
+        "original12-benchmark"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/build-native-guidance.mjs.txt",
+          "sha256": "6f9ddea56eb5c0caa3222cce8e0d9145dc1cf2a8e15a3b4699627f959156c9b8"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/bench/native-guidance-entry.ts",
+      "currentBaseSha256": "b725fe1cbedc14aefe9c18d98f34662dd2ce9a856c33ca8c473d2ef5655234cc",
+      "groups": [
+        "original12-benchmark"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/native-guidance-entry.ts.txt",
+          "sha256": "3248a9f1674e0eb1aac6379b3b25db28e2113e37150286061c59ba9b5b1425cb"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/bench/native-loader.mjs",
+      "currentBaseSha256": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+      "groups": [
+        "original12-benchmark"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/native-loader.mjs.txt",
+          "sha256": "ec9c8433bf352fe0d4744857c52bc4ae50f291846772a65d18ff4c0c45c9be5e"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/bench/native-scenarios-benchmark.ts",
+      "currentBaseSha256": null,
+      "groups": [
+        "original12-benchmark"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/native-scenarios-benchmark.ts.txt",
+          "sha256": "4dd2339e144bc98ecae562fc40007e3945f52badb59f2968a571f8f900c59c01"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/bench/qualification.json",
+      "currentBaseSha256": "09ac0f90d87e60a7c235040bf92136d21ef2be0db68f129e04535c46ee56ccab",
+      "groups": [
+        "original12-benchmark"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/qualification.json.txt",
+          "sha256": "6f82369f7a231dbe0613241be8dfb0c09664ecd8a219e8056ecd629a3220e1ef"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/test/admission.mjs",
+      "currentBaseSha256": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+      "groups": [
+        "native-three-booster-cases",
+        "post-golden-portability"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/admission.mjs.txt",
+          "sha256": "88b685353a4b42df5cfa53e8f0d5850df6d4093f98db9690a0e082a0eec2c8fc"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/admission.mjs.txt",
+          "sha256": "4e8f43e6714db015b742d7beee47bcb4fdd4201788b14a57aa91019171ce914f"
+        }
+      ],
+      "requiresExplicitSourceMerge": true
+    },
+    {
+      "target": "scripts/test/build.mjs",
+      "currentBaseSha256": "ad1fade84731714978d1378ad21b3dc6e7aad7184760727b346b66351d186a06",
+      "groups": [
+        "post-golden-portability"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/build.mjs.txt",
+          "sha256": "513eb012207849e66933a59ff29924e202022000f5d98277bc4629b0771e2159"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/test/golden-support-policy.mjs",
+      "currentBaseSha256": null,
+      "groups": [
+        "native-three-booster-cases"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/golden-support-policy.mjs.txt",
+          "sha256": "dd268a7a38c9d8789ff823f4e93fb911e8df8b016e12d5b337ae74569df20e68"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/test/loader.mjs",
+      "currentBaseSha256": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16",
+      "groups": [
+        "native-three-booster-cases"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/loader.mjs.txt",
+          "sha256": "36044636298067bfb5fdf3e6ac48abfdf14f03aaef984d4314a414d50739f296"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    },
+    {
+      "target": "scripts/test/run.mjs",
+      "currentBaseSha256": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+      "groups": [
+        "native-three-booster-cases",
+        "post-golden-portability"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/run.mjs.txt",
+          "sha256": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/run.mjs.txt",
+          "sha256": "b51865936b83881122177d4b3292ecc3a07ea77a24698bf601c0182dd01ad417"
+        }
+      ],
+      "requiresExplicitSourceMerge": true
+    },
+    {
+      "target": "vitest.config.ts",
+      "currentBaseSha256": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029",
+      "groups": [
+        "native-three-booster-cases"
+      ],
+      "reviewedInputCandidates": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/vitest.config.ts.txt",
+          "sha256": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7"
+        }
+      ],
+      "requiresExplicitSourceMerge": false
+    }
+  ],
+  "uniqueProductPaths": 13,
+  "phaseA": {
+    "paths": [
+      "scripts/test/admission.mjs",
+      "scripts/test/loader.mjs",
+      "scripts/test/run.mjs",
+      "scripts/test/golden-support-policy.mjs",
+      "vitest.config.ts"
+    ],
+    "nativeBoosterReplayBeforeBenchIsPossible": true,
+    "keepBenchUtility": "scripts/bench/native-loader.mjs CURRENT base SHA unchanged; native integrity.mjs imports this utility and existing snapshot/installed functions suffice",
+    "qualification": "NEW explicit finite flight-and-golden composite; 13 historical tooling bridge paths +12 exact data/audit rows; original q73/d1 remain historical and STALE",
+    "pending": "Actual38+28 results+fresh OTHER code/input review+explicit new qualification/source bridge required BEFORE application; default anchor not fabricated",
+    "cohort": "ALL five original golden files/38 unchanged cases;3native+35SSR;default30s;NO horizons/assertion changes"
+  },
+  "phaseB": {
+    "description": "AFTER accepted full38: explicitly merge portable admission/run WITH golden certificate checks; never overwrite native5 with portable4",
+    "anchorStatus": "default portability data/replay authority frozen only AFTER actual accepted full38",
+    "bench": "original12 six tooling targets may follow as separate scope, changing native-loader utilityDigest and all source authority requires finite NEW bridge review before use"
+  },
+  "preservedFailure": "Original five replay37PASS/1timeout remains FAILED; no replay success inferred from proof controls",
+  "sourceAndTestsUnchanged": true
+}

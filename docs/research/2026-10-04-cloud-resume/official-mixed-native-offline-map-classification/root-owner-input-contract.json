@@ -1,0 +1,13 @@
+{
+  "kind": "retained-mixed-native-offline-owner-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "requiredPinnedObjects": ["node", "helper", "utility", "input", "entrypoint", "observer", "python"],
+  "objectSchema": {"path": "absolute exact actual root-reviewed path", "sha": "actual independently frozen SHA256"},
+  "input": "the exact retained-mixed-native-map-qualification-input-v1 JSON, frozen after actual content review",
+  "entrypoint": "the exact materialized run-owned.mjs path already present in qualifier input executedInputs; direct original Node args unchanged",
+  "invocation": ["pinned-python3", "materialized root-observer.py", "absolute root-frozen root-owner-input.json", "actual owner-input SHA256"],
+  "derivation": "Exact previously reviewed official build observer ownership logic; only5s clock, direct Node entrypoint/input args, receipt name and owner-result business assertions adapted. No generic permission system or new ownership mechanism.",
+  "bounds": "ONE whole root5s from before initial hashes; current owner5s ceiling plus actual min4500ms child; root deadline stricter. Existing TERM5/KILL2/close1 cleanup unchanged. No retries.",
+  "cleanup": "Immediate outer PID/start durable audit; ALL actual offline-qualification.process.json cleanup.tracked reconciled at finalization, captured-group witness/sticky uncertainty/repeated identity-checked signals unchanged",
+  "result": "Actual outer exit before assertions; actual stdout receipt path, owner0/child0/full current input integrity and root all-identities nonexecuting required. Old compiler build1 staysFAILED; current body/role/composite admission HOLD."
+}

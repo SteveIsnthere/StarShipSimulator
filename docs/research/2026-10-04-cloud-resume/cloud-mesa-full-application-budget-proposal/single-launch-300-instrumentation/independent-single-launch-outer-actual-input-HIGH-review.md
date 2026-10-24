@@ -1,0 +1,11 @@
+# Independent single-launch final outer actual-input HIGH
+
+Disposition: SUPPORTED for ONE root-granted exclusively supervised original desktoplaunch instrumentation diagnostic. Input readiness only, not a fullmatrix retry or frame/physics/photo/coverage/gate acceptance. Actual outputs and every observed PID/start require independent result review.
+
+Final outer64944c0b has428 pins. All391 historical outer rows are retained unchanged; all397 new owner rows are contained exactly, and all37 finite additions match actual bytes. Correct owner36357 and actualownerHIGH9504/pins0281 bind materialized stage37349/boundedhook7e9/config9930/spec3f6 and original hooks/reporter. All seven dereferenced seed runtime-control review/pins/actualproof/rawstdout/rawstderr/scopes/lint roles are individually pinned, closing the owner assembly obligation; seed9d61 remains retained. No historical pin or raw testcase status is overwritten.
+
+Unchanged V2wrapper9c3/review2fae/e067checker/90eaclosure/currenta073source770/tools20355/NEW0758buildf536/full61dist remain authority. Active observer58216 is the independently verified two-business-change derivative for complete diagnostics with nativeoriginaltest0or1 retained, never frame acceptance. Config selects exactly one originalchromiumlaunch60warm300measure, fixedviewport/DPR/AA/cues and currentMesa flags. Numerical assertions, capture60/case600/helper300/root338work330cleanup8 are unchanged. Trace32MiB/export64MiB/stop10s+detach1s and extraCDPdetach1s remain failclosed with failure receipts. No second build, alternate backend, clock/quality change, retries or sample cuts occur.
+
+Root must complete actual binary/runtime/fullsource/tool/dist admission and73 structural before/finallyafter, preserve all actual native statuses/partialtraces, and independently verify every actual caller/observer/browser/GPU/worker PID/start as absent or explicit same-startZ without false group-clear claims. Raw browser environment fields remain private and must not be printed/published. Even a completed trace has overhead and qualifies diagnosis only; unsupported/truncated/partial/error results remain failed.
+
+Method: finite metadata-map equality,37 added small role hashes and active role byte checks only; no imports/tests/checks/browser/native/source/tool scans/copies/product changes by reviewer.

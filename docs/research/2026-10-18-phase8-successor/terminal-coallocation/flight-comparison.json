@@ -1,0 +1,54 @@
+{
+  "kind": "terminal-coallocation-changed-row-comparison-v1",
+  "previousTraceSha256": "4751c089fab748d92a4d51600b20c5383723d58597fd1bd60c8f690c69f97c15",
+  "changedTraceSha256": "44e330d11bf965dae3470f4c4605fe8d56010dfb8707377a9105d8473ed82687",
+  "samePreChangeFields": {
+    "831": {
+      "kinematics": true,
+      "vehicle": true,
+      "engines": true,
+      "forces": true
+    },
+    "971": {
+      "kinematics": true,
+      "vehicle": true,
+      "engines": true,
+      "forces": true
+    }
+  },
+  "changedOutcome": {
+    "outcome": "crashed",
+    "ticks": 1999,
+    "seconds": 16.65833333333333,
+    "finite": true,
+    "peakTemperature": 303.1694160924129,
+    "peakPressure": 5.829436369084608,
+    "peakG": 3.473400503079344,
+    "events": []
+  },
+  "crossing": {
+    "vx": 11.840698840884077,
+    "vy": -1.65071058639892,
+    "pitch": -8.515556595782744e-07,
+    "clauses": {
+      "notAlreadyLanded": true,
+      "noCrash": true,
+      "noBreakup": true,
+      "noFuelFailure": true,
+      "aboveGround": true,
+      "finite": true,
+      "lateral": false,
+      "lateralSpeed": false,
+      "downSpeed": true,
+      "pitch": true
+    },
+    "assessment": "unmodified-candidate",
+    "eligible": false
+  },
+  "crossingErrorM": -129.25676147639751,
+  "recordedStateTick971GimbalCommand": {
+    "old": -100,
+    "new": 12.659483308466363
+  },
+  "noUniversalInfeasibilityClaim": true
+}

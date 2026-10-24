@@ -13,13 +13,16 @@ function nextUp(n:number):number {
   const bytes=new ArrayBuffer(8),view=new DataView(bytes);
   view.setFloat64(0,n);view.setBigUint64(0,view.getBigUint64(0)+1n);return view.getFloat64(0);
 }
+// Frozen120m catch plane; lug station scales with approved72m V3 envelope.
+const LUG_ARM = 65 / 71 * 72 - 36;
+const BODY_CATCH_ALTITUDE = 120 - LUG_ARM;
 function crossing(){
   const previous=createInitialState(123,SUPER_HEAVY);
-  previous.kinematics.altitude=90.6;previous.kinematics.distanceToPlanetCenter=C.planetRadius+90.6;
+  previous.kinematics.altitude=BODY_CATCH_ALTITUDE + .1;previous.kinematics.distanceToPlanetCenter=C.planetRadius+BODY_CATCH_ALTITUDE + .1;
   previous.kinematics.downRangeDistance=C.starBaseXPos;
   previous.kinematics.speedY=-1;previous.status.onTheGround=false;
-  const current=cloneState(previous);current.kinematics.altitude=90.4;
-  current.kinematics.distanceToPlanetCenter=C.planetRadius+90.4;
+  const current=cloneState(previous);current.kinematics.altitude=BODY_CATCH_ALTITUDE - .1;
+  current.kinematics.distanceToPlanetCenter=C.planetRadius+BODY_CATCH_ALTITUDE - .1;
   return {previous,current};
 }
 
@@ -45,9 +48,9 @@ describe('physical catch eligibility',()=>{
   it('checks the actual rotated lug and terminal angular motion rather than body altitude alone',()=>{
     const {previous,current}=crossing();
     previous.kinematics.pitch=current.kinematics.pitch=rad(CATCH.maxPitch);
-    const offset=29.5*Math.sin(CATCH.maxPitch);
+    const offset=LUG_ARM*Math.sin(CATCH.maxPitch);
     previous.kinematics.downRangeDistance=current.kinematics.downRangeDistance=C.starBaseXPos-offset;
-    previous.kinematics.altitude=120-29.5*Math.cos(CATCH.maxPitch)+.1;
+    previous.kinematics.altitude=120-LUG_ARM*Math.cos(CATCH.maxPitch)+.1;
     current.kinematics.altitude=previous.kinematics.altitude-.2;
     expect(catchEligible(previous,current,SUPER_HEAVY)).toBe(true);
     previous.kinematics.pitch=current.kinematics.pitch=rad(nextUp(CATCH.maxPitch));
@@ -61,7 +64,7 @@ describe('physical catch eligibility',()=>{
       const {previous,current}=crossing();current.failures[failure]=true;
       expect(catchEligible(previous,current,SUPER_HEAVY)).toBe(false);
     }
-    const {previous,current}=crossing();current.kinematics.altitude=35;
+    const {previous,current}=crossing();current.kinematics.altitude=72 / 2 - .5;
     expect(catchEligible(previous,current,SUPER_HEAVY)).toBe(false);
   });
 });
@@ -106,7 +109,7 @@ describe('secured tower contact',()=>{
   });
   it('cannot report a slow ground touchdown as a catch',()=>{
     const s=createInitialState(123,SUPER_HEAVY);
-    s.kinematics.altitude=35.4;s.kinematics.distanceToPlanetCenter=C.planetRadius+35.4;
+    s.kinematics.altitude=72 / 2 - .1;s.kinematics.distanceToPlanetCenter=C.planetRadius+s.kinematics.altitude;
     s.kinematics.speedY=-1;s.status.onTheGround=false;
     const next=step(s,1/120,{},SUPER_HEAVY);
     expect(next.status.landed).toBe(false);
@@ -121,11 +124,11 @@ describe('secured tower contact',()=>{
   });
   it('captures through the real integrator and remains airborne on following steps',()=>{
     const s=createInitialState(123,SUPER_HEAVY);
-    s.kinematics.altitude=90.501;s.kinematics.distanceToPlanetCenter=C.planetRadius+90.501;
+    s.kinematics.altitude=BODY_CATCH_ALTITUDE + .001;s.kinematics.distanceToPlanetCenter=C.planetRadius+BODY_CATCH_ALTITUDE + .001;
     s.kinematics.downRangeDistance=C.starBaseXPos;s.kinematics.speedY=-1;s.status.onTheGround=false;
     const caught=step(s,1/120,{},SUPER_HEAVY);
     expect(caught.status.landed).toBe(true);expect(caught.status.onTheGround).toBe(false);
-    expect(caught.kinematics.altitude).toBe(90.5);
+    expect(caught.kinematics.altitude).toBe(BODY_CATCH_ALTITUDE);
     expect(step(caught,1/120,{},SUPER_HEAVY).status.landed).toBe(true);
   });
 });

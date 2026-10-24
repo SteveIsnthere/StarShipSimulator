@@ -1,0 +1,30 @@
+# Repaired timer-query harness and current build qualification review
+
+The four concrete draft correctness findings are resolved against the exact pins below. The hook/runner/preparation/declaration are technically ready for actual current-build qualification review. This does not grant preparation/browser execution. Source/build/maps/physics proof handoff remains pending; no browser/build/test/lint/syntax execution or heavy hashing was performed by this reviewer.
+
+- `run-fullchrome-program-attribution.mjs`: `4ff5aaa8ea6dbebafc49070377481fef6a5118a109ddaab3d84f7adabcc1e998`
+- `program-attribution-hook.mjs`: `f2e0934fa3c9fdb20bdf246b06c72c08fc2844ba8695249d5e103389a2ff4752`
+- `prepare-fullchrome-program-attribution.py`: `cfc54b831f1b29be15625422c2640dcbb3f2cb1478c95952a14a0572065dd9d4`
+- `cloud-fullchrome-program-attribution-declaration.md`: `c9befe6e9a09cc34eb55006d2dd537ad418621a4ef4b568907b07b51e3b47c84`
+- `cloud-program-attribution-scoped-checks.json`: `e3e29174664e8c1d5e0f22e336b5127a198b7dc1992411b6063c5a7ad96ed043`
+
+Successful linkProgram now stores an immutable numbered executable generation with actual attached shader type/source; every measured draw retains that generation. Shader source/attachment/detach/relink mutation during capture fails closed rather than relabeling measured executables. Per-frame timed clear+draw counts must equal original probe.frame.draws in addition to exact20 timestamp equality. Disjoint is checked after query reads and again at result; finalfalse is mandatory. Bloom's substring result is honestly only a contains-body candidate requiring independent actual linked-source/prefix inspection, not an exact canonical identity or established causal shader cost. Prior bounded metadata/storage/availability/frozen state/owned cleanup conditions remain intact.
+
+The scoped-checks receipt records Node syntax checks for both MJS files, Python AST parse and targeted ESLint exit0, with exact file pins,1.351915863s total and no browser/build qualification. It expressly preserves the parent's two full-cohort30s timeout failures. Reading that receipt does not imply this reviewer reran checks.
+
+## One qualifying build is justified
+
+One supervised `npm run build` may produce a fresh pinned current production artifact/input lineage. Its purpose is a deliberate new current-source/dist/map/CI qualification after approved core/tooling changes, not another attempt to obtain a lucky performance/test pass. Preserve actual child identity/starttime/command/output and independently known child exit0, unique non-overwriting output directory/receipts, bounded process-tree cleanup and before/after full source manifest equality. Root serializes it; no browser/tests or dependency install runs concurrently. Build/source integrity failure stops qualification, without retry.
+
+The actual qualification must contain and independently verify:
+
+- Explicit purpose/mode timer-query, methodFallbackfalse, historical browser receipt SHA, current build command/environment/tool identities, actual build child exit0 plus complete raw receipt hashes. Build wrapper/tool exit is separately retained, not substituted for child exit.
+- Complete sorted current source tuples/digest and source-before/source-after equality; explicit old/current delta with approved changed paths and exact current three changed core hashes. Node/locked package/lockfile/Vite tool/config lineage remains pinned. No undocumented renderer/assets/probe/testid drift.
+- Exact compiled dist inventory/hashes and map inventory/hashes, plus build index/serviceworker presence. Bind the parsed source-map sourceContent for changed physics and unchanged renderer modules to current pinned source where emitted, preserving exact actual sourcemap semantics rather than assuming byte equality from source filenames. The current `vite.config.ts` requests sourcemaptrue: an empty map list requires actual explained build/config evidence and fresh review, not silent acceptance merely because it is an array.
+- Passed92-focused-physics test receipt, test inventory/count and actual test-child exit0; associated build-exit and proof source-before/after manifests or relevant full graph hashes. Compare current physics graph/test bytes to what those proofs actually exercised. The current three changed core hashes alone do not establish that all dependencies/test witnesses are still the qualified graph.
+- Complete247-unit cohort retained as FAILED with its exact two30-second timeout failures and raw receipt hashes. Distinguish that broader status from passed focused proofs. A valid focused/current-build research qualification is not an all-unit/gate pass, integration or recovery closure.
+- Three CI hashes and explicit current CI inventory/delta checked against the historical HEAD, acknowledging historical source tuple omitted CI. Actual approved JSON path/hash and all referenced repository receipt paths/digests must exist and remain stable before/after/failure boundaries. Do not trust an unverified outcome:'passed' string as proof.
+
+Count precision: the historical source tuple has347 total src/public paths, including56 src/core paths. The exact preparation renderer/UI/app/public prefix comparison covers271 paths. With deliberate core changes, do not describe all347 as unchanged renderer paths. An explicit full347-path delta showing only approved core changes is stronger and honest; other src scopes such as HUD/audio must not silently change merely because they are outside the271-prefix comparison.
+
+Preparation already compares old/new renderer graph, probe/testids and current source tuples, and the runner checks current dist/map/CI/proof receipt identities at all boundaries. The pending qualification must supply the stronger lineage above as durable fields/references. If the parent produces that actual receipt with green current build/focused proof linkage and honest broader failures, a fresh read can approve one timer-query/capability-stop episode. Unsupported capability means STOP; no alternative method or300 trial is granted here.

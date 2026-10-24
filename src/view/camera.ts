@@ -861,14 +861,4 @@ export function updateCamera(
  * read as the lens moving rather than as the vehicle wobbling against a still
  * world.
  */
-export function worldToScreen(
-  camera: CameraState,
-  viewport: Viewport,
-  worldX: number,
-  worldY: number,
-): { x: number; y: number } {
-  return {
-    x: viewport.width / 2 + (worldX - camera.posX - camera.shakeX) * viewport.scale,
-    y: viewport.height / 2 - (worldY - camera.posY - camera.shakeY) * viewport.scale,
-  };
-}
+export { worldToScreen, writeWorldToScreen } from './camera-projection';

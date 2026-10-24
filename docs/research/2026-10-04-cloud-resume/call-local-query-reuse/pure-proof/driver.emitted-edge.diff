@@ -1,0 +1,20 @@
+--- f78-driver
++++ emitted-edge-driver
+@@ -14,6 +14,17 @@
+ const api={};
+ for(const [role,graph]of Object.entries(manifest.graphs)){
+  for(const [path,h]of Object.entries(graph.files))assert.equal(sha(resolve(graph.directory,path)),h);
++ const certificate=graph.emittedEdges;assert.equal(certificate.kind,'query-reuse-role-emitted-edge-certificate-v1');assert.equal(certificate.role,role);
++ const expectedSources=['src/core/vehicle.ts','src/core/vehicles/super-heavy.ts','src/core/vehicles/v3.ts','src/core/constants.ts','src/core/units.ts','src/core/physics/vehicle-components.ts','src/core/damage-state.ts','src/core/physics/damage-controls.ts','src/core/physics/damage-thermal.ts','src/core/physics/damage-root.ts','src/core/physics/damage-material.ts','src/core/physics/tps-material.ts'].map(path=>resolve(m.root,path));
++ expectedSources.push(resolve(m.setup,role.endsWith('counted')?'entry-'+role+'.ts':'entry.ts'));
++ assert.deepEqual(certificate.expectedSources.slice().sort(),expectedSources.sort());
++ assert.ok(certificate.edges.length>0&&certificate.edges.length<=16);const ownedChunks=new Set(certificate.edges.map(edge=>edge.fileName));assert.equal(ownedChunks.size,certificate.edges.length);assert.ok(ownedChunks.has('entry.mjs'));
++ const ids=new Set();for(const edge of certificate.edges){
++  assert.equal(edge.artifactSha256,graph.files[edge.fileName]);assert.deepEqual(edge.dynamicImports,[]);
++  assert.ok(Array.isArray(edge.moduleIds));for(const id of edge.moduleIds){assert.ok(expectedSources.includes(id));ids.add(id);}
++  for(const imported of edge.imports)assert.ok(ownedChunks.has(imported)&&Object.hasOwn(graph.files,imported));
++ }
++ assert.deepEqual([...ids].sort(),expectedSources.sort(),'Exact certified emitted closure before native import');
+  api[role]=await import(pathToFileURL(graph.entry).href);
+ }
+ assert.equal(Object.keys(api).length,4);assert.notEqual(api.original.SHIP,api.candidate.SHIP);

@@ -1,0 +1,22 @@
+/** Proposed actual installed public runner, not a mocked lifecycle. */
+import {startVitest} from 'vitest/node';
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const config=process.argv[2],dir=process.env.DUPLICATE_FLIGHT_PROOF_RECEIPT;
+if(!config||!dir||process.env.STARSHIP_CPU_SLOT_GRANTED!=='duplicate-flight-ownership-proof')throw Error('Reviewed exact config and parent CPU grant required');
+let ctx,primary;
+try{
+ ctx=await startVitest('test',[],{config,watch:false,run:true});
+ assert.ok(ctx);
+ const errors=ctx.state.getUnhandledErrors();assert.equal(errors.length,0);
+ const files=ctx.state.getFiles();assert.equal(files.length,1);
+ for(const file of files)assert.equal(file.result?.errors?.length??0,0);
+}catch(e){primary=e;}
+finally{try{if(ctx)await ctx.close();}catch(e){primary??=e;}}
+if(primary){fs.writeFileSync(`${dir}/runner-failure.json`,JSON.stringify({error:String(primary)})+'\n',{flag:'wx'});throw primary;}
+assert.equal(ctx.state.getUnhandledErrors().length,0);
+assert.equal(ctx.state.getFiles().length,1);
+for(const file of ctx.state.getFiles()){assert.equal(file.result?.errors?.length??0,0);assert.equal(file.result?.state,'pass');}
+// Written AFTER awaited public context close. Any close/late validation error
+// leaves this absent, even when expected red tests already set exitCode1.
+assert.equal(process.exitCode??0,0);
+fs.writeFileSync(`${dir}/runner-closed.json`,JSON.stringify({closed:true,unhandledErrors:0,fileErrors:0,nativeExitCode:0})+'\n',{flag:'wx'});

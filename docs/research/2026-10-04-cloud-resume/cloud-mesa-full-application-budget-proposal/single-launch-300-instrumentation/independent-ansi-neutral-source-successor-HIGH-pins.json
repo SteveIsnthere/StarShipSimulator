@@ -1,0 +1,14 @@
+{
+  "kind": "ansi-neutral-successor-source-high-pins-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/business-stage.mjs.txt": "94cc413bfa2e81212885b9654a8bd686293c0f83cc7cca4d61f465f73a4c9448",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach.json": "19984326ff07f6f4db8e7b2d9aeba001cb72d0281daa44fa0d65275fef25e687",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.py.txt": "9db52b8ff6088781c116ca2897a8bb0060d0f2ccdba66e67d8d1211d2418496e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/business-stage.ansi-lint-clean.mjs.txt": "37349d8df6b986e9ce4ea92e4b61e42598d283ef699c91d7989480708f09c466",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ansi-string-controls.mjs": "fa7f6b6e694e1d0be2022caa693caac6f75f1c149c07f8bf4280ef251506ea7e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach-ansi-lint-clean.json": "07a1f85143704735d7992ad172deb9ab1db9fe19113f19b31bfdb876d5189ad5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.ansi-lint-clean.py.txt": "46b0722ea3d893b050a9c766d86f53f97c8939f6df8f60c856f95fd8574e7ca3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ansi-lint-clean-successor-source-pins.json": "87386d53b565030329ef1c0bdc50ad056d10c777b59b9c9e8e1ac476bd1cba2b"
+  },
+  "reviewSha256": "2dcc8fe21ae95ad53188db834117a1e78adedf711622da3e99becb860f8aa109"
+}

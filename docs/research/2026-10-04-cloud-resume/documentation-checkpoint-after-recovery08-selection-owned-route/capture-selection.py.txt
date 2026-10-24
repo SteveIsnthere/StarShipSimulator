@@ -1,0 +1,176 @@
+"""ROOT-only reviewed finite docs capture; no index writes, staging, application or imports."""
+from pathlib import Path
+import hashlib, json, os, selectors, signal, stat, subprocess, sys, time, traceback
+root = Path('/workspace/StarShipSimulator')
+sha = lambda b: hashlib.sha256(b).hexdigest()
+spec_path, expected = Path(sys.argv[1]), sys.argv[2]
+assert sha(spec_path.read_bytes()) == expected
+m = json.loads(spec_path.read_text())
+assert m['kind'] == 'docs-after08-reviewed-selection-input-v2'
+assert os.environ['STARSHIP_DOC_SELECTION_INPUT_SHA256'] == expected
+review_path = Path(os.environ['STARSHIP_DOC_SELECTION_REVIEW'])
+review_sha = os.environ['STARSHIP_DOC_SELECTION_REVIEW_SHA256']
+assert sha(review_path.read_bytes()) == review_sha
+review = json.loads(review_path.read_text())
+assert review['decision'] == 'approved-one-root-owned-readonly-docs-selection'
+assert review['input'] == {'path':str(spec_path),'sha256':expected}
+assert review['capture'] == {'sourcePath':m['captureSourcePath'], 'sha256':m['captureSha256']}
+assert m['captureSourcePath'] == str(root/'docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/capture-selection.py.txt')
+assert sha(Path(__file__).read_bytes()) == m['captureSha256']
+assert m['git'] == {'path':'/usr/local/bin/git','bytes':19295504,'sha256':'37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e'}
+def git_authority():
+    p=Path(m['git']['path']); st=p.lstat()
+    assert stat.S_ISREG(st.st_mode) and st.st_size == m['git']['bytes']
+    assert sha(p.read_bytes()) == m['git']['sha256']
+git_authority()
+output=Path(m['receipt']); assert output.parent == Path('/tmp') and not os.path.lexists(output)
+output.mkdir(mode=0o700)
+started=time.monotonic(); commands=[]; rows=[]; before=None; failure=None; audits=[]
+
+def bound():
+    assert time.monotonic()-started < 45, 'Capture/internal-audit deadline'
+
+def save(name,b):
+    p=output/name; pending=output/(name+'.pending')
+    with pending.open('xb') as f:f.write(b);f.flush();os.fsync(f.fileno())
+    pending.chmod(0o600)
+    # Atomic no-overwrite publication prevents observer reads of partial JSON.
+    os.link(pending,p);pending.unlink()
+    fd=os.open(output,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(fd)
+    finally:os.close(fd)
+
+def proc(pid):
+    try:
+        s=Path('/proc',str(pid),'stat').read_text();f=s[s.rfind(')')+2:].split()
+        return {'pid':pid,'state':f[0],'parent':int(f[1]),'group':int(f[2]),'session':int(f[3]),'start':f[19]}
+    except (FileNotFoundError,ProcessLookupError):return None
+
+capture_identity=proc(os.getpid())
+assert capture_identity is not None
+save('capture-identity.json',(json.dumps(capture_identity)+'\n').encode())
+
+def terminate(c,identity):
+    if c.poll() is not None:return
+    now=proc(c.pid)
+    assert identity is not None and now is not None and now['start']==identity['start']
+    assert now['parent']==os.getpid() and now['group']==now['session']==c.pid
+    os.kill(c.pid,signal.SIGTERM)
+    try:c.wait(timeout=.2)
+    except subprocess.TimeoutExpired:
+        now=proc(c.pid);assert now is not None and now['start']==identity['start']
+        os.kill(c.pid,signal.SIGKILL);c.wait(timeout=1)
+
+def git(args):
+    bound(); n=len(commands); prefix=str(n)
+    allowed=[['rev-parse','HEAD'],['symbolic-ref','--short','HEAD'],['diff','--cached','--name-only','-z'],['status','--porcelain=v1','-z','--untracked-files=all']]
+    assert args in allowed
+    save(prefix+'.started.json',(json.dumps({'args':args})+'\n').encode())
+    env=dict(os.environ);env['GIT_OPTIONAL_LOCKS']='0'
+    c=None;identity=None;error=None;secondary=[];streams={};sel=selectors.DefaultSelector();total=0;result=None;truncated=False
+    command_started=time.monotonic()
+    try:
+        c=subprocess.Popen([m['git']['path'],*args],cwd=root,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+        for label,stream in [('stdout',c.stdout),('stderr',c.stderr)]:
+            os.set_blocking(stream.fileno(),False)
+            path=output/(prefix+'.'+label+'.bin');f=path.open('xb');path.chmod(0o600)
+            streams[label]=f;sel.register(stream,selectors.EVENT_READ,label)
+        identity=proc(c.pid)
+        assert identity is not None and identity['parent']==os.getpid() and identity['group']==identity['session']==c.pid
+        save(prefix+'.identity.json',(json.dumps(identity)+'\n').encode())
+        deadline=time.monotonic()+5
+        while sel.get_map():
+            bound();assert time.monotonic()<deadline, 'Git command deadline'
+            for key,_ in sel.select(.02):
+                data=os.read(key.fileobj.fileno(),8192)
+                if not data:sel.unregister(key.fileobj);continue
+                remaining=2097152-total
+                if len(data)>remaining:
+                    if remaining:streams[key.data].write(data[:remaining]);total+=remaining
+                    truncated=True;raise RuntimeError('Combined streamed Git output cap')
+                streams[key.data].write(data);total+=len(data)
+        c.wait(timeout=max(.001,deadline-time.monotonic()))
+        assert time.monotonic()-command_started < 5, 'Git strict five-second result boundary'
+    except BaseException:error=traceback.format_exc()
+    finally:
+        # Every cleanup/reap/raw-status operation is independent; the primary is immutable.
+        if c is not None:
+            try:
+                if identity is None and c.poll() is None:
+                    now=proc(c.pid)
+                    assert now is not None and now['parent']==os.getpid() and now['group']==now['session']==c.pid
+                    identity=now;save(prefix+'.fallback-identity.json',(json.dumps(identity)+'\n').encode())
+            except BaseException:secondary.append({'stage':'identity-recovery','error':traceback.format_exc()})
+            try:terminate(c,identity)
+            except BaseException:secondary.append({'stage':'identity-safe-termination','error':traceback.format_exc()})
+            try:c.wait(timeout=1)
+            except BaseException:secondary.append({'stage':'independent-direct-wait','error':traceback.format_exc()})
+        for label,f in streams.items():
+            try:f.flush();os.fsync(f.fileno())
+            except BaseException:secondary.append({'stage':label+'-durable-output','error':traceback.format_exc()})
+            try:f.close()
+            except BaseException:secondary.append({'stage':label+'-file-close','error':traceback.format_exc()})
+        for label,stream in ([] if c is None else [('stdout',c.stdout),('stderr',c.stderr)]):
+            try:
+                if stream is not None:stream.close()
+            except BaseException:secondary.append({'stage':label+'-pipe-close','error':traceback.format_exc()})
+        try:sel.close()
+        except BaseException:secondary.append({'stage':'selector-close','error':traceback.format_exc()})
+        result={'args':args,'pidStart':identity,'captureParent':capture_identity,'exitCode':None if c is None else c.returncode,'failure':error,'secondaryFailures':secondary,'truncated':truncated,'retainedBytes':total,'elapsedSeconds':time.monotonic()-command_started}
+        commands.append(result)
+        # Raw command completion is fsynced before any result assertion, even on cleanup errors.
+        save(prefix+'.completed.json',(json.dumps(result)+'\n').encode())
+    assert error is None and not secondary and c.returncode==0 and not truncated
+    return (output/(prefix+'.stdout.bin')).read_bytes()
+
+def boundary():
+    head=git(['rev-parse','HEAD']).decode().strip()
+    branch=git(['symbolic-ref','--short','HEAD']).decode().strip()
+    staged=git(['diff','--cached','--name-only','-z'])
+    status=git(['status','--porcelain=v1','-z','--untracked-files=all'])
+    p=root/'.git/index';st=p.lstat();assert stat.S_ISREG(st.st_mode) and st.st_size<=8388608
+    return {'head':head,'branch':branch,'staged':staged.hex(),'statusSha256':sha(status),'indexSha256':sha(p.read_bytes()),'indexMode':stat.S_IMODE(st.st_mode)}
+
+def check(row):
+    bound();rel=Path(row['path'])
+    assert not rel.is_absolute() and '..' not in rel.parts and str(rel)==os.path.normpath(str(rel))
+    assert rel.parts[0]=='docs'
+    assert str(rel) not in m['excludedPaths'] and not any(str(rel).startswith(p) for p in m['excludedPrefixes'])
+    p=root/rel
+    for a in [p,*p.parents]:assert not a.is_symlink()
+    st=p.lstat();assert stat.S_ISREG(st.st_mode)
+    cap=16777216
+    if str(rel)=='docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.patch':
+        cap=18837675;assert st.st_size==cap and row['sha256']=='ac9f96c9daf3534e166a489daf2b46434f387fa343540c653cc903b7b3df3c87'
+    assert st.st_size<=cap and st.st_size==row['bytes'] and stat.S_IMODE(st.st_mode)==row['mode']
+    assert sha(p.read_bytes())==row['sha256']
+
+try:
+    before=boundary();save('before.json',(json.dumps(before)+'\n').encode())
+    assert before['head']==m['baseHead'] and m['baseHead']=='26e946c7eee0320e68c18f3d4e3ceab8dc4116da'
+    assert before['branch']=='claude/visuals' and before['staged']==''
+    assert len(m['files'])==m['selectedCount'] and len({r['path'] for r in m['files']})==len(m['files'])
+    assert m['selectedCount'] <= 20000
+    assert [r['path'] for r in m['files']] == m['selectedPaths']
+    assert sum(r['bytes'] for r in m['files'])<=268435456
+    for row in m['files']:check(row);rows.append(row)
+except BaseException:failure=traceback.format_exc()
+finally:
+    # Every final audit is attempted independently even after primary failure.
+    for row in m['files']:
+        try:check(row)
+        except BaseException:audits.append({'path':row['path'],'error':traceback.format_exc()})
+    for stage,fn in [('Git-binary',git_authority),('review',lambda: (_ for _ in ()).throw(AssertionError()) if sha(review_path.read_bytes())!=review_sha else None),('input',lambda: (_ for _ in ()).throw(AssertionError()) if sha(spec_path.read_bytes())!=expected else None),('capture',lambda: (_ for _ in ()).throw(AssertionError()) if sha(Path(__file__).read_bytes())!=m['captureSha256'] else None)]:
+        try:fn()
+        except BaseException:audits.append({'stage':stage,'error':traceback.format_exc()})
+    try:
+        after=boundary();save('after.json',(json.dumps(after)+'\n').encode());assert after==before
+        bound()
+    except BaseException:audits.append({'stage':'real-index-HEAD-status','error':traceback.format_exc()})
+    complete=failure is None and not audits and len(rows)==len(m['files'])
+    if complete:
+        try:
+            save('selection.json',(json.dumps({'kind':'reviewed-docs-only-selection-after08-v2','baseHead':before['head'],'files':rows,'totalBytes':sum(r['bytes'] for r in rows),'noGitMutation':True,'runtimeStageApproved':False,'scope':'Preservation only; no gate/phase/test/frame acceptance'},indent=2)+'\n').encode());bound()
+        except BaseException:complete=False;audits.append({'stage':'selection-publication','error':traceback.format_exc()})
+    save('result.json',(json.dumps({'completed':complete,'primaryFailure':failure,'afterErrors':audits,'commands':commands,'elapsedSeconds':time.monotonic()-started,'proposalSha256':expected,'executedScriptSha256':m['captureSha256']},indent=2)+'\n').encode())
+sys.exit(0 if complete else 1)

@@ -15,6 +15,10 @@
  * the physics under it is replaced.
  */
 import * as C from '../constants';
+import { SHIP } from '../vehicle';
+import { createDamageMassProperties } from '../physics/damage-mass';
+import { writeFlightMassQuery } from '../physics/flight-mass-query';
+import { engineThrust } from '../physics/propulsion';
 import { createBurnScratch, landingBurnStartAltitude } from '../control/guidance-physics';
 import { getHealthySeaLevelCount, getWorkingSeaLevelCount } from '../physics/engines';
 import { verticalWeight } from '../physics/gravity';
@@ -49,6 +53,7 @@ const PAD_GRAVITY = verticalWeight(C.planetRadius);
 
 /** One scratch for both sizings; fully rewritten on every call. */
 const scratch = createBurnScratch();
+const retained = createDamageMassProperties();
 
 /**
  * The engine count the trigger plans the burn on: one, or two or three when
@@ -59,10 +64,12 @@ const scratch = createBurnScratch();
  * the true weight.
  */
 export function plannedEngineCount(state: SimState): number {
-  const weight = state.vehicle.vehicleMass * PAD_GRAVITY;
+  writeFlightMassQuery(state, SHIP, retained);
+  if (!retained.engineSupportAvailable || !retained.hasMass) return 0;
+  const weight = retained.totalMass * PAD_GRAVITY;
   let engines = 1;
-  if (C.maxThrustPerRaptor * 0.8 < weight) engines = 2;
-  if (C.maxThrustPerRaptor * 2 * 0.8 < weight) engines = 3;
+  if (engineThrust(SHIP.propulsion, 'sea-level', C.SEA_LEVEL_PRESSURE_PA / 1000) * 0.8 < weight) engines = 2;
+  if (engineThrust(SHIP.propulsion, 'sea-level', C.SEA_LEVEL_PRESSURE_PA / 1000) * 2 * 0.8 < weight) engines = 3;
   return Math.min(engines, getHealthySeaLevelCount(state.engines.failed));
 }
 
@@ -72,12 +79,15 @@ export function plannedEngineCount(state: SimState): number {
  * current altitude: start now.
  */
 export function triggerBurnAltitude(state: SimState): number {
+  const count = plannedEngineCount(state); // Also writes the canonical retained query.
   const predicted = landingBurnStartAltitude(
-    plannedEngineCount(state),
-    state.vehicle.vehicleMass,
+    count,
+    retained.totalMass,
     -state.kinematics.speedY,
     0,
     scratch,
+    SHIP,
+    retained.retainedDryMass,
   );
   return predicted ?? state.kinematics.altitude;
 }
@@ -89,12 +99,15 @@ export function triggerBurnAltitude(state: SimState): number {
  */
 export function finalDescentStartAltitude(state: SimState): number {
   const descent = -state.kinematics.speedY;
+  writeFlightMassQuery(state, SHIP, retained);
   const predicted = landingBurnStartAltitude(
-    getWorkingSeaLevelCount(state.engines.running),
-    state.vehicle.vehicleMass,
+    retained.engineSupportAvailable ? getWorkingSeaLevelCount(state.engines.running) : 0,
+    retained.totalMass,
     descent,
-    C.vehicleHeight * 0.5,
+    SHIP.height * 0.5,
     scratch,
+    SHIP,
+    retained.retainedDryMass,
   );
   if (predicted === null) return state.kinematics.altitude;
   return predicted + descent * HORIZONTAL_ADJUSTMENT_MARGIN_S * 0.5;

@@ -1,0 +1,21 @@
+--- docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/capture-reporter.mjs.txt
++++ docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/capture-reporter-ssr.mjs.txt
+@@ -27,13 +27,16 @@
+     assert.equal(ctx.config.coverage.provider, 'v8');
+     assert.equal(ctx.config.testTimeout, 120000);
+     assert.equal(ctx.config.coverage.excludeAfterRemap, true);
+-    assert.deepEqual(ctx.config.coverage.include, ['src/core/**', process.env.NATIVE_FLIGHT_MAPPED_CODE]);
++    assert.deepEqual(ctx.config.coverage.include, ['src/core/**']);
++    for (const key of ['NATIVE_FLIGHT_RUN', 'NATIVE_FLIGHT_RUN_SHA', 'NATIVE_FLIGHT_MAPPED_CODE']) {
++      assert.equal(process.env[key] ?? '', '', 'SSR diagnostic must not admit native code');
++    }
+     assert(!ctx.config.coverage.thresholds.autoUpdate);
+     this.capture = capture;
+     this.reports = ctx.config.coverage.reportsDirectory;
+     this.save('resolved-configuration.json', { coverage: ctx.config.coverage, testTimeout: ctx.config.testTimeout,
+       nativeRun: process.env.NATIVE_FLIGHT_RUN, nativeRunSha: process.env.NATIVE_FLIGHT_RUN_SHA,
+-      mappedCode: process.env.NATIVE_FLIGHT_MAPPED_CODE, acceptance: 'Standalone coverage120; no unit30 or complete-gate acceptance' });
++      mappedCode: process.env.NATIVE_FLIGHT_MAPPED_CODE, acceptance: 'Selected2 SSR diagnostic standalone120; no complete coverage/unit30/gate acceptance' });
+   }
+   save(name, value) {
+     const bytes = Buffer.from(JSON.stringify(value) + '\n');

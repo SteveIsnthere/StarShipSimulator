@@ -1,0 +1,21 @@
+--- recording-root
++++ five-original-replay-root
+@@ -16,8 +16,8 @@
+ for key in ('node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python'):
+     require(digest(m[key]['path']) == m[key]['sha'], 'Pinned input mismatch: ' + key)
+ require(digest(__file__) == m['observer']['sha'], 'Executed root observer mismatch')
+-require(m['mode'] in ('golden-record',), 'Unknown concrete stage')
+-require(m['outerMs'] == {'golden-record':338000}[m['mode']], 'Wrong concrete stage bound')
++require(m['mode'] in ('golden-replay',), 'Unknown concrete stage')
++require(m['outerMs'] == {'golden-replay':338000}[m['mode']], 'Wrong concrete stage bound')
+ prediction = json.loads(pathlib.Path(m['prediction']['path']).read_text())
+ require(digest(m['prediction']['path']) == m['prediction']['sha'], 'Frozen pre-look prediction mismatch')
+ require(prediction['kind'] == 'pre-look-full-ten-Fidelity-golden-prediction' and len(prediction['scenarios']) == 10, 'Wrong pre-look set')
+@@ -278,7 +278,6 @@
+         require(inventory['kind'] == 'official-original21-external-inventory-v1', 'Final source/tool inventory kind')
+         require(bool(inventory['files']), 'Final empty source/tool inventory')
+         for path, sha in inventory['files'].items():
+-            if path in m['fixturePaths']: continue  # Exactly ten predeclared mutable data outputs; stage audits complete source path sets.
+             try: require(digest(path) == sha, 'Final source/tool file drift: ' + path)
+             except BaseException as error: failures.append(str(error))
+     except BaseException as error: failures.append('Independent final source/tool audit: ' + str(error))

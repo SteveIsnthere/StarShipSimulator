@@ -1,0 +1,85 @@
+--- failed-controls787
++++ canonical-stack-controls
+@@ -97,12 +97,40 @@
+  }
+  results.push({name:'all original cap checks unchanged with bounded scaled-cap negative controls',status:'passed'});
+ }
++// Identity is established separately in each executing backend/realm. No stack
++// getter or setter is invoked by this snapshot helper.
++const canonicalStack=Object.getOwnPropertyDescriptor(new Error('canonical stack sentinel'),'stack');
++assert.equal(canonicalStack.enumerable,false);assert.equal(canonicalStack.configurable,true);
++assert.equal(typeof canonicalStack.get,'function');assert.equal(typeof canonicalStack.set,'function');
++assert(!('value'in canonicalStack));assert(!('writable'in canonicalStack));
+ function errorSnapshot(error){
+  const keys=Reflect.ownKeys(error);assert(keys.every(key=>typeof key==='string'));
+- return {name:error.name,message:error.message,code:error.code,operator:error.operator,
+-  actual:error.actual,expected:error.expected,ownKeys:keys,
+-  descriptors:Object.fromEntries(keys.map(key=>{const d=Object.getOwnPropertyDescriptor(error,key);
+-   assert('value'in d,'Error accessor unsupported');return[key,{...d,value:key==='stack'?'SOURCE_STACK_EXCLUDED':d.value}];}))};
++ const descriptors={};
++ // Validate ALL own descriptors before accessing any error field. Only the
++ // observed canonical stack accessor is admitted; unknown getters never run.
++ for(const key of keys){
++  const d=Object.getOwnPropertyDescriptor(error,key);
++  if('value'in d){
++   if(key==='stack')assert.equal(typeof d.value,'string','Error stack data must be string');
++   descriptors[key]={...d,value:key==='stack'?'SOURCE_STACK_EXCLUDED':d.value};
++  }else{
++   assert.equal(key,'stack','Error accessor unsupported');
++   assert.equal(d.get,canonicalStack.get,'Error stack getter unsupported');
++   assert.equal(d.set,canonicalStack.set,'Error stack setter unsupported');
++   assert.equal(d.enumerable,false,'Error stack enumerable unsupported');
++   assert.equal(d.configurable,true,'Error stack configurable unsupported');
++   assert(!('writable'in d),'Error accessor writable unsupported');
++   descriptors[key]={kind:'accessor',enumerable:d.enumerable,configurable:d.configurable,
++    getRole:'canonical-Error-stack-get',setRole:'canonical-Error-stack-set'};
++  }
++ }
++ // Requested inherited fields must also be data descriptors. Read values from
++ // descriptors instead of executing a property getter (including on prototypes).
++ const field=key=>{for(let object=error;object!==null;object=Object.getPrototypeOf(object)){
++  const d=Object.getOwnPropertyDescriptor(object,key);if(d){assert('value'in d,'Error field accessor unsupported');return d.value;}
++ }return undefined;};
++ return {name:field('name'),message:field('message'),code:field('code'),operator:field('operator'),
++  actual:field('actual'),expected:field('expected'),ownKeys:keys,descriptors};
+ }
+ function parityCase(name,recipe,expectedMessage){
+  test(name,()=>{
+@@ -171,6 +199,36 @@
+   const before=execute(makes[0]),after=execute(makes[1]);assert.deepEqual(before,after);errorEvidence.push({name:budget,before,after});
+  });
+ }
+-writeFileSync(receipt,JSON.stringify({kind:'primitive-success-guard-controls-v1',finalized:true,
++// Snapshot admission controls supplement (and do not replace) all original39.
++test('canonical snapshot public AssertionError reference identity',()=>{
++ const error=new assert.AssertionError({actual:false,expected:true,operator:'==',message:'canonical assertion'});
++ const d=Object.getOwnPropertyDescriptor(error,'stack');
++ assert.equal(d.get,canonicalStack.get);assert.equal(d.set,canonicalStack.set);
++ const snap=errorSnapshot(error);assert.equal(snap.name,'AssertionError');assert.equal(snap.code,'ERR_ASSERTION');
++ assert.equal(snap.descriptors.stack.kind,'accessor');assert.deepEqual(snap.ownKeys,Reflect.ownKeys(error));
++});
++test('canonical snapshot ordinary Error reference identity',()=>{
++ const error=new Error('canonical ordinary');const d=Object.getOwnPropertyDescriptor(error,'stack');
++ assert.equal(d.get,canonicalStack.get);assert.equal(d.set,canonicalStack.set);
++ const snap=errorSnapshot(error);assert.equal(snap.name,'Error');assert.equal(snap.message,'canonical ordinary');
++ assert.equal(snap.descriptors.stack.kind,'accessor');assert.deepEqual(snap.ownKeys,Reflect.ownKeys(error));
++});
++test('canonical snapshot explicit string data stack preserves flags',()=>{
++ const error=new Error('data stack');Object.defineProperty(error,'stack',{value:'explicit source stack',writable:false,enumerable:true,configurable:false});
++ assert.deepEqual(errorSnapshot(error).descriptors.stack,{value:'SOURCE_STACK_EXCLUDED',writable:false,enumerable:true,configurable:false});
++});
++for(const variant of ['unknown-nonstack','replaced-get','replaced-set','enumerable','configurable','missing-set','nonstring-data']){
++ test('canonical snapshot rejects '+variant+' without getter or setter payment',()=>{
++  let calls=0;const error=new Error('rejected descriptor');
++  const unknownGet=()=>{calls++;throw Error('getter must not execute');};const unknownSet=()=>{calls++;throw Error('setter must not execute');};
++  if(variant==='unknown-nonstack')Object.defineProperty(error,'message',{get:unknownGet,set:unknownSet,enumerable:false,configurable:true});
++  else if(variant==='nonstring-data')Object.defineProperty(error,'stack',{value:canonicalStack.get,writable:true,enumerable:false,configurable:true});
++  else Object.defineProperty(error,'stack',{get:variant==='replaced-get'?unknownGet:canonicalStack.get,
++   set:variant==='replaced-set'?unknownSet:variant==='missing-set'?undefined:canonicalStack.set,
++   enumerable:variant==='enumerable',configurable:variant!=='configurable'});
++  assert.throws(()=>errorSnapshot(error),assert.AssertionError);assert.equal(calls,0);
++ });
++}
++writeFileSync(receipt,JSON.stringify({kind:'primitive-success-guard-canonical-stack-controls-v1',finalized:true,
+  node:process.version,cases:results,passed:results.length,failed:0,
+  physicalSteps:0,productionImports:0,errorEvidence},null,2)+'\n',{flag:'wx'});

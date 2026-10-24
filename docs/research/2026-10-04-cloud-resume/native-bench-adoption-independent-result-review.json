@@ -1,0 +1,32 @@
+{
+  "disposition": "ACCEPT sole adopted12-test benchmark receipt for qualifiedNode22.23.3Linuxx64CPU contract only",
+  "parentResult": {
+    "actualChildReturnCode": 0,
+    "elapsedSeconds": 39.98154015699947,
+    "command": [
+      "npm",
+      "run",
+      "bench"
+    ],
+    "oneInvocation": true
+  },
+  "artifactFilesVerified": 78,
+  "originalNamesPassed": 12,
+  "native": 3,
+  "originalSSR": 9,
+  "sourceBeforeAfterEqual": true,
+  "installedToolReceiptBeforeAfterEqual": true,
+  "installedTreeRehashedByReviewer": false,
+  "qualifiedCurrentSourceHashesVerified": 55,
+  "qualifiedNativeCodeHashesVerified": 2,
+  "ownedIdentitiesPostExit": 27,
+  "executingOwned": 0,
+  "pins": {
+    "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/artifact-manifest.json": "6003b4e1f7b42176d25debf07b92b4219aa34cfa5b2fa5ab459f632d2ffde01c",
+    "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/native-manifest.json": "a45038d04a9be0898ffc789cba02f4419b371d77ecaef7f29abac1610845cccc",
+    "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/test-inventory.json": "3dca510e9cc9152274b046fc8ecf562ee425d5f8d93339975239b95b2a28e77e",
+    "docs/research/2026-10-04-cloud-resume/native-bench-adoption-artifacts/final.json": "ec6c1bbd274f535fb3a62d09c1a89a5927f2c8f59702faaa7801915681f975b4",
+    "docs/research/2026-10-04-cloud-resume/native-bench-adoption-checks/official-bench-parent-result.json": "6dae81c6228bd4c4306f580983b8fe020caa298bf1d15ca0c71820ed753706a8",
+    "docs/research/2026-10-04-cloud-resume/native-bench-adoption-checks/parent-owned-process-postexit.json": "7d358b17cae5d8a68a0aface3def101893bebb90ebac03d8c5e2fe5c1b66526c"
+  }
+}

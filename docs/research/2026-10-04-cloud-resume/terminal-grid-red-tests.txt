@@ -1,0 +1,75 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ |unit| tests/core/booster-terminal-allocation.test.ts (7 tests | 4 failed) 87ms
+     × requests physical grid help on the retained actual 320s input without instant torque credit 14ms
+     × requests physical grid help on the retained actual 330s input without instant torque credit 2ms
+     × pays only current delivery, slews one physical percentage, and reduces the next delivered residual 2ms
+     × keeps a depleted RCS reserve finite while grids still request actual slew 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-terminal-allocation.test.ts > active terminal delivered grid and finite RCS allocation > requests physical grid help on the retained actual 320s input without instant torque credit
+ FAIL  |unit| tests/core/booster-terminal-allocation.test.ts > active terminal delivered grid and finite RCS allocation > requests physical grid help on the retained actual 330s input without instant torque credit
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-terminal-allocation.test.ts:32:30
+     30|   const s=state(time),before=cloneState(s),old=cloneState(s);originalA…
+     31|   runBoosterPolicy(s,DT,SUPER_HEAVY);
+     32|   expect(s.status.finActive).toBe(true);expect(s.autopilot.boosterFinC…
+       |                              ^
+     33|   expect(Math.abs(s.autopilot.boosterFinControl!)).toBeLessThanOrEqual…
+     34|   expect(s.autopilot.rcsThrustCommand).toBe(old.autopilot.rcsThrustCom…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  |unit| tests/core/booster-terminal-allocation.test.ts > active terminal delivered grid and finite RCS allocation > pays only current delivery, slews one physical percentage, and reduces the next delivered residual
+AssertionError: expected 50 to be 49 // Object.is equality
+
+- Expected
++ Received
+
+- 49
++ 50
+
+ ❯ tests/core/booster-terminal-allocation.test.ts:45:39
+     43|   const requested=50+s.autopilot.boosterFinControl!/2;
+     44|   frontFinActuation(s,requested,DT);
+     45|   expect(s.vehicle.frontFinExtension).toBe(before.vehicle.frontFinExte…
+       |                                       ^
+     46|   expect(s.forces).toEqual(before.forces);expect(s.vehicle.rcsRunTimeR…
+     47|   expect(gridTorque(s)).toBeLessThan(gridTorque(before));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/core/booster-terminal-allocation.test.ts > active terminal delivered grid and finite RCS allocation > keeps a depleted RCS reserve finite while grids still request actual slew
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-terminal-allocation.test.ts:67:30
+     65|  it('keeps a depleted RCS reserve finite while grids still request act…
+     66|   const s=state();s.vehicle.rcsRunTimeRemaining=0;runBoosterPolicy(s,D…
+     67|   expect(s.status.finActive).toBe(true);expect(s.autopilot.boosterFinC…
+       |                              ^
+     68|   expect(s.autopilot.rcsThrustCommand).toBe(0);controlTranslation(s,s.…
+     69|   expect(s.forces.rcsThrust).toBe(0);expect(s.vehicle.rcsRunTimeRemain…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 3 passed (7)
+   Start at  06:39:47
+   Duration  635ms (transform 328ms, setup 0ms, import 409ms, tests 87ms, environment 0ms)
+

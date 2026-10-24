@@ -1,0 +1,10 @@
+{
+  "scope": "Static text-only small observer adapter review; no execution, imports, bulk hashes or emitted diff",
+  "declaredReviewedSourcePins": {
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/root-observer.py.txt": "66dcdb8c123ecc4643df4fb09c75b69c734a9f4779e992402cce15a6c2ef6c24",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/root-owner-input-contract.json": "962124c5281da6c89252b5a63a79f53135e7476965b93aff27d29206e138f768"
+  },
+  "unchangedFiveFileCandidateManifest": "b2bf008ef38c9a95e995060521e6c69df196a91435b82140bcfa4d70f1c30923",
+  "scopeChecksAndExecutionCondition": "AFTER root paired CPU lane release only; source scopes and actual external inputs reviewed/frozen before ONE whole-root5s classification",
+  "executionPerformed": false
+}

@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/step.test.ts (15 tests | 1 failed) 1637ms
+     × spawns resting on the pad, not falling 598ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/step.test.ts > it actually simulates something > spawns resting on the pad, not falling
+AssertionError: expected 26 to be 25 // Object.is equality
+
+- Expected
++ Received
+
+- 25
++ 26
+
+ ❯ tests/core/step.test.ts:162:67
+    160|     expect(s.kinematics.accelerationX).toBe(0);
+    161|     expect(s.kinematics.angularVelocity).toBe(0);
+    162|     expect(run(createInitialState(), 10_000).kinematics.altitude).toBe…
+       |                                                                   ^
+    163|   });
+    164|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 25 passed (26)
+   Start at  15:56:26
+   Duration  3.08s (transform 2.36s, setup 0ms, import 2.96s, tests 1.71s, environment 0ms)
+

@@ -1,0 +1,55 @@
+[WebServer] (node:97883) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 3 workers
+
+(node:97885) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:97884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:97886) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (5.5s)
+  ✓   4 [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.0s)
+(node:97908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (9.7s)
+(node:97917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (10.6s)
+  ✓   7 [pixel-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (5.1s)
+  ✓   8 [pixel-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.1s)
+(node:97945) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (29.7s)
+(node:97950) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (29.9s)
+(node:97961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (10.1s)
+  ✓  12 [pixel-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.9s)
+(node:97970) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [pixel-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (5.2s)
+(node:97976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  14 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (10.0s)
+  ✓   9 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (30.1s)
+(node:97999) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  15 [iphone-portrait] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (5.1s)
+(node:98003) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  16 [iphone-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.7s)
+(node:98015) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (30.8s)
+  ✓  18 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (10.2s)
+(node:98036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [iphone-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.2s)
+  ✓  20 [iphone-landscape] › tests/e2e/emissive-bell.spec.ts:6:1 › scene resets, pauses and hides continuous gas with its particle detail @mobile (4.9s)
+  ✓  17 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (25.3s)
+
+  20 passed (1.5m)

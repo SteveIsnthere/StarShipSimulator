@@ -1,0 +1,29 @@
+{
+  "decision": "SUPPORTED conditional one owned public build only",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-app-build-structural-actual-input-HIGH-review.md",
+      "sha256": "2397991a430cb1dbe63f22f593cf0ad9f497ef4d883c35207405b50239491246"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-app-build-structural-input.json",
+      "sha256": "26566d135bcfcf397f407b6fe1e1c6a0327a84d722935813d846ad107c1df48d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-source-pins.json",
+      "sha256": "e787eda11736ce064c8c4f029263ab2ee4093fa2fa8ead748638b0a65e4fc410"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper.py.txt",
+      "sha256": "0901f67f239f17c3fe8c5f88a70de71c6727f6ee14155a604f39b1b6da907f26"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-structural-wrapper-repaired-source-HIGH-review.md",
+      "sha256": "44822413ba865f51e993dc21870b812ee7d3be1125cdfc895662bd5e9d056b9c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-app-build-actual-input-HIGH-review.md",
+      "sha256": "29ef50b9a752cdda8322581f96a449b4a9a36ff6db24f12e4611f565ef8ad64e"
+    }
+  ]
+}

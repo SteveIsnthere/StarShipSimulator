@@ -1,0 +1,8 @@
+import assert from 'node:assert/strict';
+import {decodeCoverageOwnData} from './codec.mjs';
+// V2 data consumer only. Does not evaluate coverage thresholds or normalize ranges.
+export function decodeProviderCaptureV2(document,publicCoverage){
+ assert.equal(typeof publicCoverage.createFileCoverage,'function');
+ const prototype=Object.getPrototypeOf(publicCoverage.createFileCoverage('/inert.ts'));
+ return decodeCoverageOwnData(document,prototype);
+}

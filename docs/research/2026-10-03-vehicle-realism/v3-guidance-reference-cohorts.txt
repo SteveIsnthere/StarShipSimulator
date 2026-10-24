@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/guidance-physics.test.ts (28 tests | 1 failed) 2247ms
+     × from 3 km at 150 m/s on 1 engine(s): within 0.1% of the burn or 2 m 95ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/guidance-physics.test.ts > landingBurnStartAltitude against the simulation > from 3 km at 150 m/s on 1 engine(s): within 0.1% of the burn or 2 m
+AssertionError: predicted 2996.2 m, actual COM 2991.6742850224073 m, burn 2287 m: expected 4.48333918146318 to be less than or equal to 2.2874918797093025
+ ❯ tests/core/guidance-physics.test.ts:148:111
+    146|       const burn = start - stop;
+    147|       const error = Math.abs(predicted! - start);
+    148|       expect(error, `predicted ${predicted!.toFixed(1)} m, actual COM …
+       |                                                                                                               ^
+    149|         // Measured: 0.03-0.5 m on burns of 176 m to 11.8 km. The boun…
+    150|         // with room, and tight enough that dropping drag fails every …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 27 passed (28)
+   Start at  16:01:40
+   Duration  2.78s (transform 275ms, setup 0ms, import 352ms, tests 2.25s, environment 0ms)
+

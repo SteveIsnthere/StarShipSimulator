@@ -1,0 +1,161 @@
+/** Bounded standalone physical state for the approved Phase 8 R2 foundation.
+ * No evolution, loss policy, SimState integration or random draws live here.
+ * Immutable component geometry/masses remain outside this mutable state:
+ * recording and deep cloning must not traverse the startup catalogue.
+ */
+import type { VehicleComponentPartition } from './physics/vehicle-components';
+import { steelSpecificEnthalpy } from './physics/damage-material';
+import {
+  tpsSpecificEnthalpy, TPS_CP_MIN_K, TPS_CP_MAX_K, TPS_K_MIN_K, TPS_K_MAX_K,
+} from './physics/tps-material';
+import { rad, type Rad } from './units';
+
+export const MAX_DAMAGE_COMPONENTS = 12;
+
+/** Permanent connection disposition; domain loss is not measured fracture. */
+export type ComponentFailure = 0 | 1 | 2 | 3;
+const COMPONENT_FAILURE_NONE = 0;
+export const ComponentFailure = (() => {
+  const out: Record<string, string | number> = {};
+  out[out.None = COMPONENT_FAILURE_NONE] = 'None';
+  out[out.ProofExceeded = 1] = 'ProofExceeded';
+  out[out.MaterialDomain = 2] = 'MaterialDomain';
+  out[out.Terminal = 3] = 'Terminal';
+  return out as {
+    readonly None: 0;
+    readonly ProofExceeded: 1;
+    readonly MaterialDomain: 2;
+    readonly Terminal: 3;
+    readonly [value: number]: string;
+  };
+})();
+
+export interface DamageThermalNode {
+  /** False after source-domain exit; energy is retained, never clipped away. */
+  valid: boolean;
+  /** K — last valid temperature when valid=false; zero for absent subparts. */
+  temperature: number;
+  /** J relative to the material's 293.15 K enthalpy reference; may be negative. */
+  energy: number;
+}
+
+export interface DamageComponentState {
+  /** Stable index into the externally supplied immutable component partition. */
+  componentIndex: number;
+  attached: boolean;
+  permanentFailure: ComponentFailure;
+  root: DamageThermalNode;
+  /** Two equal-mass finite LI900 cells; zero nodes when no TPS is allocated. */
+  tps: [DamageThermalNode, DamageThermalNode];
+  /** rad — delivered loaded articulation, not an initial actuator command. */
+  loadedAngle: Rad;
+}
+
+export interface DamageDebrisState {
+  /** Source mass ownership stays in the partition, never copied into this slot. */
+  componentIndex: number;
+  active: boolean;
+  /** m — world downrange and altitude of the piece's physical mass centroid. */
+  x: number;
+  altitude: number;
+  /** rad — clockwise body orientation. */
+  pitch: Rad;
+  /** m/s — world centroid velocity. */
+  speedX: number;
+  speedY: number;
+  /** rad/s — clockwise spin. */
+  angularVelocity: number;
+}
+
+/** One fixed-shape first-terminal snapshot; no conditional keys or event queue. */
+export interface DamageTerminalEvent {
+  active: boolean;
+  /** Bitset disposition, populated only by later canonical failure mechanics. */
+  reason: number;
+  /** s — discrete simulation event time. */
+  time: number;
+  /** m — pre-mutation world reference pose; later mechanics specify its COM. */
+  x: number;
+  altitude: number;
+  /** rad — clockwise orientation. */
+  pitch: Rad;
+  /** m/s and rad/s — pre-mutation reference velocities. */
+  speedX: number;
+  speedY: number;
+  angularVelocity: number;
+  /** kg — retained dry/mixture inventory at that event, never extra ownership. */
+  retainedDryMass: number;
+  retainedPropellant: number;
+  /** J — released thermal-energy ledger, same material reference convention. */
+  releasedEnergy: number;
+  /** kg m/s — released mixture momentum, excluded from all rigid pieces. */
+  releasedMomentumX: number;
+  releasedMomentumY: number;
+  /** kg m²/s — clockwise released-mixture angular momentum about event COM. */
+  releasedAngularMomentum: number;
+  /** J — translational plus modeled rotational kinetic energy of released mixture. */
+  releasedKineticEnergy: number;
+}
+
+export interface DamageState {
+  components: DamageComponentState[];
+  /** Single finite 304 node using only the partition's residual hull mass. */
+  hull: DamageThermalNode;
+  /** Preallocated one-to-one component slots, at most twelve per body. */
+  debris: DamageDebrisState[];
+  terminal: DamageTerminalEvent;
+  /** Monotonic transition counters; only reconstruction/restart begins at zero. */
+  revision: number;
+  eventCount: number;
+}
+
+function node(temperature: number, energy: number): DamageThermalNode {
+  if (!Number.isFinite(temperature) || !Number.isFinite(energy))
+    throw new RangeError('Thermal state requires finite temperature and energy');
+  return { valid: true, temperature, energy };
+}
+
+/** Construct once from actual ambient K; no artificial room-temperature floor.
+ * TPS initialization requires both its cp and conductivity source domains.
+ * Nonparticipating nodes have zero sentinels, not fabricated thermal masses. */
+export function createDamageState(partition: VehicleComponentPartition, ambientTemperatureK: number): DamageState {
+  const count = partition.components.length;
+  if (count < 1 || count > MAX_DAMAGE_COMPONENTS)
+    throw new RangeError('Damage inventory must contain1–12 components');
+  if (!(partition.hullThermalMass > 0) || !Number.isFinite(partition.hullThermalMass))
+    throw new RangeError('Damage state requires positive finite hull thermal mass');
+  // Material API rejects nonfinite/out-of-domain input even with no roots.
+  const steelH = steelSpecificEnthalpy(ambientTemperatureK);
+  const hasTPS = partition.components.some(c => c.tpsMass > 0);
+  let tpsH = 0;
+  if (hasTPS) {
+    if (ambientTemperatureK < Math.max(TPS_CP_MIN_K, TPS_K_MIN_K)
+      || ambientTemperatureK > Math.min(TPS_CP_MAX_K, TPS_K_MAX_K))
+      throw new RangeError('TPS ambient temperature is outside its thermal data domains');
+    tpsH = tpsSpecificEnthalpy(ambientTemperatureK);
+  }
+  const components = partition.components.map((c, componentIndex): DamageComponentState => {
+    if (!(c.rootMass >= 0 && c.tpsMass >= 0) || !Number.isFinite(c.rootMass + c.tpsMass))
+      throw new RangeError('Invalid component thermal mass');
+    const root = c.rootMass > 0 ? node(ambientTemperatureK, c.rootMass * steelH) : node(0, 0);
+    const cell = (): DamageThermalNode => c.tpsMass > 0
+      ? node(ambientTemperatureK, c.tpsMass / 2 * tpsH) : node(0, 0);
+    return { componentIndex, attached: true, permanentFailure: COMPONENT_FAILURE_NONE,
+      root, tps: [cell(), cell()], loadedAngle: rad(0) };
+  });
+  const debris = components.map((c): DamageDebrisState => ({ componentIndex: c.componentIndex,
+    active: false, x: 0, altitude: 0, pitch: rad(0), speedX: 0, speedY: 0, angularVelocity: 0 }));
+  return { components, hull: node(ambientTemperatureK, partition.hullThermalMass * steelH), debris,
+    terminal: { active: false, reason: 0, time: 0, x: 0, altitude: 0, pitch: rad(0),
+      speedX: 0, speedY: 0, angularVelocity: 0, retainedDryMass: 0, retainedPropellant: 0, releasedEnergy: 0, releasedMomentumX: 0, releasedMomentumY: 0,
+      releasedAngularMomentum: 0, releasedKineticEnergy: 0 },
+    revision: 0, eventCount: 0 };
+}
+
+/** Every child/array is owned by the result; live and forecast state never alias. */
+export function cloneDamageState(state: DamageState): DamageState {
+  return { components: state.components.map(c => ({ ...c, root: { ...c.root },
+    tps: [{ ...c.tps[0] }, { ...c.tps[1] }] })),
+    hull: { ...state.hull }, debris: state.debris.map(c => ({ ...c })),
+    terminal: { ...state.terminal }, revision: state.revision, eventCount: state.eventCount };
+}

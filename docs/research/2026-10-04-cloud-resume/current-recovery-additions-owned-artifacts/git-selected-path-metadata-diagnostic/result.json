@@ -1,0 +1,131 @@
+{
+  "completed": true,
+  "errors": [],
+  "proof": {
+    "selectedCount": 790,
+    "arraysExactlyEqual": true,
+    "originalBytes": 1620162,
+    "pathspecBytes": 26130,
+    "headBytes": 41,
+    "statusBytes": 30819,
+    "dirty": true,
+    "originalNulRecords": 15341,
+    "pathspecNulRecords": 790,
+    "pathspecs": [
+      ":(top)src",
+      ":(top)tests",
+      ":(top)scripts",
+      ":(top)public",
+      ":(top).agents",
+      ":(top).nvmrc",
+      ":(top,glob)package*.json",
+      ":(top,glob)*config.*"
+    ],
+    "noTestFieldOrBufferOrBudgetChange": true
+  },
+  "commands": [
+    {
+      "name": "original-ls-files",
+      "code": 0,
+      "stdoutBytes": 1620162,
+      "stderrBytes": 0,
+      "stdoutSha": "809f586a974c820ebf2561da3eff450c9bb1189a88a2a37c6520814fa9c5654e",
+      "stderrSha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "identity": {
+        "pid": 111287,
+        "start": "7018141",
+        "parent": 111286,
+        "group": 111286,
+        "session": 111286,
+        "state": "R"
+      }
+    },
+    {
+      "name": "pathspec-ls-files",
+      "code": 0,
+      "stdoutBytes": 26130,
+      "stderrBytes": 0,
+      "stdoutSha": "f19387afd07f1559fb72caa2dc37cd95c09bc4c4f5d25fc968afb3150e435002",
+      "stderrSha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "identity": {
+        "pid": 111288,
+        "start": "7018144",
+        "parent": 111286,
+        "group": 111286,
+        "session": 111286,
+        "state": "R"
+      }
+    },
+    {
+      "name": "head",
+      "code": 0,
+      "stdoutBytes": 41,
+      "stderrBytes": 0,
+      "stdoutSha": "7e1104c1360675a9e9ad0c273df044abc079d06bf46a406e07de40ee6b0ee18e",
+      "stderrSha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "identity": {
+        "pid": 111289,
+        "start": "7018147",
+        "parent": 111286,
+        "group": 111286,
+        "session": 111286,
+        "state": "R"
+      }
+    },
+    {
+      "name": "status",
+      "code": 0,
+      "stdoutBytes": 30819,
+      "stderrBytes": 0,
+      "stdoutSha": "14d1434f178bc7cbaf50b130ffc10d53f11e877ce72f0468b1626b65c11d7a7d",
+      "stderrSha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "identity": {
+        "pid": 111290,
+        "start": "7018148",
+        "parent": 111286,
+        "group": 111286,
+        "session": 111286,
+        "state": "R"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "pid": 111287,
+      "start": "7018141",
+      "parent": 111286,
+      "group": 111286,
+      "session": 111286,
+      "state": "R"
+    },
+    {
+      "pid": 111288,
+      "start": "7018144",
+      "parent": 111286,
+      "group": 111286,
+      "session": 111286,
+      "state": "R"
+    },
+    {
+      "pid": 111289,
+      "start": "7018147",
+      "parent": 111286,
+      "group": 111286,
+      "session": 111286,
+      "state": "R"
+    },
+    {
+      "pid": 111290,
+      "start": "7018148",
+      "parent": 111286,
+      "group": 111286,
+      "session": 111286,
+      "state": "R"
+    }
+  ],
+  "elapsedSeconds": 0.19384634199377615,
+  "totalBytes": 1677152,
+  "noSourceApplication": true,
+  "noBrowserOrTest": true,
+  "rootIndependentAllOwnedAbsenceRequired": true
+}

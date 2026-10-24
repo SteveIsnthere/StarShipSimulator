@@ -1,0 +1,19 @@
+{
+  "scope": "offline arithmetic of original ONE retained causal fixture; no capture/replay",
+  "framesPerMode": 20,
+  "baselineTotalGpuNs": 2841599102,
+  "candidateTotalGpuNs": 931654156,
+  "totalGpuRatio": 3.050057882208385,
+  "candidateGpuMeanMs": 46.582707799999994,
+  "candidateBatchMeanMs": 38.464329799999994,
+  "candidateNonbatchMeanMs": 8.118378,
+  "candidateCadenceFps": 19,
+  "fullBudgetPass": false,
+  "recordsPerMode": [
+    920,
+    1060
+  ],
+  "operationCap": 4096,
+  "actualFilled4096Slots": false,
+  "nextDiagnosis": "offline source/resource binding and exact visual-work specialization/reuse feasibility only; no automatic capture/quality cut"
+}

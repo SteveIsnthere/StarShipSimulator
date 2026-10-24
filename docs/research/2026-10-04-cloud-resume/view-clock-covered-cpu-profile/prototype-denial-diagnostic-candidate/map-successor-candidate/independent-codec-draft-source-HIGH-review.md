@@ -1,0 +1,11 @@
+# Independent canonical Map codec draft source HIGH
+
+No blocker for preparing concrete inert controls and a distinct capture draft at manifest a5a030e8ce8e0db1e20a902289795abe219bf01575726fd325857c1c2ff45d08. Design/source readiness only; no controls, collector, imports, source application or acceptance grant. Accepted17/20 and failed witness remain immutable.
+
+Draft requires proxy-first denial, util.types.isMap brand AND exact captured local Map.prototype, then mandatory observer before captured intrinsic forEach. No value.entries/iterator/getter/toJSON call. Ordered internal entries plus own DATA descriptors/flags are transported. Decoder uses captured Map constructor/has/set, rejects duplicate SameValueZero keys. Native NaN/-0 key semantics and special numeric values are explicit. Repeated/cycle rejection spans keys,values,properties; no alias normalization. New v3 schema cannot use old decoder blindly.
+
+Capture must record bounded positive identity witnesses for ALL encountered maps and assert constructor-reference flag true before traversal. Names never authorize; previous descriptor witness does not prove brand. Observer is trusted bounded logger, exposes no map reference and must not mutate data/policy. Captured intrinsic qualification requires pinned Node/realm and no pre-import or mid-run intrinsic replacement; arbitrary mocked intrinsic domain is unproved.
+
+Controls must cover the entire proposed admitted key/value domain or capture must explicitly narrow to observed fnNames string/counter domain. Require FileCoverage nested full encode-decode-reencode+ordinary JSON; empty/order/own flags; special values/SameValueZero; exact metadata; proxy/subclass/fake/altered prototype; own overridden iterator/forEach no calls and accessor denial; absent/throwing observer; repeated/cycles; duplicate/malformed tags/depth/node/entry/output caps. A malicious tagged -0 key decodes natively to+0: caller reencode equality must reject noncanonical input, or standalone canonical-decoder claims require explicit rejection. No dropping entries, {} metadata substitution or synthetic coverage.
+
+Source fnNames:new Map supports narrow hypothesis, not generic runtime proof. Preserve floors120/default30/root/raw statuses/source/tool audits; no coverage completion/performance/gate claim. Fixed selected source/hash reads only, no workload.

@@ -1,0 +1,19 @@
+{
+  "decision": "SUPPORTED-root-scopes-and-one-bounded-capture-only",
+  "review": {
+    "path": "docs/research/2026-10-04-cloud-resume/recovery07-independent-finally-repair-HIGH-review.md",
+    "sha256": "dab7fba8684353ac242dfdcfe08c67dc2ee59bd1e080ab6df1b17d8d1e4bdc0b"
+  },
+  "inputs": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-capture.py.txt",
+      "sha256": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-capture-input.json",
+      "sha256": "eacb4ccf6f73b653a7d1992a763851932792dc73a54bbcbff0ceb8489458ad07"
+    }
+  ],
+  "priorHold": "recovery07-independent-source-HOLD-review.md",
+  "executed": false
+}

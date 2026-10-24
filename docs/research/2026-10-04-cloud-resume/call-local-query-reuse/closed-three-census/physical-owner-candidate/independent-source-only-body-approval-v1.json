@@ -1,0 +1,302 @@
+{
+  "kind": "closed-three-native-body-approval-v1",
+  "status": "approved",
+  "approvalScope": "external independent HIGH, conditional exact three-recipe source-body and research materialization only",
+  "reviewer": "/root/native_query_reuse_review",
+  "publicDispatcher": false,
+  "executionApproved": false,
+  "physicalAcceptance": false,
+  "sourceInputsSha256": "691ef7a115a71911bf3b208fc9c64362b97b4c5bf91229f765ea0f99c7d36dd9",
+  "physicalOwnerSourceInputs": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/input-pins.json",
+    "sha256": "55412da282106581964e169db1a00e7156e5badcbbddbb7ef2c415022455c760"
+  },
+  "graph": {
+    "src/core/units.ts": "73f40f19c2e50b268c31427a85bf018034e54efc106a42a4db4aabe03b905d98",
+    "src/core/constants.ts": "ffb3c5074d24fd847ed9da84e0e54c026f9aef72c0253e0cbabee05201b4bdb6",
+    "src/core/vehicles/v3.ts": "785468bd3e6dba95ec0c11ba56d4d6540ffd348e92c41bee6d216d8e63cb29ad",
+    "src/core/vehicle.ts": "570eb84ce57ad1baa434760ce0c609832add9ae2844ae6dd3caf09a1a1e48717",
+    "src/core/physics/mass.ts": "db86b01b6d305a56b9c20fbf677c4d6cac8febb5a094ed85e93dae014aa5d652",
+    "src/core/physics/damage-material.ts": "b13040799017fc0bf59fd0309f3ec08766a135d128798f5246a92f342f32de84",
+    "src/core/physics/tps-material.ts": "379e1e78e638efd2bd80a1c3aec658289bcbb95a7d1474b9530798ff22c2c138",
+    "src/core/damage-state.ts": "2bddfc853d43eda68761f3be23a99bcaae8bf04567eac80648fa134afe9a3a87",
+    "src/core/physics/damage-root.ts": "9ee949e1bc1c6c0f277a1258763c01a6a7149d570da5fac57b903484e601649e",
+    "src/core/physics/vehicle-components.ts": "a23086f8c4aacd101d0df155f4e90f6bbfbd44c580bdc99cc498725609f7c320",
+    "src/core/physics/damage-thermal.ts": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0",
+    "src/core/physics/damage-controls.ts": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+    "src/core/physics/isa.ts": "bd83423a16ae1362073dc9f2a3e733a16125bfdb51cb03ca081c079da52a804e",
+    "src/core/physics/atmosphere.ts": "803413066381e746f50183061cf26307c81a983991f0f4b51cffb8794ff52c70",
+    "src/core/physics/aero.ts": "535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713",
+    "src/core/physics/gravity.ts": "2eee855b40527750bbc3706c2c538ef79fa2ee442598c8be32c9b20ef98cf60d",
+    "src/core/physics/damage-debris.ts": "980368dd3ecbf4d96723a41b2cad85e133b1570a2d255b71907fc57052e17bd8",
+    "src/core/physics/damage-model.ts": "7e0e8d6c12bf72c28d8080f56155fb418f74cfb1ecc18b86eb86602cd17eab39",
+    "src/core/physics/thermal.ts": "cc1a21ea8970b898ba20c6d44569b31a934e5d0ed95cd08f27b22509438c3b5d",
+    "src/core/vehicles/super-heavy.ts": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0",
+    "src/core/physics/propulsion.ts": "972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a",
+    "src/core/rng.ts": "aa493ec3f7046883081ea9c03e4680413d2ae9819d84851ccca82899c2346789",
+    "src/core/physics/damage-mass.ts": "26e5e56b01b6e412bdc0592818b3746b4c7ea2b1e38674c54f2895c20ae9c065",
+    "src/core/physics/flight-mass-query.ts": "86537858393a04efea04ea2c451fbe1522ad089d48f4daf215fbc7f58261022f",
+    "src/core/physics/grid-fins.ts": "6758fc0680886406fc64a23f313aa8d5f33be6818aa20bd44c40fcdf198a50f5",
+    "src/core/physics/damage-detachment.ts": "331812e54ff912c70c908a4e2ebe796cce40d8e5523db78d7e6c061f689504fd",
+    "src/core/physics/damage-terminal.ts": "a0ee5083eaf2fc285a987ad680e13b9e79c90b8db40d318e016de42cc50e5d89",
+    "src/core/physics/damage-flight.ts": "727d66df66399eb182f82f1d80a7a4a8c88e62ebc0c934ad52bfe6293303f300",
+    "src/core/physics/engines.ts": "4dc7a1dfbf1a5f67f1218f8315a6a6525c6dee394fc7d1fa4e2422c6a4bc7718",
+    "src/core/control/booster-return-plan.ts": "1ca778f31a41344c74d3915e3df6f2a712bcc04f0d1b85fb551d663ca54b7eae",
+    "src/core/control/commands.ts": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40",
+    "src/core/control/booster-receipts.ts": "d51af933744125797c5e7f3106af728e64ba00c111fc4e8574c2cdd77289a9bf",
+    "src/core/control/booster-source.ts": "1e78f56f61c68023e25444d86b13b997b4a7fe196b146b290662d1905184fe93",
+    "src/core/state.ts": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d",
+    "src/core/physics/wind.ts": "0aeb98eb36b169f2bc68ac0c2773a18a9bef82c2be9453a583b2bd5feef34518",
+    "src/core/scenarios.ts": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e",
+    "src/core/physics/components.ts": "8e2b3351beb67380842bd7d7b28a6b97b4ba0ad2847c134c002a62397991ffc4",
+    "src/core/physics/step-dynamics.ts": "936a5183df249b6e3b1921b51b4d5a1d2ff29fe2d27988c00a753e25f61cd0e0",
+    "src/core/control/guidance-physics.ts": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1",
+    "src/core/control/primitives.ts": "858bb32724b6c83b9426f817914ecee00eccf4c77b8ca834e382642cc9db6800",
+    "src/core/physics/tower-catch.ts": "9785719c2cfa84859fc8e981fbaf61f3316c8e71f6f8ee44e7c542fc8f97acb3",
+    "src/core/control/booster-arrival.ts": "5dccec0dec9b21b68a8a4bae346d27182e14e5b440de1f11314a321ff99d5023",
+    "src/core/control/booster-forecast.ts": "5b1d9e6b1bfd549eda94f4ec445b21b23cc28a698b62348b04e81d51875a03be",
+    "src/core/control/booster-cutoff-hint.ts": "04308df7710c17595cef00fcefeca2ea10f37a90c41037c6dbe8f68dd11d8302",
+    "src/core/control/booster-prediction.ts": "d959ed6ff3d7fc2fbb54a3927ecc497ace98148c2c0514a30037e2cde038eb2b",
+    "src/core/autopilot/booster.ts": "c5a7a17e93999173ca160dc83d26e6f390010332c1b56cd57999bfde4395597d",
+    "src/core/autopilot/booster-utilities.ts": "3cfe99bcf904b74f284fc597ad187c66ecb43f272c7779b791cd6b339676f9e7",
+    "src/core/autopilot/landing-burn.ts": "6999067395a72d49d014f6f55dd0287f1abd6ce4578dcd92dd97ab8749e11eca",
+    "src/core/autopilot/index.ts": "22c67138557dd204b77081b1753d65084bbd4dcfb43a36edc883095c496ace69",
+    "src/core/control/actuation.ts": "50c22bb6cbfed3ce61b3eb14b8393afa32782c102891fe18fa93371cbf78a2c8",
+    "src/core/control/mechanical.ts": "2b3351540043f038af5a184a88c9cc193b64681f891c4ae1bcb113bfefb09a5f",
+    "src/core/physics/body-reference.ts": "37fd59a93f226270b3eb663e2345ba26c39de5db683487fe515b7502f24aef63",
+    "src/core/mission-free-flight.ts": "63bf8d648e1210e3c33e6f11c957ed397bc7a1520ad038739a6d6fd47dbc1cc0",
+    "src/core/step.ts": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986",
+    "src/app/loop.ts": "51a362d3051620da175320041e782d313e4b6f1d965aaec600508cc77ae62c66"
+  },
+  "reviewedBodyCount": 55,
+  "bodyLedger": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/independent-complete-body-ledger-HIGH-v1.json",
+    "sha256": "3c26388058004eca684cde4f4bb427c773e84934ab91d71943f01f3514d56783"
+  },
+  "originalSources": {
+    "tests/golden/booster-replay.test.ts": "cce053083240b7af301fdcb1cd84ecfaa4810815f906141f861c561d4c38d3b4",
+    "tests/golden/booster-record.ts": "dbb1f874135dbd0da06cf2e682e91c0cdfd7f059d4074f649760f41a1671b265",
+    "tests/golden/record.ts": "a5d1d85d26d31f889656aacf5109b7a1d142886106d3bfa61e83e43188bfbb9e",
+    "tests/golden/compare.ts": "84273766eb445751392bc888dd31596b9008089bc974b80421efc8d92ce2deaf"
+  },
+  "authoritySha256": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60",
+  "authoritySuccessor": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/authority-successor.json",
+    "sha256": "477ef9cfc087feaddc8318d7f07600f76978f7bc214175f66972f11468f97fee"
+  },
+  "authorityLineage": {
+    "kind": "query-census-source-authority-successor-v1",
+    "executionApproved": false,
+    "historical": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/root-exact-once-application/after-snapshot.json",
+      "sha256": "2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c"
+    },
+    "current": {
+      "path": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/after-snapshot.json",
+      "sha256": "a07329fee7559d7a12284d1c7df1fc9370cb0a7346a622b8b6688ad729bd2a60"
+    },
+    "application": {
+      "path": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/application-result.json",
+      "sha256": "ccc5d249f8d0f42eb559bfd54b9ac0cc4d6b8f210f7265efd2f7099b12c0dd4d"
+    },
+    "review": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-actual-application-HIGH-review.md",
+      "sha256": "f75c1aafbdb2c2884cc4500166446fc158527494599fca31a52b422bf8a07d74"
+    },
+    "reviewPins": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-actual-application-HIGH-pins.json",
+      "sha256": "09437315cc9cf321df46d13b275b3497a40f066bec1677a142100e52012ea412"
+    },
+    "soleDelta": {
+      "path": "tests/e2e/visual-runtime-receipt.ts",
+      "before": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+      "after": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e"
+    },
+    "sourceCount": 770,
+    "toolCount": 20355,
+    "noPhysicsBodyDelta": true
+  },
+  "virtualSourceHashes": {
+    "src/core/physics/damage-controls.ts": "9cf90767e764a13dc11fb1c25f1ecb192516f2f0c9b3e00570c505d8678b7a5d",
+    "src/core/physics/damage-thermal.ts": "c4e9347be4347546796e6815e48acd150c24c68dd2aa4da23fc86964196fc882"
+  },
+  "entrySha256": "64b889f24977dc9bf5cc986b4ef2a28e8ef5f5996c73aed3f6b19a2dcf804abe",
+  "censusSourceControlsSha256": "40f276e96761300af40c97604fb1eea0615910fd05b3fa2492be0e8adb5d8bf7",
+  "reportingControlsSha256": "6a8168896025879b892b443bec74cf062f05a1d508cbb300cd29d0e9e4007201",
+  "reportingOwnerSha256": "2971854087c471afa8a8ffa1a1b107e906a06fde38683d345cce4c0cdec886ba",
+  "workerConditions": [
+    "node",
+    "development"
+  ],
+  "prototypeAndIntrinsicDomain": [
+    "closed-source-owned-data",
+    "no-foreign-callbacks",
+    "no-spies-mocks-preload-or-intrinsic-mutation"
+  ],
+  "prerequisiteReviews": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/independent-complete-body-ledger-HIGH-v1.json",
+      "sha256": "3c26388058004eca684cde4f4bb427c773e84934ab91d71943f01f3514d56783"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/independent-closed-worker-source-HIGH-v1.md",
+      "sha256": "f594a84fe0d938b578e3cfdd30f9f0c0ca52b21cbed4311bdc666f1989a2ddb8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/independent-inbound-parent-repair-HIGH-v2.md",
+      "sha256": "1757d55258edb80c45a4c779c02426d4fe978597e32ba2ab7441fd18598b30ad"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-integrated-boundary-source-HIGH-v2.md",
+      "sha256": "dc03cb43b994102329d474230ecaaae9403b6b4fa76674e086d7f6914e518b3e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/independent-actual-pass-HIGH.md",
+      "sha256": "3b47ad375046b232507ef99d0f1c0d71cc8353295314147d3103a49d36a68abe"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/independent-actual-pass-HIGH-pins.json",
+      "sha256": "ce8ffdaedbefbc105f7f2f30effd0e3a118573db78e03794140f2fe8d5cb2bd8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/independent-actual-pass-HIGH.md",
+      "sha256": "4191f9d4e9127395f3ec78dc40bb5209c4d8447ec83138b1f7b47d89cadd0d93"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/independent-actual-pass-HIGH-pins.json",
+      "sha256": "6a3eca9a528a5670b8452a342d360b519e0d2eaf51a0d27d4fd3ae48dd576f93"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH.md",
+      "sha256": "a5fd79c3832a84c5a6d3736a8c00ab01c551e12674eb73723c824e9c26d8570d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH-pins.json",
+      "sha256": "475f55cba33dcb967584061c3e386b142677f401d0156e071b9abba0e934f364"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH-observations.json",
+      "sha256": "7aa30e7cfff883015b1ff8a56c959bbcc72a0334642d422a766277fe7058b93c"
+    }
+  ],
+  "acceptedBoundaryControls": {
+    "review": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH.md",
+      "sha256": "a5fd79c3832a84c5a6d3736a8c00ab01c551e12674eb73723c824e9c26d8570d"
+    },
+    "pins": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH-pins.json",
+      "sha256": "475f55cba33dcb967584061c3e386b142677f401d0156e071b9abba0e934f364"
+    },
+    "observations": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/independent-actual-pass-HIGH-observations.json",
+      "sha256": "7aa30e7cfff883015b1ff8a56c959bbcc72a0334642d422a766277fe7058b93c"
+    },
+    "exactOrderedCases": 14,
+    "allThreeIdentitiesAbsent": true,
+    "twoGroupsClear": true,
+    "scope": "dependency-injected actual-source artifact callbacks only"
+  },
+  "materialRoles": {
+    "admission.mjs": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/admission.mjs.txt",
+      "sha256": "293b75a31cb0ad856bbf9664fbb73edfe0e82b19770570bea893979ffa4277a4"
+    },
+    "loader.mjs": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/loader.mjs.txt",
+      "sha256": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb"
+    },
+    "config.ts": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/config.ts.txt",
+      "sha256": "5c9d4a5d1c02bb347143735bf605b49b96fe6cb43a346dce30de40dc663b560c"
+    },
+    "builder.mjs": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/builder.mjs.txt",
+      "sha256": "c441b74ad2559e1352728c65ccf7586028c66374b4ee09ea17dbc7619e76f8d0"
+    },
+    "entry.ts": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/entry.ts.txt",
+      "sha256": "64b889f24977dc9bf5cc986b4ef2a28e8ef5f5996c73aed3f6b19a2dcf804abe"
+    },
+    "observer.mjs": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/observer.mjs.txt",
+      "sha256": "29ab2daa19badca2517e53f73e92986786739ecbddda806d9989d80e5d07c61e"
+    }
+  },
+  "workerConditionsSourceEvidence": [
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vite/package.json",
+      "sha256": "4e41dd20c7a12e7e70915b235c0bf5b5158ec6709c1390804128af0867d6d6d9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vite/dist/node/index.js",
+      "sha256": "c7ea52906f843318d7971209ce62bd24bab60590275e8f415c5564fa35cb82dc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vite/dist/node/chunks/node.js",
+      "sha256": "f64038f08022030b77efee87b6baa81933a7b77d820aaa64bc3262fda44d80b0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vitest/package.json",
+      "sha256": "a28126d97bcaf567da5bed69443b7f3bcd9a7a8c38c8b66e554686b6bb2c10e0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vitest/dist/node.js",
+      "sha256": "34be25dbabf478136f6ea1b1f7b9a075ab833a14df3da9fc69d39b671dc19551"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vitest/dist/chunks/cli-api.CnMVyzaz.js",
+      "sha256": "a236001d048380e2c67d05423fc9ea3f26b07ee019ba8d6e622082f29d49102e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/vitest.config.ts",
+      "sha256": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/config.ts.txt",
+      "sha256": "5c9d4a5d1c02bb347143735bf605b49b96fe6cb43a346dce30de40dc663b560c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/run-public.mjs.txt",
+      "sha256": "b19a6ddb827c28ee80388821a8d571958a728b1cf893c2fce9b2d2c157760608"
+    }
+  ],
+  "workerConditionsDerivation": [
+    "Vite chunks/node.js 587-594: module/browser/node/development|production; server removes browser.",
+    "Vitest chunks/cli-api.CnMVyzaz.js 10178-10186: defaultServerConditions removes module; project plugin 10396-10410 uses this in environments.ssr.resolve.",
+    "Vitest prepareVitest 14650 defaults NODE_ENV to test; Vite node.js 36707 treats only production as isProduction.",
+    "Authored run-public.mjs.txt 21-22 maps development|production and asserts exact ordered conditions; loader asserts matching startup execArgv."
+  ],
+  "preconditions": [
+    "Startup NODE_OPTIONS and NODE_PATH empty; NODE_ENV unset, test or development, no effective production environment/config override.",
+    "Exact current worker691ef and physical267 input manifests, source55 hashes, original4 bodies, virtual2 sources and entry bytes remain unchanged.",
+    "All actual prerequisite retained review pins and cleanup identities remain bound; inert results confer no live worker qualification.",
+    "Only the three declared original golden cases in one private isolated fork may reach the instrumented entry; no foreign getter/proxy/model/callback/mocks/preload/intrinsic mutations.",
+    "Separate root scopes and ONE maker preparation may run; fresh actual material INPUT HIGH is required before any physical owner/build/public grant.",
+    "Actual public config, worker execArgv/environment/PID-start, observer/admission bytes, source/import/cache-token/alias/edge/artifact load receipts and intrinsic consistency must satisfy reviewed guards in that physical episode."
+  ],
+  "notYetEstablished": {
+    "actualPublicWorkerFlags": false,
+    "actualGlobalHooks": false,
+    "pristineIntrinsics": false,
+    "actualWorkerCleanDomain": false,
+    "physicalRecipeExecution": false,
+    "fullGoldenOrNativeUnitAcceptance": false,
+    "performanceOrOptimizationAcceptance": false
+  },
+  "preservedRequirements": {
+    "wholeSeconds": 300,
+    "workSeconds": 292,
+    "cleanupSeconds": 8,
+    "boundaryChildSeconds": 5,
+    "buildSeconds": 60,
+    "publicSeconds": 200,
+    "perTestMilliseconds": 30000,
+    "physicalStepsPerRecipe": 108000,
+    "samplesPerRecipe": 1801,
+    "fixturesRegenerated": false,
+    "queriesAlwaysPaid": true,
+    "allOriginalAssertionsRequired": true
+  },
+  "aliasingQualification": "Source-owned immutable receipt lineage and boosterPrediction references may be shared; no universal deep-clone independence claim."
+}

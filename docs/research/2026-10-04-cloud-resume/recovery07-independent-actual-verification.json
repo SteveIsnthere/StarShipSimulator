@@ -1,0 +1,18 @@
+{
+  "disposition": "APPROVE recovery07 actual capture only",
+  "commands": 726,
+  "blobChecks": 468,
+  "changedPaths": 237,
+  "positiveFiles": 234,
+  "physicalDeletions": 3,
+  "fullSourceRecorded": 769,
+  "fullNonDocTreePaths": 796,
+  "ownedProcessIdentities": 16,
+  "helperProcessIdentities": 10,
+  "patchSha256": "fd3b223ac134207bd9fbb279be0920ca8107c4985e73b704a8c915c6c26f35dd",
+  "tree": "19418c1e7c2377a5bfbdd7a46db06df42fd9dd4c",
+  "realIndexUnchanged": true,
+  "worktreePatchApplied": false,
+  "old06StillFailed": true,
+  "noGitExecutionOrPatchApplicationByReviewer": true
+}

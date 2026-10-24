@@ -1,0 +1,3 @@
+# Unadopted compiler capture alternative
+
+The type-controls and SSR-transform-capture templates were prepared statically and never executed. Parent selected the smaller bundled official-native qualification route before granting this enum lane. They are retained as unadopted research, not proof or application readiness. Type variants are intentionally unverified: same-name ambient enum/value may be illegal, and private ambient enum/namespace compatibility must not be assumed. No source enum changed. No original/candidate compiler output or type result exists. A future revival requires an independently reviewed owner/declaration, exact executed-template pins, original configured compiler and bounded cleanup; these two templates alone authorize no execution.

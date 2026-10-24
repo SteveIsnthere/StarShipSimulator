@@ -1,0 +1,41 @@
+{
+  "decision": "HOLD closed; scopes/input assembly only, no matrix grant",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-matrix-sdk-entry-repair-source-HIGH-review.md",
+      "sha256": "e9645e8463c84a3a95edfcfd289e3c0fb3c8f51e7a88565f76829c02927ec037"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-input-maker-source-pins.json",
+      "sha256": "d8416b6fb695c7e77f9854bbbf9d1479db4a7e851d650b1096be0c8506c9ab51"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-candidate-source-pins.json",
+      "sha256": "c563b5a02e710cf27681f46e727a06ff48d10604e7beab7dd1e0a9dc1d908035"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-matrix-input.py.txt",
+      "sha256": "4e566ba090adb726c4704e82d146fbe3b116924f27ae9af43522ec60d35cb9db"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-input-maker-contract.md",
+      "sha256": "9dc453b7e920575239aa9f4cff1303de06b1b2cdb4d5c837ac86367c76e4b872"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.config.sdk-entry.ts.txt",
+      "sha256": "13529418fce7bbdebf45fff996649d581a9ae97c308cc634dd234596de7f81a5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-boundary-hooks.sdk-entry.ts.txt",
+      "sha256": "bad7ef1d48aabc928304e005a008572a38266d8142876e6d7c45b1ffb1f33b05"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/candidate-source-pins.json",
+      "sha256": "88186e1394f1499750a38ba8f71e51fbaf81df0c55505e17e5851966b6e86352"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-matrix-maker-import-placement-HOLD-review.md",
+      "sha256": "b45e2c842571408512b3e4213f0b1923e37709ea4e01d6edb0e553ff3577a0d1"
+    }
+  ]
+}

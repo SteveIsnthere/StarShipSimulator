@@ -1,0 +1,58 @@
+{
+  "kind": "covered-view-clock-collector-result-v1",
+  "completed": false,
+  "status": 1,
+  "primary": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n\n    at file:///workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7/owner.mjs:23:1686",
+  "postErrors": [],
+  "processes": [
+    {
+      "name": "collector",
+      "code": 1,
+      "receipt": {
+        "exit": {
+          "code": 1,
+          "signal": null
+        },
+        "failure": null,
+        "bytes": {
+          "stdout": 235,
+          "stderr": 867
+        },
+        "cap": 8388608,
+        "finished": true,
+        "closed": true,
+        "cleanup": {
+          "pid": 104862,
+          "start": "6805667",
+          "group": 104862,
+          "session": 104862,
+          "tracked": [
+            {
+              "pid": 104862,
+              "state": "R",
+              "parent": 104855,
+              "group": 104862,
+              "session": 104862,
+              "start": "6805667"
+            },
+            {
+              "pid": 104887,
+              "state": "Z",
+              "parent": 104862,
+              "group": 104862,
+              "session": 104862,
+              "start": "6805720"
+            }
+          ],
+          "executing": []
+        }
+      }
+    }
+  ],
+  "elapsedMs": 40611.616943359375,
+  "application": false,
+  "coverageAcceptance": false,
+  "performanceAcceptance": false,
+  "profiling": false,
+  "parentAllActualTrackedAbsenceRequired": true
+}

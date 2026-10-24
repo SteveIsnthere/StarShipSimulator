@@ -1,0 +1,103 @@
+[WebServer] (node:26508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:26509) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+natural piece pixels [
+  { id: 'booster-grid-1', changed: 12 },
+  { id: 'booster-grid-2', changed: 10 },
+  { id: 'booster-grid-0', changed: 20 }
+] {"grids":[{"id":"booster-grid-1","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[176,177,178],"x":307.51143925044016,"y":78.77116925594429,"left":306.24666668008075,"top":75.660550433463,"width":3.5548308442350844,"height":4.255562441611801},{"id":"booster-grid-2","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[181,182,183],"x":304.79111526592624,"y":84.77543052563722,"left":302.28634475141416,"top":84.18699575720193,"width":3.5543010777552695,"height":4.470284607923617},{"id":"booster-grid-0","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[315,316,317],"x":307.0087436967259,"y":79.88071189217801,"left":305.67006283581844,"top":77.57436294001154,"width":3.1296472467176955,"height":3.6311365714049657}],"viewport":{"width":1280,"height":347},"body":[{"id":"super-heavy","x":330.04694310735096,"y":91.83924423845475,"rotation":-1.1453960067277962,"width":8.990999794006347,"height":64.79999999570846}]}
+individual natural grid control [ { id: 'booster-grid-1', changed: 5 } ]
+individual natural grid control [ { id: 'booster-grid-2', changed: 9 } ]
+individual natural grid control [ { id: 'booster-grid-0', changed: 2 } ]
+  ✓  1 [chromium] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (10.1s)
+(node:26541) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+natural piece pixels [
+  { id: 'booster-grid-1', changed: 165 },
+  { id: 'booster-grid-2', changed: 151 },
+  { id: 'booster-grid-0', changed: 156 }
+] {"grids":[{"id":"booster-grid-1","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[176,177,178],"x":29.674383516637334,"y":119.71439133050107,"left":28.077608146558592,"top":115.78723506711846,"width":4.487973940846754,"height":5.372647582534881},{"id":"booster-grid-2","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[181,182,183],"x":26.239974486188515,"y":127.29477118348838,"left":23.077701711617042,"top":126.55187228833883,"width":4.487305110666004,"height":5.643734317503558},{"id":"booster-grid-0","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[315,316,317],"x":29.03973038007308,"y":121.11518890874613,"left":27.349645793177444,"top":118.20342335663595,"width":3.9511796489810322,"height":4.584309921398784}],"viewport":{"width":412,"height":505},"body":[{"id":"super-heavy","x":58.125457135987205,"y":136.2128359959205,"rotation":-1.1453960067277962,"width":11.351137239933013,"height":81.80999999458193}]}
+individual natural grid control [ { id: 'booster-grid-1', changed: 97 } ]
+individual natural grid control [ { id: 'booster-grid-2', changed: 141 } ]
+individual natural grid control [ { id: 'booster-grid-0', changed: 39 } ]
+  ✓  2 [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (11.5s)
+(node:26583) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+  ✘  3 [pixel-landscape] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (8.0s)
+(node:26597) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+natural piece pixels [
+  { id: 'booster-grid-1', changed: 145 },
+  { id: 'booster-grid-2', changed: 124 },
+  { id: 'booster-grid-0', changed: 132 }
+] {"grids":[{"id":"booster-grid-1","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[176,177,178],"x":42.830139905206494,"y":73.62237894944613,"left":41.565367334847096,"top":70.51176012696484,"width":3.554830844235049,"height":4.255562441611801},{"id":"booster-grid-2","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[181,182,183],"x":40.10981592069257,"y":79.62664021913906,"left":37.60504540618051,"top":79.03820545070377,"width":3.5543010777552553,"height":4.470284607923617},{"id":"booster-grid-0","vehicle":"super-heavy","detached":true,"visible":true,"meshes":3,"meshIds":[315,316,317],"x":42.32744435149223,"y":74.73192158567986,"left":40.988763490584795,"top":72.42557263351338,"width":3.129647246717653,"height":3.6311365714049657}],"viewport":{"width":390,"height":330},"body":[{"id":"super-heavy","x":65.36564376211726,"y":86.69045393195658,"rotation":-1.1453960067277962,"width":8.990999794006347,"height":64.79999999570846}]}
+individual natural grid control [ { id: 'booster-grid-1', changed: 93 } ]
+individual natural grid control [ { id: 'booster-grid-2', changed: 110 } ]
+individual natural grid control [ { id: 'booster-grid-0', changed: 40 } ]
+  ✓  4 [iphone-portrait] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (11.0s)
+(node:26618) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+  ✘  5 [iphone-landscape] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (8.2s)
+
+
+  1) [pixel-landscape] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+
+    Error: real player view must resolve each grid to at least 3 CSS pixels without cropping the survivor
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      122 |   expect(grids).toHaveLength(3);
+      123 |   expect(fitsStage(rendered), 'inspection zoom must preserve the actual hull and piece bounds').toBe(true);
+    > 124 |   expect(grids.every(c => Math.min(c.width, c.height) >= 3), 'real player view must resolve each grid to at least 3 CSS pixels without cropping the survivor').toBe(true);
+          |                                                                                                                                                                ^
+      125 |   for (const grid of grids) expect(grid.meshIds).toEqual(healthyMeshes.find(c => c.id === grid.id)!.meshIds);
+      126 |   expect(grids.every(c => c.detached && c.visible && c.meshes > 0)).toBe(true);
+      127 |   expect(rendered.bodies!.some(body => body.id === 'super-heavy')).toBe(true);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:124:160
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-pixel-landscape/error-context.md
+
+  2) [iphone-landscape] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+
+    Error: real player view must resolve each grid to at least 3 CSS pixels without cropping the survivor
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      122 |   expect(grids).toHaveLength(3);
+      123 |   expect(fitsStage(rendered), 'inspection zoom must preserve the actual hull and piece bounds').toBe(true);
+    > 124 |   expect(grids.every(c => Math.min(c.width, c.height) >= 3), 'real player view must resolve each grid to at least 3 CSS pixels without cropping the survivor').toBe(true);
+          |                                                                                                                                                                ^
+      125 |   for (const grid of grids) expect(grid.meshIds).toEqual(healthyMeshes.find(c => c.id === grid.id)!.meshIds);
+      126 |   expect(grids.every(c => c.detached && c.visible && c.meshes > 0)).toBe(true);
+      127 |   expect(rendered.bodies!.some(body => body.id === 'super-heavy')).toBe(true);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:124:160
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-iphone-landscape/error-context.md
+
+  2 failed
+    [pixel-landscape] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+    [iphone-landscape] › tests/e2e/vehicle-damage.spec.ts:49:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+  3 passed (53.8s)

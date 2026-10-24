@@ -1,0 +1,427 @@
+{
+  "outcome": "FAILED build validation; no candidate/admission/control/full21/coverage/gate success",
+  "execution": "ONE private build; root exit1/4.495728s, remaining[]; originalfailed receipts remain unchanged",
+  "archive": "All historical executable bytes .txt; maps/raw/statuses retained unchanged",
+  "files": [
+    {
+      "original": "/tmp/starship-official-native-build-root.34jgmu6z/actual-outer-exit-final.json",
+      "retained": "root/actual-outer-exit-final.json",
+      "bytes": 60,
+      "sha256": "e37d1c7ce9801a10f6e104fa28ffc3a03bb8cc49f3a575f80440aec8dd23519f"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-root.34jgmu6z/actual-outer-exit.json",
+      "retained": "root/actual-outer-exit.json",
+      "bytes": 62,
+      "sha256": "8caa5f628c104297f859093c03ff36d46074fc083b58cbbf73c9c68af75934ff"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-root.34jgmu6z/identities.jsonl",
+      "retained": "root/identities.jsonl",
+      "bytes": 443,
+      "sha256": "605de5ade776b579a747de59886c2bd96dc0603fc26f281877afecdfe381cbfb"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-root.34jgmu6z/outer-registration.json",
+      "retained": "root/outer-registration.json",
+      "bytes": 114,
+      "sha256": "91244e88c5747c52550911650271a481f91a62a5522efaa07c057eb50aac5c02"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-root.34jgmu6z/outer.stderr.txt",
+      "retained": "root/outer.stderr.txt",
+      "bytes": 460,
+      "sha256": "12229b3907d517cf35f22a6fb70f3cf77cec9099307504c2bea05166ad81338c"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-root.34jgmu6z/outer.stdout.txt",
+      "retained": "root/outer.stdout.txt",
+      "bytes": 355,
+      "sha256": "8682c235107fc54c02a00d2bde3b0f080bcb71ea83aa865fc915cf48fff321f4"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-root.34jgmu6z/root-outcome.json",
+      "retained": "root/root-outcome.json",
+      "bytes": 1295,
+      "sha256": "213cca7bb776e9e06f083c88dff14ba494a2d13008b6c7ab20a871cece2b64f0"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-root.34jgmu6z/stage.mjs",
+      "retained": "root/stage.mjs.txt",
+      "bytes": 5777,
+      "sha256": "ca4f90a4f0267303a41f363069b8f5ea3bb250b075509dd3857052611340c93d"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-stage.G30isv/actual-child-exit.json",
+      "retained": "stage/actual-child-exit.json",
+      "bytes": 209,
+      "sha256": "5e180d8b843622657ac5ea4956b3bc93958ef945149348bc567d1a2c3ef6436f"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-stage.G30isv/owned-build.process.json",
+      "retained": "stage/owned-build.process.json",
+      "bytes": 655,
+      "sha256": "bf7f0668917d32b024c6bd875cc1b9aff3990e75fa998e6083867381b9364646"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-stage.G30isv/owned-build.stderr.txt",
+      "retained": "stage/owned-build.stderr.txt",
+      "bytes": 451,
+      "sha256": "5d689d561fe510d3abba99362f690dd4c36d4e98c761f346e67674f01e1815ad"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-stage.G30isv/owned-build.stdout.txt",
+      "retained": "stage/owned-build.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-official-native-build-stage.G30isv/stage-result.json",
+      "retained": "stage/stage-result.json",
+      "bytes": 622,
+      "sha256": "c4b75a34e31e3a43e7b733892afc35d1d0d4ba234c7ec728196215dfbce7fc87"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/admission.mjs",
+      "retained": "private/admission.mjs.txt",
+      "bytes": 3678,
+      "sha256": "7b472e15b45e725ee3f112256d9e0ca0081344e484a0607314d2c22a818eb0ab"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/build-boundary.json",
+      "retained": "private/build-boundary.json",
+      "bytes": 405,
+      "sha256": "0ec3d9e4d487ab1acf67cbbb63948e5e5f49b1fc171d3bd29b05e16b72999eeb"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/build-owner-result.json",
+      "retained": "private/build-owner-result.json",
+      "bytes": 931,
+      "sha256": "30d8afc2e78621eb5eeb7a92024166c97a8abb9f90afd600e62c22ffd8784826"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/build.mjs",
+      "retained": "private/build.mjs.txt",
+      "bytes": 3579,
+      "sha256": "45fd3900becdfdd9ff3bb324859f8c715058439ef4d7792ffdbd2ceedfae713c"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/constants.mjs",
+      "retained": "private/constants.mjs.txt",
+      "bytes": 62,
+      "sha256": "7492ed19d62c4313b2c84ba67d731f74d12d128dc9ec139b6372eec90a3625b3"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/control-config.mjs",
+      "retained": "private/control-config.mjs.txt",
+      "bytes": 990,
+      "sha256": "f341f2e39e335da209d5989501fb50231817ff5215b89283ed46d87dff7862cd"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/declaration.md",
+      "retained": "private/declaration.md",
+      "bytes": 7459,
+      "sha256": "b6fe4afcc12253116317aff742198ecf4b148d686961f4329d6ace931b858c21"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/entry.ts",
+      "retained": "private/entry.ts.txt",
+      "bytes": 588,
+      "sha256": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/external-build-input.json",
+      "retained": "private/external-build-input.json",
+      "bytes": 2666058,
+      "sha256": "02420ef966ce52cfbe849afb64cf6f778b9dc9bdb52c99a96b1193ec1d4517fb"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/fixture.mjs",
+      "retained": "private/fixture.mjs.txt",
+      "bytes": 1992,
+      "sha256": "03e1b5c8e79a92de8b8dee0c06a1f6f3b9045de7d07cbdcf3d4ed242e4112191"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/foreign-parent.mjs",
+      "retained": "private/foreign-parent.mjs.txt",
+      "bytes": 65,
+      "sha256": "175858e4893ed38f563a45dc06e40140141f5653929fc3a65119196d9f1d8882"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/input-contract.json",
+      "retained": "private/input-contract.json",
+      "bytes": 1074,
+      "sha256": "c63a06fcdbf6255d13894d2346d3fc2fa4c19c456bfca040b158546064d01c47"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/integrity.mjs",
+      "retained": "private/integrity.mjs.txt",
+      "bytes": 2798,
+      "sha256": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/lifecycle-reporter.mjs",
+      "retained": "private/lifecycle-reporter.mjs.txt",
+      "bytes": 586,
+      "sha256": "22071535833d17256ca7daee9b7309c3c078d28dc3dff3e267e9f5e5907261c1"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/loader.mjs",
+      "retained": "private/loader.mjs.txt",
+      "bytes": 840,
+      "sha256": "ed890ad1dd6f51b972517f516af6ea2cfdfe46df1cbb82dd00a89c5d5be51232"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/Starship.webp",
+      "retained": "private/native/assets/Starship.webp",
+      "bytes": 41250,
+      "sha256": "c9d25bc1b496b4d27ee26ff039d0ff7bfa68d6a5936e199c7af2308c4c4adf8d"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/lunchpad_Light1.webp",
+      "retained": "private/native/assets/lunchpad_Light1.webp",
+      "bytes": 33342,
+      "sha256": "2b979fadd6ea8076f9c6340989efe723e5c02e7ffe8ae6a0e84b8f67da3a9286"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/lunchpad_Light2.webp",
+      "retained": "private/native/assets/lunchpad_Light2.webp",
+      "bytes": 33178,
+      "sha256": "0ecfcb920be8e0eb3ce7ce82345b8f707d8ab93a4f2442aa3303042eb5c8cf18"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/pig.webp",
+      "retained": "private/native/assets/pig.webp",
+      "bytes": 12954,
+      "sha256": "932ef01e3241c1ddcb0eaa27b21ea9ffda034c8185cdc271f335559d46a7ec7a"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/sn15.webp",
+      "retained": "private/native/assets/sn15.webp",
+      "bytes": 74652,
+      "sha256": "0dca7f7a4300aacc726e67bbd8df84ec44e87b7f894786d779fda657b70b52a8"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/starBaseBackGround.webp",
+      "retained": "private/native/assets/starBaseBackGround.webp",
+      "bytes": 118016,
+      "sha256": "a6ba3be4e9886ecddc8fcb87b63ee8790b30f4260339dd9379e46e43604dbd75"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/starBaseBackGround2.webp",
+      "retained": "private/native/assets/starBaseBackGround2.webp",
+      "bytes": 374330,
+      "sha256": "de17f7cd0c339e33012f6bb9cf09831b0772989f4933ed8528b94da91cd30094"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/starhopper.webp",
+      "retained": "private/native/assets/starhopper.webp",
+      "bytes": 107494,
+      "sha256": "18d787ffa3c8a335496a716e10dd1e3b1928216eeb949d67b20f70030069cf73"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/tree1.webp",
+      "retained": "private/native/assets/tree1.webp",
+      "bytes": 54646,
+      "sha256": "a619ac2b77ce81c18c3df23141ecf2197b91fcfb2ea17129b8e336746a88663a"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/assets/tree2.webp",
+      "retained": "private/native/assets/tree2.webp",
+      "bytes": 32514,
+      "sha256": "a363d125f4e2d5bce0d67bee389e051cc84bcfbba7aef75d86f10f9a69b80ce3"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/entry.mjs",
+      "retained": "private/native/entry.mjs.txt",
+      "bytes": 504,
+      "sha256": "5ca80a74e48343232f0c43583f213bb4c52cbc0464675bee91199f750a80cb15"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/icon.svg",
+      "retained": "private/native/icon.svg",
+      "bytes": 343,
+      "sha256": "8fca8bf870cbaac0c5a22ce6c61891f04536f59d8955b8b1e62fd57992e39493"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/manifest.webmanifest",
+      "retained": "private/native/manifest.webmanifest",
+      "bytes": 419,
+      "sha256": "967f4db3dab163c63f9ff81b9f842a82bebabb10ef20f12578bfc4773781f50c"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/serviceworker.js",
+      "retained": "private/native/serviceworker.js.txt",
+      "bytes": 1144,
+      "sha256": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/simulation-CN0-W409.js",
+      "retained": "private/native/simulation-CN0-W409.js.txt",
+      "bytes": 159698,
+      "sha256": "cc9a18ebeaf3c83df8527cfc97cdeaa2c0ebee63053ba0a850cc9b06c944901f"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native/simulation-CN0-W409.js.map",
+      "retained": "private/native/simulation-CN0-W409.js.map",
+      "bytes": 711847,
+      "sha256": "f13c37f1b69ed8a4694e4ac06e18f67e9071ce35cb5bd5eb2ec2a333f42a51f5"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native-a.test.mjs",
+      "retained": "private/native-a.test.mjs.txt",
+      "bytes": 1912,
+      "sha256": "5f2e4d2d37b09a94919a3039e2b91bbd6e127affa134b85e8ba2de6a07a3f799"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native-b.test.mjs",
+      "retained": "private/native-b.test.mjs.txt",
+      "bytes": 1694,
+      "sha256": "1d4c9e727cff5506deb787270d50cb038f5dff6a7f28bb1640634b0922da6972"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native-flight-build.process.json",
+      "retained": "private/native-flight-build.process.json",
+      "bytes": 494,
+      "sha256": "aa501543f1f58bb909539e71445f7b7ad6e890fbf63af1352129c9a9e3837782"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native-flight-build.stderr.txt",
+      "retained": "private/native-flight-build.stderr.txt",
+      "bytes": 431,
+      "sha256": "1fdf3df5a4ed0bbd677f9a9da02c2d6ce63a4ab619a068cd03289c0b4b46b482"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/native-flight-build.stdout.txt",
+      "retained": "private/native-flight-build.stdout.txt",
+      "bytes": 387,
+      "sha256": "c9ecbe7896aa635a8d29c8ab44c04bffb1ac6768af78f2c73658c81fb8090a53"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/preparation-result.json",
+      "retained": "private/preparation-result.json",
+      "bytes": 496,
+      "sha256": "dbb75e60259282ef39ff130ba0cbe1d65599c27bc9cd9e785b052ea58000c167"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/run-build.mjs",
+      "retained": "private/run-build.mjs.txt",
+      "bytes": 3397,
+      "sha256": "bc59961c322ffe3950edb9aa918d7997dc93dc2bcfd441f8679890bb0c4dddaa"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/run-controls.mjs",
+      "retained": "private/run-controls.mjs.txt",
+      "bytes": 5458,
+      "sha256": "3364227023cec1117f730353c8a94fffd26f26a3ef99f7f9628b2557df417360"
+    },
+    {
+      "original": "/tmp/starship-official-native.0eAlnB/ssr.test.mjs",
+      "retained": "private/ssr.test.mjs.txt",
+      "bytes": 1808,
+      "sha256": "b101d1c2a034c38f7f31703816815dbe985284fdd40ebf48f882f1167f1a94f2"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/admission.mjs.txt",
+      "retained": "templates/admission.mjs.txt",
+      "bytes": 3678,
+      "sha256": "7b472e15b45e725ee3f112256d9e0ca0081344e484a0607314d2c22a818eb0ab"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/build.mjs.txt",
+      "retained": "templates/build.mjs.txt",
+      "bytes": 3579,
+      "sha256": "45fd3900becdfdd9ff3bb324859f8c715058439ef4d7792ffdbd2ceedfae713c"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/constants.mjs.txt",
+      "retained": "templates/constants.mjs.txt",
+      "bytes": 62,
+      "sha256": "7492ed19d62c4313b2c84ba67d731f74d12d128dc9ec139b6372eec90a3625b3"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/control-config.mjs.txt",
+      "retained": "templates/control-config.mjs.txt",
+      "bytes": 990,
+      "sha256": "f341f2e39e335da209d5989501fb50231817ff5215b89283ed46d87dff7862cd"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/declaration.md",
+      "retained": "templates/declaration.md",
+      "bytes": 7459,
+      "sha256": "b6fe4afcc12253116317aff742198ecf4b148d686961f4329d6ace931b858c21"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/entry.ts.txt",
+      "retained": "templates/entry.ts.txt",
+      "bytes": 588,
+      "sha256": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/fixture.mjs.txt",
+      "retained": "templates/fixture.mjs.txt",
+      "bytes": 1992,
+      "sha256": "03e1b5c8e79a92de8b8dee0c06a1f6f3b9045de7d07cbdcf3d4ed242e4112191"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/foreign-parent.mjs.txt",
+      "retained": "templates/foreign-parent.mjs.txt",
+      "bytes": 65,
+      "sha256": "175858e4893ed38f563a45dc06e40140141f5653929fc3a65119196d9f1d8882"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/input-contract.json",
+      "retained": "templates/input-contract.json",
+      "bytes": 1074,
+      "sha256": "c63a06fcdbf6255d13894d2346d3fc2fa4c19c456bfca040b158546064d01c47"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/integrity.mjs.txt",
+      "retained": "templates/integrity.mjs.txt",
+      "bytes": 2798,
+      "sha256": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/lifecycle-reporter.mjs.txt",
+      "retained": "templates/lifecycle-reporter.mjs.txt",
+      "bytes": 586,
+      "sha256": "22071535833d17256ca7daee9b7309c3c078d28dc3dff3e267e9f5e5907261c1"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/loader.mjs.txt",
+      "retained": "templates/loader.mjs.txt",
+      "bytes": 840,
+      "sha256": "ed890ad1dd6f51b972517f516af6ea2cfdfe46df1cbb82dd00a89c5d5be51232"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-a.test.mjs.txt",
+      "retained": "templates/native-a.test.mjs.txt",
+      "bytes": 1912,
+      "sha256": "5f2e4d2d37b09a94919a3039e2b91bbd6e127affa134b85e8ba2de6a07a3f799"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-b.test.mjs.txt",
+      "retained": "templates/native-b.test.mjs.txt",
+      "bytes": 1694,
+      "sha256": "1d4c9e727cff5506deb787270d50cb038f5dff6a7f28bb1640634b0922da6972"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/run-build.mjs.txt",
+      "retained": "templates/run-build.mjs.txt",
+      "bytes": 3397,
+      "sha256": "bc59961c322ffe3950edb9aa918d7997dc93dc2bcfd441f8679890bb0c4dddaa"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/run-controls.mjs.txt",
+      "retained": "templates/run-controls.mjs.txt",
+      "bytes": 5458,
+      "sha256": "3364227023cec1117f730353c8a94fffd26f26a3ef99f7f9628b2557df417360"
+    },
+    {
+      "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/ssr.test.mjs.txt",
+      "retained": "templates/ssr.test.mjs.txt",
+      "bytes": 1808,
+      "sha256": "b101d1c2a034c38f7f31703816815dbe985284fdd40ebf48f882f1167f1a94f2"
+    }
+  ]
+}

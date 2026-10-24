@@ -2,7 +2,7 @@
  * rather than manufacture an engine command or capture from diagnostics. */
 import { describe, expect, it } from 'vitest';
 import { cloneState, createInitialState } from '$core/state';
-import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+import { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
 import { runBoosterAutopilot, runBoosterPolicy, runBoosterPostStep } from '$core/autopilot/booster';
 import { advanceMechanics } from '$core/step';
 import { IGNITION_DELAY_MAX_S } from '$core/physics/engines';
@@ -77,11 +77,11 @@ describe('force-only return diagnostics', () => {
     const s = booster(15_000); s.kinematics.downRangeDistance += 100;
     s.autopilot.boosterPhase = 'coast'; s.kinematics.speedY = -100;
     const scratch = createBurnScratch(), fall = createFallResult();
-    unpoweredFallInto(s, 90.5, scratch, fall, SUPER_HEAVY, rad(0));
+    unpoweredFallInto(s, CATCH.bodyCentreAltitude, scratch, fall, SUPER_HEAVY, rad(0));
     expect(fall.reached).toBe(true);
     const error = 100 + fall.downRange;
-    unpoweredFallInto(s, 90.5, scratch, fall, SUPER_HEAVY, rad(.05)); const plus = fall.downRange;
-    unpoweredFallInto(s, 90.5, scratch, fall, SUPER_HEAVY, rad(-.05)); const minus = fall.downRange;
+    unpoweredFallInto(s, CATCH.bodyCentreAltitude, scratch, fall, SUPER_HEAVY, rad(.05)); const plus = fall.downRange;
+    unpoweredFallInto(s, CATCH.bodyCentreAltitude, scratch, fall, SUPER_HEAVY, rad(-.05)); const minus = fall.downRange;
     const slope = (plus - minus) / .1;
     expect(Math.abs(slope)).toBeGreaterThan(1);
     runBoosterAutopilot(s, DT, SUPER_HEAVY);
@@ -93,7 +93,7 @@ describe('force-only return diagnostics', () => {
     expect(s.autopilot.boosterCoastPitch).toBe(correction);
   });
   it('keeps a zero-range plane diagnostic neutral and resolves a near-cutoff diagnostic at the actual dt', () => {
-    const s = booster(90.5); s.kinematics.speedY = 0; s.autopilot.boosterPhase = 'coast';
+    const s = booster(CATCH.bodyCentreAltitude); s.kinematics.speedY = 0; s.autopilot.boosterPhase = 'coast';
     runBoosterAutopilot(s, DT, SUPER_HEAVY);
     expect(s.autopilot.boosterCoastPitch).toBe(0);
     expect(s.autopilot.boosterReturnPlan).toBeUndefined();

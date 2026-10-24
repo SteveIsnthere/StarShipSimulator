@@ -1,0 +1,20 @@
+{
+  "kind": "independent-four-doc-truth-other-HIGH-v1",
+  "verdict": "ACCEPTED final-paragraph status update only",
+  "workloads": false,
+  "files": {
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": "19001d95308b019a2b9aef3eb4f6e2074cc834ce16e36f45f1975faae042e69e",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md": "f5f354edc9996b3983e8e74b032293754a422c677b108df63b580aac289c3825",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md": "48e8f4975aa82fc9763ccc58d5cb71941da3814c444cb73d70cd44f11e881ac4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md": "ce1e726d34489597813bc092a79c0b576e149f077ae9e5f004d6f7e35331887a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-map-collector-and-pure-proof-truth-update/0-before.md": "8b6903266be7357ea4ad605edb56545f40dfeb477a7615186f6c4190205b272b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-map-collector-and-pure-proof-truth-update/1-before.md": "d4cf132641abcf396f011d71b4e1dc2d903fed0ce722c66615772788a8703553",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-map-collector-and-pure-proof-truth-update/2-before.md": "c8f534011c13b96bb01639199fff3ade77982312b143bc2d0c85295ad9594229",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-map-collector-and-pure-proof-truth-update/3-before.md": "33e8ea46dd40c97c549611d336f2a027c38460ba0aa6258303925b9847b269d1",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-map-collector-and-pure-proof-truth-update/before-after.json": "65dadfbf8592e4907422ae49412b3b1062e44effd17b5a3ad83c65264666e7ab",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-map-collector-and-pure-proof-truth-update/independent-OTHER-HIGH-truth-review.md": "bbdf4ccac1bd7dc00fcb96514797fab58c65f522ae2bac0db0774f01f40f7e98",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-actual-pass-HIGH.md": "68bab80517ce6a435945f8abbbf40e4f8f4d449c38f5a26e7cb85eb742efcfd6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/map-successor-candidate/collector-integration/independent-map-collector-actual-result-HIGH-review.md": "704d1e6022174d398cdaf36c85435aaf3ca8ab666f3cf873d58e451136316323",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-managed-python-git-metadata-actual-result-HIGH-review.md": "44d5dc4a97f5efeaf657eee7b596b5d2567affee09896c72c60d3d250149b4ea"
+  }
+}

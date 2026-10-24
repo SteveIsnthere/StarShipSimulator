@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "draws": 60,
+  "conditioningDraws": 3,
+  "performanceAcceptance": false,
+  "limitation": "Frozen-state A/B/A combined engine-visual attribution only; initialization/order/restoration disagreement require review; no quality/acceptance claim"
+}

@@ -1,0 +1,3 @@
+ERROR: Coverage for functions (97%) does not meet global threshold (98%)
+ERROR: Coverage for functions (97%) does not meet "src/core/physics/**" threshold (100%)
+ERROR: Coverage for functions (97%) does not meet "src/core/autopilot/**" threshold (100%)

@@ -1,0 +1,13 @@
+{
+  "kind": "pre-native-application-recovery05-disk-verification",
+  "runtimePaths": 226,
+  "deletedPathsVerified": [
+    "src/view/heat-shield.ts",
+    "src/view/lighting.ts",
+    "src/view/vehicle-detail.ts"
+  ],
+  "patchDigest": "9a0607c5e01a197ffdc7f90c51d8ce20ad1a5329f552d9808d04c570b30a6130",
+  "mismatches": [],
+  "reapplied": false,
+  "priorVerifierLimitation": "Earlier ad-hoc verifier incorrectly treated the three required deletions (sha256:null) as hash failures; no disk change occurred."
+}

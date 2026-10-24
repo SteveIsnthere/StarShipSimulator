@@ -1,0 +1,10 @@
+{
+  "args": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "/tmp/starship-width2-stage-input._lpm6tyb/observer.py",
+    "/tmp/starship-width2-stage-input._lpm6tyb/owner-input.json",
+    "23d79b0d3825ac7eba23656909a294cfecbdde726fa2bc6be2d07b112039f3c5"
+  ],
+  "wholeBoundMs": 30000,
+  "noCompileOrBrowser": true
+}

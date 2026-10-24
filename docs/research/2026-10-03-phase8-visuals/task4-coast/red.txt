@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/coast.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/coast.test.ts [ tests/view/coast.test.ts ]
+Error: Cannot find module '$view/coast' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/view/coast.test.ts
+ ❯ tests/view/coast.test.ts:3:1
+      1| import { expect, it } from 'vitest';
+      2| import { Graphics, Texture } from 'pixi.js';
+      3| import { createCoast } from '$view/coast';
+       | ^
+      4| import { createWorld } from '$view/world';
+      5| import { createDistantEarth } from '$view/distant-earth';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  10:19:25
+   Duration  356ms (transform 15ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

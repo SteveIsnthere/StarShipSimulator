@@ -1,0 +1,5 @@
+# Independent short-literal materialization seed HIGH
+
+Exact seed bce698dde15966371ad338c07b04c71e4b359301719fd6640d720d08d5eb985b differs from preserved09401 in exactly five roles: reviewed short-tail parser, controls, root observer, fourteen-row source packet and6a7 source HIGH. All eleven nonbinary role hashes match actual finite files. Kind, unchanged maker d5b0, Python authority fa674, original failure/proposal lineage and trace metadata are unchanged. Current retained trace lstat is exact; e396 whole content remains root-supplied before/after authority, not rehashed here. Root short-literal scoped receipt binds the full14 packet rows/bytes and AST checks.
+
+Supports ONE root-owned run of the unchanged finite metadata maker with this exact seed/digest only. Generated inputs/modes/empty receipt and inventory need distinct actual-input HIGH before any28-controls/prefix assessment. No assessment grant, previous timeout/cap/cadence failures remain red. Two-MiB/10000/five-second child and30-second root boundaries are unchanged. No reviewer candidate import/controls/maker/workload or trace content read/hash/parse occurred.

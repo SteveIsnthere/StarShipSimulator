@@ -1,0 +1,37 @@
+[
+  {
+    "name": "consumer-syntax",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "--check",
+      "--input-type=module"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.028913590998854488,
+    "sourceSha256": "6ab522f5283f6aa89defbe243236da55dbaa857b152d6edd369a7df0e3d3ce29"
+  },
+  {
+    "name": "consumer-lint",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "--stdin",
+      "--stdin-filename",
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/qualify-exact-facade-width2.mjs"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.9807208639977034,
+    "sourceSha256": "6ab522f5283f6aa89defbe243236da55dbaa857b152d6edd369a7df0e3d3ce29"
+  },
+  {
+    "name": "maker-ast",
+    "args": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-c",
+      "import ast,sys;ast.parse(sys.stdin.read())"
+    ],
+    "code": 0,
+    "elapsedSeconds": 0.021928758003923576,
+    "sourceSha256": "fa36cf5b4d088436a179b64d7786ae6a5753499d4c3d9af6a9b097d96dfd537e"
+  }
+]

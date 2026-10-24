@@ -1,0 +1,63 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/vehicle-geometry.test.ts (0 test)
+ ❯ |unit| tests/core/v3-flight.test.ts (3 tests | 3 failed) 4ms
+     × selects the published generation for both physical bodies 3ms
+     × uses paid Raptor3 propulsion in actual flight and guidance ('ship') 0ms
+     × uses paid Raptor3 propulsion in actual flight and guidance ('super-heavy') 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/vehicle-geometry.test.ts [ tests/view/vehicle-geometry.test.ts ]
+Error: Cannot find module '$view/vehicle-geometry' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/view/vehicle-geometry.test.ts
+ ❯ tests/view/vehicle-geometry.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { createVehicleGeometry, geometryPointInBodyFrame, V3_PROJECTIO…
+       | ^
+      3|
+      4| const shipInput = { id: 'ship' as const, height: 52, diameter: 9 };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/v3-flight.test.ts > active V3 flight model > selects the published generation for both physical bodies
+AssertionError: expected 50 to be 52 // Object.is equality
+
+- Expected
++ Received
+
+- 52
++ 50
+
+ ❯ tests/core/v3-flight.test.ts:14:25
+     12| describe('active V3 flight model', () => {
+     13|   it('selects the published generation for both physical bodies', () =…
+     14|     expect(SHIP.height).toBe(52);
+       |                         ^
+     15|     expect(SUPER_HEAVY.height).toBe(72);
+     16|     expect(SHIP.propellantCapacity).toBe(1_600_000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  |unit| tests/core/v3-flight.test.ts > active V3 flight model > uses paid Raptor3 propulsion in actual flight and guidance ('ship')
+ FAIL  |unit| tests/core/v3-flight.test.ts > active V3 flight model > uses paid Raptor3 propulsion in actual flight and guidance ('super-heavy')
+AssertionError: expected 2255529.5 to be close to 2451662.5, received difference is 196133, but expected 5e-7
+ ❯ tests/core/v3-flight.test.ts:23:51
+     21|   it.each([SHIP, SUPER_HEAVY])('uses paid Raptor3 propulsion in actual…
+     22|     const thrust = 250_000 * G0;
+     23|     expect(getTotalMaxThrust(SL, 101.325, model)).toBeCloseTo(thrust, …
+       |                                                   ^
+     24|     expect(getFuelFlowRate(SL, 100, model)).toBeCloseTo(thrust / (327 …
+     25|     expect(thrustFor(1, 101.325, model)).toBeCloseTo(thrust, 6);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  3 failed | 6 passed (9)
+   Start at  13:10:49
+   Duration  268ms (transform 163ms, setup 0ms, import 174ms, tests 8ms, environment 0ms)
+

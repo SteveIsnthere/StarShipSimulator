@@ -1,3 +1,4 @@
+/** Phase8: import-only historical dependency routing; preserved numerical body unchanged. */
 /** Shipped src/core/control/primitives.ts from934d3cd.
  * Original SHA256: 1c05d4acb7fd58c51a5cbc07ac6a9e648ddacf277174a9aee10c10f0fb3f9c81
  * Imports adjusted only; dependent Ship helpers have separate equivalence proofs. */
@@ -19,15 +20,15 @@
  */
 import { localGravity } from './ship-guidance';
 import * as C from '$core/constants';
-import { getDrag, relativeAirspeed } from '$core/physics/aero';
+import { getDrag, relativeAirspeed } from './ship-aero';
 import { airVelocityX } from '$core/physics/wind';
 import {
   getTotalMaxThrust,
   getTotalMinThrust,
   getWorkingSeaLevelCount,
   gimballedShare,
-} from '$core/physics/engines';
-import { createMassProperties, writeMassProperties } from '$core/physics/mass';
+} from './ship-engines';
+import { createMassProperties, writeMassProperties } from './ship-mass';
 
 /** M11.8 — the arms for the step in hand; written before read, every call. */
 const arms = createMassProperties();

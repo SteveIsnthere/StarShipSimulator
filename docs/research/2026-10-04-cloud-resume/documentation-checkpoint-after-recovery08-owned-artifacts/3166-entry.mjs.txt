@@ -1,0 +1,10 @@
+import { A as e, C as t, D as n, E as r, O as i, S as a, T as o, _ as s, a as c, b as l, c as u, d, f, g as p, h as m, i as h, k as g, l as _, m as v, n as y, o as b, p as x, r as S, s as C, t as w, u as T, v as E, w as D, x as O, y as k } from "./simulation-BPnlkAel.js";
+//#region tests/core/legacy-models.ts
+function A(e, t) {
+	let n = i * Math.abs(e) / t;
+	return n >= 9.807 ? i : n;
+}
+//#endregion
+export { u as ALL_SCENARIOS, p as CATCH, w as DT, E as MU, _ as PRESETS, r as SHIP, s as SUPER_HEAVY, y as advanceMechanics, k as circularOrbitalSpeed, x as cloneState, b as createCatchPose, v as createInitialState, T as createIntroState, d as createScenarioState, f as createScenarioVehicle, l as gravityAt, O as groundTangentialSpeed, g as heatLimit, a as inertialTangentialSpeed, A as legacyOrbitRelief, n as orbitConstants, h as runBoosterAutopilot, c as runBoosterPolicy, t as specificAngularMomentum, D as specificOrbitalEnergy, e as starBaseXPos, S as step, m as toggleAutoLand, o as verticalGravityAcceleration, C as writeCatchPose };
+
+//# sourceMappingURL=entry.mjs.map

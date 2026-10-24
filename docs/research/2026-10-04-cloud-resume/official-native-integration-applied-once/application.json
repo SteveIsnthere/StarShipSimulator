@@ -1,0 +1,86 @@
+{
+  "kind": "reviewed-native-integration-exact-once-application",
+  "projectionSha256": "eeda86744a514e170c60168c1c063fd2c0b7bfc437732ca90ab75f24ce71fe10",
+  "qualificationSha256": "d1b400dbddf2ca6e22df8b7b7eb550c7f58324bf8a45d24f360743bbf107c033",
+  "inputReviewSha256": "27482f28f4d97544db7f18f3c6560e54fd290428c5180cd30eaa7464188c3057",
+  "beforeSourcePaths": 759,
+  "afterSourcePaths": 769,
+  "allProjectedSourceHashesMatch": true,
+  "protectedSourceAndTestDelta": [],
+  "appliedOnce": true,
+  "workloadExecuted": false,
+  "files": [
+    {
+      "path": "package.json",
+      "before": "67f1e817568094c60b2453190c4633d13aafe501a3cee51d0e43e14b5fc28be6",
+      "after": "6c07c3f0935753725cdfbb6d7b39285210c7dd47cfc36d940dbab913df0ebbe5",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/admission.mjs",
+      "before": null,
+      "after": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/build.mjs",
+      "before": null,
+      "after": "ad1fade84731714978d1378ad21b3dc6e7aad7184760727b346b66351d186a06",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/constants.mjs",
+      "before": null,
+      "after": "08cc84cdeb98fe9b9108d998af2dad468b5d3f6f176bc8005161b9c45c4712e6",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/entry.ts",
+      "before": null,
+      "after": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/integrity.mjs",
+      "before": null,
+      "after": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/lifecycle-reporter.mjs",
+      "before": null,
+      "after": "5b05f504211f4571bee7452996c6613632e6f06384e9386bb9b555ab0417a2ae",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/loader.mjs",
+      "before": null,
+      "after": "958291c07f1a3ffa909067dce53c4f3f7dd4f4a7f43e39e2444c06d6364de496",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/prepare-run.mjs",
+      "before": null,
+      "after": "972de609021190bf236825ccfa2554a012078ef22191a5ee86e9df8c1a722b1c",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/projects.mjs",
+      "before": null,
+      "after": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da",
+      "mode": 384
+    },
+    {
+      "path": "scripts/test/run.mjs",
+      "before": null,
+      "after": "7d02863cb6cab28a27afbdd7ed41c9f66ccd548052753efa03ac8bdb5582b3c0",
+      "mode": 384
+    },
+    {
+      "path": "vitest.config.ts",
+      "before": "4debcf42809334dfc4fefcc4f8d7274fbdcfdc429d7fc99b06310eea588061b0",
+      "after": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029",
+      "mode": 384
+    }
+  ]
+}

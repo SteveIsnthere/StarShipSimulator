@@ -1,0 +1,18 @@
+{
+  "code": 0,
+  "appliedOnce": true,
+  "files": [
+    {
+      "path": "tests/golden/unification.test.ts",
+      "before": "b43c2ae8be0dc1d456f8b18cefdedf2359b79faacfec3f2956b97ec65a7902b1",
+      "after": "eddc619bfc4a2cc17d3f3355249bcf2a0bf3f08769d03af9633b0ab635297d38",
+      "mode": 384
+    },
+    {
+      "path": "tests/golden/booster-replay.test.ts",
+      "before": "c4d0171d19e76a3fd057573b46ec760b727b8c3a99595d36a01fd91b3e672ead",
+      "after": "cce053083240b7af301fdcb1cd84ecfaa4810815f906141f861c561d4c38d3b4",
+      "mode": 384
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "childExit": 0,
+  "timeout": false,
+  "elapsedSeconds": 0.7666065400007938,
+  "setup": "/tmp/starship-codec-proof.LYtiTQ",
+  "owned": [
+    {
+      "pid": 50598,
+      "start": "2797065",
+      "executing": false
+    },
+    {
+      "pid": 50605,
+      "state": "R",
+      "parent": 50598,
+      "group": 50605,
+      "session": 50605,
+      "start": "2797102",
+      "executing": false
+    }
+  ],
+  "allOwnedNonexecuting": true,
+  "executedOwnerExact": true
+}

@@ -23,6 +23,11 @@ import { createRng, type RngState } from './rng';
 import { rad, type Rad } from './units';
 import type { BoosterPrediction } from './control/booster-prediction';
 import type { BoosterReturnPlan } from './control/booster-return-plan';
+import { cloneBoosterSourceEvent, cloneBoosterPlan, type BoosterSource } from './control/booster-source';
+import { createDamageState, cloneDamageState, type DamageState } from './damage-state';
+import { damageModelFor } from './physics/damage-model';
+import { isaAtmosphere } from './physics/isa';
+import { radiativeSinkKelvin } from './physics/thermal';
 
 /**
  * Which Raptor a field refers to: an index into `C.RAPTORS`, and into every
@@ -133,6 +138,11 @@ export interface ForcesState {
   thrust: number;
   /** m/s^2. */
   thrustAcceleration: number;
+  /** m/s² — paid engine translation in world downrange/altitude coordinates.
+   * Evaluated with this interval's mass, engine inventory and incoming pose;
+   * endpoint ownership/actuator changes must not rewrite the observation. */
+  paidThrustAccelerationX: number;
+  paidThrustAccelerationY: number;
   /**
    * rad/s^2 — the ROTATION from asymmetric thrust across the three engines.
    *
@@ -371,6 +381,8 @@ export interface AutopilotState {
   /** Deterministic in-progress mechanical prediction; absent on Ship. Inner
    * snapshots contain no job and are immutable until resumed into owned state. */
   boosterPrediction?: BoosterPrediction;
+  /** Independently evolved live source; snapshots omit recursive forecast metadata. */
+  boosterSource?: BoosterSource;
   /** Source-pinned future shutdown/coast plan, accepted by physical replay. */
   boosterReturnPlan?: BoosterReturnPlan;
   /** An invalid/expired terminal attempt cannot become indefinite hover. */
@@ -490,6 +502,9 @@ export interface AutopilotState {
 
 /** The whole simulation, as one value. */
 export interface SimState {
+  /** Physical component ownership/enthalpy. Null only in historical fixtures;
+   * every current constructor supplies a complete, independently owned state. */
+  damage: DamageState | null;
   /**
    * Seeded randomness. Counters live here rather than inside the generator so
    * that a SimState determines every future draw — that is what makes step()
@@ -532,6 +547,8 @@ export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition
   const spawnMass = model.dryMass + model.initialPropellant;
 
   return {
+    damage: createDamageState(damageModelFor(model).partition,
+      radiativeSinkKelvin(altitude, isaAtmosphere(altitude).airTemperature)),
     rng: createRng(seed),
 
     world: {
@@ -583,6 +600,8 @@ export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition
     forces: {
       thrust: 0,
       thrustAcceleration: 0,
+      paidThrustAccelerationX: 0,
+      paidThrustAccelerationY: 0,
       offAxisThrustDifferenceAcceleration: 0,
       twr: 0,
 
@@ -761,6 +780,7 @@ export function createInitialState(seed = DEFAULT_SEED, model: VehicleDefinition
  */
 export function cloneState(s: SimState): SimState {
   return {
+    damage: s.damage ? cloneDamageState(s.damage) : null,
     rng: { seed: s.rng.seed, counters: { ...s.rng.counters } },
     world: { ...s.world },
     atmosphere: { ...s.atmosphere },
@@ -778,7 +798,14 @@ export function cloneState(s: SimState): SimState {
     status: { ...s.status },
     warnings: { ...s.warnings },
     failures: { ...s.failures },
-    autopilot: { ...s.autopilot },
+    autopilot: {
+      ...s.autopilot,
+      ...(s.autopilot.boosterReturnPlan?{boosterReturnPlan:cloneBoosterPlan(s.autopilot.boosterReturnPlan)!}:{}),
+      ...(s.autopilot.boosterSource?{boosterSource:{...s.autopilot.boosterSource,
+        returned:cloneState(s.autopilot.boosterSource.returned),
+        expected:s.autopilot.boosterSource.expected?cloneState(s.autopilot.boosterSource.expected):undefined,
+        event:cloneBoosterSourceEvent(s.autopilot.boosterSource.event)}}:{}),
+    },
   };
 }
 

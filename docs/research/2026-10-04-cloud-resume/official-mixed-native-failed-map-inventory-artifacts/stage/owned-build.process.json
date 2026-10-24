@@ -1,0 +1,39 @@
+{
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 0,
+    "stderr": 451
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 61617,
+    "start": "3738733",
+    "group": 61617,
+    "session": 61617,
+    "tracked": [
+      {
+        "pid": 61617,
+        "state": "R",
+        "parent": 61610,
+        "group": 61617,
+        "session": 61617,
+        "start": "3738733"
+      },
+      {
+        "pid": 61624,
+        "state": "R",
+        "parent": 61617,
+        "group": 61624,
+        "session": 61624,
+        "start": "3738757"
+      }
+    ],
+    "executing": []
+  }
+}

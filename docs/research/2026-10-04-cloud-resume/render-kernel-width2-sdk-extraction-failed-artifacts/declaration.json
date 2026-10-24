@@ -1,0 +1,14 @@
+{
+  "kind": "width2-sdk-owned-v1",
+  "setup": "/tmp/starship-width2-sdk.l2wYbX",
+  "childDeadlineMs": 5000,
+  "externalOwnerDeadlineMs": 30000,
+  "cleanupMs": 8000,
+  "outputCapPerStream": 8388608,
+  "executed": {
+    "controls.mjs": "6130fbcc6af22fa23c8a12443fae95f60a55e8a419a8e9347b609ca2b0a61022",
+    "entry.ts.txt": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+  },
+  "browserLaunches": 0,
+  "physicsImports": 0
+}

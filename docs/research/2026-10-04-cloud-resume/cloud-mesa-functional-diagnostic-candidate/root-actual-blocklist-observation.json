@@ -1,0 +1,63 @@
+{
+  "diagnosticSource": "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e/diagnostic-before-context.json",
+  "devices": [
+    {
+      "vendorId": 0,
+      "deviceId": 0,
+      "vendorString": "Google Inc. (Mesa)",
+      "deviceString": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL ES 3.2 Mesa 25.0.7-2+deb13u1)",
+      "driverVendor": "Mesa",
+      "driverVersion": "25.0.7"
+    }
+  ],
+  "featureStatus": {
+    "2d_canvas": "unavailable_software",
+    "direct_rendering_display_compositor": "disabled_off_ok",
+    "gpu_compositing": "disabled_software",
+    "multiple_raster_threads": "enabled_on",
+    "opengl": "unavailable_off",
+    "rasterization": "unavailable_off",
+    "raw_draw": "disabled_off_ok",
+    "skia_graphite": "unavailable_off",
+    "trees_in_viz": "disabled_off",
+    "video_decode": "unavailable_off",
+    "video_encode": "disabled_software",
+    "vulkan": "disabled_off",
+    "webgl": "unavailable_off",
+    "webgpu": "unavailable_software",
+    "webgpu_on_vk_via_gl_interop": "disabled_off",
+    "webnn": "disabled_off"
+  },
+  "selectedGLAttributes": {
+    "displayType": "ANGLE_OPENGL_EGL",
+    "glImplementationParts": "(gl=egl-angle,angle=opengl)",
+    "glRenderer": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL ES 3.2 Mesa 25.0.7-2+deb13u1)",
+    "glVendor": "Google Inc. (Mesa)",
+    "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.28222 git hash: 6dab7c7e742b)"
+  },
+  "errors": [
+    {
+      "method": "Browser.getBrowserCommandLine",
+      "error": "Error: cdpSession.send: Protocol error (Browser.getBrowserCommandLine): Command line not returned because --enable-automation not set."
+    }
+  ],
+  "GPUProcesses": [
+    {
+      "identity": {
+        "pid": 92232,
+        "starttime": "5902790",
+        "ppid": 92208,
+        "pgrp": 92203,
+        "state": "S"
+      },
+      "owned": true,
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+      "loadedMesaLibraries": [
+        "/usr/lib/x86_64-linux-gnu/libEGL.so.1.1.0",
+        "/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0.0.0",
+        "/usr/lib/x86_64-linux-gnu/libLLVM.so.19.1",
+        "/usr/lib/x86_64-linux-gnu/libgallium-25.0.7-2+deb13u1.so"
+      ]
+    }
+  ]
+}

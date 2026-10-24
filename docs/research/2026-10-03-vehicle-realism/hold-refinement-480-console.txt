@@ -1,0 +1,127 @@
+{"progress_s":0.0020833333333333333,"phase":"coast","altitude_m":80000,"root_K":198.6440235459031}
+{"progress_s":120.00208333333333,"phase":"coast","altitude_m":79992.13935807248,"root_K":465.14305946144384}
+{"progress_s":240.00208333333333,"phase":"coast","altitude_m":79937.32375821697,"root_K":693.7137470556257}
+{"progress_s":360.0020833333333,"phase":"coast","altitude_m":79789.43561684462,"root_K":891.6012912158498}
+{"progress_s":480.0020833333333,"phase":"coast","altitude_m":79503.60588958272,"root_K":1054.9446872385706}
+{"progress_s":600.0020833333333,"phase":"entry","altitude_m":67620.79654869983,"root_K":1117.444489812768}
+{
+  "summary": {
+    "stop": "progressive-loss",
+    "steps": 309990,
+    "elapsed_s": 645.8125,
+    "burnStart_s": 495.3125,
+    "entryStart_s": 599.3854166666666,
+    "maxRoot_K": 1126.5632637828494,
+    "maxActualThermalAngleReduction_rad": 0.00019753171013170423,
+    "terminalReason": 0,
+    "gridAttached": [
+      false,
+      false,
+      false
+    ],
+    "permanentFailure": [
+      1,
+      1,
+      1
+    ],
+    "firstEndpoint": {
+      "time_s": 645.8125,
+      "q_Pa": 15814.661931580249,
+      "skin_K": 1431.0772446553522,
+      "felt_g": 0.7601291047014133,
+      "altitude_m": 44523.004128387845,
+      "fuel_kg": 1044535.231902293,
+      "root_K": [
+        1126.5632637828494,
+        1126.5632637828494,
+        1126.5632637828494
+      ],
+      "actualCommand_rad": 0.7853981633974483
+    },
+    "proof": [
+      {
+        "id": "booster-grid-0",
+        "hot": {
+          "temperature_K": 1126.5632637828494,
+          "angle_rad": 0.7850310854911086,
+          "proof_Pa": 47578418.77863069,
+          "demand_Pa": 47590698.42678618,
+          "utilization": 1.0002580928175149
+        },
+        "cold": {
+          "temperature_K": 198.63857625086882,
+          "angle_rad": 0.7852286721556719,
+          "proof_Pa": 223000000,
+          "demand_Pa": 47595683.063417,
+          "utilization": 0.21343355633819286
+        }
+      },
+      {
+        "id": "booster-grid-1",
+        "hot": {
+          "temperature_K": 1126.5632637828494,
+          "angle_rad": 0.7850310854911086,
+          "proof_Pa": 47578418.77863069,
+          "demand_Pa": 47590698.42678618,
+          "utilization": 1.0002580928175149
+        },
+        "cold": {
+          "temperature_K": 198.63857625086882,
+          "angle_rad": 0.7852286721556719,
+          "proof_Pa": 223000000,
+          "demand_Pa": 47595683.063417,
+          "utilization": 0.21343355633819286
+        }
+      },
+      {
+        "id": "booster-grid-2",
+        "hot": {
+          "temperature_K": 1126.5632637828494,
+          "angle_rad": 0.7850310854911086,
+          "proof_Pa": 47578418.77863069,
+          "demand_Pa": 47590698.42678618,
+          "utilization": 1.0002580928175149
+        },
+        "cold": {
+          "temperature_K": 198.63857625086882,
+          "angle_rad": 0.7852286721556719,
+          "proof_Pa": 223000000,
+          "demand_Pa": 47595683.063417,
+          "utilization": 0.21343355633819286
+        }
+      }
+    ],
+    "massAudit": {
+      "massResidual_kg": 0,
+      "linearMomentumResidual_kg_m_s": [
+        0.0000019073486328125,
+        0
+      ],
+      "angularMomentumResidual_kg_m2_s": 0,
+      "maxRigidVelocityError_m_s": 4.547473508864641e-13,
+      "label": "same-endpoint hull rigid-field reconstruction; not external-force-free time evolution"
+    },
+    "lastHealthy": {
+      "time_s": 645.8104166666667,
+      "q_Pa": 15810.624515782563,
+      "root_K": 1126.5606333406172,
+      "actualCommand_rad": 0.7853981633974483,
+      "liveLoaded_rad": 0.7850311837123428,
+      "coldLoaded_rad": 0.7852287154224745,
+      "angleReduction_rad": 0.00019753171013170423,
+      "liftReduction_N": 0.09046711645491265,
+      "dragReduction_N": 101.18841502606386
+    },
+    "minimumRcs_s": 0,
+    "paidRcs_s": 25.000000000007645,
+    "maxRcsPaymentError_s": 5.170040790042995e-15,
+    "coldReferenceUnchanged": true
+  },
+  "completion": {
+    "completion": {
+      "hz": 480,
+      "wall_s": 5.574080124999999,
+      "sourceUnchanged": true
+    }
+  }
+}

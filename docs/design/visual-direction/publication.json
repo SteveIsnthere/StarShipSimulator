@@ -1,0 +1,53 @@
+{
+  "page_id": "page_86fcf9be7d708191ad082fb932b96ef0",
+  "url": "https://chatgpt.com/space/page_86fcf9be7d708191ad082fb932b96ef0",
+  "drive_scope": "personal",
+  "idempotency_key": "64e47e47-5b75-43ec-b86c-54f891790883",
+  "visualization": {
+    "page_id": "page_86fcf9be7d708191ad082fb932b96ef0",
+    "title": "Six flight scenes",
+    "file_reference": "fde1_bGliZmlsZV85Ym1UQ09yV2lrMW96RDBEUGhxbjZB_FileDrive_201d34b0e0b48191a84d3e72c0ffac33",
+    "markdown": "![Six flight scenes](visualize:fde1_bGliZmlsZV85Ym1UQ09yV2lrMW96RDBEUGhxbjZB_FileDrive_201d34b0e0b48191a84d3e72c0ffac33)",
+    "edit": {
+      "new_sequence": 1,
+      "through_sequence": 1,
+      "operation_results": [
+        {
+          "operation_index": 0,
+          "preceding_block_id": "431a2d88-63cf-417e-84ea-42dd079acbb2",
+          "created_block_ids": [
+            "cb8e946b-0d99-4b42-a9af-1f10f5fd43a1"
+          ],
+          "continuation_position": {
+            "block_id": "cb8e946b-0d99-4b42-a9af-1f10f5fd43a1",
+            "relative_position_base64": "ALm7pEh7QQ=="
+          },
+          "affected_blocks": [
+            {
+              "block_id": "cb8e946b-0d99-4b42-a9af-1f10f5fd43a1",
+              "hash": "f1e072fe3e8316753f40ed2eabe4c3c70175cd91af16cca7ed85bfc81cc9a53e"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "readback_blocks": [
+    {
+      "id": "f010b5a2-ce69-42fe-b0ee-f0c5071ae9b9",
+      "markdown": "This preview sets the direction for the simulator’s engines, reentry heat, coastal environment and vehicle detail across six flight scenes. It is an authored concept, not live simulation output or a performance measurement. The implementation will use the existing simulation state and preserve the flight controls.",
+      "hash": "41e30c47e2a94878d385a4568108332f75db72642bf3d363a080776ade8be1ca"
+    },
+    {
+      "id": "431a2d88-63cf-417e-84ea-42dd079acbb2",
+      "markdown": "Use the scene buttons to compare launch, staging, belly flop, entry, landing and catch. Desktop and phone previews show the composition at different sizes; Full and Reduced show which detail can be removed while keeping each scene readable. Owner feedback is recorded separately from engineering acceptance.",
+      "hash": "391e166db4b89651aa91f790f5edb78fdc23f7a8475518df2cbdb104bc1d08b2"
+    },
+    {
+      "id": "cb8e946b-0d99-4b42-a9af-1f10f5fd43a1",
+      "markdown": "![Six flight scenes](visualize:fde1_bGliZmlsZV85Ym1UQ09yV2lrMW96RDBEUGhxbjZB_FileDrive_201d34b0e0b48191a84d3e72c0ffac33)",
+      "hash": "f1e072fe3e8316753f40ed2eabe4c3c70175cd91af16cca7ed85bfc81cc9a53e"
+    }
+  ],
+  "browser_verification": "Local identical-source preview inspected at1280x720 and390x844; six scenes/full+reduced saved. Private Page saved/readback verified; browser Page viewer requires ChatGPT login in iab, so host embedding rendering unverified. No access/share setting changed."
+}

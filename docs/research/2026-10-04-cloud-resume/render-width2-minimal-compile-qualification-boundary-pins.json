@@ -1,0 +1,13 @@
+{
+  "classification": "Read-only bounded plan, no code execution or build/browser grant",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-entry.ts.txt": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-render-kernel-width2.mjs.txt": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-build.config.mjs.txt": "546e0aa2b55ab0dd46f1f6a8480b8efd938e0edcd9d3e1d085357001fa26fc69",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/declaration.md": "7ed0e4c6880850e3566dfd935521a5d21030cce9648a003ea59209071d2ef936",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/entry.diff.txt": "1e46c3f1f489aafef1a26fd66d2ab0fb9f5d868732e5899d76c8cfa963090600",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/independent-sdk-extraction-failure-assessment.md": "f0e2cd49b0ddfbd8d16340a803f268922efc77780f54925ccf60ae66b86366e2",
+    "docs/research/2026-10-04-cloud-resume/independent-render-width2-source-assessment.md": "f3cc8a51f98e54f60906a82a51651d7b902bdf61180a8f29573be85e1549a937",
+    "docs/research/2026-10-04-cloud-resume/cloud-render-kernel-compact-reuse-actual-independent-review.md": "d72c07e500a2a00c12cce6cb0f2de915037a405fc4027ace8e3da03244c3bb1b"
+  }
+}

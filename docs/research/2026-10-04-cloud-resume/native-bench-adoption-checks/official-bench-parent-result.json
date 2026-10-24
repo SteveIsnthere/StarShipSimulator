@@ -1,0 +1,10 @@
+{
+  "actualChildReturnCode": 0,
+  "elapsedSeconds": 39.98154015699947,
+  "command": [
+    "npm",
+    "run",
+    "bench"
+  ],
+  "oneInvocation": true
+}

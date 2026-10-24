@@ -1,0 +1,15 @@
+--- approved/owner.mjs
++++ shared-budget/owner.mjs
+@@ -55,9 +55,10 @@
+ }
+ export function verifyNoOwnedProcesses(){const inspections=owners.map(owner=>({pid:owner.pid,start:owner.start,group:owner.group,executing:observe(owner).live}));
+  assert(inspections.every(row=>row.executing.length===0),'Executing owned process remains');return inspections;}
+-export async function runOwnedCommand({name,args,env,root,receipt,deadlineMs=300000}){
++export async function runOwnedCommand({name,args,env,root,receipt,deadlineMs=300000,outputCapBytes=2*1024*1024}){
+  assert(Number.isFinite(deadlineMs)&&deadlineMs>0&&deadlineMs<=900000);
+- const cap=2*1024*1024;const chunks={stdout:[],stderr:[]};const bytes={stdout:0,stderr:0};
++ assert(Number.isInteger(outputCapBytes)&&outputCapBytes>0&&outputCapBytes<=2*1024*1024);
++ const cap=outputCapBytes;const chunks={stdout:[],stderr:[]};const bytes={stdout:0,stderr:0};
+  let child=null,owner=null,failure=null,exit=null,closed=false,timeout=null,monitor=null;
+  let cleanup=null,firstFailure=null;
+  let wake;const boundary=new Promise(done=>{wake=done;});

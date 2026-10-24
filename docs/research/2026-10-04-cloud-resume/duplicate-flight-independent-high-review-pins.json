@@ -1,0 +1,19 @@
+{
+  "docs/research/2026-10-04-cloud-resume/duplicate-flight-observations.ts.txt": "8aab93cc5d9d54ec784a47550554e4a01c9d234fc2bd140edadb7d3ec122eee5",
+  "docs/research/2026-10-04-cloud-resume/duplicate-flight-registration-template.ts.txt": "4b556182a5e0cedcc97d6c9cb7e6f14e0319ebc098a1dd319c793195d8fb81b5",
+  "docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-proof.test.ts.txt": "a9d7bc73a7d37352081bc7e75938a461568ca9ef18e6314d9adc1d9eb57a1e5d",
+  "docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-config.ts.txt": "e4fe1bc4f18a1a0657c46e952893f30c9ce6b8567f50a0d56d67eb1fa5b2a122",
+  "docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-runner.mjs.txt": "128bc07997a1641d6c9fc1272c3435512db43f51854f4e0c9d6f6ffd1e2f6b14",
+  "docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-finalize.mjs.txt": "b361f88d3e1255d488e894c8c8f36e1f5e64a4aecaf32aedc4affb790fa7d4cd",
+  "docs/research/2026-10-04-cloud-resume/duplicate-flight-ownership-proof.test.ts.txt": "249e44f19d7b384107e36fcb5a571ea952097eff7a533d1e6a0dc8af609341ce",
+  "docs/research/2026-10-04-cloud-resume/duplicate-flight-lifecycle-proof-declaration.md": "44b9c296c648bdb95613f6bc009939c3997273ae8fb7092b0338bfd06fd9cb0d",
+  "tests/core/booster-guidance.test.ts": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+  "tests/flies-every-scenario.test.ts": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9",
+  "src/core/scenarios.ts": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e",
+  "src/core/state.ts": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d",
+  "src/core/control/commands.ts": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40",
+  "src/app/loop.ts": "51a362d3051620da175320041e782d313e4b6f1d965aaec600508cc77ae62c66",
+  "node_modules/@vitest/runner/dist/chunk-artifact.js": "bf6af6d2f4469911879a67e83b8f9e7b20332cf42795032c53457b10ccc1c617",
+  "node_modules/vitest/dist/index.d.ts": "90ba95a763101bb61b8a799731a2ed60b5016b8135c1a2d5186862d4b534d4a1",
+  "scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+}

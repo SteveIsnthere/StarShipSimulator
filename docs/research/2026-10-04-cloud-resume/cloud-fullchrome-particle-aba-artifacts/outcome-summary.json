@@ -1,0 +1,373 @@
+{
+  "outcome": "SUCCESSFUL CAUSAL DIAGNOSTIC ONLY; no performance/quality acceptance",
+  "episode": "/tmp/starship-fullchrome-aba.vp2xqyr1",
+  "phaseSummary": {
+    "phases": [
+      {
+        "name": "A-visible",
+        "visible": true,
+        "count": 20,
+        "cadenceFps": 7.651417525773196,
+        "workerCpuTicks": [
+          {
+            "tid": 34216,
+            "cpuTicks": 261
+          },
+          {
+            "tid": 34217,
+            "cpuTicks": 257
+          },
+          {
+            "tid": 34218,
+            "cpuTicks": 259
+          }
+        ],
+        "workerClockTicksPerSecond": 100,
+        "cgroupBefore": "usage_usec 4577204078\nuser_usec 4348959018\nsystem_usec 228245060\nnice_usec 0\nnr_periods 41853\nnr_throttled 3645\nthrottled_usec 238105911\nnr_bursts 0\nburst_usec 0\n",
+        "cgroupAfter": "usage_usec 4585598640\nuser_usec 4357147163\nsystem_usec 228451477\nnice_usec 0\nnr_periods 41881\nnr_throttled 3645\nthrottled_usec 238105911\nnr_bursts 0\nburst_usec 0\n",
+        "firstFrameIncluded": true,
+        "acceptance": false
+      },
+      {
+        "name": "B-hidden",
+        "visible": false,
+        "count": 20,
+        "cadenceFps": 8.636756216191646,
+        "workerCpuTicks": [
+          {
+            "tid": 34216,
+            "cpuTicks": 238
+          },
+          {
+            "tid": 34217,
+            "cpuTicks": 239
+          },
+          {
+            "tid": 34218,
+            "cpuTicks": 239
+          }
+        ],
+        "workerClockTicksPerSecond": 100,
+        "cgroupBefore": "usage_usec 4586019791\nuser_usec 4357543512\nsystem_usec 228476279\nnice_usec 0\nnr_periods 41882\nnr_throttled 3645\nthrottled_usec 238105911\nnr_bursts 0\nburst_usec 0\n",
+        "cgroupAfter": "usage_usec 4593687656\nuser_usec 4365105652\nsystem_usec 228582004\nnice_usec 0\nnr_periods 41907\nnr_throttled 3646\nthrottled_usec 238132864\nnr_bursts 0\nburst_usec 0\n",
+        "firstFrameIncluded": true,
+        "acceptance": false
+      },
+      {
+        "name": "A-restored",
+        "visible": true,
+        "count": 20,
+        "cadenceFps": 8.028395166061015,
+        "workerCpuTicks": [
+          {
+            "tid": 34216,
+            "cpuTicks": 259
+          },
+          {
+            "tid": 34217,
+            "cpuTicks": 260
+          },
+          {
+            "tid": 34218,
+            "cpuTicks": 258
+          }
+        ],
+        "workerClockTicksPerSecond": 100,
+        "cgroupBefore": "usage_usec 4594058034\nuser_usec 4365451351\nsystem_usec 228606682\nnice_usec 0\nnr_periods 41908\nnr_throttled 3647\nthrottled_usec 238152139\nnr_bursts 0\nburst_usec 0\n",
+        "cgroupAfter": "usage_usec 4602289260\nuser_usec 4373583344\nsystem_usec 228705916\nnice_usec 0\nnr_periods 41935\nnr_throttled 3647\nthrottled_usec 238152139\nnr_bursts 0\nburst_usec 0\n",
+        "firstFrameIncluded": true,
+        "acceptance": false
+      }
+    ],
+    "sourceBackedCurrentDt": 0,
+    "rememberedLastPositiveWorldDt": 0.008333333333333333,
+    "noRawCameraClaim": true,
+    "noAutomatic300Trial": true
+  },
+  "measuredCounts": [
+    20,
+    20,
+    20
+  ],
+  "conditioningCount": 3,
+  "workerCpuTicksTotals": [
+    777,
+    716,
+    777
+  ],
+  "clockTicksPerSecond": 100,
+  "hiddenWorkerCpuReductionFraction": 0.0785070785070785,
+  "hiddenCadenceGainVsFirstVisibleFraction": 0.12877858084458405,
+  "hiddenCadenceGainVsRestoredFraction": 0.07577617164416584,
+  "restoredCadenceDriftVsFirstVisibleFraction": 0.04926899349277436,
+  "allTelemetryExact": true,
+  "allObservableProjectionParticleFilterFieldsExact": true,
+  "sourceBackedCurrentPausedWorldDt": 0,
+  "rememberedLastPositiveWorldDt": 0.008333333333333333,
+  "probeErrors": {
+    "A-visible": [],
+    "B-hidden": [],
+    "A-restored": []
+  },
+  "noDrawFrames": {
+    "A-visible": 0,
+    "B-hidden": 0,
+    "A-restored": 0
+  },
+  "physicalFailureFlags": {
+    "failures.crashed": false,
+    "failures.inFlightBreakUp": false,
+    "failures.coldGasRunOut": false,
+    "failures.fuelRunOut": false,
+    "failures.heatDamaged": false,
+    "failures.overPressure": false,
+    "failures.overGLoad": false,
+    "failures.flippedOver": false,
+    "failures.randomFailure": false
+  },
+  "positiveControl": {
+    "visibleChanged": 7477,
+    "restoredChanged": 7477,
+    "restorationDisagreement": 0,
+    "thresholdPerChannel": 6,
+    "diagnosisOnly": true
+  },
+  "sourceBuildBeforeAfterExact": true,
+  "identityBefore": {
+    "sourceSha256": "a90e2e33b7c874bd0809cbfb3a2ca4f9315d594a4daf2e5cfd25a5bc76c26618",
+    "buildSha256": "574f3787dc6e0f281f6c30beae9e5a4715e6ffd80e81be6993c945041448d765",
+    "head": "1ba606d68e325775dae7b4c00607c52fcc03dece",
+    "runnerSha256": "40f2b844c28ce8553e6395ac60207f051d947af128b873f4333784a0eb12e617"
+  },
+  "identityAfter": {
+    "sourceSha256": "a90e2e33b7c874bd0809cbfb3a2ca4f9315d594a4daf2e5cfd25a5bc76c26618",
+    "buildSha256": "574f3787dc6e0f281f6c30beae9e5a4715e6ffd80e81be6993c945041448d765",
+    "head": "1ba606d68e325775dae7b4c00607c52fcc03dece",
+    "runnerSha256": "40f2b844c28ce8553e6395ac60207f051d947af128b873f4333784a0eb12e617"
+  },
+  "finalIntegrity": {
+    "sourceVerified": true,
+    "buildVerified": true,
+    "bundleVerified": true,
+    "error": null
+  },
+  "cleanup": {
+    "actions": [],
+    "ownedIdentities": [
+      {
+        "pid": 34182,
+        "starttime": "1491635",
+        "ppid": 34168,
+        "pgrp": 34182,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      {
+        "pid": 34213,
+        "starttime": "1491645",
+        "ppid": 34189,
+        "pgrp": 34182,
+        "state": "Z"
+      },
+      {
+        "pid": 34185,
+        "starttime": "1491640",
+        "ppid": 1,
+        "pgrp": 34184,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+      },
+      {
+        "pid": 34188,
+        "starttime": "1491640",
+        "ppid": 1,
+        "pgrp": 34187,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+      },
+      {
+        "pid": 34189,
+        "starttime": "1491640",
+        "ppid": 1,
+        "pgrp": 34182,
+        "state": "Z"
+      },
+      {
+        "pid": 34191,
+        "starttime": "1491640",
+        "ppid": 1,
+        "pgrp": 34182,
+        "state": "Z"
+      },
+      {
+        "pid": 34220,
+        "starttime": "1491646",
+        "ppid": 34182,
+        "pgrp": 34182,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      {
+        "pid": 34227,
+        "starttime": "1491649",
+        "ppid": 34191,
+        "pgrp": 34182,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      {
+        "pid": 34250,
+        "starttime": "1491656",
+        "ppid": 34191,
+        "pgrp": 34182,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      {
+        "pid": 34251,
+        "starttime": "1491656",
+        "ppid": 1,
+        "pgrp": 34182,
+        "state": "Z"
+      },
+      {
+        "pid": 34276,
+        "starttime": "1491938",
+        "ppid": 34182,
+        "pgrp": 34182,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      }
+    ],
+    "remaining": [],
+    "inaccessibleOwned": [],
+    "verifiedDescendantAbsence": true,
+    "cleanupMs": 1406,
+    "launchSettled": true,
+    "elapsedMs": 24511
+  },
+  "parentPostExit": {
+    "rows": [
+      {
+        "pid": 34182,
+        "expectedStart": "1491635",
+        "actual": null,
+        "sameOwnedIdentity": false
+      },
+      {
+        "pid": 34213,
+        "expectedStart": "1491645",
+        "actual": null,
+        "sameOwnedIdentity": false
+      },
+      {
+        "pid": 34185,
+        "expectedStart": "1491640",
+        "actual": {
+          "state": "Z",
+          "starttime": "1491640",
+          "pgrp": 34184
+        },
+        "sameOwnedIdentity": true
+      },
+      {
+        "pid": 34188,
+        "expectedStart": "1491640",
+        "actual": {
+          "state": "Z",
+          "starttime": "1491640",
+          "pgrp": 34187
+        },
+        "sameOwnedIdentity": true
+      },
+      {
+        "pid": 34189,
+        "expectedStart": "1491640",
+        "actual": {
+          "state": "Z",
+          "starttime": "1491640",
+          "pgrp": 34182
+        },
+        "sameOwnedIdentity": true
+      },
+      {
+        "pid": 34191,
+        "expectedStart": "1491640",
+        "actual": {
+          "state": "Z",
+          "starttime": "1491640",
+          "pgrp": 34182
+        },
+        "sameOwnedIdentity": true
+      },
+      {
+        "pid": 34220,
+        "expectedStart": "1491646",
+        "actual": null,
+        "sameOwnedIdentity": false
+      },
+      {
+        "pid": 34227,
+        "expectedStart": "1491649",
+        "actual": null,
+        "sameOwnedIdentity": false
+      },
+      {
+        "pid": 34250,
+        "expectedStart": "1491656",
+        "actual": null,
+        "sameOwnedIdentity": false
+      },
+      {
+        "pid": 34251,
+        "expectedStart": "1491656",
+        "actual": {
+          "state": "Z",
+          "starttime": "1491656",
+          "pgrp": 34182
+        },
+        "sameOwnedIdentity": true
+      },
+      {
+        "pid": 34276,
+        "expectedStart": "1491938",
+        "actual": null,
+        "sameOwnedIdentity": false
+      }
+    ],
+    "executingOwned": [],
+    "claim": "Absent or nonexecuting matching zombies; no reaping claim"
+  },
+  "parentLaunch": {
+    "command": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=5s",
+      "100s",
+      "node",
+      "docs/research/2026-10-04-cloud-resume/run-fullchrome-particle-aba.mjs",
+      "/tmp/starship-fullchrome-aba.vp2xqyr1"
+    ],
+    "actualChildReturnCode": 0,
+    "elapsedSeconds": 25.03915108000001,
+    "setup": "/tmp/starship-fullchrome-aba.vp2xqyr1",
+    "oneInvocation": true,
+    "classification": "Causal diagnosis, not acceptance"
+  },
+  "collection": {
+    "exportedCapBytes": 33554432,
+    "artifactCapBytes": 16777216,
+    "consoleCapBytes": 524288,
+    "exportedBytes": 1300587,
+    "consoleBytes": 0,
+    "truncated": false
+  },
+  "qualification": {
+    "qualified": true,
+    "error": null,
+    "performanceAcceptance": false,
+    "requiresFreshActualResultReview": true,
+    "noAutomatic300Trial": true
+  },
+  "limits": "Unwarmed20/20/20 frozen rendering with3conditioningdraws, not original60/300 physics-flight acceptance. Worker boundaries include overhead/readback, not exact shaderCPU. A/restored cadence differs~4.9%; every first/last frame retained. Complete engine-visual removal saves~7.85% recordedworkerCPU and modestcadence; no59fps/p95/nativeGPU/photographic/quality adoption claim. Fresh actual-result/image review required; no300trial follows."
+}

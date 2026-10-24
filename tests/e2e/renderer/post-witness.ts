@@ -154,3 +154,7 @@ async function bloomFootprint(): Promise<{ maxDifference: number; directDifferen
 
 import { bellWitness } from './emissive-bell-witness';
 (window as unknown as { bellWitness: typeof bellWitness }).bellWitness = bellWitness;
+import { engineGlareWitness } from './engine-glare-witness';
+(window as unknown as { engineGlareWitness: typeof engineGlareWitness }).engineGlareWitness = engineGlareWitness;
+import { heatShieldWitness } from './heat-shield-witness';
+(window as unknown as { heatShieldWitness: typeof heatShieldWitness }).heatShieldWitness = heatShieldWitness;

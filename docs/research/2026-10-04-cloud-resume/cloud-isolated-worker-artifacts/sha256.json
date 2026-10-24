@@ -1,0 +1,87 @@
+[
+  {
+    "file": "GO",
+    "sha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df",
+    "bytes": 24
+  },
+  {
+    "file": "STOP",
+    "sha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3",
+    "bytes": 5
+  },
+  {
+    "file": "after-bundle-identity.json",
+    "sha256": "0b510995aecd6323c9a9c2dbb30be83be9db7bd57e3c2bec67b3260b78a3ee27",
+    "bytes": 546
+  },
+  {
+    "file": "after-identity.json",
+    "sha256": "68a8805ee0676cf3ad812088d418d17ed690161bc71a433e8257030ba111a46c",
+    "bytes": 103188
+  },
+  {
+    "file": "after-topology.json",
+    "sha256": "86a62823c67acfbafbaae53fe97bd6aaceba2f2668a765a2c79533ba33c8ee30",
+    "bytes": 22508
+  },
+  {
+    "file": "before-bundle-identity.json",
+    "sha256": "0b510995aecd6323c9a9c2dbb30be83be9db7bd57e3c2bec67b3260b78a3ee27",
+    "bytes": 546
+  },
+  {
+    "file": "before-identity.json",
+    "sha256": "68a8805ee0676cf3ad812088d418d17ed690161bc71a433e8257030ba111a46c",
+    "bytes": 103188
+  },
+  {
+    "file": "before-topology.json",
+    "sha256": "2ea701a1cd94d3a133637ba5cb067fffd065325bc529394e4a45d2a637198c1d",
+    "bytes": 22503
+  },
+  {
+    "file": "browser-identity.json",
+    "sha256": "6234d71a30c1af1383683acef4d7d0b83db5f47297149bef416cf8fc97265cd4",
+    "bytes": 3606
+  },
+  {
+    "file": "browser-wrapper.sh",
+    "sha256": "cfe018add04475076f01ecddd31a91e14009429abe8c0fb0c43aba30056206bc",
+    "bytes": 782
+  },
+  {
+    "file": "bundle-copy-manifest.json",
+    "sha256": "07ef404bb5667e951f53099c703ccd06567c8c65e76341d8fc6729b9f200fd49",
+    "bytes": 50697
+  },
+  {
+    "file": "cleanup.json",
+    "sha256": "540c48562a8545c6871e2572047153a841cf650cad2fbff1a50f4a18896bdc2a",
+    "bytes": 1361
+  },
+  {
+    "file": "console.json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "bytes": 3
+  },
+  {
+    "file": "functional-outcome.json",
+    "sha256": "df0329def91a55ac90702fe5ac6b3f79d666d2fc7ccb13686f9dcb1abb808e27",
+    "bytes": 154
+  },
+  {
+    "file": "production-draw-receipt.json",
+    "sha256": "c1adc38e5dac5703f13f79f5dd8b9e0380432a6d6c0d9196f2e3cb2433bea7ca",
+    "bytes": 34357
+  },
+  {
+    "file": "setup-receipt.json",
+    "sha256": "048950a830698688c2ab17b28cf8981e6ff0a31bcf3e0aabbddcc5b2c82ccd6d",
+    "bytes": 104463
+  },
+  {
+    "file": "wrapper-owner.json",
+    "sha256": "0129742ffbf232b0955d7c43e48412dbb4500f74820d331793a5d0187e4b046a",
+    "bytes": 67
+  }
+]

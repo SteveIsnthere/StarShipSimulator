@@ -1,0 +1,13 @@
+{
+  "review": "d04f1581aa5c313b9bf8994a15c3149d8c3510b579723cbe69e99fdaf36324ff",
+  "reviewPins": "21f1df94ce7005babd101231e44e9a352b6200482b1c173f10502fd289f449b4",
+  "acceptedComposite": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/accepted-kernel-composite.json",
+  "acceptedCompositeSha256": "d69370a313010f0555f3a149b79259f92386e3c56d7d8a3f1862989fcb0c6642",
+  "outerTimeoutSeconds": 930,
+  "command": [
+    "bash",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired/run.sh.txt"
+  ],
+  "runSha256": "8caf4532547681435bbcd3849c0c868eab523e6787e78d6429c80ad29702ce9d",
+  "cpuExclusive": true
+}

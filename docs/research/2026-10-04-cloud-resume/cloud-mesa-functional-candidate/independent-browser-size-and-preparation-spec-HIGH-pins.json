@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "decision": "supported-changed-AST-and-single-root-owned60-preparation-readiness",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-browser-size-and-preparation-spec-HIGH-review.md",
+    "sha256": "6fd6d09c390c2a24bd6a5b8f4e9a560f659e4706c87e06facc63d940bd41b7f5"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/external-preparation-spec.json",
+      "sha256": "2459777574530a459715cec557a9817007eef8837c117cb517ae0983a0fdeefc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha256": "edd2a32f81e67a4ff5806a2c80547d2a89afeeb9d1522593e161619c2bcc6733"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-source-pins.json",
+      "sha256": "069a6e319f1f8616a7ecf903412ec616e2d6640f2670e04231bf8517f1640b2e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-browser-size-authority-repair/prepare-inputs.py.txt",
+      "sha256": "4b5f133ee5e3712ebdcced4fcdbe265b2d2cfd1b6249410674b45c0bbe602499"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-browser-size-authority-repair/external-preparation-spec.json",
+      "sha256": "b63dc5dcb72ad74c8517f189e72734de86e9a3e2ee69491b3283fca54c7bc898"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-external-preparation-spec-HOLD-review.md",
+      "sha256": "8d04b897ff650e7256ba4ba1c6511d9bec9dd14b51ac875ab0047444d6dfbb3f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-external-preparation-spec-HOLD-pins.json",
+      "sha256": "fd3f27dc1ec3c0ff77ef3097424f92940c1484da32c2b321bad5c979f99afeec"
+    },
+    {
+      "path": "/tmp/starship-fullchrome-worker.VB1uzYO9/bundle-copy-manifest.json",
+      "sha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff"
+    },
+    {
+      "path": "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994/setup-receipt.json",
+      "sha256": "c4115487e6d546824456de63aee7a2dc4dce6910bdc6133a832d5d47398d71c6"
+    },
+    {
+      "path": "/var/lib/dpkg/status",
+      "sha256": "5a59c7501ca286678c24bd3a68d675c2b7ec559434e017a08da60265cf61bea2"
+    }
+  ],
+  "packageMetadataRows": 46,
+  "expectedPinRows": 152,
+  "browserFiles": 304,
+  "browserDirectories": 12,
+  "executionPerformed": false,
+  "functionalBrowserExecutionApproved": false
+}

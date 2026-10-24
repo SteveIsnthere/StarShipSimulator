@@ -1,0 +1,28 @@
+{
+  "checks": [
+    {
+      "name": "make-input.py.txt",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "name": "root-observer.py.txt",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "name": "owner.mjs.txt",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.028235707999556325
+    },
+    {
+      "name": "owner.mjs.txt",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9320138240000233
+    }
+  ],
+  "allPinsBeforeAfterMatched": true,
+  "passed": true
+}

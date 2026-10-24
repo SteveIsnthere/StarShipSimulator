@@ -1,0 +1,49 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/core/booster-terminal-allocation.test.ts tests/core/booster-terminal-coallocation.test.ts tests/core/booster-command.test.ts tests/core/booster-policy-boundary.test.ts tests/core/booster-descent-initialization.test.ts tests/view/vehicle-detail.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=docs/research/2026-10-18-phase8-successor/terminal-coallocation/green-restored.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |unit| tests/core/booster-command.test.ts (19 tests) 159ms
+ ❯ |unit| tests/core/booster-terminal-coallocation.test.ts (14 tests | 1 failed) 24ms
+   ✓ does not overwrite attitude allocation with translation torque beyond paid grid/RCS support 8ms
+   ✓ selects commands without changing paid forces, pose, propellant, RCS or RNG 2ms
+   ✓ rejects Bmax-only false feasibility for attitude sign -1 1ms
+   ✓ rejects Bmax-only false feasibility for attitude sign 1 0ms
+   ✓ preserves a feasible unsaturated request and clips only unsupported translation 0ms
+   ✓ respects mechanical gimbal slew and reports an unreachable attitude interval 0ms
+   ✓ does not invent engine or RCS torque when either is unavailable 0ms
+   ✓ keeps the incomplete-ignition branch on the original alignment commands 1ms
+   ✓ rejects nonfinite, inverted or negative scalar allocation domains 1ms
+   ✓ keeps minimax finite at large and subnormal finite coefficients, rejecting unrepresentable residuals 1ms
+   ✓ bounds actual paid delivery through the policy wrapper at partial-rcs 2ms
+   ✓ bounds actual paid delivery through the policy wrapper at third-centre 1ms
+   × bounds actual paid delivery through the policy wrapper at throttle-decrease 5ms
+   ✓ bounds actual paid delivery through the policy wrapper at limited-fuel 1ms
+ ✓ |unit| tests/view/vehicle-detail.test.ts (6 tests) 58ms
+ ✓ |unit| tests/core/booster-descent-initialization.test.ts (13 tests) 20ms
+ ✓ |unit| tests/core/booster-terminal-allocation.test.ts (7 tests) 84ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-terminal-coallocation.test.ts > bounds actual paid delivery through the policy wrapper at throttle-decrease
+AssertionError: expected 242681182.97410527 to be less than 242681182.97410527
+ ❯ tests/core/booster-terminal-coallocation.test.ts:174:88
+    172|       }
+    173|       if (boundary === 'third-centre') expect(high).toBeGreaterThan(cu…
+    174|       if (boundary === 'throttle-decrease' || boundary === 'limited-fu…
+       |                                                                                        ^
+    175|       if (boundary === 'partial-rcs') {
+    176|         controlTranslation(state, state.autopilot.pitchControl, DT, SU…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 58 passed (59)
+   Start at  16:00:28
+   Duration  2.14s (transform 560ms, setup 0ms, import 1.15s, tests 346ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/terminal-coallocation/green-restored.json

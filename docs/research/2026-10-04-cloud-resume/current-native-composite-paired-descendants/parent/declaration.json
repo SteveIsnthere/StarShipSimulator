@@ -1,0 +1,13 @@
+{
+  "command": [
+    "bash",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants/run.sh.txt"
+  ],
+  "review": "744053b52660f19b49543cff24ee04c1812e91e3a8c94df1125352b7f3df6e65",
+  "reviewPins": "8db4eb9a74e33f4bbdac0be6ea726a805a5abec72d77e73fcb00e450ab5ee3de",
+  "compositeSha256": "d69370a313010f0555f3a149b79259f92386e3c56d7d8a3f1862989fcb0c6642",
+  "parentSourceSha256": "c43b1ac7229806ea51b2bc0593e5def2518a8b65ac0925899a52c72416b04361",
+  "childBoundSeconds": 900,
+  "externalBoundSeconds": 930,
+  "cpuExclusive": true
+}

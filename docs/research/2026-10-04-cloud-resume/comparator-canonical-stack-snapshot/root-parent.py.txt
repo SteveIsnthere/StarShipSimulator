@@ -1,0 +1,42 @@
+import pathlib,json,subprocess,os,time,signal,hashlib
+base=pathlib.Path('docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot').resolve()
+parent=base/'root-parent';parent.mkdir()
+env={**os.environ,'STARSHIP_CPU_SLOT_GRANTED':'canonical-stack-controls','STARSHIP_CONTROL_LAUNCH_INPUT_SHA':'d3043e0fe8220cf4359746e2e7e8a9945ce4325ea0b96b6ca0a0b55c0b841893','STARSHIP_CONTROL_LAUNCH_REVIEW_SHA':'b971c6a1208ae89f29695018a99abf4bbe6ad6edfd5fc61058120393afa79329','STARSHIP_CONTROL_LAUNCH_REVIEW_PINS_SHA':'83d1ef62747a2807728e9ee7948ae01af719f920ec3920655823eb9f30bc9420'}
+def identity(pid):
+ try:
+  raw=pathlib.Path(f'/proc/{pid}/stat').read_text();f=raw[raw.rfind(')')+2:].split();return {'pid':pid,'start':f[19],'ppid':int(f[1]),'group':int(f[2]),'state':f[0]}
+ except (FileNotFoundError,ProcessLookupError):return None
+before=set(base.glob('receipt-canonical-stack-*'));seen={};started=time.monotonic();expired=False
+with (parent/'stdout.txt').open('xb') as out,(parent/'stderr.txt').open('xb') as err:
+ child=subprocess.Popen(['bash',str(base/'run-controls.sh')],stdout=out,stderr=err,env=env,start_new_session=True)
+ while child.poll() is None:
+  rows=[identity(int(p.name)) for p in pathlib.Path('/proc').iterdir() if p.name.isdigit()];rows=[r for r in rows if r]
+  parents={child.pid};changed=True
+  while changed:
+   changed=False
+   for r in rows:
+    if r['ppid'] in parents and r['pid'] not in parents:parents.add(r['pid']);changed=True
+  for r in rows:
+   if r['pid'] in parents or r['group']==child.pid:seen[(r['pid'],r['start'])]=r
+  if time.monotonic()-started>120:
+   expired=True;os.killpg(child.pid,signal.SIGTERM)
+   try:child.wait(timeout=9)
+   except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=2)
+   break
+  time.sleep(.1)
+ code=child.wait()
+new=set(base.glob('receipt-canonical-stack-*'))-before;assert len(new)==1,new
+receipt=new.pop();rows=list(seen.values())
+for process in receipt.glob('*.process.json'):
+ rows+=json.loads(process.read_text())['cleanup']['tracked']
+pi=receipt/'parent-identity.json'
+if pi.exists():rows.append(json.loads(pi.read_text()))
+post=[]
+for r in rows:
+ actual=identity(r['pid']);post.append({**r,'executing':bool(actual and actual['start']==str(r['start']) and actual['state'] not in ['Z','X'])})
+result={'childExit':code,'timeout':expired,'elapsedSeconds':time.monotonic()-started,'receipt':str(receipt),'allOwnedNonexecuting':not any(r['executing'] for r in post)}
+(parent/'observed-identities.json').write_text(json.dumps(list(seen.values()),indent=2)+'\n')
+(parent/'independent-all-owned-postexit.json').write_text(json.dumps(post,indent=2)+'\n')
+(parent/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2));print((parent/'stderr.txt').read_text())
+if code or expired or not result['allOwnedNonexecuting']:raise SystemExit(1)

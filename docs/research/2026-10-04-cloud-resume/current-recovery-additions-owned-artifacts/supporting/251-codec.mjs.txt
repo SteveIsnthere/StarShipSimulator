@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+// Tagged OWN DATA only. Never invokes a getter or toJSON; no generic prototype admission.
+export function encodeCoverageOwnData(value,approvedFileCoveragePrototype){
+ const seen=new WeakSet();let count=0;
+ function visit(v,depth){assert(depth<=64&&++count<=1000000);if(v===undefined)return['undefined'];if(v===null)return['null'];
+  if(typeof v==='number')return['number',Object.is(v,-0)?'-0':Number.isFinite(v)?v:String(v)];if(typeof v==='string'||typeof v==='boolean')return[typeof v,v];
+  assert.equal(typeof v,'object','Unsupported function/symbol/bigint');assert(!seen.has(v),'Repeated identity/cycle not representable');seen.add(v);
+  const proto=Object.getPrototypeOf(v),kind=Array.isArray(v)?'array':proto===null?'null-object':proto===Object.prototype?'object':proto===approvedFileCoveragePrototype&&approvedFileCoveragePrototype?'file-coverage':null;assert(kind,'Unsupported provider prototype');if(kind==='array')assert.equal(proto,Array.prototype);
+  const entries=Reflect.ownKeys(v).map(k=>{assert.equal(typeof k,'string','Symbol own key unsupported');const d=Object.getOwnPropertyDescriptor(v,k);assert('value'in d,'Accessor property unsupported');return[k,visit(d.value,depth+1),d.writable,d.enumerable,d.configurable];});return[kind,entries];
+ }return{encoding:'coverage-own-data-v2',value:visit(value,0)};
+}
+export function decodeCoverageOwnData(document,approvedFileCoveragePrototype){
+ assert.deepEqual(Object.keys(document).sort(),['encoding','value']);assert.equal(document.encoding,'coverage-own-data-v2');let count=0;
+ function visit(row,depth){assert(Array.isArray(row)&&depth<=64&&++count<=1000000);const[k,v]=row;
+  if(k==='undefined'||k==='null'){assert.equal(row.length,1);return k==='undefined'?undefined:null;}assert.equal(row.length,2);
+  if(k==='number'){if(typeof v==='number'){assert(Number.isFinite(v));return v;}assert(['-0','NaN','Infinity','-Infinity'].includes(v));return v==='-0'?-0:v==='NaN'?NaN:v==='Infinity'?Infinity:-Infinity;}
+  if(k==='string'||k==='boolean'){assert.equal(typeof v,k);return v;}
+  assert(['array','null-object','object','file-coverage'].includes(k));if(k==='file-coverage')assert(approvedFileCoveragePrototype,'Unadmitted FileCoverage prototype');const out=k==='array'?[]:Object.create(k==='null-object'?null:k==='file-coverage'?approvedFileCoveragePrototype:Object.prototype);assert(Array.isArray(v));const keys=new Set();for(const item of v){assert(Array.isArray(item)&&item.length===5);const[name,value,writable,enumerable,configurable]=item;assert.equal(typeof name,'string');assert(!keys.has(name));keys.add(name);for(const flag of[writable,enumerable,configurable])assert.equal(typeof flag,'boolean');Object.defineProperty(out,name,{value:visit(value,depth+1),writable,enumerable,configurable});}return out;
+ }return visit(document.value,0);
+}

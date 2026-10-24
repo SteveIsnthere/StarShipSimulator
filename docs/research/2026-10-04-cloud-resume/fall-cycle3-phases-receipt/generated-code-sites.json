@@ -1,0 +1,234 @@
+[
+  {
+    "block": 1,
+    "instructionBytes": 10028,
+    "staticCallTargets": {
+      "LoadICTrampoline": 23,
+      "LoadGlobalICTrampoline": 1,
+      "ArrayIteratorPrototypeNext": 2,
+      "CEntry_Return1_ArgvOnStack_NoBuiltinExit": 4,
+      "LoadIC": 2,
+      "AllocateInYoungGeneration": 12,
+      "RecordWriteSaveFP": 1
+    },
+    "staticNamedLoadSites": [
+      {
+        "instruction": "0x7f915b975409    c9  e872e9c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "planetRadius"
+      },
+      {
+        "instruction": "0x7f915b9754e8   1a8  e893e8c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "isaAtmosphereInto"
+      },
+      {
+        "instruction": "0x7f915b9755ce   28e  e8ade7c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "meanWindAt"
+      },
+      {
+        "instruction": "0x7f915b9757a3   463  e8d8e5c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "wrappedAttackAngle"
+      },
+      {
+        "instruction": "0x7f915b97587f   53f  e8fce4c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "foldedIntoWind"
+      },
+      {
+        "instruction": "0x7f915b975b84   844  e8f7e1c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "validateDamageControlForcing"
+      },
+      {
+        "instruction": "0x7f915b975d3f   9ff  e83ce0c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "finActuationMaxAngle"
+      },
+      {
+        "instruction": "0x7f915b975e09   ac9  e872dfc91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "finActuationMaxAngle"
+      },
+      {
+        "instruction": "0x7f915b975e79   b39  e802dfc91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "writeDamageControls"
+      },
+      {
+        "instruction": "0x7f915b97660e  12ce  e86dd7c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "getCrossSectionalArea"
+      },
+      {
+        "instruction": "0x7f915b976634  12f4  e847d7c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "rad"
+      },
+      {
+        "instruction": "0x7f915b9767c9  1489  e8b2d5c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "speedOfSoundAt"
+      },
+      {
+        "instruction": "0x7f915b976858  1518  e823d5c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "rad"
+      },
+      {
+        "instruction": "0x7f915b9768b5  1575  e8c6d4c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "rad"
+      },
+      {
+        "instruction": "0x7f915b976912  15d2  e869d4c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "getDrag"
+      },
+      {
+        "instruction": "0x7f915b976962  1622  e819d4c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "getBodyDragCoefficient"
+      },
+      {
+        "instruction": "0x7f915b976ab6  1776  e8c5d2c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "getLift"
+      },
+      {
+        "instruction": "0x7f915b976b03  17c3  e878d2c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "rad"
+      },
+      {
+        "instruction": "0x7f915b976c80  1940  e8fbd0c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "writeAccelerationComponents"
+      },
+      {
+        "instruction": "0x7f915b976ca6  1966  e8d5d0c91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "gravity"
+      },
+      {
+        "instruction": "0x7f915b977133  1df3  e848ccc91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "tangentialAcceleration"
+      },
+      {
+        "instruction": "0x7f915b977175  1e35  e80699c91f           call 0x7f917b610a80  (LoadIC)    ;; near builtin entry",
+        "nearbyProperty": "frameRotationRate"
+      },
+      {
+        "instruction": "0x7f915b977205  1ec5  e876cbc91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "gravity"
+      },
+      {
+        "instruction": "0x7f915b977272  1f32  e809cbc91f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "verticalGravityAcceleration"
+      },
+      {
+        "instruction": "0x7f915b9772b4  1f74  e8c797c91f           call 0x7f917b610a80  (LoadIC)    ;; near builtin entry",
+        "nearbyProperty": "frameRotationRate"
+      }
+    ],
+    "interpretation": "Static sites include guarded/deopt/slow paths; no execution frequency or removable-time share established."
+  },
+  {
+    "block": 2,
+    "instructionBytes": 10152,
+    "staticCallTargets": {
+      "LoadICTrampoline": 23,
+      "LoadGlobalICTrampoline": 1,
+      "ArrayIteratorPrototypeNext": 2,
+      "CEntry_Return1_ArgvOnStack_NoBuiltinExit": 4,
+      "LoadIC": 2,
+      "AllocateInYoungGeneration": 12,
+      "RecordWriteSaveFP": 1
+    },
+    "staticNamedLoadSites": [
+      {
+        "instruction": "0x7f915b985fc9    c9  e8b2ddc81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "planetRadius"
+      },
+      {
+        "instruction": "0x7f915b9860a8   1a8  e8d3dcc81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "isaAtmosphereInto"
+      },
+      {
+        "instruction": "0x7f915b98618e   28e  e8eddbc81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "meanWindAt"
+      },
+      {
+        "instruction": "0x7f915b986363   463  e818dac81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "wrappedAttackAngle"
+      },
+      {
+        "instruction": "0x7f915b98643f   53f  e83cd9c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "foldedIntoWind"
+      },
+      {
+        "instruction": "0x7f915b986784   884  e8f7d5c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "validateDamageControlForcing"
+      },
+      {
+        "instruction": "0x7f915b986951   a51  e82ad4c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "finActuationMaxAngle"
+      },
+      {
+        "instruction": "0x7f915b986a19   b19  e862d3c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "finActuationMaxAngle"
+      },
+      {
+        "instruction": "0x7f915b986a89   b89  e8f2d2c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "writeDamageControls"
+      },
+      {
+        "instruction": "0x7f915b98720e  130e  e86dcbc81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "getCrossSectionalArea"
+      },
+      {
+        "instruction": "0x7f915b987234  1334  e847cbc81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "rad"
+      },
+      {
+        "instruction": "0x7f915b9873c9  14c9  e8b2c9c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "speedOfSoundAt"
+      },
+      {
+        "instruction": "0x7f915b987458  1558  e823c9c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "rad"
+      },
+      {
+        "instruction": "0x7f915b9874b5  15b5  e8c6c8c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "rad"
+      },
+      {
+        "instruction": "0x7f915b987512  1612  e869c8c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "getDrag"
+      },
+      {
+        "instruction": "0x7f915b987562  1662  e819c8c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "getBodyDragCoefficient"
+      },
+      {
+        "instruction": "0x7f915b9876b6  17b6  e8c5c6c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "getLift"
+      },
+      {
+        "instruction": "0x7f915b987703  1803  e878c6c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "rad"
+      },
+      {
+        "instruction": "0x7f915b987880  1980  e8fbc4c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "writeAccelerationComponents"
+      },
+      {
+        "instruction": "0x7f915b9878a6  19a6  e8d5c4c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "gravity"
+      },
+      {
+        "instruction": "0x7f915b987d33  1e33  e848c0c81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "tangentialAcceleration"
+      },
+      {
+        "instruction": "0x7f915b987d75  1e75  e8068dc81f           call 0x7f917b610a80  (LoadIC)    ;; near builtin entry",
+        "nearbyProperty": "frameRotationRate"
+      },
+      {
+        "instruction": "0x7f915b987e05  1f05  e876bfc81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "gravity"
+      },
+      {
+        "instruction": "0x7f915b987e72  1f72  e809bfc81f           call 0x7f917b613d80  (LoadICTrampoline)    ;; near builtin entry",
+        "nearbyProperty": "verticalGravityAcceleration"
+      },
+      {
+        "instruction": "0x7f915b987eb4  1fb4  e8c78bc81f           call 0x7f917b610a80  (LoadIC)    ;; near builtin entry",
+        "nearbyProperty": "frameRotationRate"
+      }
+    ],
+    "interpretation": "Static sites include guarded/deopt/slow paths; no execution frequency or removable-time share established."
+  }
+]

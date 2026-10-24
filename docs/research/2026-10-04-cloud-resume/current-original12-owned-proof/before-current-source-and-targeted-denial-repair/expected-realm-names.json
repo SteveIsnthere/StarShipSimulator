@@ -1,0 +1,19 @@
+[
+  "positive distinct Object and Array realms full fields",
+  "positive null prototypes",
+  "positive cycles and shared aliases",
+  "positive separately frozen nested realms",
+  "negative signed zero exact scalar",
+  "negative NaN versus number",
+  "negative descriptor flags",
+  "negative ordered own keys",
+  "negative null prototype mismatch",
+  "negative unsupported left prototype",
+  "negative unsupported right prototype",
+  "negative alias split",
+  "negative alias merge",
+  "negative accessor never invokes",
+  "negative unmapped function",
+  "positive mapped operation and negative different callback",
+  "negative mutation after prior mutable equality"
+]

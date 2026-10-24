@@ -1,0 +1,25 @@
+{
+  "upstreamTag": "glibc-2.41",
+  "installedDebianVersion": "2.41-12+deb13u3",
+  "limitation": "Upstream tag source semantics; Debian patches/build not independently certified; exact current loader/cache/runtime provenance still required",
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/bminor/glibc/glibc-2.41/elf/dl-load.c",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/glibc-loader-source/elf-dl-load.c.txt",
+      "sha256": "85f6eb3f2ca4bb18f50853782f41b1fd71ed0530f785312ce2707d1472a0f8d8",
+      "bytes": 67986
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bminor/glibc/glibc-2.41/sysdeps/generic/ldconfig.h",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/glibc-loader-source/sysdeps-generic-ldconfig.h.txt",
+      "sha256": "4ee2811a992946513752bcd7e111b30a1bcdad5b08a22eda9888ffef8e0a2a65",
+      "bytes": 3910
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bminor/glibc/glibc-2.41/elf/dl-object.c",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/glibc-loader-source/elf-dl-object.c.txt",
+      "sha256": "4caa416489b0db5103f2a1e88e0eabf7e433f92e7d4fcf231ff6567062fd0f66",
+      "bytes": 7929
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+--- before/run-render-kernel-width2.mjs.txt
++++ after/run-render-kernel-width2.mjs.txt
+@@ -218,7 +218,7 @@
+       if(modeStates.length&&JSON.stringify(comparable(modeStates[0]))!==JSON.stringify(comparable(frozen)))throw Error('Width32/2 deterministic core/camera/public-scene state differs before timing');
+       modeStates.push(frozen);
+       if(width===2){
+-        const bytes=await step(page.locator('[data-testid="world-canvas"]').screenshot({scale:'device',animations:'allow',timeout:10000}));if(bytes.length>artifactCap||exportedBytes+bytes.length>exportedCap-1024*1024){collectionTruncated=true;throw Error('Prewindow screenshot cap exceeded');}exportedBytes+=bytes.length;await step(fs.writeFile(`${setup}/width1-before-positive.png`,bytes,{flag:'wx'}));
++        const bytes=await step(page.locator('[data-testid="world-canvas"]').screenshot({scale:'device',animations:'allow',timeout:10000}));if(bytes.length>artifactCap||exportedBytes+bytes.length>exportedCap-1024*1024){collectionTruncated=true;throw Error('Prewindow screenshot cap exceeded');}exportedBytes+=bytes.length;await step(fs.writeFile(`${setup}/width2-before-positive.png`,bytes,{flag:'wx'}));
+         const pixels=await step(page.evaluate(async shots=>{const images=[];for(const shot of shots){const bitmap=await createImageBitmap(await(await fetch('data:image/png;base64,'+shot.data)).blob());const canvas=new OffscreenCanvas(bitmap.width,bitmap.height),context=canvas.getContext('2d');if(!context)throw Error('Pixel decoder unavailable');context.drawImage(bitmap,0,0);images.push(context.getImageData(0,0,bitmap.width,bitmap.height));bitmap.close();}if(images.some(image=>image.width!==1280||image.height!==720))throw Error('Actual screenshot dimensions differ');let disagreement=0;for(let i=0;i<images[0].data.length;i+=4)if(Math.max(...[0,1,2].map(c=>Math.abs(images[0].data[i+c]-images[1].data[i+c])))>6)disagreement++;return{disagreement,thresholdPerChannel:6,sourcePositiveFixture:true,photographicAcceptance:false};},[modeShots[0],{width:2,data:bytes.toString('base64'),sha256:sha(bytes)}]));await step(save('candidate-prewindow-pixel-equivalence.json',pixels));if(pixels.disagreement)throw Error('Deterministic32/2 positive pixel mismatch before candidate timing');
+       }
+       const beforeTopology=await step(topology(cdp,`width${width}-before`));

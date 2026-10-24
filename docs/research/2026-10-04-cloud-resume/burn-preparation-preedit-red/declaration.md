@@ -1,0 +1,1 @@
+One independently reviewed pre-edit RED proof invocation after build. Seven original bounded proof contracts, original factory expected side; expect six pass and one missing canonical helper certificates assertion failure. No production core edit, flight, timing, golden recording or repeated execution. Unexpected failure stops candidate implementation.

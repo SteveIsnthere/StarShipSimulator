@@ -1,0 +1,72 @@
+[WebServer] (node:90881) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:90882) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  1 [chromium] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (473ms)
+(node:90891) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  2 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (319ms)
+(node:90897) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  3 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (322ms)
+(node:90903) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  4 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (293ms)
+(node:90909) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[continuous-bell] {
+  offEnergy: 0,
+  oneEnergy: 22199,
+  threeEnergy: 66496,
+  pausedDifference: 0,
+  restartEnergy: 0,
+  widths: [ 6, 24 ],
+  smokeMinimum: [ -8, -8 ],
+  mixedRed: [ 30, 51 ]
+}
+  ✓  5 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:93:1 › continuous bell follows actual engine lifecycle and pressure @mobile (302ms)
+
+  5 passed (5.0s)

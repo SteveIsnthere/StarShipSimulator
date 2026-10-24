@@ -17,6 +17,8 @@ import {
   unpoweredFallInto,
 } from '$core/control/guidance-physics';
 import * as C from '$core/constants';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
 import { gravityAt } from '$core/physics/gravity';
 import { isaAtmosphere } from '$core/physics/isa';
 import { wrappedAttackAngle } from '$core/physics/aero';
@@ -24,6 +26,7 @@ import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
 import { step } from '$core/step';
 import type { SimState } from '$core/state';
 import { rad } from '$core/units';
+import { centreOfMass } from '$core/physics/mass';
 
 const R = C.planetRadius;
 
@@ -66,8 +69,9 @@ describe('localGravity', () => {
 
 describe('thrustFor', () => {
   it('scales with the engine count and the pressure, as the engines do', () => {
-    expect(thrustFor(3, 101.325)).toBe(3 * C.thrustPerRaptorAt(101.325));
-    expect(thrustFor(1, 0)).toBe(C.thrustPerRaptorAt(0));
+    expect(thrustFor(3, 101.325, HISTORICAL_SHIP)).toBe(3 * C.thrustPerRaptorAt(101.325));
+    expect(thrustFor(3, 101.325)).toBe(3 * 250000 * C.standardGravity);
+    expect(thrustFor(1, 0, HISTORICAL_SHIP)).toBe(C.thrustPerRaptorAt(0));
     expect(thrustFor(0, 50)).toBe(0);
     expect(thrustFor(1, 0)).toBeGreaterThan(thrustFor(1, 101.325));
   });
@@ -94,7 +98,7 @@ describe('tailFirstDragDeceleration', () => {
  * at `speed` from `altitude`; fly `step()` until the descent stops. Returns the
  * altitude it stopped at and the mass it started with.
  */
-function referenceStop(altitude: number, speed: number, engines: number, propellant: number): { stop: number; mass: number } {
+function referenceStop(altitude: number, speed: number, engines: number, propellant: number): { start: number; stop: number; mass: number } {
   let s = at(altitude, 0, -speed);
   s.engines.running = [engines > 0, engines > 1, engines > 2];
   s.engines.ignitionCountdown = [null, null, null];
@@ -103,17 +107,36 @@ function referenceStop(altitude: number, speed: number, engines: number, propell
   s.vehicle.propellantMass = propellant;
   s.vehicle.vehicleMass = C.vehicleDryMass + s.vehicle.propellantMass;
   const mass = s.vehicle.vehicleMass;
+  // The point-mass burn estimate and gravity integrate the physical COM.
+  // Fuel drains move that station relative to the published geometric hull.
+  const massAltitude = (state: SimState) => state.kinematics.altitude
+    + Math.cos(state.kinematics.pitch) * (centreOfMass(state.vehicle.propellantMass, SHIP) - SHIP.height / 2);
+  const start = massAltitude(s);
   for (let i = 0; i < Math.round(60 / DT); i++) {
     // Flown tail first, as the predictor assumes: the nose opposite the
     // motion. Straight down that is pitch 0; a turning ground's Coriolis term
     // adds a little sideways drift, and the burn follows it (Phase 6 Task 9).
-    s.kinematics.pitch = rad(wrappedAttackAngle(Math.atan2(s.kinematics.speedX, s.kinematics.speedY), Math.PI));
-    s.kinematics.angularVelocity = 0;
+    const k = s.kinematics, d = centreOfMass(s.vehicle.propellantMass, SHIP) - SHIP.height / 2;
+    const sin = Math.sin(k.pitch), cos = Math.cos(k.pitch);
+    const x = k.downRangeDistance + d * sin, h = k.altitude + d * cos;
+    const vx = k.speedX + k.angularVelocity * d * cos;
+    const vy = k.speedY - k.angularVelocity * d * sin;
+    // This fixture imposes attitude externally. Preserve the physical COM
+    // motion while doing so; zeroing omega at a fixed hull point would inject
+    // a translational impulse every tick of the one-engine asymmetric burn.
+    k.pitch = rad(wrappedAttackAngle(Math.atan2(vx, vy), Math.PI));
+    k.angularVelocity = k.angularAcceleration = 0;
+    k.downRangeDistance = x - d * Math.sin(k.pitch);
+    k.altitude = h - d * Math.cos(k.pitch);
+    k.speedX = vx; k.speedY = vy;
     s = step(s, DT);
     if (s.status.onTheGround || s.status.landed || s.failures.crashed) {
       throw new Error(`reached the ground from ${altitude} m at ${speed} m/s: not a stop (alt ${s.kinematics.altitude.toFixed(0)} vY ${s.kinematics.speedY.toFixed(1)} crashed ${s.failures.crashed} ground ${s.status.onTheGround})`);
     }
-    if (s.kinematics.speedY >= 0) return { stop: s.kinematics.altitude, mass };
+    const end = s.kinematics;
+    const comSpeedY = end.speedY - end.angularVelocity * Math.sin(end.pitch)
+      * (centreOfMass(s.vehicle.propellantMass, SHIP) - SHIP.height / 2);
+    if (comSpeedY >= 0) return { start, stop: massAltitude(s), mass };
   }
   throw new Error(`no stop from ${altitude} m at ${speed} m/s`);
 }
@@ -131,12 +154,12 @@ describe('landingBurnStartAltitude against the simulation', () => {
   ];
   for (const c of cases) {
     it(`from ${c.altitude / 1000} km at ${c.speed} m/s on ${c.engines} engine(s): within 0.1% of the burn or 2 m`, () => {
-      const { stop, mass } = referenceStop(c.altitude, c.speed, c.engines, c.propellant);
+      const { start, stop, mass } = referenceStop(c.altitude, c.speed, c.engines, c.propellant);
       const predicted = landingBurnStartAltitude(c.engines, mass, c.speed, stop, createBurnScratch());
       expect(predicted).not.toBeNull();
-      const burn = c.altitude - stop;
-      const error = Math.abs(predicted! - c.altitude);
-      expect(error, `predicted ${predicted!.toFixed(1)} m, actual ${c.altitude} m, burn ${burn.toFixed(0)} m`).toBeLessThanOrEqual(
+      const burn = start - stop;
+      const error = Math.abs(predicted! - start);
+      expect(error, `predicted ${predicted!.toFixed(1)} m, actual COM ${start} m, burn ${burn.toFixed(0)} m`).toBeLessThanOrEqual(
         // Measured: 0.03-0.5 m on burns of 176 m to 11.8 km. The bound is that
         // with room, and tight enough that dropping drag fails every case.
         Math.max(0.001 * burn, 2),
@@ -155,9 +178,11 @@ describe('landingBurnStartAltitude: the edges', () => {
   });
 
   it('returns null at the hover limit: no burn can end at the pad if thrust there is below weight', () => {
-    // One engine on 232 t: 2.25 MN against 2.26 MN of weight at sea level. It
+    // Historical Raptor2: one engine on 232 t: 2.25 MN against 2.26 MN of weight at sea level. It
     // can stop high up, where thrust is larger, but never at touchdown height.
-    expect(landingBurnStartAltitude(1, 232_000, 30, 25, createBurnScratch())).toBeNull();
+    expect(landingBurnStartAltitude(1, 232_000, 30, 25, createBurnScratch(), HISTORICAL_SHIP)).toBeNull();
+    const v3AboveHover = 250000 * C.standardGravity / gravityAt(R + SHIP.height / 2) * 1.01;
+    expect(landingBurnStartAltitude(1, v3AboveHover, 30, SHIP.height / 2, createBurnScratch())).toBeNull();
   });
 
   it('returns null, never a guess, when the burn is longer than the cap', () => {
@@ -261,11 +286,15 @@ describe('unpoweredFallInto against the simulation, attitude held', () => {
    * mid-fall, so the two agree closely but not exactly (measured: downrange
    * within 3-8%, time within 10%, a vertical drop within 2%).
    */
-  function reference(altitude: number, vx: number, vy: number, pitchDeg: number) {
+  function reference(altitude: number, vx: number, vy: number, pitchDeg: number, model: VehicleDefinition) {
     let s = at(altitude, vx, vy);
+    // The two original upright 40 km references are force-only historical
+    // characterizations: the old step continued translating after breakup.
+    // Keep that cohort explicit; separate V3 witnesses below assert failure.
+    if (model === HISTORICAL_SHIP) s.damage = null;
     s.engines.running = [false, false, false, false, false, false];
     s.kinematics.pitch = rad((pitchDeg * Math.PI) / 180);
-    s = step(s, DT);
+    s = step(s, DT, {}, model);
     const pitch = s.kinematics.pitch;
     const start = s;
     const x0 = s.kinematics.downRangeDistance;
@@ -273,9 +302,9 @@ describe('unpoweredFallInto against the simulation, attitude held', () => {
     for (let i = 0; i < Math.round(1_500 / DT); i++) {
       s.kinematics.pitch = pitch;
       s.kinematics.angularVelocity = 0;
-      s = step(s, DT);
+      s = step(s, DT, {}, model);
       t += DT;
-      if (s.kinematics.altitude <= C.vehicleHeight / 2 + 0.01 || s.status.onTheGround) break;
+      if (s.kinematics.altitude <= model.height / 2 + 0.01 || s.status.onTheGround) break;
     }
     return { start, time: t, downRange: s.kinematics.downRangeDistance - x0 };
   }
@@ -289,9 +318,10 @@ describe('unpoweredFallInto against the simulation, attitude held', () => {
   ];
   for (const c of cases) {
     it(c.name, () => {
-      const ref = reference(c.h, c.vx, c.vy, c.pitch);
+      const model = c.h === 40_000 ? HISTORICAL_SHIP : SHIP;
+      const ref = reference(c.h, c.vx, c.vy, c.pitch, model);
       const out = createFallResult();
-      unpoweredFallInto(ref.start, C.vehicleHeight / 2, createBurnScratch(), out);
+      unpoweredFallInto(ref.start, model.height / 2, createBurnScratch(), out, model);
       expect(out.reached).toBe(true);
       expect(Math.abs(out.time - ref.time) / ref.time, `time ${out.time.toFixed(1)} vs ${ref.time.toFixed(1)} s`).toBeLessThan(c.time);
       expect(Math.abs(out.downRange - ref.downRange), `downrange ${out.downRange.toFixed(0)} vs ${ref.downRange.toFixed(0)} m`).toBeLessThanOrEqual(
@@ -300,10 +330,26 @@ describe('unpoweredFallInto against the simulation, attitude held', () => {
     });
   }
 
+  it.each(cases.filter(c => c.h === 40_000))('$name is not a survivable V3 flight', (c) => {
+    let s = at(c.h, c.vx, c.vy);
+    s.engines.running.fill(false);
+    const pitch = rad(c.pitch * Math.PI / 180);
+    for (let i = 0; i < Math.round(1_500 / DT) && !s.damage!.terminal.active; i++) {
+      s.kinematics.pitch = pitch;
+      s.kinematics.angularVelocity = 0;
+      s = step(s, DT);
+    }
+    expect(s.damage!.terminal.active).toBe(true);
+    expect(s.failures.inFlightBreakUp).toBe(true);
+    expect(s.forces.dynamicPressure > C.dynamicPressureLimit
+      || s.forces.surfaceTemperature > C.TILE_LIMIT_KELVIN
+      || s.forces.perceivedG > C.gLimit).toBe(true);
+  });
+
   it('says it did not reach the ground when the cap runs out', () => {
     const s = at(60_000, 0, 7_000); // climbing at 7 km/s: thousands of km up, still away at the cap
     const out = createFallResult();
-    unpoweredFallInto(s, C.vehicleHeight / 2, createBurnScratch(), out);
+    unpoweredFallInto(s, SHIP.height / 2, createBurnScratch(), out);
     expect(out.reached).toBe(false);
     expect(out.time).toBeNaN();
   });

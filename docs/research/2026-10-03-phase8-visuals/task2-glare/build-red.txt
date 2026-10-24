@@ -1,0 +1,9 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/view/engine-glare.test.ts(5,35): error TS2307: Cannot find module '$view/engine-glare' or its corresponding type declarations.
+tests/view/engine-glare.test.ts(28,43): error TS7006: Parameter 'child' implicitly has an 'any' type.
+tests/view/engine-glare.test.ts(54,43): error TS7006: Parameter 'child' implicitly has an 'any' type.
+tests/view/engine-glare.test.ts(70,41): error TS7006: Parameter 'child' implicitly has an 'any' type.
+tests/view/engine-glare.test.ts(71,45): error TS7006: Parameter 'child' implicitly has an 'any' type.

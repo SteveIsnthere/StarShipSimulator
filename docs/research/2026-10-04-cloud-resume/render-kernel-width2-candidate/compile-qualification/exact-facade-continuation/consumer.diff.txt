@@ -1,0 +1,96 @@
+--- immutable-second-a0-consumer
++++ new-exact-facade-consumer
+@@ -8,7 +8,7 @@
+ assert.equal(lineage.kind,'width2-retained-qualification-lineage-v1');assert.equal(lineage.originalSetup,setup);
+ assert.equal(lineage.originalQualifierSha256,'a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb');
+ for(const [file,pin]of Object.entries(lineage.inputs))assert.equal(hash(read(file)),pin,'Frozen lineage drift '+file);
+-assert.equal(load(lineage.originalFailurePath).passed,false);assert.equal(load(lineage.originalRootOutcomePath).actualReturncode,1);
++assert.equal(load(lineage.originalFailurePath).passed,false);assert.equal(load(lineage.secondFailurePath).passed,false);assert.equal(load(lineage.secondRootOutcomePath).actualReturncode,1);assert.equal(load(lineage.originalRootOutcomePath).actualReturncode,1);
+ const started=Date.now(),check=()=>assert(Date.now()-started<25000,'25s offline qualification checkpoint');
+ const prep=load(setup+'/width2-preparation.json'),result=load(setup+'/kernel-build-result.json');
+ const qualificationInputNames=['width2-preparation.json','setup-receipt.json','kernel-build-result.json','kernel-build-before.json','kernel-build-after.json','vite-build.process.json','vite-build.stdout.txt','vite-build.stderr.txt','run-render-kernel-width2.mjs','kernel-program-attribution-hook.mjs','browser-wrapper.sh'];
+@@ -20,10 +20,10 @@
+  for(const [file,pin]of prep.materializedRoles)assert.equal(hash(read(file)),pin,'Role drift');
+  for(const [name,pin]of qualificationInputs)assert.equal(hash(read(setup+'/'+name)),pin,'Setup/build receipt drift '+name);
+  assert.equal(process.execPath,qualifiedNode.path);assert.equal(process.version,qualifiedNode.version);assert.equal(hash(read(process.execPath)),qualifiedNode.sha256);
+- const template=repo+'/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/qualify-retained-width2.mjs.txt';assert.equal(hash(read(fileURLToPath(import.meta.url))),hash(read(template)));
++ const template=repo+'/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/qualify-exact-facade-width2.mjs.txt';assert.equal(hash(read(fileURLToPath(import.meta.url))),hash(read(template)));
+ }
+ 
+-const files=[],sources=[],programs=[],transferred=[],changed=[],imports=[],exports=[];let byteCount=0,failure;
++const files=[],sources=[],programs=[],unmappedFacades=[],facadeControls=[],transferred=[],changed=[],imports=[],exports=[];let byteCount=0,failure;
+ const save=(name,value)=>{const text=JSON.stringify(value,null,2)+'\n';assert(Buffer.byteLength(text)<=16*1024*1024);fs.writeFileSync(receipt+'/'+name,text,{flag:'wx'});};
+ try{
+  recheckBoundary();assert(result.passed&&result.beforeAfterExact);assert.equal(result.childExit,0);assert.equal(result.error,null);
+@@ -33,13 +33,30 @@
+  for(const [file,pin]of Object.entries(prep.inputs)){check();assert.equal(hash(read(file)),pin);}
+  for(const [file,pin]of prep.materializedRoles)assert.equal(hash(read(file)),pin);
+  assert.equal(hash(read(setup+'/setup-receipt.json')),prep.setupReceiptSha256);
+- const template=repo+'/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/qualify-retained-width2.mjs.txt';assert.equal(hash(read(fileURLToPath(import.meta.url))),hash(read(template)));
++ const template=repo+'/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/qualify-exact-facade-width2.mjs.txt';assert.equal(hash(read(fileURLToPath(import.meta.url))),hash(read(template)));
+  const oldManifestBytes=read(old+'/kernel-compiled-manifest.json');assert.equal(hash(oldManifestBytes),'00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f');const prior=JSON.parse(oldManifestBytes),expectedFiles=new Map(prior.files);
+  const entryOld='docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-entry.ts',entryNew='docs/research/2026-10-04-cloud-resume/render-kernel-width2-entry.ts';
+  const oldEntry=read(repo+'/'+entryOld),newEntry=read(repo+'/'+entryNew);
+  const expectedEntry=oldEntry.toString().replace('width: 32 | 1','width: 32 | 2').replace('width !== 32 && width !== 1','width !== 32 && width !== 2').replace('Exactly declared baseline32 or candidate1','Exactly declared baseline32 or candidate2');
+  assert.equal(newEntry.toString(),expectedEntry);assert.equal(hash(newEntry),prep.newEntrySha256);
+  const require=createRequire(repo+'/package.json');const lexer=require('es-module-lexer');await lexer.init;check();
++ const facadeName='webworkerAll-DXoAr3HC.js',facadeTargets=['./init-Dz7_hNy6.js','./init--pTYeZJt.js'];
++ const facadeBody="import \"./init-Dz7_hNy6.js\";\nimport \"./init--pTYeZJt.js\";\n";
++ function assertFacadeStructure(code){const [rows,names,isFacade]=lexer.parse(code);
++  assert.equal(names.length,0,'No facade exports');assert.equal(rows.length,2,'Exactly two facade imports');
++  assert(rows.every(row=>row.d<0),'Only static facade imports');assert.deepStrictEqual(rows.map(row=>row.n),facadeTargets,'Exact facade targets');
++  assert.equal(isFacade,true,'Only import-only facade; no other expression');assert.equal(code,facadeBody,'Exact two side-effect import statement grammar');return rows;}
++ function assertFacadeName(relative){assert.equal(relative,facadeName,'Only exact known facade filename');}
++ // Compile-free public-lexer negatives isolate structure checks from fixed bytes/SHA admission.
++ const negatives=[['unexpected file',()=>assertFacadeName('future-facade.js'),/filename/],
++  ['extra expression',()=>assertFacadeStructure(facadeBody+'globalThis.extra=1;\n'),/import-only facade/],
++  ['dynamic import',()=>assertFacadeStructure(facadeBody.replace('import "./init-Dz7_hNy6.js";','import("./init-Dz7_hNy6.js");')),/static facade imports/],
++  ['new import',()=>assertFacadeStructure(facadeBody+'import "./foreign.js";\n'),/two facade imports/],
++  ['missing import',()=>assertFacadeStructure(facadeBody.split('\n')[0]+'\n'),/two facade imports/],
++  ['changed target',()=>assertFacadeStructure(facadeBody.replace('./init--pTYeZJt.js','./foreign.js')),/facade targets/],
++  ['new export',()=>assertFacadeStructure(facadeBody+'export const extra=1;\n'),/facade exports/]];
++ assertFacadeStructure(facadeBody);for(const [name,action,message]of negatives){assert.throws(action,message);facadeControls.push({name,rejected:true});}
++
+  function walk(dir){check();for(const name of fs.readdirSync(dir).sort()){const file=path.join(dir,name),stat=fs.lstatSync(file);if(stat.isDirectory())walk(file);else{assert(stat.isFile(),'Output symlink/special');const bytes=read(file);byteCount+=bytes.length;assert(byteCount<=64*1024*1024&&files.length<5000);files.push([path.relative(setup+'/compiled',file),hash(bytes)]);}}}
+  walk(setup+'/compiled');files.sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0);assert.deepStrictEqual(files.map(r=>r[0]),prior.files.map(r=>r[0]));assert.equal(files.length,21);
+  let maps=0,entryMaps=0;
+@@ -69,11 +86,20 @@
+    const targets=rows=>rows.map(row=>({name:row.n,dynamic:row.d>=0}));assert.deepStrictEqual(targets(newImports),targets(oldImports));
+    for(const row of newImports){assert(typeof row.n==='string'&&row.n.startsWith('.'),'No bare/unresolved/dynamic-expression import');const target=path.resolve(path.dirname(file),row.n);
+     assert(target.startsWith(setup+'/compiled/'));assert(expectedFiles.has(path.relative(setup+'/compiled',target)));imports.push({from:relative,target:path.relative(setup+'/compiled',target),dynamic:row.d>=0});}
+-   const routes=[...text.matchAll(/[#@]\s*sourceMappingURL=([^\s]+)/g)].map(m=>m[1]);assert.equal(routes.length,1);
++   if(relative===facadeName){assertFacadeName(relative);assert.equal(bytes.length,58);assert.equal(hash(bytes),'8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8');assert.equal(hash(oldBytes),'8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8');assert(identical);assertFacadeStructure(text);
++    const targets=facadeTargets.map(target=>path.relative(setup+'/compiled',path.resolve(path.dirname(file),target)));
++    for(const target of targets){assert(expectedFiles.has(target));assert(expectedFiles.has(target+'.map'),'Facade target actual map required');}
++    unmappedFacades.push({file:relative,bytes:58,sha256:hash(bytes),staticImports:facadeTargets,exports:0,otherCode:false,targets,oldAuthority:'00a exact byte-identical 58B import-only facade'});
++   }else{
++    const routes=[...text.matchAll(/[#@]\s*sourceMappingURL=([^\s]+)/g)].map(m=>m[1]);assert.equal(routes.length,1);
+    const route=routes[0];assert(!route.includes('://')&&!route.startsWith('data:'));const mapPath=path.resolve(path.dirname(file),route);assert(mapPath.startsWith(setup+'/compiled/'));assert(expectedFiles.has(path.relative(setup+'/compiled',mapPath)));programs.push({file:relative,map:path.relative(setup+'/compiled',mapPath)});
++   }
+   }else assert(identical,'Changed nonJS/map artifact denied');
+  }
+- assert.equal(maps,10);assert.equal(entryMaps,1);assert.equal(sources.length,492);
++ assert.equal(maps,10);assert.equal(entryMaps,1);assert.equal(sources.length,492);assert.equal(programs.length,10);assert.equal(unmappedFacades.length,1);
++ for(const target of unmappedFacades[0].targets)assert(programs.some(program=>program.file===target),'Both exact facade targets must be actually mapped');
++ const reachable=new Set(['kernel.js']);let added=true;while(added){added=false;for(const row of imports)if(reachable.has(row.from)&&!reachable.has(row.target)){reachable.add(row.target);added=true;}}
++ for(const target of unmappedFacades[0].targets)assert(reachable.has(target),'Facade target must be in root closure');
+  const signature=rows=>rows.map(row=>[row.repositoryPath===entryOld?entryNew:row.repositoryPath,row.repositoryPath===entryOld?hash(newEntry):row.sha256]).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b)));
+  assert.deepStrictEqual(signature(sources),signature(prior.sourceContents));
+  // Re-enumerate the entire actual output set and rehash after lexer/map qualification; no omitted extra files.
+@@ -81,7 +107,7 @@
+  recheckBoundary();
+  const manifest={compiledSetup:setup,qualificationReceipt:receipt,lineageBridgeSha256:bridgeSha,originalFailureStatusPreserved:true,purpose:'Actual width2 derivative library; not application/GPU/session acceptance',files,sourceContents:sources,unresolvedSources:[],
+   ownedSources:prep.materializedRoles.map(([file,pin])=>[path.relative(repo,file),pin]),supervisedBuildReceipts:['kernel-build-before.json','kernel-build-after.json','kernel-build-result.json','vite-build.process.json','vite-build.stdout.txt','vite-build.stderr.txt'].map(name=>[name,hash(read(setup+'/'+name))]),
+-  priorCompiledManifestSha256:hash(oldManifestBytes),entryRole:{before:entryOld,after:entryNew},transferred,changed,imports,exports,programs,
++  priorCompiledManifestSha256:hash(oldManifestBytes),entryRole:{before:entryOld,after:entryNew},transferred,changed,imports,exports,programs,unmappedFacades,facadeControls,
+   exactSourceRoleDelta:true,exactEmittedEntryDelta:true,allMappedSourcesCurrent:true,physicsProofExecuted:false,requiresFreshIndependentActualBuildReview:true};
+  save('kernel-compiled-manifest.json',manifest);
+  const setupReceipt=load(setup+'/setup-receipt.json');const composite={kind:'width2-retained-output-qualified-composite-v1',setup,qualificationReceipt:receipt,lineageBridgeSha256:bridgeSha,originalFailureStatusPreserved:true,oldSetup:old,priorCompactSetup:'/tmp/starship-render-kernel.vlntmfw7',
+@@ -94,6 +120,6 @@
+   qualificationInputBeforeAfter:qualificationInputs,nodeQualified:qualifiedNode,sourceRoleQualified:true,independentParentBuildAbsenceRequired:true,freshActualBuildReviewRequired:true};save('width2-library-composite.json',composite);
+  // Recheck after artifact writes before publishing a successful outcome; any failure keeps those provisional artifacts red.
+  recheckBoundary();const outputFinal=structuredClone(files);files.length=0;byteCount=0;walk(setup+'/compiled');files.sort((a,b)=>a[0]<b[0]?-1:a[0]>b[0]?1:0);assert.deepStrictEqual(files,outputFinal,'Final output drift');
+-}catch(error){failure=error;}finally{save('width2-qualification-outcome.json',{compiledSetup:setup,qualificationReceipt:receipt,lineageBridgeSha256:bridgeSha,originalFailureStatusPreserved:true,passed:!failure,error:failure?.message??null,files,sources,transferred,changed,imports,exports,programs,
++}catch(error){failure=error;}finally{save('width2-qualification-outcome.json',{compiledSetup:setup,qualificationReceipt:receipt,lineageBridgeSha256:bridgeSha,originalFailureStatusPreserved:true,passed:!failure,error:failure?.message??null,files,sources,transferred,changed,imports,exports,programs,unmappedFacades,facadeControls,
+  byteCount,browserLaunched:false,sourcePhysicsReviewScope:'unchanged source identities only',independentParentAllOwnedAbsenceRequired:true});}
+ if(failure)throw failure;

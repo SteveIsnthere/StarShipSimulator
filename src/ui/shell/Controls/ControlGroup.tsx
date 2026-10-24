@@ -35,6 +35,8 @@ export interface ControlGroupProps {
   bodyId: string;
   open: boolean;
   phone: boolean;
+  /** Short rails scroll below the measured full-width instrument strip. */
+  short?: boolean;
   onToggle(): void;
   /** engine-panel-toggle / yoke-panel-toggle. On a phone the toggle is a tab instead. */
   toggleTestId: string;
@@ -62,6 +64,7 @@ export function ControlGroup({
   bodyId,
   open,
   phone,
+  short = false,
   onToggle,
   toggleTestId,
   placement,
@@ -75,7 +78,7 @@ export function ControlGroup({
       className={
         phone
           ? 'absolute inset-x-0 overflow-y-auto overscroll-contain border-t border-ui-line bg-ui-surface px-4 pt-3 pb-2'
-          : `flight-panel ui-safe-margins absolute bottom-4 max-h-[calc(100dvh-72px-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px))] overflow-y-auto overscroll-contain p-3 ${placement}`
+          : `flight-panel ui-safe-margins absolute bottom-4 ${short ? 'max-h-[calc(100dvh-var(--hud-bottom,72px)-32px-env(safe-area-inset-bottom,0px))]' : 'max-h-[calc(100dvh-72px-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px))]'} overflow-y-auto overscroll-contain p-3 ${placement}`
       }
       style={phone ? { bottom: aboveTabBar(TAB_BAR_HEIGHT), height: SHEET_HEIGHT } : undefined}
     >

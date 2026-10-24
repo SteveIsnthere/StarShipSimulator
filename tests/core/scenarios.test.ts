@@ -1,3 +1,4 @@
+import { SHIP } from '$core/vehicle';
 /**
  * M1.7 acceptance: each preset initialises a valid SimState.
  *
@@ -102,14 +103,14 @@ describe('createScenarioState applies configureNewFlight verbatim', () => {
 
   it('floors altitude at vehicleHeight / 2, so nothing spawns underground', () => {
     const sunken = { ...LAUNCH_PAD, altitude: -500 };
-    expect(createScenarioState(sunken).kinematics.altitude).toBe(C.vehicleHeight / 2);
+    expect(createScenarioState(sunken).kinematics.altitude).toBe(SHIP.height / 2);
     // And the real presets are all above it already.
-    for (const p of PRESETS) expect(p.altitude).toBeGreaterThanOrEqual(C.vehicleHeight / 2);
+    for (const p of PRESETS) expect(p.altitude).toBeGreaterThanOrEqual(SHIP.height / 2);
   });
 
-  it('caps propellant at 1200 t, as the 2021 form did', () => {
+  it('caps propellant at the selected V3 capacity, preserving the editor cap capability', () => {
     const overfull = { ...LAUNCH_PAD, propellant: 5000 };
-    expect(createScenarioState(overfull).vehicle.propellantMass).toBe(1_200_000);
+    expect(createScenarioState(overfull).vehicle.propellantMass).toBe(1_600_000);
   });
 
   it('derives trueSpeed and Mach from the components', () => {
@@ -121,7 +122,7 @@ describe('createScenarioState applies configureNewFlight verbatim', () => {
 
   it('the launch pad preset reproduces the default spawn', () => {
     const s = createScenarioState(LAUNCH_PAD);
-    expect(s.kinematics.altitude).toBe(C.vehicleHeight / 2);
+    expect(s.kinematics.altitude).toBe(SHIP.height / 2);
     expect(s.kinematics.downRangeDistance).toBe(C.starBaseXPos);
     expect(s.vehicle.propellantMass).toBe(C.propellantMass);
   });

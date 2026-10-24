@@ -374,7 +374,7 @@ describe('minimum thrust is what the shutdown logic reasons about', () => {
     // shutdown would fire at the wrong moment — and nothing would say so.
     for (const count of [0, 1, 2, 3]) {
       const running = [false, false, false].map((_, i) => i < count);
-      const expected = count * C.RAPTOR_THRUST_VACUUM * C.throttleLowerLimit * 0.01;
+      const expected = count * ((250_000 * 9.80665) / (327 * 9.80665) * 9.80665 * 350) * C.throttleLowerLimit * 0.01;
       expect(getTotalMinThrust(running, 0), `${count} lit`).toBeCloseTo(expected, 6);
     }
   });

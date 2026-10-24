@@ -1,0 +1,66 @@
+{
+  "kind": "mesa-single-launch-300-diagnostic-root-seed-v1",
+  "oldOwner": {
+    "path": "/tmp/starship-mesa-app-matrix-input.51e283f2e7db4aefa0bf1cee140dbf0e/owner-input.json",
+    "sha": "b7512ec5ef136ce6875bbab920e36a5ccc58fc53717af294fd4955d5bc5864d9"
+  },
+  "sourcePins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach-runtime-control-repair.json",
+    "sha": "03eab7bfad227ac8399c36e65eca421278fbc45888572b2f4dc44f1a722a6b1b"
+  },
+  "sourceReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-bounded-detach-repaired-source-HIGH-review.md",
+    "sha": "b234a7ebbfc7fc56d5ae55016ccf1d1ba522f92e3b9d8c06af9b4927dd3d3de1"
+  },
+  "distApproval": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-single-helper-NEW-fresh-dist-approval.json",
+    "sha": "0758bb5c1173843bb9cca4a4eb7cd4a22427feace39192c46a3afc15bc56e0b2"
+  },
+  "buildReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-single-helper-fresh-public-build-actual-HIGH-review.md",
+    "sha": "f536dff0345ae74eee1fff5852601151149091b1c8509a481a4ac690294e3686"
+  },
+  "wrapper": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-independent-final-checker-v2.py.txt",
+    "sha": "9c3b045bd79fc8fbd6b862458f5feb1ab0e1709c2c2de7bc4065600f29fd7236"
+  },
+  "wrapperReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-final-checker-v2-repaired-source-HIGH-review.md",
+    "sha": "2fae98f53cb196d0d6f7f6fb05de9eac4daf0430e893fa5cd731af9ca4e86738"
+  },
+  "maker": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.runtime-control-repair.py.txt",
+    "sha": "edb10c87da20547ff5483d9f8bf90031809b0c20dd55fe842b14dd151c8de04d"
+  },
+  "cpuMax": "400000 100000",
+  "cpuset": "0-4",
+  "clockTicksPerSecond": 100,
+  "runtimeControlSourceReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-runtime-control-escape-source-HIGH-review.md",
+    "sha": "91e6f197c194a98484c13c79c229aeab1e2344d8688b68676a84c659bd81de85"
+  },
+  "runtimeControlSourcePins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/independent-runtime-control-escape-source-HIGH-pins.json",
+    "sha": "5aa94a493afb036242ef1eaf2e44c2e7b86ff4c5b60027792649ea34f20c54fa"
+  },
+  "actualStringControlsResult": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/root-ansi-controls-result.json",
+    "sha": "575ff875ecc89511920dfdfad140cefd9a4d4814f19c444dc952e1104f90672a"
+  },
+  "actualStringControlsStdout": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/root-ansi-controls.stdout.txt",
+    "sha": "9fee14b2e76e16838be67af4ce38d1c04688708e5857d7613a955c7f2fbd6ad2"
+  },
+  "actualStringControlsStderr": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/root-ansi-controls.stderr.txt",
+    "sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "actualChangedScopedChecks": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/root-runtime-control-scoped-checks.json",
+    "sha": "53694caada6e51eba2c0bc697e6a0805b96b97bf3fb89401c4b45c719f90c405"
+  },
+  "actualChangedLintChecks": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/root-runtime-control-eslint-checks.json",
+    "sha": "ce36a4930139ef82033ad6fe1734e574f0a1e1bb7fec69b508c551944993fe5e"
+  }
+}

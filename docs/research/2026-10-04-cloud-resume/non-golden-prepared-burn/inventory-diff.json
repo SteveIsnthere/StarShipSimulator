@@ -1,0 +1,11 @@
+{
+  "baselineFiles": 244,
+  "currentFiles": 247,
+  "added": [
+    "tests/proofs/burn-preparation-module-mock.test.ts",
+    "tests/proofs/burn-preparation.test.ts",
+    "tests/support/chromium-layout.test.ts"
+  ],
+  "removed": [],
+  "sourceKitFiles": 29
+}

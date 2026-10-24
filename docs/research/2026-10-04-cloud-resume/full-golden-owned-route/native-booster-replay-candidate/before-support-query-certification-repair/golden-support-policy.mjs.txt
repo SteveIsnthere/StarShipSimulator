@@ -1,0 +1,83 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+export const goldenRoot = 'tests/golden/booster-replay.test.ts';
+export const supportFiles = ['tests/golden/booster-record.ts', 'tests/golden/record.ts', 'tests/golden/compare.ts'];
+export const goldenSourceFiles = [goldenRoot, ...supportFiles];
+export const goldenAliases = {
+  [goldenRoot]: ['$core/step', '$core/vehicles/super-heavy', '$core/constants'],
+  'tests/golden/booster-record.ts': ['$core/scenarios'],
+  'tests/golden/record.ts': ['$core/step', '$core/vehicle'],
+  'tests/golden/compare.ts': [],
+};
+export const relativeImports = {
+  [goldenRoot]: { './booster-record': supportFiles[0], './record': supportFiles[1], './compare': supportFiles[2] },
+  [supportFiles[0]]: { './record': supportFiles[1] },
+  [supportFiles[1]]: {}, [supportFiles[2]]: {},
+};
+export function supportFileForURL(root, url) {
+  return supportFiles.find(file => pathToFileURL(resolve(root, file)).href === url) ?? null;
+}
+export function assertSupportAdmission(root, file, url, originals) {
+  assert(supportFiles.includes(file));
+  assert.equal(url, pathToFileURL(resolve(root, file)).href);
+  assert.equal(originals.size, 1);
+  const original = [...originals.values()][0];
+  assert.equal(original.file, goldenRoot);
+  assert.equal(original.kind, 'original-load');
+}
+export function relativeTarget(root, specifier, parentURL, certificates) {
+  const certificate = certificates.get(parentURL);
+  if (!certificate || !goldenSourceFiles.includes(certificate.file)) return null;
+  if (!specifier.startsWith('.')) return null;
+  const imports = relativeImports[certificate.file];
+  assert(Object.hasOwn(imports, specifier), 'Undeclared golden relative import');
+  return { file: imports[specifier], url: pathToFileURL(resolve(root, imports[specifier])).href, certificate };
+}
+export function assertGoldenWorker(rows, root, q) {
+  const originals = rows.filter(row => row.kind === 'original-load');
+  assert.equal(originals.length, 1); assert.equal(originals[0].file, goldenRoot);
+  const supports = rows.filter(row => row.kind === 'support-load');
+  assert.deepEqual(supports.map(row => row.file).sort(), [...supportFiles].sort());
+  const certificates = [originals[0], ...supports];
+  assert.equal(new Set(certificates.map(row => row.url)).size, 4);
+  for (const cert of certificates) {
+    assert(['module', 'module-typescript'].includes(cert.format));
+    assert.equal(cert.sourceSha, q.goldenSourceFiles[cert.file]);
+    assert(Number.isSafeInteger(cert.sourceBytes) && cert.sourceBytes > 0 && cert.sourceBytes <= 16 * 1024 * 1024);
+    if (cert.kind === 'support-load') assert.equal(cert.url, pathToFileURL(resolve(root, cert.file)).href);
+  }
+  const aliases = rows.filter(row => row.kind === 'original-alias');
+  for (const cert of certificates) {
+    const actual = aliases.filter(row => row.parentURL === cert.url);
+    assert.deepEqual(actual.map(row => row.specifier).sort(), [...goldenAliases[cert.file]].sort());
+    for (const row of actual) {
+      assert(rows.indexOf(cert) < rows.indexOf(row));
+      assert.equal(row.parentSourceSha, cert.sourceSha);
+      assert.equal(row.canonicalParentURL, cert.canonicalParentURL);
+      assert.equal(row.cacheToken, cert.cacheToken);
+      assert.equal(row.url, row.specifier === '$core/constants' ? rows[0].constantsURL : rows[0].entryURL);
+    }
+  }
+  assert.equal(aliases.length, 6);
+  const relative = rows.filter(row => row.kind === 'golden-relative');
+  assert.equal(relative.length, 4);
+  const expected = Object.entries(relativeImports).flatMap(([parent, edges]) => Object.entries(edges).map(([specifier, file]) => ({ parent, specifier, file })));
+  const actual = relative.map(row => {
+    const cert = certificates.find(cert => cert.url === row.parentURL); assert(cert);
+    assert(rows.indexOf(cert) < rows.indexOf(row)); assert.equal(row.parentSourceSha, cert.sourceSha);
+    assert.equal(row.url, pathToFileURL(resolve(root, row.file)).href);
+    const target = supports.find(cert => cert.file === row.file); assert(target);
+    // A cached target can already have loaded; certify it at its actual load, not guessed order.
+    return { parent: cert.file, specifier: row.specifier, file: row.file };
+  });
+  const sort = list => list.sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
+  assert.deepEqual(sort(actual), sort(expected));
+  assert.equal(rows.filter(row => row.kind === 'rejected-original-alias').length, 0);
+}
+
+export const goldenCaseNames = [
+  'actual booster capture golden regressions > has exactly the two declared recordings and discriminating immutable digests',
+  "actual booster capture golden regressions > 'booster-sep-catch' replays all physical state/control leaves through an airborne catch",
+  "actual booster capture golden regressions > 'rtls-catch' replays all physical state/control leaves through an airborne catch",
+];

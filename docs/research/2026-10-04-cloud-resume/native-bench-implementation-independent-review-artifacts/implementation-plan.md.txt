@@ -1,0 +1,23 @@
+# Concrete portable native guidance bench templates
+
+Prepared only while source/CPU is frozen by another parent workload. No production files edited; no build, collection, positive control, proof or timing executed.
+
+Proposed application map:
+
+- `bench.mjs.txt` → `scripts/bench.mjs`
+- `build-native-guidance.mjs.txt` → `scripts/bench/build-native-guidance.mjs`
+- `native-loader.mjs.txt` → `scripts/bench/native-loader.mjs`
+- `native-guidance-entry.ts.txt` → `scripts/bench/native-guidance-entry.ts`
+- `qualification.json.txt` → `scripts/bench/qualification.json`
+- `native-guidance-benchmark.ts.txt` → `tests/support/native-guidance-benchmark.ts`
+- Change only package.json's bench command from `vitest run --config vitest.timing.config.ts` to `node scripts/bench.mjs` after parent grant and actual review. Existing `vitest.timing.config.ts`, all four timing files, ordinary unit/coverage configs and application Vite config stay byte-identical.
+
+Fresh app build and isolated native build precede tests. Each invocation gets a new owned receipt under node_modules/.cache/starship-bench, and never selects a previously compiled artifact. Semantic qualification is the frozen exact55mapped source input graph plus exact two emitted native module SHA256 values from the independently proved76fall/2300burn graph and successful cycle3attempt2 trial. The newly compiled modules must match those exact known-good bytes; original sources, locked tools/options and exact Node22.23.3/Linuxx64binary must also match. This is stronger than inferring equivalence from map content, and avoids any fresh predictor warmup in bench acceptance. A changed compiled graph deliberately fails closed and requires new reviewed semantic qualification; it is not a reason to relax the digest or select SSR. Frozen qualification metadata is not an executable old artifact or cache. Current builder retains the same full export graph and library production adaptation, with entry fixture import resolved to the original source. If ordinary compiler output differs merely from entry relocation, treat that actual build as preflight failure evidence and independently assess, without silently ignoring code differences.
+
+The native alias is a dedicated whole-specifier regex, first in the native lane's resolve aliases. The bridge validates the manifest/current source/Node/tools/options/compiled graph before a main-context import, exports direct native references, and records per-process lane provenance before any warm loop. One run marker for the guidance file is required; any marker from the original SSR lane fails. No wrappers or counters enter timed functions. Counter/spy proofs remain untouched.
+
+Four bounded negative controls—wrong manifest digest, wrong source hash, wrong artifact hash and absent bundle—must reject before import through the actual loader function. They run before test collection and call no predictors. The current12 fully-qualified names are hard-coded as mandatory minima, while actual Vitest `list --json` metadata supplies complete current and future inventory. Each name executes exactly once across two separate serial `run` processes; duplicate/missing/skipped/pending/added execution names fail. Per-test lane/status metadata and both exit statuses remain. Ordinary assertion failure cannot prevent the other lane's one run. Each process has a300second outer startup/termination bound (five-second kill escalation), preserving30second per-test limits, maxWorkers1 and fileParallelismfalse. These process bounds do not change original test timers/counts/thresholds.
+
+Every post-receipt exception runs final source/binary/artifact verification and owned entry/config cleanup, retaining failure stage/raw outputs/status and unavailable verification when initial snapshots fail. App/native build or collection/integrity failure stops before acceptance tests. No fallback, retry, install, golden regeneration, changed physics or approved-budget alteration.
+
+Review these actual templates and qualification lineage before any source application or execution. Parent must first release the other source-frozen workload, then explicitly grant application of reviewed templates. Appropriate lint/build/type checks and bounded negative controls precede one full12test acceptance run under a separate exclusive CPU grant. This preparation itself has only JS syntax checks, not a runtime test result.

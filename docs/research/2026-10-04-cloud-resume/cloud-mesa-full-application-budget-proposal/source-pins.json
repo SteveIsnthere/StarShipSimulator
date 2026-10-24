@@ -1,0 +1,67 @@
+{
+  "kind": "mesa-full-app-budget-source-proposal-v1",
+  "executed": false,
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts",
+      "sha256": "98504af61fb46edf0f2555e7f1fec419308cfcbd6363fe3f9b5b104fdea4ce79",
+      "bytes": 17632
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-budget-probe.ts",
+      "sha256": "d450cc4671149cb42bb7e1c6a34259b2d1ac06152f22a2302a7d4c3679c44f99",
+      "bytes": 7256
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-scene-setup.ts",
+      "sha256": "97d1713dd295ce84304eadaa6093f66b45e916fe2b9356c3dbaa4143e7e0bbda",
+      "bytes": 3243
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-runtime-receipt.ts",
+      "sha256": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+      "bytes": 4022
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-budget-receipts.ts",
+      "sha256": "2c1fe0d2aacee3acdd808b8a057f5b8f44d4f4e81a5d64be79776c3d92220c1b",
+      "bytes": 3085
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/visual-browser-trace.ts",
+      "sha256": "3bc5d775cea6b0e5844622e2a0810c595abdbb90584f389d2766616ee671d6de",
+      "bytes": 4631
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/helpers.ts",
+      "sha256": "ff587b26e02ac27e103e3469a4eb0bb9afc7639a7344318d1ab707f4db6bc0aa",
+      "bytes": 6177
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/chromium.ts",
+      "sha256": "e32107c386cfd11dd8f01c9cc5384adf7222b1f48a24ab7de9687e6dbb3f601b",
+      "bytes": 2423
+    },
+    {
+      "path": "/workspace/StarShipSimulator/playwright.visual-budget.config.ts",
+      "sha256": "06412d9b7ca7e0a2365bdf8ae21235aeab3a5bfec53e3f2283e33aed5c003c02",
+      "bytes": 1288
+    },
+    {
+      "path": "/workspace/StarShipSimulator/playwright.config.ts",
+      "sha256": "754bfd106fb9e711e744b85aa95e5411b213f286c9ec2d4dcc9533f425e5994b",
+      "bytes": 6230
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/proposal.md",
+      "sha256": "316fdb55ef9c3c9e6edc81d4adbc891a89dc7b1ea2065e5be518ffaff41291b7",
+      "bytes": 7905
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-input-freeze.json",
+      "sha256": "a1ac55d34cc0b56cf7e5809cbcb32dea6ea4250d3af62294ac810ac0e5f53725",
+      "bytes": 2841
+    }
+  ],
+  "currentAcceptedDistAuthority": "PENDING exact parent-supplied latest accepted current build lineage; no source acceptance by this metadata"
+}

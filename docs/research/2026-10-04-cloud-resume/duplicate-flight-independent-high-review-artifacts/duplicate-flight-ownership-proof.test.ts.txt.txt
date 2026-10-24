@@ -1,0 +1,52 @@
+/** Separate bounded fake-task data proof, not public lifecycle evidence. */
+import {it,expect,vi} from 'vitest';
+import {createDefaultFlightObservations,ownedGraph,emitGuidanceObservation,type FlightRecipe} from './observations';
+const operation=()=>{},model=Object.freeze({mass:1});
+const task=()=>({mode:'run',result:{state:'pass'},meta:{}} as any);
+function recipe():FlightRecipe{return{id:'rtls',initial:{rng:[1],damage:[0]},model,modelTree:{mass:1},dt:1/120,steps:108000,input:'fresh-empty-object',stop:'first-landed-crashed-breakup',operations:[operation],trace:undefined,eventInputs:undefined};}
+it('complete prediction receipt ownership and exact primitives',()=>{
+ const cache=createDefaultFlightObservations<any>([model]);let runs=0;
+ const first=task(),second=task(),third=task();
+ const cycle:any={zero:-0,nan:NaN,missing:undefined};cycle.self=cycle;
+ const run=()=>({prediction:{source:{receipts:[cycle]},rng:[1],damage:[0]},run:++runs});
+ const original=cache.get(first,recipe(),run);original.prediction.rng[0]=9;
+ const a=cache.get(second,recipe(),run);expect(a.prediction.rng).toEqual([1]);
+ expect(a.prediction.source.receipts[0].self).toBe(a.prediction.source.receipts[0]);
+ expect(Object.is(a.prediction.source.receipts[0].zero,-0)).toBe(true);expect(Number.isNaN(a.prediction.source.receipts[0].nan)).toBe(true);
+ a.prediction.source.receipts[0].zero=1;a.prediction.damage[0]=9;
+ const b=cache.get(third,recipe(),run);expect(b.prediction.damage).toEqual([0]);expect(Object.is(b.prediction.source.receipts[0].zero,-0)).toBe(true);expect(runs).toBe(1);
+ expect(Object.isFrozen(model)).toBe(true);
+});
+it('each complete input or operation mismatch declines sharing',()=>{
+ for(const mutate of [(r:FlightRecipe)=>{r.initial={rng:[2],damage:[0]};},(r:FlightRecipe)=>{r.initial={rng:[1],damage:[1]};},(r:FlightRecipe)=>{r.model=Object.freeze({mass:1});},(r:FlightRecipe)=>{r.modelTree={mass:2};},(r:FlightRecipe)=>{r.dt=1/60;},(r:FlightRecipe)=>{(r as any).steps=1;},(r:FlightRecipe)=>{(r as any).stop='other';},(r:FlightRecipe)=>{r.operations=[()=>{}];},(r:FlightRecipe)=>{r.trace='1';},(r:FlightRecipe)=>{r.eventInputs='other';}]){
+  let runs=0;const cache=createDefaultFlightObservations<number>([model]),run=()=>++runs;
+  cache.get(task(),recipe(),run);const changed=recipe();mutate(changed);cache.get(task(),changed,run);expect(runs).toBe(2);
+ }
+});
+it('unsupported mutable observations never retain aliases',()=>{
+ for(const value of [new Map(),new Set(),new Date(),Object.defineProperty({},'value',{get(){throw Error('not read');},enumerable:true})]){
+  expect(()=>ownedGraph(value,new Set())).toThrow();
+  let runs=0;const cache=createDefaultFlightObservations<any>([model]);const run=()=>{runs++;return value;};
+  cache.get(task(),recipe(),run);cache.get(task(),recipe(),run);expect(runs).toBe(2);
+ }
+});
+it('scenario first pays once and only the later guidance consumer emits original trace files',()=>{
+ const cache=createDefaultFlightObservations<any>([model]);let runs=0;const emitted:any[]=[];
+ const request=()=>({...recipe(),trace:'1',eventInputs:'/declared/events'});
+ const run=()=>({trace:[{tick:1}],eventInputs:[{time:1}],run:++runs});
+ cache.get(task(),request(),run);expect(emitted).toEqual([]);
+ const guidance=cache.get(task(),request(),run);
+ emitGuidanceObservation('rtls',guidance,{trace:'1',eventInputs:'/declared/events'},line=>emitted.push(['console',line]),(file,text)=>emitted.push(['file',file,text]));
+ expect(runs).toBe(1);expect(emitted).toEqual([['console','[{"tick":1}]'],['file','/declared/events-rtls.json','[\n  {\n    "time": 1\n  }\n]']]);
+});
+it('pending framework result and identical active mock operations decline sharing',()=>{
+ for(const pending of [true,false]){
+  let runs=0;const cache=createDefaultFlightObservations<number>([model]);
+  const producer=task();if(pending)producer.result.pending=true;
+  const operation=vi.fn(()=>{});
+  const request=()=>({...recipe(),operations:pending?[()=>{}]:[operation]});
+  // Preserve the same ordinary operation identity in the pending-only case.
+  const ordinary=()=>{};const a=request(),b=request();if(pending)a.operations=b.operations=[ordinary];
+  cache.get(producer,a,()=>++runs);cache.get(task(),b,()=>++runs);expect(runs).toBe(2);
+ }
+});

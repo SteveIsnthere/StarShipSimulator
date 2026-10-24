@@ -1,0 +1,18 @@
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 802 modules transformed.
+rendering chunks...
+computing gzip size...
+../../tmp/starship-render-kernel.cwc74xyx/compiled/webworkerAll-DXoAr3HC.js                0.05 kB │ gzip:   0.06 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/getTextureBatchBindGroup-9HBchnv9.js    0.60 kB │ gzip:   0.41 kB │ map:     1.82 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/CanvasPool-4lFBuryO.js                  1.01 kB │ gzip:   0.54 kB │ map:     3.57 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/canvasUtils-B52VJkLn.js                 7.81 kB │ gzip:   2.39 kB │ map:    22.11 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/BufferResource-uMLrSSVl.js             13.10 kB │ gzip:   3.25 kB │ map:    26.72 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/init--pTYeZJt.js                       19.20 kB │ gzip:   5.54 kB │ map:    55.44 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/init-Dz7_hNy6.js                       31.89 kB │ gzip:   9.68 kB │ map:   106.91 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/browserAll-D5DBqH_a.js                 50.02 kB │ gzip:  12.12 kB │ map:   158.16 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/RenderTargetSystem-Bs_X-W5p.js         96.07 kB │ gzip:  24.50 kB │ map:   283.98 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/Geometry-CYPxRocb.js                  135.01 kB │ gzip:  35.51 kB │ map:   513.92 kB
+../../tmp/starship-render-kernel.cwc74xyx/compiled/kernel.js                             600.98 kB │ gzip: 161.61 kB │ map: 2,302.54 kB
+
+✓ built in 268ms

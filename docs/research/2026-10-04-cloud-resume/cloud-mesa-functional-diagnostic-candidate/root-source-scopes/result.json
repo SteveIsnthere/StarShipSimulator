@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "name": "run-functional-diagnostic.mjs.txt.node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.02721667099831393
+    },
+    {
+      "name": "run-functional-diagnostic.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9775904940033797
+    },
+    {
+      "name": "business-stage.mjs.txt.node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.029987273999722674
+    },
+    {
+      "name": "business-stage.mjs.txt.eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8692554950030171
+    }
+  ],
+  "all6PinsBeforeAfterMatched": true,
+  "passed": true
+}

@@ -1,0 +1,15 @@
+{
+  "checkedUnixSeconds": 1791101645.438022,
+  "selectedExecutingProcesses": [],
+  "accessErrors": [],
+  "knownPreviewPid25301": {
+    "pid": 25301,
+    "starttime": 1051103,
+    "state": "Z",
+    "ppid": 1,
+    "pgrp": 25288
+  },
+  "preview4174Listening": false,
+  "verifiedNonexecutingSelectedProcesses": true,
+  "correction": "First check selected its own shell script from command-text substring; this check admits only actual Node/copied-browser executables. Original first check preserved. StateZ is nonexecuting, not absent/reaped."
+}

@@ -117,6 +117,8 @@ export function rCubedIntegral(com: number, length = SHIP.height): number {
 }
 
 export interface MassProperties {
+  /** m — body-right displacement, zero for the intact symmetric model. */
+  centreOfMassX: number;
   /** m — above the gimbal plane. */
   centreOfMass: number;
   /** kg m^2 */
@@ -136,6 +138,7 @@ export interface MassProperties {
 /** Fill `out` for a propellant load. Allocation-free; the step calls it once a step. */
 export function writeMassProperties(propellantMass: number, out: MassProperties, vehicle: VehicleDefinition = SHIP): void {
   const com = centreOfMass(propellantMass, vehicle);
+  out.centreOfMassX = 0;
   out.centreOfMass = com;
   out.momentOfInertia = momentOfInertia(propellantMass, vehicle);
   out.engineArm = com;
@@ -147,6 +150,7 @@ export function writeMassProperties(propellantMass: number, out: MassProperties,
 
 export function createMassProperties(propellantMass = 0, vehicle: VehicleDefinition = SHIP): MassProperties {
   const out: MassProperties = {
+    centreOfMassX: 0,
     centreOfMass: 0,
     momentOfInertia: 0,
     engineArm: 0,

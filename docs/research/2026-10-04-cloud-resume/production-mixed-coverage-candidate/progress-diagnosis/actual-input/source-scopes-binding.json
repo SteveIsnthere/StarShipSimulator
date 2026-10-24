@@ -1,0 +1,14 @@
+{
+  "kind": "selected2-SSR-root-source-scopes-addendum-v1",
+  "ownerInput": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/owner-input.json",
+    "sha": "9d5a42628afed1cd50669d6423e4484673d8f8d12dadae434284a4af8d91a99b"
+  },
+  "sourceScopes": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/root-selected2-source-scopes/result.json",
+    "sha": "06284311c8838acc7aa66d3f96e164781327590ecd38ab1f8167946a24e394af"
+  },
+  "immutableMainInputNotRewritten": true,
+  "scopesRunByRoot": true,
+  "providerExecutedByAuthor": false
+}

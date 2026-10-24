@@ -1,0 +1,17 @@
+{
+  "command": [
+    "bash",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-cost/run.sh.txt"
+  ],
+  "review": "d98f8dc22fbbbb02dc23915f4d86e91f7ce5e895acf00ff144506d08b9293593",
+  "reviewPins": "acd6b48c1031233a6eff696529aea999d0e1ef42ee9ea92ff6e8b958352e96e3",
+  "inputManifest": "ea30b873e6e178aa279c79f4f92bff64d1d746927ef0e9d99c5118a37fe7be51",
+  "parentSourceSha256": "93af6638e4100a4ede153ee1d2f2336494d22cff820fb9f284007c5efc09b6c7",
+  "receiptPrefixFromLauncher": "receipt-cost-",
+  "childBoundSeconds": 120,
+  "externalBoundSeconds": 150,
+  "outputCapBytes": 2097152,
+  "observationIntervalSeconds": 0.1,
+  "identityCap": 4096,
+  "cpuExclusive": true
+}

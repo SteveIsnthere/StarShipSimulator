@@ -1,0 +1,152 @@
+DIAGNOSTIC ONLY: intentionally printed via failing assertion; not release guard bypass.
+Command: npx vitest run tests/core/booster-source-diagnostic.test.ts
+
+import { it,expect } from 'vitest';
+import { PRESETS,createScenarioVehicle } from '$core/scenarios';
+import { step,advanceMechanics } from '$core/step';
+import { runBoosterPolicy } from '$core/autopilot/booster';
+import { advanceBoosterPrediction } from '$core/control/booster-prediction';
+import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+it('diagnostic old4 search versus production1+3, no authority waiver',()=>{
+ const preset=PRESETS.find(p=>p.id==='booster-sep')!;
+ const results=[];
+ for(const observer of [false,true]) {
+  const initial=createScenarioVehicle(preset,123).state;initial.autopilot.autoLandOn=true;
+  let s=step(initial,1/120,{},SUPER_HEAVY),calls=1;
+  if(!observer){delete s.autopilot.boosterSource;delete s.autopilot.boosterPrediction;advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);}
+  for(;calls<10000 && !s.autopilot.boosterReturnPlan && !s.status.landed && !s.failures.crashed && !s.failures.inFlightBreakUp;calls++) {
+   if(observer)s=step(s,1/120,{},SUPER_HEAVY);
+   else {s=advanceMechanics(s,1/120,runBoosterPolicy,SUPER_HEAVY);if(!s.damage?.terminal.active)advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);}
+   if(observer && !s.autopilot.boosterSource?.valid)break;
+  }
+  results.push({observer,calls,time:s.world.environmentTime,plan:s.autopilot.boosterReturnPlan,
+   phase:s.autopilot.boosterPhase,sourceValid:s.autopilot.boosterSource?.valid,sourceChecked:s.autopilot.boosterSource?.checked,
+   sourceExpected:s.autopilot.boosterSource?.expected!==undefined,sourceReturnedTerminal:s.autopilot.boosterSource?.returned.damage?.terminal,
+   actualTerminal:s.damage?.terminal,stage:s.autopilot.boosterPrediction?.stage,iterations:s.autopilot.boosterPrediction?.iterations,
+   done:s.autopilot.boosterPrediction?.done,low:s.autopilot.boosterPrediction?.low?.forecast.rangeError,
+   high:s.autopilot.boosterPrediction?.high?.forecast.rangeError});
+ }
+ expect(results,JSON.stringify(results)).toEqual([]);
+});
+
+
+RAW RESULT:
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-source-diagnostic.test.ts (1 test | 1 failed) 13357ms
+   × diagnostic old4 search versus production1+3, no authority waiver 13356ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-source-diagnostic.test.ts > diagnostic old4 search versus production1+3, no authority waiver
+AssertionError: [{"observer":false,"calls":6451,"time":53.758333333330924,"phase":"boostback","sourceExpected":false,"actualTerminal":{"active":true,"reason":8,"time":53.758333333330924,"x":20060150.407326464,"altitude":117280.45185261713,"pitch":-1.570796326794808,"speedX":-2173.44237262778,"speedY":630.0943334647902,"angularVelocity":-5.748192066768996e-14,"retainedDryMass":200000,"retainedPropellant":67552.24260963257,"releasedEnergy":0,"releasedMomentumX":-146820906.45380723,"releasedMomentumY":42564285.281168304,"releasedAngularMomentum":-766829825.3153143,"releasedKineticEnergy":172963147118.98358}},{"observer":true,"calls":6449,"time":53.74999999999759,"phase":"boostback","sourceValid":false,"sourceChecked":false,"sourceExpected":false,"sourceReturnedTerminal":{"active":true,"reason":8,"time":53.758333333330924,"x":20060150.407326464,"altitude":117280.45185261713,"pitch":-1.570796326794808,"speedX":-2173.44237262778,"speedY":630.0943334647902,"angularVelocity":-5.748192066768996e-14,"retainedDryMass":200000,"retainedPropellant":67552.24260963257,"releasedEnergy":0,"releasedMomentumX":-146820906.45380723,"releasedMomentumY":42564285.281168304,"releasedAngularMomentum":-766829825.3153143,"releasedKineticEnergy":172963147118.98358},"actualTerminal":{"active":false,"reason":0,"time":0,"x":0,"altitude":0,"pitch":0,"speedX":0,"speedY":0,"angularVelocity":0,"retainedDryMass":0,"retainedPropellant":0,"releasedEnergy":0,"releasedMomentumX":0,"releasedMomentumY":0,"releasedAngularMomentum":0,"releasedKineticEnergy":0},"stage":"root","iterations":8,"done":false,"low":9908.442705646567,"high":-416.27902371988444}]: expected [ { observer: false, …(14) }, …(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "actualTerminal": {
++       "active": true,
++       "altitude": 117280.45185261713,
++       "angularVelocity": -5.748192066768996e-14,
++       "pitch": -1.570796326794808,
++       "reason": 8,
++       "releasedAngularMomentum": -766829825.3153143,
++       "releasedEnergy": 0,
++       "releasedKineticEnergy": 172963147118.98358,
++       "releasedMomentumX": -146820906.45380723,
++       "releasedMomentumY": 42564285.281168304,
++       "retainedDryMass": 200000,
++       "retainedPropellant": 67552.24260963257,
++       "speedX": -2173.44237262778,
++       "speedY": 630.0943334647902,
++       "time": 53.758333333330924,
++       "x": 20060150.407326464,
++     },
++     "calls": 6451,
++     "done": undefined,
++     "high": undefined,
++     "iterations": undefined,
++     "low": undefined,
++     "observer": false,
++     "phase": "boostback",
++     "plan": undefined,
++     "sourceChecked": undefined,
++     "sourceExpected": false,
++     "sourceReturnedTerminal": undefined,
++     "sourceValid": undefined,
++     "stage": undefined,
++     "time": 53.758333333330924,
++   },
++   {
++     "actualTerminal": {
++       "active": false,
++       "altitude": 0,
++       "angularVelocity": 0,
++       "pitch": 0,
++       "reason": 0,
++       "releasedAngularMomentum": 0,
++       "releasedEnergy": 0,
++       "releasedKineticEnergy": 0,
++       "releasedMomentumX": 0,
++       "releasedMomentumY": 0,
++       "retainedDryMass": 0,
++       "retainedPropellant": 0,
++       "speedX": 0,
++       "speedY": 0,
++       "time": 0,
++       "x": 0,
++     },
++     "calls": 6449,
++     "done": false,
++     "high": -416.27902371988444,
++     "iterations": 8,
++     "low": 9908.442705646567,
++     "observer": true,
++     "phase": "boostback",
++     "plan": undefined,
++     "sourceChecked": false,
++     "sourceExpected": false,
++     "sourceReturnedTerminal": {
++       "active": true,
++       "altitude": 117280.45185261713,
++       "angularVelocity": -5.748192066768996e-14,
++       "pitch": -1.570796326794808,
++       "reason": 8,
++       "releasedAngularMomentum": -766829825.3153143,
++       "releasedEnergy": 0,
++       "releasedKineticEnergy": 172963147118.98358,
++       "releasedMomentumX": -146820906.45380723,
++       "releasedMomentumY": 42564285.281168304,
++       "retainedDryMass": 200000,
++       "retainedPropellant": 67552.24260963257,
++       "speedX": -2173.44237262778,
++       "speedY": 630.0943334647902,
++       "time": 53.758333333330924,
++       "x": 20060150.407326464,
++     },
++     "sourceValid": false,
++     "stage": "root",
++     "time": 53.74999999999759,
++   },
++ ]
+
+ ❯ tests/core/booster-source-diagnostic.test.ts:26:42
+     24|    high:s.autopilot.boosterPrediction?.high?.forecast.rangeError});
+     25|  }
+     26|  expect(results,JSON.stringify(results)).toEqual([]);
+       |                                          ^
+     27| });
+     28|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  16:18:01
+   Duration  13.84s (transform 248ms, setup 0ms, import 309ms, tests 13.36s, environment 0ms)
+

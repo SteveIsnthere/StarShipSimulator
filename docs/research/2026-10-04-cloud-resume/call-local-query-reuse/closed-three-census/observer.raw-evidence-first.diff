@@ -1,0 +1,28 @@
+--- 
++++ 
+@@ -26,13 +26,19 @@
+ afterEach(context=>{
+  const name=getTestName(context.task);assert.ok(names.includes(name));
+  const root=api.readRootOpportunityCensus(),steel=api.readSteelOpportunityCensus(),steps=api.readOriginalStepCensus();
+- for(const values of [root,steel]){for(const value of Object.values(values))assert.ok(Number.isSafeInteger(value)&&value>=0);
++ const index=names.indexOf(name);const record={kind:'original-query-opportunity-census-v2',name,index,steps,root,steel,
++  topLevelReturnsComplete:steps.completed===(index===0?0:108000)&&steps.thrown===0,
++  finalStateTimeAndSamplesVerified:false,rawTaskStateAtHook:context.task.result?.state??null,
++  allOriginalQueriesPaid:true,queryResultsNeverSubstituted:true,acceptance:false,timed:false};
++ // Preserve decisive raw mismatches/partial counters BEFORE enforcing policy.
++ writeFileSync(resolve(m.receipt,'case-'+index+'.json'),JSON.stringify(record,null,2)+'\n',{flag:'wx'});
++ for(const values of [root,steel,steps])for(const value of Object.values(values))assert.ok(Number.isSafeInteger(value)&&value>=0);
++ for(const values of [root,steel]){
+   assert.equal(values.framesStarted,values.framesClosed);assert.equal(values.nonIdenticalDuplicates,0);
+   assert.equal(values.duplicateInputs,values.bitIdenticalDuplicates);assert.ok(values.duplicateInputs<=values.successfulQueries&&values.successfulQueries<=values.paidQueries);
+  }
+- assert.ok(Number.isSafeInteger(steps)&&steps>=0&&steps<=108000);
+- const index=names.indexOf(name);const record={kind:'original-query-opportunity-census-v1',name,index,steps,root,steel,
+-  horizonComplete:steps===(index===0?0:108000),rawTaskStateAtHook:context.task.result?.state??null,
+-  allOriginalQueriesPaid:true,queryResultsNeverSubstituted:true,acceptance:false,timed:false};
+- writeFileSync(resolve(m.receipt,'case-'+index+'.json'),JSON.stringify(record,null,2)+'\n',{flag:'wx'});
++ assert.equal(steps.attempted,steps.closed);assert.equal(steps.completed+steps.thrown,steps.attempted);assert.ok(steps.attempted<=108000);
++ if(index===0)for(const values of [root,steel,steps])for(const value of Object.values(values))assert.equal(value,0,'Digest case performs no physical/query work');
++ // Returns count alone never certifies final state,900s time or1801 samples.
++
+ });

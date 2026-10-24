@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "decision": "accepted-truthful-failed-preparation-with-ELF-provenance-limitations",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/independent-actual-preparation-FAILURE-review.md",
+    "sha256": "0855de5a8ac913d7c75c831d1ff873f58da73b080214570ef184326b7b778691"
+  },
+  "inputs": [
+    {
+      "path": "/tmp/starship-width2-root.ht3_ou6r/actual-outer-exit-final.json",
+      "sha256": "38685bf0922fa1584be838d59e3c2f2df0a8c7d2a80a889594f888ff1e1673cb",
+      "bytes": 62
+    },
+    {
+      "path": "/tmp/starship-width2-root.ht3_ou6r/actual-outer-exit.json",
+      "sha256": "64c04a7e5a7e43d5303123f5450f6f3e21951b21dc50c9b1786756494f1346f8",
+      "bytes": 62
+    },
+    {
+      "path": "/tmp/starship-width2-root.ht3_ou6r/identities.jsonl",
+      "sha256": "9119b4947d712490ab6150d035088f009a84cc1ff2fb471b5faa38e35ecd7bb8",
+      "bytes": 444
+    },
+    {
+      "path": "/tmp/starship-width2-root.ht3_ou6r/outer-registration.json",
+      "sha256": "1a3aa6621671cc95e641d85d43def7334f3fa64ac37e5645551bf177ac6a68aa",
+      "bytes": 114
+    },
+    {
+      "path": "/tmp/starship-width2-root.ht3_ou6r/outer.stderr.txt",
+      "sha256": "5b38deded75b940086db08102bff23a1815b99385c1ad7c27c723780854fbf2f",
+      "bytes": 361
+    },
+    {
+      "path": "/tmp/starship-width2-root.ht3_ou6r/outer.stdout.txt",
+      "sha256": "37d1c20ecfcd3f42cb6419436f0b1b4374565361e0457111d55c1308e3f95470",
+      "bytes": 124
+    },
+    {
+      "path": "/tmp/starship-width2-root.ht3_ou6r/root-outcome.json",
+      "sha256": "f97a6d15cec79574d20bd74d65d204a15d9ed34c2cc3871ebc739154d41067e6",
+      "bytes": 1264
+    },
+    {
+      "path": "/tmp/starship-width2-root.ht3_ou6r/stage.mjs",
+      "sha256": "96090e6a434661ba1f50a54bf9a3a1b08f7b8edecd80e2baa4ce06952dbc3948",
+      "bytes": 4734
+    },
+    {
+      "path": "/tmp/starship-width2-stage.CEWHhi/actual-child-exit.json",
+      "sha256": "73f66370dfc33949b4331217379777a0bdbeca199ccc404d61645118c6df24d9",
+      "bytes": 84
+    },
+    {
+      "path": "/tmp/starship-width2-stage.CEWHhi/actual-python-exit.json",
+      "sha256": "b1256df42ffb64d8fda9b4fcb2a8346b2f40ebfce88d46bef7e013de30571237",
+      "bytes": 52
+    },
+    {
+      "path": "/tmp/starship-width2-stage.CEWHhi/preparation.process.json",
+      "sha256": "b513ed7d3034ad27fe64b1c89a2766db331471e9efbda6077800c65b5808d5ab",
+      "bytes": 655
+    },
+    {
+      "path": "/tmp/starship-width2-stage.CEWHhi/preparation.stderr.txt",
+      "sha256": "61510ef140500b499024cb7f5731e2d243385289ae1d87af38d908ecb1f62386",
+      "bytes": 721
+    },
+    {
+      "path": "/tmp/starship-width2-stage.CEWHhi/preparation.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/starship-width2-stage.CEWHhi/stage-result.json",
+      "sha256": "9e518969136c33fa10c07343608c8c0b1b1bdf8c4312038857916fe613fd5b0f",
+      "bytes": 532
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/external-preparation-spec.json",
+      "sha256": "2459777574530a459715cec557a9817007eef8837c117cb517ae0983a0fdeefc",
+      "bytes": 75294
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/business-stage.mjs.txt",
+      "sha256": "96090e6a434661ba1f50a54bf9a3a1b08f7b8edecd80e2baa4ce06952dbc3948",
+      "bytes": 4734
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/independent-actual-failure-observations.json",
+      "sha256": "37233efe99a0b9fb7caa2291358d6c2f217d18bae5c7b86cc57eedde50938aec",
+      "bytes": 1059
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/input-freeze.json",
+      "sha256": "92666a6c30a170086154f5515d6556336e637d71c9a401be8545270d9676b3a3",
+      "bytes": 1015
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/owner-input.json",
+      "sha256": "ce0488d9e99b28c57c6d7ee1369219725854537096513668e5b534a006049db5",
+      "bytes": 2413
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/python-bridge.mjs.txt",
+      "sha256": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a",
+      "bytes": 1557
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/source-pins.json",
+      "sha256": "a98dc74f268a8484320faf5432e14cff8b95f5837c64ba43dadfec919be54a24",
+      "bytes": 1598
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha256": "edd2a32f81e67a4ff5806a2c80547d2a89afeeb9d1522593e161619c2bcc6733",
+      "bytes": 11908
+    }
+  ],
+  "allRecordedIdentitiesNonexecuting": true,
+  "completeHistoricalReadelfIdentityLineage": false,
+  "preparedInputsAccepted": false,
+  "functionalBrowserExecutionApproved": false,
+  "furtherExecutionApproved": false
+}

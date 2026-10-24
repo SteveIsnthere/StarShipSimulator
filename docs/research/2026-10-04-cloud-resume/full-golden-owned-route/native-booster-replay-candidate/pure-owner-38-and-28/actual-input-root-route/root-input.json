@@ -1,0 +1,40 @@
+{
+  "kind": "native-golden-policy-root-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "mode": "pure38-and28",
+  "outerMs": 30000,
+  "setup": "/tmp/starship-native-golden-policy-pure.fc5c4c0fd5d3473d8151ba30c12ccb2c",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "pureInput": {
+    "path": "/tmp/starship-native-golden-policy-pure.fc5c4c0fd5d3473d8151ba30c12ccb2c/input.json",
+    "sha": "5241dcec4c6f5058ff88dee79857c44d2c0238746a1988da78c0c050265f53f5"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/pure-owner-38-and-28/actual-input-root-route/inventory.json",
+    "sha": "8a70dc6c609dd0d31ffee4b5726315c5b71a625ee8c7e2e790f5926bac8b5f93"
+  },
+  "stage": {
+    "path": "/tmp/starship-native-golden-policy-pure.fc5c4c0fd5d3473d8151ba30c12ccb2c/owner.mjs",
+    "sha": "9492fb0e24144caff22dd0ae58146b81255899c105329359b3513675a9c1f0d4"
+  },
+  "observer": {
+    "path": "/tmp/starship-native-golden-policy-pure.fc5c4c0fd5d3473d8151ba30c12ccb2c/root-observer.py",
+    "sha": "ebdf5b8d2add376173578c619b40ffba0453ae4508496be7f9063263f739ceda"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "makerStatus": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/pure-owner-38-and-28/root-maker-actual.json",
+    "sha": "67373b4deed832c8a5c2035c20ca73108a64c1e37b6e984293fa3b7bc0e68cea"
+  },
+  "scope": "ONE38+28 inert pure controls only; no OS loader/kernel/replay/application admission"
+}

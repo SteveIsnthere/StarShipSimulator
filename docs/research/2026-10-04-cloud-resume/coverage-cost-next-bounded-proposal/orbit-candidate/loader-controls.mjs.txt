@@ -1,0 +1,34 @@
+// Exact candidate callbacks in harmless VM fixtures; registerHooks is never installed.
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {runInNewContext} from 'node:vm';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+import {types} from 'node:util';
+import {identifyOrbitParent,requireOrbitSourceCertificate,orbitAliasInventory} from './original-parent-policy.mjs';
+const [source]=process.argv.slice(2);const text=readFileSync(source,'utf8'),needle='registerHooks({';assert.equal(text.split(needle).length,2);const suffix=text.slice(text.indexOf(needle));
+const hash=s=>createHash('sha256').update(s).digest('hex'),cases=[];
+function fixture(){const source='export const inert=1;';const original={path:'/inert/tests/core/orbit.test.ts',sha:hash(source)},legacy={path:'/inert/tests/core/legacy-models.ts',sha:hash(source)};const m={original,legacy,facades:Object.fromEntries(orbitAliasInventory.map((a,i)=>[a,{path:'/inert/facade'+i+'.mjs',sha:'facade'+i}]))};const recorded=[],certificates=new Map();let hooks;
+const context={assert,Buffer,types,createHash,pathToFileURL,fileURLToPath,identifyOrbitParent,requireOrbitSourceCertificate,orbitAliasInventory,m,certificates,record:r=>recorded.push(r),sha:p=>p===original.path||p===legacy.path?hash(source):Object.values(m.facades).find(r=>r.path===p)?.sha,registerHooks:h=>{hooks=h;}};
+// The exact callback suffix uses certify/canonical from its pinned module.
+const prefix=text.slice(text.indexOf('function canonical('),text.indexOf(needle));runInNewContext(prefix+suffix,context);
+const url=pathToFileURL(original.path).href+'?vitest=1',legacyURL=pathToFileURL(legacy.path).href;
+return{m,recorded,certificates,url,legacyURL,load:(u=url,s=source,f='module-typescript')=>hooks.load(u,{},()=>({source:s,format:f})),resolve:(s,p=url)=>hooks.resolve(s,{parentURL:p},()=>({url:'default:'+s})),setSha:(fn)=>{context.sha=fn;}};}
+function check(name,fn){fn();cases.push(name);}
+check('before-load exact original alias denied and raw logged',()=>{const f=fixture();assert.throws(()=>f.resolve('$core/state'));assert.equal(f.recorded[0].event,'resolve-denied');assert.equal(f.recorded[0].parent,f.url);});
+check('queried original loaded bytes precede four alias admissions',()=>{const f=fixture();f.load();for(const a of orbitAliasInventory)assert(f.resolve(a).shortCircuit);assert.equal(f.recorded[0].event,'original-source-certified');assert.equal(f.recorded.filter(r=>r.event==='native-orbit-alias').length,4);});
+check('bare original parent has its own exact certificate',()=>{const f=fixture();const bare=f.url.split('?')[0];f.load(bare);assert(f.resolve('$core/state',bare).shortCircuit);});
+check('foreign parent denied with exact raw log',()=>{const f=fixture();f.load();assert.throws(()=>f.resolve('$core/state','file:///foreign.ts'));assert.equal(f.recorded.at(-1).parent,'file:///foreign.ts');});
+check('malformed original query tokens denied',()=>{for(const token of ['01','-1','1&x=1','1#x','1.0','9007199254740992']){const f=fixture();assert.throws(()=>f.load(f.url.replace('vitest=1','vitest='+token)));}});
+check('loaded source mismatch prevents certificate',()=>{const f=fixture();assert.throws(()=>f.load(f.url,'different'));assert.equal(f.certificates.size,0);});
+check('disk source mismatch prevents certificate',()=>{const f=fixture();f.setSha(()=> 'wrong');assert.throws(()=>f.load());assert.equal(f.certificates.size,0);});
+check('unsupported format prevents certificate',()=>{const f=fixture();assert.throws(()=>f.load(f.url,undefined,'json'));assert.equal(f.certificates.size,0);});
+check('duplicate original loads denied',()=>{const f=fixture();f.load();assert.throws(()=>f.load());});
+check('legacy resolve requires original certificate',()=>{const f=fixture();assert.throws(()=>f.resolve('./legacy-models'));f.load();assert.equal(f.resolve('./legacy-models').url,f.legacyURL);});
+check('legacy constants alias requires exact legacy source load',()=>{const f=fixture();f.load();assert.throws(()=>f.resolve('$core/constants',f.legacyURL));f.load(f.legacyURL);assert(f.resolve('$core/constants',f.legacyURL).shortCircuit);assert.throws(()=>f.resolve('$core/state',f.legacyURL));});
+check('legacy queried or duplicate loads denied',()=>{const f=fixture();f.load();assert.throws(()=>f.load(f.legacyURL+'?vitest=1'));f.load(f.legacyURL);assert.throws(()=>f.load(f.legacyURL));});
+check('unknown orbit alias denied with raw specifier',()=>{const f=fixture();f.load();assert.throws(()=>f.resolve('$core/unknown'));assert.equal(f.recorded.at(-1).specifier,'$core/unknown');});
+check('non-file builtin load remains delegated',()=>{const f=fixture();assert.doesNotThrow(()=>f.load('node:fs','', 'builtin'));assert.equal(f.certificates.size,0);});
+check('source proxy denied without reflection traps',()=>{const f=fixture();let calls=0;const v=new Proxy(Buffer.from('x'),{get(){calls++;},getPrototypeOf(){calls++;}});assert.throws(()=>f.load(f.url,v));assert.equal(calls,0);});
+check('byte view source digest uses exact visible bytes',()=>{const f=fixture();const bytes=Buffer.from('zexport const inert=1;z');f.load(f.url,bytes.subarray(1,bytes.length-1));assert.equal(f.certificates.size,1);});
+assert.equal(cases.length,16);assert.equal(new Set(cases).size,16);console.log(JSON.stringify({kind:'original-orbit18-inert-hook-controls-v1',completed:true,cases,physicalImports:0,actualHooksInstalled:false}));

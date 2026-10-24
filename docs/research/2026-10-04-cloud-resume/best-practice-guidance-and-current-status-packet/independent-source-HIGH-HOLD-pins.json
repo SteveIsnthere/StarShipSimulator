@@ -1,0 +1,26 @@
+{
+  "kind": "independent-guidance-status-packet-source-hold-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-current-status-packet/README.md": "4bfdef217c783a2fcb39df52e588270e087481cff2fcba1443ae5e9a024f21fc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-current-status-packet/best-practice-guidance.md": "47c8c2da642d45760e56d3fc19ce4b3a8b46cd6153248b38771255cac43c728c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-current-status-packet/replacement-packet.json": "e30adf5894497d3b312333a062e097d2ab2663ba81a2142c1fcf3a113c31bfa3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/independent-actual-pass-HIGH.md": "3b47ad375046b232507ef99d0f1c0d71cc8353295314147d3103a49d36a68abe",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/independent-actual-pass-HIGH-pins.json": "ce8ffdaedbefbc105f7f2f30effd0e3a118573db78e03794140f2fe8d5cb2bd8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/independent-actual-pass-HIGH.md": "4191f9d4e9127395f3ec78dc40bb5209c4d8447ec83138b1f7b47d89cadd0d93",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/independent-actual-pass-HIGH-pins.json": "6a3eca9a528a5670b8452a342d360b519e0d2eaf51a0d27d4fd3ae48dd576f93",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/independent-compile-startup-actual-FAIL-HIGH-review.md": "a87768304a2accaad3583bdb6258a73f7db4c8e7572830474295f0194ce27048",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/independent-compile-startup-actual-FAIL-HIGH-pins.json": "d921209ea49d2af82ce65ddf4be849e4b74ea90bf6c607313421efc76546defe",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/independent-successor04-source-HIGH-review.md": "351b525e9f04f267330ba36388b7e7244cadbd80b94e3168fcd55e6dc465eb1f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/independent-successor04-source-HIGH-pins.json": "b1b32b4c80ece73a5d129c78f2aac7440f7cdb93d3cfb7d33bb2cc6ba9c6d3ed",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-current-matrix-failure-truth-update/before-after.json": "4f681484c2ec735b370057ddd54382ba78f2bd0217393f0fe7b4cdce4c21d712",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": "b5791ae2e6be1905cf6f773d6851cba34286fd09cbb6b68f7b51f95db8dfd752",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md": "9f4ddb2e8fd912ecb5e8a716b3fabed8d1f9aba18b504adcd70089f310967ba5",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md": "b5f5dcf1c4d9d2b3eefd9f3e0c99530980b4fd134ca2bc4df1d40863af6009d6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md": "a23968243ee47ae2cd5438fa13b6b795ae0de15e3f28995ab8989e70f0800db1",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-current-status-packet/source-pins.json": "a3ebbf1876c50589a0891c9115ee575dd9b1aefac18f34f1e21b3265e82d708c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/best-practice-guidance-and-current-status-packet/independent-source-HIGH-HOLD-review.md": "52cbc6a3bd9d26aba3cfc8738913383224f98826ba941abdbb552acc51335f59",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/independent-successor04-compile-actual-FAIL-HIGH-review.md": "a4071baab6b29d38bf75e279ae0150dfaa2e1b1ceb3d196c28b0bbd74bc92ce3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor04/independent-successor04-compile-actual-FAIL-HIGH-pins.json": "ccf8cd9eacf64d1d955d0462b76a02e9a45fcef9a04d23ccba072a80bae1dcbd"
+  },
+  "liveApplicationReady": false
+}

@@ -1,0 +1,16 @@
+{
+  "checked": [
+    {
+      "recorded": {
+        "pid": 45397,
+        "ppid": 45389,
+        "pgrp": 45397,
+        "starttime": "2130959",
+        "state": "S",
+        "exe": "/workspace/cloud-bootstrap/starship-v1/node/bin/node"
+      },
+      "executing": false
+    }
+  ],
+  "allNonexecuting": true
+}

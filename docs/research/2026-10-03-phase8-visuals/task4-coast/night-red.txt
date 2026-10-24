@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/coast.test.ts (4 tests | 1 failed) 8ms
+   × keeps true-ground night shading below half daylight while preserving the visible fill and separate clip 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/coast.test.ts > keeps true-ground night shading below half daylight while preserving the visible fill and separate clip
+AssertionError: expected 68 to be less than 65.5
+ ❯ tests/view/coast.test.ts:77:30
+     75|   light.sun = sunAt(0); world.update(camera, viewport, 0, 50, light);
+     76|   const channel = (colour: number) => (colour >> 16) & 255;
+     77|   expect(channel(fill.tint)).toBeLessThan(channel(day) * 0.5);
+       |                              ^
+     78|   expect(fill.includeInBuild).toBe(true);
+     79|   world.container.destroy({ children: true });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  10:27:50
+   Duration  317ms (transform 82ms, setup 0ms, import 195ms, tests 8ms, environment 0ms)
+

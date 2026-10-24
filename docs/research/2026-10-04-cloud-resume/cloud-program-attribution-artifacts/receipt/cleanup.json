@@ -1,0 +1,94 @@
+{
+  "actions": [],
+  "ownedIdentities": [
+    {
+      "pid": 40607,
+      "starttime": "1796704",
+      "ppid": 40593,
+      "pgrp": 40607,
+      "state": "Z"
+    },
+    {
+      "pid": 40639,
+      "starttime": "1796718",
+      "ppid": 40615,
+      "pgrp": 40607,
+      "state": "Z"
+    },
+    {
+      "pid": 40611,
+      "starttime": "1796714",
+      "ppid": 1,
+      "pgrp": 40610,
+      "state": "R",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+    },
+    {
+      "pid": 40614,
+      "starttime": "1796714",
+      "ppid": 1,
+      "pgrp": 40613,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+    },
+    {
+      "pid": 40615,
+      "starttime": "1796714",
+      "ppid": 1,
+      "pgrp": 40607,
+      "state": "Z"
+    },
+    {
+      "pid": 40617,
+      "starttime": "1796714",
+      "ppid": 1,
+      "pgrp": 40607,
+      "state": "Z"
+    },
+    {
+      "pid": 40642,
+      "starttime": "1796718",
+      "ppid": 40607,
+      "pgrp": 40607,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    },
+    {
+      "pid": 40653,
+      "starttime": "1796721",
+      "ppid": 40617,
+      "pgrp": 40607,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    },
+    {
+      "pid": 40677,
+      "starttime": "1796727",
+      "ppid": 40617,
+      "pgrp": 40607,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    },
+    {
+      "pid": 40678,
+      "starttime": "1796727",
+      "ppid": 1,
+      "pgrp": 40607,
+      "state": "Z"
+    },
+    {
+      "pid": 40703,
+      "starttime": "1796990",
+      "ppid": 40607,
+      "pgrp": 40607,
+      "state": "S",
+      "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+    }
+  ],
+  "remaining": [],
+  "inaccessibleOwned": [],
+  "verifiedDescendantAbsence": true,
+  "cleanupMs": 1648,
+  "launchSettled": true,
+  "elapsedMs": 18665
+}

@@ -1,0 +1,5 @@
+# Reviewer character-diff CPU incident
+
+A reviewer-owned character-level difflib.SequenceMatcher with autojunk=False on retained kernel.js text became CPU-heavy during the root-owned900s paired lane. Process inspection showed Python63171/parentbash63159 at elapsed00:30. Reviewer verified Python PPID and the exact parent command before SIGTERM; only owned Python was signaled. Execsession35809 finalized143/Terminated. Subsequent inspection confirms both owned processes absent. Exact total elapsed/starttime were not retained; no fabricated precision is claimed.
+
+No compiler/test/qualifier/browser or artifact edit was performed. The paired lane cannot be described as CPU-exclusive for this interval. Parent was promptly informed and user disclosure retained. Semantic exactness may still be independently established; cost acceptance is not supported. If paired fails, preserve the confounding rather than repeat unchanged work. Emitted-delta diagnosis is paused until root lane release; later inspection will be bounded linear only.

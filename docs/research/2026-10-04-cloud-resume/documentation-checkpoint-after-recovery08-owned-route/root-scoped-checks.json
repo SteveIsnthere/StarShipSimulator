@@ -1,0 +1,49 @@
+{
+  "packetSha256": "f5ec8cea979718ac3b325d339d022194dc1ed4b2d5298619e2ddc8bd82fa275a",
+  "allMatched": true,
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/archive.py.txt",
+      "sha256": "ba06d1b086c22c4d92e12e33bfc92bd96ef58cc6d6b744ec30107b020453aea9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/proposal.json",
+      "sha256": "9f5c2870c394c8661e2233583ec21cac98dae4a46cb624a9afb4fa3f466523a9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/root-observer.py.txt",
+      "sha256": "130e4be7746d9d18e04c0704e7acb228551631b2f32dc6071c4cd5ee0761ce39"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/make-input.py.txt",
+      "sha256": "a130796eeb329100abc6459e2baf294442f4c576a550c133bdf56c978c1fa9e8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/capture-selection.py.txt",
+      "sha256": "66791db0448870459ed8a87d658e6db430f1f13db51d9b7b34b135d7f3b61435"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/PLAN.md",
+      "sha256": "db771c2e3e8d7db7ba408ea2d9025f2b1a028921eafbd2d02b304610ce292e5b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/maker-source-route-repair.md",
+      "sha256": "e99957bb79ff85f6edcf5e171e0a8f4536e11e7ec1dfc1c1f8ec5a671f208171"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/result-lineage-field-repair.md",
+      "sha256": "f907a93325cf3f5f06db35f31c45235c73d125da50b1ea31e2e662e75613bc46"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/latest-safe-boundary-and-prefix-addendum.json",
+      "sha256": "067bd3c04e345e1e703178092c7ee726e278e0be1b646f50d1889425965b28a6"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/latest-safe-boundary-and-prefix-addendum.md",
+      "sha256": "a9f109c619dc5f471d117c0eefe2bccb2f31d1fd514f4e4f486143267fd8a929"
+    }
+  ],
+  "pythonAST": "all selected Python parsed",
+  "byteCounts": "checked only where provided",
+  "predecessorAttempt": "KeyError bytes on optional field before maker; no workload"
+}

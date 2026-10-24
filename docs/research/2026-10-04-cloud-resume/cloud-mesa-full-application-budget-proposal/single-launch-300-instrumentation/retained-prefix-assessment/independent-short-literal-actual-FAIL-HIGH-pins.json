@@ -1,0 +1,95 @@
+{
+  "disposition": "actual output-cap FAILED evidence only",
+  "files": [
+    {
+      "path": "/tmp/starship-trace-prefix-input.f10a279432454afd88bb4b47789d5d7f/owner-input.json",
+      "sha256": "3aceb5b9afcc92c5e45b396e347eafbcbdd77a0e5697a9d484c745563cd67ef6",
+      "bytes": 7211
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/root-outcome.json",
+      "sha256": "8d82c43e9add8a6d821f875fae1f720a7ec0f40bc68b069deb8098c113326083",
+      "bytes": 824
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/actual-outer-exit-final-independent.json",
+      "sha256": "b3c5febce92d013364357523df6de4e3b46527333981ae38f4a7b9f61253688f",
+      "bytes": 62
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/actual-outer-exit-final.json",
+      "sha256": "60b0b043a90a6963060d4526359e6c657943a9e15f59822b29113b93df384ddc",
+      "bytes": 62
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/actual-outer-exit.json",
+      "sha256": "2d6698c0690b70f0e460aad1c268c7851cee2b30d53683f534430d08e3e42225",
+      "bytes": 62
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/outer-registration.json",
+      "sha256": "7c7f4a87bc729ce1dcc1710866363271c114d770f84cea154cb901119f7610a5",
+      "bytes": 118
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/identities.jsonl",
+      "sha256": "b26f1ec7f05139d080a1afb9dc3955544ea3c9901daa5e0905f4bb4af1630816",
+      "bytes": 152
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/outer.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/outer.stdout.txt",
+      "sha256": "196c73992bf3900c69e657985d37beb351dbdd5d598fbbe40e5c582008cc6c83",
+      "bytes": 85
+    },
+    {
+      "path": "/tmp/starship-trace-prefix-root.tl0hy15f/executed-diagnostic.py.txt",
+      "sha256": "497c0b78c6762b6f506123e24e4f49458c708fe30738a962528e66d62e0ccc09",
+      "bytes": 6318
+    },
+    {
+      "path": "/tmp/starship-trace-prefix.70885f577179468e93d1d72d23cf6bab/result.json",
+      "sha256": "c13c85b29094d81266f2899730d79edf3600fcad594494407e43382ad79861ea",
+      "bytes": 3342
+    },
+    {
+      "path": "/tmp/starship-trace-prefix.70885f577179468e93d1d72d23cf6bab/pure-controls.json",
+      "sha256": "983c9f75f66ada4700184857ce4f4b0b6976b3cc72af7fb6bee17bc6480c927a",
+      "bytes": 2263
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-short-literal-assessment-result.json",
+      "sha256": "51509a7a1c6d247a5b88961bf15f40993a3248ba65ea884797a1618be2a0ce22",
+      "bytes": 102
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-short-literal-assessment-independent-postexit.json",
+      "sha256": "604ff3055d22fb3f3c6eb2a7ec6e5002e622a4fd38d9a9e790af7698880d938d",
+      "bytes": 493
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/root-short-literal-assessment-registration.json",
+      "sha256": "403bbb0af9e08ad5125334480aa31ae6fbd49426ba1d029e911acda3c57739f2",
+      "bytes": 102
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/retained-prefix-assessment/independent-short-literal-actual-FAIL-HIGH-review.md",
+      "sha256": "c0bebe6b39fe3692c47b7e5c09b7f6dd1c4ee6ebb90ad5c9d71b9ed0db0c3773",
+      "bytes": 2028
+    }
+  ],
+  "traceRootWholeAuthority": {
+    "path": "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/browser-all-threads-trace.partial.json",
+    "sha256": "e396261671efa367a0c9d86eaf862632718f0718475c0a99c041e69327fc73da",
+    "bytes": 67108864,
+    "mode": 384,
+    "device": 33,
+    "inode": 30337,
+    "mtimeNs": 1791168492221868000,
+    "ctimeNs": 1791168492221868000
+  }
+}

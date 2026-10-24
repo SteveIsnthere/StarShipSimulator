@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+export function verifyRetainedIdentity(raw, certificate, helperText) {
+  assert.equal(certificate.kind, 'original-orbit18-retained06-offline-certificate-v1');
+  assert.equal(raw.kind, 'original-orbit18-uncertified-public-compiler-identities-v1');
+  assert.equal(raw.certified, false); assert.equal(raw.nativeImported, false); assert.equal(raw.paidHistoriesExecuted, false);
+  assert.equal(certificate.runtime.id, '\0rolldown/runtime.js');
+  assert.equal(certificate.runtime.chunk, 'simulation-BPnlkAel.js');
+  assert.equal(certificate.runtime.helperBytes, 233);
+  assert.deepEqual(raw.graphs, certificate.expectedGraphs, 'Exact retained public graph');
+  assert.equal(helperText, certificate.runtime.helperText, 'Exact generated helper bytes');
+  const chunks = new Set(raw.graphs.map(g => g.fileName)), originals = new Set(); let generated = 0;
+  assert.equal(chunks.size, raw.graphs.length, 'Duplicate chunk'); assert.equal(raw.graphs.length, 2, 'Exact two executing chunks');
+  for (const g of raw.graphs) {
+    assert.equal(g.dynamicImports.length, 0, 'No dynamic closure');
+    if (g.fileName === 'entry.mjs') assert.equal(g.facadeModuleId, raw.entry.path, 'Exact entry facade');
+    else assert.equal(g.facadeModuleId, null, 'Shared facade');
+    const ids = new Set();
+    for (const id of g.moduleIds) {
+      assert(!ids.has(id), 'Duplicate module ID'); ids.add(id);
+      if (id === certificate.runtime.id) { generated++; assert.equal(g.fileName, certificate.runtime.chunk, 'Generated helper chunk role'); }
+      else { assert(!id.includes('\0') && !id.includes('?'), 'Unknown virtual/query ID'); assert(Object.hasOwn(certificate.originalIds, id), 'Missing original authority'); originals.add(id); }
+    }
+    for (const name of g.imports) assert(chunks.has(name) && !name.includes('/') && !name.includes(':'), 'Known local import closure');
+  }
+  assert.equal(generated, 1, 'Exact one generated runtime');
+  assert.deepEqual([...originals].sort(), Object.keys(certificate.originalIds).sort(), 'Complete original graph');
+  return {originalIds: [...originals].sort(), executingChunks: [...chunks].sort(), generatedRuntimeCount: generated};
+}

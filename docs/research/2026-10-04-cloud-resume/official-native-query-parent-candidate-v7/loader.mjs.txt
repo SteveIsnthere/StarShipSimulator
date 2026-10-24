@@ -1,0 +1,106 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { registerHooks } from 'node:module';
+import { appendFileSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { digest } from './integrity.mjs';
+import { admitRun, originalTests, runtimeAliases } from './admission.mjs';
+const { manifest: m, qualification: q } = await admitRun(process.env.NATIVE_FLIGHT_RUN, process.env.NATIVE_FLIGHT_RUN_SHA);
+assert.equal(process.platform, 'linux');
+const stat = readFileSync('/proc/self/stat', 'utf8');
+const start = stat.slice(stat.lastIndexOf(')') + 2).trim().split(/\s+/)[19];
+assert.match(start, /^\d+$/);
+const entryURL = pathToFileURL(resolve(m.directory, 'entry.mjs')).href;
+const chunkURL = pathToFileURL(resolve(m.directory, q.mappedCode)).href;
+const constantsURL = pathToFileURL(resolve(m.directory, 'constants.mjs')).href;
+const receipt = resolve(m.directory + '.receipts', 'native-worker-' + process.pid + '-' + start + '.jsonl');
+let bytes = 0;
+function record(row) {
+  const line = JSON.stringify({ pid: process.pid, start, ...row }) + '\n';
+  bytes += Buffer.byteLength(line); assert(bytes <= 65536);
+  appendFileSync(receipt, line, { flag: 'a' });
+}
+record({ kind: 'startup', nodeVersion: process.version, nodeBinary: digest(process.execPath),
+  runSha: process.env.NATIVE_FLIGHT_RUN_SHA, loaderSha: digest(new URL(import.meta.url)),
+  entryURL, chunkURL, constantsURL, code: m.files });
+const parents = new Map(originalTests.map(file => [pathToFileURL(resolve(q.root, file)).href, runtimeAliases[file]]));
+const originalLoads = new Map();
+const cacheTokenDigits = String(Date.now()).length;
+// BEGIN exact original-parent validator
+function identifyOriginalParent(url, originals, tokenDigits) {
+  if (typeof url !== 'string') return null;
+  for (const canonicalParentURL of originals.keys()) {
+    if (url === canonicalParentURL) return { canonicalParentURL, cacheToken: null };
+    const prefix = canonicalParentURL + '?vitest=';
+    if (!url.startsWith(prefix)) continue;
+    const token = url.slice(prefix.length);
+    if (new RegExp('^[0-9]{' + tokenDigits + '}$').test(token)
+      && Number.isSafeInteger(Number(token)) && String(Number(token)) === token) {
+      return { canonicalParentURL, cacheToken: token };
+    }
+  }
+  return null;
+}
+// END exact original-parent validator
+function sourceBytes(result) {
+  assert(typeof result.source === 'string' || ArrayBuffer.isView(result.source) || result.source instanceof ArrayBuffer);
+  const source = typeof result.source === 'string' ? Buffer.from(result.source, 'utf8')
+    : result.source instanceof ArrayBuffer ? Buffer.from(result.source)
+    : Buffer.from(result.source.buffer, result.source.byteOffset, result.source.byteLength);
+  assert(source.length <= 16 * 1024 * 1024);
+  return source;
+}
+function denyAlias(specifier, parentURL, reason) {
+  record({ kind: 'rejected-original-alias', specifier, parentURL: parentURL ?? null, reason });
+  assert(false, reason);
+}
+
+registerHooks({ resolve(specifier, context, nextResolve) {
+  if (q.aliases.includes(specifier)) {
+    const certificate = originalLoads.get(context.parentURL);
+    if (!certificate) denyAlias(specifier, context.parentURL, 'Native application alias requested by foreign or uncertified parent');
+    if (!parents.get(certificate.canonicalParentURL).includes(specifier)) {
+      denyAlias(specifier, context.parentURL, 'Alias outside exact original runtime import inventory');
+    }
+    const url = specifier === '$core/constants' ? constantsURL : entryURL;
+    record({ kind: 'original-alias', specifier, parentURL: context.parentURL,
+      canonicalParentURL: certificate.canonicalParentURL, cacheToken: certificate.cacheToken,
+      parentSourceSha: certificate.sourceSha, url });
+    return { url, shortCircuit: true };
+  }
+  if (/^\$(core|app|view|hud|ui|audio)\//.test(specifier)) denyAlias(specifier, context.parentURL, 'Unknown native application alias: ' + specifier);
+  const result = nextResolve(specifier, context);
+  if (context.parentURL === entryURL || context.parentURL === constantsURL) {
+    assert.equal(result.url, context.parentURL === entryURL ? chunkURL : entryURL);
+    record({ kind: 'native-module-edge', specifier, parentURL: context.parentURL, url: result.url });
+  }
+  return result;
+}, load(url, context, nextLoad) {
+  const result = nextLoad(url, context);
+  const original = identifyOriginalParent(url, parents, cacheTokenDigits);
+  if (original) {
+    assert(originalLoads.size === 0 || originalLoads.has(url), 'Multiple original parent URLs in one isolated worker');
+    assert(['module', 'module-typescript'].includes(result.format), 'Unexpected original ESM module format');
+    const source = sourceBytes(result);
+    const sourceSha = createHash('sha256').update(source).digest('hex');
+    const file = originalTests.find(file => pathToFileURL(resolve(q.root, file)).href === original.canonicalParentURL);
+    assert.equal(sourceSha, q.originalTests[file]);
+    assert.equal(digest(new URL(original.canonicalParentURL)), sourceSha);
+    assert(!originalLoads.has(url), 'Duplicate original parent load');
+    const certificate = { kind: 'original-load', url, ...original, file, format: result.format,
+      tokenDigits: cacheTokenDigits, sourceBytes: source.length, sourceSha };
+    record(certificate);
+    originalLoads.set(url, certificate);
+  }
+  const expected = new Map([[entryURL, m.files['entry.mjs']], [constantsURL, m.files['constants.mjs']],
+    [chunkURL, m.files[q.mappedCode]]]);
+  if (expected.has(url)) {
+    assert.equal(result.format, 'module');
+    const source = sourceBytes(result);
+    const sourceSha = createHash('sha256').update(source).digest('hex');
+    assert.equal(sourceSha, expected.get(url)); assert.equal(digest(new URL(url)), sourceSha);
+    record({ kind: 'native-load', url, format: result.format, sourceBytes: source.length, sourceSha });
+  }
+  return result;
+} });

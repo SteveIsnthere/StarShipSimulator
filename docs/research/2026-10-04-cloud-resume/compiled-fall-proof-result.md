@@ -1,0 +1,13 @@
+# Native production-binding fall proof result
+
+2026-10-04 UTC. One fresh-reviewed proof-only execution completed; no timing or acceptance loader change.
+
+`fall-bundle-proof-receipt` records app build0, isolated bundle build0, proof0 and final0. Six files/76 tests passed. Raw Vitest output SHA256 `e3554c50688083c62f0be282723af42dfa57f99f73d1eeee5ede849e7ac5ae60`. Its 4.56-second process duration is proof execution metadata, not predictor timing evidence. The native main-context loader emitted Node's experimental warning; retained in raw output.
+
+All757 broad source/harness/locked metadata pins match before/after and current bytes. Manifest SHA256 `28a50e43589d3ae0729409faaacfca36b68d9e0f27fd01b11b582b4feef85a77`. Every materialized entry, adapter, test and config path is absent after cleanup. All34 emitted plain/counter bundle/map files match retained hashes (`bundle-hashes.json` SHA256 `5a939da46f59472bc30808b226baf364b316a0b07c5847e675b78bc184d52b82`). No production sources/tests/configuration were edited by this execution.
+
+Resolved production settings were es2022, Oxc minification, source maps enabled, production mode and relative base, using locked Vite8.2.2/Rolldown1.2.5. Research ESM library entry/output adaptation remains explicit; this does not establish identity with the deployed app artifact. Plain source maps retained55 source entries, all exact current bytes, including required guidance/ISA/controls/both vehicles (`plain-source-map-manifest.json` SHA256 `0cc6ca204c2a0f623ee64fbb599b02a659c4eb92ccd583422625c099018632a6`).
+
+The counter graph retained exactly two original/transformed virtual source pairs, each one private entry increment plus the private import, and isolated reset/read exports. Full copies/digests match originals/current source. Manifest SHA256 `fcce8a0d4fb7b7149d2b0bca59e5a7882e1319e2bacf611652a85f99236df033`. All call-count assertions passed: zero queries without work, two ISA queries per midpoint, 8000at cap, held-zero control1 and nonzero control74. The adapter's full numeric/work/scratch/outcome comparisons with the plain graph passed before observations, including signed zero, NaN and exception names/messages. The three untouched SSR oracle files and three research backend adaptations all passed.
+
+This completes the declared bounded fall equivalence evidence. Independent review of the actual receipt is required before another action. Burn output/full-scratch equivalence is not covered by these fall API proofs; no three-workload bundle timing is authorized. A future reviewed plain-bundle candidate measurement would be cycle3attempt2, after phase diagnostic attempt1. All original counts, thresholds and maximum diagnosis cycles remain intact.

@@ -1,0 +1,12 @@
+[
+  "accept exact twelve reviewed data/audit rows with full unchanged protected graph",
+  "accept observed unchanged row without manufacturing a source difference",
+  "reject changed protected source graph",
+  "reject changed original native flight test",
+  "reject thirteenth test data authority",
+  "reject stale before digest",
+  "reject missing or deleted declared fixture",
+  "reject changed audit review evidence",
+  "reject missing replay evidence",
+  "reject pending recording replay audit authority"
+]

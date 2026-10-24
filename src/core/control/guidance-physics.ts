@@ -12,6 +12,10 @@
  * writes into a scratch object the caller owns (`createBurnScratch`).
  */
 import * as C from '../constants';
+import { engineThrust, engineMassFlow } from '../physics/propulsion';
+import * as burnPropulsion from '../physics/propulsion';
+import * as burnAero from '../physics/aero';
+import { SUPER_HEAVY } from '../vehicles/super-heavy';
 import { SHIP, type VehicleDefinition } from '../vehicle';
 import type { Atmosphere } from '../physics/atmosphere';
 import { speedOfSoundAt } from '../physics/atmosphere';
@@ -23,14 +27,20 @@ import {
   getLift,
   wrappedAttackAngle,
 } from '../physics/aero';
-import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '../physics/components';
+import { writeAccelerationComponents, type AccelerationInputs } from '../physics/components';
 import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } from '../physics/gravity';
 import { isaAtmosphereInto } from '../physics/isa';
 import { meanWindAt } from '../physics/wind';
 import type { SimState } from '../state';
 import { rad, type Rad } from '../units';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
-import { createGridFinForces, writeGridFinForces } from '../physics/grid-fins';
+import { createGridFinForces } from '../physics/grid-fins';
+import { writeFlightGridForces } from '../physics/damage-flight';
+import { writeFlightMassQuery } from '../physics/flight-mass-query';
+import { createDamageMassProperties } from '../physics/damage-mass';
+import { createDamageControlForces, validateDamageControlForcing, writeDamageControls, type DamageControlModel } from '../physics/damage-controls';
+import { damageModelFor } from '../physics/damage-model';
+import { MAX_DAMAGE_COMPONENTS } from '../damage-state';
 
 /**
  * m/s² — the floor `localGravity` never goes below.
@@ -56,8 +66,8 @@ export function localGravity(state: SimState): number {
 }
 
 /** N — full-throttle thrust of `engines` Raptors at an ambient pressure in kPa. */
-export function thrustFor(engines: number, airPressureKPa: number): number {
-  return engines * C.thrustPerRaptorAt(airPressureKPa);
+export function thrustFor(engines: number, airPressureKPa: number, model: VehicleDefinition = SHIP): number {
+  return engines * engineThrust(model.propulsion, 'sea-level', airPressureKPa);
 }
 
 /**
@@ -74,6 +84,8 @@ export function thrustFor(engines: number, airPressureKPa: number): number {
  * call inside another) can never share it.
  */
 export interface BurnScratch {
+  /** Reused synchronous fall kernel state: allocated once with this scratch. */
+  readonly fallWork: UnpoweredFallWork;
   readonly atmosphere: Atmosphere;
   /** s — the last backward pass's burn duration. */
   duration: number;
@@ -92,6 +104,7 @@ export interface BurnScratch {
 
 export function createBurnScratch(): BurnScratch {
   return {
+    fallWork: createEmptyFallWork(),
     atmosphere: { airTemperature: 0, airPressure: 0, airDensity: 0 },
     duration: 0,
     capped: false,
@@ -109,6 +122,24 @@ export function createBurnScratch(): BurnScratch {
     },
     acc: { x: 0, y: 0 },
   };
+}
+
+/** Pure module-local certificates reject wrapped helpers/predicates. Missing
+ * full-mock exports are tested with `in` before access. No mutable trust state. */
+function canonicalBurnPropulsion(): boolean {
+  if (!('isCanonicalBurnPropulsion' in burnPropulsion)) return false;
+  try {
+    const certificate = burnPropulsion.isCanonicalBurnPropulsion;
+    return typeof certificate === 'function' && certificate(certificate,
+      burnPropulsion.engineMassFlow, burnPropulsion.engineThrust);
+  } catch { return false; }
+}
+function canonicalBurnAero(): boolean {
+  if (!('isCanonicalBurnAero' in burnAero)) return false;
+  try {
+    const certificate = burnAero.isCanonicalBurnAero;
+    return typeof certificate === 'function' && certificate(certificate, burnAero.getCrossSectionalArea);
+  } catch { return false; }
 }
 
 /**
@@ -150,7 +181,7 @@ function backwardPass(
   scratch: BurnScratch,
   model: VehicleDefinition,
 ): number {
-  const flow = engines * C.maxFuelFlowPerRaptor;
+  const flow = engines * engineMassFlow(model.propulsion, 'sea-level');
   const half = BURN_STEP * 0.5;
   let h = touchdownHeight;
   let u = 0;
@@ -188,7 +219,76 @@ function backwardPass(
  */
 function burnDeceleration(engines: number, h: number, u: number, m: number, scratch: BurnScratch, model: VehicleDefinition): number {
   const drag = tailFirstDragDeceleration(h, u, m, scratch, model);
-  return thrustFor(engines, scratch.atmosphere.airPressure) / m + drag - verticalWeight(C.planetRadius + h);
+  return thrustFor(engines, scratch.atmosphere.airPressure, model) / m + drag - verticalWeight(C.planetRadius + h);
+}
+
+function preparedBackwardPass(
+  engines: number,
+  touchdownMass: number,
+  descentSpeed: number,
+  touchdownHeight: number,
+  scratch: BurnScratch,
+  model: VehicleDefinition,
+  perEngineFlow: number, vacuumThrust: number, exitArea: number, tailArea: number,
+): number {
+  const flow = engines * (canonicalBurnPropulsion() ? perEngineFlow : engineMassFlow(model.propulsion, 'sea-level'));
+  const half = BURN_STEP * 0.5;
+  let h = touchdownHeight;
+  let u = 0;
+  let m = touchdownMass;
+  scratch.capped = false;
+  for (let i = 0; i < BURN_STEP_CAP; i++) {
+    // Midpoint (second-order) step. Backward in time the mass grows and the
+    // deceleration falls, so a first-order step evaluated at the later, lighter
+    // end overstates it: 1.5% of an eleven-second burn, measured.
+    const a1 = preparedBurnDeceleration(engines, h, u, m, scratch, model, vacuumThrust, exitArea, tailArea);
+    const uMid = u + a1 * half;
+    const a2 = preparedBurnDeceleration(engines, h + (u + uMid) * 0.5 * half, uMid, m + flow * half, scratch, model, vacuumThrust, exitArea, tailArea);
+    // One guard, on the deceleration the step actually uses. The midpoint is
+    // heavier than the start, so if the start could not decelerate, neither can it.
+    if (a2 <= 0) return Number.NaN;
+    const next = u + a2 * BURN_STEP;
+    if (next >= descentSpeed) {
+      // Interpolate inside the step to where the speed is matched.
+      const f = (descentSpeed - u) / (next - u);
+      scratch.duration = (i + f) * BURN_STEP;
+      return h + (u + 0.5 * (descentSpeed - u)) * f * BURN_STEP;
+    }
+    h += (u + next) * 0.5 * BURN_STEP;
+    u = next;
+    m += flow * BURN_STEP;
+  }
+  scratch.capped = true;
+  return Number.NaN;
+}
+
+
+/** Same query ordering as tailFirstDragDeceleration, with only certified
+ * built-in data constants reused. Scratch/helper hooks may change mid-call. */
+function preparedTailFirstDragDeceleration(altitude: number, speed: number, mass: number,
+  scratch: BurnScratch, model: VehicleDefinition, tailArea: number): number {
+  const air = scratch.atmosphere;
+  isaAtmosphereInto(altitude, air);
+  const mach = speed / speedOfSoundAt(air.airTemperature);
+  // Original getDrag callee is fetched before evaluating its arguments.
+  const dragQuery = getDrag;
+  const density = air.airDensity;
+  const area = canonicalBurnAero() ? tailArea
+    : getCrossSectionalArea(rad(0), model.maxArea, model);
+  const coefficient = getBodyDragCoefficient(mach);
+  return dragQuery(density, speed, area, coefficient) / mass;
+}
+function preparedBurnDeceleration(engines: number, h: number, u: number, m: number,
+  scratch: BurnScratch, model: VehicleDefinition, vacuumThrust: number, exitArea: number, tailArea: number): number {
+  const drag = preparedTailFirstDragDeceleration(h, u, m, scratch, model, tailArea);
+  // The original argument getter can replace the live thrust helper.
+  const pressure = scratch.atmosphere.airPressure;
+  let thrust: number;
+  if (canonicalBurnPropulsion()) {
+    const pressurePa = Math.max(0, pressure) * 1000;
+    thrust = engines * Math.max(0, vacuumThrust - pressurePa * exitArea);
+  } else thrust = thrustFor(engines, pressure, model);
+  return thrust / m + drag - verticalWeight(C.planetRadius + h);
 }
 
 /** Most passes of the touchdown-mass iteration, and the residual it stops at (kg). */
@@ -203,10 +303,10 @@ const MASS_TOLERANCE = 1;
  * residual bounds the backward predictor's endpoint interpolation. Infinity
  * means no positive lower acceleration bound; run the exact predictor then.
  * This only saves work safely ABOVE the bound. It never commands an engine. */
-export function conservativeBurnStartAltitude(engines:number,mass:number,descentSpeed:number,touchdownHeight:number):number {
+export function conservativeBurnStartAltitude(engines:number,mass:number,descentSpeed:number,touchdownHeight:number,model:VehicleDefinition=SHIP):number {
   if(engines<=0 || mass<=0)return Infinity;
-  const upperMass=mass+engines*C.maxFuelFlowPerRaptor*BURN_STEP+MASS_TOLERANCE;
-  const minAcceleration=thrustFor(engines,C.SEA_LEVEL_PRESSURE_PA/1000)/upperMass
+  const upperMass=mass+engines*engineMassFlow(model.propulsion, 'sea-level')*BURN_STEP+MASS_TOLERANCE;
+  const minAcceleration=thrustFor(engines,C.SEA_LEVEL_PRESSURE_PA/1000,model)/upperMass
     -verticalWeight(C.planetRadius+touchdownHeight);
   if(minAcceleration<=0)return Infinity;
   return touchdownHeight+Math.max(0,descentSpeed)**2/(2*minAcceleration);
@@ -240,10 +340,13 @@ export function landingBurnStartAltitude(
   touchdownHeight: number,
   scratch: BurnScratch,
   model: VehicleDefinition = SHIP,
+  retainedDryMass = model.dryMass,
 ): number | null {
-  if (engines <= 0 || mass <= 0) return null;
+  // The floor is retained installed hardware, not hardware already in debris.
+  // No floor change may create fuel or permit a nonphysical total mass.
+  if (engines <= 0 || mass <= 0 || !(retainedDryMass > 0 && retainedDryMass <= mass)) return null;
   if (descentSpeed <= 0) return touchdownHeight;
-  const flow = engines * C.maxFuelFlowPerRaptor;
+  const flow = engines * engineMassFlow(model.propulsion, 'sea-level');
   /*
     The touchdown mass m_td is the current mass less what the burn uses, and
     what the burn uses depends on m_td: a root of
@@ -263,10 +366,21 @@ export function landingBurnStartAltitude(
     and a pass that runs out of steps means the burn is longer than this sizes:
     null, never a guess.
   */
-  const lowerBound = thrustFor(engines, C.SEA_LEVEL_PRESSURE_PA / 1000) / mass - verticalWeight(C.planetRadius);
+  const lowerBound = thrustFor(engines, C.SEA_LEVEL_PRESSURE_PA / 1000, model) / mass - verticalWeight(C.planetRadius);
   if (lowerBound <= 0) return null;
-  let light = Math.max(mass - flow * (descentSpeed / lowerBound), model.dryMass);
-  let start = backwardPass(engines, light, descentSpeed, touchdownHeight, scratch, model);
+  // Exact frozen data identity only. Prefix and early returns remain paid once.
+  // SHIP/custom/accessor/proxy models continue through the original helpers.
+  const prepare = model === SUPER_HEAVY && canonicalBurnPropulsion() && canonicalBurnAero();
+  const perEngineFlow = prepare ? engineMassFlow(model.propulsion, 'sea-level') : 0;
+  const vacuumThrust = prepare
+    ? perEngineFlow * model.propulsion.standardGravity * model.propulsion.seaLevel.ispVacuum : 0;
+  const exitArea = prepare
+    ? (vacuumThrust - model.propulsion.seaLevel.thrustSeaLevel) / model.propulsion.referencePressurePa : 0;
+  const tailArea = prepare ? getCrossSectionalArea(rad(0), model.maxArea, model) : 0;
+  let light = Math.max(mass - flow * (descentSpeed / lowerBound), retainedDryMass);
+  let start = prepare
+    ? preparedBackwardPass(engines, light, descentSpeed, touchdownHeight, scratch, model, perEngineFlow, vacuumThrust, exitArea, tailArea)
+    : backwardPass(engines, light, descentSpeed, touchdownHeight, scratch, model);
   if (Number.isNaN(start)) return null;
   let rLight = mass - flow * scratch.duration - light;
   // Not enough propellant for even the lightest burn: it cannot stop the vehicle.
@@ -281,7 +395,9 @@ export function landingBurnStartAltitude(
         ? heavy
         : (light + heavy) / 2
       : heavy - (rHeavy * (heavy - light)) / (rHeavy - rLight);
-    const s = backwardPass(engines, m, descentSpeed, touchdownHeight, scratch, model);
+    const s = prepare
+      ? preparedBackwardPass(engines, m, descentSpeed, touchdownHeight, scratch, model, perEngineFlow, vacuumThrust, exitArea, tailArea)
+      : backwardPass(engines, m, descentSpeed, touchdownHeight, scratch, model);
     // Longer than the predictor sizes: no answer, never a guess from the light
     // end (that answer was optimistic: 14.6 km for a burn the simulation needed
     // 20 km for, measured while fixing this).
@@ -329,6 +445,7 @@ export function createFallResult(): FallResult {
 export const FALL_STEP = 0.25;
 /** Steps — the fall's cap: 4 000 of `FALL_STEP`, about seventeen minutes of fall. */
 export const FALL_STEP_CAP = 4_000;
+const MAX_FIN_LOAD_COEFFICIENT = Math.max(1, C.finDragCoefficient);
 
 /**
  * The unpowered accelerations at a point, exactly as `step()` composes them:
@@ -348,6 +465,8 @@ function fallAcceleration(
   model: VehicleDefinition,
   gustX=0,
   gustY=0,
+  state?: SimState,
+  held?: UnpoweredFallWork,
 ): void {
   const { inputs, acc } = scratch;
   const r = C.planetRadius + altitude;
@@ -360,31 +479,63 @@ function fallAcceleration(
   const motion = Math.atan2(rx, ry);
   const attack = wrappedAttackAngle(pitch, motion);
   const intoWind = foldedIntoWind(attack);
+  if (state?.damage) {
+    const controlModel = held?.controlModel ?? damageModelFor(model).controls;
+    const q = .5 * air.airDensity * speed ** 2;
+    if (held && held.zeroControlArea !== null
+      && Number.isFinite(q * held.zeroControlColumnArea * MAX_FIN_LOAD_COEFFICIENT)) {
+      // Incidence only validates this prepared branch. Finite angles have
+      // valid sine incidence; preserve rejection of every nonfinite angle.
+      validateDamageControlForcing(state.damage, controlModel, q, Number.isFinite(intoWind) ? 0 : NaN, forceControls);
+      maxArea = held.zeroControlArea;
+    } else {
+      const frontCommand = model.gridFins
+        ? (state.vehicle.frontFinExtension - 50) / 50 * model.gridFins.maxAngle
+        : state.vehicle.frontFinExtension * .01 * C.finActuationMaxAngle;
+      const aftCommand = state.vehicle.aftFinExtension * .01 * C.finActuationMaxAngle;
+      writeDamageControls(state.damage, controlModel, q, Math.abs(Math.sin(intoWind)), frontCommand, aftCommand, forceControls);
+      maxArea = model.maxArea + 1.8 * (forceControls.frontArea + forceControls.aftArea);
+      if (held && frontCommand === 0 && aftCommand === 0) {
+        held.zeroControlArea = maxArea;
+        // A finite bound preserves the original force-scale validation even at
+        // adversarial finite q whose multiplication by area could overflow.
+        held.zeroControlColumnArea = 0;
+        for (const column of controlModel.columns)
+          held.zeroControlColumnArea = Math.max(held.zeroControlColumnArea, column.area);
+      }
+    }
+  }
   const area = getCrossSectionalArea(rad(intoWind), maxArea, model);
   const mach = speed / speedOfSoundAt(air.airTemperature);
   inputs.angleOfMotion = rad(motion);
   inputs.angleOfAttack = rad(attack);
   inputs.aerodynamicDragAcceleration = getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach)) / mass;
   inputs.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
-  acc.x = getHorizontalAcceleration(inputs) + tangentialAcceleration(r, vx, vy);
-  acc.y = getVerticalAcceleration(inputs, C.gravity) + C.gravity + verticalGravityAcceleration(r, vx);
+  writeAccelerationComponents(inputs, C.gravity, acc);
+  acc.x = acc.x + tangentialAcceleration(r, vx, vy);
+  acc.y = acc.y + C.gravity + verticalGravityAcceleration(r, vx);
 }
 
 const forceMass=createMassProperties(),forceGrid=createGridFinForces();
+const queriedMass = createDamageMassProperties();
+const forceControls = createDamageControlForces(MAX_DAMAGE_COMPONENTS);
 /** The existing force law at a proposed hull attitude. No integration or
  * actuator impulse: callers must still prove actual slew/contact mechanically.
  * Includes current gusts and the delivered grid-fin deflection. */
 export function writeUnpoweredAcceleration(state:SimState,pitch:Rad,model:VehicleDefinition,scratch:BurnScratch):void {
   const k=state.kinematics;
-  fallAcceleration(k.altitude,k.speedX,k.speedY,pitch,state.vehicle.vehicleMass,
-    state.vehicle.vehicleInFlightMaxArea,state.world.wind,scratch,model,state.world.gust,state.world.gustVertical);
+  if (state.damage) writeFlightMassQuery(state, model, queriedMass, forceMass);
+  const mass = state.damage ? queriedMass.totalMass : state.vehicle.vehicleMass;
+  if (!(mass > 0)) { scratch.acc.x = scratch.acc.y = 0; return; }
+  fallAcceleration(k.altitude,k.speedX,k.speedY,pitch,mass,
+    state.vehicle.vehicleInFlightMaxArea,state.world.wind,scratch,model,state.world.gust,state.world.gustVertical,state);
   if(model.gridFins){
-    writeMassProperties(state.vehicle.propellantMass,forceMass,model);
-    writeGridFinForces(scratch.atmosphere.airDensity,
+    if (!state.damage) writeMassProperties(state.vehicle.propellantMass,forceMass,model);
+    writeFlightGridForces(state,scratch.atmosphere.airDensity,
       k.speedX-meanWindAt(state.world.wind,k.altitude)-state.world.gust,k.speedY-state.world.gustVertical,
-      rad((state.vehicle.frontFinExtension-50)/50*model.gridFins.maxAngle),pitch,forceMass.centreOfMass,model,forceGrid);
-    scratch.acc.x+=forceGrid.forceX/state.vehicle.vehicleMass;
-    scratch.acc.y+=forceGrid.forceY/state.vehicle.vehicleMass;
+      pitch,forceMass,model,forceGrid);
+    scratch.acc.x+=forceGrid.forceX/mass;
+    scratch.acc.y+=forceGrid.forceY/mass;
   }
 }
 
@@ -404,51 +555,73 @@ export function writeUnpoweredAcceleration(state:SimState,pitch:Rad,model:Vehicl
  * Midpoint steps of `FALL_STEP`; `reached` is false when the cap runs out first
  * (a vehicle climbing away, or one so high it is still falling).
  */
-export function unpoweredFallInto(
-  state: SimState,
-  groundAltitude: number,
-  scratch: BurnScratch,
-  out: FallResult,
-  model: VehicleDefinition = SHIP,
-  pitchOverride = state.kinematics.pitch,
-): void {
-  const { kinematics, vehicle, world } = state;
-  const pitch = pitchOverride;
-  const mass = vehicle.vehicleMass;
-  const maxArea = vehicle.vehicleInFlightMaxArea;
-  // The air's downrange speed, as step() takes it, at each height of the fall:
-  // the mean wind profile (physics/wind.ts). The turbulence is left out: it is
-  // zero-mean and decorrelates within seconds, so the expected fall has none.
-  const referenceWind = world.wind;
-  const acc = scratch.acc;
-  let h = kinematics.altitude;
-  let x = 0;
-  let vx = kinematics.speedX;
-  let vy = kinematics.speedY;
-  const half = FALL_STEP * 0.5;
-  for (let i = 0; i < FALL_STEP_CAP; i++) {
-    fallAcceleration(h, vx, vy, pitch, mass, maxArea, referenceWind, scratch, model);
-    const mvx = vx + acc.x * half;
-    const mvy = vy + acc.y * half;
-    fallAcceleration(h + vy * half, mvx, mvy, pitch, mass, maxArea, referenceWind, scratch, model);
-    const nvx = vx + acc.x * FALL_STEP;
-    const nvy = vy + acc.y * FALL_STEP;
-    const nh = h + mvy * FALL_STEP;
-    const nx = x + mvx * FALL_STEP;
-    if (nh <= groundAltitude) {
-      // Interpolate inside the step to the ground.
-      const f = (h - groundAltitude) / (h - nh);
-      out.reached = true;
-      out.time = (i + f) * FALL_STEP;
-      out.downRange = x + (nx - x) * f;
-      return;
+export interface UnpoweredFallWork {
+  /** Caller-owned immutable source; temperature/topology assumptions stay held. */
+  state:SimState|null;model:VehicleDefinition;groundAltitude:number;pitch:Rad;
+  mass:number;maxArea:number;referenceWind:number;
+  /** Query once for held zero commands; never shared between predictions. */
+  zeroControlArea:number|null;zeroControlColumnArea:number;
+  /** Immutable model metadata resolved once for this owned prediction. */
+  controlModel:DamageControlModel|null;
+  h:number;x:number;vx:number;vy:number;steps:number;done:boolean;result:FallResult;
+}
+function createEmptyFallWork():UnpoweredFallWork {
+  return {state:null,model:SHIP,groundAltitude:0,pitch:rad(0),mass:0,maxArea:0,referenceWind:0,
+    zeroControlArea:null,zeroControlColumnArea:0,controlModel:null,
+    h:0,x:0,vx:0,vy:0,steps:0,done:true,result:createFallResult()};
+}
+function initializeFallWork(work:UnpoweredFallWork,state:SimState,groundAltitude:number,model:VehicleDefinition,pitch:Rad):void {
+  if(state.damage)writeFlightMassQuery(state,model,queriedMass);
+  work.state=state;work.model=model;work.groundAltitude=groundAltitude;work.pitch=pitch;
+  work.mass=state.damage?queriedMass.totalMass:state.vehicle.vehicleMass;
+  work.maxArea=state.vehicle.vehicleInFlightMaxArea;work.referenceWind=state.world.wind;
+  work.zeroControlArea=null;work.zeroControlColumnArea=0;
+  work.controlModel=state.damage?damageModelFor(model).controls:null;
+  work.h=state.kinematics.altitude;work.x=0;work.vx=state.kinematics.speedX;work.vy=state.kinematics.speedY;
+  work.steps=0;work.done=!(work.mass>0);
+  work.result.reached=false;work.result.time=NaN;work.result.downRange=work.done?NaN:0;
+}
+/** Own the numeric continuation; the source reference must remain immutable. */
+export function createUnpoweredFallWork(state:SimState,groundAltitude:number,model:VehicleDefinition=SHIP,pitchOverride=state.kinematics.pitch):UnpoweredFallWork {
+  const work=createEmptyFallWork();initializeFallWork(work,state,groundAltitude,model,pitchOverride);return work;
+}
+/** Same midpoint operation/order as the synchronous predictor. Budget counts
+ * iterations (two force queries each), never hidden mechanical advances. */
+export function advanceUnpoweredFall(work:UnpoweredFallWork,budget:number,scratch:BurnScratch):number {
+  if(work.done)return 0;
+  const state=work.state!,model=work.model,pitch=work.pitch,mass=work.mass,maxArea=work.maxArea,referenceWind=work.referenceWind;
+  const acc=scratch.acc,half=FALL_STEP*.5;
+  let h=work.h,x=work.x,vx=work.vx,vy=work.vy,steps=work.steps,used=0;
+  const sliceLimit=Math.min(Math.floor(budget),FALL_STEP_CAP-steps);
+  for(let slice=0;slice<sliceLimit;slice++) {
+    fallAcceleration(h,vx,vy,pitch,mass,maxArea,referenceWind,scratch,model,0,0,state,work);
+    const mvx=vx+acc.x*half;
+    const mvy=vy+acc.y*half;
+    fallAcceleration(h+vy*half,mvx,mvy,pitch,mass,maxArea,referenceWind,scratch,model,0,0,state,work);
+    const nvx=vx+acc.x*FALL_STEP;
+    const nvy=vy+acc.y*FALL_STEP;
+    const nh=h+mvy*FALL_STEP;
+    const nx=x+mvx*FALL_STEP;
+    const index=steps;steps++;used++;
+    if(nh<=work.groundAltitude) {
+      const f=(h-work.groundAltitude)/(h-nh);
+      work.result.reached=true;work.result.time=(index+f)*FALL_STEP;work.result.downRange=x+(nx-x)*f;
+      h=nh;x=nx;vx=nvx;vy=nvy;work.done=true;break;
     }
-    h = nh;
-    x = nx;
-    vx = nvx;
-    vy = nvy;
+    h=nh;x=nx;vx=nvx;vy=nvy;
   }
-  out.reached = false;
-  out.time = Number.NaN;
-  out.downRange = x;
+  work.h=h;work.x=x;work.vx=vx;work.vy=vy;work.steps=steps;
+  if(!work.result.reached)work.result.downRange=x;
+  if(steps>=FALL_STEP_CAP)work.done=true;
+  return used;
+}
+export function unpoweredFallInto(
+  state:SimState,groundAltitude:number,scratch:BurnScratch,out:FallResult,
+  model:VehicleDefinition=SHIP,pitchOverride=state.kinematics.pitch,
+):void {
+  // Existing HUD/guidance callers keep their allocation-free synchronous API.
+  const work=scratch.fallWork;initializeFallWork(work,state,groundAltitude,model,pitchOverride);
+  advanceUnpoweredFall(work,FALL_STEP_CAP,scratch);
+  out.reached=work.result.reached;out.time=work.result.time;out.downRange=work.result.downRange;
+  work.state=null; // Do not retain a live frame through long-lived HUD scratch.
 }

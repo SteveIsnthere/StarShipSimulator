@@ -1,0 +1,25 @@
+{
+  "checkedUnixSeconds": 1791101611.4376216,
+  "episode": "/tmp/starship-isolated-budget.B9APnDot",
+  "selectedExecutingProcesses": [
+    {
+      "pid": 25608,
+      "starttime": 1063405,
+      "state": "S",
+      "ppid": 517,
+      "pgrp": 25608,
+      "exe": "/usr/bin/bash",
+      "argv": [
+        "/bin/bash",
+        "-lc",
+        "source /workspace/cloud-bootstrap/starship-v1/activate.sh\npython3 - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,shutil,time,socket\nroot=Path('docs/research/2026-10-04-cloud-resume'); ep=Path('/tmp/starship-isolated-budget.B9APnDot'); dest=root/'cloud-isolated-budget-collection-failure-artifacts';dest.mkdir()\nshutil.copytree(ep,dest/'episode')\nfor n in ['isolated-launch-budget.spec.ts','isolated-launch-budget.config.ts','isolated-budget-boundary.ts','isolated-budget-cleanup.ts','prepare-isolated-budget-episode.sh','cloud-isolated-full-budget-declaration.md']:shutil.copy2(root/n,dest/n)\nd=json.loads((ep/'episode-declaration.json').read_text()); floor=d['createdBootSeconds']*d['clockTicksPerSecond']; exe=d['setup']+'/browser/chrome-headless-shell'; selected=[];errors=[]\nfor p in Path('/proc').iterdir():\n if not p.name.isdigit():continue\n try:\n  raw=(p/'stat').read_text();f=raw[raw.rfind(')')+2:].split(); start=int(f[19]);\n  if start<floor:continue\n  if f[0]=='Z':continue\n  actual=str((p/'exe').readlink());args=(p/'cmdline').read_bytes().split(b'\\0');decoded=[v.decode(errors='replace') for v in args if v]\n  matched=actual==exe or any('vite' in v and 'preview' in ' '.join(decoded) for v in decoded) or any('playwright' in v and 'isolated-launch-budget.config.ts' in ' '.join(decoded) for v in decoded)\n  if matched:selected.append({'pid':int(p.name),'starttime':start,'state':f[0],'ppid':int(f[1]),'pgrp':int(f[2]),'exe':actual,'argv':decoded})\n except (FileNotFoundError,ProcessLookupError):pass\n except PermissionError:errors.append({'pid':int(p.name),'error':'inaccessible new process'})\ns=socket.socket();s.settimeout(.5); listening=s.connect_ex(('127.0.0.1',4174))==0;s.close()\nreceipt={'checkedUnixSeconds':time.time(),'episode':str(ep),'selectedExecutingProcesses':selected,'newProcessAccessErrors':errors,'preview4174Listening':listening,'originalPreviewPid25301Exists':Path('/proc/25301').exists(),'copiedBrowserExecuting':any(v['exe']==exe for v in selected),'verifiedNoExecutingSelectedProcesses':not selected and not errors and not listening,'limitation':'preview started as shown by original log; collection failed before tests. No test/browser/frame acceptance result.'}\n(dest/'independent-cleanup-check.json').write_text(json.dumps(receipt,indent=2)+'\\n')\nmanifest=[]\nfor p in sorted(dest.rglob('*')):\n if p.is_file():manifest.append({'path':str(p.relative_to(dest)),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})\n(dest/'artifact-manifest.json').write_text(json.dumps(manifest,indent=2)+'\\n');print(json.dumps(receipt,indent=2))\nPY"
+      ]
+    }
+  ],
+  "newProcessAccessErrors": [],
+  "preview4174Listening": false,
+  "originalPreviewPid25301Exists": true,
+  "copiedBrowserExecuting": false,
+  "verifiedNoExecutingSelectedProcesses": false,
+  "limitation": "preview started as shown by original log; collection failed before tests. No test/browser/frame acceptance result."
+}

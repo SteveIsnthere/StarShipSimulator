@@ -1,0 +1,37 @@
+import pathlib,subprocess,json,hashlib,os,time,signal
+draft=pathlib.Path('docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates').resolve()
+parent=draft/'parent';parent.mkdir()
+pins={'launch-input-pins.json':'f6834a46ce96d758f58de6e220af869a9b9020a7b312073e4480b1944cb57ee8','launcher-independent-review.md':'f1bc09136dba94b7c3b37f8bc911c191602334933c2eb7f72b619652704ec2a1','launcher-independent-review-pins.json':'e4062abb4b8d14388065f349e6c88a74a7c5df7d6d86094d3375c49ffe879e06'}
+sha=lambda b:hashlib.sha256(b).hexdigest()
+for name,digest in pins.items():assert sha((draft/name).read_bytes())==digest
+env={**os.environ,'STARSHIP_CPU_SLOT_GRANTED':'descendant-certificates-controls','STARSHIP_CONTROL_LAUNCH_INPUT_SHA':pins['launch-input-pins.json'],'STARSHIP_CONTROL_LAUNCH_REVIEW_SHA':pins['launcher-independent-review.md'],'STARSHIP_CONTROL_LAUNCH_REVIEW_PINS_SHA':pins['launcher-independent-review-pins.json']}
+command=['bash',str(draft/'run-controls.sh')]
+(parent/'declaration.json').write_text(json.dumps({'command':command,'pins':pins,'parentSourceSha256':sha(pathlib.Path(__file__).read_bytes()),'childBoundSeconds':30,'externalBoundSeconds':70,'cpuExclusive':True},indent=2)+'\n')
+start=time.monotonic();timeout=False
+with (parent/'output.txt').open('xb') as output:
+ child=subprocess.Popen(command,stdout=output,stderr=subprocess.STDOUT,env=env,start_new_session=True)
+ raw=pathlib.Path(f'/proc/{child.pid}/stat').read_text();root={'pid':child.pid,'starttime':raw[raw.rfind(')')+2:].split()[19]}
+ try:code=child.wait(timeout=70)
+ except subprocess.TimeoutExpired:
+  timeout=True;os.killpg(child.pid,signal.SIGTERM)
+  try:code=child.wait(timeout=9)
+  except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);code=child.wait(timeout=2)
+owned=[root];receipts=list(draft.glob('receipt-controls-*'))
+for receipt in receipts:
+ p=receipt/'parent-identity.json'
+ if p.exists():
+  row=json.loads(p.read_text());owned.append({'pid':row['pid'],'starttime':row['start']})
+ for processFile in receipt.glob('*.process.json'):
+  process=json.loads(processFile.read_text())
+  for row in process.get('owned',[]):owned.append({'pid':row['pid'],'starttime':row.get('start',row.get('starttime'))})
+post=[]
+for row in owned:
+ path=pathlib.Path(f"/proc/{row['pid']}/stat");executing=False
+ if path.exists():
+  raw=path.read_text();fields=raw[raw.rfind(')')+2:].split();executing=fields[19]==str(row['starttime']) and fields[0] not in ['Z','X']
+ post.append({**row,'executing':executing})
+(parent/'independent-postexit.json').write_text(json.dumps(post,indent=2)+'\n')
+result={'childExit':code,'timeout':timeout,'elapsedSeconds':time.monotonic()-start,'receipts':[str(p) for p in receipts],'allOwnedNonexecuting':not any(row['executing'] for row in post),'ownedCount':len(post)}
+(parent/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2));print((parent/'output.txt').read_text())
+if code or timeout or not result['allOwnedNonexecuting']:raise SystemExit(1)

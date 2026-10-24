@@ -1,0 +1,138 @@
+--- docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-width2-root-observer.py.txt
++++ docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt
+@@ -12,15 +12,15 @@
+         raise RuntimeError(message)
+ require(digest(manifest_path) == expected_sha, 'External owner input digest mismatch')
+ m = json.loads(pathlib.Path(manifest_path).read_text())
+-require(m['kind'] == 'width2-concrete-stage-owner-input-v1', 'Wrong owner input')
+-for key in ('node', 'helper', 'preparer', 'builder', 'qualifier', 'pins', 'stage', 'observer', 'python', 'bridge'):
++require(m['kind'] == 'official-original21-owner-input-v1', 'Wrong owner input')
++for key in ('node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python'):
+     require(digest(m[key]['path']) == m[key]['sha'], 'Pinned input mismatch: ' + key)
+ require(digest(__file__) == m['observer']['sha'], 'Executed root observer mismatch')
+-require(m['mode'] in ('prepare','build','qualify'), 'Unknown concrete stage')
+-require(m['outerMs'] == {'prepare':60000,'build':120000,'qualify':30000}[m['mode']], 'Wrong concrete stage bound')
++require(m['mode'] in ('app-build','original21'), 'Unknown concrete stage')
++require(m['outerMs'] == {'app-build':90000,'original21':338000}[m['mode']], 'Wrong concrete stage bound')
+ work_deadline = started + (m['outerMs'] - 8000)/1000
+ require(pathlib.Path(sys.executable).resolve() == pathlib.Path(m['python']['path']).resolve(), 'Wrong Python')
+-root_receipt = pathlib.Path(tempfile.mkdtemp(prefix='starship-width2-root.', dir='/tmp'))
++root_receipt = pathlib.Path(tempfile.mkdtemp(prefix='starship-original21-root.', dir='/tmp'))
+ os.chmod(root_receipt, 0o700)
+ print(json.dumps({'rootReceipt': str(root_receipt)}), flush=True)
+ wrapper = root_receipt / 'stage.mjs'
+@@ -118,7 +118,7 @@
+         except json.JSONDecodeError: continue
+         if isinstance(value.get('stageReceipt'), str):
+             candidate = pathlib.Path(value['stageReceipt'])
+-            require(str(candidate).startswith('/tmp/starship-width2-stage.'), 'Foreign stage receipt')
++            require(str(candidate).startswith('/tmp/starship-original21-stage.'), 'Foreign stage receipt')
+             require(candidate.resolve() == candidate, 'Stage symlink')
+             if stage_receipt is not None: require(stage_receipt == candidate, 'Multiple stage receipts')
+             stage_receipt = candidate
+@@ -129,13 +129,29 @@
+             for row in receipt.get('cleanup', {}).get('tracked', []):
+                 for key in ('pid', 'start', 'group', 'session'): require(key in row, 'Malformed tracked identity')
+                 admit(row)
+-    if m['mode'] == 'build':
+-        actual = pathlib.Path(m['setup']) / 'vite-build.process.json'
+-        if actual.exists():
+-            receipt = json.loads(actual.read_text())
+-            for row in receipt.get('cleanup', {}).get('tracked', []):
+-                for key in ('pid', 'start', 'group', 'session'): require(key in row, 'Malformed nested Vite identity')
+-                admit(row)
++    if stage_receipt is not None and m['mode'] == 'original21':
++        baseline_path = stage_receipt / 'tmp-baseline.json'
++        if baseline_path.exists():
++            baseline = json.loads(baseline_path.read_text())
++            require(isinstance(baseline, list) and all(isinstance(x, str) for x in baseline), 'Bad fresh receipt baseline')
++            for directory in pathlib.Path('/tmp').glob('starship-official-flight.*'):
++                if str(directory) in baseline: continue
++                require(directory.resolve() == directory and directory.is_dir(), 'Foreign fresh flight directory')
++                for name in ('native-build.process.json', 'official-tests.process.json'):
++                    actual = directory / 'native.receipts' / name
++                    if not actual.exists(): continue
++                    try:
++                        receipt = json.loads(actual.read_text())
++                        cleanup = receipt.get('cleanup')
++                        require(isinstance(cleanup, dict), 'Nested cleanup missing')
++                        anchor = known.get((cleanup['pid'], cleanup['start']))
++                        require(anchor is not None and anchor['group'] == cleanup['group'] and anchor['session'] == cleanup['session'], 'Fresh receipt leader not independently observed')
++                        for row in cleanup.get('tracked', []):
++                            for key in ('pid', 'start', 'group', 'session'): require(key in row, 'Malformed nested product identity')
++                            admit(row)
++                        save('nested-' + directory.name + '-' + name, {'path': str(actual), 'sha256': digest(actual), 'cleanup': cleanup})
++                    except BaseException as error:
++                        failures.append('Nested product receipt reconciliation: ' + str(error))
+ 
+ def safe_scan():
+     try:
+@@ -169,7 +185,7 @@
+ 
+ try:
+     require(time.time() <= work_deadline, 'Observer startup exhausted stage bound')
+-    env = dict(os.environ); env['WIDTH2_ROOT_DEADLINE'] = str(int(work_deadline * 1000))
++    env = dict(os.environ); env['ORIGINAL21_ROOT_DEADLINE'] = str(int(work_deadline * 1000))
+     with (root_receipt / 'outer.stdout.txt').open('wb') as stdout, (root_receipt / 'outer.stderr.txt').open('wb') as stderr:
+         child = subprocess.Popen([m['node']['path'], str(wrapper), manifest_path, expected_sha],
+             cwd=m['root'], env=env, stdout=stdout, stderr=stderr, start_new_session=True)
+@@ -193,6 +209,18 @@
+ except BaseException as error:
+     failures.append(str(error))
+ finally:
++    # A failed first registration must not bypass owned-child finalization.
++    # The unreaped direct Popen PID is reserved; require its actual topology
++    # and persist PID/start before any ancestry scan or signaling.
++    try:
++        if child is not None and child.poll() is None and not any(row['pid'] == child.pid for row in known.values()):
++            initial = stat_row(child.pid)
++            require(initial is not None, 'Finalizer could not verify direct outer identity')
++            require(initial['parent'] == os.getpid(), 'Finalizer outer is not direct Popen child')
++            require(initial['group'] == child.pid and initial['session'] == child.pid, 'Finalizer outer not isolated')
++            admit(initial); save('outer-registration-finalizer.json', initial)
++    except BaseException as error:
++        failures.append('Independent outer registration finalizer: ' + str(error))
+     try:
+         load_helper_identities()
+     except BaseException as error:
+@@ -223,11 +251,6 @@
+         except BaseException as error: failures.append('Post-close helper reconciliation: ' + str(error))
+         remaining = safe_scan()
+         require(not remaining, 'Owned executing identities remain')
+-        for key in ('node', 'helper', 'preparer', 'builder', 'qualifier', 'pins', 'stage', 'observer', 'python', 'bridge'):
+-            require(digest(m[key]['path']) == m[key]['sha'], 'Final pinned mismatch: ' + key)
+-        require(digest(manifest_path) == expected_sha, 'Final external input drift')
+-        require(digest(__file__) == m['observer']['sha'], 'Final executed observer drift')
+-        require(digest(wrapper) == m['stage']['sha'], 'Final executed business-stage drift')
+     except BaseException as error:
+         failures.append(str(error)); remaining = [{'groupUncertain': group} for group in owned_groups.values() if group['uncertain']]
+         for row in known.values():
+@@ -235,9 +258,27 @@
+                 current = stat_row(row['pid'])
+                 if current and current['start'] == row['start'] and current['state'] not in ('Z', 'X'): remaining.append(current)
+             except BaseException: remaining.append({'identityUncertain': row})
++    # Raw exit and source checks remain independent of cleanup/receipt failures.
++    if child is not None:
++        try: save('actual-outer-exit-final-independent.json', {'returncode': child.poll(), 'elapsedSeconds': time.time() - started})
++        except BaseException as error: failures.append('Final raw exit persistence: ' + str(error))
++    for key in ('node', 'helper', 'npmCli', 'qualification', 'pins', 'stage', 'observer', 'python'):
++        try: require(digest(m[key]['path']) == m[key]['sha'], 'Final pinned mismatch: ' + key)
++        except BaseException as error: failures.append(str(error))
++    for label, path, sha in (('external input', manifest_path, expected_sha), ('executed observer', __file__, m['observer']['sha']), ('executed stage', wrapper, m['stage']['sha'])):
++        try: require(digest(path) == sha, 'Final ' + label + ' drift')
++        except BaseException as error: failures.append(str(error))
++    try:
++        inventory = json.loads(pathlib.Path(m['pins']['path']).read_text())
++        require(inventory['kind'] == 'official-original21-external-inventory-v1', 'Final source/tool inventory kind')
++        require(bool(inventory['files']), 'Final empty source/tool inventory')
++        for path, sha in inventory['files'].items():
++            try: require(digest(path) == sha, 'Final source/tool file drift: ' + path)
++            except BaseException as error: failures.append(str(error))
++    except BaseException as error: failures.append('Independent final source/tool audit: ' + str(error))
+     save('root-outcome.json', {'completed': not failures, 'failures': failures,
+         'actualReturncode': None if child is None else child.poll(), 'remaining': remaining,
+         'tracked': list(known.values()), 'ownedGroups': list(owned_groups.values()), 'stageReceipt': None if stage_receipt is None else str(stage_receipt),
+         'manifestSha': expected_sha, 'elapsedSeconds': time.time() - started,
+-        'acceptance': 'This single width2 stage only; source/process/actual result HIGH required before next stage; no browser/app/physics acceptance'})
++        'acceptance': 'This single app-build or original21 invocation only; independent actual-result/source/ownership review required; no whole gate or local acceptance'})
+ if failures: sys.exit(1)

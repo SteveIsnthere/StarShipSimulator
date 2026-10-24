@@ -1,0 +1,17 @@
+import {defineConfig} from 'vitest/config';
+import assert from 'node:assert/strict';
+import {resolve} from 'node:path';
+const directory=process.env.SKY_SDK_SETUP;
+assert(directory && /^\/tmp\/starship-sky-sdk\.[a-f0-9]{32}$/.test(directory));
+const root='/workspace/StarShipSimulator';
+export default defineConfig({
+ root:directory,
+ resolve:{alias:[{find:'$candidate/sky',replacement:resolve(directory,'candidate/sky.ts')},
+   {find:'$view/sky',replacement:resolve(root,'src/view/sky.ts')}]},
+ server:{fs:{allow:[directory,root]}},
+ test:{include:['sky-mesh-public-controls.test.ts'],environment:'node',pool:'forks',
+   experimental:{viteModuleRunner:true},execArgv:[],maxWorkers:1,maxConcurrency:1,
+   isolate:true,fileParallelism:false,testTimeout:30000,retry:0,
+   sequence:{shuffle:false},reporters:['default','json'],
+   outputFile:{json:resolve(directory,'test-results.json')}}
+});

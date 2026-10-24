@@ -1,0 +1,19 @@
+{
+  "inputManifestSha256": "3a0a7b9ba4edd29fe733a0ccab067402d004b504f975f56913c22fafc07b71a2",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt": "eac451540ff04c0219bb7237e2f9c270a98db209dd3ace7247543a4220171936",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2-stage-input.py.txt": "723fc54e6143ead338eb9bff6219be10a9be5eb8ed032cbdaa7055c677ff876e",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/root-stage-declaration.md": "bfc5ba59151812309d5e693172b4084ecc5def1d0e3db47e229a4845b6277643",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/compile-input-pins.json": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs.txt": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-root-observer.py.txt": "6b8180c192d279cef4297cbf50047092e435da4f89ed4bf5f83e7a84a7ccf198",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-stage.mjs.txt": "c05bfc931e30c2b79b13c92d6b3a41ce5ae530ae52f2771d1e8c5bf8b0dfc238",
+    "scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "reviewSha256": "fadf7c06d995c28c62f0db2ae9a72c4f017d0ed392fea73aa2e6673f10e3d739",
+  "executionPerformed": false
+}

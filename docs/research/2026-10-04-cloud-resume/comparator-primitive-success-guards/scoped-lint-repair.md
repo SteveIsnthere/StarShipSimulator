@@ -1,0 +1,7 @@
+# Neutral local-scope launcher lint repair
+
+The reviewed launcher3e67c544 syntax check passed; scopedESLint failed on two no-useless-assignment initializers before any runtime/control command. This is not a control result. Before launcher/fullmanifest/review/pins are byte-exact under launcher-before-scoped-lint-fix/; all39control/candidate/eac source bytes remain unchanged.
+
+`after=null` had no read before assignment: finally's integrity try assigns snapshot to after and only then writes/checks it. If snapshot throws, catch records beforeAvailable and the error; it never reads or serializes after. Replace with a const local after at the original assignment statement. `cleanup=null` likewise had no read before assignment: cleanup try gets verifyNoOwnedProcesses then saves that exact returned array. If verification throws, its catch records status/failure, never reads or emits cleanup. Replace with const local cleanup there. Remove only those outer declarations. No undefined fallback, default field, serialized value or failure path changes. before/failure/stage/status/sourceInventory still retain their existing outer initializers and exact handling.
+
+No suppression/rule change, Node helper/error/control changes, runtime invocation, repeat or scope expansion. New fixed bytes require fresh exact source/pins review and scoped checks beforeONE dualcohort; original failed check record stays truthful.

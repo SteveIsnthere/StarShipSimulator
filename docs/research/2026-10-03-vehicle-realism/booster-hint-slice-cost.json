@@ -1,0 +1,32 @@
+[
+  {
+    "duration": 24.175,
+    "runs": 200,
+    "perSliceMeanMs": [
+      0.7856867999999975,
+      0.7873634999999973,
+      0.0444573099999991
+    ],
+    "slices": 3,
+    "midpointSteps": 1052,
+    "reached": true,
+    "fallTime": 262.831931106331,
+    "range": 1186.9062181510526,
+    "note": "Exact already evaluated cutoff, identical midpoint order/result,512 iteration slices; timing does not change control."
+  },
+  {
+    "duration": 24.275,
+    "runs": 200,
+    "perSliceMeanMs": [
+      0.7701929500000029,
+      0.7841166550000185,
+      0.042983524999995096
+    ],
+    "slices": 3,
+    "midpointSteps": 1052,
+    "reached": true,
+    "fallTime": 262.8217387733773,
+    "range": -599.6232137299521,
+    "note": "Exact already evaluated cutoff, identical midpoint order/result,512 iteration slices; timing does not change control."
+  }
+]

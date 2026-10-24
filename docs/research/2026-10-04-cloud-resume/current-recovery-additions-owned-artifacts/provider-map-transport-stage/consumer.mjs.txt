@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {encodeCoverageOwnData,decodeCoverageOwnData} from './codec.mjs';
+export function decodeProviderCaptureV3(document,publicCoverage,ordinary){
+ assert.equal(typeof publicCoverage.createFileCoverage,'function');
+ const prototype=Object.getPrototypeOf(publicCoverage.createFileCoverage('/inert.ts'));
+ const decoded=decodeCoverageOwnData(document,prototype),identities=[];
+ const reencoded=encodeCoverageOwnData(decoded,prototype,undefined,w=>{for(const flag of ['nativeBrand','exactMapPrototype','prototypeConstructorOwnData','capturedForEachUnchanged','capturedSetUnchanged','capturedHasUnchanged'])assert.equal(w[flag],true);identities.push(w);});
+ assert.deepEqual(reencoded,document,'Consumer full internal entries/own descriptors/prototypes canonical reencode');
+ assert.equal(JSON.stringify(decoded),JSON.stringify(ordinary),'Consumer ordinary public JSON correspondence');
+ return{decoded,identities};
+}

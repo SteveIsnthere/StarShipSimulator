@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "sourceSha256": "437bc855ec8f4fafbc2ff081c987efe2d341a077a14005298ac5d34c7a5a864d",
+  "checks": [
+    {
+      "name": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.023677488999965135,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mixed-coverage-reporter-scope.l8rt8uk1/capture.mjs"
+      ]
+    },
+    {
+      "name": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8952908470018883,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--config",
+        "/workspace/StarShipSimulator/eslint.config.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/test/mixed-coverage-capture.mjs"
+      ]
+    }
+  ],
+  "providerExecuted": false
+}

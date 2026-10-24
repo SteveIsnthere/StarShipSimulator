@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "stageSHA": "0b6acf83a32eec09dd3be36cadf6ccb59e535ad672b1d991be713e5e09177827",
+  "inputSHA": "a127076c3484ac1ef0af6c4935493d6041345bd9723564d22ca3680a44fbee1e",
+  "records": [
+    {
+      "check": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.030254425000748597
+    },
+    {
+      "check": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9885250930019538
+    }
+  ],
+  "postMismatches": [],
+  "unchangedObserverNotRerun": true,
+  "cohortExecuted": false
+}

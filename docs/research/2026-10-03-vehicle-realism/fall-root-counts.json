@@ -1,0 +1,32 @@
+[
+  {
+    "h": 79000,
+    "vx": 2000,
+    "vy": -50,
+    "calls": 7280,
+    "duplicates": 3640,
+    "fast": 0,
+    "fallback": 0,
+    "zero": 7280,
+    "out": {
+      "reached": true,
+      "time": 227.276593764986,
+      "downRange": 207713.16688728545
+    }
+  },
+  {
+    "h": 60000,
+    "vx": 0,
+    "vy": 7000,
+    "calls": 32000,
+    "duplicates": 16000,
+    "fast": 0,
+    "fallback": 0,
+    "zero": 32000,
+    "out": {
+      "reached": false,
+      "time": null,
+      "downRange": 3246.2139561608574
+    }
+  }
+]

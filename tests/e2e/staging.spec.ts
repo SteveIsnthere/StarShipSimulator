@@ -1,5 +1,6 @@
 /** Actual production scene and canonical two-body clock, on all five viewports. */
-import { expect, test, type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
+import { test } from './visual-evidence-fixture';
 import type { SimDebug } from '../../src/app/debug';
 import { byTestId } from '../../src/ui/testids';
 import { ready, tap, openYoke } from './helpers';

@@ -1,0 +1,9 @@
+# First portable cloud full-frame baseline
+
+Declared before browser execution. Steve explicitly changed acceptance to this environment: “it shouldnt be mac exclusive, everything should beable to run in this env, if not fix it”. This first cloud baseline measures the current reviewed component renderer, progressive damage and restored genuine RTLS catch; no graphics optimization is applied beforehand.
+
+Run only after the parent grants the exclusive CPU/browser slot, with source and dist frozen. Use the exact managed Node22.23.3/Chromium1234, existing activation, reviewed production build and `RUN_VISUAL_BUDGET=1 E2E_SKIP_BUILD=1 npx playwright test --config playwright.visual-budget.config.ts`. One worker, zero retries, exact desktop1280×720/DPR1, phone390×844 and844×390/DPR2. The explicit supported renderer policy is SwiftShader; receipts must report the observed WebGL renderer, browser version, CPU/cgroup resources, source and build hashes. No physical handset/native-GPU claim.
+
+Measure all six unchanged base scenes plus simultaneous failure, at least300 measured frames per scene/configuration with original60-frame warmups, production session/CPU plus GPU completion, cadence, and separate failure-onset maximum. Preserve16.67/33.33ms p95 and59/29.5fps cadence and onset bounds. Exact boundaries and positive/negative probe controls remain unchanged. Source/build mismatch or missing real GPU fence is failure, never skip. The genuine catch uses unchanged default RTLS guidance and catch limits.
+
+Preserve every result and artifact, including red measurements. Do not rerun unchanged code for luck. Diagnose measured costs and reduce cosmetic work only through a declared bounded, independently reviewed approach, retaining required appearances/causal pixel controls and budgets. This baseline is not a whole gate, full five-project browser pass, photographic inspection, motion acceptance, merge or live deployment.

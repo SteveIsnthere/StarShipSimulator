@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "decision": "supported-exact-two-Fidelity-audit-source-application-readiness",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/independent-exact-two-audit-source-HIGH-review.md",
+  "reviewSha256": "b6cbf721bf66f2bd339530cf66d2b6db775cac9ab3e5a895cac6cc9fa6d3ddcb",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/input-pins.json": "cd5c1ea3be28b91bfd66959cc790724a04ad2af4b638eebb740159cb8b6fd52d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-observed-ten-digests.json": "665b849ebcfde61d452e5d7cd337c11cb9c07dbe779f621c261e68c28bc703e5",
+    "/workspace/StarShipSimulator/tests/golden/unification.test.ts": "b43c2ae8be0dc1d456f8b18cefdedf2359b79faacfec3f2956b97ec65a7902b1",
+    "/workspace/StarShipSimulator/tests/golden/booster-replay.test.ts": "c4d0171d19e76a3fd057573b46ec760b727b8c3a99595d36a01fd91b3e672ead",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/before-audit-unification.test.ts.txt": "b43c2ae8be0dc1d456f8b18cefdedf2359b79faacfec3f2956b97ec65a7902b1",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/before-audit-booster-replay.test.ts.txt": "c4d0171d19e76a3fd057573b46ec760b727b8c3a99595d36a01fd91b3e672ead",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/predictions.json": "ec68e8ab990cf833140bd3e94859425da1a409d326ad71125346d8a8235adf25",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/booster-replay.test.ts.txt.diff": "d1d51c6346f28c79bfc39d1e8607f4e70cfa25d386e3f3bfeef10dea99d23623",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/declaration.md": "c032eb02c6a52e15b8094262e00a846038f80a9ed1ec3b3f602e64183f0cdb06",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/unification.test.ts.txt.diff": "f025afa805c37619fbd174282dc69bef022c7b8b55b1b3ab8862b81cd5b50c27",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/booster-replay.test.ts.txt": "cce053083240b7af301fdcb1cd84ecfaa4810815f906141f861c561d4c38d3b4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/unification.test.ts.txt": "eddc619bfc4a2cc17d3f3355249bcf2a0bf3f08769d03af9633b0ab635297d38"
+  },
+  "verification": {
+    "shipRowsAnchors": 8,
+    "boosterWholeFileAnchors": 2,
+    "allNoncommentNonDigestCodeUnchanged": true,
+    "originalTestBodiesAndAcceptanceUnchanged": true,
+    "fixturePayloadReadDuringReview": false,
+    "workloadsExecutedByReviewer": false
+  },
+  "fixtureAcceptance": false,
+  "replayAcceptance": false,
+  "gateAcceptance": false,
+  "finiteTwelveFileBridgeStillRequired": true
+}

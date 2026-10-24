@@ -644,6 +644,8 @@ export interface ParticleSystem {
      */
     bandSpacing?: number,
     bandStrength?: number,
+    /** Startup-bounded emitter slot: zero for shared effects,1..33 for engines. */
+    emitter?: number,
   ): void;
   /** One-shot burst, for shutdowns and explosions. */
   burst(effect: EffectName, x: number, y: number, count: number, scale: number): void;
@@ -751,10 +753,19 @@ export function createParticleSystem(
 
   // Each emitter owns its jitter. A slow render batches core births before bell
   // births; a fast render interleaves them. Shared randomness changes geometry.
-  const randoms = new Map<EffectName, RandomStream>();
-  for (const name of Object.keys(EFFECTS) as EffectName[]) randoms.set(name, makeRandom(effectSeed(seed, name)));
-  /** Carried fractional particles, so a low rate still emits smoothly. */
-  const debt = new Map<EffectName, number>();
+  const emitterSlots = 34;
+  const randoms = new Map<EffectName, RandomStream[]>();
+  for (const name of Object.keys(EFFECTS) as EffectName[]) {
+    randoms.set(name, Array.from({ length: emitterSlots }, (_, slot) =>
+      makeRandom(effectSeed(seed, name) ^ Math.imul(slot, 0x9e3779b9))));
+  }
+  /** Compensated cumulative birth counts preserve fractional-rate boundaries
+   * across frame batching. Repeated fractional modulo loses80/s at120Hz. */
+  const births = new Map<EffectName, { total: Float64Array; correction: Float64Array; emitted: Float64Array }>();
+  for (const name of Object.keys(EFFECTS) as EffectName[]) births.set(name, {
+    total: new Float64Array(emitterSlots), correction: new Float64Array(emitterSlots),
+    emitted: new Float64Array(emitterSlots),
+  });
   const emissions = new Map<EmitterConfig, { dt: number; scale: number; intensity: number; spread: number }>();
   for (const config of Object.values(EFFECTS)) emissions.set(config, { dt: 0, scale: 0, intensity: 0, spread: 0 });
 
@@ -863,20 +874,26 @@ export function createParticleSystem(
       return rows;
     },
 
-    emit(effect, px, py, angle, intensity, dt, scale, spreadFactor = 1, bandSpacing = 0, bandStrength = 0) {
-      if (intensity <= 0 || dt <= 0) return;
+    emit(effect, px, py, angle, intensity, dt, scale, spreadFactor = 1, bandSpacing = 0, bandStrength = 0, emitter = 0) {
+      if (intensity <= 0 || dt <= 0 || !Number.isInteger(emitter) || emitter < 0 || emitter >= emitterSlots) return;
       const config = EFFECTS[effect];
-      const random = randoms.get(effect)!;
+      const random = randoms.get(effect)![emitter]!;
       const emission = emissions.get(config)!;
       emission.dt = dt;
       emission.scale = scale;
       emission.intensity = intensity;
       emission.spread = spreadFactor;
       const rate = config.rate * intensity;
-      const carried = debt.get(effect) ?? 0;
-      const wanted = rate * dt + carried;
-      const whole = Math.floor(wanted);
-      debt.set(effect, wanted - whole);
+      const birth = births.get(effect)!;
+      const before = birth.total[emitter]!;
+      const carried = before - birth.emitted[emitter]!;
+      const increment = rate * dt - birth.correction[emitter]!;
+      const wanted = before + increment;
+      birth.correction[emitter] = (wanted - before) - increment;
+      birth.total[emitter] = wanted;
+      const emitted = Math.floor(wanted);
+      const whole = emitted - birth.emitted[emitter]!;
+      birth.emitted[emitter] = emitted;
       for (let n = 0; n < whole; n++) {
         const delay = Math.min(dt, (n + 1 - carried) / rate);
         const i = spawn(config, random, px, py, angle, scale, spreadFactor, bandSpacing, bandStrength);
@@ -886,7 +903,7 @@ export function createParticleSystem(
 
     burst(effect, px, py, count, scale) {
       const config = EFFECTS[effect];
-      const random = randoms.get(effect)!;
+      const random = randoms.get(effect)![0]!;
       for (let n = 0; n < count; n++) {
         spawn(config, random, px, py, random() * Math.PI * 2, scale);
       }
@@ -1062,8 +1079,10 @@ export function createParticleSystem(
         free[freeCount++] = i;
       }
       liveCount = 0;
-      debt.clear();
-      for (const random of randoms.values()) random.reset();
+      for (const birth of births.values()) {
+        birth.total.fill(0); birth.correction.fill(0); birth.emitted.fill(0);
+      }
+      for (const streams of randoms.values()) for (const random of streams) random.reset();
       for (const emission of emissions.values()) {
         emission.dt = 0;
         emission.scale = 0;

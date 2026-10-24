@@ -1,0 +1,30 @@
+import { createVitest } from 'vitest/node';
+import { readFileSync,writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+const [root,research,mode,output]=process.argv.slice(2);
+assert([root,research,output].every(x=>x&&path.isAbsolute(x)));
+assert(['original','union-draft'].includes(mode));assert.equal(process.version,'v22.23.3');
+const pins=JSON.parse(readFileSync(path.join(research,'original-source-pins.json'),'utf8'));
+const overrides=new Map();for(const [relative,pin]of Object.entries(pins)){const file=path.join(root,relative),source=readFileSync(file,'utf8');
+ assert.equal(createHash('sha256').update(source).digest('hex'),pin);
+ if(mode==='union-draft')overrides.set(file,readFileSync(path.join(research,path.basename(file)+'.candidate.txt'),'utf8'));}
+// Only two canonical root loads differ; no runtime module is evaluated and no test collection is started.
+const plugins=mode==='original'?[]:[{name:'research-two-enum-source-substitution',enforce:'pre',
+ load(id){if(overrides.has(id))return overrides.get(id);return null;}}];
+let ctx,error;const captured=[];
+try{
+ ctx=await createVitest('test',{root,config:path.join(root,'vitest.config.ts'),watch:false},
+ {plugins,server:{middlewareMode:true,watch:null}});
+ const project=ctx.projects.find(p=>p.name==='unit');assert(project,'Original unit project unavailable');
+ assert.notEqual(project.config.experimental.viteModuleRunner,false);
+ const env=project.vite.environments.ssr;assert(env,'Original unit SSR environment unavailable');
+ for(const relative of Object.keys(pins)){const url='/'+relative;const result=await env.transformRequest(url);
+  assert(result&&typeof result.code==='string');assert(result.map,'Complete original source map required');
+  captured.push({relative,url,source:overrides.get(path.join(root,relative))??readFileSync(path.join(root,relative),'utf8'),result});}
+}catch(e){error=e;}finally{if(ctx)try{await ctx.close();}catch(e){error??=e;}}
+if(error)throw error;
+writeFileSync(output,JSON.stringify({kind:'configured-unit-ssr-two-enum-capture-v1',mode,node:process.version,
+ config:'vitest.config.ts',sourcePins:pins,rootTransformCount:captured.length,productImports:0,testCollections:0,
+ captured,completeGraphOracle:false,applicationApproved:false},null,2)+'\n',{flag:'wx'});

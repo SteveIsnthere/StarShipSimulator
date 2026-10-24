@@ -1,0 +1,7 @@
+# Independent HIGH source review: HOLD
+
+The latest 61-file input manifest `16250a1c9fa5d480200f3d3b70987bbfdccfe9e678873e81b8bdcbf4334cb362` and all its declared file digests match. No maker, imports, controls, build or workload ran in this review.
+
+The targeted negative controls have a deterministic source blocker. In `realm-controls.ts.txt`, the regular expression literals spell path separators with two backslashes before the dot, for example `/^root\\.n: -0 !== 0$/`. In a JavaScript regular expression literal, `\\` matches a literal backslash; the following dot is a wildcard. It does not match the comparator's literal `root.n` message. The same escaping occurs in descriptor, alias, accessor, function and mutation path anchors. The first signed-zero negative therefore cannot satisfy its expected message even when the comparator correctly rejects the value. This is a control-fixture fault, not an observed runtime fault; no control has executed.
+
+Preserve the current control source, manifest and this HOLD. Prepare a distinct narrow correction using one backslash to escape each literal dot in these regex literals. Retain all seventeen names, AssertionError and ERR_ASSERTION checks, intended diagnostic paths, positive cases and unchanged comparator. Do not loosen matching or run the current faulty controls. A fresh source reread must precede scopes/materialization/actual-input qualification. This review grants no execution, application, benchmark, timing or gate acceptance.

@@ -1,0 +1,94 @@
+// Pure exact-source fixtures only; no hooks, compiler, installed scans or physical imports.
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {resolve,relative} from 'node:path';
+import {Script} from 'node:vm';
+const [template] = process.argv.slice(2);
+const source=readFileSync(template,'utf8');
+const start='export const originalTests ='; const stop='export async function admitRun';
+assert.equal(source.split(start).length,2);assert.equal(source.split(stop).length,2);
+const body=(start+source.split(start)[1].split(stop)[0]).replace(/^export /gm,'');
+const hash='1'.repeat(64), changed='2'.repeat(64), binary='3'.repeat(64), anchorSha='4'.repeat(64);
+const originalNames=['tests/core/booster-guidance.test.ts','tests/flies-every-scenario.test.ts'];
+const roles=['failed-build-boundary','failed-build-owner','failed-build-process','failed-build-root','fresh-integrity-result',
+ 'fresh-integrity-review','body-role-evidence','body-role-review','paired-semantic-review','standalone-cost-review'];
+const aliases=['$core/scenarios','$core/state','$core/autopilot/booster','$core/step','$core/vehicles/super-heavy',
+ '$core/physics/tower-catch','$core/constants','$core/control/commands','$core/vehicle','$app/loop'];
+const clone=value=>JSON.parse(JSON.stringify(value));
+function baseFixture(){
+ const root='/foreign/checkouts/StarShipSimulator',oldRoot='/historical/StarShipSimulator';
+ const npm='/different/node/lib/node_modules/npm/bin/npm-cli.js',node='/different/node/bin/node';
+ const originals=Object.fromEntries(originalNames.map(name=>[name,hash]));
+ const base={kind:'retained-failed-compiler-reviewed-flight-composite-v1',scope:'exact-two-original-flight-files',
+  originalCompilerPipelineCode:1,originalBuildContract:'FAILED',root:oldRoot,nodeVersion:'v22.23.3',nodeBinary:binary,
+  npmCli:'/historical/node/npm-cli.js',source:{'.nvmrc':hash,'scripts/test/admission.mjs':hash,'scripts/test/build.mjs':hash,
+   'scripts/test/run.mjs':hash,...originals,'src/core/inert.ts':hash},integrationBridge:{},
+  installedTools:{'node_modules/inert/file.js':hash,'global-npm/package.json':hash},utilityDigest:hash,
+  graph:{'src/core/inert.ts':hash},originalTests:originals,options:{target:'es2022'},
+  closure:['entry.mjs','simulation-CN0-W409.js'],mappedCode:'simulation-CN0-W409.js',aliases,
+  retainedFiles:{'simulation-CN0-W409.js.map':hash},retainedEntryBytes:504,
+  baselineMapPath:oldRoot+'/docs/inert.map',retainedOriginPath:oldRoot+'/docs/origin.json',retainedOriginSha:hash,
+  evidence:roles.map(role=>({role,path:oldRoot+'/docs/'+role+'.json',sha256:hash})),
+  expectedNativeInventory:originalNames.map(file=>({file:oldRoot+'/'+file,fullName:'inert original contract'}))};
+ const anchor={kind:'portable-native-flight-anchor-v1',baseQualification:{path:'docs/base.json',sha256:hash},
+  runtime:{platform:'linux',arch:'x64',nodeVersion:base.nodeVersion,nodeBinary:binary},
+  resources:{evidence:Object.fromEntries(roles.map(role=>[role,'docs/'+role+'.json'])),baselineMapPath:'docs/inert.map',retainedOriginPath:'docs/origin.json'},
+  sourceChanges:Object.fromEntries(['.nvmrc','scripts/test/admission.mjs','scripts/test/build.mjs','scripts/test/run.mjs'].map(name=>[name,{before:hash,after:changed}]))};
+ const current=clone(base.source);for(const name of Object.keys(anchor.sourceChanges))current[name]=changed;
+ const tools=clone(base.installedTools),digests=new Map(),realpaths=new Map();
+ const input=root+'/docs/anchor.json';digests.set(input,anchorSha);digests.set(root+'/docs/base.json',hash);digests.set(node,binary);
+ for(const name of [...Object.keys(base.originalTests),...Object.keys(base.graph)])digests.set(root+'/'+name,hash);
+ for(const name of [base.baselineMapPath,base.retainedOriginPath,...base.evidence.map(row=>row.path)])digests.set(root+name.slice(oldRoot.length),hash);
+ const sandbox={assert,resolve,relative,process:{platform:'linux',arch:'x64',version:'v22.23.3',execPath:node,cwd:()=>root,env:{npm_execpath:npm}},
+  realpathSync:file=>{assert.equal(typeof file,'string');return realpaths.get(file)??file;},
+  digest:file=>{assert(digests.has(file),'Unknown inert digest '+file);return digests.get(file);},
+  parse:file=>{
+   if(file===input)return vmPlain(anchor);if(file===root+'/docs/base.json')return vmPlain(base);
+   if(file===root+'/docs/failed-build-process.json')return vmPlain({exit:{code:1,signal:null}});
+   if(file===root+'/docs/fresh-integrity-result.json')return vmPlain({completed:true,error:null,afterErrors:[],classification:{
+    originalBuildContract:'FAILED',compilerPipelineCode:1,productionAcceptance:false,mapped:clone(base.graph),completeClosure:clone(base.closure),options:clone(base.options)}});
+   throw Error('Unknown inert receipt '+file);
+  },utilities:async()=>({installedToolSnapshot:(_root,_npm)=>{assert.equal(_root,root);assert.equal(_npm,sandbox.process.env.npm_execpath);return vmPlain(tools);},sourceSnapshot:()=>vmPlain(current)})};
+ const api=new Script(body+'\n;({admitComposite,projectPortableQualification,repositoryResource,goldenDataNames,plain:value=>JSON.parse(JSON.stringify(value))});',{filename:template+':exact-portable-policy'}).runInNewContext(sandbox,{timeout:1000});
+ const vmPlain=api.plain;
+ return{root,npm,input,base,anchor,current,tools,digests,realpaths,sandbox,api,admit:()=>api.admitComposite(input,anchorSha)};
+}
+function fixture() {
+ const f=baseFixture(); const names=Array.from(f.api.goldenDataNames);
+ for(const name of names){f.base.source[name]=hash;f.current[name]=changed;}
+ const rows=names.map(path=>({path,role:path.endsWith('.ts')?'audit-literals-and-comments':'golden-json',before:hash,after:changed}));
+ const golden={kind:'reviewed-golden-data-delta-v1',status:'accepted-reviewed-recording-replay-audit',baseQualificationSha:hash,
+  postAuditSnapshot:{path:'docs/post-audit.json',sha256:hash},rows,evidence:{}};
+ const snapshot={source:clone(f.base.source),tools:clone(f.tools),node:'v22.23.3',platform:'linux',arch:'x64'};
+ for(const row of rows)snapshot.source[row.path]=row.after;
+ const records=new Map([[f.root+'/docs/golden-delta.json',golden],[f.root+'/docs/post-audit.json',snapshot]]);
+ for(const role of ['recording-result','recording-review','replay-result','replay-review','audit-review']){
+  const path='docs/golden-'+role+'.json';golden.evidence[role]={path,sha256:hash};f.digests.set(f.root+'/'+path,hash);
+ }
+ f.anchor.kind='portable-native-flight-anchor-v2';f.anchor.goldenDataDelta={path:'docs/golden-delta.json',sha256:hash};
+ for(const name of records.keys())f.digests.set(name,hash);
+ const oldParse=f.sandbox.parse;
+ f.sandbox.parse=path=>records.has(path)?f.api.plain(records.get(path)):oldParse(path);
+ return {...f,golden,snapshot};
+}
+const cases=[];
+async function test(name,body){await body();cases.push(name);}
+await test('accept exact twelve reviewed data/audit rows with full unchanged protected graph',async()=>{
+ const f=fixture(),q=await f.admit();assert.deepEqual(clone(q.graph),f.base.graph);assert.deepEqual(clone(q.originalTests),f.base.originalTests);
+ for(const row of f.golden.rows)assert.deepEqual(clone(q.integrationBridge[row.path]),{before:hash,after:changed});
+ assert.equal(q.portableProjection.goldenDataDelta.sha256,hash);
+});
+await test('accept observed unchanged row without manufacturing a source difference',async()=>{
+ const f=fixture(),row=f.golden.rows[0];row.after=hash;f.current[row.path]=hash;f.snapshot.source[row.path]=hash;
+ const q=await f.admit();assert(!Object.hasOwn(q.integrationBridge,row.path));
+});
+await test('reject changed protected source graph',async()=>{const f=fixture();f.current['src/core/inert.ts']=changed;await assert.rejects(f.admit());});
+await test('reject changed original native flight test',async()=>{const f=fixture();f.digests.set(f.root+'/'+originalNames[0],changed);f.current[originalNames[0]]=changed;await assert.rejects(f.admit());});
+await test('reject thirteenth test data authority',async()=>{const f=fixture();f.golden.rows.push({path:'tests/golden/other.json',role:'golden-json',before:hash,after:changed});await assert.rejects(f.admit());});
+await test('reject stale before digest',async()=>{const f=fixture();f.golden.rows[0].before=changed;await assert.rejects(f.admit());});
+await test('reject missing or deleted declared fixture',async()=>{const f=fixture();delete f.current[f.golden.rows[0].path];await assert.rejects(f.admit());});
+await test('reject changed audit review evidence',async()=>{const f=fixture();f.digests.set(f.root+'/'+f.golden.evidence['audit-review'].path,changed);await assert.rejects(f.admit());});
+await test('reject missing replay evidence',async()=>{const f=fixture();delete f.golden.evidence['replay-review'];await assert.rejects(f.admit());});
+await test('reject pending recording replay audit authority',async()=>{const f=fixture();f.golden.status='pending-replay';await assert.rejects(f.admit());});
+assert.equal(cases.length,10);process.stdout.write(JSON.stringify({kind:'pure-post-golden-policy-controls-v1',cases,positiveCases:2,negativeCases:8,
+ actualQualification:false,extractionStopsBeforeAdmitRun:true,physicalImports:0,installedScans:0,sourceScans:0})+'\n');

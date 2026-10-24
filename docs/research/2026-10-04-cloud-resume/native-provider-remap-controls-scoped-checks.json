@@ -1,0 +1,91 @@
+{
+  "exitCode": 0,
+  "results": [
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/cohort.mjs.txt",
+      "check": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/cohort.mjs.txt",
+      "check": "eslint",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/config.mjs.txt",
+      "check": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/config.mjs.txt",
+      "check": "eslint",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/finalize.mjs.txt",
+      "check": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/finalize.mjs.txt",
+      "check": "eslint",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/native.test.mjs.txt",
+      "check": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/native.test.mjs.txt",
+      "check": "eslint",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/raw-reporter.mjs.txt",
+      "check": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/raw-reporter.mjs.txt",
+      "check": "eslint",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/run-owned.mjs",
+      "check": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/run-owned.mjs",
+      "check": "eslint",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/ssr.test.mjs.txt",
+      "check": "node-syntax",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "source": "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls/ssr.test.mjs.txt",
+      "check": "eslint",
+      "exitCode": 0,
+      "output": ""
+    }
+  ],
+  "elapsedSeconds": 6.217080377999082,
+  "scope": "template syntax-only placeholder literals; no actual runtime materialization/import/test/provider"
+}

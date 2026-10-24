@@ -1,0 +1,23 @@
+{
+  "qualifierInput": {
+    "path": "/tmp/starship-mixed-map-input.gmpt60un/qualification-input.json",
+    "sha": "40ca0181557e4145529a56c38d9b9ea3ce476009502ddc39aa9fee8cf9bd6356"
+  },
+  "ownerInput": {
+    "path": "/tmp/starship-mixed-map-input.gmpt60un/root-owner-input.json",
+    "sha": "3ccd867654b935b7fa498d22ef03080d4279da3d1a7539e016f9824a6af43d8a"
+  },
+  "observer": {
+    "path": "/tmp/starship-mixed-map-input.gmpt60un/observer.py",
+    "sha": "66dcdb8c123ecc4643df4fb09c75b69c734a9f4779e992402cce15a6c2ef6c24"
+  },
+  "fourCodeFiles": {
+    "/tmp/starship-mixed-map-input.gmpt60un/artifact-validation.mjs": "be32fe0ef8da8b302b48ce39b010596135cf4f04e175ab2687dc09b23c2f8de1",
+    "/tmp/starship-mixed-map-input.gmpt60un/classify-closure.mjs": "9c41894af497c4d4930fb45f0c542cf02941fbcb87e546453e6afab86c0484aa",
+    "/tmp/starship-mixed-map-input.gmpt60un/qualify-retained.mjs": "ec030dd5a3433af82be9230854779834e5507793be9f6ee164baa87108167a2f",
+    "/tmp/starship-mixed-map-input.gmpt60un/run-owned.mjs": "55b77d4e186c963c7172f1ccf48a9ce3aa3d9aec1b6be04f65d22550b7db2c6b"
+  },
+  "outputCount": 16,
+  "publicCount": 13,
+  "nineScopesPassed": true
+}

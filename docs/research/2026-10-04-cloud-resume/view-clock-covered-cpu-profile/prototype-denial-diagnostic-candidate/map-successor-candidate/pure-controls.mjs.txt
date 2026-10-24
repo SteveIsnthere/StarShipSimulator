@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import {runInNewContext} from 'node:vm';
+import {types} from 'node:util';
+import {encodeCoverageOwnData as encode,decodeCoverageOwnData as decode} from './codec-map.mjs';
+const cases=[];
+const witness=w=>{assert.equal(w.nativeBrand,true);assert.equal(w.exactMapPrototype,true);assert.equal(w.prototypeConstructorOwnData,true);for(const key of ['capturedForEachUnchanged','capturedSetUnchanged','capturedHasUnchanged'])assert.equal(w[key],true);};
+function check(name,fn){fn();cases.push(name);}
+function round(v,proto){const observations=[];const tagged=encode(v,proto,undefined,w=>{witness(w);observations.push(w);});const out=decode(tagged,proto);assert.deepEqual(encode(out,proto,undefined,witness),tagged);assert.equal(JSON.stringify(out),JSON.stringify(v));return{tagged,out,observations};}
+function denied(v,message){assert.throws(()=>encode(v,undefined,undefined,witness),e=>e.code==='ERR_ASSERTION'&&e.message.includes(message));}
+check('empty native Map brand and prototype roundtrip',()=>{const r=round(new Map());assert(types.isMap(r.out));assert.equal(Object.getPrototypeOf(r.out),Map.prototype);assert.equal(r.observations.length,1);assert.equal(r.out.size,0);});
+check('nonempty string counters preserve insertion order',()=>{const r=round(new Map([['z',2],['a',0]]));assert.deepEqual([...r.out],[['z',2],['a',0]]);});
+check('all supported primitive nonstring keys exact',()=>{const v=new Map([[1,'number'],[true,'bool'],[null,'null'],[undefined,'undefined'],[NaN,'nan']]);assert.deepEqual([...round(v).out],[...v]);});
+check('native signed zero key canonicalization retained',()=>{const r=round(new Map([[-0,'zero']]));assert(Object.is([...r.out.keys()][0],0));assert(!Object.is([...r.out.keys()][0],-0));});
+check('negative zero NaN undefined values lossless',()=>{const r=round(new Map([['a',-0],['b',NaN],['c',undefined]]));assert(Object.is(r.out.get('a'),-0));assert(Number.isNaN(r.out.get('b')));assert(r.out.has('c'));assert.equal(r.out.get('c'),undefined);});
+check('object key preserves own data and identity separation',()=>{const key={x:1};const r=round(new Map([[key,2]]));assert.deepEqual([...r.out.keys()][0],key);assert.notEqual([...r.out.keys()][0],key);});
+check('Map own data descriptor flags and proto key retained',()=>{const m=new Map([['k',1]]);Object.defineProperty(m,'__proto__',{value:-0,writable:false,enumerable:true,configurable:false});const r=round(m);assert.deepEqual(Object.getOwnPropertyDescriptor(r.out,'__proto__'),Object.getOwnPropertyDescriptor(m,'__proto__'));});
+check('nested FileCoverage exact prototype and Map preserved',()=>{const proto={};const f=Object.create(proto);f.data={meta:{fnNames:new Map([['f',1]])}};const r=round(f,proto);assert.equal(Object.getPrototypeOf(r.out),proto);assert(types.isMap(r.out.data.meta.fnNames));assert.deepEqual(r.observations[0].path,['data','meta','fnNames']);});
+check('all Maps emit positive identity before recursion',()=>{const r=round({a:new Map(),b:new Map([['x',new Map()]])});assert.equal(r.observations.length,3);assert.deepEqual(r.observations.map(w=>w.path),[['a'],['b'],['b','map-value','0']]);});
+check('missing witness rejects before internal traversal',()=>assert.throws(()=>encode(new Map([['f',()=>0]])),/Exact intrinsic Map witness required/));
+check('cross realm native Map exact prototype denied',()=>denied(runInNewContext('new Map([["x",1]])'),'Unsupported provider prototype'));
+check('custom prototype native Map denied',()=>{const m=new Map();Object.setPrototypeOf(m,{});denied(m,'Unsupported provider prototype');});
+check('Map subclass denied',()=>{class ExtraMap extends Map{}denied(new ExtraMap(),'Unsupported provider prototype');});
+check('constructor named Map fake cannot authorize',()=>{const proto={constructor:function Map(){}};denied(Object.create(proto),'Unsupported provider prototype');});
+check('provider proxy denies before traps',()=>{let calls=0;const v=new Proxy(new Map(),{getPrototypeOf(){calls++;return Map.prototype;},ownKeys(){calls++;return[];},get(){calls++;return undefined;}});denied(v,'Proxy provider object unsupported');assert.equal(calls,0);});
+check('own accessor iterator never called and denied',()=>{let calls=0;const m=new Map();Object.defineProperty(m,'iterator',{get(){calls++;return()=>0;}});denied(m,'Accessor property unsupported');assert.equal(calls,0);});
+check('own forEach accessor never called and denied',()=>{let calls=0;const m=new Map([['a',1]]);Object.defineProperty(m,'forEach',{get(){calls++;return()=>0;}});denied(m,'Accessor property unsupported');assert.equal(calls,0);});
+check('symbol Map key remains unsupported',()=>denied(new Map([[Symbol('x'),1]]),'Unsupported function/symbol/bigint'));
+check('symbol own key remains unsupported',()=>{const m=new Map();m[Symbol('x')]=1;denied(m,'Symbol own key unsupported');});
+check('function key remains unsupported',()=>denied(new Map([[()=>0,1]]),'Unsupported function/symbol/bigint'));
+check('shared entry object identity remains denied',()=>{const v={};denied(new Map([[v,v]]),'Repeated identity/cycle');});
+check('Map cycles remain denied',()=>{const m=new Map();m.set('self',m);denied(m,'Repeated identity/cycle');});
+check('duplicate tagged SameValueZero keys rejected',()=>{const doc={encoding:'coverage-own-data-map-v3',value:['map',[[['number','NaN'],['number',1]],[['number','NaN'],['number',2]]],[]]};assert.throws(()=>decode(doc),/Duplicate native Map key/);});
+check('malicious tagged negative zero key fails reencode equality',()=>{const doc={encoding:'coverage-own-data-map-v3',value:['map',[[['number','-0'],['number',1]]],[]]};const out=decode(doc);assert.throws(()=>assert.deepEqual(encode(out,undefined,undefined,witness),doc));});
+check('malformed Map entry and own descriptor rejected',()=>{for(const v of [['map',[[['null']]],[]],['map',[],[['x',['null'],true]]]])assert.throws(()=>decode({encoding:'coverage-own-data-map-v3',value:v}));});
+check('Map nested depth cap remains unchanged',()=>{let v=0;for(let i=0;i<66;i++)v=new Map([['x',v]]);assert.throws(()=>encode(v,undefined,undefined,witness),e=>e.code==='ERR_ASSERTION');});
+assert.equal(cases.length,26);assert.equal(new Set(cases).size,26);
+console.log(JSON.stringify({kind:'canonical-map-codec-inert-controls-v1',completed:true,code:0,cases,physicalImports:0,coverageImports:0,original17Repeated:false,original20Repeated:false,prototypeAuthorityExpanded:true}));

@@ -1,0 +1,60 @@
+/** Read-only ledger of EXACT attempt1 durations. No new trial duration/live flight.
+ * Simulates the existing prefix choice, never an optimized production scheduler. */
+import {writeFileSync,readFileSync} from 'node:fs';import {createHash} from 'node:crypto';
+import {createScenarioVehicle,PRESETS} from '../../../src/core/scenarios';
+import {step,advanceMechanics} from '../../../src/core/step';
+import {runBoosterPolicy} from '../../../src/core/autopilot/booster';
+import {createBoosterReadyWork,advanceBoosterForecast,boosterRemainingAfterPrefix,type BoosterPrefix} from '../../../src/core/control/booster-forecast';
+import {cloneBoosterMechanics} from '../../../src/core/control/booster-source';
+import type {MechanicalAdvance} from '../../../src/core/control/mechanical';
+import {SUPER_HEAVY,RETURN_ENGINES} from '../../../src/core/vehicles/super-heavy';
+import {rad} from '../../../src/core/units';
+import {engineMassFlow} from '../../../src/core/physics/propulsion';
+import {getTotalMaxThrust} from '../../../src/core/physics/engines';
+import {createDamageMassProperties} from '../../../src/core/physics/damage-mass';
+import {writeFlightMassQuery} from '../../../src/core/physics/flight-mass-query';
+const files=['src/core/control/booster-prediction.ts','src/core/control/booster-forecast.ts','src/core/control/booster-arrival.ts','src/core/state.ts','src/core/step.ts','src/core/physics/step-dynamics.ts'];
+function hashes(){return Object.fromEntries(files.map(f=>[f,createHash('sha256').update(readFileSync(f)).digest('hex')]));}
+const beforeHash=hashes();
+let s=createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!,123).state;s.autopilot.autoLandOn=true;s=step(s,1/120,{},SUPER_HEAVY);
+const job=s.autopilot.boosterPrediction!,origin=cloneBoosterMechanics(job.origin),mass=createDamageMassProperties();writeFlightMassQuery(origin,SUPER_HEAVY,mass);
+const acceleration=getTotalMaxThrust(RETURN_ENGINES.map(()=>true),origin.atmosphere.airPressure,SUPER_HEAVY)/mass.totalMass;
+const rawHint=Math.abs(origin.autopilot.boosterRangeError!)/(acceleration*origin.autopilot.boosterFallTime!);
+const rows:any[]=[{event:'origin',time:origin.world.environmentTime,phase:origin.autopilot.boosterPhase,range:origin.autopilot.boosterRangeError,
+ fallTime:origin.autopilot.boosterFallTime,retainedMass:mass.totalMass,plannedAcceleration:acceleration,rawHint,upper:job.upperDuration,
+ upperQuarter:job.upperDuration/4,first:job.firstDuration,engineMassFlow:engineMassFlow(SUPER_HEAVY.propulsion,'sea-level'),beforeHash}];
+let prefix:BoosterPrefix|undefined,startup:BoosterPrefix|undefined;
+let charged:Record<string,number>={},chargedDt:Record<string,number>={};
+const metadata=new Map<BoosterPrefix,Record<string,number>>(),allPrefixes:any[]=[];
+const advance:MechanicalAdvance=(previous,dt,control,model)=>{
+ const phase=previous.autopilot.boosterPhase??'unset';
+ const key=phase==='boostback'?(RETURN_ENGINES.every(i=>previous.engines.running[i])?(dt===.05?'steady-boost':'boost-tail'):'startup'):phase;
+ charged[key]=(charged[key]??0)+1;chargedDt[key]=(chargedDt[key]??0)+dt;
+ return advanceMechanics(previous,dt,control,model);
+};
+for(const duration of [2907/120,2906/120,2895/120,2891/120,2892/120]){
+ charged={};chargedDt={};
+ const chosen=prefix && boosterRemainingAfterPrefix(duration,prefix)>0?prefix:startup;
+ const reused=chosen?metadata.get(chosen)??{}:{};
+ const work=createBoosterReadyWork(origin,rad(0),duration,undefined,chosen);
+ let lastPrefix:BoosterPrefix|undefined=chosen;
+ while(!work.done && work.result.steps<4000){
+  advanceBoosterForecast(work,1,advance,runBoosterPolicy,SUPER_HEAVY);
+  if(work.prefix && work.prefix!==lastPrefix){
+   lastPrefix=work.prefix;const full={...reused};for(const [k,v] of Object.entries(charged))full[k]=(full[k]??0)+v;
+   metadata.set(work.prefix,full);
+   allPrefixes.push({sourceDuration:duration,steps:work.prefix.steps,boostTicks:work.prefix.boostSteps+6*work.prefix.steadySteps,
+    boostSteps:work.prefix.boostSteps,steadySteps:work.prefix.steadySteps,time:work.prefix.time,cutoffClock:work.prefix.cutoffClock,phaseCounts:full});
+  }
+ }
+ if(work.startupPrefix)startup=work.startupPrefix;
+ if(work.prefix && (!prefix || work.prefix.steadySteps<prefix.steadySteps))prefix=work.prefix;
+ rows.push({event:'candidate',duration,ticks:Math.round(duration*120),charged:Object.values(charged).reduce((a,b)=>a+b,0),phaseCounts:charged,
+  phaseElapsed:chargedDt,reusedCounts:reused,reusedSteps:chosen?.steps??0,reusedBoostTicks:chosen?(chosen.boostSteps+6*chosen.steadySteps):0,
+  totalSteps:work.result.steps,coarseRange:work.result.rangeError,shutdownAt:work.shutdownAt,
+  selectedPrefix:chosen?{time:chosen.time,steadySteps:chosen.steadySteps,boostSteps:chosen.boostSteps}:undefined,
+  finalPrefix:prefix?{steps:prefix.steps,steadySteps:prefix.steadySteps,boostSteps:prefix.boostSteps}:undefined,
+  bestEarlierCommonPrefix:allPrefixes.filter(p=>p.sourceDuration!==duration && p.boostTicks<Math.round(duration*120)).sort((a,b)=>b.boostTicks-a.boostTicks)[0]});
+}
+rows.push({event:'source-stability',afterHash:hashes(),unchanged:JSON.stringify(beforeHash)===JSON.stringify(hashes())});
+writeFileSync('docs/research/2026-10-03-vehicle-realism/booster-planner-advance-ledger.json',JSON.stringify(rows,null,2)+'\n');console.log(JSON.stringify(rows,null,2));

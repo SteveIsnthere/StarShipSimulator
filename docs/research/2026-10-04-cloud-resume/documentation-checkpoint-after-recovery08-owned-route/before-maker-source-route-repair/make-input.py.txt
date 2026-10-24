@@ -1,0 +1,60 @@
+"""Unexecuted private code/input materialization only; never copies episode artifacts."""
+from pathlib import Path
+import hashlib
+import json
+import os
+import sys
+import uuid
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+pins_path, expected = sys.argv[1:]
+assert digest(pins_path) == expected
+pins = json.loads(Path(pins_path).read_text())
+assert pins['kind'] == 'documentation-checkpoint-after-recovery08-archive-owned-route-source-pins-v1'
+for row in pins['files']:
+    assert digest(row['path']) == row['sha256'], row['path']
+root = Path('/workspace/StarShipSimulator')
+directory = Path('/tmp') / ('starship-documentation-after08-archive-input.' + uuid.uuid4().hex)
+directory.mkdir(mode=0o700)  # Exclusive single namespace; no retry or cleanup.
+source = root / 'docs/research/2026-10-04-cloud-resume'
+observer_source = source / 'documentation-checkpoint-after-recovery08-archive-owned-route/root-observer.py.txt'
+script_source = source / 'documentation-checkpoint-after-recovery08-archive-owned-route/archive.py.txt'
+proposal = source / 'documentation-checkpoint-after-recovery08-archive-owned-route/proposal.json'
+roles = {}
+for role, original, name in [('observer', observer_source, 'observer.py'), ('script', script_source, 'archive.py')]:
+    target = directory / name
+    with target.open('xb') as stream:
+        stream.write(original.read_bytes()); stream.flush(); os.fsync(stream.fileno())
+    target.chmod(0o600)
+    assert digest(target) == digest(original)
+    roles[role] = {'path': str(target), 'sha': digest(target)}
+roles['proposal'] = {'path': str(proposal), 'sha': digest(proposal)}
+roles['python'] = pins['python']
+assert Path(sys.executable).resolve() == Path(roles['python']['path']).resolve()
+assert digest(sys.executable) == roles['python']['sha']
+authority = json.loads(proposal.read_text())
+assert authority['scriptSha256'] == roles['script']['sha']
+files = {row['path']: row['sha256'] for row in pins['files']}
+for row in authority['references']:
+    assert digest(row['path']) == row['sha256']
+    files[row['path']] = row['sha256']
+for row in roles.values():
+    files[row['path']] = row['sha']
+inventory = directory / 'inventory.json'
+inventory.write_text(json.dumps({'kind': 'documentation-checkpoint-after-recovery08-archive-external-inputs-v1', 'files': files}, indent=2) + '\n')
+inventory.chmod(0o600)
+roles['pins'] = {'path': str(inventory), 'sha': digest(inventory)}
+output = root / 'docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-artifacts'
+assert not os.path.lexists(output)
+owner = {'kind': 'documentation-checkpoint-after-recovery08-archive-owner-input-v1', 'mode': 'documentation-checkpoint-after-recovery08-archive',
+         'root': str(root), 'outerMs': 60000, 'archiveOutput': str(output), **roles}
+actual = directory / 'input.json'
+actual.write_text(json.dumps(owner, indent=2) + '\n'); actual.chmod(0o600)
+for row in pins['files']:
+    assert digest(row['path']) == row['sha256']
+assert digest(pins_path) == expected
+print(json.dumps({'preparedOnly': True, 'archiveExecuted': False, 'setup': str(directory),
+                  'inputPath': str(actual), 'inputSha': digest(actual),
+                  'argv': [roles['python']['path'], roles['observer']['path'], str(actual), digest(actual)]}))

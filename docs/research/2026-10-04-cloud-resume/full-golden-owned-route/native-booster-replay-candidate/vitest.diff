@@ -1,0 +1,11 @@
+--- vitest.config.ts
++++ candidate
+@@ -4,7 +4,7 @@
+ // @ts-expect-error -- plain-JS native admission helper
+ import { nativeFlightProject } from './scripts/test/projects.mjs';
+ const nativeProject = await nativeFlightProject();
+-const nativeRoots = nativeProject ? ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts'] : [];
++const nativeRoots = nativeProject ? ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts', 'tests/golden/booster-replay.test.ts'] : [];
+ 
+ // @ts-expect-error -- plain-JS gate helper, intentionally untyped
+ import { coverageExclusions } from './scripts/coverage-exclusions.mjs';

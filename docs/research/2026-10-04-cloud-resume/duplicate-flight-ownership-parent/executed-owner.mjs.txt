@@ -1,0 +1,36 @@
+/** Research proof owner. No product tests/config edits or actual physics. */
+import fs from 'node:fs';import path from 'node:path';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {fileURLToPath} from 'node:url';import assert from 'node:assert/strict';
+import {runOwnedCommand,verifyNoOwnedProcesses} from '/workspace/StarShipSimulator/scripts/bench/owned-command.mjs';
+const repo='/workspace/StarShipSimulator',research=`${repo}/docs/research/2026-10-04-cloud-resume`;
+assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'duplicate-flight-ownership-proof');assert.equal(process.version,'v22.23.3');process.chdir(repo);
+const expected=JSON.parse(fs.readFileSync(`${research}/duplicate-flight-ownership-expected-pins.json.txt`,'utf8'));
+const sha=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+for(const [file,digest]of Object.entries(expected))assert.equal(sha(`${research}/${file}`),digest,file);
+const executedOuter=fileURLToPath(import.meta.url);assert.equal(sha(executedOuter),expected['duplicate-flight-ownership-owner.mjs.txt']);
+const dir=fs.mkdtempSync(`${research}/.duplicate-flight-ownership-proof-`);fs.chmodSync(dir,0o700);
+const save=(file,value)=>fs.writeFileSync(`${dir}/${file}`,JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const pairs=[['duplicate-flight-observations.ts.txt','observations.ts'],['duplicate-flight-ownership-proof.test.ts.txt','ownership.test.ts'],['duplicate-flight-ownership-config.ts.txt','config.ts'],['duplicate-flight-ownership-runner.mjs.txt','runner.mjs'],['duplicate-flight-ownership-finalize.mjs.txt','finalize.mjs']];
+for(const [template,actual]of pairs){fs.copyFileSync(`${research}/${template}`,`${dir}/${actual}`,fs.constants.COPYFILE_EXCL);assert.equal(sha(`${dir}/${actual}`),expected[template]);}
+function manifest(){
+ const files=execFileSync('git',['ls-files','-z','--cached','--others','--exclude-standard'],{encoding:'utf8'}).split('\0').filter(p=>/^(src\/|tests\/|scripts\/|public\/|\.agents\/|package[^/]*\.json$|[^/]*config\.[^/]+$|\.nvmrc$)/.test(p));
+ for(const name of Object.keys(expected))files.push(`${research}/${name}`);
+ files.push(`${research}/duplicate-flight-ownership-expected-pins.json.txt`);
+ files.push(executedOuter);
+ for(const [,actual]of pairs)files.push(`${dir}/${actual}`);
+ // Pin installed public API, task lifecycle, mock detection and reporter implementation.
+ for(const root of ['node_modules/vitest','node_modules/@vitest','node_modules/vite']){
+  function walk(p){for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=path.join(p,e.name);if(e.isDirectory())walk(f);else if(e.isFile())files.push(f);}}walk(root);
+ }
+ files.push(process.execPath);
+ return{node:process.version,head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),expected,executed:Object.fromEntries(pairs.map(([template,actual])=>[actual,{template,sha256:sha(`${dir}/${actual}`)}])),hashes:Object.fromEntries([...new Set(files)].sort().map(f=>[f,fs.existsSync(f)?sha(f):null]))};
+}
+const before=manifest();save('before-pins.json',before);
+let primary;
+try{const code=await runOwnedCommand({name:'ownership',args:[`${dir}/runner.mjs`,`${dir}/config.ts`],env:{...process.env,DUPLICATE_FLIGHT_PROOF_FILE:`${dir}/ownership.test.ts`,DUPLICATE_FLIGHT_PROOF_RECEIPT:dir},root:repo,receipt:dir,deadlineMs:30000});assert.equal(code,0);}catch(error){primary=error;}
+finally{try{save('independent-owned-absence.json',verifyNoOwnedProcesses());}catch(error){primary??=error;}
+ try{const after=manifest();save('after-pins.json',after);assert.deepEqual(after,before);}catch(error){primary??=error;}}
+if(primary){save('owner-failure.json',{error:String(primary)});throw primary;}
+try{const finalizeCode=await runOwnedCommand({name:'ownership-finalize',args:[`${dir}/finalize.mjs`,dir],env:process.env,root:repo,receipt:dir,deadlineMs:5000});assert.equal(finalizeCode,0);}catch(error){primary=error;}
+finally{try{save('post-finalize-owned-absence.json',verifyNoOwnedProcesses());const finalPins=manifest();save('post-finalize-pins.json',finalPins);assert.deepEqual(finalPins,before);}catch(error){primary??=error;}}
+if(primary){save('finalizer-failure.json',{error:String(primary)});throw primary;}
+save('owner-completed.json',{ownershipTests:6,childExit:0,productAcceptance:false});

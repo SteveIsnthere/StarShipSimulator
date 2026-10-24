@@ -2,8 +2,9 @@
  * another vehicle; independent old routines defend unchanged Ship output. */
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
-import { SHIP } from '$core/vehicle';
-import { createInitialState, cloneState } from '$core/state';
+import { HISTORICAL_SHIP as SHIP } from '../reference/historical-vehicles';
+import { cloneState } from '$core/state';
+import { createInitialState } from './fixtures/historical-runtime';
 import { rad } from '$core/units';
 import * as guidance from '$core/control/guidance-physics';
 import * as primitive from '$core/control/primitives';
@@ -16,13 +17,13 @@ const actuator = { ...SHIP, dryCentreOfMass: 40, frontFinArea: 10, aftFinArea: 5
 describe('guidance uses selected physical geometry', () => {
   it('sizes tail-first drag with the selected axial area', () => {
     const scratch = guidance.createBurnScratch();
-    const original = guidance.tailFirstDragDeceleration(1000, 100, 350_000, scratch);
+    const original = guidance.tailFirstDragDeceleration(1000, 100, 350_000, scratch, SHIP);
     expect(guidance.tailFirstDragDeceleration(1000, 100, 350_000, scratch, wide)).toBe(original * 4);
   });
 
   it('rejects a burn that would spend fuel below the selected dry mass', () => {
     const heavyStructure = { ...SHIP, dryMass: 490_000 };
-    expect(guidance.landingBurnStartAltitude(3, 500_000, 200, 50, guidance.createBurnScratch())).not.toBeNull();
+    expect(guidance.landingBurnStartAltitude(3, 500_000, 200, 50, guidance.createBurnScratch(), SHIP)).not.toBeNull();
     expect(guidance.landingBurnStartAltitude(3, 500_000, 200, 50, guidance.createBurnScratch(), heavyStructure)).toBeNull();
   });
 
@@ -33,7 +34,7 @@ describe('guidance uses selected physical geometry', () => {
     state.kinematics.speedY = -70;
     const a = guidance.createFallResult();
     const b = guidance.createFallResult();
-    guidance.unpoweredFallInto(state, 25, guidance.createBurnScratch(), a);
+    guidance.unpoweredFallInto(state, 25, guidance.createBurnScratch(), a, SHIP);
     guidance.unpoweredFallInto(state, 25, guidance.createBurnScratch(), b, wide);
     expect(a.reached).toBe(true);
     expect(b.reached).toBe(true);
@@ -86,9 +87,16 @@ describe('Ship guidance numerical equivalence', () => {
         for (const speed of [0, 10, 70, 200, 400]) {
           const a = guidance.createBurnScratch();
           const b = shipped.createBurnScratch();
+          const fallWork = a.fallWork;
           expect(guidance.landingBurnStartAltitude(engines, mass, speed, 25, a, SHIP))
             .toBe(shipped.landingBurnStartAltitude(engines, mass, speed, 25, b));
-          expect(a).toEqual(b);
+          // The new reusable fall workspace is independent of the burn's
+          // original scratch leaves; preserve every original numerical leaf.
+          const { fallWork: retainedFallWork, ...burnScratch } = a;
+          expect(burnScratch).toEqual(b);
+          expect(retainedFallWork).toBe(fallWork);
+          expect(retainedFallWork.steps).toBe(0);
+          expect(retainedFallWork.state).toBeNull();
         }
       }
     }

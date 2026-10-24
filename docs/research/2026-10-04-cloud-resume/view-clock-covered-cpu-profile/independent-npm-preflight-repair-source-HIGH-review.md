@@ -1,0 +1,5 @@
+# Independent minimal npm identity repair source HIGH
+
+The only executed owner source change is binding process.env.npm_execpath=m.npmCli immediately after chdir. I verified the exact single replacement against the archived937bd580 owner and all33 current input pins. Managed npmCli is already derived from immutable pinned q73; this route uses only its npm path, not stale flight admission. The accepted original12 owner binds the same environment before its strict installed snapshot. Source, installed snapshot implementation, child environment, recorder, config generation, cases, profiles, floor classification, caps and ownership are unchanged.
+
+The failed original private owner/input/raw receipts remain byte-identical. This fixes the observed missing identity without suppressing strict npm/package/link/tool checks. Supported next steps are changed-source scoped checks, a distinct maker episode and fresh actual-input review; no execution grant or profile/coverage/gate acceptance is given here. The first attempt stays FAILED with absent installed maps and no testcase/profile execution.

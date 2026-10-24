@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "error": null,
+  "childExit": 0,
+  "beforeAfterExact": true,
+  "localAbsence": [
+    {
+      "pid": 62584,
+      "start": "3885542",
+      "group": 62584,
+      "executing": []
+    }
+  ],
+  "actualProcessPath": "vite-build.process.json",
+  "processSha256": "ecdd284584759d837e7e2e871ac30cf0c414fefa5087f15b2f12e30498f17e9d",
+  "childDeadlineMs": 60000,
+  "externalOwnerDeadlineMs": 120000,
+  "independentParentAllTrackedAbsenceRequired": true,
+  "browserLaunched": false,
+  "applicationBuildExecuted": false
+}

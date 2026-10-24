@@ -1,0 +1,28 @@
+{
+  "kind": "query-census-inert-reporting-controls-v1",
+  "names": [
+    "step return identity and original defaults",
+    "reset clears every scalar",
+    "step preserves exact thrown object and closes frame",
+    "last attempted horizon throw is not successful horizon",
+    "reentrant successful calls close independently",
+    "observer digest zero remains nonacceptance despite raw failed task",
+    "observer retains nonidentical raw evidence before denial",
+    "observer retains illegal digest work before denial",
+    "observer successful horizon still does not certify state time or samples",
+    "observer failed last horizon remains incomplete",
+    "observer unknown case rejected before write",
+    "observer duplicate registration rejected"
+  ],
+  "observations": [
+    {
+      "sourceSha256": "64b889f24977dc9bf5cc986b4ef2a28e8ef5f5996c73aed3f6b19a2dcf804abe",
+      "emittedSha256": "9dc60837b839d8a7836b2ee00b043400c5e8148169dad5d6307b07ac9f7594f0",
+      "hookSha256": "40e8e0196329ea6ab34189af10a4e3d8dae02ee88c2df903995ed74f03cf201d"
+    }
+  ],
+  "physicalImports": false,
+  "publicVitestLifecycleExercised": false,
+  "sourceCoupledInertCallbacks": true,
+  "acceptance": false
+}

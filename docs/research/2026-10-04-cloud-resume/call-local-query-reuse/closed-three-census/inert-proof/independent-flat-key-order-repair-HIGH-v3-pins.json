@@ -1,0 +1,20 @@
+{
+  "kind": "independent-inert-flat-key-order-source-HIGH-v3",
+  "sourceReadyForScopesAndMakerPreparation": true,
+  "executionApproved": false,
+  "full55BodyClosure": false,
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/input-pins.json": "6c1560dcbd2be641a334c44d1e47e06663354f10fc109de21eadc416a60597f1",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/make-input.py.txt": "5f604ac0e7fcc0cca67c63d61980dd4810eee99e7baaae26188db33ea1a77d9a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/driver.mjs.txt": "661c3c6b2f75f957eec769b5f35949d1b99a30237fe84e45b8a2bc9c62f1e6a8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/owner.mjs.txt": "0cae6a3dea35c81a9b33c5e7b91a0b438752716adeb9ef0e43c9b9d162bb30e7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/authority-successor.json": "477ef9cfc087feaddc8318d7f07600f76978f7bc214175f66972f11468f97fee",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/builder.mjs.txt": "310b88fb965083eea0d41c408ae971058d1e42ab3c374ba1e44542d43cc13d7e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/root-observer.py.txt": "d252517cfbd8d382e7097cd647e7ec078f9e2296d0d97a72bd3e66a0d7b83e2e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/declaration.md": "258322feb1fcbd72d11b228fdf787249e15fbb2b9e92d0955c655f59e5766154",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/independent-flat-key-order-repair-HIGH-v3.md": "28744dd1d525800132a763cd6252c9397bb51f3b29a123b93bd472a5cfa13bdf",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/before-flat-key-order-repair/input-pins.json": "0383e138cfdea984a009c6becd2942dff56689085c7dfc001682db173c76c106",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/before-flat-key-order-repair/make-input.py.txt": "ceb78ba63ec9826424b2988617611e043677124841acf3abb4207c314efcf2c4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof/before-flat-key-order-repair/driver.mjs.txt": "08d194356fc39083244fdf74575366d481a3c3bf6bfe2a41c71c7f6b76e82cf9"
+  }
+}

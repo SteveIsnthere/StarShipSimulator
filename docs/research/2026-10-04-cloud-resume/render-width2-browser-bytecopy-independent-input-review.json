@@ -1,0 +1,15 @@
+{
+  "kind": "independent-actual-input-review",
+  "inputPath": "/tmp/starship-width2-browser-input.f40fbe45cd12428f896ca861e9d439e4/owner-input.json",
+  "inputSha256": "12c09c14fe6ec316532d45b8e62adfcfef2e16e016a79483b0d6e0ff7b2dee96",
+  "sourceManifestSha256": "f9d6b6d82a1fdfafb3189037b8a4dc518f76712fec1d7f9d32ba3602e8b58039",
+  "mode": "prepare",
+  "purpose": "width2-browser-bytecopy",
+  "outerMs": 60000,
+  "helperMs": 44000,
+  "eightSmallSourceRoleDigestsExact": true,
+  "rootRuntimeDigestCheckRequired": true,
+  "builderAndFailedQualifierPinnedButUnreachableInPrepareOnlyStage": true,
+  "approvedCommandAfterActivation": "NODE_OPTIONS= /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12 /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt /tmp/starship-width2-browser-input.f40fbe45cd12428f896ca861e9d439e4/owner-input.json 12c09c14fe6ec316532d45b8e62adfcfef2e16e016a79483b0d6e0ff7b2dee96",
+  "disposition": "one-offline-browser-bytecopy-preparation-only; actual review and ALL owned absence before later browser grant"
+}

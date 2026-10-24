@@ -1,0 +1,431 @@
+{
+  "original": {
+    "keys": [
+      "stack",
+      "message",
+      "generatedMessage",
+      "name",
+      "code",
+      "actual",
+      "expected",
+      "operator",
+      "diff"
+    ],
+    "descriptors": {
+      "stack": {
+        "kind": "accessor",
+        "enumerable": false,
+        "configurable": true,
+        "get": {
+          "type": "function",
+          "name": "",
+          "length": 0,
+          "source": "function () { [native code] }",
+          "ownDescriptors": {
+            "length": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "number"
+            },
+            "name": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "string"
+            }
+          }
+        },
+        "set": {
+          "type": "function",
+          "name": "",
+          "length": 1,
+          "source": "function () { [native code] }",
+          "ownDescriptors": {
+            "length": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "number"
+            },
+            "name": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "string"
+            }
+          }
+        }
+      },
+      "message": {
+        "kind": "data",
+        "enumerable": false,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "root.n: -0 !== 0"
+      },
+      "generatedMessage": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "boolean",
+        "value": false
+      },
+      "name": {
+        "kind": "data",
+        "enumerable": false,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "AssertionError"
+      },
+      "code": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "ERR_ASSERTION"
+      },
+      "actual": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "boolean",
+        "value": false
+      },
+      "expected": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "boolean",
+        "value": true
+      },
+      "operator": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "=="
+      },
+      "diff": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "simple"
+      }
+    }
+  },
+  "canonicalAssertion": {
+    "keys": [
+      "stack",
+      "message",
+      "generatedMessage",
+      "name",
+      "code",
+      "actual",
+      "expected",
+      "operator",
+      "diff"
+    ],
+    "descriptors": {
+      "stack": {
+        "kind": "accessor",
+        "enumerable": false,
+        "configurable": true,
+        "get": {
+          "type": "function",
+          "name": "",
+          "length": 0,
+          "source": "function () { [native code] }",
+          "ownDescriptors": {
+            "length": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "number"
+            },
+            "name": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "string"
+            }
+          }
+        },
+        "set": {
+          "type": "function",
+          "name": "",
+          "length": 1,
+          "source": "function () { [native code] }",
+          "ownDescriptors": {
+            "length": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "number"
+            },
+            "name": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "string"
+            }
+          }
+        }
+      },
+      "message": {
+        "kind": "data",
+        "enumerable": false,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "canonical sentinel"
+      },
+      "generatedMessage": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "boolean",
+        "value": false
+      },
+      "name": {
+        "kind": "data",
+        "enumerable": false,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "AssertionError"
+      },
+      "code": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "ERR_ASSERTION"
+      },
+      "actual": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "boolean",
+        "value": false
+      },
+      "expected": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "boolean",
+        "value": true
+      },
+      "operator": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "=="
+      },
+      "diff": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "simple"
+      }
+    }
+  },
+  "ordinaryError": {
+    "keys": [
+      "stack",
+      "message"
+    ],
+    "descriptors": {
+      "stack": {
+        "kind": "accessor",
+        "enumerable": false,
+        "configurable": true,
+        "get": {
+          "type": "function",
+          "name": "",
+          "length": 0,
+          "source": "function () { [native code] }",
+          "ownDescriptors": {
+            "length": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "number"
+            },
+            "name": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "string"
+            }
+          }
+        },
+        "set": {
+          "type": "function",
+          "name": "",
+          "length": 1,
+          "source": "function () { [native code] }",
+          "ownDescriptors": {
+            "length": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "number"
+            },
+            "name": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "string"
+            }
+          }
+        }
+      },
+      "message": {
+        "kind": "data",
+        "enumerable": false,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "ordinary sentinel"
+      }
+    }
+  },
+  "stackIdentity": {
+    "assertion": {
+      "bothOwn": true,
+      "sameKind": true,
+      "sameGetter": true,
+      "sameSetter": true,
+      "sameEnumerable": true,
+      "sameConfigurable": true
+    },
+    "ordinary": {
+      "bothOwn": true,
+      "sameKind": true,
+      "sameGetter": true,
+      "sameSetter": true,
+      "sameEnumerable": true,
+      "sameConfigurable": true
+    }
+  },
+  "originalClass": {
+    "isPublicAssertionError": true,
+    "samePublicPrototype": true
+  },
+  "rejectingKey": "stack",
+  "descriptorOrder": [
+    "stack"
+  ],
+  "helperSourceDigest": "3496996ee950ea8d5921b8928f9370cdb371a8f8459e35dc077106773db863f0",
+  "recipeDigest": "01471080567a036eb60ec232ec195ad6a570eab0d20a60ef2397b65b36d21112",
+  "originalControlSourceDigest": "787a1502e26bb6437a02ed91778987638eb6315a808aa89d11524d95b4574ace",
+  "unknown": {
+    "keys": [
+      "name",
+      "message",
+      "stack"
+    ],
+    "descriptors": {
+      "name": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "Unknown"
+      },
+      "message": {
+        "kind": "data",
+        "enumerable": true,
+        "configurable": true,
+        "writable": true,
+        "valueType": "string",
+        "value": "unknown sentinel"
+      },
+      "stack": {
+        "kind": "accessor",
+        "enumerable": false,
+        "configurable": true,
+        "get": {
+          "type": "function",
+          "name": "get",
+          "length": 0,
+          "source": "get(){unknownGetterCalls++;return'forbidden';}",
+          "ownDescriptors": {
+            "length": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "number"
+            },
+            "name": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "string"
+            }
+          }
+        },
+        "set": {
+          "type": "function",
+          "name": "set",
+          "length": 1,
+          "source": "set(_value){unknownGetterCalls++;}",
+          "ownDescriptors": {
+            "length": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "number"
+            },
+            "name": {
+              "kind": "data",
+              "enumerable": false,
+              "configurable": true,
+              "writable": false,
+              "valueType": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "unknownIdentity": {
+    "sameGetter": false,
+    "sameSetter": false
+  },
+  "unknownGetterCalls": 0
+}

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "decision": "HOLD-source-readiness-before-scopes-maker-archive-or-selection",
+  "sourceManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/source-pins.json",
+    "sha256": "da326a19474abb0b725efb025ca6ec5dba3cfe6769cbf597bdccdccca1c0c9b2"
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/independent-source-HOLD-review.md",
+    "sha256": "7f4dce526158ad51524771c447a43a51c57094d2ccbc7d5198701f1269bd6912"
+  },
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/archive.py.txt",
+      "sha256": "3240f5cb277cd480d58c3cd9c9ad3e0468d809b05cf7ac707d21448571f1b901"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/proposal.json",
+      "sha256": "ded73087458e3317046de0a619f2958b09ff847033172e41741bd63c1dbff110"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/root-observer.py.txt",
+      "sha256": "130e4be7746d9d18e04c0704e7acb228551631b2f32dc6071c4cd5ee0761ce39"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/make-input.py.txt",
+      "sha256": "702bb107dc6749d3b411eb306bb80b4b0ae7194e31fcb29110ecdbbf1ba0c72c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/capture-selection.py.txt",
+      "sha256": "66791db0448870459ed8a87d658e6db430f1f13db51d9b7b34b135d7f3b61435"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/PLAN.md",
+      "sha256": "db771c2e3e8d7db7ba408ea2d9025f2b1a028921eafbd2d02b304610ce292e5b"
+    }
+  ],
+  "runtimeExecuted": false,
+  "artifactPayloadsRead": false,
+  "archiveOrSelectionApproved": false
+}

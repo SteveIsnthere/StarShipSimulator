@@ -1,0 +1,21 @@
+{
+  "path": "/tmp/starship-official-flight.sxypD4/native.receipts/native-build.process.json",
+  "sha256": "f45dd4c9799913b040c9ba25b5ec9c6f1c6dea027c188daa40c87e7daa7fdeaf",
+  "cleanup": {
+    "pid": 77444,
+    "start": "5068503",
+    "group": 77444,
+    "session": 77444,
+    "tracked": [
+      {
+        "pid": 77444,
+        "state": "R",
+        "parent": 77437,
+        "group": 77444,
+        "session": 77444,
+        "start": "5068503"
+      }
+    ],
+    "executing": []
+  }
+}

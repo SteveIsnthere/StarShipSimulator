@@ -1,0 +1,7 @@
+# Repaired current build qualifier — independent review
+
+Reviewed qualifier SHA256 `56a09e0e6894ee73f260544582917576f9e3a19817f918df13d8ea295f9811f1`. The four prior repairs are implemented: final audits collect errors/status and qualification only publishes after successful audits; CI is retained before/after and compared to qualified historical HEAD; old receipt/Node/harness/npm identities are pinned; focused92 build/test/source/raw receipts and failed247 results/source/parent receipts are referenced. Emitted maps require nonempty inventory and exact sourcesContent equality to current disk. No execution or heavy hashing was performed by this reviewer.
+
+One narrow gate correction remains: appDelta currently filters historical source tuples only. This detects removals/modifications but can miss newly added src/hud or src/audio files outside the271 protected prefix scope. Form the src/public delta from the union of old and current keys, including additions/removals, then require exactly the three approved core paths. The assertion must uphold the stated full347 historical app graph contract, not just surviving old keys.
+
+After that correction, fresh scoped syntax/lint checks and exact-pin confirmation, approve one120s owned provenance build with root-exclusive CPU scheduling. Actual child/build/tool/final status and emitted qualification must then receive fresh independent actual-result review before browser preparation/execution. The full247-unit cohort remains failed; there is no test rerun, performance/gate claim or implicit fallback approval.

@@ -1,0 +1,174 @@
+{
+  "schema": "phase8-allocation-result-v1",
+  "sourceBasisCommit": "8126077a851b3a31e2b662a6953859adb112169b",
+  "inputPins": [
+    {
+      "path": "src/view/camera-projection.ts",
+      "bytes": 811,
+      "sha256": "32250acce7cfd23d6212b6b9bac5e0e736268b53a0d20f6c0d97be10be4af637"
+    },
+    {
+      "path": "src/view/camera.ts",
+      "bytes": 34550,
+      "sha256": "7ca4a371355155532d123ac03df1a4965186a6aa854b16aef8a1a253e20342cd"
+    },
+    {
+      "path": "src/view/world.ts",
+      "bytes": 18534,
+      "sha256": "b7b48e893fe35259b29ca408b8f7006137a84d3118370dd1933c8e7e937b3e47"
+    },
+    {
+      "path": "src/view/effects.ts",
+      "bytes": 18016,
+      "sha256": "e9af2215f300ed9d32e192d44209adfc83ff17cf612da123197bb422548edfa2"
+    },
+    {
+      "path": "src/ui/session/scene-runtime.ts",
+      "bytes": 7529,
+      "sha256": "4333c440cfc5662a4972bae14a66128bc0bf8083b424b5cf5732eceb636464d8"
+    },
+    {
+      "path": "tests/view/projection-write.test.ts",
+      "bytes": 6569,
+      "sha256": "99eca0f97d59e90d0aae57100b7ee0dae3545dc3eb8df4f8707931ef7561178c"
+    },
+    {
+      "path": "tests/ui/task6-session-mount-quality.test.ts",
+      "bytes": 9925,
+      "sha256": "9f85ae8fca5b5baf9aa48d4e68579d45b1d4f8f111d7d3af3d8fe4383ea07ec5"
+    },
+    {
+      "path": "package.json",
+      "bytes": 2614,
+      "sha256": "6c07c3f0935753725cdfbb6d7b39285210c7dd47cfc36d940dbab913df0ebbe5"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 218675,
+      "sha256": "44cec6ccb82883c53e56e184f4a45933454ad1fc879c25bdc14cdc46dfdcadc9"
+    },
+    {
+      "path": "vitest.config.ts",
+      "bytes": 7480,
+      "sha256": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7"
+    },
+    {
+      "path": "scripts/test/run.mjs",
+      "bytes": 11808,
+      "sha256": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d"
+    },
+    {
+      "path": "scripts/test/admission.mjs",
+      "bytes": 9972,
+      "sha256": "88b685353a4b42df5cfa53e8f0d5850df6d4093f98db9690a0e082a0eec2c8fc"
+    }
+  ],
+  "commands": {
+    "build-before": "npm run build",
+    "red": "npm run test -- tests/view/projection-write.test.ts tests/ui/task6-session-mount-quality.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/allocation/red.json",
+    "build-after": "npm run build",
+    "green": "npm run test -- tests/view/projection-write.test.ts tests/ui/task6-session-mount-quality.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/allocation/green.json",
+    "regression": "npm run test -- tests/view/projection-write.test.ts tests/view/zoom.test.ts tests/view/coast.test.ts tests/view/engine-effects.test.ts tests/view/particles.test.ts tests/ui/task6-session-mount-quality.test.ts tests/ui/camera-follow.test.ts tests/ui/mission-camera.test.ts tests/ui/damage-scene.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/allocation/regression.json",
+    "lint": "./node_modules/.bin/eslint src/view/camera-projection.ts src/view/camera.ts src/view/world.ts src/view/effects.ts src/ui/session/scene-runtime.ts tests/view/projection-write.test.ts tests/ui/task6-session-mount-quality.test.ts"
+  },
+  "recordedExitCodes": {
+    "build-before": 0,
+    "red": 1,
+    "build-after": 0,
+    "green": 0,
+    "regression": 0,
+    "lint": 0
+  },
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/build-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/build-after.txt",
+      "bytes": 6028,
+      "sha256": "3a5ba7c0c253c8f5b64f906770482dd2699cc07156e7752eab6da096179b235b"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/build-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/build-before.txt",
+      "bytes": 6202,
+      "sha256": "61552a88102987f4c8b8e21e431ddc222cb3024c38f9bc71ede556b2d37a3882"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/green.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/green.json",
+      "bytes": 2465,
+      "sha256": "2711e45edb2d530505eb0ac4af3ba8d4de62ce5ff45e75ac56020d1ae0a95f02"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/green.txt",
+      "bytes": 964,
+      "sha256": "45d79eaad8b49f71bd66db78160cd2067c478278b577846ee2f7c45d0538c1f3"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/lint.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/lint.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/red.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/red.json",
+      "bytes": 7343,
+      "sha256": "b44269df8ca98f3e8b9339b8c60aa38b25e259d672b916f3d38217ce0a938292"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/red.txt",
+      "bytes": 5465,
+      "sha256": "4685420b1b748decf6913990bc277dacaa43d669a23b6e2cee094807b332d22d"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/regression.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/regression.json",
+      "bytes": 27014,
+      "sha256": "1f00a97ce999af7979756e002c65a2c5161bc25a2c174d783fd7d93031788782"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/allocation/regression.txt",
+      "bytes": 1859,
+      "sha256": "5fb1f6ea93ba11b36dd95e2bac06e300c174b5965d26d73fd56b936409c9288e"
+    }
+  ],
+  "environment": {
+    "metadataCaptured": "After checks; managed activation route used for every command. No production/test change between changed build, GREEN, regression and lint.",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cpuCount": 5,
+    "node": "v22.23.3",
+    "npm": "10.9.9",
+    "runner": "official scripts/test/run.mjs; default native qualification absent; ordinary SSR fallback",
+    "testMaxWorkers": 1,
+    "testTimeoutMs": 30000,
+    "retriesAdded": 0,
+    "coverage": false,
+    "browser": "No application browser acceptance workload for this patch; startup Chromium151.0.7922.34 functional check only."
+  },
+  "scope": "Source/result hashes and focused Node checks; not full gate, optics, performance, phase or release acceptance. RED test setup preceded a readonly-viewport fixture typing correction; no assertions were weakened."
+}

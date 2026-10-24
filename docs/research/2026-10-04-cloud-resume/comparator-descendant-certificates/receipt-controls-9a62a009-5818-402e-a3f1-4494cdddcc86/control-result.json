@@ -1,0 +1,71 @@
+{
+  "kind": "descendant-certificates-controls-v1",
+  "finalized": true,
+  "node": "v22.23.3",
+  "cases": [
+    {
+      "name": "previously complete immutable descendant reuses certificate under new parent",
+      "status": "passed"
+    },
+    {
+      "name": "fully frozen cycle certification and reused cycle descendant",
+      "status": "passed"
+    },
+    {
+      "name": "partly mutable cyclic graph never publishes partial true certificate",
+      "status": "passed"
+    },
+    {
+      "name": "mutable leaf below frozen parent remains fully compared",
+      "status": "passed"
+    },
+    {
+      "name": "previous negative descendant certificate conservatively rejects new parent",
+      "status": "passed"
+    },
+    {
+      "name": "late freeze after rejected root does not promote cached false to true",
+      "status": "passed"
+    },
+    {
+      "name": "forward alias mismatch after certified descendant remains denied",
+      "status": "passed"
+    },
+    {
+      "name": "reverse alias mismatch remains denied",
+      "status": "passed"
+    },
+    {
+      "name": "Object.is signed zero and NaN semantics remain exact",
+      "status": "passed"
+    },
+    {
+      "name": "accessor denied without invoking getter",
+      "status": "passed"
+    },
+    {
+      "name": "descriptor mismatch remains denied",
+      "status": "passed"
+    },
+    {
+      "name": "unmapped function below frozen graph remains denied",
+      "status": "passed"
+    },
+    {
+      "name": "mapped functions retain role and alias correspondence",
+      "status": "passed"
+    },
+    {
+      "name": "symbols and unsupported prototypes remain denied",
+      "status": "passed"
+    },
+    {
+      "name": "all original cap checks unchanged with bounded scaled-cap negative controls",
+      "status": "passed"
+    }
+  ],
+  "passed": 15,
+  "failed": 0,
+  "physicalSteps": 0,
+  "productionImports": 0
+}

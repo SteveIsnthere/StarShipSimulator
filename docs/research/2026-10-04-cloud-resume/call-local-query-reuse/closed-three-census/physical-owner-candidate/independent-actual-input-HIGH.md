@@ -1,0 +1,9 @@
+# Independent actual physical input HIGH
+
+Accepted only the fresh materialized input ced264a7/root30d1d220 in private a425f27f. Independently verified all280 selected references, exact281 root inventory, eleven byte-exact authored copies, canonical0700 directory and fourteen regular0600 initial files, with no native artifacts, receipt directory or result outputs. Maker0/reaped128307 matches retained registration8042100.
+
+Typed external source-only approval eb79196c binds all55 bodies, unchanged original four golden sources/three cases, worker691ef, physical267/55412, two paid-query census copies and entry, historical/current authority successor and accepted numerical/reporting/actual14 proof and cleanup pins. These prerequisite selected pins and actual condition-source references were independently rehashed. Expected ordered worker conditions remain node/development; they are requirements for future actual configuration and startup receipts.
+
+The exact root/stage/helper/binary/input roles and serial boundary-controls5/build60/public200 commands retain300 whole/292 work/8 cleanup and original per-test30s limits,108000-step/1801-sample recipes and all original assertions. No worker flags, pristine intrinsics, actual hooks/public lifecycle or physical result are established by this preparation. No full770/20355 source/tool census was run by this reviewer.
+
+Supported next action: root may grant ONE exact reviewed physical owner invocation under the owned300 route with NODE_OPTIONS and NODE_PATH empty and NODE_ENV unset. Retain raw failures, actual configuration/import/load/worker receipts, original assertion outcomes, final source/tool/artifact audits and independent postexit for separate actual HIGH. This is no performance, optimization, full38, gate, main or deployment acceptance.

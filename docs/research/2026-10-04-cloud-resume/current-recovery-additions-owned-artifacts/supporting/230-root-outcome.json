@@ -1,0 +1,46 @@
+{
+  "completed": false,
+  "failures": [
+    "Outer stage failed"
+  ],
+  "actualReturncode": 70,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 112045,
+      "state": "R",
+      "parent": 112033,
+      "group": 112045,
+      "session": 112045,
+      "start": "7087852"
+    },
+    {
+      "pid": 112052,
+      "state": "S",
+      "parent": 112045,
+      "group": 112052,
+      "session": 112052,
+      "start": "7087974"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 112045,
+      "session": 112045,
+      "start": "7087852",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 112052,
+      "session": 112052,
+      "start": "7087974",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69",
+  "manifestSha": "0532d65f8a4e9d1514c761ef2d799595aed85cb49b173d56c6d0555ea547c3cd",
+  "elapsedSeconds": 3.857574224472046,
+  "acceptance": "This ONE closed native query-reuse pure proof only; no replay/timing/public/application/gate acceptance; independent actual-result/ALL-owned review required"
+}

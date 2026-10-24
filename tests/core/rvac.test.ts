@@ -1,10 +1,12 @@
 /**
  * Phase 6, Task 4b (Fidelity): the Ship's three Raptor Vacuums.
  *
- * Tier B: 258 tf and 380 s in vacuum (Wikipedia's Raptor article), a 2.3 m
+ * Active V3: 275 tf and 380 s in vacuum, retaining the assumed 2.3 m
  * exit, thrust falling with ambient pressure through the exit area.
  */
 import { describe, expect, it } from 'vitest';
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
+import { SHIP } from '$core/vehicle';
 import * as C from '$core/constants';
 import { toggleAllRaptors } from '$core/control/commands';
 import {
@@ -20,12 +22,22 @@ import { getEffectiveVerticalMaxThrust } from '$core/control/primitives';
 import { gimballedShare } from '$core/physics/engines';
 import { rad } from '$core/units';
 
+// Independent approved V3 anchors; do not derive expectations from engine helpers.
+const V3_SL_FLOW = (250_000 * 9.80665) / (327 * 9.80665);
+const V3_SL_VACUUM = V3_SL_FLOW * 9.80665 * 350;
+const v3SeaLevelThrust = (p: number) => Math.max(0,
+  V3_SL_VACUUM - Math.max(0, p) * 1000 * ((V3_SL_VACUUM - 250_000 * 9.80665) / 101_325));
+const V3_RVAC_VACUUM = 275_000 * 9.80665;
+const V3_RVAC_FLOW = V3_RVAC_VACUUM / (380 * 9.80665);
+const v3VacuumThrust = (p: number) => Math.max(0,
+  V3_RVAC_VACUUM - Math.max(0, p) * 1000 * Math.PI * 1.15 ** 2);
+
 const ONLY_RVACS = [false, false, false, true, true, true];
 const ONLY_SEA_LEVEL = [true, true, true, false, false, false];
 
 describe('the Ship has six Raptors', () => {
   it('three sea-level engines, then three RVacs', () => {
-    expect(C.RAPTORS.map((m) => m.kind)).toEqual([
+    expect(SHIP.engines.map((m) => m.kind)).toEqual([
       'sea-level', 'sea-level', 'sea-level', 'vacuum', 'vacuum', 'vacuum',
     ]);
     expect(C.SEA_LEVEL_RAPTORS).toEqual([0, 1, 2]);
@@ -34,29 +46,32 @@ describe('the Ship has six Raptors', () => {
 });
 
 describe('an RVac is its own engine', () => {
-  it('makes 258 tf in vacuum at 380 s', () => {
-    expect(getTotalMaxThrust([false, false, false, true, false, false], 0)).toBe(258 * 1000 * C.standardGravity);
-    expect(C.RVAC_THRUST_VACUUM / (C.RVAC_MASS_FLOW * C.standardGravity)).toBeCloseTo(380, 9);
+  it('makes 275 tf in vacuum at 380 s', () => {
+    expect(getTotalMaxThrust([false, false, false, true, false, false], 0)).toBe(V3_RVAC_VACUUM);
+    expect(getTotalMaxThrust([false, false, false, true, false, false], 0) /
+      (getFuelFlowRate([false, false, false, true, false, false], 100) * C.standardGravity)).toBeCloseTo(380, 9);
   });
 
-  it('loses thrust in air through its exit area: about 2.11 MN on the pad', () => {
+  it('the historical Raptor 2 RVac loses thrust in air through its exit area: about 2.11 MN on the pad', () => {
     const seaLevel = C.SEA_LEVEL_PRESSURE_PA / 1000;
-    const pad = C.thrustPerRVacAt(seaLevel);
+    const pad = getTotalMaxThrust([false, false, false, true, false, false], seaLevel, HISTORICAL_SHIP);
     expect(pad).toBeCloseTo(C.RVAC_THRUST_VACUUM - C.SEA_LEVEL_PRESSURE_PA * Math.PI * 1.15 ** 2, 6);
     expect(pad / 1e6).toBeCloseTo(2.11, 2);
     // It still fires there: no flow-separation refusal (Ships fire all six on the stand).
     expect(pad).toBeGreaterThan(0);
   });
 
-  it('beats the sea-level engine in vacuum and loses to it on the pad', () => {
-    expect(C.thrustPerRVacAt(0)).toBeGreaterThan(C.thrustPerRaptorAt(0));
-    expect(C.thrustPerRVacAt(101.325)).toBeLessThan(C.thrustPerRaptorAt(101.325));
+  it('the historical Raptor 2 RVac beats the sea-level engine in vacuum and loses to it on the pad', () => {
+    expect(getTotalMaxThrust([false, false, false, true, false, false], 0, HISTORICAL_SHIP))
+      .toBeGreaterThan(getTotalMaxThrust([true], 0, HISTORICAL_SHIP));
+    expect(getTotalMaxThrust([false, false, false, true, false, false], 101.325, HISTORICAL_SHIP))
+      .toBeLessThan(getTotalMaxThrust([true], 101.325, HISTORICAL_SHIP));
   });
 
   it('flows at its own rate, and six engines add up', () => {
-    expect(getFuelFlowRate(ONLY_RVACS, 100)).toBeCloseTo(3 * C.RVAC_MASS_FLOW, 9);
+    expect(getFuelFlowRate(ONLY_RVACS, 100)).toBeCloseTo(3 * V3_RVAC_FLOW, 9);
     expect(getFuelFlowRate([true, true, true, true, true, true], 100)).toBeCloseTo(
-      3 * C.RVAC_MASS_FLOW + 3 * C.maxFuelFlowPerRaptor,
+      3 * V3_RVAC_FLOW + 3 * V3_SL_FLOW,
       9,
     );
   });
@@ -64,8 +79,8 @@ describe('an RVac is its own engine', () => {
   it('three RVacs together make almost no off-axis force, as the sea-level three do', () => {
     // Not exactly zero for either set: 2021's fraction, -o/sqrt(o^2 + (H/2)^2),
     // is not linear in the offset. Both stay under 0.1% of the set's thrust.
-    const rvacs = 3 * C.thrustPerRVacAt(0);
-    const seaLevel = 3 * C.thrustPerRaptorAt(0);
+    const rvacs = 3 * v3VacuumThrust(0);
+    const seaLevel = 3 * v3SeaLevelThrust(0);
     expect(Math.abs(getOffAxisThrustDifference(ONLY_RVACS, 100, 0)) / rvacs).toBeLessThan(1e-3);
     expect(Math.abs(getOffAxisThrustDifference(ONLY_SEA_LEVEL, 100, 0)) / seaLevel).toBeLessThan(1e-3);
     expect(getOffAxisThrustDifference([false, false, false, true, false, false], 100, 0)).not.toBe(0);
@@ -115,7 +130,7 @@ describe('the RVacs are fixed: they push along the hull and do not steer', () =>
 
   it('with a sea-level engine lit too, only its thrust steers', () => {
     const s = step(vacuumOnly(80, true), 1 / 120);
-    const seaLevel = C.thrustPerRaptorAt(s.atmosphere.airPressure);
+    const seaLevel = v3SeaLevelThrust(s.atmosphere.airPressure);
     expect(s.forces.thrustVectorForce).toBeCloseTo(
       seaLevel * Math.sin(0.8 * C.gimbalAngleLimit),
       3,
@@ -127,7 +142,7 @@ describe('the vertical throttle law projects the RVacs along the hull', () => {
   it('RVacs alone at pitch 60° with the gimbal deflected: cos(pitch), not cos(gimbal direction)', () => {
     const running = [false, false, false, true, true, true];
     const p = 0;
-    const total = 3 * C.thrustPerRVacAt(p);
+    const total = 3 * v3VacuumThrust(p);
     const pitch = rad(Math.PI / 3);
     const gimbalDirection = rad(Math.PI / 3 - (15 * Math.PI) / 180);
     expect(getEffectiveVerticalMaxThrust(running, gimbalDirection, p, pitch)).toBeCloseTo(total * 0.5, 3);
@@ -138,10 +153,10 @@ describe('the vertical throttle law projects the RVacs along the hull', () => {
     const p = 0;
     const pitch = rad(0.4);
     const g = rad(0.3);
-    const expected = C.thrustPerRaptorAt(p) * Math.cos(0.3) + C.thrustPerRVacAt(p) * Math.cos(0.4);
+    const expected = v3SeaLevelThrust(p) * Math.cos(0.3) + v3VacuumThrust(p) * Math.cos(0.4);
     expect(getEffectiveVerticalMaxThrust(mixed, g, p, pitch)).toBeCloseTo(expected, 3);
     const seaLevel = [true, true, true, false, false, false];
-    expect(getEffectiveVerticalMaxThrust(seaLevel, g, p, pitch)).toBe(3 * C.thrustPerRaptorAt(p) * Math.cos(0.3));
+    expect(getEffectiveVerticalMaxThrust(seaLevel, g, p, pitch)).toBe(3 * v3SeaLevelThrust(p) * Math.cos(0.3));
   });
 });
 

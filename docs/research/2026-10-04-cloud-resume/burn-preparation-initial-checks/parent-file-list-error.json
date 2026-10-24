@@ -1,0 +1,10 @@
+{
+  "error": "Parent declared three nonexistent test filenames; no Vitest collection or test execution occurred",
+  "badPaths": [
+    "tests/proofs/burn-preparation-module-mocks.test.ts",
+    "tests/core/propulsion.test.ts",
+    "tests/core/aero.test.ts"
+  ],
+  "toolExit": 1,
+  "sourceChanged": false
+}

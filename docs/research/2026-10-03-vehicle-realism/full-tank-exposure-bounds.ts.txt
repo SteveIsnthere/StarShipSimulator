@@ -1,0 +1,60 @@
+/** Ideal rocket law + small-departure orbit perturbation quadrature.
+ * NOT actual step(), NOT a flight trace or parameter sweep. Frozen80km,
+ * official full tank,33engines, published800°C root knot,4000m/s cutoff.
+ */
+import { SUPER_HEAVY as vehicle } from '../../../src/core/vehicles/super-heavy';
+import { planetRadius, standardGravity, STEFAN_BOLTZMANN } from '../../../src/core/constants';
+import { circularOrbitalSpeed, gravityAt } from '../../../src/core/physics/gravity';
+import { engineMassFlow, engineThrust } from '../../../src/core/physics/propulsion';
+import { isaAtmosphere } from '../../../src/core/physics/isa';
+import { getReentryHeatPower, surfaceTemperature, radiativeSinkKelvin } from '../../../src/core/physics/thermal';
+import { createRootSection } from '../../../src/core/physics/damage-root';
+import { steelSpecificEnthalpy, steelConductivity } from '../../../src/core/physics/damage-material';
+const altitude = 80000, v0 = circularOrbitalSpeed(planetRadius + altitude);
+const m0 = vehicle.dryMass + vehicle.propellantCapacity;
+const mdot = 33 * engineMassFlow(vehicle.propulsion, 'sea-level');
+const thrust = 33 * engineThrust(vehicle.propulsion, 'sea-level', 0), ve = thrust / mdot;
+const finalMass = m0 * Math.exp(-(v0 - 4000) / ve), time = (m0 - finalMass) / mdot;
+const root = createRootSection(vehicle.diameter), initialAir = isaAtmosphere(altitude);
+const sink = radiativeSinkKelvin(altitude, initialAir.airTemperature), g = gravityAt(planetRadius + altitude);
+const flux0 = getReentryHeatPower(v0, initialAir.airDensity, vehicle.diameter / 2, 0);
+const gmax = steelConductivity(1473.15) * root.area / (root.length / 2);
+const rootTarget = 1073.15;
+const energy = root.mass * (steelSpecificEnthalpy(rootTarget) - steelSpecificEnthalpy(sink));
+const pmin = root.heatArea * (flux0 - .8 * STEFAN_BOLTZMANN * (rootTarget ** 4 - sink ** 4)) - gmax * (rootTarget - sink);
+const initialDragForce = .5 * initialAir.airDensity * v0 ** 2 * 2.5 * vehicle.minArea / 2.1;
+const at = initialDragForce / m0;
+const coastUpper = energy / pmin;
+const coastDrop = v0 / (planetRadius + altitude) * at * coastUpper ** 3 / 3;
+const coastVy = -v0 / (planetRadius + altitude) * at * coastUpper ** 2;
+function v(t: number) { return v0 - ve * Math.log(m0 / (m0 - mdot * t)); }
+function acceleration(t: number) { return g * ((v(t) / v0) ** 2 - 1); }
+function quadrature(end: number, moment: boolean, intervals: number) {
+  let sum = 0;
+  for (let i = 0; i <= intervals; i++) {
+    const t = end * i / intervals;
+    sum += (i === 0 || i === intervals ? 1 : i % 2 ? 4 : 2)
+      * acceleration(t) * (moment ? end - t : 1);
+  }
+  return sum * end / intervals / 3;
+}
+console.log(JSON.stringify({ mass0_kg: m0, finalMass_kg: finalMass, remainingFuel_kg: finalMass - vehicle.dryMass,
+  burnTime_s: time, thrust_N: thrust, flow_kg_s: mdot, ve_m_s: ve,
+  initialThrust_g: thrust / (m0 * standardGravity), finalThrust_g: thrust / (finalMass * standardGravity),
+  frozenCoastHeatingLower_s: energy / (root.heatArea * flux0), frozenCoastHeatingUpper_s: coastUpper,
+  neutralInitialDrag_N: initialDragForce, constantDragCoastDrop_m: coastDrop, constantDragCoastVy_m_s: coastVy,
+  idealBurnRadialDrop_m: -quadrature(time, true, 512),
+  quadrature128vs512_abs_m: Math.abs(quadrature(time, true, 128) - quadrature(time, true, 512)) }));
+for (const fraction of [0, .25, .5, .75, 1]) {
+  const t = time * fraction;
+  const h = altitude - coastDrop + coastVy * t + quadrature(t, true, 512);
+  const vy = coastVy + quadrature(t, false, 512), vx = v(t);
+  const air = isaAtmosphere(h), speed = Math.hypot(vx, vy);
+  const incidence = Math.atan2(Math.abs(vy), vx);
+  const flux = getReentryHeatPower(speed, air.airDensity, vehicle.diameter / 2, incidence);
+  console.log(JSON.stringify({ fraction, time_s: t, approximateAltitude_m: h,
+    idealVelocity_m_s: [vx, vy], q_Pa: .5 * air.airDensity * speed ** 2,
+    flux_W_m2: flux, tile_K: surfaceTemperature(flux, radiativeSinkKelvin(h, air.airTemperature)),
+    rootNetPowerAt800C_W: root.heatArea * (flux - .8 * STEFAN_BOLTZMANN * (rootTarget ** 4 - sink ** 4))
+      - gmax * (rootTarget - sink) }));
+}

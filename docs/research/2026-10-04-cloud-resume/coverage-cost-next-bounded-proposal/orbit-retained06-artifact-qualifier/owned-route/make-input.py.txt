@@ -1,0 +1,20 @@
+"""Root-owned inert materialization only; no artifact import/compile/qualifier."""
+from pathlib import Path
+import json,hashlib,os,uuid,sys
+h=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+path,expected=sys.argv[1:];assert h(path)==expected;seed=json.loads(Path(path).read_text());assert seed['kind']=='original-orbit18-offline-owned-materialization-seed-v1';assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='original-orbit18-preparation'
+for p,d in seed['files'].items():assert h(p)==d,p
+b=Path(seed['route']);parent=b.parent;c=json.loads((parent/'certificate.json').read_text());assert h(c['originalInput']['path'])==c['originalInput']['sha'];original=json.loads(Path(c['originalInput']['path']).read_text());root=Path(original['root']);setup=root/'node_modules/.cache'/('starship-orbit18-qualification-'+uuid.uuid4().hex);setup.mkdir(mode=0o700);receipt=setup/'evidence';receipt.mkdir(mode=0o700);files={**original['files'],**seed['files']}
+for name,source in [('owner.mjs',b/'owner.mjs.txt'),('slot-bindings.mjs',b/'slot-bindings.mjs.txt'),('policy.mjs',parent/'policy.mjs.txt'),('controls.mjs',parent/'controls.mjs.txt'),('qualify.mjs',parent/'qualify.mjs.txt')]:
+ target=setup/name
+ with target.open('xb')as f:f.write(source.read_bytes());f.flush();os.fsync(f.fileno())
+ target.chmod(0o600);assert h(target)==h(source);files[str(target)]=h(target)
+def emit(name,value):
+ target=setup/name
+ with target.open('x')as f:json.dump(value,f,indent=2);f.write('\n');f.flush();os.fsync(f.fileno())
+ target.chmod(0o600);return{'path':str(target),'sha':h(target)}
+certificate={'path':str(parent/'certificate.json'),'sha':h(parent/'certificate.json')};output=receipt/'retained-artifact-provenance.json';assert not os.path.lexists(output);child=emit('qualifier-input.json',{'kind':'original-orbit18-offline-retained-qualifier-input-v1','files':files,'certificate':certificate,'output':str(output)});files[child['path']]=child['sha'];slot={'path':str(b/'slot-contract.json'),'sha':h(b/'slot-contract.json')};contract=json.loads(Path(slot['path']).read_text())
+m={**original,'setup':str(setup),'receipt':str(receipt),'files':files,'mode':'compile','slotContract':slot,'executionSlot':contract['executionSlot'],'resultKind':contract['resultKind'],'artifactControls':{'path':str(setup/'controls.mjs'),'sha':h(setup/'controls.mjs')},'certificate':certificate,'qualifier':{'path':str(setup/'qualify.mjs'),'sha':h(setup/'qualify.mjs')},'qualifierInput':child,'qualifierOutput':str(output),'expectedArtifactControls':seed['expectedControlNames']};inner=emit('input.json',m);inventory=emit('root-inventory.json',{'kind':'orbit18-qualification-root-inventory-v1','files':{**files,inner['path']:inner['sha']}})
+outer={**seed['originalOuter'],'stage':{'path':str(setup/'owner.mjs'),'sha':h(setup/'owner.mjs')},'setup':str(setup),'pureInput':inner,'pins':inventory,'slotContract':slot,'executionSlot':contract['executionSlot'],'resultKind':contract['resultKind'],'mode':'orbit18-compile','outerMs':60000,'steps':contract['modes']['compile']['steps'],'observer':{'path':str(b/'root-observer.py.txt'),'sha':h(b/'root-observer.py.txt')}};result=emit('root-input.json',outer)
+for p,d in seed['files'].items():assert h(p)==d,p
+print(json.dumps({'materializedOnly':True,'compileCalls':0,'physicalCalls':0,'setup':str(setup),'input':inner,'rootInput':result,'output':str(output)}))

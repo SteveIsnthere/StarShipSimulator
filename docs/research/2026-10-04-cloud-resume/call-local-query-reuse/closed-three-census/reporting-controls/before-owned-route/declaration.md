@@ -1,0 +1,5 @@
+# Source-coupled inert reporting controls
+
+This separate, unexecuted twelve-control driver extracts exactly the actual step counter block and observer registration callbacks from frozen research sources. Public Node22 stripTypeScriptTypes strips only that counter block; explicit fresh newlines delimit generated return. It injects inert originalStep/defaults and inert callback registration/data/write functions. It imports no physics, vehicle, SDK or Vitest. It is neither actual public lifecycle qualification nor a physical census.
+
+Controls cover return/default/error identity, reentrancy, scalar reset and108000th attempted throw; exact raw-before-denial mismatches and digest work, full/partial return counts without state/time/sample claims, failed task retained as failure, unknown/duplicate names denied. A future separately reviewed5s owned child/root30 route must bind current source authority, actual source/Node/material/input and final all-owned absence before execution. No owner/input or execution grant is issued here. Missing-case whole inventory and actual postctx.close reconciliation remain requirements of the future physical owner.

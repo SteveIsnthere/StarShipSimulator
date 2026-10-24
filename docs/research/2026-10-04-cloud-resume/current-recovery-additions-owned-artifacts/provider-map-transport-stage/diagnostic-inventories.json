@@ -1,0 +1,276 @@
+[
+  {
+    "files": {
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/canonical-map-roundtrip-witness.json": {
+        "bytes": 33493,
+        "sha256": "f22dd76b31bc755c73ca1454a99433bd595864b225b064efbfea0e61da39607e"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/capture-completed.json": {
+        "bytes": 808,
+        "sha256": "168933fc2a7274a42eec276d687d2b12fbf4521f36f0152d3a2c21648af0fbb2"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0000.json": {
+        "bytes": 332,
+        "sha256": "78dd3f162b1fa9be6c04d8e49a3cd0d6200e7dcdbf493b25b542aeedcb1edc54"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0001.json": {
+        "bytes": 322,
+        "sha256": "59957268297723e9afe2ef1daf7277ce4461c6f3fb0a2e31a1b8a408acd88dff"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0002.json": {
+        "bytes": 327,
+        "sha256": "bb2d396bd44010bea01d7919968ee0445bfcb53724d9c86d1d5c8c2a9c548f83"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0003.json": {
+        "bytes": 320,
+        "sha256": "50d3e41b1b380db7b2b069147b4b4cdef14aacc142527c4dfd14c21e53ec0dcf"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0004.json": {
+        "bytes": 322,
+        "sha256": "ef2cad2b16a26d9e8a4f5a332021cf043530de5462e004c6543cf3277e6bace4"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0005.json": {
+        "bytes": 328,
+        "sha256": "08bdccf4f355793687763993a3919324db09af4fe26f3677832fe1579d3ef37e"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0006.json": {
+        "bytes": 332,
+        "sha256": "3014376cd9c09c43f8900312afa35632987183ebd7630a226a7ad763d4f71420"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0007.json": {
+        "bytes": 314,
+        "sha256": "02f9c72fdb45f9e9693d46663deca7c4054c135b873656bade04ed80f86ca14a"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0008.json": {
+        "bytes": 329,
+        "sha256": "730d1c75dbb51f6b52f36283254a77cfc898f8f658fba1935dee9c537ccee1a6"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0009.json": {
+        "bytes": 331,
+        "sha256": "8cdabc46cfcda93ac9e64b0d9df511bff80363e334dc41bcf5cd91b06e92a96a"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0010.json": {
+        "bytes": 332,
+        "sha256": "e3ef96f27bd4513667202f857d4709d7e4f43d3bd3f60e9572ca24a428405edc"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0011.json": {
+        "bytes": 329,
+        "sha256": "3a4bffcc6abf817d4ec52440a1286fc920d69ee2df953ec9604c1925b465f178"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0012.json": {
+        "bytes": 327,
+        "sha256": "044102c049d6903b6b065a39f04931e6dc9ca164d86de7b2e8d09ae0ec57718f"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0013.json": {
+        "bytes": 321,
+        "sha256": "704bfb972376286a777d025e83f2a0cb034b2a0c9fc349978266e5bb710e11d4"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0014.json": {
+        "bytes": 329,
+        "sha256": "3195235cb132d90b61aa286e4b8d5032d45fe5f8aa9db4e839331bfb34b97d60"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0015.json": {
+        "bytes": 323,
+        "sha256": "1305ca3970ff0465f77628feb7164d88374e411b8eebf6c17ccb1f78ebe2a0c5"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0016.json": {
+        "bytes": 317,
+        "sha256": "03195e72f21005acbb3362513c5d1488b5dd06171857628602bc9f7a051b1611"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0017.json": {
+        "bytes": 323,
+        "sha256": "f19d22d34fb08bfa295b63788e480f9d2d34955dc100af5270edb12521e439ba"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0018.json": {
+        "bytes": 317,
+        "sha256": "c9ff22009b7fef28d217b38ee4a4b610f70fb4ac2a2c83efb3399f990d25e70a"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0019.json": {
+        "bytes": 324,
+        "sha256": "dd4020ebfd71f250b916044cb58b24e7d463b56adfc38fa160dc7af71ea7b2da"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0020.json": {
+        "bytes": 327,
+        "sha256": "5d5e42483d814492c8416fc241652b9a55d68e2e978d1b709514f9d6f8c0ac61"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0021.json": {
+        "bytes": 323,
+        "sha256": "9f736ab266dfec652cae082c9f32807f4cf3952357c20b2fd09084f6e9e1b74f"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0022.json": {
+        "bytes": 323,
+        "sha256": "2938856d96bb5a48e1a8a04b96e72609abfb731a5b9b8a981be10dd763a6d5d8"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0023.json": {
+        "bytes": 328,
+        "sha256": "e8fdb891b48f8cb3f9961ed4602e42e846de51e1031729090743861c3782935b"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0024.json": {
+        "bytes": 326,
+        "sha256": "8dbb006591f02b24c2816ec3dbd2da27f81d8635af377e7c8feae8542d924de3"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0025.json": {
+        "bytes": 326,
+        "sha256": "50f3bbd24c4e3ac52e6c3ce18e7a67bd3831d889fcc09c58f752530299c7a620"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0026.json": {
+        "bytes": 330,
+        "sha256": "2d1e83ab90998a8d3d33292f5bcec060280d37e8d5e7a47348ab09e2317700ce"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0027.json": {
+        "bytes": 324,
+        "sha256": "9d734bd30675f2320e8bf9bdfb5af225dc57050755b80fb48febbb0e7c4d1d8b"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0028.json": {
+        "bytes": 325,
+        "sha256": "28280f54bf3c5e44a0f3e434687af92e81afb06cbe0dfe6783df979c2d67c6c7"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0029.json": {
+        "bytes": 324,
+        "sha256": "3baedf6628b7340cf44c17d3dca1f100777d835a01e387a1da29b3a1e0d6b81d"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0030.json": {
+        "bytes": 328,
+        "sha256": "541ff0561b0ca7dcfbb928398e35dcf44ed724d52dfe1c34e9ef4b7f1fbc2855"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0031.json": {
+        "bytes": 328,
+        "sha256": "990370f6f451861ed6a87f40fca722f2e89ceb09a5781ef8aead6fe2fb734c11"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0032.json": {
+        "bytes": 330,
+        "sha256": "af1fd3f2458c5ac4544dc1363833817a92cda4d1c556071bdf0bf1233f2d9b92"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0033.json": {
+        "bytes": 320,
+        "sha256": "54ff13f57bc1bb9fa3711b364517293d713da50c8d1ef39906a6228838b3c8b3"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0034.json": {
+        "bytes": 327,
+        "sha256": "b98dad51946b4b3f221427a885272ce84cf4f21913be2db322b563118e3cd6fd"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0035.json": {
+        "bytes": 320,
+        "sha256": "d2cd0983c4d196d810644a523ce12d9b894714a9690382feac2eb12e88ac8d69"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0036.json": {
+        "bytes": 317,
+        "sha256": "704e78da40ad229cb93cfd3cf764a9b9669de171bda000dfdebb641faf586cfb"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0037.json": {
+        "bytes": 323,
+        "sha256": "ffa5ac102a9befaa75d5d6e63779ac7405c2e297368e5faeb6fe0e503d4c77e5"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0038.json": {
+        "bytes": 322,
+        "sha256": "1ab369cb15a6aad5319507c463689937c34460215f49e968c1a17c35bfe163fb"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0039.json": {
+        "bytes": 316,
+        "sha256": "0d7c299f505f5dfd100b2f1b3706b479d21384ec21f05591046229339a3119a8"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0040.json": {
+        "bytes": 325,
+        "sha256": "2961c0864b0e4a43510327d19b883d225f5c9d16f7f8049923f4f60780900965"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0041.json": {
+        "bytes": 320,
+        "sha256": "af10b83974bbdbd45af941b00edbd30c1c4af5ad3fccdfcde7e40ee75feb25f9"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0042.json": {
+        "bytes": 324,
+        "sha256": "4b1cf70fe4dacc66e22c659cc76a57e9e0a91c5e960a9104ab57709c29be4f5e"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0043.json": {
+        "bytes": 326,
+        "sha256": "0de2f200ec9885c4eb244149fd43c2f55fbc4f3a6f0a7f9528f0df2d547c0352"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0044.json": {
+        "bytes": 317,
+        "sha256": "e0f13f7b638bf81cf5a90f585b1ad023c2a4ee8c567a3ee072af00fa3b11368b"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0045.json": {
+        "bytes": 308,
+        "sha256": "76b255e316895d6a511adcca4d2b60c85e9931609a3565b30e2192f90908df7b"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0046.json": {
+        "bytes": 314,
+        "sha256": "0da20190fae1ae8fbe7864edc512922ca1d6affaa4fb466a0300ceda57290149"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0047.json": {
+        "bytes": 331,
+        "sha256": "01ce710854a5ce35cafa3ee034ad7550969306dfb631fe48bf8b6c72bbabcd70"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0048.json": {
+        "bytes": 310,
+        "sha256": "0654bb678ed6038d7ef528401bc2067d5d3071e6671842a696c9cb8768b20207"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0049.json": {
+        "bytes": 309,
+        "sha256": "81e843ad4b0a8187a550e0195842f6c92a52ba010ead7db5cfbc19048843672e"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0050.json": {
+        "bytes": 310,
+        "sha256": "0e36645b395b965673140c90ccf4e318cafaab511ff344972172e8fadf577dc9"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0051.json": {
+        "bytes": 312,
+        "sha256": "b795dedcc30766db99889cd4e0c4b648d9fb7faafc42367fe0e4be1c3a7268b5"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0052.json": {
+        "bytes": 325,
+        "sha256": "86da843b98151cef571868fad3d29aecfc8892695a6f0cebf1dc4a778a94b470"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0053.json": {
+        "bytes": 316,
+        "sha256": "059fefed1c2a7c98576d2c70b5ed6f91575eb95c5efb93bd0004f15fe38ca222"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0054.json": {
+        "bytes": 326,
+        "sha256": "bfc1069d6b4e3bab80d9582fafcf2ff62dab167788cba27dd1fbb8f836f78ca6"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/map-brand-0055.json": {
+        "bytes": 312,
+        "sha256": "d2f437ac513d6195ab39d1c174f2c143b62c2aeeef0dd77cdd9b2fd041fdca09"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/provider-map-tagged-map-v3.json": {
+        "bytes": 3651563,
+        "sha256": "e26bc63fe51e0c0a2efb0b6db4c03cea1a5779dd391095f4ec7a0255ed65603e"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/provider-map.json": {
+        "bytes": 976575,
+        "sha256": "9dd7427ff677cd130759b5f4f1a5d58086163a6652c5abb1b343bc8d446156f4"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/raw/coverage-0.json": {
+        "bytes": 184766,
+        "sha256": "cab7a3761294546821ae2af15480060ab8e74443e312a75ed0ace60d5c188e83"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/capture/resolved-configuration.json": {
+        "bytes": 1823,
+        "sha256": "fa6decf67d0640bdf8aee0572a2ff7cdbb6ffd008f1b554bc60e90e54bf9a9df"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/reports/coverage-final.json": {
+        "bytes": 976687,
+        "sha256": "ce438dc9f0914dc0f2440814a95eaaeef4f680b4ea8d87cb9a7aa84d08587822"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/reports/coverage-summary.json": {
+        "bytes": 17196,
+        "sha256": "7308b15615b33682d96bd26a4e1c526dda2cfac096d1d2c5089c222d9f0b793f"
+      },
+      "/tmp/starship-mixed-coverage.2811fc93baae43f986c7ea3a60e7cc87/test-results.json": {
+        "bytes": 996311,
+        "sha256": "9d31da1e28f2684cacf7a79c6de20292809c5611821ef1a59f9a1334c81e1a39"
+      }
+    },
+    "bytes": 6857293
+  },
+  {
+    "files": {
+      "/tmp/starship-coverage-progress.f85e968245a84dcd88a5d82475956b2c/progress.jsonl": {
+        "bytes": 131821,
+        "sha256": "a2e288e85bd99ea5407af4ba5ccde0653df1619f22b0d98051b29e6d753f9e09"
+      }
+    },
+    "bytes": 131821
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "certificates": [
+    {
+      "worker": "native-worker-77498-5069372.jsonl",
+      "parent": "file:///workspace/StarShipSimulator/tests/core/booster-guidance.test.ts?vitest=1791141672374",
+      "canonical": "file:///workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "format": "module-typescript",
+      "sourceSHA": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+      "aliases": 7,
+      "certificateBeforeAliases": true,
+      "nativeLoads": 3
+    },
+    {
+      "worker": "native-worker-77497-5069372.jsonl",
+      "parent": "file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts?vitest=1791141672340",
+      "canonical": "file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "format": "module-typescript",
+      "sourceSHA": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9",
+      "aliases": 8,
+      "certificateBeforeAliases": true,
+      "nativeLoads": 3
+    }
+  ],
+  "doesNotReplaceFreshActualResultReview": true
+}

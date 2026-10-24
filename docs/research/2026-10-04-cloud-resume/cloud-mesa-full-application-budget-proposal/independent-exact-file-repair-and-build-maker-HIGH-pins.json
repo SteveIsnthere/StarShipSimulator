@@ -1,0 +1,33 @@
+{
+  "decision": "Source HOLD closed; supported scopes/build-only input assembly, no workload grant",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-exact-file-repair-and-build-maker-HIGH-review.md",
+      "sha256": "5864cd0b39de33206ecc405291f3f906864141ea9a1faa158ab8fa92c871016e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/candidate-source-pins.json",
+      "sha256": "88186e1394f1499750a38ba8f71e51fbaf81df0c55505e17e5851966b6e86352"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.config.ts.txt",
+      "sha256": "46604d67813fa2a69c741bb1ff5165a0797f63316dd8a04cac649ae0211e67cf"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-app-build-input.py.txt",
+      "sha256": "3b4258c309e7a96a4698b3477ae8d7c20d1d0a6ea735f7ae443a74cae5f42689"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/app-build-input-maker-contract.md",
+      "sha256": "43313629fa74f4864a2169772a65d8400e889406a4d28a7388ca51edbb107a8c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/before-exact-file-escape-repair/candidate-source-pins.json",
+      "sha256": "7159d5559b3573be7ea633e45ed5466c97b9c5f4981e6697caa569983d2d5f50"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-two-mode-source-HOLD-review.md",
+      "sha256": "a098c23bba3c576267fd5a7d7e76c67af3456131d437f1584ed28ee618a7ed4b"
+    }
+  ]
+}

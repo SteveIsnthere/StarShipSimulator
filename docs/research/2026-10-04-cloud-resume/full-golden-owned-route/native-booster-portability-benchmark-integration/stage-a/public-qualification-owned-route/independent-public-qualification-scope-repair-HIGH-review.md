@@ -1,0 +1,5 @@
+# Independent narrow public qualification scope repair HIGH
+
+The42 exact pins and archived65c observer/50b manifest were checked. The observer diff changes exactly one final root-outcome acceptance string to ONE public admitComposite/current770 source/20355 tools/no tests/replay/gate/performance acceptance. Owner0ee5, qualifier273896 and maker82303 remain byte-identical; process observation/signaling/finalization/limits and input interface are unchanged. This resolves the sole90ea/f1d receipt-scope HOLD; original files and HOLD remain immutable in the before-repair archive.
+
+The supported next steps are ROOT scoped checks and one exclusive materialization, then a separately reviewed actual owner/root input before one public admission. Root must retain all actual PID-start ownership and raw statuses, complete before/after immutable source/tools admission and independent postexit checks. This source review does not execute/admit/test/build anything or grant replay/gate/performance acceptance.

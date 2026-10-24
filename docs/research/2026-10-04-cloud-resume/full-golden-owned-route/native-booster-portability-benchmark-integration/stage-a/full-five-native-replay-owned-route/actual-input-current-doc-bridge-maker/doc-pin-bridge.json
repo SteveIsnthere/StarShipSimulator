@@ -1,0 +1,28 @@
+{
+  "kind": "finite-two-inherited-doc-pin-authority-bridge-v1",
+  "authorizedByParentTask": true,
+  "rows": {
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": {
+      "before": "85472b5d9d93164c7f8bd38600a5738c82060960a898656dcd3d6b3de846f13b",
+      "after": "8ed25bca8de3992a0d4b7e5b195c52ea3eef2bacac324037a8bb7a226419b05a",
+      "latestRootDocChangeBefore": "a1464800d6582d2c7887f95bbea8e422c2f1764ca280806ce0c96c4044fcb4e4"
+    },
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md": {
+      "before": "8bfcfa5c524c796cf8118f0030bc5f901e9c94a0002665cacd0fae95875a91bd",
+      "after": "1dba3f0dc0fc9013dbd09f24e751bf853e90f6a22faddfd520f35abf4edf52f3",
+      "latestRootDocChangeBefore": "4788eb252043c0abdea3b385bc36002939ce55463569d263c54a359b435fb4cd"
+    }
+  },
+  "historicalInput": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route/actual-input/inventory.json",
+    "sha256": "d0ef76cf0c4a3fddf03d813825746a7a46d11dfd6cfce8e70bec09e625245db1"
+  },
+  "latestRootFourDocsReceipt": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-actual-public-admission-doc-update/before-after.json",
+    "sha256": "618e6321bcc8432189097d3d28e054b2213ff2f2de29ba933edff970b658049c"
+  },
+  "scope": "Exactly two docs authority rows present in inherited files; latest root receipt changed fourdocs but othertwo were not inherited; not source/runtime/tools/fixture authority",
+  "historicalExpectedIsOlderThanLatestRootBefore": true,
+  "oldPreflightStatus": "FAILED beforehelper/codeNULL; NO replaycases executed",
+  "runtimeSource770AndTools20355Unchanged": true
+}

@@ -1,0 +1,11 @@
+--- before/controls.mjs
++++ const/controls.mjs
+@@ -84,7 +84,7 @@
+  const caps=['2_000_000','20_000_000','2_000_000_000','20_000_000_000'];
+  for(const cap of caps)assert.equal(sources[0].split(cap).length,sources[1].split(cap).length);
+  for(let i=0;i<sources.length;i++){
+-  let scaled=sources[i].replaceAll('20_000_000_000','20').replaceAll('2_000_000_000','8')
++  const scaled=sources[i].replaceAll('20_000_000_000','20').replaceAll('2_000_000_000','8')
+    .replaceAll('20_000_000','6').replaceAll('2_000_000','4');
+   const js=stripTypeScriptTypes(scaled,{mode:'strip'});
+   const {graphOracle: make}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));

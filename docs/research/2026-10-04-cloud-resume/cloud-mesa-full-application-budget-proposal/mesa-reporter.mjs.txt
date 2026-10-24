@@ -1,0 +1,24 @@
+import { writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+export default class MesaReporter {
+  constructor() { this.collected = []; this.results = []; this.errors = []; }
+  onBegin(config, suite) {
+    this.config = { workers: config.workers, retries: config.projects.map(p => [p.name, p.retries]),
+      repeatEach: config.projects.map(p => [p.name, p.repeatEach]), maxFailures: config.maxFailures };
+    this.collected = suite.allTests().map(t => ({ id: t.id, title: t.title,
+      titlePath: t.titlePath(), project: t.parent.project()?.name, location: t.location,
+      expectedStatus: t.expectedStatus, repeatEachIndex: t.repeatEachIndex }));
+  }
+  onTestEnd(test, result) {
+    this.results.push({ id: test.id, title: test.title, project: test.parent.project()?.name,
+      expectedStatus: test.expectedStatus, repeatEachIndex: test.repeatEachIndex,
+      status: result.status, retry: result.retry, errors: result.errors,
+      attachments: result.attachments.map(a => ({ name: a.name, path: a.path, contentType: a.contentType })) });
+  }
+  onError(error) { this.errors.push(error); }
+  onEnd(result) {
+    writeFileSync(join(process.env.STARSHIP_MESA_MATRIX_RECEIPT, 'public-lifecycle.json'),
+      JSON.stringify({ config: this.config, collected: this.collected, results: this.results,
+        errors: this.errors, result }, null, 2) + '\n', { flag: 'wx' });
+  }
+}

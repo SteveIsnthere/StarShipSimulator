@@ -1,0 +1,56 @@
+--- failed39launcher
++++ canonical52launcher
+@@ -4,8 +4,8 @@
+ import {createHash,randomUUID} from 'node:crypto';
+ import {runOwnedCommand,verifyNoOwnedProcesses} from './owned-command.mjs';
+ import {installedToolSnapshot} from '/workspace/StarShipSimulator/scripts/bench/native-loader.mjs';
+-const root=process.cwd(),draft=resolve(root,'docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards');
+-const receipt=resolve(draft,'receipt-guards-'+randomUUID());mkdirSync(receipt);
++const root=process.cwd(),draft=resolve(root,'docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot');
++const receipt=resolve(draft,'receipt-canonical-stack-'+randomUUID());mkdirSync(receipt);
+ const digest=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+ const save=(name,value)=>writeFileSync(resolve(receipt,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+ const outer=resolve(process.argv[1]),owner=resolve(dirname(outer),'owned-command.mjs');
+@@ -24,7 +24,7 @@
+  const qualifiedNode=JSON.parse(readFileSync(acceptedRuntime,'utf8')).node;
+  assert.equal(qualifiedNode,'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48');
+  assert.equal(digest(process.execPath),qualifiedNode,'Exact previously accepted managed Node binary');
+- assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'primitive-guard-controls');
++ assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'canonical-stack-controls');
+  assert.equal(digest(resolve(draft,'launch-input-pins.json')),process.env.STARSHIP_CONTROL_LAUNCH_INPUT_SHA);
+  assert.equal(digest(resolve(draft,'launcher-independent-review.md')),process.env.STARSHIP_CONTROL_LAUNCH_REVIEW_SHA);
+  assert.equal(digest(resolve(draft,'launcher-independent-review-pins.json')),process.env.STARSHIP_CONTROL_LAUNCH_REVIEW_PINS_SHA);
+@@ -44,11 +44,11 @@
+  for(const name of ['graph-oracle.ts','graph-oracle-before.ts','graph-oracle-scaled.ts','graph-oracle-before-scaled.ts','controls.mjs','bootstrap.mjs','bootstrap.ts']){
+   const path=resolve(task,name);writeFileSync(path,readFileSync(resolve(draft,name+'.txt')),{flag:'wx'});register(path);
+  }
+- before=snapshot();save('before-pins.json',before);stage='inspector';
+- const inventory=JSON.parse(readFileSync(resolve(draft,'case-inventory.json'),'utf8'));assert.equal(inventory.length,39);assert.equal(new Set(inventory).size,39);
++ before=snapshot();save('before-pins.json',before);stage='pure-controls';
++ const inventory=JSON.parse(readFileSync(resolve(draft,'case-inventory.json'),'utf8'));assert.equal(inventory.length,52);assert.equal(new Set(inventory).size,52);
+  const cli=resolve(root,'node_modules/vite-node/dist/cli.mjs');assert.equal(digest(cli),manifest['node_modules/vite-node/dist/cli.mjs']);
+- const sourceReview=resolve(root,'docs/research/2026-10-04-cloud-resume/cloud-comparator-primitive-success-guards-independent-code-review.md');
+- const sourceReviewPins=resolve(root,'docs/research/2026-10-04-cloud-resume/cloud-comparator-primitive-success-guards-independent-code-review-pins.json');
++ const sourceReview=resolve(root,'docs/research/2026-10-04-cloud-resume/cloud-comparator-canonical-stack-snapshot-independent-code-review.md');
++ const sourceReviewPins=resolve(root,'docs/research/2026-10-04-cloud-resume/cloud-comparator-canonical-stack-snapshot-independent-code-review-pins.json');
+  const qualified=JSON.parse(readFileSync(sourceReviewPins,'utf8'));assert.equal(qualified.reviewSha256,digest(sourceReview));
+  for(const[p,h]of Object.entries(qualified.inputs))assert.equal(digest(resolve(root,p)),h,p);
+  const sharedDeadline=performance.now()+30000;let outputRemaining=2*1024*1024;const results={};
+@@ -61,14 +61,14 @@
+   save(backend+'.exit.json',{code});assert.equal(code,0);
+   const processResult=JSON.parse(readFileSync(resolve(receipt,name+'.process.json'),'utf8'));
+   outputRemaining-=processResult.bytes.stdout+processResult.bytes.stderr;assert(outputRemaining>0,'Shared2MiB output bound exhausted');
+-  const result=JSON.parse(readFileSync(resultPath,'utf8'));assert(result.finalized&&result.kind==='primitive-success-guard-controls-v1');
+-  assert.equal(result.passed,39);assert.equal(result.failed,0);assert.equal(result.productionImports,0);assert.equal(result.physicalSteps,0);assert.equal(result.cases.length,39);
++  const result=JSON.parse(readFileSync(resultPath,'utf8'));assert(result.finalized&&result.kind==='primitive-success-guard-canonical-stack-controls-v1');
++  assert.equal(result.passed,52);assert.equal(result.failed,0);assert.equal(result.productionImports,0);assert.equal(result.physicalSteps,0);assert.equal(result.cases.length,52);
+   assert.deepEqual(result.cases.map(row=>row.name),inventory);assert(result.cases.every(row=>row.status==='passed'));
+   assert.equal(result.errorEvidence.length,23);results[backend]=result;
+   assert(performance.now()<=sharedDeadline,'Shared30s control deadline exhausted');
+  }
+  assert.deepEqual(results.native,results.ssr,'Full same-recipe Native/SSR result/error/count evidence parity');
+- save('backend-parity.json',{status:'pass',casesEach:39,errorEvidenceEach:23,sharedDeadlineMs:30000,outputCapBytes:2*1024*1024,outputRemaining});
++ save('backend-parity.json',{status:'pass',casesEach:52,errorEvidenceEach:23,sharedDeadlineMs:30000,outputCapBytes:2*1024*1024,outputRemaining});
+  status=0;stage='completed';
+ }catch(error){failure=String(error.stack??error).slice(0,32768);}
+ finally{

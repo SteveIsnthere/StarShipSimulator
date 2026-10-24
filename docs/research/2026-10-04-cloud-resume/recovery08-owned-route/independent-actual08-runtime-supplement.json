@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "decision": "accepted-runtime-and-executed-source-supplement-to-actual08-HIGH",
+  "inputs": {
+    "/tmp/starship-recovery08-stage.PuY58r/stage-result.json": "65e6345a28780c98aae038050261e769b93349cd1742ebbbb9ca864380c2664e",
+    "/tmp/starship-recovery08-stage.PuY58r/capture.py": "9926b0ceb9faa5ba9c99d8f6038fdc9fbc1a2426bd819bdb46a000a5d16006b8",
+    "/tmp/starship-recovery08-stage.PuY58r/executed-bridge.mjs.txt": "bad17c54f488257f3dc59b55df6cf71ca451ce1c5bf716e0277356afc5c061cf",
+    "/tmp/starship-recovery08-stage.PuY58r/recovery08-capture.process.json": "f2e37330c67cc09f1ef03ce0216dd2dfe82a1363659ce2dca56002d0b048e3ed",
+    "/tmp/starship-recovery08-stage.PuY58r/recovery08-capture.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-recovery08-stage.PuY58r/recovery08-capture.stderr.txt": "e72352c7ddcb2c0fa198f15e6a6bc66e64ce58e1455cd42ccd63f9ae05f42603",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-result-HIGH-review.md": "459f3db61fe8a75c785c9a7df17ad4e2662efdfd066a814f781b15e83eba0e09",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/independent-actual08-result-HIGH-pins.json": "036850aee70400bc7c27fa42a37c26ddb9dd547dbcc4009a7cff51722137a67f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/actual-input-after.json": "b3b2cacf3a729214f7a71b21fa01a4cb3c6688e5afc76c770ecb32422c9b6d09",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/actual-executing-script-after.json": "883d818b62c33270ca5f5a6975fdc9e47385e987ece6f42acaf6eaa9a84b16ae"
+  },
+  "stageRawExit": 0,
+  "helperRawExit": {
+    "code": 0,
+    "signal": null
+  },
+  "helperFinishedClosed": true,
+  "pythonRawStatus": 0,
+  "pythonPid": 123838,
+  "exactExecutedCaptureAndInputAfterHashes": true,
+  "runtimeBinaryByteScanByReviewer": false,
+  "furtherExecutionApproved": false
+}

@@ -1,0 +1,680 @@
+{
+  "originalSetup": "/tmp/starship-render-kernel.vlntmfw7",
+  "status": "FAILED operation-query cap; no subset accepted",
+  "files": [
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/GO",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/GO.gz",
+      "originalBytes": 24,
+      "originalSha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df",
+      "mode": 384,
+      "archiveBytes": 42,
+      "archiveSha256": "934aca3a8e3f6a8618766c5ce2c0234d5accfa4369954de596f732569054c823",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/STOP",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/STOP.gz",
+      "originalBytes": 5,
+      "originalSha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3",
+      "mode": 384,
+      "archiveBytes": 25,
+      "archiveSha256": "7015edf767537b1b815f69427f4843b90de7c5b458f8d8d6652bef460a3c2cd0",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/before-bundle-identity.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/before-bundle-identity.json.gz",
+      "originalBytes": 459,
+      "originalSha256": "7c1dfd752086a56461571595c04de5178a9c714981f85e93f5bc059195761769",
+      "mode": 384,
+      "archiveBytes": 302,
+      "archiveSha256": "06af5d5edf7fa367bdc20dd1a71048b3e7fe2cb73be6f04b231430aa70164dea",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/before-identity.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/before-identity.json.gz",
+      "originalBytes": 87437,
+      "originalSha256": "12578ab6b46d8b4ead90d98cc86185a1d46e5ee77c6f3c17723826db68faa40b",
+      "mode": 384,
+      "archiveBytes": 40879,
+      "archiveSha256": "7999dd3e82c41689e729e3da37eec4e79b7858079262569dae6c07efff876b87",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/before-kernel-identity.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/before-kernel-identity.json.gz",
+      "originalBytes": 140,
+      "originalSha256": "5661e78defe538a86e5930bb7cd6cb3565fee7c354d1efa72305e6a553c06b16",
+      "mode": 384,
+      "archiveBytes": 136,
+      "archiveSha256": "da47b81db0d3f8ebe0974bce95b5ee817fdc92132907ad99478c2092e89de193",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/browser-wrapper.sh",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/browser-wrapper.sh.gz",
+      "originalBytes": 760,
+      "originalSha256": "fe3850849b93cfbe7aadf53bd3ff5affe44fc59b3c35af168c62c4404477d350",
+      "mode": 448,
+      "archiveBytes": 459,
+      "archiveSha256": "a936eb0cde73a876f9adb45783a92ca2950ede89e30c5742725009250cd033be",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/bundle-copy-manifest.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/bundle-copy-manifest.json.gz",
+      "originalBytes": 54403,
+      "originalSha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff",
+      "mode": 384,
+      "archiveBytes": 8395,
+      "archiveSha256": "7286784622332719015dbcb0ab3e253742ea7286967d627c57521e9b4412a9d2",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/candidate-prewindow-pixel-equivalence.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/candidate-prewindow-pixel-equivalence.json.gz",
+      "originalBytes": 103,
+      "originalSha256": "e098e977cc5f2bdd84240d8dc15cb01f712dcd62fe0b1e8becf9b3c7b556df87",
+      "mode": 384,
+      "archiveBytes": 113,
+      "archiveSha256": "0230febfc3ed5c8e09052b9e8c885d7cf8d534aff0bd26f0b7be7381600d8461",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/cleanup.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/cleanup.json.gz",
+      "originalBytes": 1240,
+      "originalSha256": "cd8ab1bef3bfcab4a51c5eb9538cdb74a7f81bc6c166aa17394d230df06f7f2e",
+      "mode": 384,
+      "archiveBytes": 351,
+      "archiveSha256": "fc10c5dbd5057ac35907ae3901ab07b7d12c299a20095d843f39aa10f8c5346a",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/collection-status.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/collection-status.json.gz",
+      "originalBytes": 145,
+      "originalSha256": "ebd894830935b5aac519d3244fc93fc5ab9669590acd3aabc925cdd06d89ef76",
+      "mode": 384,
+      "archiveBytes": 122,
+      "archiveSha256": "72a3903125c0b76be7bf4a54ff89336de2f34de23bb45a8abc80aeab08baed90",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/BufferResource-uMLrSSVl.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/BufferResource-uMLrSSVl.js.gz",
+      "originalBytes": 13106,
+      "originalSha256": "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24",
+      "mode": 384,
+      "archiveBytes": 3232,
+      "archiveSha256": "fbed7971197dd2cb067f13776a521cba70c3efeab333c812ce437a34d93cbec4",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/BufferResource-uMLrSSVl.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/BufferResource-uMLrSSVl.js.map.gz",
+      "originalBytes": 26721,
+      "originalSha256": "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2",
+      "mode": 384,
+      "archiveBytes": 6399,
+      "archiveSha256": "e6d9eacd5ca34b90cbb250b76963aa32159d243625dd5238fb71f4bf6f9d250e",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/CanvasPool-4lFBuryO.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/CanvasPool-4lFBuryO.js.gz",
+      "originalBytes": 1013,
+      "originalSha256": "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55",
+      "mode": 384,
+      "archiveBytes": 538,
+      "archiveSha256": "2b367e980bc06a2192902649e9ade1249d97c3947959310b5c4cd2ab1bae8bb5",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/CanvasPool-4lFBuryO.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/CanvasPool-4lFBuryO.js.map.gz",
+      "originalBytes": 3577,
+      "originalSha256": "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d",
+      "mode": 384,
+      "archiveBytes": 1392,
+      "archiveSha256": "fa385b698a1d97bfcaf73bf575b6b9717af16fa061ee8d61323f9f4ef4245fa9",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/Geometry-CYPxRocb.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/Geometry-CYPxRocb.js.gz",
+      "originalBytes": 135017,
+      "originalSha256": "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8",
+      "mode": 384,
+      "archiveBytes": 34988,
+      "archiveSha256": "475de12df83875d513a0c5441e480157dd755f73cec4d88e9a4aa5e60f55a97e",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/Geometry-CYPxRocb.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/Geometry-CYPxRocb.js.map.gz",
+      "originalBytes": 513925,
+      "originalSha256": "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58",
+      "mode": 384,
+      "archiveBytes": 111637,
+      "archiveSha256": "65b3e70b4c982140a389e912e6f18672763e10fc4789d7f6901a4e92379466c0",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/RenderTargetSystem-Bs_X-W5p.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/RenderTargetSystem-Bs_X-W5p.js.gz",
+      "originalBytes": 96078,
+      "originalSha256": "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845",
+      "mode": 384,
+      "archiveBytes": 24257,
+      "archiveSha256": "f9eb8863fd8611aaa1f2d1367b966a20d3f92e20ee81bed041431b35a886d827",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/RenderTargetSystem-Bs_X-W5p.js.map.gz",
+      "originalBytes": 283982,
+      "originalSha256": "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8",
+      "mode": 384,
+      "archiveBytes": 62988,
+      "archiveSha256": "7b96d93c6a7e48eb41c44ae1dd058d88e4957cef16228780f2738d0fa61b3f49",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/browserAll-D5DBqH_a.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/browserAll-D5DBqH_a.js.gz",
+      "originalBytes": 50020,
+      "originalSha256": "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370",
+      "mode": 384,
+      "archiveBytes": 12009,
+      "archiveSha256": "9364ef28c01b63c20439293c1df3a080e98391dc27158ecfbfce000701a5775f",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/browserAll-D5DBqH_a.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/browserAll-D5DBqH_a.js.map.gz",
+      "originalBytes": 158163,
+      "originalSha256": "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85",
+      "mode": 384,
+      "archiveBytes": 35000,
+      "archiveSha256": "4fe16e009de2da5b650a880089d42149d419373defaf3497cc97e5b35bcec143",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/canvasUtils-B52VJkLn.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/canvasUtils-B52VJkLn.js.gz",
+      "originalBytes": 7814,
+      "originalSha256": "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988",
+      "mode": 384,
+      "archiveBytes": 2370,
+      "archiveSha256": "67bf1dbf0e244bfa947a93d41c1703d3e82902b0161c8034904c797581e9c1e6",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/canvasUtils-B52VJkLn.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/canvasUtils-B52VJkLn.js.map.gz",
+      "originalBytes": 22115,
+      "originalSha256": "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81",
+      "mode": 384,
+      "archiveBytes": 4725,
+      "archiveSha256": "37efe766241d038e5d142dabe2ff5a2f1bb297b561322b94db18615becbdb1d3",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/getTextureBatchBindGroup-9HBchnv9.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/getTextureBatchBindGroup-9HBchnv9.js.gz",
+      "originalBytes": 608,
+      "originalSha256": "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260",
+      "mode": 384,
+      "archiveBytes": 410,
+      "archiveSha256": "82d76bd4b990a3f6df2b372b1a4cd6dc5987c2d308cdef6af50622f64abbd377",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/getTextureBatchBindGroup-9HBchnv9.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/getTextureBatchBindGroup-9HBchnv9.js.map.gz",
+      "originalBytes": 1828,
+      "originalSha256": "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1",
+      "mode": 384,
+      "archiveBytes": 804,
+      "archiveSha256": "a075fc4a0f4716f925aad4182f0f97c8eb70711bbb6fbfd496dff65e7c61d92c",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/init--pTYeZJt.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/init--pTYeZJt.js.gz",
+      "originalBytes": 19206,
+      "originalSha256": "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77",
+      "mode": 384,
+      "archiveBytes": 5489,
+      "archiveSha256": "ebf528015508d104fe61288945adfc37901da9187f9659b7b5550cba85f2dc4f",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/init--pTYeZJt.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/init--pTYeZJt.js.map.gz",
+      "originalBytes": 55449,
+      "originalSha256": "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7",
+      "mode": 384,
+      "archiveBytes": 12525,
+      "archiveSha256": "151e69e4437360ab8504a63af097734b45865d1a64942f36085af1eaffcc891b",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/init-Dz7_hNy6.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/init-Dz7_hNy6.js.gz",
+      "originalBytes": 31894,
+      "originalSha256": "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303",
+      "mode": 384,
+      "archiveBytes": 9586,
+      "archiveSha256": "0fd50182c7468f38d5a6bf38a6aa4108adc3547fe7f59959484ed2f84912a2a5",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/init-Dz7_hNy6.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/init-Dz7_hNy6.js.map.gz",
+      "originalBytes": 106915,
+      "originalSha256": "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6",
+      "mode": 384,
+      "archiveBytes": 26713,
+      "archiveSha256": "ee3462586326c4ea676a968608af6d5c15728535147121409690308d5a5f42d7",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/kernel.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/kernel.js.gz",
+      "originalBytes": 602750,
+      "originalSha256": "b8c97c6569bd2db7d30482448a73132ff61354422baf3a6b2f18570be70179c8",
+      "mode": 384,
+      "archiveBytes": 160058,
+      "archiveSha256": "f52c7698ba6354f624fd60f8050da953ff4d332ce6e7078a46bf5653693e56ca",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/kernel.js.map",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/kernel.js.map.gz",
+      "originalBytes": 2306863,
+      "originalSha256": "f8b765e4c6e0e469f19d05378954e9cbb6c386446b3536c3604bd144acdcea1b",
+      "mode": 384,
+      "archiveBytes": 573817,
+      "archiveSha256": "995ac0ac7124998368937766dc0bd29d217e2d337fe2d45148e0c63a2a118b63",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/compiled/webworkerAll-DXoAr3HC.js",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/compiled/webworkerAll-DXoAr3HC.js.gz",
+      "originalBytes": 58,
+      "originalSha256": "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8",
+      "mode": 384,
+      "archiveBytes": 62,
+      "archiveSha256": "e7b8d41393084b753172fb2ec6e7535d5a65e4b87decb78aa6ffcf8b10c0a764",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/console.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/console.json.gz",
+      "originalBytes": 656,
+      "originalSha256": "f07cfda398a9e011f851c9f0cbaf55345b00e49ee6cfcbf5e40d841c199688b9",
+      "mode": 384,
+      "archiveBytes": 236,
+      "archiveSha256": "e3124d69b6c11be3288d0dd568c6b4345a532c66d8f9f7ff378882968483ac8a",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/current-build-qualification.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/current-build-qualification.json.gz",
+      "originalBytes": 114295,
+      "originalSha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2",
+      "mode": 384,
+      "archiveBytes": 43238,
+      "archiveSha256": "c0514cd4951e8563034bf2a7386d1327aef17c5a06e31d3a9e57b64e65460417",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/failure.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/failure.json.gz",
+      "originalBytes": 100,
+      "originalSha256": "4f50f2eaf5c7a368c795287f1307a296bec15641fba867414ddfca1e87997fd9",
+      "mode": 384,
+      "archiveBytes": 113,
+      "archiveSha256": "b6b12960d0861bb4e6a1041722e67c24c7ec6c1f2547c755bbdebb6ab3c91ca8",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/final-integrity.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/final-integrity.json.gz",
+      "originalBytes": 102,
+      "originalSha256": "56278a4298c121fec5cabfa5cea4a3fe27dd143b01373e3ea5bcf31c0db25ba7",
+      "mode": 384,
+      "archiveBytes": 77,
+      "archiveSha256": "afaed93b63f1ea9f54fc23062d4eae7906dc158d8f583574bd1a615116d74d13",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/initial-topology.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/initial-topology.json.gz",
+      "originalBytes": 22209,
+      "originalSha256": "47cb497fcb9c302e62c3c9b6dc9a6bcdb51b7c1ec4df392c81cb6064dcd86965",
+      "mode": 384,
+      "archiveBytes": 3023,
+      "archiveSha256": "7e9cd5cb64697c9426b3059e145573b5c9e9c815f6253194905639d0ad0b29d9",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/kernel-build-after.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/kernel-build-after.json.gz",
+      "originalBytes": 4355023,
+      "originalSha256": "bdc45c590a6f2563d11bb1f7ad7e5463e2237ad81734b4a2db2afe5045ef55c5",
+      "mode": 384,
+      "archiveBytes": 955447,
+      "archiveSha256": "578f2a385cced4ff1487f2028f755a59c54a9c0b09a49b636ca181ed51f84c86",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/kernel-build-before.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/kernel-build-before.json.gz",
+      "originalBytes": 4355023,
+      "originalSha256": "bdc45c590a6f2563d11bb1f7ad7e5463e2237ad81734b4a2db2afe5045ef55c5",
+      "mode": 384,
+      "archiveBytes": 955447,
+      "archiveSha256": "578f2a385cced4ff1487f2028f755a59c54a9c0b09a49b636ca181ed51f84c86",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/kernel-build-output.txt",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/kernel-build-output.txt.gz",
+      "originalBytes": 1685,
+      "originalSha256": "2e414c172d59a6e5d437d04bc12ef5ff1cc7b12d14d87454c5052fe121d71463",
+      "mode": 384,
+      "archiveBytes": 567,
+      "archiveSha256": "15221d9c3ad1b3747f5177426cc0deff5b574c45a8bb938019065b47c1ddf559",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/kernel-build-owner.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/kernel-build-owner.json.gz",
+      "originalBytes": 160,
+      "originalSha256": "4ed17f15f9c42d4e5f1bf048e8289d3c7c8c4314eceb35fbf918c3a9c0eba785",
+      "mode": 384,
+      "archiveBytes": 131,
+      "archiveSha256": "e0bc19af12073104b4b7013e283f29c1f66a1502be446a646343b5438980e723",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/kernel-build-result.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/kernel-build-result.json.gz",
+      "originalBytes": 920,
+      "originalSha256": "a5c2cbce7f943ae2335311ff1b8cc1456c47cb367357a0305c82dbf670b32a60",
+      "mode": 384,
+      "archiveBytes": 499,
+      "archiveSha256": "68d394470e343358becb1022c1f8bddc6549e3ff8757135ae56f3f2a10da83b7",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/kernel-compiled-manifest.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/kernel-compiled-manifest.json.gz",
+      "originalBytes": 176005,
+      "originalSha256": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+      "mode": 384,
+      "archiveBytes": 30291,
+      "archiveSha256": "9d46510ebd25ab5f6a94a95823ae5752ef25bb5b032278bdfee3e0dfb64e4bc6",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/kernel-program-attribution-hook.mjs",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/kernel-program-attribution-hook.mjs.gz",
+      "originalBytes": 13574,
+      "originalSha256": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+      "mode": 384,
+      "archiveBytes": 3914,
+      "archiveSha256": "bf69f34e5efdf375b46f0ee69d2110fc6c3e6405f0c0614af2d7ee6efd08fcc0",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/library-reuse-composite.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/library-reuse-composite.json.gz",
+      "originalBytes": 492570,
+      "originalSha256": "5e9a5426c68101f3de6440ce82c6c62643aa1626c8bb64233df3f44dab100c80",
+      "mode": 384,
+      "archiveBytes": 136799,
+      "archiveSha256": "29666dc408ff20159d37d3938c523c4b733176463c9816f3a40b3b84b8ce6d85",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/qualification-outcome.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/qualification-outcome.json.gz",
+      "originalBytes": 196,
+      "originalSha256": "cbec7e264243e377fdc2d57d0514812381b593fdb192b32e252cea0c7cb57a2c",
+      "mode": 384,
+      "archiveBytes": 171,
+      "archiveSha256": "7fd55b4443d97241e98db4c7a161c9a6a4ef906165a41966f8f785df605c158b",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/qualified-browser-receipt.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/qualified-browser-receipt.json.gz",
+      "originalBytes": 104714,
+      "originalSha256": "9a0d1d12414b0c251db98ef5bca3fd996b2a5c327600f2abfcef847be5a37e1f",
+      "mode": 384,
+      "archiveBytes": 40569,
+      "archiveSha256": "a731281c98665fe7ef8914bab62bca3c437042fa5fc869a71c242e7d2b6b842a",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/run-render-kernel-compact-json.mjs",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/run-render-kernel-compact-json.mjs.gz",
+      "originalBytes": 46051,
+      "originalSha256": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+      "mode": 384,
+      "archiveBytes": 13539,
+      "archiveSha256": "3a2bfabfc851c5889467a9ce28e8e0747b00115c251250e0b94ef177ae94aa2a",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/setup-receipt.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/setup-receipt.json.gz",
+      "originalBytes": 111687,
+      "originalSha256": "37d73d9405d6dff48281f53668cff12830d946ca4f4036c4772dae5a6b027ef0",
+      "mode": 384,
+      "archiveBytes": 43097,
+      "archiveSha256": "d7caa9b9a5dff8a96ec120324653210beff6b7f32c67bc2651efac23049a8d5d",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width1-actual-program-operations.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width1-actual-program-operations.json.gz",
+      "originalBytes": 6428248,
+      "originalSha256": "335ad63933e623fa5e94a9e2e02d30ce33489366315939bf8de4393663657732",
+      "mode": 384,
+      "archiveBytes": 67661,
+      "archiveSha256": "f0b81851f87c90cd69ae2e1481f768fe27b29a1f06cd557b1cc92502c167f1ab",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width1-before-positive.png",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width1-before-positive.png.gz",
+      "originalBytes": 237051,
+      "originalSha256": "439a4ff039407c9d38e7b31e16cfd455fd03bd79e7c5fb15204cd8792160a521",
+      "mode": 384,
+      "archiveBytes": 234193,
+      "archiveSha256": "7fe7e191eb68cc7060ad88e5cd906085c07666eeac341af79fc16d418074dc10",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width1-before-topology.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width1-before-topology.json.gz",
+      "originalBytes": 24241,
+      "originalSha256": "708de11e2cf6a84af2aaaefb9f3f5bc6897df29da66f126ae19bd61bb1c850ef",
+      "mode": 384,
+      "archiveBytes": 3217,
+      "archiveSha256": "ef57f30ac6bb9fb6d8b4552ed74842c1672889a2a6001074fcaf121caed12b0f",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width1-conditioning-lossless.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width1-conditioning-lossless.json.gz",
+      "originalBytes": 2869529,
+      "originalSha256": "e5df19929cd0ac6e3650aa566972d0df39912398dc7cecc87e0e419f0b746bf2",
+      "mode": 384,
+      "archiveBytes": 149100,
+      "archiveSha256": "742aefc1300514482446788dbd71240012a3b4d32d218345f4ddd62154afca3e",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width1-conditioning.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width1-conditioning.json.gz",
+      "originalBytes": 1796427,
+      "originalSha256": "5230ca9b7ba1b2a039d80e9ba6bc21cb3062afdc1032cf881d11dc1eeaea6b79",
+      "mode": 384,
+      "archiveBytes": 137568,
+      "archiveSha256": "ab4a9df5d74ed211d9a7763ff940858d8629dd2eaebc4a0d8823f353e3ce1586",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width1-draws.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width1-draws.json.gz",
+      "originalBytes": 497357,
+      "originalSha256": "f69a2a50ee59d4e84b1057d139d785eeacfbc7fbff4324a25bc529c932549548",
+      "mode": 384,
+      "archiveBytes": 39241,
+      "archiveSha256": "ae0dc5e9d9e3d29a03ed4197298c60ef946f30dc647f10d88e9d746f10afb950",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width1-snapshot-lossless.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width1-snapshot-lossless.json.gz",
+      "originalBytes": 789690,
+      "originalSha256": "f07bfa88f09f275e204251920dce082ae02f5041f6e21fe6666814f4be8f7c93",
+      "mode": 384,
+      "archiveBytes": 41750,
+      "archiveSha256": "f736c41cebb589ec95634f380a07ca8dc28bcb4a7195c5f48e610a8847f6c134",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width1-timer-capability.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width1-timer-capability.json.gz",
+      "originalBytes": 1115,
+      "originalSha256": "e9aedf8ee17a28a8d80dd1e807012b1645a6978e739318863fd4ed39e109b7f4",
+      "mode": 384,
+      "archiveBytes": 537,
+      "archiveSha256": "1de68a3a8540d70ba7a23f54f28b8262d303135346d51359c91c76c87bef0eb1",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-actual-program-operations.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-actual-program-operations.json.gz",
+      "originalBytes": 1487697,
+      "originalSha256": "6eed26caa731793f4ae3ff67ed08a380f8582940319c82a34fe6b305e53ea1a6",
+      "mode": 384,
+      "archiveBytes": 28678,
+      "archiveSha256": "6bcc7bee409a5d2c1945f443b75b17d7a68b64b1795e19b6f6b0262b7c094aca",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-after-topology.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-after-topology.json.gz",
+      "originalBytes": 24238,
+      "originalSha256": "9493612091b30f3847dcd99319dbd155df7831efd00f1ff60eb81044f587fa5a",
+      "mode": 384,
+      "archiveBytes": 3211,
+      "archiveSha256": "60e907132ede08ff8e0a6defbc5cd542d3d3be3865196cb525535c961a9e464d",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-before-topology.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-before-topology.json.gz",
+      "originalBytes": 24230,
+      "originalSha256": "7c14f8abb26f683ac4ce7f8088b23a29ff6774cc736152b0d0a50175ec162c12",
+      "mode": 384,
+      "archiveBytes": 3198,
+      "archiveSha256": "e3b15d0d00991f9657831a480e0a08f2b3a566fe610554c00be148e5fd68dce8",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-conditioning-lossless.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-conditioning-lossless.json.gz",
+      "originalBytes": 2869533,
+      "originalSha256": "d91b2e5f56ea84072b1b116b09e29f6931b8cf485d2e1316e834ca4511b95d64",
+      "mode": 384,
+      "archiveBytes": 149092,
+      "archiveSha256": "122374f25aad7aab5acfa549359a849da57fa0e978b04d5b962f79139f8aebb3",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-conditioning.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-conditioning.json.gz",
+      "originalBytes": 1796431,
+      "originalSha256": "795bee732770bded435fd1a46507725527a70dc37bc1128d700db7f31a566b39",
+      "mode": 384,
+      "archiveBytes": 137559,
+      "archiveSha256": "154e2a608b5d776019bd5c83daaf4c2b0abc6974ad2dd941c0557e11ea79810f",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-draws.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-draws.json.gz",
+      "originalBytes": 497408,
+      "originalSha256": "f7d9d2e6cf674e98b7b496ca7464aae2ef77d0e49e67b2f3eb62d6e0a92d5068",
+      "mode": 384,
+      "archiveBytes": 39254,
+      "archiveSha256": "4c51182da7b5575f318a857700aa26ab9e27ae90ccf15c55dc33ccb2f94ff323",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-positive.png",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-positive.png.gz",
+      "originalBytes": 237051,
+      "originalSha256": "439a4ff039407c9d38e7b31e16cfd455fd03bd79e7c5fb15204cd8792160a521",
+      "mode": 384,
+      "archiveBytes": 234193,
+      "archiveSha256": "7fe7e191eb68cc7060ad88e5cd906085c07666eeac341af79fc16d418074dc10",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-snapshot-lossless.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-snapshot-lossless.json.gz",
+      "originalBytes": 789691,
+      "originalSha256": "039a0bfbaedf655176babc9cb863214d07dbb816fd045c51b85c95662aff9d07",
+      "mode": 384,
+      "archiveBytes": 41747,
+      "archiveSha256": "638c13422ed525583b4a735300afb544806868b3e4185c1c6753535282f3d611",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-summary.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-summary.json.gz",
+      "originalBytes": 17194,
+      "originalSha256": "8dfaeb112c202c56bc647c9bd8c26eda617a1bb4d7e8b88034f4934e4cd56e5e",
+      "mode": 384,
+      "archiveBytes": 3253,
+      "archiveSha256": "c57da5e05cad46e8e06da1811292683715ea9a30d9137e25c0ee21ed8e35de31",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/width32-timer-capability.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/width32-timer-capability.json.gz",
+      "originalBytes": 1115,
+      "originalSha256": "e9aedf8ee17a28a8d80dd1e807012b1645a6978e739318863fd4ed39e109b7f4",
+      "mode": 384,
+      "archiveBytes": 537,
+      "archiveSha256": "1de68a3a8540d70ba7a23f54f28b8262d303135346d51359c91c76c87bef0eb1",
+      "restoredExact": true
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.vlntmfw7/wrapper-owner.json",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-failed-episode-artifacts/wrapper-owner.json.gz",
+      "originalBytes": 68,
+      "originalSha256": "e02a753945156b3453b828b0acd2b3e8bbae84004187a977731cee36697a059c",
+      "mode": 384,
+      "archiveBytes": 70,
+      "archiveSha256": "e36b4dcdd24ed656219f38e33ded2a556210ec6c35d54f4af688608774b78b88",
+      "restoredExact": true
+    }
+  ],
+  "totalOriginalBytes": 34765102,
+  "totalArchivedBytes": 4681040,
+  "everyRestoredHashVerified": true,
+  "elapsedSeconds": 1.1970888709984138
+}

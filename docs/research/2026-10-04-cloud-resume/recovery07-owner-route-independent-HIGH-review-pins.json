@@ -1,0 +1,31 @@
+{
+  "decision": "SUPPORTED-root-scopes-and-one-bounded-recovery07-capture",
+  "review": {
+    "path": "docs/research/2026-10-04-cloud-resume/recovery07-owner-route-independent-HIGH-review.md",
+    "sha256": "4cd568c3ba1cfc4e5192886f11125106efd923d2b39f52b81fa9180ef368bab6"
+  },
+  "inputs": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-owner-stage.mjs.txt",
+      "sha256": "c1e3c4bb82d3113ccc72d30a38dc56d538b16079a97d0e537a8367d46ed54119"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-root-parent.py.txt",
+      "sha256": "7da93aca30ad367faa9514c1334fdbd68c13790866f3f578266947402e73ac1a"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-owner-input.json",
+      "sha256": "221e30e59216ac018e868a303c4e50585fc952cc75a8ed2f514a9ebd3f5ba368"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-capture.py.txt",
+      "sha256": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/recovery07-capture-input.json",
+      "sha256": "eacb4ccf6f73b653a7d1992a763851932792dc73a54bbcbff0ceb8489458ad07"
+    }
+  ],
+  "canonicalOwnershipCoreSha256": "d7eda9c372acad61f379a2c6df77737ce80d7612d8213b5896b5e836d58c35ba",
+  "executed": false
+}

@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/catch-tower.test.ts (2 tests | 1 failed) 11ms
+   × uses the shared sun for mechanical detail and night lamps without inventing secured status 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/catch-tower.test.ts > uses the shared sun for mechanical detail and night lamps without inventing secured status
+TypeError: Cannot read properties of null (reading 'alpha')
+ ❯ tests/view/catch-tower.test.ts:44:16
+     42|   const day = mast.tint;
+     43|   const lamps = tower.container.getChildByLabel('tower-lights')!;
+     44|   expect(lamps.alpha).toBe(0);
+       |                ^
+     45|   writeSun(sun, 'custom', -DEFAULT_LAUNCH_HOUR * 3600, 0);
+     46|   tower.update(camera, viewport, state, sun);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  10:21:40
+   Duration  333ms (transform 113ms, setup 0ms, import 228ms, tests 11ms, environment 0ms)
+

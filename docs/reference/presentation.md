@@ -151,8 +151,17 @@ multiply rather than fight.
 places the sun from the scenario hour (`LAUNCH_HOURS`), sim clock and downrange longitude
 (equinox assumed); one preallocated `SunLight` drives every colour in `view/`, and above 15°
 elevation every factor is 1. `stars.ts` places the 320 brightest Bright Star Catalogue stars
-(`stars-data.ts`) for StarBase, facing north. `lighting.ts` derives a normal map and delighting
-gain from the hull sprite once, so either flank can be lit.
+(`stars-data.ts`) for StarBase, facing north. `vehicle-material.ts` shades original
+component geometry using analytic normals, steel sky/ground reflections, Fresnel response
+and a separate TPS tile material. The active vehicles do not sample a hull photograph.
+`vehicle-geometry.ts` shares physical hinges with the component partition; grids change
+projection around their actual hinge, with fixed buffers rather than per-frame mesh creation.
+
+The same component meshes render retained hardware and detached pieces. Core state owns
+attachment, temperature and physical debris motion. A terminal parent leaves no original
+hull, flight-path marker or whole-body heat distortion. Follow camera tracks the dry-mass
+weighted debris centre and widens to the physical piece envelope; manual camera modes
+retain their existing laws. See [progressive damage](progressive-damage.md).
 
 ### Depth
 
@@ -282,3 +291,9 @@ night terminator; masking does not hide the terrain fill. Browser witnesses use
 explicit original Ship inputs when they compare Ship plume or shake behavior.
 Mac browser tests use native Metal; Linux uses ANGLE SwiftShader through the
 shared Chromium launch policy in `tests/e2e/chromium.ts`.
+
+### Short-landscape structured-flight viewport
+
+Booster and staged-mission flights reserve the complete measured HUD zone above the canvas. Their short-landscape instrument strip uses the safe screen width, with primary readouts beside fuel/attitude and named engine-group status across a shared row. The original labels, counts, primary26px numerals, binders and controls remain; narrow/zoomed widths wrap naturally. Open control rails retain their existing scrolling and touch targets, bounded below the actual HUD bottom with16px clearance. Wide/portrait and the protected standalone Ship intro retain their existing layout.
+
+This narrow Phase9 slice was brought into Phase8 after actual natural-loss GPU proof exposed folded82CSSpx world height. The canvas remains below every instrument, rather than being drawn behind hidden chrome. Inspection uses real player zoom; tiny-stage/default-framing and permanently separating partial debris are not guaranteed visible. Terminal debris framing and physical geometry remain unchanged. Evidence and outstanding verification: `docs/research/2026-10-03-vehicle-realism/natural-browser-audit.md`.

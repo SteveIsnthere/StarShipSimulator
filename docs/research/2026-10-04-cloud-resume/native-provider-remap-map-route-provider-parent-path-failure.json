@@ -1,0 +1,7 @@
+{
+  "status": 1,
+  "stage": "rootparentmkdir",
+  "error": "FileExistsError historical parent path",
+  "workloadStarted": false,
+  "originalParentSnapshot": "docs/research/2026-10-04-cloud-resume/native-provider-remap-map-route-provider-parent-path-failure.py.txt"
+}

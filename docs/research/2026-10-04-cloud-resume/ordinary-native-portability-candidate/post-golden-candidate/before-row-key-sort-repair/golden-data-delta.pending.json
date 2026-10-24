@@ -1,0 +1,84 @@
+{
+  "kind": "reviewed-golden-data-delta-v1",
+  "status": "pending-replay",
+  "baseQualificationSha": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+  "postAuditSnapshot": {
+    "path": "docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json",
+    "sha256": "0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b"
+  },
+  "rows": [
+    {
+      "path": "tests/golden/booster-replay.test.ts",
+      "role": "audit-literals-and-comments",
+      "before": "c4d0171d19e76a3fd057573b46ec760b727b8c3a99595d36a01fd91b3e672ead",
+      "after": "cce053083240b7af301fdcb1cd84ecfaa4810815f906141f861c561d4c38d3b4"
+    },
+    {
+      "path": "tests/golden/fixtures/before-flip-autoland.json",
+      "role": "golden-json",
+      "before": "cbfb87a0930a42720942f6ebac435c5f7431a3b92a341b4f1fb4251cf79630ac",
+      "after": "e245e1adfe82d0932b6d6c469f04e293baca32f95cbd4bd3ee090f07c76e0946"
+    },
+    {
+      "path": "tests/golden/fixtures/booster-sep-boostback.json",
+      "role": "golden-json",
+      "before": "042c5e74039a92a4c85ef176b0190ef2e6d9b82944e81c483c4d87531a1c1d54",
+      "after": "d69463ab51057ec77203d4104e56a79c65d17203327a5119e76c9b1f4c6716d8"
+    },
+    {
+      "path": "tests/golden/fixtures/booster/booster-sep-catch.json",
+      "role": "golden-json",
+      "before": "5c754d0217301aeec35c9850a8ac71b31abae86635898e2724abdb1e08dbbd98",
+      "after": "845da274d0e59758fabebf57e734c28ce1f8276ccc33fa33452f59bc3e912e33"
+    },
+    {
+      "path": "tests/golden/fixtures/booster/rtls-catch.json",
+      "role": "golden-json",
+      "before": "8b10c24c1d68136477226b0728420870046d456f198dcedf64aaf4ba9113fb33",
+      "after": "a20123bb78d3fdf77affd26e2140e142247d07d13319786f2673e1a5a62d9bb9"
+    },
+    {
+      "path": "tests/golden/fixtures/intro-demo.json",
+      "role": "golden-json",
+      "before": "5936807264fccd93933de09b1bf292c48d0a7dc22e487ea074f2515538b9f1c7",
+      "after": "fcd13bcea315df972300443eb3d8f3703896cf60ce405f56a025eae212d363cb"
+    },
+    {
+      "path": "tests/golden/fixtures/landing-burn-autoland.json",
+      "role": "golden-json",
+      "before": "a17089cba6dbb0d3aa79ff2f2ae058cbbb469640f2ad733e258323a9f4b87796",
+      "after": "7ada8d9148f17f608453f3aa9e74f354c6125cc2a8a8232ba3042479049cb0da"
+    },
+    {
+      "path": "tests/golden/fixtures/landing-burn-headwind.json",
+      "role": "golden-json",
+      "before": "422c4ad6e6940f5afea8c0df2b055c597689dd3b2382c4a1c8bbc46a6b9867ec",
+      "after": "0b71c1f10dbac3997025cdfd6f001eec3067df9563a2b6fa7514ee8641ec869f"
+    },
+    {
+      "path": "tests/golden/fixtures/launch-pad-takeoff.json",
+      "role": "golden-json",
+      "before": "4b12b151bcd85352b7c3326bcc797bfd4fd70d639bb2ed2872428719a724ac18",
+      "after": "b0acaade1ec64bc3201e27548f12e6a6376e9c162ba523cc5083618d22313faf"
+    },
+    {
+      "path": "tests/golden/fixtures/reentry-autoland.json",
+      "role": "golden-json",
+      "before": "02a070d010b97a8c666bf92fa72aa59c8f839e7e13d176033f832f2c8c99cf9b",
+      "after": "8f56ef72e62942414737279fe433c5e9c13aac3f9afdbde4237aea46939b0c32"
+    },
+    {
+      "path": "tests/golden/fixtures/rtls-boostback.json",
+      "role": "golden-json",
+      "before": "f7b8f3aca74fe88ceb3e558061e47119ea1474a80cef129117f8698ff1d0d4df",
+      "after": "660a9cfee76bdf871e8d8edfb3772824848b85bed9f307b125d6187da736a420"
+    },
+    {
+      "path": "tests/golden/unification.test.ts",
+      "role": "audit-literals-and-comments",
+      "before": "b43c2ae8be0dc1d456f8b18cefdedf2359b79faacfec3f2956b97ec65a7902b1",
+      "after": "eddc619bfc4a2cc17d3f3355249bcf2a0bf3f08769d03af9633b0ab635297d38"
+    }
+  ],
+  "evidence": {}
+}

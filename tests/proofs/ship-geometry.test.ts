@@ -1,7 +1,7 @@
 /** Detect ignored hull/fin geometry while preserving the shipped Ship aero. */
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
-import { SHIP } from '$core/vehicle';
+import { HISTORICAL_SHIP as SHIP } from '../reference/historical-vehicles';
 import * as aero from '$core/physics/aero';
 import * as shipped from './fixtures/ship-aero';
 import { rad } from '$core/units';

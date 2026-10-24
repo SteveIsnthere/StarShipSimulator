@@ -1,0 +1,69 @@
+{
+  "kind": "stage-a-native-booster-five-path-projection-v1",
+  "status": "UNAPPLIED/PENDING-proof-and-OTHER-HIGH",
+  "historicalQualification": {
+    "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+    "sha256": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd"
+  },
+  "currentSnapshot": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json",
+    "sha256": "0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b"
+  },
+  "fiveTargets": {
+    "scripts/test/admission.mjs": {
+      "before": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/admission.mjs.txt",
+      "after": "88b685353a4b42df5cfa53e8f0d5850df6d4093f98db9690a0e082a0eec2c8fc"
+    },
+    "scripts/test/loader.mjs": {
+      "before": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16",
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/loader.mjs.txt",
+      "after": "36044636298067bfb5fdf3e6ac48abfdf14f03aaef984d4314a414d50739f296"
+    },
+    "scripts/test/run.mjs": {
+      "before": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/run.mjs.txt",
+      "after": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d"
+    },
+    "scripts/test/golden-support-policy.mjs": {
+      "before": null,
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/golden-support-policy.mjs.txt",
+      "after": "dd268a7a38c9d8789ff823f4e93fb911e8df8b016e12d5b337ae74569df20e68"
+    },
+    "vitest.config.ts": {
+      "before": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029",
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/vitest.config.ts.txt",
+      "after": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7"
+    }
+  },
+  "projectedSource": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/projected-source.json",
+    "sha256": "e73cf42663880daadb550e1dd5c8f9fdf304f281177fd99672ac2097e0ea62c4",
+    "count": 770
+  },
+  "utilityDigestUnchanged": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+  "goldenDataPaths": [
+    "tests/golden/booster-replay.test.ts",
+    "tests/golden/fixtures/before-flip-autoland.json",
+    "tests/golden/fixtures/booster-sep-boostback.json",
+    "tests/golden/fixtures/booster/booster-sep-catch.json",
+    "tests/golden/fixtures/booster/rtls-catch.json",
+    "tests/golden/fixtures/intro-demo.json",
+    "tests/golden/fixtures/landing-burn-autoland.json",
+    "tests/golden/fixtures/landing-burn-headwind.json",
+    "tests/golden/fixtures/launch-pad-takeoff.json",
+    "tests/golden/fixtures/reentry-autoland.json",
+    "tests/golden/fixtures/rtls-boostback.json",
+    "tests/golden/unification.test.ts"
+  ],
+  "expectedNativeCases": 24,
+  "noPortableOrBenchmarkTargetsApplied": true,
+  "nativeReplayNotYetPassed": true,
+  "requiredCompletion": [
+    "Bind actual accepted38helper+28inert result bytes/owner+observer statuses/ALL PID absence and independent review",
+    "Validate pending golden aliases/relative metadata EXACT locked helper exports before any application",
+    "Bind existing proposal/body/data-analytic evidence plus actual source/qualification HIGH",
+    "Publish DISTINCT completed explicit composite; never rewrite pending predecessor or oldq73/d1",
+    "Fresh OTHER source/input HIGH -> root ONE five-path apply+after770 fullsnapshot/currentadmitComposite -> full38 original replay"
+  ]
+}

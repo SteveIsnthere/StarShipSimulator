@@ -26,9 +26,19 @@ import {
   gimballedShare,
 } from '../physics/engines';
 import { createMassProperties, writeMassProperties } from '../physics/mass';
+import { writeFlightMassQuery } from '../physics/flight-mass-query';
+import { createDamageMassProperties } from '../physics/damage-mass';
+import { damageModelFor } from '../physics/damage-model';
+import { createDamageControlForces, writeDamageControls } from '../physics/damage-controls';
+import { writeFlightGridForces } from '../physics/damage-flight';
+import { createGridFinForces } from '../physics/grid-fins';
+import { MAX_DAMAGE_COMPONENTS } from '../damage-state';
 
 /** M11.8 — the arms for the step in hand; written before read, every call. */
 const arms = createMassProperties();
+const queriedMass = createDamageMassProperties();
+const finAuthority = createDamageControlForces(MAX_DAMAGE_COMPONENTS);
+const gridAuthority = createGridFinForces();
 import type { RaptorIndex, SimState } from '../state';
 import { rad, type Rad } from '../units';
 
@@ -98,17 +108,19 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   const { kinematics, forces, status, vehicle, autopilot } = state;
 
   const pitchDifference = getPitchDifference(kinematics.pitch, goal);
+  if (state.damage) writeFlightMassQuery(state, model, queriedMass, arms);
+  else writeMassProperties(vehicle.propellantMass, arms, model);
+  const supportAvailable = !state.damage || queriedMass.engineSupportAvailable;
 
   const accelerationNeeded =
     -pitchDifference / timeNeededToAlign ** 2 -
     (2 * kinematics.angularVelocity) / timeNeededToAlign -
-    forces.offAxisThrustDifferenceAcceleration;
+    (supportAvailable ? forces.offAxisThrustDifferenceAcceleration : 0);
 
-  const torqueRequired = accelerationNeeded * vehicle.vehicleMomentOfInertia;
+  const torqueRequired = accelerationNeeded * (state.damage ? queriedMass.momentOfInertia : vehicle.vehicleMomentOfInertia);
   // M11.8: the arms the controllers divide by follow the propellant, as the
   // step's do — a controller that assumed the empty-tank arms would ask a
   // full ship for half the deflection it needs.
-  writeMassProperties(vehicle.propellantMass, arms, model);
 
   /**
    * Initialised to 0, where 2021 declared it with no initialiser.
@@ -166,7 +178,7 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
   // Only the sea-level engines gimbal (the RVacs are fixed): the authority is
   // their share of the thrust, which is all of it when no RVac is lit.
   const gimballedThrust =
-    forces.thrust * gimballedShare(state.engines.running, state.atmosphere.airPressure, model);
+    supportAvailable ? forces.thrust * gimballedShare(state.engines.running, state.atmosphere.airPressure, model) : 0;
 
   const controlByThrustVector = (): void => {
     const vectorForceRequired = torqueRequired / arms.engineArm;
@@ -204,6 +216,42 @@ export function precisionAlignment(state: SimState, goal: Rad, timeNeededToAlign
       airVelocityX(state.world, kinematics.altitude),
       state.world.gustVertical,
     );
+    if (state.damage) {
+      // Probe canonical delivered endpoint authority without altering live
+      // extension, root temperatures, articulation or permanent loss policy.
+      let bestTorque = 0, endpoint = 0;
+      const q = .5 * state.atmosphere.airDensity * finAirspeed ** 2;
+      if (model.gridFins) {
+        for (let direction = -1; direction <= 1; direction += 2) {
+          writeFlightGridForces(state, state.atmosphere.airDensity,
+            kinematics.speedX - airVelocityX(state.world, kinematics.altitude),
+            kinematics.speedY - state.world.gustVertical, kinematics.pitch, arms, model, gridAuthority,
+            rad(direction * model.gridFins.maxAngle));
+          if (gridAuthority.torque * torqueRequired > 0 && Math.abs(gridAuthority.torque) > Math.abs(bestTorque)) {
+            bestTorque = gridAuthority.torque;
+            endpoint = direction * 100;
+          }
+        }
+      } else {
+        const incidence = Math.abs(Math.sin(kinematics.angleInToTheWind));
+        const sign = kinematics.angleOfAttack < 0 ? -1 : 1;
+        for (let endpointIndex = 0; endpointIndex < 2; endpointIndex++) {
+          const front = endpointIndex === 0;
+          writeDamageControls(state.damage, damageModelFor(model).controls, q, incidence,
+            front ? C.finActuationMaxAngle : 0, front ? 0 : C.finActuationMaxAngle, finAuthority);
+          const torque = q * C.finDragCoefficient * incidence * sign
+            * (finAuthority.frontArea * arms.frontFinArm - finAuthority.aftArea * arms.aftFinArm);
+          if (torque * torqueRequired > 0 && Math.abs(torque) > Math.abs(bestTorque)) {
+            bestTorque = torque;
+            endpoint = (front ? sign : -sign) * 100;
+          }
+        }
+      }
+      yokePosition = bestTorque === 0 ? 0 : endpoint * Math.min(1, Math.abs(torqueRequired / bestTorque));
+      if (status.rcsActive) { yokePosition *= .99; controlByRcs(); }
+      autopilot.pitchControl = yokePosition;
+      return;
+    }
     if (torqueRequired > 0) {
       const maxFinNoseDownTorque =
         getDrag(
@@ -282,9 +330,11 @@ export function controlEnginebyTWR(state: SimState, goalTWR: number, model: Vehi
  */
 export function controlEngineForAcceleration(state: SimState, acceleration: number, model: VehicleDefinition = SHIP): void {
   const { vehicle, engines } = state;
+  if (state.damage) writeFlightMassQuery(state, model, queriedMass);
+  const available = !state.damage || queriedMass.engineSupportAvailable;
   let throttleGoalPercentage =
-    ((acceleration * vehicle.vehicleMass) /
-      getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model)) *
+    ((acceleration * (state.damage ? queriedMass.totalMass : vehicle.vehicleMass)) /
+      (available ? getTotalMaxThrust(engines.running, state.atmosphere.airPressure, model) : 0)) *
     100;
 
   /**
@@ -336,16 +386,19 @@ export function controlEngineForAcceleration(state: SimState, acceleration: numb
 }
 
 /** autoPilotLowLevelFunctions.js:160 — same, against vertical thrust only. */
-export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: number): void {
+export function controlEnginebyEffectiveVerticalTWR(state: SimState, goalTWR: number, model: VehicleDefinition = SHIP): void {
   const { vehicle, engines } = state;
+  if (state.damage) writeFlightMassQuery(state, model, queriedMass);
+  const available = !state.damage || queriedMass.engineSupportAvailable;
   let throttleGoalPercentage =
-    ((goalTWR * vehicle.vehicleMass * localGravity(state)) /
-      getEffectiveVerticalMaxThrust(
+    ((goalTWR * (state.damage ? queriedMass.totalMass : vehicle.vehicleMass) * localGravity(state)) /
+      (available ? getEffectiveVerticalMaxThrust(
         engines.running,
         vehicle.gimbalPointingDirection,
         state.atmosphere.airPressure,
         state.kinematics.pitch,
-      )) *
+        model,
+      ) : 0)) *
     100;
 
   // Same NaN escape as controlEnginebyTWR above, by the same 0/0 route: no
@@ -538,33 +591,33 @@ export function controlHorizontalAccelerationByAeroBreaking(
 export function raptorAutoShutDown_KeepMinTWRBelow1(
   state: SimState,
   toggleRaptor: (s: SimState, i: RaptorIndex) => void,
+  model: VehicleDefinition = SHIP,
 ): void {
-  const { engines, vehicle } = state;
+  const { engines } = state;
+  writeFlightMassQuery(state, model, queriedMass);
+  if (!queriedMass.engineSupportAvailable || !queriedMass.hasMass) return;
   const running = engines.running;
   // M11.2: the engine model's own minimum, at the ambient pressure. M10.8 had
   // noted this expression was a second copy of getTotalMinThrust; now it is
   // the one copy, and it knows about altitude.
-  const minThrust = getTotalMinThrust(running, state.atmosphere.airPressure);
+  const minThrust = getTotalMinThrust(running, state.atmosphere.airPressure, model);
 
-  if (getTWR(minThrust, vehicle.vehicleMass, localGravity(state)) > 1) {
-    const count = getWorkingSeaLevelCount(running);
-    if (count === 3) {
-      toggleRaptor(state, 0);
-    } else if (count === 2) {
-      if (running[0] && running[1]) {
-        toggleRaptor(state, 0);
-      } else if (running[1] && running[2]) {
-        toggleRaptor(state, 1);
-      } else {
-        toggleRaptor(state, 2);
-      }
+  if (getTWR(minThrust, queriedMass.totalMass, localGravity(state)) > 1) {
+    const count = getWorkingSeaLevelCount(running, model);
+    if (count === 0) return;
+    // Preserve the Ship ladder's asymmetric shutdown order. For an explicitly
+    // selected larger inventory, never turn an unlit nominal centre ON.
+    const preferred = count === 3 ? 0 : count === 2
+      ? running[0] && running[1] ? 0 : running[1] && running[2] ? 1 : 2
+      : running[0] ? 0 : running[1] ? 1 : 2;
+    if (running[preferred] && model.engines[preferred]?.kind === 'sea-level') {
+      toggleRaptor(state, preferred);
     } else {
-      if (running[0]) {
-        toggleRaptor(state, 0);
-      } else if (running[1]) {
-        toggleRaptor(state, 1);
-      } else {
-        toggleRaptor(state, 2);
+      for (let i = 0; i < model.engines.length; i++) {
+        if (running[i] && model.engines[i]!.kind === 'sea-level') {
+          toggleRaptor(state, i);
+          break;
+        }
       }
     }
   }

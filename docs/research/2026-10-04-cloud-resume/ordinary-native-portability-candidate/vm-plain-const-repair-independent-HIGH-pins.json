@@ -1,0 +1,12 @@
+{
+  "decision": "const-only repair supported for two scoped checks; no workload grant",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/portable-fixture-controls.mjs.txt": "a98a3e4f31b8dd9f8fa27939d5eb790a5f292e5c7539d3b793af8c5e1fae6521",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/input-pins.json": "e4e6a8ddb35d6134d8b59014d1d74704c8475659da64fa8b94846071c117f499",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/input-pins.json": "bfd242b2e764e9e3735787f35de603c3c1b4cd3403513e4e7352e0556382d384",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/owner.mjs.txt": "b5dc173607fcb2ea40b079657695b40d96c9a76bee4e28e9435080ab1ee97103",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/pure-owner/make-input.py.txt": "1168d4d943402ab2eb8b45f6dca489d24e0300ceb15b57b1438b1ff1a0e6657e",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/before-vm-plain-const-fix/portable-fixture-controls.mjs.txt": "65a31bf2afc74f505fbfe554db285ba2d84b2a84e4ffee54573bd4ac9f778651",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/vm-plain-const-repair-independent-HIGH-review.md": "71cea728837c06a87bc7e55d3956100b91ed9ec934f861c7271bec6668274d56"
+  }
+}

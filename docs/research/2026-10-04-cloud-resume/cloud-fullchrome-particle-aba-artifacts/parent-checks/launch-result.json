@@ -1,0 +1,16 @@
+{
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "100s",
+    "node",
+    "docs/research/2026-10-04-cloud-resume/run-fullchrome-particle-aba.mjs",
+    "/tmp/starship-fullchrome-aba.vp2xqyr1"
+  ],
+  "actualChildReturnCode": 0,
+  "elapsedSeconds": 25.03915108000001,
+  "setup": "/tmp/starship-fullchrome-aba.vp2xqyr1",
+  "oneInvocation": true,
+  "classification": "Causal diagnosis, not acceptance"
+}

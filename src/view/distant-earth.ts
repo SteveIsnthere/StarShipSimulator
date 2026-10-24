@@ -28,13 +28,14 @@
  * place. There is no altitude at which anything jumps — asserted in
  * tests/view/distant-earth.test.ts.
  */
+import { createDistantCoast, OCEAN_COLOUR } from './coast';
 import { Container, Graphics, Sprite, TilingSprite, type Texture } from 'pixi.js';
 import type { Viewport } from './camera';
 import { groundTint, hazeIntensity, horizonDistance, horizonSagittaFraction } from './atmosphere-look';
 import { elevationAtOffset, groundDarkness, type SunLight } from './sun';
 import { planetCircumference } from '$core/constants';
 import { GROUND_COLOR } from './world';
-import { skyLightness, skyTint } from './sky';
+import { skyLightness, skyTint, skyTintLit } from './sky';
 import { mixColour, scaleColour } from './colour';
 import { MOTTLE_MEAN } from './terrain';
 import {
@@ -296,12 +297,12 @@ export function createDistantEarth(terrain?: {
   }
 
   // The band, redrawn only when the viewport changes size.
-  const band = new Graphics();
+  const band = new Graphics({ label: 'distant-ground' });
   container.addChild(band);
 
   // A separate mask shares the band geometry without suppressing its visible fill.
-  const groundMask = terrain ? new Graphics({ context: band.context }) : undefined;
-  if (groundMask) container.addChild(groundMask);
+  const groundMask = new Graphics({ context: band.context });
+  container.addChild(groundMask);
 
   /*
     The same mottle the near ground uses, one layer out and at a coarser tile
@@ -314,8 +315,11 @@ export function createDistantEarth(terrain?: {
     : undefined;
   if (mottle) {
     container.addChild(mottle);
-    mottle.mask = groundMask!;
+    mottle.mask = groundMask;
   }
+
+  const coast = createDistantCoast(groundMask);
+  container.addChild(coast.container);
 
   /*
     The air in front of the ground, drawn last so it lies over everything this
@@ -345,7 +349,7 @@ export function createDistantEarth(terrain?: {
   */
   const terminator = new Graphics();
   container.addChild(terminator);
-  if (groundMask) terminator.mask = groundMask;
+  terminator.mask = groundMask;
   let terminatorKey = -1;
 
   const limb = new Graphics();
@@ -447,8 +451,10 @@ export function createDistantEarth(terrain?: {
       band.tint = sun ? scaleColour(groundShown, 1 - groundDarkness(sun.elevation)) : groundShown;
       band.x = 0;
       band.y = lineY;
-      if (groundMask) groundMask.position.set(0, lineY);
+      groundMask.position.set(0, lineY);
       band.alpha = 1;
+      coast.update(viewport, lineY, mixColour(skyTint(altitude),
+        groundTint(OCEAN_COLOUR, lightness), groundColourShare(altitude)));
 
       /*
         FORESHORTENED, WHICH IS THE WHOLE OF WHY IT READS AS GROUND.
@@ -514,7 +520,7 @@ export function createDistantEarth(terrain?: {
       */
       const relief = Math.max(0, 1 - altitude / RELIEF_LIMIT_ALTITUDE);
       const ridgeScale = Math.max(0.6, viewport.width / 1280);
-      const skyColour = skyTint(altitude);
+      const skyColour = sun ? skyTintLit(altitude, sun.skyR, sun.skyG, sun.skyB) : skyTint(altitude);
       for (let i = 0; i < ridges.length; i++) {
         const ridge = ridges[i]!;
         ridge.visible = relief > 0.01;
@@ -584,7 +590,7 @@ export function createDistantEarth(terrain?: {
           A bright step running along the horizon line, introduced by the change
           that was supposed to remove one.
         */
-        ridge.tint = mixColour(skyColour, groundShown, ridgeGroundShare(i, haze));
+        ridge.tint = mixColour(skyColour, band.tint, ridgeGroundShare(i, haze));
       }
 
       if (horizonHaze) {
@@ -649,8 +655,8 @@ export function createDistantEarth(terrain?: {
               const x0 = Math.round(left + (i * span) / TERMINATOR_STRIPS);
               const x1 = Math.round(left + ((i + 1) * span) / TERMINATOR_STRIPS);
               // The same mask clips night shading to the full textured bow.
-              // Without textures preserve the existing bare-band treatment.
-              terminator.rect(x0, groundMask ? 0 : horizonDrop(sagitta), x1 - x0, viewport.height * 2);
+              // Coastal geometry shares this clip even without terrain textures.
+              terminator.rect(x0, 0, x1 - x0, viewport.height * 2);
               terminator.fill({ color: 0x000000, alpha: dark });
             }
           }
@@ -700,7 +706,7 @@ export function createDistantEarth(terrain?: {
         }
         limb.x = 0;
         limb.y = lineY;
-        limb.alpha = 0.35 + 0.65 * glow;
+        limb.alpha = (0.35 + 0.65 * glow) * (sun ? 1 - groundDarkness(sun.elevation) : 1);
       }
     },
   };

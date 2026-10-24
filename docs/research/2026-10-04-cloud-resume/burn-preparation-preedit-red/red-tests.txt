@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ |unit| tests/proofs/burn-preparation.test.ts (7 tests | 1 failed) 360ms
+     × admits only genuine helper certificates and rejects a predicate or helper wrapper 8ms
+     ✓ the admitted booster is a frozen data graph; the ship ignition array is not admitted 5ms
+     ✓ retains every numerical leaf and scratch identity across boundaries, roots and cap failures 261ms
+     ✓ retains the exact ISA query sequence, count and full scratch after each call 16ms
+     ✓ retains custom getter reads, changing values, thrown error identity and scratch at throw 44ms
+     ✓ retains frozen accessors, early-return read order and distinct-scratch nested calls 13ms
+     ✓ observes helpers replaced during ISA scratch writes without restarting any paid query 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/burn-preparation.test.ts > burn preparation retains original source semantics > admits only genuine helper certificates and rejects a predicate or helper wrapper
+AssertionError: isCanonicalBurnPropulsion must certify the actual original module bindings: expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ certificate tests/proofs/burn-preparation.test.ts:42:84
+     40| function certificate(module: object, name: string): Certificate {
+     41|   const value = (module as Record<string, unknown>)[name];
+     42|   expect(typeof value, `${name} must certify the actual original modul…
+       |                                                                                    ^
+     43|   return value as Certificate;
+     44| }
+ ❯ tests/proofs/burn-preparation.test.ts:48:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  09:14:17
+   Duration  797ms (transform 248ms, setup 0ms, import 305ms, tests 360ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/burn-preparation-preedit-red/test-results.json

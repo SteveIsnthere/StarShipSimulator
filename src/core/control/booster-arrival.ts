@@ -9,6 +9,10 @@ import * as C from '../constants';
 import { createBurnScratch, writeUnpoweredAcceleration } from './guidance-physics';
 import { verticalGravityAcceleration } from '../physics/gravity';
 import { CATCH } from '../vehicles/super-heavy';
+import { createDamageMassProperties } from '../physics/damage-mass';
+import { writeFlightMassQuery } from '../physics/flight-mass-query';
+
+const retained = createDamageMassProperties();
 
 const THRUST_PITCH_LIMIT=.3;
 
@@ -17,18 +21,27 @@ export function createBoosterThrustRequest():BoosterThrustRequest {
   return {pitch:rad(0),throttle:100,requiredX:0,requiredY:0,deliveredX:0,deliveredY:0};
 }
 export function writeBoosterThrustRequest(state:SimState,ax:number,ay:number,model:VehicleDefinition,out:BoosterThrustRequest):void {
-  const k=state.kinematics, mass=state.vehicle.vehicleMass;
+  writeFlightMassQuery(state, model, retained);
+  const k=state.kinematics, mass=retained.totalMass;
+  if (!retained.hasMass) {
+    out.pitch=rad(0);out.throttle=100;
+    out.requiredX=out.requiredY=out.deliveredX=out.deliveredY=0;
+    return;
+  }
   const share=gimballedShare(state.engines.running,state.atmosphere.airPressure,model);
   const measured=state.forces.thrust/mass;
-  const measuredX=measured*(share*Math.sin(state.vehicle.gimbalPointingDirection)+(1-share)*Math.sin(k.pitch));
-  const measuredY=measured*(share*Math.cos(state.vehicle.gimbalPointingDirection)+(1-share)*Math.cos(k.pitch));
+  const measuredX=state.damage ? state.forces.paidThrustAccelerationX
+    :measured*(share*Math.sin(state.vehicle.gimbalPointingDirection)+(1-share)*Math.sin(k.pitch));
+  const measuredY=state.damage ? state.forces.paidThrustAccelerationY
+    :measured*(share*Math.cos(state.vehicle.gimbalPointingDirection)+(1-share)*Math.cos(k.pitch));
   out.requiredX=ax-(k.accelerationX-measuredX);
   out.requiredY=ay-(k.accelerationY-measuredY);
   out.pitch=rad(Math.max(-THRUST_PITCH_LIMIT,Math.min(THRUST_PITCH_LIMIT,Math.atan2(out.requiredX,Math.max(0,out.requiredY)))));
   // Vertical arrest has priority at steering saturation. The unconstrained
   // vector's norm would produce a different vertical acceleration after clamp.
   const acceleration=Math.max(0,out.requiredY)/Math.cos(out.pitch);
-  const max=getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/mass;
+  const max=retained.engineSupportAvailable
+    ?getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/mass:0;
   out.throttle=max>0?Math.max(C.throttleLowerLimit,Math.min(100,100*acceleration/max)):100;
   out.deliveredX=max*out.throttle*.01*Math.sin(out.pitch);
   out.deliveredY=max*out.throttle*.01*Math.cos(out.pitch);
@@ -56,7 +69,9 @@ function retainForce(out:BoosterThrustRequest,best:number):number {
   Object.assign(out,forceTrial);return cost;
 }
 export function writeBoosterForceRequest(state:SimState,ax:number,ay:number,model:VehicleDefinition,out:BoosterThrustRequest,pitchLimit=THRUST_PITCH_LIMIT):void {
-  const max=getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/state.vehicle.vehicleMass;
+  writeFlightMassQuery(state, model, retained);
+  const max=retained.engineSupportAvailable && retained.hasMass
+    ?getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/retained.totalMass:0;
   // Both thrust-dominated and aero-dominated branches are possible. Inspect
   // the full unchanged cone, then refine each observed sign crossing.
   const limit=Math.max(0,Math.min(THRUST_PITCH_LIMIT,pitchLimit));
@@ -80,10 +95,16 @@ export function writeBoosterForceRequest(state:SimState,ax:number,ay:number,mode
  * attitude approaches the steady force proposal. Requested pitch is not yet
  * actual thrust authority. Slew and minimum throttle remain in actuation. */
 export function boosterDeliveredThrottle(state:SimState,ay:number,model:VehicleDefinition):number {
+  writeFlightMassQuery(state, model, retained);
+  if (!retained.engineSupportAvailable || !retained.hasMass) return 100;
   const share=gimballedShare(state.engines.running,state.atmosphere.airPressure,model);
   const directionY=share*Math.cos(state.vehicle.gimbalPointingDirection)+(1-share)*Math.cos(state.kinematics.pitch);
-  const environmentY=state.kinematics.accelerationY-state.forces.thrust/state.vehicle.vehicleMass*directionY;
-  const max=getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/state.vehicle.vehicleMass;
+  const measuredY=state.damage ? state.forces.paidThrustAccelerationY
+    :state.forces.thrust/retained.totalMass*directionY;
+  const environmentY=state.kinematics.accelerationY-measuredY;
+  writeFlightMassQuery(state, model, retained);
+  const max=retained.engineSupportAvailable && retained.hasMass
+    ?getTotalMaxThrust(state.engines.running,state.atmosphere.airPressure,model)/retained.totalMass:0;
   if(max<=0 || directionY<=0)return 100;
   return Math.max(C.throttleLowerLimit,Math.min(100,100*Math.max(0,ay-environmentY)/(max*directionY)));
 }
@@ -97,6 +118,10 @@ const terminalDemand=createBoosterThrustRequest();
  * final lug velocity(0,-2m/s). Never resets the horizon after an early stop.
  * Actuator limits still decide what portion of this demand is feasible. */
 export function writeBoosterArrival(state:SimState,dt:number,model:VehicleDefinition,out:BoosterArrival):void {
+  writeFlightMassQuery(state, model, retained);
+  const terminalAvailable=retained.engineSupportAvailable && retained.hasMass
+    && terminalEngines.every((_, i) => !state.engines.failed[i]);
+  const mass=retained.totalMass;
   writeCatchPose(state,model,lug);
   out.x=lug.x-C.starBaseXPos;out.height=lug.altitude-CATCH.planeAltitude;
   out.vx=lug.speedX;out.vy=lug.speedY;
@@ -107,7 +132,7 @@ export function writeBoosterArrival(state:SimState,dt:number,model:VehicleDefini
     // Atmospheric braking fades as descent slows. Bound the cubic's final
     // vertical acceleration by full sea-level thrust at the current mass and
     // catch-plane gravity; actual paid fuel loss can only increase authority.
-    const finalNet=getTotalMaxThrust(terminalEngines,C.SEA_LEVEL_PRESSURE_PA/1000,model)/state.vehicle.vehicleMass
+    const finalNet=(terminalAvailable?getTotalMaxThrust(terminalEngines,C.SEA_LEVEL_PRESSURE_PA/1000,model)/mass:0)
       +verticalGravityAcceleration(C.planetRadius+CATCH.bodyCentreAltitude,0);
     const thrustTime=finalNet>0?6*height/(Math.sqrt((down+4)**2+6*finalNet*height)+down+4):60;
     a.boosterArrivalTime=Math.max(.5,Math.min(60,Math.max(balanced,thrustTime)));
@@ -134,13 +159,13 @@ export function writeBoosterArrival(state:SimState,dt:number,model:VehicleDefini
   // shared mechanical replay must
   // additionally prove ignition/slew, attitude, aero, minimum throttle/fuel
   // and actual eligible contact before a handoff is admitted.
-  const maximum=getTotalMaxThrust(terminalEngines,state.atmosphere.airPressure,model)
-    /state.vehicle.vehicleMass*Math.sin(THRUST_PITCH_LIMIT);
+  const maximum=terminalAvailable?getTotalMaxThrust(terminalEngines,state.atmosphere.airPressure,model)
+    /mass*Math.sin(THRUST_PITCH_LIMIT):0;
   writeBoosterThrustRequest(state,out.ax,out.ay,model,terminalDemand);
   const first=terminalDemand.requiredX;
   const endAX=6*out.x/out.time**2+2*out.vx/out.time;
   const endAY=6*out.height/out.time**2+2*out.vy/out.time-8/out.time;
   writeBoosterThrustRequest(state,endAX,endAY,model,terminalDemand);
-  out.lateralFeasible=Number.isFinite(first) && Number.isFinite(terminalDemand.requiredX)
+  out.lateralFeasible=terminalAvailable && Number.isFinite(first) && Number.isFinite(terminalDemand.requiredX)
     && Math.abs(first)<=maximum && Math.abs(terminalDemand.requiredX)<=maximum;
 }

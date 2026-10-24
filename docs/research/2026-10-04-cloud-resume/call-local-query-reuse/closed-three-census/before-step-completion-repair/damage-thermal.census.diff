@@ -1,0 +1,112 @@
+--- damage-thermal.ORIGINAL
++++ damage-thermal.all-queries-paid-census
+@@ -167,6 +167,8 @@
+   state: DamageState, model: DamageThermalModel, dt: number,
+   fluxWm2: number, sinkK: number, pressurePa: number,
+ ): number {
++  __steelCensus.framesStarted++;
++  try {
+   if (!Number.isFinite(dt) || dt < 0 || dt > model.safeStep * MAX_SUBSTEPS
+     || !Number.isFinite(fluxWm2) || fluxWm2 < 0
+     || !Number.isFinite(sinkK) || sinkK < 186 || sinkK > MATERIAL_MAX_K
+@@ -200,6 +202,9 @@
+   const step = dt / substeps;
+   const sinkFourthPower = sinkK ** 4;
+   for (let substep = 0; substep < substeps; substep++) {
++    // No heap memo, cross-substep state, node reference or caller retention.
++    let steelReusePresent = false, steelReuseInput = 0, steelReuseTemperature = 0;
++    __steelCensus.substeps++;
+     const oldHullTemperature = state.hull.temperature;
+     const oldHullK = steelConductivity(oldHullTemperature);
+     let hullEnergyDelta = 0;
+@@ -237,13 +242,85 @@
+         rootEnergyDelta += step * column.heatArea
+           * (fluxWm2 - RADIATION_FACTOR * (rootTemperature ** 4 - sinkFourthPower));
+       }
+-      if (!applyEnergy(component.root, rootEnergyDelta, column.rootMass,
+-        column.rootMinEnergy, column.rootMaxEnergy, false)) componentValid = false;
++      // Capture original call arguments in order before any node update.
++      const steelNode = component.root, steelDelta = rootEnergyDelta, steelMass = column.rootMass;
++      const steelMinimum = column.rootMinEnergy, steelMaximum = column.rootMaxEnergy;
++      steelNode.energy += steelDelta;
++      if (!Number.isFinite(steelNode.energy) || steelNode.energy < steelMinimum
++        || steelNode.energy > steelMaximum) {
++        steelNode.valid = false;
++        componentValid = false;
++      } else if (steelDelta !== 0) {
++        if (steelNode.energy === steelMinimum) steelNode.temperature = MATERIAL_MIN_K;
++        else if (steelNode.energy === steelMaximum) steelNode.temperature = MATERIAL_MAX_K;
++        else {
++          const query = steelTemperatureFromEnthalpy;
++          const input = steelNode.energy / steelMass;
++          let temperature: number;
++          const duplicate = steelReusePresent && Object.is(input, steelReuseInput);
++          __steelCensus.paidQueries++;
++          temperature = query(input);
++          steelReusePresent = Number.isFinite(temperature);
++          if (steelReusePresent) {
++            __steelCensus.successfulQueries++;
++            if (duplicate) {
++              __steelCensus.duplicateInputs++;
++              if (Object.is(temperature, steelReuseTemperature)) __steelCensus.bitIdenticalDuplicates++;
++              else __steelCensus.nonIdenticalDuplicates++;
++            }
++            steelReuseInput = input; steelReuseTemperature = temperature;
++          }
++          steelNode.temperature = temperature;
++        }
++      }
+       if (!componentValid) domainMask |= 1 << column.componentIndex;
+     }
+-    if (!applyEnergy(state.hull, hullEnergyDelta, model.hullMass,
+-      model.hullMinEnergy, model.hullMaxEnergy, false)) domainMask |= HULL_THERMAL_DOMAIN_BIT;
++    {
++      // Capture original call arguments in order before any node update.
++      const steelNode = state.hull, steelDelta = hullEnergyDelta, steelMass = model.hullMass;
++      const steelMinimum = model.hullMinEnergy, steelMaximum = model.hullMaxEnergy;
++      steelNode.energy += steelDelta;
++      if (!Number.isFinite(steelNode.energy) || steelNode.energy < steelMinimum
++        || steelNode.energy > steelMaximum) {
++        steelNode.valid = false;
++        domainMask |= HULL_THERMAL_DOMAIN_BIT;
++      } else if (steelDelta !== 0) {
++        if (steelNode.energy === steelMinimum) steelNode.temperature = MATERIAL_MIN_K;
++        else if (steelNode.energy === steelMaximum) steelNode.temperature = MATERIAL_MAX_K;
++        else {
++          const query = steelTemperatureFromEnthalpy;
++          const input = steelNode.energy / steelMass;
++          let temperature: number;
++          const duplicate = steelReusePresent && Object.is(input, steelReuseInput);
++          __steelCensus.paidQueries++;
++          temperature = query(input);
++          steelReusePresent = Number.isFinite(temperature);
++          if (steelReusePresent) {
++            __steelCensus.successfulQueries++;
++            if (duplicate) {
++              __steelCensus.duplicateInputs++;
++              if (Object.is(temperature, steelReuseTemperature)) __steelCensus.bitIdenticalDuplicates++;
++              else __steelCensus.nonIdenticalDuplicates++;
++            }
++            steelReuseInput = input; steelReuseTemperature = temperature;
++          }
++          steelNode.temperature = temperature;
++        }
++      }
++    }
+     if (domainMask !== 0) return domainMask;
+   }
+   return 0;
+-}
++  } catch (error) { __steelCensus.thrownFrames++; throw error; }
++  finally { __steelCensus.framesClosed++; }
++
++}
++
++const __steelCensus = { framesStarted: 0, framesClosed: 0, thrownFrames: 0, substeps: 0,
++  paidQueries: 0, successfulQueries: 0, duplicateInputs: 0, bitIdenticalDuplicates: 0, nonIdenticalDuplicates: 0 };
++export function resetSteelOpportunityCensus(): void {
++  __steelCensus.framesStarted = __steelCensus.framesClosed = __steelCensus.thrownFrames = __steelCensus.substeps = 0;
++  __steelCensus.paidQueries = __steelCensus.successfulQueries = __steelCensus.duplicateInputs = 0;
++  __steelCensus.bitIdenticalDuplicates = __steelCensus.nonIdenticalDuplicates = 0;
++}
++export function readSteelOpportunityCensus(): Readonly<typeof __steelCensus> { return { ...__steelCensus }; }

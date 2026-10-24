@@ -1,0 +1,35 @@
+/** Pure public Node API extraction controls, no SDK/product imports. */
+import assert from 'node:assert/strict';
+import {stripTypeScriptTypes} from 'node:module';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import path from 'node:path';
+const [entry,output]=process.argv.slice(2);assert([entry,output].every(x=>x&&path.isAbsolute(x)));assert.equal(process.version,'v22.23.3');
+const hash=b=>createHash('sha256').update(b).digest('hex');const emitted=[];
+function stripped(source,url){const text=stripTypeScriptTypes(source,{mode:'strip',sourceUrl:url});assert.equal(typeof text,'string');assert(Buffer.byteLength(text)<=65536,'Stripped-output cap');
+ assert(/\/\/# sourceURL=/.test(text));emitted.push({kind:'strip',sourceUrl:url,text,sha256:hash(text)});return text;}
+function construct(text,name){const body=text+'\n; return '+name+';\n';assert(Buffer.byteLength(body)<=65536,'Function-body cap');
+ emitted.push({kind:'body',name,text:body,sha256:hash(body)});const result=new Function(body)();assert.equal(typeof result,'function','Expected callable extraction');return result;}
+const harmless=stripped('async function createKernel(width: number): Promise<number> { return width; }','owned-harmless.ts');
+assert.equal(await construct(harmless,'createKernel')(2),2);
+// Actual API output, not a manually guessed emitted suffix: old joining must expose the terminal comment hazard.
+assert.equal(new Function(harmless+'; return createKernel;')(),undefined,'Old delimiter must reproduce swallowed return');
+const comment=stripped('function createKernel(value: number): number { return value; }\n// unterminated comment','owned-comment.ts');
+assert.equal(new Function(comment+'; return createKernel;')(),undefined);assert.equal(construct(comment,'createKernel')(32),32);
+const absent=stripped('function anotherKernel(value: number): number { return value; }','owned-absent.ts');
+assert.throws(()=>construct(absent,'createKernel'),ReferenceError,'Missing function must reject, never coerce');
+assert.throws(()=>construct('const createKernel = undefined;','createKernel'),/Expected callable extraction/);
+const source=readFileSync(entry,'utf8');assert(Buffer.byteLength(source)<=65536);const at=source.indexOf('export async function createKernel(');assert(at>=0);
+const actual=stripped(source.slice(at).replace(/^export /,''),entry);const candidate=construct(actual,'createKernel');
+const descriptor=Object.getOwnPropertyDescriptor(globalThis,'document');const sentinel=new Error('owned-document-boundary');let reads=0,primary,cleanup;
+try{Object.defineProperty(globalThis,'document',{configurable:true,get(){reads++;throw sentinel;}});
+ for(const value of [1,0,3,NaN,Infinity,'2',undefined,null]){const prior=reads;await assert.rejects(candidate(value),/Exactly declared baseline32 or candidate2/);assert.equal(reads,prior);}
+ for(const value of [2,32]){const prior=reads;await assert.rejects(candidate(value),error=>error===sentinel);assert.equal(reads,prior+1);}
+}catch(error){primary=error;}finally{try{if(descriptor)Object.defineProperty(globalThis,'document',descriptor);else delete globalThis.document;
+ assert.deepStrictEqual(Object.getOwnPropertyDescriptor(globalThis,'document'),descriptor);}catch(error){cleanup=error;}}
+if(primary)throw primary;if(cleanup)throw cleanup;
+const result={kind:'width2-sourceurl-delimiter-controls-v1',node:process.version,entrySha256:hash(source),
+ actualPublicApi:true,harmlessPositive:true,oldJoinUndefined:true,commentBoundaryPositive:true,missingFunctionRejects:true,
+ nonFunctionRejects:true,actualGuardNegatives:8,actualGuardAcceptedBoundaries:2,documentReads:reads,documentRestored:true,
+ sdkImports:0,browserLaunches:0,physicsImports:0,emitted,finalized:true};
+const bytes=JSON.stringify(result,null,2)+'\n';assert(Buffer.byteLength(bytes)<=256*1024,'Receipt cap');writeFileSync(output,bytes,{flag:'wx'});

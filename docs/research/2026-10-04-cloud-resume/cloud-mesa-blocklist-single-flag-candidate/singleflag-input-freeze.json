@@ -1,0 +1,53 @@
+{
+  "inner": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-functional-input.json",
+    "sha": "a9d4fc7a005711dfa36d673543a2b1302455b39ccaf5f1b0eaa635b804746fbd"
+  },
+  "outer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-owner-input.json",
+    "sha": "f7dfa5e5935c13231b405f8803b667358689cbbafb952576ec78c09bdcb47582"
+  },
+  "parentClosure": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-parent-closure.json",
+    "sha": "66da9f9f423a7ce3fc61f15ae5e2cecbd370e55841dea76f480d2b63968582b3"
+  },
+  "exclusiveStructuralCheckerAlias": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/parent-closure.json",
+    "sha": "66da9f9f423a7ce3fc61f15ae5e2cecbd370e55841dea76f480d2b63968582b3"
+  },
+  "structuralChecker": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/root-structural-check.py.txt",
+    "sha": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13"
+  },
+  "sources": {
+    "builder": {
+      "path": "/tmp/starship-mesa-singleflag-source.yfgskvsr/run-functional-single-blocklist-override.mjs",
+      "sha": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd"
+    },
+    "stage": {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/business-stage.mjs.txt",
+      "sha": "c09f4c1d19a69f367f4f79d0018976680c60620374f89d3e99fdf2cd4656d590"
+    },
+    "observer": {
+      "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/root-observer.py",
+      "sha": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa"
+    }
+  },
+  "receipt": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889",
+  "original259PinsPreserved": true,
+  "filePinCount": 285,
+  "addedFilePinCount": 26,
+  "browserFileCount": 304,
+  "browserDirectoryCount": 12,
+  "nativeLibraryCount": 42,
+  "symlinkCount": 73,
+  "nodeSha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "ownerBoundMs": 120000,
+  "policyDelta": [
+    "--ignore-gpu-blocklist"
+  ],
+  "utilsBundleSha": "580f571bf063e2256b51b3946a035bc452fc0e22808d5547b198baea39923a32",
+  "codeCopiedByAuthor": false,
+  "nativeBytesHashedByAuthor": 0,
+  "status": "UNEXECUTED; fresh Other actual-input HIGH and root structural before/finally-after plus exact one120 grant required; functional-only no frame/performance acceptance"
+}

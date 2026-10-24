@@ -1,0 +1,22 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Error accessor unsupported
+    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/controls.mjs:105:4
+    at Array.map (<anonymous>)
+    at errorSnapshot (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/controls.mjs:104:39)
+    at execute (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/controls.mjs:113:20)
+    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/controls.mjs:114:16
+    at test (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/controls.mjs:14:24)
+    at parityCase (file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/controls.mjs:108:2)
+    at file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/controls.mjs:120:1 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

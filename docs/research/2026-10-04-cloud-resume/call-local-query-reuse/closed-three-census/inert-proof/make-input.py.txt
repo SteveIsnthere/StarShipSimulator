@@ -1,0 +1,52 @@
+# Selected-file materialization only; parent scopes/input review/run are separate grants.
+import os,json,hashlib,uuid
+from pathlib import Path
+root=Path('/workspace/StarShipSimulator');base=root/'docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/inert-proof';candidate=base.parent.parent
+sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='query-census-inert-proof'
+pins_path=base/'input-pins.json';pins=json.loads(pins_path.read_text())
+for path,digest in pins['files'].items():assert sha(path)==digest,path
+successor_path=base/'authority-successor.json';successor=json.loads(successor_path.read_text())
+for role in ['historical','current','application','review','reviewPins']:
+ row=successor[role];assert sha(row['path'])==row['sha256'],role
+before=json.loads(Path(successor['historical']['path']).read_text());after=json.loads(Path(successor['current']['path']).read_text())
+application=json.loads(Path(successor['application']['path']).read_text())
+assert application['completed'] is True and application['applied'] is True and application['error'] is None
+assert application['oldAuthority']=={'path':successor['historical']['path'],'sha':successor['historical']['sha256']}
+assert application['afterSnapshot']=={'path':successor['current']['path'],'sha':successor['current']['sha256']}
+assert before['tools']==after['tools'] and len(after['tools'])==20355
+assert set(before['source'])==set(after['source']) and len(after['source'])==770
+assert {k:v for k,v in before.items() if k!='source'}=={k:v for k,v in after.items() if k!='source'}
+delta=successor['soleDelta'];assert delta['path']=='tests/e2e/visual-runtime-receipt.ts'
+assert [k for k in before['source'] if before['source'][k]!=after['source'][k]]==[delta['path']]
+assert before['source'][delta['path']]==delta['before'] and after['source'][delta['path']]==delta['after']
+assert application['changed']=={'path':str(root/delta['path']),'oldSha':delta['before'],'newSha':delta['after']}
+authority=Path(successor['current']['path'])
+setup=root/'node_modules/.cache'/('starship-query-census-inert-proof-'+uuid.uuid4().hex);setup.mkdir(mode=0o700)
+materialized={}
+def emit(source,target):
+ path=setup/target
+ with path.open('xb')as stream:stream.write(source.read_bytes())
+ materialized[str(path)]={'source':str(source),'sourceSha256':sha(source),'sha256':sha(path)}
+for name in ['owner.mjs','builder.mjs','driver.mjs','entry-original.ts','entry-census.ts']:emit(base/(name+'.txt'),name)
+emit(base/'canonical-equivalence-driver.mjs.txt','canonical-equivalence-driver.mjs')
+for name in ['damage-controls','damage-thermal']:
+ emit(candidate/(name+'.original.ts.txt'),name+'.original.ts.txt')
+ emit(base.parent/(name+'.census.ts.txt'),name+'.candidate.ts.txt')
+qualification=json.loads((root/'docs/verification/native-flight-qualification-v7.json').read_text())
+m={'kind':'query-census-inert-proof-input-v1','root':str(root),'setup':str(setup),'inputs':pins['files'],'inputPins':{'path':str(pins_path),'sha256':sha(pins_path)},'materialized':materialized,
+ 'authority':{'path':str(authority),'sha256':sha(authority)},'authoritySuccessor':{'path':str(successor_path),'sha256':sha(successor_path)},'node':{'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha256':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'},'npmCli':qualification['npmCli'],
+ 'helper':{'path':str(root/'scripts/bench/owned-command.mjs'),'sha256':sha(root/'scripts/bench/owned-command.mjs')},'loader':{'path':str(root/'scripts/bench/native-loader.mjs'),'sha256':sha(root/'scripts/bench/native-loader.mjs')},'steps':['native-build','pure-proof']}
+for path,digest in pins['files'].items():assert sha(path)==digest,path
+with(setup/'input.json').open('x')as stream:json.dump(m,stream,indent=2);stream.write('\n')
+rows={**pins['files'],str(pins_path):sha(pins_path),str(setup/'input.json'):sha(setup/'input.json')}
+for path in materialized:rows[path]=sha(path)
+with(setup/'root-inventory.json').open('x')as stream:json.dump({'kind':'query-census-inert-proof-root-inventory-v1','files':rows},stream,indent=2);stream.write('\n')
+observer=base/'root-observer.py.txt'
+r={'kind':'query-census-inert-proof-root-input-v1','root':str(root),'mode':'query-census-inert-proof','outerMs':120000,'setup':str(setup),'steps':m['steps'],
+ 'node':{'path':m['node']['path'],'sha':m['node']['sha256']},'helper':{'path':m['helper']['path'],'sha':m['helper']['sha256']},'pureInput':{'path':str(setup/'input.json'),'sha':sha(setup/'input.json')},
+ 'pins':{'path':str(setup/'root-inventory.json'),'sha':sha(setup/'root-inventory.json')},'stage':{'path':str(setup/'owner.mjs'),'sha':sha(setup/'owner.mjs')},'observer':{'path':str(observer),'sha':sha(observer)},
+ 'python':{'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}}
+with(setup/'root-input.json').open('x')as stream:json.dump(r,stream,indent=2);stream.write('\n')
+print(json.dumps({'setup':str(setup),'input':str(setup/'input.json'),'inputSha256':sha(setup/'input.json'),'rootInput':str(setup/'root-input.json'),'rootInputSha256':sha(setup/'root-input.json'),
+ 'argv':[r['python']['path'],str(observer),str(setup/'root-input.json'),sha(setup/'root-input.json')],'rootWholeMs':120000}))

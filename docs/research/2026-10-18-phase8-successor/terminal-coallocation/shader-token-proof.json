@@ -1,0 +1,11 @@
+{
+  "description": "Move authored GLSL line comments to adjacent TypeScript documentation; shader tokens byte-identical, no whitespace or executable token change. Eager graph/budgets unchanged.",
+  "path": "src/view/vehicle-material.ts",
+  "beforeSourceSha256": "b66b901f2e5b638fda6c922c03deef05a9c26313919638df3633ab40134e3aca",
+  "afterSourceSha256": "9624cdc433af2d79aa43ef6cfc191bc7f526b2bda690a8e60545fd725c4e943e",
+  "shaderTokenCount": 1519,
+  "beforeShaderTokensSha256": "24a3f9c4b15e1eca61d50acb3a0f7223e7084fff0088a09f6ae4cc404ccc5e7d",
+  "afterShaderTokensSha256": "24a3f9c4b15e1eca61d50acb3a0f7223e7084fff0088a09f6ae4cc404ccc5e7d",
+  "shaderGzipBefore": 3033,
+  "shaderGzipAfter": 1720
+}

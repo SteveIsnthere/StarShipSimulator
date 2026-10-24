@@ -1,0 +1,65 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/flies-every-scenario.test.ts --maxWorkers=1 -t ^the autopilot completes every scenario on both vehicles super-heavy/before-flip: autopilot lands or catches$ --reporter=default --reporter=json --outputFile=docs/research/2026-10-18-phase8-successor/terminal-coallocation/flight-attempt1-results.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ |unit| tests/flies-every-scenario.test.ts (30 tests | 1 failed | 29 skipped) 1147ms
+     ↓ launch-pad flies
+     ↓ booster-sep flies
+     ↓ rtls flies
+     ↓ reentry flies
+     ↓ before-flip flies
+     ↓ landing-burn flies
+     ↓ circularize flies
+     ↓ deorbit flies
+     ↓ intro flies
+     ↓ ship/launch-pad: autopilot lands or catches
+     ↓ ship/booster-sep: autopilot lands or catches
+     ↓ ship/rtls: autopilot lands or catches
+     ↓ ship/reentry: autopilot lands or catches
+     ↓ ship/before-flip: autopilot lands or catches
+     ↓ ship/landing-burn: autopilot lands or catches
+     ↓ ship/circularize: autopilot lands or catches
+     ↓ ship/deorbit: autopilot lands or catches
+     ↓ ship/intro: autopilot lands or catches
+     ↓ super-heavy/launch-pad: autopilot lands or catches
+     ↓ super-heavy/booster-sep: autopilot lands or catches
+     ↓ super-heavy/rtls: autopilot lands or catches
+     ↓ super-heavy/reentry: autopilot lands or catches
+     × super-heavy/before-flip: autopilot lands or catches 1145ms
+     ↓ super-heavy/landing-burn: autopilot lands or catches
+     ↓ super-heavy/circularize: autopilot lands or catches
+     ↓ super-heavy/deorbit: autopilot lands or catches
+     ↓ super-heavy/intro: autopilot lands or catches
+     ↓ reentry: survives the heat it now actually meets
+     ↓ lands itself and hands the vehicle over with full tanks
+     ↓ is deterministic: the same seed gives the same landing, every time
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/flies-every-scenario.test.ts > the autopilot completes every scenario on both vehicles > super-heavy/before-flip: autopilot lands or catches
+AssertionError: super-heavy/before-flip: crashed after 16.658 s; events=[]: expected 'crashed' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "crashed"
+
+ ❯ tests/flies-every-scenario.test.ts:110:39
+    108|         expect(result.ticks, label).toBeGreaterThan(0);
+    109|         expect(result.ticks, label).toBeLessThanOrEqual(scenarioMissio…
+    110|         expect(result.outcome, label).toBe('landed');
+       |                                       ^
+    111|         expect(Object.values(state.failures).some(Boolean), label).toB…
+    112|         expect(state.vehicle.propellantMass, label).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 29 skipped (30)
+   Start at  16:02:20
+   Duration  1.83s (transform 462ms, setup 0ms, import 555ms, tests 1.15s, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/terminal-coallocation/flight-attempt1-results.json

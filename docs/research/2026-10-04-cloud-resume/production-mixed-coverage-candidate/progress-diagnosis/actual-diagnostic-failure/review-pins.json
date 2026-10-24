@@ -1,0 +1,22 @@
+{
+  "kind": "selected2-SSR-actual-FAIL-review-input-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-diagnostic-failure/analysis.json",
+      "sha": "e2fec5ddb4ec5bfcfb83e06853f9c2ba08af065ff7ce790c624c62881baf55f9",
+      "bytes": 67127
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-diagnostic-failure/analysis-pins.json",
+      "sha": "8cb1328c33ccfbc863eefff23ba3e03c8f63af914e99a2e03de6f46948f907fc",
+      "bytes": 5458
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-diagnostic-failure/report.md",
+      "sha": "f506c7460a47365555933c845ca2f19928a6fc2eb29d4f135adf8110f360c325",
+      "bytes": 5269
+    }
+  ],
+  "actualAccepted": false,
+  "additionalExecutionAuthorized": false
+}

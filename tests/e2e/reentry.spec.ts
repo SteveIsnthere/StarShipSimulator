@@ -13,11 +13,14 @@
  *   subject region, where before M11.5 the only warmth was the trail's dots.
  */
 import { expect, test } from '@playwright/test';
+import { writeFile } from 'node:fs/promises';
 import type { SimDebug } from '../../src/app/debug';
 import { byTestId } from '../../src/ui/testids';
 import { insetLayout } from '../../src/view/reentry';
 import { ready } from './helpers';
-import { describeFrame, metrePixels, readFrame, type Region } from './pixels';
+import { captureCanvas, describeFrame, metrePixels, readFrame, type Region } from './pixels';
+import { heatLimit } from '../../src/core/constants';
+import { deg } from '../../src/core/units';
 
 type Page = import('@playwright/test').Page;
 
@@ -48,6 +51,93 @@ async function insetRegion(page: Page): Promise<Region> {
 }
 
 const SUBJECT: Region = { x: 0.3, y: 0.2, width: 0.4, height: 0.6 };
+
+test('skin follows opposite windward faces and clears across restart and booster selection @mobile', async ({ page }, info) => {
+  await page.goto('/?debug=1'); await ready(page);
+  await page.evaluate((pitch) => {
+    const debug = (window as unknown as { __simDebug: SimDebug }).__simDebug;
+    debug.pause(); debug.setScenario('before-flip', { altitude: 2000, speedX: 0, speedY: -70, pitch }); debug.pause();
+    debug.setState({ 'forces.thermalPower': 0, 'forces.surfaceTemperature': 300, 'kinematics.angleOfAttack': 0 });
+  }, deg(0));
+  const frame = () => page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+  await frame();
+  const cold = await captureCanvas(page);
+  const probe = { extents: {
+    left: { region: { x: 0.25, y: 0.2, width: 0.25, height: 0.6 }, minLuma: 0, warmOnly: true },
+    right: { region: { x: 0.5, y: 0.2, width: 0.25, height: 0.6 }, minLuma: 0, warmOnly: true },
+  } };
+  const absent = await readFrame(page, probe, cold);
+  expect(absent.extents['left']!.count + absent.extents['right']!.count).toBe(0);
+  for (const [angle, side, opposite] of [[-Math.PI / 2, 'right', 'left'], [Math.PI / 2, 'left', 'right']] as const) {
+    await page.evaluate(angle => (window as unknown as { __simDebug: SimDebug }).__simDebug.setState({
+      'forces.surfaceTemperature': 1533, 'kinematics.angleOfAttack': angle,
+    }), angle);
+    await frame();
+    const report = await readFrame(page, probe, cold);
+    console.log('[windward-skin]', angle, report.extents);
+    expect(report.extents[side]!.count).toBeGreaterThan(0);
+    expect(report.extents[side]!.count).toBeGreaterThan(report.extents[opposite]!.count);
+    await writeFile(info.outputPath(`skin-windward-${side}.png`), await captureCanvas(page));
+  }
+  // Expose the real restart command with an injected terminal flag, not a
+  // claim that this rendered setup is an autonomous failed flight.
+  await page.evaluate(() => {
+    const debug = (window as unknown as { __simDebug: SimDebug }).__simDebug;
+    debug.setState({ 'failures.inFlightBreakUp': true }); debug.step(1);
+  });
+  await expect(page.locator(byTestId('debrief'))).toBeVisible();
+  await page.locator(byTestId('debrief-restart')).click();
+  await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.pause());
+  const restarted = await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.telemetry());
+  expect(restarted['forces.surfaceTemperature']).toBeLessThan(800);
+  expect(restarted['failures.inFlightBreakUp']).toBe(false);
+  await page.evaluate((pitch) => {
+    const debug = (window as unknown as { __simDebug: SimDebug }).__simDebug;
+    debug.setScenario('rtls', { altitude: 2000, pitch }); debug.pause();
+    debug.setState({ 'forces.surfaceTemperature': 300, 'forces.thermalPower': 0 });
+  }, deg(0));
+  await frame();
+  expect(await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.presentation().bodies!.map(body => body.id))).toEqual(['super-heavy']);
+  const boosterCold = await captureCanvas(page);
+  await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.setState({ 'forces.surfaceTemperature': 1533 }));
+  await frame();
+  const booster = await readFrame(page, { extents: { ghost: { minLuma: 0, warmOnly: true } } }, boosterCold);
+  expect(booster.extents['ghost']!.count, 'selected booster cannot inherit Ship tiles, glow or inset').toBe(0);
+});
+
+test('skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile', async ({ page }, info) => {
+  await page.goto('/?debug=1');
+  await ready(page);
+  await page.evaluate(() => {
+    const debug = (window as unknown as { __simDebug: SimDebug }).__simDebug;
+    debug.pause(); debug.setScenario('reentry'); debug.pause();
+  });
+  const inject = async (temperature: number) => {
+    await page.evaluate(({ temperature, flux }) => {
+      (window as unknown as { __simDebug: SimDebug }).__simDebug.setState({
+        'forces.surfaceTemperature': temperature, 'forces.thermalPower': flux,
+      });
+    }, { temperature, flux: heatLimit * 0.32 });
+    // Wait for rendering, never advance the physical state to manufacture heat.
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+  };
+  const inset = await insetRegion(page);
+  await inject(300);
+  const cold = await readFrame(page, { regions: { inset, subject: SUBJECT } });
+  await inject(1533);
+  const hot = await readFrame(page, { regions: { inset, subject: SUBJECT } });
+  expect(hot.regions['inset']!.meanLuma, 'hot skin adds emission at identical flux').toBeGreaterThan(cold.regions['inset']!.meanLuma);
+  expect(hot.regions['subject']!.meanLuma, 'main view consumes the same independent temperature').toBeGreaterThan(cold.regions['subject']!.meanLuma);
+  const paused = await readFrame(page, { regions: { inset, subject: SUBJECT } });
+  expect(paused.regions).toEqual(hot.regions);
+  await inject(300);
+  const restored = await readFrame(page, { regions: { inset, subject: SUBJECT } });
+  expect(restored.regions).toEqual(cold.regions);
+  console.log('[skin-temperature]', { cold: cold.regions, hot: hot.regions });
+  await writeFile(info.outputPath('skin-cold-equal-flux.png'), await captureCanvas(page));
+  await inject(1533);
+  await writeFile(info.outputPath('skin-hot-equal-flux.png'), await captureCanvas(page));
+});
 
 test('the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile', async ({
   page,

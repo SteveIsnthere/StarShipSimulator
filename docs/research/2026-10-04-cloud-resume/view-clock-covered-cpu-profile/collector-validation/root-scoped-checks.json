@@ -1,0 +1,126 @@
+{
+  "pinsChecked": 40,
+  "checks": [
+    {
+      "file": "owner.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "owner.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/collector-validation.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "capture-reporter-v2.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "capture-reporter-v2.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/collector-validation.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "progress-reporter.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "progress-reporter.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/collector-validation.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "codec.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "codec.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/collector-validation.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "consumer.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "consumer.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/collector-validation.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "pythonCompileFiles": 2
+}

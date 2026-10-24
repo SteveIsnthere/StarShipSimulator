@@ -1,0 +1,46 @@
+// Research-only pure controls. No application/physical module import or hook installation.
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { runInThisContext } from 'node:vm';
+const [loaderTemplate] = process.argv.slice(2);
+const source = readFileSync(loaderTemplate, 'utf8');
+const begin = '// BEGIN exact original-parent validator\n';
+const end = '// END exact original-parent validator';
+assert.equal(source.split(begin).length, 2); assert.equal(source.split(end).length, 2);
+const body = source.split(begin)[1].split(end)[0].trim();
+const identify = runInThisContext('(' + body + ')', { filename: loaderTemplate + ':exact-validator' });
+const a = 'file:///workspace/StarShipSimulator/tests/core/booster-guidance.test.ts';
+const b = 'file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts';
+const originals = new Map([[a, ['a']], [b, ['b']]]);
+const token = String(Date.now()); const digits = token.length;
+const cases = [
+  ['first exact bare', a, { canonicalParentURL: a, cacheToken: null }],
+  ['second exact bare', b, { canonicalParentURL: b, cacheToken: null }],
+  ['first exact supported token', a + '?vitest=' + token, { canonicalParentURL: a, cacheToken: token }],
+  ['second exact supported token', b + '?vitest=' + token, { canonicalParentURL: b, cacheToken: token }],
+  ['foreign file with token', 'file:///tmp/foreign.ts?vitest=' + token, null],
+  ['prefix sibling', a + '.evil?vitest=' + token, null],
+  ['fragment', a + '#vitest=' + token, null],
+  ['bare empty fragment', a + '#', null],
+  ['query fragment', a + '?vitest=' + token + '#x', null],
+  ['extra query', a + '?vitest=' + token + '&x=1', null],
+  ['duplicate query', a + '?vitest=' + token + '&vitest=' + token, null],
+  ['different query key', a + '?x=' + token, null],
+  ['encoded query', a + '%3Fvitest=' + token, null],
+  ['encoded token', a + '?vitest=%31' + token.slice(1), null],
+  ['leading-zero token', a + '?vitest=0' + token.slice(1), null],
+  ['short token', a + '?vitest=' + token.slice(1), null],
+  ['long token', a + '?vitest=' + token + '1', null],
+  ['negative token', a + '?vitest=-' + token, null],
+  ['decimal token', a + '?vitest=' + token + '.0', null],
+  ['undefined parent', undefined, null],
+  ['null parent', null, null],
+];
+for (const [name, url, expected] of cases) assert.deepEqual(identify(url, originals, digits), expected, name);
+// Prove runtime-derived width, not a hardcoded 13-digit allowance.
+for (const token of ['123456789', '12345678901234']) {
+  assert.deepEqual(identify(a + '?vitest=' + token, originals, token.length), { canonicalParentURL: a, cacheToken: token });
+  assert.equal(identify(a + '?vitest=' + token, originals, token.length + 1), null);
+}
+process.stdout.write(JSON.stringify({ kind: 'pure-source-parent-validator-controls', cases: cases.map(row => row[0]),
+  widthCases: [9, 14], applicationImports: 0, hooksInstalled: 0, physicalCalls: 0 }) + '\n');

@@ -1,0 +1,40 @@
+{
+  "disposition": "APPROVE finite two-file transfer; exact-once parent application only; next original21 separate",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/independent-actual-transfer-HIGH-review.md",
+      "sha256": "a774fce81d5fb15e825ffebd5ad551648060d73a255c4a56cde4b71079d9c07f",
+      "bytes": 4190
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/native-flight-qualification-v7.json",
+      "sha256": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+      "bytes": 2812033
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/projection.json",
+      "sha256": "fbf4acd27ffca75348beaba9125e837ac406d5749da2a7bbafd89a315222e25f",
+      "bytes": 169416
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/input-pins.json",
+      "sha256": "5b56b1cb3528f2d216401e0df95f08e1e07516f45cce00198b74e308ee67833d",
+      "bytes": 20851
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/declaration.md",
+      "sha256": "e35a2f31a57836d808780df6a48c27b717e1f525afdc1f2cc4158be7b4a24fe0",
+      "bytes": 4032
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json",
+      "sha256": "d1b400dbddf2ca6e22df8b7b7eb550c7f58324bf8a45d24f360743bbf107c033",
+      "bytes": 2677305
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.sha256",
+      "sha256": "a946b6145acef8929f9d117898d266f5a0f93be388b746486daa58732c0969a1",
+      "bytes": 65
+    }
+  ]
+}

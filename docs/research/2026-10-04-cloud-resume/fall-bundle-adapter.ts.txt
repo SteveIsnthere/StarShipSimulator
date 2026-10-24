@@ -1,0 +1,55 @@
+/** Native ESM backend and proof-only passive witness; never an acceptance loader. */
+import {Script,constants} from 'node:vm';
+import {pathToFileURL} from 'node:url';
+import {deepStrictEqual} from 'node:assert';
+import {createBurnScratch as ssrScratch,createUnpoweredFallWork as ssrWork,createFallResult as ssrResult} from '$core/control/guidance-physics';
+import {SHIP} from '$core/vehicle';
+import {SUPER_HEAVY} from '$core/vehicles/super-heavy';
+import type {BurnScratch,UnpoweredFallWork,FallResult} from '$core/control/guidance-physics';
+import type {SimState} from '$core/state';
+import type {VehicleDefinition} from '$core/vehicle';
+import type {Rad} from '$core/units';
+type API=typeof import('$core/control/guidance-physics')&{SHIP:VehicleDefinition;SUPER_HEAVY:VehicleDefinition};
+type Witness=API&{resetCounts():void;readCounts():{isa:number;controls:number}};
+const nativeImport=new Script('url => import(url)',{importModuleDynamically:constants.USE_MAIN_CONTEXT_DEFAULT_LOADER}).runInThisContext();
+const plain:API=await nativeImport(pathToFileURL('PLAIN_ENTRY_PLACEHOLDER').href);
+const counted:Witness=await nativeImport(pathToFileURL('COUNTED_ENTRY_PLACEHOLDER').href);
+export const resetCounts=()=>counted.resetCounts();
+export const readCounts=()=>counted.readCounts();
+deepStrictEqual(plain.SHIP,SHIP);deepStrictEqual(plain.SUPER_HEAVY,SUPER_HEAVY);
+deepStrictEqual(counted.SHIP,plain.SHIP);deepStrictEqual(counted.SUPER_HEAVY,plain.SUPER_HEAVY);
+export function createPrototypeScratch(){const burn=plain.createBurnScratch();
+ deepStrictEqual(burn,ssrScratch());deepStrictEqual(burn,counted.createBurnScratch());return {burn};}
+export function createBundleFallResult(){const value=plain.createFallResult();
+ deepStrictEqual(value,ssrResult());deepStrictEqual(value,counted.createFallResult());return value;}
+export function createBundleFallWork(state:SimState,ground:number,model?:VehicleDefinition,pitch?:Rad){
+ const expected=outcome(()=>ssrWork(state,ground,model,pitch));
+ const observed=outcome(()=>counted.createUnpoweredFallWork(state,ground,model,pitch));
+ const actual=outcome(()=>plain.createUnpoweredFallWork(state,ground,model,pitch));
+ deepStrictEqual(comparable(actual),comparable(expected));deepStrictEqual(comparable(actual),comparable(observed));
+ if(actual.error)throw actual.error;return actual.value as UnpoweredFallWork;
+}
+type Owned=ReturnType<typeof createPrototypeScratch>;
+function copyWork(work:UnpoweredFallWork):UnpoweredFallWork{return {...work,result:{...work.result}};}
+function copyScratch(burn:BurnScratch):BurnScratch{return {...burn,fallWork:copyWork(burn.fallWork),
+ inputs:{...burn.inputs},acc:{...burn.acc},atmosphere:{...burn.atmosphere}};}
+function outcome(run:()=>unknown){try{return {value:run(),error:null};}catch(error){return {value:null,error};}}
+function comparable(o:ReturnType<typeof outcome>){return {value:o.value,error:o.error?{
+ name:(o.error as Error).name,message:(o.error as Error).message}:null};}
+export function advancePrototypeFall(work:UnpoweredFallWork,budget:number,owned:Owned):number{
+ const witnessWork=copyWork(work),witnessScratch=copyScratch(owned.burn);
+ const expected=outcome(()=>counted.advanceUnpoweredFall(witnessWork,budget,witnessScratch));
+ const actual=outcome(()=>plain.advanceUnpoweredFall(work,budget,owned.burn));
+ deepStrictEqual(comparable(actual),comparable(expected));deepStrictEqual(work,witnessWork);
+ deepStrictEqual(owned.burn,witnessScratch);
+ if(actual.error)throw actual.error;return actual.value as number;
+}
+export function prototypeFallInto(state:SimState,ground:number,owned:Owned,out:FallResult,
+ model?:VehicleDefinition,pitch?:Rad):void{
+ const witnessScratch=copyScratch(owned.burn),witnessOut={...out};
+ const expected=outcome(()=>counted.unpoweredFallInto(state,ground,witnessScratch,witnessOut,model,pitch));
+ const actual=outcome(()=>plain.unpoweredFallInto(state,ground,owned.burn,out,model,pitch));
+ deepStrictEqual(comparable(actual),comparable(expected));deepStrictEqual(out,witnessOut);
+ deepStrictEqual(owned.burn,witnessScratch);
+ if(actual.error)throw actual.error;
+}

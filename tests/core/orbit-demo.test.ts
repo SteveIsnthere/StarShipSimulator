@@ -41,10 +41,15 @@ import {
   ORBIT_ALTITUDE,
   ORBITAL_PRESETS,
 } from '$core/scenarios';
-import type { SimState } from '$core/state';
-import { step } from '$core/step';
+import { createInitialState, type SimState } from '$core/state';
+import { step, NO_INPUT } from '$core/step';
 import * as cmd from '$core/control/commands';
 import * as C from '$core/constants';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
+import { damageModelFor } from '$core/physics/damage-model';
+import { speedOfSoundAt } from '$core/physics/atmosphere';
+import { toRad } from '$core/units';
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
 
 const DT = 1 / 120;
 
@@ -90,11 +95,18 @@ interface Flight {
 }
 
 /** Distance to the pad minus mechanical burn/coast/entry distance, in metres. */
-function firingResidual(s: SimState): number {
+function firingResidual(s: SimState, model: VehicleDefinition): number {
   const k = s.kinematics;
   const healthy = getHealthySeaLevelCount(s.engines.failed);
+  // Independent generation anchors: the active firing witness uses Raptor3,
+  // while the preserved historical cohort uses its original Raptor2 thrust.
+  const seaLevel = model === HISTORICAL_SHIP
+    ? C.RAPTOR_THRUST_SEA_LEVEL : 250_000 * C.standardGravity;
+  const vacuum = (seaLevel / (327 * C.standardGravity)) * C.standardGravity * 350;
+  const thrust = vacuum - Math.max(0, s.atmosphere.airPressure) * 1000
+    * (vacuum - seaLevel) / 101325;
   const burnTime = C.DEORBIT_DELTA_V * s.vehicle.vehicleMass /
-    (healthy * C.thrustPerRaptorAt(s.atmosphere.airPressure));
+    (healthy * thrust);
   const burnDistance = (k.speedX - C.DEORBIT_DELTA_V / 2) * burnTime;
   const coastDistance = coastDownrangeDistance(
     k.distanceToPlanetCenter, k.speedX - C.DEORBIT_DELTA_V,
@@ -106,7 +118,7 @@ function firingResidual(s: SimState): number {
 }
 
 /** Fly a state to a conclusion, recording what happened on the way. */
-function fly(start: SimState, maxSeconds: number): Flight {
+function fly(start: SimState, maxSeconds: number, model: VehicleDefinition = SHIP): Flight {
   let s = start;
   let peakHeat = 0;
   let burnStartedAt = -1;
@@ -118,12 +130,12 @@ function fly(start: SimState, maxSeconds: number): Flight {
 
   for (let i = 1; i <= 120 * maxSeconds; i++) {
     const before = s;
-    s = step(s, DT);
+    s = step(s, DT, NO_INPUT, model);
     peakHeat = Math.max(peakHeat, s.forces.thermalPower);
     if (burnStartedAt < 0 && s.autopilot.deorbitBurnStarted) {
       burnStartedAt = i / 120;
-      firingResidualBefore = firingResidual(before);
-      firingResidualAt = firingResidual(s);
+      firingResidualBefore = firingResidual(before, model);
+      firingResidualAt = firingResidual(s, model);
     }
     if (handedOverAt < 0 && s.autopilot.autoLandOn) handedOverAt = i / 120;
     if (s.failures.inFlightBreakUp) outcome = 'brokeUp';
@@ -234,12 +246,28 @@ describe('step 2 — coast a full lap', () => {
   it('and 100 km still does not — which is why the presets are at 150', () => {
     let s = circularAt(100_000);
     const steps = lapSteps(100_000);
+    const partition = damageModelFor(SHIP).partition;
+    // Once the hull disintegrates, follow its actual dry material instead of
+    // the frozen event marker. No failure reset can resurrect a rigid hull.
+    const physicalAltitude = (state: SimState) => {
+      if (!state.damage!.terminal.active) return state.kinematics.altitude;
+      let mass = 0, first = 0;
+      for (const piece of state.damage!.debris) if (piece.active) {
+        const m = partition.components[piece.componentIndex]!.mass;
+        mass += m; first += m * piece.altitude;
+      }
+      return first / mass;
+    };
     for (let i = 0; i < steps; i++) {
-      s.failures.inFlightBreakUp = false;
       s = step(s, DT);
-      if (s.kinematics.altitude < 1_000) break;
+      if (physicalAltitude(s) < 1_000) break;
     }
-    expect(s.kinematics.altitude, 'should have decayed').toBeLessThan(1_000);
+    if (s.damage!.terminal.active) {
+      const dryMass = s.damage!.debris.reduce((sum, piece) => sum
+        + (piece.active ? partition.components[piece.componentIndex]!.mass : 0), 0);
+      expect(dryMass, 'all dry structure remains physically owned').toBeCloseTo(SHIP.dryMass, 8);
+    }
+    expect(physicalAltitude(s), 'the orbiting material should have decayed').toBeLessThan(1_000);
   });
 
   it('the atmosphere is 256 times thinner at 150 km than at 100 km', () => {
@@ -315,10 +343,41 @@ describe('step 3 — deorbit and land at StarBase', () => {
   });
 
   it('and the entry is managed, not merely survived', () => {
-    // Shipped Phase 6 broadside characterization restored under the approved
-    // fallback. Keep the absolute tile limit and original ±5 K width.
     expect(flight.peakHeat).toBeLessThan(C.heatLimit);
-    expect(surfaceTemperature(flight.peakHeat), 'peak skin temperature, K').toBeCloseTo(1459, -1);
+    expect(surfaceTemperature(flight.peakHeat), 'flux-derived equilibrium temperature, K')
+      .toBeLessThan(C.TILE_LIMIT_KELVIN);
+    // Active V3 measurement, 2026-10-03: 1452.313829 K. This additional
+    // ±5 K characterization does not replace the historical cohort below.
+    expect(surfaceTemperature(flight.peakHeat), 'V3 flux-derived equilibrium temperature, K')
+      .toBeCloseTo(1452.314, -1);
+  });
+
+  it('preserves the historical Raptor2 broadside entry characterization', () => {
+    const preset = getScenario('deorbit')!;
+    // Apply the unchanged orbital preset to an explicit pre-V3 constructor.
+    // Historical null-damage physics still calls the current shared step.
+    const s = createInitialState(undefined, HISTORICAL_SHIP);
+    s.damage = null;
+    s.kinematics.altitude = preset.altitude;
+    s.kinematics.distanceToPlanetCenter = C.planetRadius + preset.altitude;
+    s.kinematics.downRangeDistance = preset.xPosition + C.starBaseXPos;
+    s.kinematics.downRangeDistanceNextFrame = s.kinematics.downRangeDistance;
+    s.kinematics.speedX = preset.speedX;
+    s.kinematics.speedY = preset.speedY;
+    s.kinematics.trueSpeed = Math.hypot(preset.speedX, preset.speedY);
+    s.kinematics.pitch = toRad(preset.pitch);
+    s.vehicle.propellantMass = preset.propellant * 1000;
+    s.vehicle.vehicleMass = HISTORICAL_SHIP.dryMass + s.vehicle.propellantMass;
+    expect(preset.wind ?? 0, 'historical deorbit is in calm air').toBe(0);
+    s.kinematics.machSpeed = s.kinematics.trueSpeed
+      / speedOfSoundAt(isaAtmosphere(preset.altitude).airTemperature);
+    cmd.toggleAutoDeorbit(s);
+    const historical = fly(s, 8_000, HISTORICAL_SHIP);
+    expect(historical.outcome).toBe('landed');
+    expect(historical.peakHeat).toBeLessThan(C.heatLimit);
+    // Shipped Phase 6 broadside characterization: original centre and ±5 K.
+    expect(surfaceTemperature(historical.peakHeat), 'historical peak skin temperature, K')
+      .toBeCloseTo(1459, -1);
   });
 
   it('is deterministic — the same flight twice', () => {

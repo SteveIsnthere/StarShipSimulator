@@ -1,0 +1,11 @@
+# Independent matrix maker import-placement HOLD
+
+Disposition: HOLD before matrix maker execution. One concrete research-template import placement finding; accepted fresh application build/dist remains accepted unchanged.
+
+The maker materializes config and hooks beneath /tmp/starship-mesa-app-material.UUID. Both import bare @playwright/test. Installed public package require export is its index.js, but Node resolves a bare import relative to the importing file's ancestors, not the application's cwd. I read installed Playwright requireOrImport/resolveHook: tsconfig-relative mappings and absolute paths can resolve, but these bare private imports fall through to ordinary resolution; no repository dependency fallback is supplied. A /tmp file therefore cannot rely on repository node_modules. This was missed in the earlier source review and is corrected before any matrix workload.
+
+Minimal repair: pin and use the installed public SDK entry explicitly in the two research templates, or supply another concrete reviewed supported resolution route. Avoid ambient NODE_PATH/import fallback/package duplication; preserve exact canonical test bodies, frame limits and retained app dist. Public SDK entries and installed resolver need finite selected evidence pins. Preserve current templates/current31manifest before repair. No physics/public build repeat is justified by research-only import correction.
+
+Other maker boundaries reviewed: exact root seed binds accepted c1f79 app-build input, actual3f244 external approval/7383 review and full61/18 dist metadata; source/tool authority comparisons and original inherited pins are retained. Unique private0700 directories and0600 exact four template materializations create no native load, build or matrix execution. Owner/external structural wrapper input still need separate HIGH and one root grant after corrected concrete sources/scopes. Current authority is stored metadata; actual complete before/after checks remain stage/root duties.
+
+Method: finite maker/contract and selected installed public resolver/package source reads; no imports, test collection, checks, workloads, source/tool/native scans or copies. No driver/app/performance/coverage acceptance is claimed.

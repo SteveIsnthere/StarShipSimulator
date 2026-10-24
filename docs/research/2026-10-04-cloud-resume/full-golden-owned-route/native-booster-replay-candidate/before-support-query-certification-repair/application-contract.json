@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "kind": "unapplied-five-path-three-golden-case-native-policy",
+  "applied": false,
+  "targets": {
+    "scripts/test/admission.mjs": {
+      "before": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/admission.mjs.txt",
+      "after": "0836a02b50e66ec873389b45ff9e10c222b8651398e30bd87f3c1e0e4e484f5d"
+    },
+    "scripts/test/loader.mjs": {
+      "before": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16",
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/loader.mjs.txt",
+      "after": "e81c105fd7f82e8f0e87148218c0810dedb8f4898c6df90b2d7aeba2b90516fc"
+    },
+    "scripts/test/run.mjs": {
+      "before": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/run.mjs.txt",
+      "after": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d"
+    },
+    "scripts/test/golden-support-policy.mjs": {
+      "before": null,
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/golden-support-policy.mjs.txt",
+      "after": "e837ee810b2b5ff39a5a82ecef88efc821eb2f032d3e71def6498cb480c3b5e2"
+    },
+    "vitest.config.ts": {
+      "before": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029",
+      "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-candidate/vitest.config.ts.txt",
+      "after": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7"
+    }
+  },
+  "qualifiedCompositeAssembled": false,
+  "publicPolicyControlsRun": false,
+  "goldenNativeReplayPassed": false
+}

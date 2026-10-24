@@ -1,0 +1,20 @@
+--- before
++++ after
+@@ -21,7 +21,7 @@
+ process.stdout.write(JSON.stringify({stageReceipt:receipt,inputSha})+'\n');
+ const put=(name,v)=>writeFileSync(resolve(receipt,name),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
+ const roles=['node','helper','npmCli','qualification','pins','stage','observer','python','snapshotHelper','prediction','predictionReview','truthEvidence','unitEvidence'];
+-let before=null,after=null,tools=null,owned=null,raw=null,code=null,failure=null;
++let before=null,tools=null,owned=null,raw=null,code=null,failure=null;
+ const afterErrors=[];const describe=e=>String(e.stack??e);
+ const inventory=parse(m.pins.path);
+ const prediction=parse(m.prediction.path);
+@@ -70,7 +70,7 @@
+ try{assert(raw&&raw.exit);assert.equal(raw.exit.code,0);assert.equal(raw.exit.signal,null);assert.equal(raw.failure,null);assert.equal(raw.finished,true);assert.equal(raw.closed,true);assert.equal(raw.cleanup.executing.length,0);}catch(e){afterErrors.push({stage:'command-outcome',error:describe(e)});}
+ try{
+  const snapshots=await import(pathToFileURL(m.snapshotHelper.path).href);
+- after=snapshots.sourceSnapshot(m.root);put('after-source.json',after);assert(before);immutableSource(before,after);
++ const after=snapshots.sourceSnapshot(m.root);put('after-source.json',after);assert(before);immutableSource(before,after);
+  assert.deepEqual(snapshots.installedToolSnapshot(m.root,m.npmCli.path),tools,'Complete installed tool boundary');
+ }catch(e){afterErrors.push({stage:'complete-source-tool-boundary',error:describe(e)});}
+ try{

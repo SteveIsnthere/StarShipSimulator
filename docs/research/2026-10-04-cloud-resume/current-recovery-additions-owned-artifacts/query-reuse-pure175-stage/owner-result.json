@@ -1,0 +1,85 @@
+{
+  "kind": "query-reuse-pure-proof-owner-result-v1",
+  "completed": true,
+  "status": 0,
+  "stage": "pure-proof",
+  "primary": null,
+  "postErrors": [],
+  "processes": [
+    {
+      "name": "native-build",
+      "code": 0,
+      "receipt": {
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "failure": null,
+        "bytes": {
+          "stdout": 1888,
+          "stderr": 0
+        },
+        "cap": 8388608,
+        "finished": true,
+        "closed": true,
+        "cleanup": {
+          "pid": 112763,
+          "start": "7161284",
+          "group": 112763,
+          "session": 112763,
+          "tracked": [
+            {
+              "pid": 112763,
+              "state": "R",
+              "parent": 112756,
+              "group": 112763,
+              "session": 112763,
+              "start": "7161284"
+            }
+          ],
+          "executing": []
+        }
+      }
+    },
+    {
+      "name": "pure-proof",
+      "code": 0,
+      "receipt": {
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "failure": null,
+        "bytes": {
+          "stdout": 0,
+          "stderr": 0
+        },
+        "cap": 8388608,
+        "finished": true,
+        "closed": true,
+        "cleanup": {
+          "pid": 112791,
+          "start": "7161501",
+          "group": 112791,
+          "session": 112791,
+          "tracked": [
+            {
+              "pid": 112791,
+              "state": "R",
+              "parent": 112756,
+              "group": 112791,
+              "session": 112791,
+              "start": "7161501"
+            }
+          ],
+          "executing": []
+        }
+      }
+    }
+  ],
+  "elapsedMs": 4738.091182,
+  "application": false,
+  "timing": false,
+  "goldenReplayPassed": false,
+  "parentAllActualTrackedAbsenceRequired": true
+}

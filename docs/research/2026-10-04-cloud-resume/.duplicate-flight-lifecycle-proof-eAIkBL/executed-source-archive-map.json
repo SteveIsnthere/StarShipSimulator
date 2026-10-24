@@ -1,0 +1,41 @@
+{
+  "episode": "corrected lifecycle proof, original finalizer reporter-label failure retained",
+  "preservesOriginalReceiptPaths": true,
+  "files": [
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/config.ts",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/config.ts.txt",
+      "sha256": "e4fe1bc4f18a1a0657c46e952893f30c9ce6b8567f50a0d56d67eb1fa5b2a122",
+      "bytes": 382,
+      "mode": "0o600"
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/finalize.mjs",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/finalize.mjs.txt",
+      "sha256": "7b85ffdaab910270ed84531a0076899462bd4790fcd9179b5de598a6b768af3d",
+      "bytes": 2738,
+      "mode": "0o600"
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts.txt",
+      "sha256": "27d477be86787fa055d73b822f2a346a7f475d3aa538f226e35bc6d510f04c19",
+      "bytes": 2828,
+      "mode": "0o600"
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/observations.ts",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/observations.ts.txt",
+      "sha256": "8c9b9605644f84e9684708f40481bc14f7fa93ab7e194f6d273d45ee06e2b313",
+      "bytes": 4924,
+      "mode": "0o600"
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/runner.mjs",
+      "archivePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/runner.mjs.txt",
+      "sha256": "eb89201ad3ddc5b61806cfd729882329b284c57d44ad3cc0627c977141d5d00c",
+      "bytes": 1467,
+      "mode": "0o600"
+    }
+  ]
+}

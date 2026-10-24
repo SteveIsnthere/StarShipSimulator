@@ -1,0 +1,10 @@
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+/workspace/StarShipSimulator/src/ui/shell/BlackBox/BlackBox.tsx
+  54:6  warning  React Hook useMemo has an unnecessary dependency: 'selectedVehicle'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+✖ 1 problem (0 errors, 1 warning)
+

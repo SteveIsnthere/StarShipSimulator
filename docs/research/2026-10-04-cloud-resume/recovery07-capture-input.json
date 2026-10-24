@@ -1,0 +1,88 @@
+{
+  "kind": "review-required-recovery07-capture-v1",
+  "base": "32e5bb386cadee9098d703c67ebdfc9444eb46a6",
+  "scriptSha256": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b",
+  "projectionPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-composite-projected-input.json",
+  "references": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-capture.py.txt",
+      "sha256": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-05.json",
+      "sha256": "a1b54dd51b4335cbfcb89c291925906c293b455cc87c8c387b27938c1ed2a01b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-05.patch",
+      "sha256": "9a0607c5e01a197ffdc7f90c51d8ce20ad1a5329f552d9808d04c570b30a6130"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06.json",
+      "sha256": "a3a16306d59ef857ceaab60b2733d698d57d43e868ae44161e5ffd50724176ba"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06.patch",
+      "sha256": "fd3b223ac134207bd9fbb279be0920ca8107c4985e73b704a8c915c6c26f35dd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-verification/readonly-continuation-result.json",
+      "sha256": "6e4114600e742f601383515b8b3c3002fdab2b542791f8d6cb5e431890b59146"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-verification/continuation-commands.json",
+      "sha256": "624defa37add9d7126608bd9c6512809ae201cb79492956cfa1b6d36f72e3fb5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-independent-actual-review.md",
+      "sha256": "2dcffe67a4a8cecb2f8c2822b23bc3f4edefdebda1211a5afdaed5e4fea79828"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-bounded-loss-path-procedure.md",
+      "sha256": "12b7f800b329f9fc8af72aede27254b3d73ea9cd14c7de26d6ed741bce143818"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-composite-projected-input.json",
+      "sha256": "eeda86744a514e170c60168c1c063fd2c0b7bfc437732ca90ab75f24ce71fe10"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json",
+      "sha256": "d1b400dbddf2ca6e22df8b7b7eb550c7f58324bf8a45d24f360743bbf107c033"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.sha256",
+      "sha256": "a946b6145acef8929f9d117898d266f5a0f93be388b746486daa58732c0969a1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-composite-actual-input-independent-high-review.md",
+      "sha256": "27482f28f4d97544db7f18f3c6560e54fd290428c5180cd30eaa7464188c3057"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-integration-v6-independent-high-review.md",
+      "sha256": "5458ca01f0238baead6bd0341cbf9c3e115e8562facc392cf48f0e3442b616af"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-integration-candidate-pins.json",
+      "sha256": "cf3317ffdc1db0574795b233f5a3e9c327806a6aa0d0ef41938e3872402ff990"
+    },
+    {
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "sha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-before-finally-repair/recovery07-capture.py.txt",
+      "sha256": "441ea8aea0c9181a73446b9b147efe6c2a7909b1946ed83f55dd5293c4db92c4"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-before-finally-repair/recovery07-capture-input.json",
+      "sha256": "55d3bf311488fb274738f8a607a372e5a441b6bb6af73b274c210cbb6fd2be0f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-independent-source-HOLD-review.md",
+      "sha256": "f17585b7871c29f26beb457acd7cb7c5c5d250f947b9cd9a1002681eab2477ad"
+    }
+  ],
+  "executed": false,
+  "requiresFreshOtherAgentHIGHBeforeRun": true,
+  "executionContract": "Source activate each shell; copy script byte-exact to private file; invoke python3 file input.json inputSha with STARSHIP_RECOVERY07_APPROVED=inputSha. Root serialized owner cutoff120s. Internal60s check plus per Git child10s bound. No tools scan or product workload. Root validates actual status/journal/absence and independent actual review afterwards. Every Git call GIT_OPTIONAL_LOCKS=0, inherited GIT_DIR/WORK_TREE/COMMON_DIR/INDEX_FILE removed; only explicit owned temporary indexes mutate. Real index cache never refreshed.",
+  "repair": "Narrow finally post-audits on success and primary failure: source, all admitted disks with fallback expected rows, all3 physical absences, actual input/private executing bytes; separate posterrors. Prior441e/55d archived unchanged."
+}

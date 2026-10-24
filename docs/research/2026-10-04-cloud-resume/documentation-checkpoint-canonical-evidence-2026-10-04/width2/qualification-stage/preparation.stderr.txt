@@ -1,0 +1,582 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: No emitted-entry change beyond exact guard and message; unexpected compiler ripple requires review
++ actual - expected
+... Skipped lines
+
+  'import { $ as e, A as t, B as n, C as r, E as i, I as a, J as o, K as s, O as c, Q as l, R as u, S as d, U as f, V as p, W as m, X as h, Y as g, Z as _, _ as v, a as y, at as b, b as x, c as S, d as C, et as w, g as T, i as E, it as D, l as O, m as k, n as A, nt as j, o as M, ot as N, p as ee, r as P, rt as F, s as te, t as ne, tt as I, u as re, v as ie, x as ae, y as L, z as R } from "./Geometry-CYPxRocb.js";\n' +
+    'import { t as oe } from "./init-Dz7_hNy6.js";\n' +
+    'import { n as se, r as ce, t as le } from "./canvasUtils-B52VJkLn.js";\n' +
+    'import { C as ue, D as de, E as fe, O as pe, S as me, T as he, _ as ge, a as _e, b as ve, c as ye, d as be, f as xe, g as Se, h as Ce, i as we, l as Te, m as Ee, n as De, o as Oe, p as ke, r as Ae, s as je, t as Me, u as Ne, v as Pe, w as Fe, x as Ie, y as Le } from "./RenderTargetSystem-Bs_X-W5p.js";\n' +
+    'import { t as Re } from "./getTextureBatchBindGroup-9HBchnv9.js";\n' +
+...
+    '}\n' +
++   'fun'... 592730 more characters
+-   'fun'... 592738 more characters
+
+    at file:///tmp/starship-width2-stage.3wUEl8/qualify.mjs:56:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'import { $ as e, A as t, B as n, C as r, E as i, I as a, J as o, K as s, O as c, Q as l, R as u, S as d, U as f, V as p, W as m, X as h, Y as g, Z as _, _ as v, a as y, at as b, b as x, c as S, d as C, et as w, g as T, i as E, it as D, l as O, m as k, n as A, nt as j, o as M, ot as N, p as ee, r as P, rt as F, s as te, t as ne, tt as I, u as re, v as ie, x as ae, y as L, z as R } from "./Geometry-CYPxRocb.js";\n' +
+    'import { t as oe } from "./init-Dz7_hNy6.js";\n' +
+    'import { n as se, r as ce, t as le } from "./canvasUtils-B52VJkLn.js";\n' +
+    'import { C as ue, D as de, E as fe, O as pe, S as me, T as he, _ as ge, a as _e, b as ve, c as ye, d as be, f as xe, g as Se, h as Ce, i as we, l as Te, m as Ee, n as De, o as Oe, p as ke, r as Ae, s as je, t as Me, u as Ne, v as Pe, w as Fe, x as Ie, y as Le } from "./RenderTargetSystem-Bs_X-W5p.js";\n' +
+    'import { t as Re } from "./getTextureBatchBindGroup-9HBchnv9.js";\n' +
+    'import { t as ze } from "./CanvasPool-4lFBuryO.js";\n' +
+    'import { a as Be, c as Ve, d as He, f as Ue, i as We, l as Ge, n as Ke, o as qe, p as Je, r as Ye, s as Xe, t as Ze, u as Qe } from "./BufferResource-uMLrSSVl.js";\n' +
+    '//#region node_modules/pixi.js/lib/environment-browser/browserExt.mjs\n' +
+    'var $e = {\n' +
+    '\textension: {\n' +
+    '\t\ttype: D.Environment,\n' +
+    '\t\tname: "browser",\n' +
+    '\t\tpriority: -1\n' +
+    '\t},\n' +
+    '\ttest: () => !0,\n' +
+    '\tload: async () => {\n' +
+    '\t\tawait import("./browserAll-D5DBqH_a.js");\n' +
+    '\t}\n' +
+    '}, et = {\n' +
+    '\textension: {\n' +
+    '\t\ttype: D.Environment,\n' +
+    '\t\tname: "webworker",\n' +
+    '\t\tpriority: 0\n' +
+    '\t},\n' +
+    '\ttest: () => typeof self < "u" && self.WorkerGlobalScope !== void 0,\n' +
+    '\tload: async () => {\n' +
+    '\t\tawait import("./webworkerAll-DXoAr3HC.js");\n' +
+    '\t}\n' +
+    '}, tt = /* @__PURE__ */ new Set(), nt = !1;\n' +
+    'function rt(e, t, n = 2) {\n' +
+    '\tlet r = t && t.length, i = r ? t[0] * n : e.length;\n' +
+    '\ttt.size && tt.clear();\n' +
+    '\tlet a = it(e, 0, i, n, !0), o = [];\n' +
+    '\tif (!a || a.next === a.prev) return o;\n' +
+    '\tlet s = 0, c = 0, l = 0;\n' +
+    '\tif (r && (a = ft(e, t, a, n)), e.length > 80 * n) {\n' +
+    '\t\ts = e[0], c = e[1];\n' +
+    '\t\tlet t = s, r = c;\n' +
+    '\t\tfor (let a = n; a < i; a += n) {\n' +
+    '\t\t\tlet n = e[a], i = e[a + 1];\n' +
+    '\t\t\tn < s && (s = n), i < c && (c = i), n > t && (t = n), i > r && (r = i);\n' +
+    '\t\t}\n' +
+    '\t\tl = Math.max(t - s, r - c), l = l === 0 ? 0 : 32767 / l;\n' +
+    '\t}\n' +
+    '\treturn ot(a, o, s, c, l), o;\n' +
+    '}\n' +
+    'function it(e, t, n, r, i) {\n' +
+    '\tlet a = null;\n' +
+    '\tif (i === Yt(e, t, n, r) > 0) for (let i = t; i < n; i += r) a = Kt(i / r | 0, e[i], e[i + 1], a);\n' +
+    '\telse for (let i = n - r; i >= t; i -= r) a = Kt(i / r | 0, e[i], e[i + 1], a);\n' +
+    '\treturn a && zt(a, a.next) && (qt(a), a = a.next), a;\n' +
+    '}\n' +
+    'function at(e, t = e) {\n' +
+    '\tlet n = t === e, r = e, i;\n' +
+    '\tdo\n' +
+    '\t\ti = !1, r !== r.next && (tt.size === 0 || !tt.has(r)) && (zt(r, r.next) || Rt(r.prev, r, r.next) === 0) ? ((n || r === t) && (t = r.prev), nt = !0, qt(r), r = r.prev, i = !0) : (n || r !== t) && (r = r.next, i = !n);\n' +
+    '\twhile (i || r !== t);\n' +
+    '\treturn t;\n' +
+    '}\n' +
+    'function ot(e, t, n, r, i) {\n' +
+    '\ti && jt(e, n, r, i);\n' +
+    '\tlet a = e, o = !1;\n' +
+    '\tfor (; e.prev !== e.next;) {\n' +
+    '\t\tlet s = e.prev, c = e.next;\n' +
+    '\t\tif (Rt(s, e, c) < 0 && (i ? ct(e, n, r, i) : st(e))) {\n' +
+    '\t\t\tt.push(s.i, e.i, c.i), qt(e), e = c, a = c;\n' +
+    '\t\t\tcontinue;\n' +
+    '\t\t}\n' +
+    '\t\tif (e = c, e === a) {\n' +
+    '\t\t\tif (nt = !1, e = at(e), nt) {\n' +
+    '\t\t\t\ta = e;\n' +
+    '\t\t\t\tcontinue;\n' +
+    '\t\t\t}\n' +
+    '\t\t\tif (!o) {\n' +
+    '\t\t\t\te = lt(e, t), a = e, o = !0;\n' +
+    '\t\t\t\tcontinue;\n' +
+    '\t\t\t}\n' +
+    '\t\t\tut(e, t, n, r, i);\n' +
+    '\t\t\tbreak;\n' +
+    '\t\t}\n' +
+    '\t}\n' +
+    '}\n' +
+    'function st(e) {\n' +
+    '\tlet t = e.prev, n = e, r = e.next, i = t.x, a = n.x, o = r.x, s = t.y, c = n.y, l = r.y, u = Math.min(i, a, o), d = Math.min(s, c, l), f = Math.max(i, a, o), p = Math.max(s, c, l), m = r.next;\n' +
+    '\tfor (; m !== t;) {\n' +
+    '\t\tif (m.x >= u && m.x <= f && m.y >= d && m.y <= p && (i !== m.x || s !== m.y) && It(i, s, a, c, o, l, m.x, m.y) && Rt(m.prev, m, m.next) >= 0) return !1;\n' +
+    '\t\tm = m.next;\n' +
+    '\t}\n' +
+    '\treturn !0;\n' +
+    '}\n' +
+    'function ct(e, t, n, r) {\n' +
+    '\tlet i = e.prev, a = e, o = e.next, s = i.x, c = a.x, l = o.x, u = i.y, d = a.y, f = o.y, p = Math.min(s, c, l), m = Math.min(u, d, f), h = Math.max(s, c, l), g = Math.max(u, d, f), _ = Pt(p, m, t, n, r), v = Pt(h, g, t, n, r), y = e.prevZ;\n' +
+    '\tfor (; y && y.z >= _;) {\n' +
+    '\t\tif (y.x >= p && y.x <= h && y.y >= m && y.y <= g && y !== o && (s !== y.x || u !== y.y) && It(s, u, c, d, l, f, y.x, y.y) && Rt(y.prev, y, y.next) >= 0) return !1;\n' +
+    '\t\ty = y.prevZ;\n' +
+    '\t}\n' +
+    '\tlet b = e.nextZ;\n' +
+    '\tfor (; b && b.z <= v;) {\n' +
+    '\t\tif (b.x >= p && b.x <= h && b.y >= m && b.y <= g && b !== o && (s !== b.x || u !== b.y) && It(s, u, c, d, l, f, b.x, b.y) && Rt(b.prev, b, b.next) >= 0) return !1;\n' +
+    '\t\tb = b.nextZ;\n' +
+    '\t}\n' +
+    '\treturn !0;\n' +
+    '}\n' +
+    'function lt(e, t) {\n' +
+    '\tlet n = e, r = !1;\n' +
+    '\tdo {\n' +
+    '\t\tlet i = n.prev, a = n.next.next;\n' +
+    '\t\tBt(i, n, n.next, a, !1) && Ut(i, a) && Ut(a, i) && (t.push(i.i, n.i, a.i), qt(n), qt(n.next), n = e = a, r = !0), n = n.next;\n' +
+    '\t} while (n !== e);\n' +
+    '\treturn r ? at(n) : n;\n' +
+    '}\n' +
+    'function ut(e, t, n, r, i) {\n' +
+    '\tlet a = e;\n' +
+    '\tdo {\n' +
+    '\t\tlet e = a.next.next;\n' +
+    '\t\tfor (; e !== a.prev;) {\n' +
+    '\t\t\tif (a.i !== e.i && Lt(a, e)) {\n' +
+    '\t\t\t\tlet o = Gt(a, e);\n' +
+    '\t\t\t\ta = at(a, a.next), o = at(o, o.next), ot(a, t, n, r, i), ot(o, t, n, r, i);\n' +
+    '\t\t\t\treturn;\n' +
+    '\t\t\t}\n' +
+    '\t\t\te = e.next;\n' +
+    '\t\t}\n' +
+    '\t\ta = a.next;\n' +
+    '\t} while (a !== e);\n' +
+    '}\n' +
+    'var dt = !1;\n' +
+    'function ft(e, t, n, r) {\n' +
+    '\tlet i = [];\n' +
+    '\tfor (let n = 0, a = t.length; n < a; n++) {\n' +
+    '\t\tlet o = it(e, t[n] * r, n < a - 1 ? t[n + 1] * r : e.length, r, !1);\n' +
+    '\t\to === o.next && tt.add(o), i.push(Ft(o));\n' +
+    '\t}\n' +
+    '\ti.sort(pt), yt(e.length / r, t.length), bt(n, n), dt = !0;\n' +
+    '\tfor (let e = 0; e < i.length; e++) n = mt(i[e], n);\n' +
+    '\treturn dt = !1, at(n);\n' +
+    '}\n' +
+    'function pt(e, t) {\n' +
+    '\treturn e.x - t.x || e.y - t.y || (e.next.y - e.y) / (e.next.x - e.x) - (t.next.y - t.y) / (t.next.x - t.x);\n' +
+    '}\n' +
+    'function mt(e, t) {\n' +
+    '\tlet n = wt(e, t);\n' +
+    '\tif (!n) return t;\n' +
+    '\tlet r = Gt(n, e), i = r.next;\n' +
+    '\treturn bt(n, i.next), at(r, r.next), at(n, n.next);\n' +
+    '}\n' +
+    'var ht = 16, z = /* @__PURE__ */ new Float64Array(), gt = 0, _t = [], vt = [];\n' +
+    'function yt(e, t) {\n' +
+    '\tlet n = Math.ceil((e + 2 * t) / ht) + t + 2;\n' +
+    '\tz.length < n * 4 && (z = new Float64Array(n * 4)), gt = 0;\n' +
+    '}\n' +
+    'function bt(e, t) {\n' +
+    '\tlet n = e;\n' +
+    '\tdo {\n' +
+    '\t\tlet e = gt++;\n' +
+    '\t\t_t[e] = n;\n' +
+    '\t\tlet r = Infinity, i = Infinity, a = -Infinity, o = -Infinity, s = 0;\n' +
+    '\t\tdo {\n' +
+    '\t\t\tlet t = n.next;\n' +
+    '\t\t\tn.z = e, n.x < r && (r = n.x), n.x > a && (a = n.x), n.y < i && (i = n.y), n.y > o && (o = n.y), t.x < r && (r = t.x), t.x > a && (a = t.x), t.y < i && (i = t.y), t.y > o && (o = t.y), n = t;\n' +
+    '\t\t} while (++s < ht && n !== t);\n' +
+    '\t\tvt[e] = n;\n' +
+    '\t\tlet c = e * 4;\n' +
+    '\t\tz[c] = r, z[c + 1] = i, z[c + 2] = a, z[c + 3] = o;\n' +
+    '\t} while (n !== t);\n' +
+    '}\n' +
+    'function xt(e, t) {\n' +
+    '\tlet n = e.z * 4;\n' +
+    '\tt.x < z[n] && (z[n] = t.x), t.y < z[n + 1] && (z[n + 1] = t.y), t.x > z[n + 2] && (z[n + 2] = t.x), t.y > z[n + 3] && (z[n + 3] = t.y);\n' +
+    '}\n' +
+    'function St(e) {\n' +
+    '\tlet t = vt[e];\n' +
+    '\tfor (; t.prev.next !== t;) t = t.next;\n' +
+    '\treturn vt[e] = t, t;\n' +
+    '}\n' +
+    'function Ct(e) {\n' +
+    '\tlet t = _t[e];\n' +
+    '\tfor (; t.prev.next !== t;) t = t.next;\n' +
+    '\treturn _t[e] = t, t;\n' +
+    '}\n' +
+    'function wt(e, t) {\n' +
+    '\tlet n = t, r = e.x, i = e.y, a = -Infinity, o;\n' +
+    '\tif (zt(e, n)) return n;\n' +
+    '\tfor (let t = 0, s = 0; t < gt; t++, s += 4) {\n' +
+    '\t\tif (i < z[s + 1] || i > z[s + 3] || z[s] > r || z[s + 2] <= a) continue;\n' +
+    '\t\tlet c = St(t);\n' +
+    '\t\tn = Ct(t);\n' +
+    '\t\tdo {\n' +
+    '\t\t\tif (n.prev.next === n) {\n' +
+    '\t\t\t\tif (zt(e, n.next)) return n.next;\n' +
+    '\t\t\t\tif (i <= n.y && i >= n.next.y && n.next.y !== n.y) {\n' +
+    '\t\t\t\t\tlet e = n.x + (i - n.y) * (n.next.x - n.x) / (n.next.y - n.y);\n' +
+    '\t\t\t\t\tif (e <= r && e > a && (a = e, o = n.x < n.next.x ? n : n.next, e === r)) return o;\n' +
+    '\t\t\t\t}\n' +
+    '\t\t\t}\n' +
+    '\t\t\tn = n.next;\n' +
+    '\t\t} while (n !== c);\n' +
+    '\t}\n' +
+    '\tif (!o) return null;\n' +
+    '\tlet s = o.x, c = o.y, l = Math.min(i, c), u = Math.max(i, c), d = Infinity;\n' +
+    '\tfor (let t = 0, f = 0; t < gt; t++, f += 4) {\n' +
+    '\t\tif (z[f + 2] < s || z[f] > r || z[f + 3] < l || z[f + 1] > u) continue;\n' +
+    '\t\tlet p = St(t);\n' +
+    '\t\tn = Ct(t);\n' +
+    '\t\tdo {\n' +
+    '\t\t\tif (n.prev.next === n && r >= n.x && n.x >= s && r !== n.x && It(i < c ? r : a, i, s, c, i < c ? a : r, i, n.x, n.y)) {\n' +
+    '\t\t\t\tlet t = Math.abs(i - n.y) / (r - n.x);\n' +
+    '\t\t\t\t(Ut(n, e) || n.y === i && n.next.y === i && n.next.x > r) && (t < d || t === d && (n.x > o.x || n.x === o.x && Tt(o, n))) && (o = n, d = t);\n' +
+    '\t\t\t}\n' +
+    '\t\t\tn = n.next;\n' +
+    '\t\t} while (n !== p);\n' +
+    '\t}\n' +
+    '\treturn o;\n' +
+    '}\n' +
+    'function Tt(e, t) {\n' +
+    '\treturn Rt(e.prev, e, t.prev) < 0 && Rt(t.next, e, e.next) < 0;\n' +
+    '}\n' +
+    'var Et = [], Dt = [], Ot = /* @__PURE__ */ new Uint32Array(), kt = /* @__PURE__ */ new Uint32Array(), At = /* @__PURE__ */ new Uint32Array(256);\n' +
+    'function jt(e, t, n, r) {\n' +
+    '\tlet i = e, a = 0;\n' +
+    '\tdo\n' +
+    '\t\ti.z = Pt(i.x, i.y, t, n, r), Et[a++] = i, i = i.next;\n' +
+    '\twhile (i !== e);\n' +
+    '\tMt(a);\n' +
+    '\tlet o = null;\n' +
+    '\tfor (let e = 0; e < a; e++) {\n' +
+    '\t\tlet t = Et[e];\n' +
+    '\t\tt.prevZ = o, o && (o.nextZ = t), o = t;\n' +
+    '\t}\n' +
+    '\to.nextZ = null;\n' +
+    '}\n' +
+    'function Mt(e) {\n' +
+    '\tif (e <= 32) {\n' +
+    '\t\tfor (let t = 1; t < e; t++) {\n' +
+    '\t\t\tlet e = Et[t], n = e.z, r = t - 1;\n' +
+    '\t\t\tfor (; r >= 0 && Et[r].z > n;) Et[r + 1] = Et[r], r--;\n' +
+    '\t\t\tEt[r + 1] = e;\n' +
+    '\t\t}\n' +
+    '\t\treturn;\n' +
+    '\t}\n' +
+    '\tOt.length < e && (Ot = new Uint32Array(e), kt = new Uint32Array(e), Dt = Array(e));\n' +
+    '\tfor (let t = 0; t < e; t++) Ot[t] = Et[t].z;\n' +
+    '\tNt(e, Et, Ot, Dt, kt, 0), Nt(e, Dt, kt, Et, Ot, 8), Nt(e, Et, Ot, Dt, kt, 16), Nt(e, Dt, kt, Et, Ot, 24);\n' +
+    '}\n' +
+    'function Nt(e, t, n, r, i, a) {\n' +
+    '\tAt.fill(0);\n' +
+    '\tfor (let t = 0; t < e; t++) At[n[t] >>> a & 255]++;\n' +
+    '\tlet o = 0;\n' +
+    '\tfor (let e = 0; e < 256; e++) {\n' +
+    '\t\tlet t = At[e];\n' +
+    '\t\tAt[e] = o, o += t;\n' +
+    '\t}\n' +
+    '\tfor (let o = 0; o < e; o++) {\n' +
+    '\t\tlet e = n[o], s = At[e >>> a & 255]++;\n' +
+    '\t\tr[s] = t[o], i[s] = e;\n' +
+    '\t}\n' +
+    '}\n' +
+    'function Pt(e, t, n, r, i) {\n' +
+    '\treturn e = (e - n) * i | 0, t = (t - r) * i | 0, e = (e | e << 8) & 16711935, e = (e | e << 4) & 252645135, e = (e | e << 2) & 858993459, e = (e | e << 1) & 1431655765, t = (t | t << 8) & 16711935, t = (t | t << 4) & 252645135, t = (t | t << 2) & 858993459, t = (t | t << 1) & 1431655765, e | t << 1;\n' +
+    '}\n' +
+    'function Ft(e) {\n' +
+    '\tlet t = e, n = e;\n' +
+    '\tdo\n' +
+    '\t\t(t.x < n.x || t.x === n.x && t.y < n.y) && (n = t), t = t.next;\n' +
+    '\twhile (t !== e);\n' +
+    '\treturn n;\n' +
+    '}\n' +
+    'function It(e, t, n, r, i, a, o, s) {\n' +
+    '\treturn (i - o) * (t - s) >= (e - o) * (a - s) && (e - o) * (r - s) >= (n - o) * (t - s) && (n - o) * (a - s) >= (i - o) * (r - s);\n' +
+    '}\n' +
+    'function Lt(e, t) {\n' +
+    '\tlet n = zt(e, t) && Rt(e.prev, e, e.next) > 0 && Rt(t.prev, t, t.next) > 0;\n' +
+    '\treturn e.next.i !== t.i && (n || Ut(e, t) && Ut(t, e) && (Rt(e.prev, e, t.prev) !== 0 || Rt(e, t.prev, t) !== 0)) && !Ht(e, t) && (n || Wt(e, t));\n' +
+    '}\n' +
+    'function Rt(e, t, n) {\n' +
+    '\treturn (t.y - e.y) * (n.x - t.x) - (t.x - e.x) * (n.y - t.y);\n' +
+    '}\n' +
+    'fun'... 592730 more characters,
+  expected: 'import { $ as e, A as t, B as n, C as r, E as i, I as a, J as o, K as s, O as c, Q as l, R as u, S as d, U as f, V as p, W as m, X as h, Y as g, Z as _, _ as v, a as y, at as b, b as x, c as S, d as C, et as w, g as T, i as E, it as D, l as O, m as k, n as A, nt as j, o as M, ot as N, p as ee, r as P, rt as F, s as te, t as ne, tt as I, u as re, v as ie, x as ae, y as L, z as R } from "./Geometry-CYPxRocb.js";\n' +
+    'import { t as oe } from "./init-Dz7_hNy6.js";\n' +
+    'import { n as se, r as ce, t as le } from "./canvasUtils-B52VJkLn.js";\n' +
+    'import { C as ue, D as de, E as fe, O as pe, S as me, T as he, _ as ge, a as _e, b as ve, c as ye, d as be, f as xe, g as Se, h as Ce, i as we, l as Te, m as Ee, n as De, o as Oe, p as ke, r as Ae, s as je, t as Me, u as Ne, v as Pe, w as Fe, x as Ie, y as Le } from "./RenderTargetSystem-Bs_X-W5p.js";\n' +
+    'import { t as Re } from "./getTextureBatchBindGroup-9HBchnv9.js";\n' +
+    'import { t as ze } from "./CanvasPool-4lFBuryO.js";\n' +
+    'import { a as Be, c as Ve, d as He, f as Ue, i as We, l as Ge, n as Ke, o as qe, p as Je, r as Ye, s as Xe, t as Ze, u as Qe } from "./BufferResource-uMLrSSVl.js";\n' +
+    '//#region node_modules/pixi.js/lib/environment-browser/browserExt.mjs\n' +
+    'var $e = {\n' +
+    '\textension: {\n' +
+    '\t\ttype: D.Environment,\n' +
+    '\t\tname: "browser",\n' +
+    '\t\tpriority: -1\n' +
+    '\t},\n' +
+    '\ttest: () => !0,\n' +
+    '\tload: async () => {\n' +
+    '\t\tawait import("./browserAll-D5DBqH_a.js");\n' +
+    '\t}\n' +
+    '}, et = {\n' +
+    '\textension: {\n' +
+    '\t\ttype: D.Environment,\n' +
+    '\t\tname: "webworker",\n' +
+    '\t\tpriority: 0\n' +
+    '\t},\n' +
+    '\ttest: () => typeof self < "u" && self.WorkerGlobalScope !== void 0,\n' +
+    '\tload: async () => {\n' +
+    '\t\tawait import("./webworkerAll-DXoAr3HC.js");\n' +
+    '\t}\n' +
+    '}, tt = /* @__PURE__ */ new Set(), nt = !1;\n' +
+    'function rt(e, t, n = 2) {\n' +
+    '\tlet r = t && t.length, i = r ? t[0] * n : e.length;\n' +
+    '\ttt.size && tt.clear();\n' +
+    '\tlet a = it(e, 0, i, n, !0), o = [];\n' +
+    '\tif (!a || a.next === a.prev) return o;\n' +
+    '\tlet s = 0, c = 0, l = 0;\n' +
+    '\tif (r && (a = ft(e, t, a, n)), e.length > 80 * n) {\n' +
+    '\t\ts = e[0], c = e[1];\n' +
+    '\t\tlet t = s, r = c;\n' +
+    '\t\tfor (let a = n; a < i; a += n) {\n' +
+    '\t\t\tlet n = e[a], i = e[a + 1];\n' +
+    '\t\t\tn < s && (s = n), i < c && (c = i), n > t && (t = n), i > r && (r = i);\n' +
+    '\t\t}\n' +
+    '\t\tl = Math.max(t - s, r - c), l = l === 0 ? 0 : 32767 / l;\n' +
+    '\t}\n' +
+    '\treturn ot(a, o, s, c, l), o;\n' +
+    '}\n' +
+    'function it(e, t, n, r, i) {\n' +
+    '\tlet a = null;\n' +
+    '\tif (i === Yt(e, t, n, r) > 0) for (let i = t; i < n; i += r) a = Kt(i / r | 0, e[i], e[i + 1], a);\n' +
+    '\telse for (let i = n - r; i >= t; i -= r) a = Kt(i / r | 0, e[i], e[i + 1], a);\n' +
+    '\treturn a && zt(a, a.next) && (qt(a), a = a.next), a;\n' +
+    '}\n' +
+    'function at(e, t = e) {\n' +
+    '\tlet n = t === e, r = e, i;\n' +
+    '\tdo\n' +
+    '\t\ti = !1, r !== r.next && (tt.size === 0 || !tt.has(r)) && (zt(r, r.next) || Rt(r.prev, r, r.next) === 0) ? ((n || r === t) && (t = r.prev), nt = !0, qt(r), r = r.prev, i = !0) : (n || r !== t) && (r = r.next, i = !n);\n' +
+    '\twhile (i || r !== t);\n' +
+    '\treturn t;\n' +
+    '}\n' +
+    'function ot(e, t, n, r, i) {\n' +
+    '\ti && jt(e, n, r, i);\n' +
+    '\tlet a = e, o = !1;\n' +
+    '\tfor (; e.prev !== e.next;) {\n' +
+    '\t\tlet s = e.prev, c = e.next;\n' +
+    '\t\tif (Rt(s, e, c) < 0 && (i ? ct(e, n, r, i) : st(e))) {\n' +
+    '\t\t\tt.push(s.i, e.i, c.i), qt(e), e = c, a = c;\n' +
+    '\t\t\tcontinue;\n' +
+    '\t\t}\n' +
+    '\t\tif (e = c, e === a) {\n' +
+    '\t\t\tif (nt = !1, e = at(e), nt) {\n' +
+    '\t\t\t\ta = e;\n' +
+    '\t\t\t\tcontinue;\n' +
+    '\t\t\t}\n' +
+    '\t\t\tif (!o) {\n' +
+    '\t\t\t\te = lt(e, t), a = e, o = !0;\n' +
+    '\t\t\t\tcontinue;\n' +
+    '\t\t\t}\n' +
+    '\t\t\tut(e, t, n, r, i);\n' +
+    '\t\t\tbreak;\n' +
+    '\t\t}\n' +
+    '\t}\n' +
+    '}\n' +
+    'function st(e) {\n' +
+    '\tlet t = e.prev, n = e, r = e.next, i = t.x, a = n.x, o = r.x, s = t.y, c = n.y, l = r.y, u = Math.min(i, a, o), d = Math.min(s, c, l), f = Math.max(i, a, o), p = Math.max(s, c, l), m = r.next;\n' +
+    '\tfor (; m !== t;) {\n' +
+    '\t\tif (m.x >= u && m.x <= f && m.y >= d && m.y <= p && (i !== m.x || s !== m.y) && It(i, s, a, c, o, l, m.x, m.y) && Rt(m.prev, m, m.next) >= 0) return !1;\n' +
+    '\t\tm = m.next;\n' +
+    '\t}\n' +
+    '\treturn !0;\n' +
+    '}\n' +
+    'function ct(e, t, n, r) {\n' +
+    '\tlet i = e.prev, a = e, o = e.next, s = i.x, c = a.x, l = o.x, u = i.y, d = a.y, f = o.y, p = Math.min(s, c, l), m = Math.min(u, d, f), h = Math.max(s, c, l), g = Math.max(u, d, f), _ = Pt(p, m, t, n, r), v = Pt(h, g, t, n, r), y = e.prevZ;\n' +
+    '\tfor (; y && y.z >= _;) {\n' +
+    '\t\tif (y.x >= p && y.x <= h && y.y >= m && y.y <= g && y !== o && (s !== y.x || u !== y.y) && It(s, u, c, d, l, f, y.x, y.y) && Rt(y.prev, y, y.next) >= 0) return !1;\n' +
+    '\t\ty = y.prevZ;\n' +
+    '\t}\n' +
+    '\tlet b = e.nextZ;\n' +
+    '\tfor (; b && b.z <= v;) {\n' +
+    '\t\tif (b.x >= p && b.x <= h && b.y >= m && b.y <= g && b !== o && (s !== b.x || u !== b.y) && It(s, u, c, d, l, f, b.x, b.y) && Rt(b.prev, b, b.next) >= 0) return !1;\n' +
+    '\t\tb = b.nextZ;\n' +
+    '\t}\n' +
+    '\treturn !0;\n' +
+    '}\n' +
+    'function lt(e, t) {\n' +
+    '\tlet n = e, r = !1;\n' +
+    '\tdo {\n' +
+    '\t\tlet i = n.prev, a = n.next.next;\n' +
+    '\t\tBt(i, n, n.next, a, !1) && Ut(i, a) && Ut(a, i) && (t.push(i.i, n.i, a.i), qt(n), qt(n.next), n = e = a, r = !0), n = n.next;\n' +
+    '\t} while (n !== e);\n' +
+    '\treturn r ? at(n) : n;\n' +
+    '}\n' +
+    'function ut(e, t, n, r, i) {\n' +
+    '\tlet a = e;\n' +
+    '\tdo {\n' +
+    '\t\tlet e = a.next.next;\n' +
+    '\t\tfor (; e !== a.prev;) {\n' +
+    '\t\t\tif (a.i !== e.i && Lt(a, e)) {\n' +
+    '\t\t\t\tlet o = Gt(a, e);\n' +
+    '\t\t\t\ta = at(a, a.next), o = at(o, o.next), ot(a, t, n, r, i), ot(o, t, n, r, i);\n' +
+    '\t\t\t\treturn;\n' +
+    '\t\t\t}\n' +
+    '\t\t\te = e.next;\n' +
+    '\t\t}\n' +
+    '\t\ta = a.next;\n' +
+    '\t} while (a !== e);\n' +
+    '}\n' +
+    'var dt = !1;\n' +
+    'function ft(e, t, n, r) {\n' +
+    '\tlet i = [];\n' +
+    '\tfor (let n = 0, a = t.length; n < a; n++) {\n' +
+    '\t\tlet o = it(e, t[n] * r, n < a - 1 ? t[n + 1] * r : e.length, r, !1);\n' +
+    '\t\to === o.next && tt.add(o), i.push(Ft(o));\n' +
+    '\t}\n' +
+    '\ti.sort(pt), yt(e.length / r, t.length), bt(n, n), dt = !0;\n' +
+    '\tfor (let e = 0; e < i.length; e++) n = mt(i[e], n);\n' +
+    '\treturn dt = !1, at(n);\n' +
+    '}\n' +
+    'function pt(e, t) {\n' +
+    '\treturn e.x - t.x || e.y - t.y || (e.next.y - e.y) / (e.next.x - e.x) - (t.next.y - t.y) / (t.next.x - t.x);\n' +
+    '}\n' +
+    'function mt(e, t) {\n' +
+    '\tlet n = wt(e, t);\n' +
+    '\tif (!n) return t;\n' +
+    '\tlet r = Gt(n, e), i = r.next;\n' +
+    '\treturn bt(n, i.next), at(r, r.next), at(n, n.next);\n' +
+    '}\n' +
+    'var ht = 16, z = /* @__PURE__ */ new Float64Array(), gt = 0, _t = [], vt = [];\n' +
+    'function yt(e, t) {\n' +
+    '\tlet n = Math.ceil((e + 2 * t) / ht) + t + 2;\n' +
+    '\tz.length < n * 4 && (z = new Float64Array(n * 4)), gt = 0;\n' +
+    '}\n' +
+    'function bt(e, t) {\n' +
+    '\tlet n = e;\n' +
+    '\tdo {\n' +
+    '\t\tlet e = gt++;\n' +
+    '\t\t_t[e] = n;\n' +
+    '\t\tlet r = Infinity, i = Infinity, a = -Infinity, o = -Infinity, s = 0;\n' +
+    '\t\tdo {\n' +
+    '\t\t\tlet t = n.next;\n' +
+    '\t\t\tn.z = e, n.x < r && (r = n.x), n.x > a && (a = n.x), n.y < i && (i = n.y), n.y > o && (o = n.y), t.x < r && (r = t.x), t.x > a && (a = t.x), t.y < i && (i = t.y), t.y > o && (o = t.y), n = t;\n' +
+    '\t\t} while (++s < ht && n !== t);\n' +
+    '\t\tvt[e] = n;\n' +
+    '\t\tlet c = e * 4;\n' +
+    '\t\tz[c] = r, z[c + 1] = i, z[c + 2] = a, z[c + 3] = o;\n' +
+    '\t} while (n !== t);\n' +
+    '}\n' +
+    'function xt(e, t) {\n' +
+    '\tlet n = e.z * 4;\n' +
+    '\tt.x < z[n] && (z[n] = t.x), t.y < z[n + 1] && (z[n + 1] = t.y), t.x > z[n + 2] && (z[n + 2] = t.x), t.y > z[n + 3] && (z[n + 3] = t.y);\n' +
+    '}\n' +
+    'function St(e) {\n' +
+    '\tlet t = vt[e];\n' +
+    '\tfor (; t.prev.next !== t;) t = t.next;\n' +
+    '\treturn vt[e] = t, t;\n' +
+    '}\n' +
+    'function Ct(e) {\n' +
+    '\tlet t = _t[e];\n' +
+    '\tfor (; t.prev.next !== t;) t = t.next;\n' +
+    '\treturn _t[e] = t, t;\n' +
+    '}\n' +
+    'function wt(e, t) {\n' +
+    '\tlet n = t, r = e.x, i = e.y, a = -Infinity, o;\n' +
+    '\tif (zt(e, n)) return n;\n' +
+    '\tfor (let t = 0, s = 0; t < gt; t++, s += 4) {\n' +
+    '\t\tif (i < z[s + 1] || i > z[s + 3] || z[s] > r || z[s + 2] <= a) continue;\n' +
+    '\t\tlet c = St(t);\n' +
+    '\t\tn = Ct(t);\n' +
+    '\t\tdo {\n' +
+    '\t\t\tif (n.prev.next === n) {\n' +
+    '\t\t\t\tif (zt(e, n.next)) return n.next;\n' +
+    '\t\t\t\tif (i <= n.y && i >= n.next.y && n.next.y !== n.y) {\n' +
+    '\t\t\t\t\tlet e = n.x + (i - n.y) * (n.next.x - n.x) / (n.next.y - n.y);\n' +
+    '\t\t\t\t\tif (e <= r && e > a && (a = e, o = n.x < n.next.x ? n : n.next, e === r)) return o;\n' +
+    '\t\t\t\t}\n' +
+    '\t\t\t}\n' +
+    '\t\t\tn = n.next;\n' +
+    '\t\t} while (n !== c);\n' +
+    '\t}\n' +
+    '\tif (!o) return null;\n' +
+    '\tlet s = o.x, c = o.y, l = Math.min(i, c), u = Math.max(i, c), d = Infinity;\n' +
+    '\tfor (let t = 0, f = 0; t < gt; t++, f += 4) {\n' +
+    '\t\tif (z[f + 2] < s || z[f] > r || z[f + 3] < l || z[f + 1] > u) continue;\n' +
+    '\t\tlet p = St(t);\n' +
+    '\t\tn = Ct(t);\n' +
+    '\t\tdo {\n' +
+    '\t\t\tif (n.prev.next === n && r >= n.x && n.x >= s && r !== n.x && It(i < c ? r : a, i, s, c, i < c ? a : r, i, n.x, n.y)) {\n' +
+    '\t\t\t\tlet t = Math.abs(i - n.y) / (r - n.x);\n' +
+    '\t\t\t\t(Ut(n, e) || n.y === i && n.next.y === i && n.next.x > r) && (t < d || t === d && (n.x > o.x || n.x === o.x && Tt(o, n))) && (o = n, d = t);\n' +
+    '\t\t\t}\n' +
+    '\t\t\tn = n.next;\n' +
+    '\t\t} while (n !== p);\n' +
+    '\t}\n' +
+    '\treturn o;\n' +
+    '}\n' +
+    'function Tt(e, t) {\n' +
+    '\treturn Rt(e.prev, e, t.prev) < 0 && Rt(t.next, e, e.next) < 0;\n' +
+    '}\n' +
+    'var Et = [], Dt = [], Ot = /* @__PURE__ */ new Uint32Array(), kt = /* @__PURE__ */ new Uint32Array(), At = /* @__PURE__ */ new Uint32Array(256);\n' +
+    'function jt(e, t, n, r) {\n' +
+    '\tlet i = e, a = 0;\n' +
+    '\tdo\n' +
+    '\t\ti.z = Pt(i.x, i.y, t, n, r), Et[a++] = i, i = i.next;\n' +
+    '\twhile (i !== e);\n' +
+    '\tMt(a);\n' +
+    '\tlet o = null;\n' +
+    '\tfor (let e = 0; e < a; e++) {\n' +
+    '\t\tlet t = Et[e];\n' +
+    '\t\tt.prevZ = o, o && (o.nextZ = t), o = t;\n' +
+    '\t}\n' +
+    '\to.nextZ = null;\n' +
+    '}\n' +
+    'function Mt(e) {\n' +
+    '\tif (e <= 32) {\n' +
+    '\t\tfor (let t = 1; t < e; t++) {\n' +
+    '\t\t\tlet e = Et[t], n = e.z, r = t - 1;\n' +
+    '\t\t\tfor (; r >= 0 && Et[r].z > n;) Et[r + 1] = Et[r], r--;\n' +
+    '\t\t\tEt[r + 1] = e;\n' +
+    '\t\t}\n' +
+    '\t\treturn;\n' +
+    '\t}\n' +
+    '\tOt.length < e && (Ot = new Uint32Array(e), kt = new Uint32Array(e), Dt = Array(e));\n' +
+    '\tfor (let t = 0; t < e; t++) Ot[t] = Et[t].z;\n' +
+    '\tNt(e, Et, Ot, Dt, kt, 0), Nt(e, Dt, kt, Et, Ot, 8), Nt(e, Et, Ot, Dt, kt, 16), Nt(e, Dt, kt, Et, Ot, 24);\n' +
+    '}\n' +
+    'function Nt(e, t, n, r, i, a) {\n' +
+    '\tAt.fill(0);\n' +
+    '\tfor (let t = 0; t < e; t++) At[n[t] >>> a & 255]++;\n' +
+    '\tlet o = 0;\n' +
+    '\tfor (let e = 0; e < 256; e++) {\n' +
+    '\t\tlet t = At[e];\n' +
+    '\t\tAt[e] = o, o += t;\n' +
+    '\t}\n' +
+    '\tfor (let o = 0; o < e; o++) {\n' +
+    '\t\tlet e = n[o], s = At[e >>> a & 255]++;\n' +
+    '\t\tr[s] = t[o], i[s] = e;\n' +
+    '\t}\n' +
+    '}\n' +
+    'function Pt(e, t, n, r, i) {\n' +
+    '\treturn e = (e - n) * i | 0, t = (t - r) * i | 0, e = (e | e << 8) & 16711935, e = (e | e << 4) & 252645135, e = (e | e << 2) & 858993459, e = (e | e << 1) & 1431655765, t = (t | t << 8) & 16711935, t = (t | t << 4) & 252645135, t = (t | t << 2) & 858993459, t = (t | t << 1) & 1431655765, e | t << 1;\n' +
+    '}\n' +
+    'function Ft(e) {\n' +
+    '\tlet t = e, n = e;\n' +
+    '\tdo\n' +
+    '\t\t(t.x < n.x || t.x === n.x && t.y < n.y) && (n = t), t = t.next;\n' +
+    '\twhile (t !== e);\n' +
+    '\treturn n;\n' +
+    '}\n' +
+    'function It(e, t, n, r, i, a, o, s) {\n' +
+    '\treturn (i - o) * (t - s) >= (e - o) * (a - s) && (e - o) * (r - s) >= (n - o) * (t - s) && (n - o) * (a - s) >= (i - o) * (r - s);\n' +
+    '}\n' +
+    'function Lt(e, t) {\n' +
+    '\tlet n = zt(e, t) && Rt(e.prev, e, e.next) > 0 && Rt(t.prev, t, t.next) > 0;\n' +
+    '\treturn e.next.i !== t.i && (n || Ut(e, t) && Ut(t, e) && (Rt(e.prev, e, t.prev) !== 0 || Rt(e, t.prev, t) !== 0)) && !Ht(e, t) && (n || Wt(e, t));\n' +
+    '}\n' +
+    'function Rt(e, t, n) {\n' +
+    '\treturn (t.y - e.y) * (n.x - t.x) - (t.x - e.x) * (n.y - t.y);\n' +
+    '}\n' +
+    'fun'... 592738 more characters,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

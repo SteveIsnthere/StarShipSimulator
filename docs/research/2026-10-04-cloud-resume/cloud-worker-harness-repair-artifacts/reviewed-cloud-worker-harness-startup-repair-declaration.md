@@ -1,0 +1,11 @@
+# Proposed single harness-startup-repair preflight
+
+This declares a new attempt after the preserved failed1660ms attempt, not an unchanged baseline retry. Await fresh independent review and parent exclusive CPU/browser grant. No browser launch is authorized by this document alone.
+
+The previous attempt is preserved in `cloud-worker-preflight-artifacts` and `cloud-worker-preflight-outcome.md`: its readiness predicate called presentation before mount and propagated the transient exception. The partial capture repeated that call and lost the independent probe snapshot. Original reviewed runner/setup/declaration are now archived beside their exact SHA256 provenance.
+
+The only runner repairs are startup readiness and independent failure receipt fields. Readiness now requires actual mounted nonzero world canvas, nonempty altitude readout (the existing helpers.ready first-written-readout contract), and mounted debug presentation. It catches ONLY an Error whose message equals `presentation is not mounted`; all other exceptions propagate to durable failure receipts. It polls for at most20s, matching existing helpers.ready, without an arbitrary delay. Failure capture reads probe and renderer independently, preserving available probe data even when renderer presentation is unavailable, and explicitly records component errors.
+
+Keep the exact original headless shell, same flags, ThreadCount3, dedicated wrapper registration/GO/STOP ownership protocol, prebuilt production source/build pins,20realworlddraws,90s absolute work deadline and5s cleanup. No affinity/fullChrome/graphics/budget/retry change. This is functional topology evidence only, with no performance claim. Use a NEW unique setup directory and wx receipts; do not reuse the original failed directory or overwrite preserved evidence. Preparation script remains the reviewed6a2a78d13a0c135707d06aff5e2a848e6ec3b1c8bdf84b61409238662d41c4f2 version.
+
+After fresh review and explicit parent grant only: prepare once using the original script, then run the newly reviewed runner once on that exact new directory with RUN_SWIFTSHADER_WORKER_PREFLIGHT=1. Preserve outcome/source/config/topology/partial/cleanup artifacts whether it succeeds or fails. A failure grants no automatic second run or worker tuning.

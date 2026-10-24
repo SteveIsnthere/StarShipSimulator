@@ -1,0 +1,37 @@
+/** Frozen default RTLS receipt; ordinary production step only, 30s/first terminal. */
+import { writeFileSync } from 'node:fs';
+import { createScenarioVehicle, PRESETS } from '../../../src/core/scenarios';
+import { step } from '../../../src/core/step';
+import { SUPER_HEAVY } from '../../../src/core/vehicles/super-heavy';
+import { cloneBoosterMechanics } from '../../../src/core/control/booster-source';
+import type { SimState } from '../../../src/core/state';
+const output='docs/research/2026-10-03-vehicle-realism/booster-cycle2-attempt1-rtls.jsonl';
+let state=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!).state;
+state.autopilot.autoLandOn=true;
+const rows:unknown[]=[];
+function summary(s:SimState) {
+ const a=s.autopilot,j=a.boosterPrediction,b=a.boosterSource;
+ return {time:s.world.environmentTime,kinematics:s.kinematics,vehicle:s.vehicle,engines:s.engines,
+  rng:s.rng,forces:s.forces,failures:s.failures,damage:s.damage,phase:a.boosterPhase,plan:a.boosterReturnPlan,
+  source:b&&{valid:b.valid,checked:b.checked,lineageId:b.lineageId,revision:b.revision,event:b.event,expectedDt:b.expectedDt,predictedTerminal:b.returned.damage?.terminal},
+  job:j&&{stage:j.stage,iterations:j.iterations,done:j.done,duration:j.duration,selected:j.selected,lastCandidate:j.lastCandidate,attemptedTicks:j.attemptedTicks,validatedTicks:j.validatedTicks,result:j.rollout.result,originTime:j.origin.world.environmentTime}};
+}
+rows.push({event:'initial',node:process.version,state:cloneBoosterMechanics(state)});
+for(let tick=1;tick<=3600;tick++) {
+ const previous=state;state=step(state,1/120,{},SUPER_HEAVY);
+ const a=state.autopilot,p=previous.autopilot;
+ const events={phase:a.boosterPhase!==p.boosterPhase,
+  engine:state.engines.running.some((x,i)=>x!==previous.engines.running[i])||state.engines.failed.some((x,i)=>x!==previous.engines.failed[i])||state.rng.counters.ignitionDelay!==previous.rng.counters.ignitionDelay,
+  countdown:state.engines.ignitionCountdown.some((x,i)=>(x===null)!==(previous.engines.ignitionCountdown[i]===null)),
+  damage:state.damage?.revision!==previous.damage?.revision||state.damage?.hull.valid!==previous.damage?.hull.valid||state.damage?.components.some((x,i)=>x.root.valid!==previous.damage?.components[i]?.root.valid||x.attached!==previous.damage?.components[i]?.attached),
+  source:a.boosterSource?.valid!==p.boosterSource?.valid||a.boosterSource?.lineageId!==p.boosterSource?.lineageId,
+  stage:a.boosterPrediction?.stage!==p.boosterPrediction?.stage||a.boosterPrediction?.iterations!==p.boosterPrediction?.iterations,
+  plan:a.boosterReturnPlan?.shutdownAt!==p.boosterReturnPlan?.shutdownAt,
+  terminal:!!state.damage?.terminal.active||state.failures.crashed||state.failures.inFlightBreakUp||state.status.landed};
+ if(Object.values(events).some(Boolean)||tick%120===0)rows.push({event:'step',tick,events,before:summary(previous),after:summary(state)});
+ if(events.damage||events.plan||events.terminal||(events.source&&p.boosterSource))rows.push({event:'mechanical-boundary',tick,events,before:cloneBoosterMechanics(previous),after:cloneBoosterMechanics(state),observerExpected:previous.autopilot.boosterSource?.expected,observerReturned:previous.autopilot.boosterSource?.returned});
+ if(events.terminal)break;
+}
+rows.push({event:'outcome',state:summary(state)});
+writeFileSync(output,rows.map(r=>JSON.stringify(r)).join('\n')+'\n');
+console.log(JSON.stringify({rows:rows.length,time:state.world.environmentTime,terminal:state.damage?.terminal,phase:state.autopilot.boosterPhase,plan:state.autopilot.boosterReturnPlan,output},null,2));

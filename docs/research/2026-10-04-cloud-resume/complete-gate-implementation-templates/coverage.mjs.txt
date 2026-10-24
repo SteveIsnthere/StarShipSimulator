@@ -1,0 +1,10 @@
+import {spawn} from 'node:child_process';
+import {hasCapability} from './gate/capability.mjs';
+if(hasCapability())await import('./gate/validate-coverage.mjs');
+else{
+ // Standalone command remains a real complete coverage execution, with its existing diagnostic timeout.
+ const child=spawn(process.execPath,['node_modules/vitest/vitest.mjs','run','--coverage','--testTimeout=120000','--reporter=default','--reporter=json','--outputFile.json=coverage/test-results.json'],{cwd:process.cwd(),env:process.env,stdio:'inherit'});
+ for(const signal of ['SIGINT','SIGTERM'])process.on(signal,()=>child.kill(signal));
+ child.on('error',error=>{console.error(error);process.exitCode=2;});
+ child.on('exit',(code,signal)=>{process.exitCode=signal?130:code??2;});
+}

@@ -1,0 +1,29 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+stdout | tests/hud/binder.timing.test.ts > the 2 ms budget > all FOUR binders together still fit it, on the finished overlay
+whole-HUD frame cost 0.3764 ms of a 2 ms budget, map redrew 577 times over 1500 trail points
+
+ ✓ tests/hud/binder.timing.test.ts (2 tests) 3680ms
+     ✓ an update costs a small fraction of 2 ms, even when every readout changes  452ms
+     ✓ all FOUR binders together still fit it, on the finished overlay  3224ms
+stdout | tests/view/perf.timing.test.ts > M9 emitters and textures, timed > costs a measurable and small fraction of the frame, banded or not
+particle update: 45.9 us/frame plain, 52.4 us banded — the shock train costs 6.5 us
+
+stdout | tests/view/perf.timing.test.ts > M9 emitters and textures, timed > generating every texture M9 added is a mount cost, not a frame cost
+generating all eight generated textures: 25.7 ms, once, at mount
+
+ ✓ tests/view/perf.timing.test.ts (6 tests) 2573ms
+     ✓ a step costs well under 1 ms, the 240 Hz budget  757ms
+     ✓ the autopilot does not dominate the step  637ms
+     ✓ warp 16 costs about sixteen steps, not more  714ms
+     ✓ costs a measurable and small fraction of the frame, banded or not  324ms
+ ✓ tests/app/recorder.timing.test.ts (1 test) 869ms
+     ✓ a long recording does not slow the step down  867ms
+
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+   Start at  09:08:57
+   Duration  8.44s (transform 461ms, setup 0ms, import 951ms, tests 7.12s, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/node_modules/.cache/starship-bench/invocation-pu1iBu/original-ssr.report.json

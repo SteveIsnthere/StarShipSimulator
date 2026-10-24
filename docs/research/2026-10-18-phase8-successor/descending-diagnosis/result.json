@@ -1,0 +1,249 @@
+{
+  "kind": "phase8-descending-diagnosis-result-v1",
+  "captureBasisHead": "bd018042a55b7b845340a0f59f35620cfecb5e69",
+  "sourceInputs": {
+    "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-plan.json",
+    "count": 797
+  },
+  "readiness": {
+    "build": 0,
+    "scopedLint": 0,
+    "initialUnitsPassed": 14,
+    "postRenameControlsPassed": 9,
+    "independentHighReview": true
+  },
+  "run": {
+    "exit": 1,
+    "passed": 0,
+    "failed": 2,
+    "unselected": 28,
+    "workers": 1,
+    "retries": 0,
+    "testTimeoutMs": 30000,
+    "nonOrbitalSeconds": 900,
+    "nonOrbitalSteps": 108000,
+    "includesDiagnosticOverhead": true
+  },
+  "rows": {
+    "before-flip": {
+      "outcome": "crashed",
+      "simulatedSeconds": 13.875,
+      "ticks": 1665,
+      "testDurationMs": 883.2908650000027,
+      "terminalReason": 1,
+      "preResetRetainedPropellantKg": 18473.0465645044,
+      "preImpactAllComponentsAttached": true,
+      "hullDomainValidBeforeImpact": true,
+      "catchCrossings": [
+        {
+          "tick": 1430,
+          "assessment": "unmodified-candidate",
+          "eligible": false,
+          "clauses": {
+            "notAlreadyLanded": true,
+            "noCrash": true,
+            "noBreakup": true,
+            "noFuelFailure": true,
+            "aboveGround": true,
+            "finite": true,
+            "lateral": false,
+            "lateralSpeed": false,
+            "downSpeed": false,
+            "pitch": false
+          },
+          "x": 20014899.56441444,
+          "vx": -26.51376046718115,
+          "vy": -54.2686213563651,
+          "pitch": -1.3351840632494925
+        }
+      ]
+    },
+    "reentry": {
+      "outcome": "crashed",
+      "simulatedSeconds": 350.85,
+      "ticks": 42102,
+      "testDurationMs": 23428.738283000002,
+      "terminalReason": 1,
+      "preResetRetainedPropellantKg": 281.2499999990743,
+      "preImpactAllComponentsAttached": true,
+      "hullDomainValidBeforeImpact": true,
+      "catchCrossings": [
+        {
+          "tick": 42005,
+          "assessment": "unmodified-candidate",
+          "eligible": false,
+          "clauses": {
+            "notAlreadyLanded": true,
+            "noCrash": true,
+            "noBreakup": true,
+            "noFuelFailure": true,
+            "aboveGround": true,
+            "finite": true,
+            "lateral": false,
+            "lateralSpeed": false,
+            "downSpeed": false,
+            "pitch": false
+          },
+          "x": 19298678.94527043,
+          "vx": 13.155409790705773,
+          "vy": -69.66761660440746,
+          "pitch": -0.2185295230701487
+        }
+      ]
+    }
+  },
+  "next": "Recorded-constraint terminal torque coallocation witness and one changed before-flip selection; separate paid lateral/orbital range design. CPU pure-kernel reuse held until concrete reviewed proof.",
+  "scope": "Explanatory failures only. No numerical source change, performance cure, whole matrix/gate/phase/release acceptance.",
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1/before-flip.cpuprofile",
+      "bytes": 95618,
+      "sha256": "dc0934b135825c6c653c8ad8b8eafe5b8ece84b9fc386a3c72ac9164e184b475"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1/before-flip.started.json",
+      "bytes": 232,
+      "sha256": "57ab625b50e68540a55d4e370e1067c95b5cef44062763990cd0a9d0c4259c96"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1/before-flip.trace.json",
+      "bytes": 762203,
+      "sha256": "4751c089fab748d92a4d51600b20c5383723d58597fd1bd60c8f690c69f97c15"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1/reentry.cpuprofile",
+      "bytes": 593995,
+      "sha256": "96e1ccf071c47d9d53910f81bb31f153513b059f8fb1e104a61ca1d94ba75f9c"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1/reentry.started.json",
+      "bytes": 228,
+      "sha256": "44ae6e0f00e3d3ad54cfce1964f841101ad5641988b6c6b8cc60e1c51beaae9a"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1/reentry.trace.json",
+      "bytes": 4693176,
+      "sha256": "1696b9f606de9e70fb979c402d643a7c532c5808bc9a02fad53975eda6060ae9"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1-results.json",
+      "bytes": 11338,
+      "sha256": "7aa6edc2a7c3c8516b0750f128c7e158340199d7aec6381df0795e2f0363110e"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1.txt",
+      "bytes": 4167,
+      "sha256": "be7dc2ecbe489174a817040cc62fa7d91d90ab9137b16fb9d7741c8f2a4e66bf"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-plan.json",
+      "bytes": 134096,
+      "sha256": "08304533c3bd1cb2cbe95d2ae60f0d925f0d059c75fb0c15bf653dedcb2f8f0d"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/build-corrected.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/build-corrected.txt",
+      "bytes": 6028,
+      "sha256": "6dce45cd8852a4381351a192b854a644268077e68ccf240beaf7952134b552a8"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/build-final.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/build-final.txt",
+      "bytes": 6028,
+      "sha256": "f59a12b01df1ab1b7ef7e3b5a83d5ad3a8c750c8732dbb838f321a7257e73291"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/build-reviewed.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/build-reviewed.txt",
+      "bytes": 5986,
+      "sha256": "3f3b70d8c65a8bc2136f5caf22d25ecdead2b63c933f10126397d49425aa675c"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/build.exit",
+      "bytes": 2,
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/build.txt",
+      "bytes": 3058,
+      "sha256": "30e54751650159e5220d0bb82eb3be935677ad3a9cc40422d8a7ef51a85def20"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/lint-final.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/lint-final.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/lint.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/lint.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/profile-summary.json",
+      "bytes": 34322,
+      "sha256": "5a907a2d2b93a854712185c275a54cfc3ef92b119b1f45b5aeafcea6c19d0c3a"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/review.md",
+      "bytes": 1616,
+      "sha256": "f98ef3eaa7044d78b9f116da97adc7bbf24d6fc3236f3b61f0c9f4bbc079a082"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/units-final.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/units-final.json",
+      "bytes": 3197,
+      "sha256": "c1956440b77b4f71f3fe87b3866b010145bc8b838d5e6424728695ebdb21e3ba"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/units-final.txt",
+      "bytes": 780,
+      "sha256": "0a7e9095144b46707536ba607105d17824360bbf3978d1e56ff2eb8867a0893d"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/units.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/units.json",
+      "bytes": 4794,
+      "sha256": "09aae8ab0b3e220b8ae0b7f76c5a44951e7de4475b7383044c4a72500b900728"
+    },
+    {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/units.txt",
+      "bytes": 887,
+      "sha256": "9b246ef5b7a80a608e7524bfd01925b99de8a2436e0487ac8285d0937f5e0fae"
+    }
+  ]
+}

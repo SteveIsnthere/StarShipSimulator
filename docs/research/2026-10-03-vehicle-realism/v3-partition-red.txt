@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/vehicle-components.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/vehicle-components.test.ts [ tests/core/vehicle-components.test.ts ]
+Error: Cannot find module '$core/physics/vehicle-components' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/vehicle-components.test.ts
+ ❯ tests/core/vehicle-components.test.ts:4:1
+      2| import { SHIP } from '$core/vehicle';
+      3| import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+      4| import { createVehicleComponents } from '$core/physics/vehicle-compone…
+       | ^
+      5| import { createRootSection } from '$core/physics/damage-root';
+      6| import { createVehicleGeometry } from '$view/vehicle-geometry';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  13:54:41
+   Duration  221ms (transform 41ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

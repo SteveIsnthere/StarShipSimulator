@@ -1,0 +1,31 @@
+{
+  "exitCode": 0,
+  "environment": "reconciled cloud Node22.23.3",
+  "checks": {
+    "nodeSyntax": [
+      "kernel-display-witness-controls.mjs",
+      "build-render-kernel-texture-repair.mjs",
+      "qualify-render-kernel-texture-repair.mjs",
+      "run-render-kernel-texture-repair.mjs",
+      "render-kernel-texture-repair-build.config.mjs"
+    ],
+    "nodeStripSyntax": [
+      "kernel-display-witness.ts",
+      "render-kernel-texture-repair-entry.ts"
+    ],
+    "pythonAst": [
+      "prepare-render-kernel-texture-repair.py"
+    ],
+    "eslint": [
+      "kernel-display-witness.ts",
+      "kernel-display-witness-controls.mjs",
+      "render-kernel-texture-repair-entry.ts",
+      "render-kernel-texture-repair-build.config.mjs",
+      "build-render-kernel-texture-repair.mjs",
+      "qualify-render-kernel-texture-repair.mjs",
+      "run-render-kernel-texture-repair.mjs"
+    ]
+  },
+  "limits": "syntax/lint only; no runtime SDK proof, setup, build, browser, product edit or acceptance",
+  "toolOutput": "TS strip accepted both; Python preparation syntax accepted; expected experimental strip warning; other checks emitted no output"
+}

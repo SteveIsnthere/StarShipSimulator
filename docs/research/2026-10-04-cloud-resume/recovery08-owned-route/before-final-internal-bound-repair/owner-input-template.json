@@ -1,0 +1,51 @@
+{
+  "kind": "recovery08-concrete-owner-input-v1",
+  "purpose": "recovery08-capture",
+  "root": "/workspace/StarShipSimulator",
+  "outerMs": 120000,
+  "childMs": 90000,
+  "pinKeys": [
+    "node",
+    "helper",
+    "capture",
+    "captureInput",
+    "stage",
+    "observer",
+    "python"
+  ],
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "capture": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/capture.py.txt",
+    "sha": "c303cc206378af36e4a1aa9b034c1b4a2da6518c3b25871b2737237ca4dde9f0"
+  },
+  "captureInput": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/capture-input.json",
+    "sha": "a4957932c91a0232930ea991379e262ed95f28fa3384e5d906a04cfa068418ae"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/owner-stage.mjs.txt",
+    "sha": "0fd9da552abdf9b5a9ef89d8db840815bc0ad48e3313efdaae5cb0a7f269048e"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/root-parent.py.txt",
+    "sha": "3f5f71b56d22ebf82f928941f824f5ad63bbc4e54934988bd054dedb46a71d88"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "canonicalObserver": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery08-owned-route/root-parent.py.txt",
+    "sha": "3f5f71b56d22ebf82f928941f824f5ad63bbc4e54934988bd054dedb46a71d88"
+  },
+  "sourceReviewPending": true,
+  "executed": false,
+  "route": "SOURCE-ONLY Recovery08; root exclusive materialization/input review and ownedcapture required; latest07 notchanged"
+}

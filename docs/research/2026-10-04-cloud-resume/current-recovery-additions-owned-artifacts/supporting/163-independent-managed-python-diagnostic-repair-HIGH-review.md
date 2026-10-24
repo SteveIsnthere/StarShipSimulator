@@ -1,0 +1,5 @@
+# Independent managed-Python diagnostic repair — HIGH
+
+Distinct8635 diagnostic,2773 seven-row source map and all five2c148 review inputs are exact. Only sha() adds the canonical nonsymlink regular managedPython30894944B/fa674 identity exception alongside existing exactGit37d928. Source before sha() and every line after it are byte-identical to preserved311fd. Combined raw8MiB/local whole10s, four commands/equality/Node buffer checks/primary and teardown receipts remain unchanged. No generic cap increase or historical pin rewrite occurs.
+
+The predecessor preflight failed before any Git child/receipt and proves no equality. The same readiness gap affected the previous root/input review and is explicitly preserved. Matching distinct root5a762 and diagnostic8635 must be bound into new frozen actual inputs, scoped then independently reviewed before root's one metadata run. Supplied root native-size/digest authority is reused, not rehashed/executed by this reviewer. No candidate import, workload, tool scan, helper application or browser acceptance occurred or is granted.

@@ -1,0 +1,25 @@
+{
+  "kind": "original12-four-role-static-plan-v1",
+  "plan": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-four-role-qualification-plan.md",
+    "sha256": "876cc2fd0473400a48387543fa520cdc3131b24fee951a2fb819919e8366604d"
+  },
+  "smallVerifiedSourceInputs": {
+    "scripts/bench.mjs": "21fdc2ab89e36de730e0bd3f72c4afc4cfd7cb41726e162cfd817a13706c53e3",
+    "scripts/bench/native-guidance-entry.ts": "b725fe1cbedc14aefe9c18d98f34662dd2ce9a856c33ca8c473d2ef5655234cc",
+    "scripts/bench/build-native-guidance.mjs": "5f2b66b655615473f358c08cd9a95af26bbedd6621d05107072d93b5c1d3aac7",
+    "scripts/bench/native-loader.mjs": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+    "scripts/bench/qualification.json": "09ac0f90d87e60a7c235040bf92136d21ef2be0db68f129e04535c46ee56ccab",
+    "tests/support/native-guidance-benchmark.ts": "a9de71bb3b45929bc0ec6d057102c5766298919802a052ec6788868af6d6d422",
+    "tests/core/guidance-physics.timing.test.ts": "8bfddfb28e72aee994f6a7fe0d352b13df76a63706cc4c58bd211c26a4965358"
+  },
+  "readOnlyRoleInputs": [
+    "current-native-qualification-harness/entry.ts.txt",
+    "current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/entry.mjs",
+    "current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/entry.mjs.map",
+    "current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/simulation-Cnsem1hb.js.map",
+    "current-native-burn-continuation/independent-composite-result-review.md"
+  ],
+  "runtimeQualificationStillStale": true,
+  "executed": false
+}

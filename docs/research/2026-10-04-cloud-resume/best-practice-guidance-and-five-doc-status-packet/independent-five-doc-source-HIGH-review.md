@@ -1,0 +1,13 @@
+# Independent guidance/five-doc status packet source HIGH
+
+Frozen source-pins62c54029ebb123a785e727a2a5e7a641ac98ac220dbf5db055e02d139176c446 and replacement packet520ede1fb07624c6f77ac82f6fa5b0be1fce4cf0d5788502818ddcb649f33236 match all selected source/authority references. Every five live before digest, single literal occurrence and projected after digest reproduces exactly. First four rows are byte/data-identical to distinct orbit04-actual-successor000d; fifth is a single roadmap checkpoint paragraph. No live documentation or original backup was edited.
+
+The guidance note remains identical to the first reviewed note: reported user best-practice direction is recorded while missing global skills remain unread, no invented contents or repo-docs-maid pass, checked-in rules and independent review preserved. It introduces no hidden permission, physics/bounds/floor reduction, phase closure, release or main/live claim.
+
+The stale orbit04 source-only HOLD is resolved truthfully: the fourteen slot and sixteen hook inert passes,58-module Vite emission82ms and subsequent strict module-ID certification FAIL are distinguished. Exact offending ID remains unrecorded; no compiled manifest/graph acceptance or paid histories is claimed. a407/ccf8 actual failure references are exact. Earlier orbit02 startup failure remains historical. Inert census146/31/11 and twelve reporting controls remain explicitly nonphysical/non-Vitest/non-timing proofs.
+
+Archive837 files/131021666 bytes/root0/2.020s is supported by distinct37516/814c independent actual preservation review, with both owned IDs absent and historical helper8089 backing retained; no recovery/runtime/gate replacement claim. Credential-bearing browser receipts are excluded and safe omission metadata is referenced without copying environment values. This review reads the accepted finite archive review, not a new archive/full835-file payload validation.
+
+The roadmap correctly separates resolved historical two non-golden30-second timeouts (accepted full2472654pass/1configuredskip, a76/9eff) from still-failed full38 golden separation replay37/38/default30000ms, including single-worker failure. Other paragraph bytes and matrix failures/coverage/frame/gate obligations/mainlivee8a/80percent/open8and9/recoverypending remain unchanged.
+
+Supports one root-guarded exact five-doc application only: stop on any before digest or occurrence mismatch, preserve before copies and post-edit hashes, and independently review actual application. This is documentation truth approval, not source qualification, runtime/coverage/performance/gate/release approval. No scopes, parsing/imports, compiler, workload, live edits, commits or publication ran by this reviewer.

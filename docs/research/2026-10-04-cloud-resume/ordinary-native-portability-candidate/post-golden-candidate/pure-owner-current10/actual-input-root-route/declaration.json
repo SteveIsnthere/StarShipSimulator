@@ -1,0 +1,28 @@
+{
+  "scope": "ONE10 inert post-golden policy controls; source extraction stops BEFORE admitRun; no physical imports, qualification, application, replay or old27 repeat",
+  "privateInput": {
+    "path": "/tmp/starship-portable-native-post-golden-pure.fe8dd7d13eae409e96a240b4321e832a/input.json",
+    "sha256": "d4ab262308303f5c1a599cea9c451795c5aaee0bcfc9399dc6c7ba0d5e2b4440"
+  },
+  "materializationRequiredBeforeReviewOrInvocation": {
+    "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/root-observer.py.txt",
+    "destination": "/tmp/starship-portable-native-post-golden-pure.fe8dd7d13eae409e96a240b4321e832a/root-observer.py",
+    "sha256": "47ee378f8efe42412263193511eb9dcaa6aa97db06a9ced05259221c79544270",
+    "exclusiveCopyByRoot": true
+  },
+  "rootWholeMs": 30000,
+  "rootWorkMs": 22000,
+  "cleanupMs": 8000,
+  "childMs": 5000,
+  "parentMustIndependentlyVerifyAllActualTrackedAndObservedPIDStarts": true,
+  "makerObservedReaped": {
+    "code": 0,
+    "elapsedSeconds": 0.17552094200073043,
+    "pid": 94521,
+    "start": "6057930",
+    "reaped": true,
+    "makerSha256": "b387c88b6bc5a66f70f41cd79419f8adeee733f27be23a8e5629058af1f98a0b",
+    "makerUnchanged": true
+  },
+  "noProofInvocationPerformed": true
+}

@@ -1,0 +1,20 @@
+--- /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt
++++ /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/business-stage.mjs.txt
+@@ -3,7 +3,7 @@
+ import {createHash} from 'node:crypto';import {resolve} from 'node:path';import {pathToFileURL} from 'node:url';
+ const sha=file=>createHash('sha256').update(readFileSync(file)).digest('hex');const [manifestPath,manifestSha]=process.argv.slice(2);
+ assert.match(manifestSha,/^[a-f0-9]{64}$/);assert.equal(sha(manifestPath),manifestSha);const m=JSON.parse(readFileSync(manifestPath,'utf8'));
+-assert.equal(m.kind,'width2-concrete-stage-owner-input-v1');assert.equal(process.cwd(),realpathSync(m.root));assert.equal(process.version,'v22.23.3');assert.equal(sha(process.execPath),m.node.sha);assert(!process.env.NODE_OPTIONS);
++assert.equal(m.kind,'width2-concrete-stage-owner-input-v1');assert.equal(m.mode,'prepare');assert.equal(m.purpose,'width2-browser-bytecopy');assert.equal(process.cwd(),realpathSync(m.root));assert.equal(process.version,'v22.23.3');assert.equal(sha(process.execPath),m.node.sha);assert(!process.env.NODE_OPTIONS);
+ const keys=['helper','preparer','builder','qualifier','pins','stage','observer','python','bridge'];for(const key of keys)assert.equal(sha(m[key].path),m[key].sha,key);
+ const deadline=Number(process.env.WIDTH2_ROOT_DEADLINE);assert(Number.isFinite(deadline)&&deadline>Date.now()&&deadline<=Date.now()+120000);
+ const stage=mkdtempSync('/tmp/starship-width2-stage.');chmodSync(stage,0o700);process.stdout.write(JSON.stringify({stageReceipt:stage,manifestSha})+'\n');
+@@ -23,7 +23,7 @@
+  assert.equal(code,0);assert.deepStrictEqual(processReceipt.exit,{code:0,signal:null});assert.equal(processReceipt.failure,null);assert.equal(processReceipt.finished,true);assert.equal(processReceipt.closed,true);assert.equal(processReceipt.cleanup.executing.length,0);
+  const stdoutPath=resolve(stage,'preparation.stdout.txt');assert(processReceipt.bytes.stdout<=processReceipt.cap);
+  if(m.mode==='prepare'){const locations=readFileSync(stdoutPath,'utf8').trim().split(/\r?\n/).filter(line=>/^\/tmp\/starship-render-kernel\.[A-Za-z0-9]+$/.test(line));assert.equal(locations.length,1);actualReceipt=locations[0];assert.equal(realpathSync(actualReceipt),actualReceipt);
+-  const prepared=JSON.parse(readFileSync(resolve(actualReceipt,'width2-preparation.json')));assert.equal(prepared.setup,actualReceipt);assert.equal(prepared.buildExecuted,false);assert.equal(prepared.browserLaunched,false);assert.equal(prepared.compiledInitiallyEmpty,true);}
++  const prepared=JSON.parse(readFileSync(resolve(actualReceipt,'width2-browser-bytecopy-composite.json')));assert.equal(prepared.setup,actualReceipt);assert.equal(prepared.passed,true);assert.equal(prepared.buildExecuted,false);assert.equal(prepared.physicsProofExecuted,false);assert.equal(prepared.browserLaunched,false);assert.equal(prepared.byteIdenticalCopy,true);assert.equal(prepared.copyFiles.length,21);assert.equal(prepared.mapSourceContents.length,492);}
+  else{const result=JSON.parse(readFileSync(resolve(actualReceipt,m.mode==='build'?'kernel-build-result.json':'width2-qualification-outcome.json')));assert.equal(result.passed,true);assert.equal(result.error,null);}
+  for(const [file,pin]of materialized){assert.equal(sha(file),pin,'Executed child bytes drift');copyFileSync(file,file+'.after.txt');}
+  assert.equal(sha(manifestPath),manifestSha);for(const key of keys)assert.equal(sha(m[key].path),m[key].sha,key);assert.equal(sha(process.execPath),m.node.sha);

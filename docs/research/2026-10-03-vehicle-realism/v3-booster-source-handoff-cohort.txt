@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-source.test.ts (15 tests | 1 failed) 9071ms
+     × keeps expected warming and publishes a future cutoff for booster-sep 8374ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-source.test.ts > source provenance on actual evolving mechanics > keeps expected warming and publishes a future cutoff for booster-sep
+AssertionError: {"id":"booster-sep","calls":6450,"receipt":53.74999999999759,"predictedTerminal":{"active":true,"reason":8,"time":53.758333333330924,"x":20060150.408462867,"altitude":117280.4831175996,"pitch":-1.570796326794808,"speedX":-2173.442345851381,"speedY":630.0950814248911,"angularVelocity":-5.749346103423252e-14,"retainedDryMass":200000,"retainedPropellant":67552.24260963257,"releasedEnergy":0,"releasedMomentumX":-146820904.6450014,"releasedMomentumY":42564335.8075505,"releasedAngularMomentum":-766830735.5887178,"releasedKineticEnergy":172963175024.0544},"stage":"root","iterations":8}: expected undefined to be defined
+ ❯ tests/core/booster-source.test.ts:233:114
+    231|     expect(plan,JSON.stringify({id,calls,receipt:state.world.environme…
+    232|       predictedTerminal:state.autopilot.boosterSource?.returned.damage…
+    233|       stage:state.autopilot.boosterPrediction?.stage,iterations:state.…
+       |                                                                                                                  ^
+    234|     expect(plan!.shutdownAt).toBeGreaterThan(state.world.environmentTi…
+    235|     expect(plan!.sourceLineage).toBe(state.autopilot.boosterSource!.li…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 23 passed (24)
+   Start at  16:25:30
+   Duration  10.01s (transform 1.25s, setup 0ms, import 1.72s, tests 15.14s, environment 0ms)
+

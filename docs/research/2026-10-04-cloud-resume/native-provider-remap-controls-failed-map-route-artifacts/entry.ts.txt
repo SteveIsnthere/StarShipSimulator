@@ -1,0 +1,2 @@
+export * from './src/core/coverage-control';
+export * from './src/outside-control';

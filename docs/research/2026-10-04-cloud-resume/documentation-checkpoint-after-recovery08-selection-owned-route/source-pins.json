@@ -1,0 +1,44 @@
+{
+  "kind": "after08-doc-selection-source-pins-v2",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/capture-selection.py.txt",
+      "sha256": "eeff6f3bcfa0076f29405b3afe9c94474cf0bfde154a03820d41c289828dcbf6"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/make-input.py.txt",
+      "sha256": "9af007035969f0012a86375d68daf7f262addaf6728d0b59aec95f39c33b78ff"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/root-observer.py.txt",
+      "sha256": "8ac108a6a32c4634f27c04479c4498ebbf440ea7a29527945809e14633c603ed"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/selected-paths.json",
+      "sha256": "6a8b2cdc8278b059f8548319aaf7713ca437076cd888ed1654a943db08b4ed3b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/selection-plan.md",
+      "sha256": "b3954356f63f34ef45e5b1403fb6e01858fd860615f1c126c09019774edaea2a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/root-candidate-doc-names.json",
+      "sha256": "9b6be1dd0edb60498d594f95bed33e94c51170548589a621f6b91db3722ea551"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/independent-git-finalization-repair.md",
+      "sha256": "c6b2276a6d05cd40b3c1697865e45cdd1f3e69876c809ad1f1dc10b50eee6b91"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/sha-label-transcription-repair.md",
+      "sha256": "4926d482bfc9f81ac3d8ba27a48598981632425b1d8e166acb5bcc9df5a8e22e"
+    }
+  ],
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "captureExecuted": false,
+  "runtimeOrGitWriteApproved": false,
+  "sourceReadinessOnly": true
+}

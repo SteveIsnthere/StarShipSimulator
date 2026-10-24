@@ -1,0 +1,55 @@
+[WebServer] (node:24894) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:24897) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+natural piece pixels [
+  { id: 'booster-grid-1', changed: 68 },
+  { id: 'booster-grid-2', changed: 51 },
+  { id: 'booster-grid-0', changed: 72 }
+]
+individual natural grid control [ { id: 'booster-grid-1', changed: 31 } ]
+individual natural grid control [ { id: 'booster-grid-2', changed: 44 } ]
+individual natural grid control [ { id: 'booster-grid-0', changed: 17 } ]
+  ✓  1 [chromium] › tests/e2e/vehicle-damage.spec.ts:48:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (11.1s)
+(node:24922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+natural piece pixels [
+  { id: 'booster-grid-1', changed: 0 },
+  { id: 'booster-grid-2', changed: 0 },
+  { id: 'booster-grid-0', changed: 0 }
+]
+  ✘  2 [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:48:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (9.0s)
+
+
+  1) [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:48:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+
+    Error: each physical grid mesh contributes pixels inside its actual rendered bounds
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      147 |   const changedByPiece = await piecePixels(absent, restored, grids);
+      148 |   console.log('natural piece pixels', changedByPiece);
+    > 149 |   expect(changedByPiece.every(piece => piece.changed > 0), 'each physical grid mesh contributes pixels inside its actual rendered bounds').toBe(true);
+          |                                                                                                                                            ^
+      150 |   expect(absent.equals(restored), 'same-state visibility control must change real rendered pixels').toBe(false);
+      151 |   for (const grid of grids) {
+      152 |     await page.evaluate(id => (window as unknown as { __simDebug: SimDebug }).__simDebug.setComponentVisible(id, false), grid.id);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:149:140
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-pixel-portrait/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-pixel-portrait/error-context.md
+
+  1 failed
+    [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:48:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+  1 passed (23.1s)

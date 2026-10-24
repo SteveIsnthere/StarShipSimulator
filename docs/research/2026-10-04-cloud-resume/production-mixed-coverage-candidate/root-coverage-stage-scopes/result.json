@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "sourceSha256": "88d01077c548e23c7b033cbe25f19889b5785bab7a475852fa2c70c53c36be7f",
+  "checks": [
+    {
+      "name": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.024627205995784607,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-coverage-stage-scope.jlba04vj/stage.mjs"
+      ]
+    },
+    {
+      "name": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9868868129997281,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--config",
+        "/workspace/StarShipSimulator/eslint.config.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/test/coverage-business-stage.mjs"
+      ]
+    }
+  ],
+  "coverageExecuted": false
+}

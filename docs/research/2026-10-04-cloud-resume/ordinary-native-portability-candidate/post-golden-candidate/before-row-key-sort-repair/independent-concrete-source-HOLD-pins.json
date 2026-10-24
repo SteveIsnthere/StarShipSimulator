@@ -1,0 +1,23 @@
+{
+  "decision": "HOLD deterministic sorted-key assertion; no controls/application grant",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/input-pins.json": "539b34f80ab12193a4fd807648b7e3d64ccc731de5c21bd9ee9f0d8b95177b26",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/independent-concrete-source-HOLD-review.md": "862572ce9df93edd5fae8c60301fd8ff458a10add8d96306fc1fa6bfd8b59003",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/admission.mjs.txt": "c075322f6a9fc0f630b9da007e4db9f1505e65eeed27ad2ead40f6be04ae0b7a",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/run.mjs.txt": "b51865936b83881122177d4b3292ecc3a07ea77a24698bf601c0182dd01ad417",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/build.mjs.txt": "513eb012207849e66933a59ff29924e202022000f5d98277bc4629b0771e2159",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/nvmrc.txt": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/golden-data-delta.pending.json": "ba20e4e5d35be2b78751d45b9d80e5c305193dd32989016d261377807fc2c7b1",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/portable-anchor.pending.json": "13a242b51e15162ad1fb69c4430c49c8c6b4e22ad4b2ca26379f7b9e7cf8d34e",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/portable-anchor.pending.sha256": "2d1d94882fce0edabbe299cc64a8de1fe1426d7ccae43c1ff2e8b5bbadac0433",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/policy-controls.mjs.txt": "d3664de693d922618a9d3483521066e616b745304cda2e92913c29d5ba4c8e0a",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/application-once.mjs.txt": "6eca20cbd030a199b2852a952cb0e205fd9664ceca2426fdcf886eb8c69ea589",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/declaration.md": "f8a901cecd652d71b998162bd682b7ea06e72fceae7231cf7c857abf76401a50",
+    "docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json": "0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b",
+    "docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/qualification-transfer/native-flight-qualification-v7.json": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/admission.mjs.txt": "667b1d67fa6fc3e0abf45b60e9fa3ff512c10942c0d302e1a79b7efce61dc509",
+    "docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/portable-fixture-controls.mjs.txt": "a98a3e4f31b8dd9f8fa27939d5eb790a5f292e5c7539d3b793af8c5e1fae6521",
+    "docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/independent-exact-two-audit-source-HIGH-review.md": "b6cbf721bf66f2bd339530cf66d2b6db775cac9ab3e5a895cac6cc9fa6d3ddcb",
+    "docs/research/2026-10-04-cloud-resume/full-golden-owned-route/fidelity-audit-candidate/independent-exact-two-audit-source-HIGH-pins.json": "5d241db7e6637f5386a9121e968031a133041077fd8608fb342a0a169b711900"
+  }
+}

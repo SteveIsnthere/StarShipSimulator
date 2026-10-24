@@ -1,0 +1,48 @@
+{
+  "kind": "mesa-receipt-pathspec-exact-once-lint-clean-source-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/apply-receipt-pathspec-once.mjs.txt",
+      "sha256": "ff0b764e8241e3e807681edaca6fb3ab78bda5ac72a9a38930aafd1f0a0fe53d",
+      "bytes": 7137
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-app-build-receipt-bridge-input.py.txt",
+      "sha256": "9b9cffda34369e2b426bbc47dc3a7fa102de2dbf5710ba04cf5df15f2d5005a8",
+      "bytes": 5676
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-exact-once-application-contract.md",
+      "sha256": "1fd5447ef8b9dc58e34d6e0096f85f71abe8fab5b9726b711516fd9f59638729",
+      "bytes": 3834
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-exact-once-application-manifest.json",
+      "sha256": "1a8e937d8baa4c0281c773a250f3106f9b49f77351e5961a1c805c30ed1594c2",
+      "bytes": 1403
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/visual-runtime-receipt.pathspec-candidate.ts.txt",
+      "sha256": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e",
+      "bytes": 4182
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-independent-final-checker-v2.py.txt",
+      "sha256": "9c3b045bd79fc8fbd6b862458f5feb1ab0e1709c2c2de7bc4065600f29fd7236",
+      "bytes": 20575
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/apply-receipt-pathspec-once.lint-clean.mjs.txt",
+      "sha256": "45a22b1e1c13ca76310e628d0119ff004bd3f09e1826c9be714a89a4e1ccc602",
+      "bytes": 7124
+    }
+  ],
+  "status": "DEFERRED unexecuted source only; all live source/input history untouched",
+  "lineage": {
+    "originalSourceMapSha": "9d2e0ed8d38a8b7181f4fb666c7c491c57f976c423dd6c9f307d5774a0879055",
+    "originalAllSixRowsUnchanged": true,
+    "originalApplierSha": "ff0b764e8241e3e807681edaca6fb3ab78bda5ac72a9a38930aafd1f0a0fe53d",
+    "neutralDelta": "modesAfter moved from unused outer null initializer to block const at actual assignment",
+    "originalLintFailurePreserved": true
+  }
+}

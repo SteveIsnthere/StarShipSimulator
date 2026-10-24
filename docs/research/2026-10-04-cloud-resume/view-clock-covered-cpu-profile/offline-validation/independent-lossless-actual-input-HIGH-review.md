@@ -1,0 +1,9 @@
+# Independent third actual-input HIGH: lossless retained validator
+
+Supported for ONE distinct root-supervised third retained-file validator, one5schild/root30work22cleanup8. It reprocesses existing immutable profile files only; no profile/test/coverage/physics repeat or current-source qualification granted. Both prior offline FAILED episodes3814/279 and their raw receipts remain unchanged. Actual cap success and CPU-only result/ALLowned acceptance are still unproved.
+
+Actual private4d3d9c733ca14ae59dcf76985aaf2414 is real0700 with five0600 files/no results. Materialized driver332775a8… and unchanged ownera2b03df3… match reviewed templates exactly. All110source/112private/114root inventory selected rows and seven direct role digests independently match. Actual input54abef820c647d481fd3eaca72104c3aec8f0a98a06f56727292c475a8830381 and rootinput8ea91fba01497babfc83ac3480bc07ecdd34463b949a8251f09c6e89d6bcdf65 match sole maker stdout argv and raw0/0.054439414seconds PID100980/start6490751 reaped/empty stderr. Changed driver syntax/lint0 and all110pins exact are recorded; unchanged prior scopes transfer.
+
+New lossless tables/compactJSON keep all groups/location fields/unknowns/counters and the same8MiB cap. Collision/reference values must still equal retained actual lines/mapURLs. Historical failed collector/API, coverageAcceptance:false/current770outsidecapture and generated-source-only attribution remain. Root executes existing pinnedobserver.py.txt directly with exact inputdigest; unchanged ownership protocol requires rawstatus before assertions, postchecks, wholebound and ALLobserved/helper-tracked PID/start postexit verification. A third cap/schema/timeout/drift must remain failure; no deletion/pruning/relabeling may turn it green.
+
+Only selected source/metadata/digest reads were performed by reviewer. Parent grant and fresh actual result review remain required; no output/performance/floor/gate claim follows from input readiness.

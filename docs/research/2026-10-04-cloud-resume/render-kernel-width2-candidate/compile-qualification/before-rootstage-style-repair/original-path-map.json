@@ -1,0 +1,86 @@
+[
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/width2-root-observer.py.txt",
+    "sha256": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+    "bytes": 14163,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/width2-business-stage.mjs.txt",
+    "sha256": "eac451540ff04c0219bb7237e2f9c270a98db209dd3ace7247543a4220171936",
+    "bytes": 5092,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/width2-python-preparation-bridge.mjs.txt",
+    "sha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+    "bytes": 975,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2-stage-input.py.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/prepare-width2-stage-input.py.txt",
+    "sha256": "723fc54e6143ead338eb9bff6219be10a9be5eb8ed032cbdaa7055c677ff876e",
+    "bytes": 2639,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/root-stage-declaration.md",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/root-stage-declaration.md",
+    "sha256": "bfc5ba59151812309d5e693172b4084ecc5def1d0e3db47e229a4845b6277643",
+    "bytes": 3488,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/compile-input-pins.json",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/compile-input-pins.json",
+    "sha256": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e",
+    "bytes": 3849,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/prepare-width2.py.txt",
+    "sha256": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f",
+    "bytes": 15501,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/build-width2.mjs.txt",
+    "sha256": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+    "bytes": 7468,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/qualify-width2.mjs.txt",
+    "sha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+    "bytes": 12453,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/official-mixed-native-root-observer.py.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/official-mixed-native-root-observer.py.txt",
+    "sha256": "6b8180c192d279cef4297cbf50047092e435da4f89ed4bf5f83e7a84a7ccf198",
+    "bytes": 13224,
+    "mode": 384
+  },
+  {
+    "originalPath": "docs/research/2026-10-04-cloud-resume/official-mixed-native-preparation-stage.mjs.txt",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/official-mixed-native-preparation-stage.mjs.txt",
+    "sha256": "c05bfc931e30c2b79b13c92d6b3a41ce5ae530ae52f2771d1e8c5bf8b0dfc238",
+    "bytes": 4604,
+    "mode": 384
+  },
+  {
+    "originalPath": "scripts/bench/owned-command.mjs",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/owned-command.mjs",
+    "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+    "bytes": 7424,
+    "mode": 384
+  }
+]

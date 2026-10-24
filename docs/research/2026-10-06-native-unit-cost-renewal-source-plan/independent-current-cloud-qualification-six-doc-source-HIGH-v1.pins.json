@@ -1,0 +1,262 @@
+{
+  "kind": "independent-current-cloud-qualification-six-doc-source-HIGH-v1",
+  "verdict": "HIGH",
+  "SourceOnly": true,
+  "scope": "six-docs-only",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/independent-current-cloud-qualification-six-doc-source-HIGH-v1.md",
+    "sha256": "627776b775cae6f9443410a75bb223f098b0d55af322ec23708635bbdef69063",
+    "bytes": 3013,
+    "mode": 384,
+    "roleClass": "metadata"
+  },
+  "documents": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "sha256": "d61867fd0bf254e5bcc5b5d42f48c7498ff5a44856fa5ef89b173edb95f3ab3f",
+      "bytes": 63614,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md",
+      "sha256": "1c81f7232fa32f72d0698a90930d0e625ab3f2d0ac76f251064ac59fabf10526",
+      "bytes": 77165,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "sha256": "febbb64d89e612b2ad27787fe5f8977f9f57d3d61f2a9700c770b08dba16539d",
+      "bytes": 91428,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md",
+      "sha256": "e71a84b3d98ac2e3e55bd30b4c8adcc206e92f35ffa5b102877b45234d1bbb1d",
+      "bytes": 82795,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-03-vehicle-realism/README.md",
+      "sha256": "45886689d93eb8be2981a2de2bc46f21c7f5ae267d9e221c197fb67f189dac54",
+      "bytes": 6091,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md",
+      "sha256": "b13ccf6a42dd0a50cc24e19bd4d9fbfe9bed2a6e6b812549e8c9630703923ec1",
+      "bytes": 6526,
+      "mode": 384,
+      "roleClass": "metadata"
+    }
+  ],
+  "consumedProofReviews": [
+    {
+      "path": "/tmp/starship-proof-transport-six-source-syntax-5e1d8de35d104ae988710ede7072c7f4/ROOT-output/independent-six-source-syntax-actual-HIGH-v1.md",
+      "sha256": "0b1df0594e3364aacfcde6511f562c931953a56c62985b66324ce98e5c1a4c82",
+      "bytes": 2512,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/solo18-lazy13-owned-empty-stderr-source-input-successor-v2/independent-lazy13-owned-actual-PASS-HIGH-v1.md",
+      "sha256": "c3cc7bb9557ac0d465c1f093830b6c57b7e47e0defd653f1466cca55af49b2be",
+      "bytes": 2757,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/solo18-current235-v15-owned-copier-FD6-source-successor-v2/actual-result-review-v1/independent-FD6-copier-actual51-custody-HIGH-v1.md",
+      "sha256": "c06f5c95722e7cb4b895354e10199466357dac24a8eea1f85447f9427bbba46a",
+      "bytes": 3356,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-solo18-full-inventory-v3-one-actual-root._x1lky42/independent-v3-full20355-inventory-actual-HIGH-review-v1.md",
+      "sha256": "b5b4414bf7321367373612d8df835bbab22d819aee4cd562066c12937488e54a",
+      "bytes": 3428,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-helper120-external-owner-source.peh7u4l0/independent-helper120-functional-custody-and-wrapper-FAIL-HIGH-v1.md",
+      "sha256": "cf9f4b521684eaaaad30e7ce6383b72d9a7fd2d1b38e2a63d8bbd925025c220a",
+      "bytes": 2556,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-census28-root-source.u8xc8ome/independent-pure28-functional-current-custody-actual-HIGH-v1.md",
+      "sha256": "37f9f13c81882db0a080f0bea830bab5364dd122c865ebf79233edf2cc650c0d",
+      "bytes": 2611,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-original22-observed-root-source.l_zoq6n1/independent-original22-controls-current-custody-actual-HIGH-v1.md",
+      "sha256": "61273bbcf88b63ce39c8f709caad1f503c414a484cca5b699ced406fb8f4d106",
+      "bytes": 2616,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-private-native4-labeled-data30-root-source.x1pw4o30/independent-private-native4-configure-data30-actual-HIGH-v1.md",
+      "sha256": "3cbe55195cd48288c9d4756ac408b685cda6a9267fb32feb7bc39e2c03fe7bf2",
+      "bytes": 3308,
+      "mode": 384,
+      "roleClass": "metadata"
+    }
+  ],
+  "canonicalProjection": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "beforeSHA256": "69fee60d92f94e284e40a4643fb16c256188ecf74480e55a64203a772c4fca46",
+      "afterSHA256": "d61867fd0bf254e5bcc5b5d42f48c7498ff5a44856fa5ef89b173edb95f3ab3f",
+      "onlyOnePointerParagraphAdded": true,
+      "historicalTailByteExact": true
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md",
+      "beforeSHA256": "567600c61614c57a325e1fb3f3fe0da1a6ac54753e4591420991515a4acea474",
+      "afterSHA256": "1c81f7232fa32f72d0698a90930d0e625ab3f2d0ac76f251064ac59fabf10526",
+      "onlyOnePointerParagraphAdded": true,
+      "historicalTailByteExact": true
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "beforeSHA256": "1f31219d41cca4ca8e183052fa9afb498f510dc87e7b0094ca74afa4d65c7cf4",
+      "afterSHA256": "febbb64d89e612b2ad27787fe5f8977f9f57d3d61f2a9700c770b08dba16539d",
+      "onlyOnePointerParagraphAdded": true,
+      "historicalTailByteExact": true
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md",
+      "beforeSHA256": "b07ab8ed95b4e6b13c93af1c41abf9c562a8f13412dca1609899eb5b2c56fbe2",
+      "afterSHA256": "e71a84b3d98ac2e3e55bd30b4c8adcc206e92f35ffa5b102877b45234d1bbb1d",
+      "onlyOnePointerParagraphAdded": true,
+      "historicalTailByteExact": true
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-03-vehicle-realism/README.md",
+      "beforeSHA256": "55aa6541ecc998ca659d3464c2cfe3fae0229c7b96ac3ee077fa99aa30fbc51c",
+      "afterSHA256": "45886689d93eb8be2981a2de2bc46f21c7f5ae267d9e221c197fb67f189dac54",
+      "onlyOnePointerParagraphAdded": true,
+      "historicalTailByteExact": true
+    }
+  ],
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "sha256": "d61867fd0bf254e5bcc5b5d42f48c7498ff5a44856fa5ef89b173edb95f3ab3f",
+      "bytes": 63614,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md",
+      "sha256": "1c81f7232fa32f72d0698a90930d0e625ab3f2d0ac76f251064ac59fabf10526",
+      "bytes": 77165,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "sha256": "febbb64d89e612b2ad27787fe5f8977f9f57d3d61f2a9700c770b08dba16539d",
+      "bytes": 91428,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md",
+      "sha256": "e71a84b3d98ac2e3e55bd30b4c8adcc206e92f35ffa5b102877b45234d1bbb1d",
+      "bytes": 82795,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-03-vehicle-realism/README.md",
+      "sha256": "45886689d93eb8be2981a2de2bc46f21c7f5ae267d9e221c197fb67f189dac54",
+      "bytes": 6091,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md",
+      "sha256": "b13ccf6a42dd0a50cc24e19bd4d9fbfe9bed2a6e6b812549e8c9630703923ec1",
+      "bytes": 6526,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-proof-transport-six-source-syntax-5e1d8de35d104ae988710ede7072c7f4/ROOT-output/independent-six-source-syntax-actual-HIGH-v1.md",
+      "sha256": "0b1df0594e3364aacfcde6511f562c931953a56c62985b66324ce98e5c1a4c82",
+      "bytes": 2512,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/solo18-lazy13-owned-empty-stderr-source-input-successor-v2/independent-lazy13-owned-actual-PASS-HIGH-v1.md",
+      "sha256": "c3cc7bb9557ac0d465c1f093830b6c57b7e47e0defd653f1466cca55af49b2be",
+      "bytes": 2757,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/solo18-current235-v15-owned-copier-FD6-source-successor-v2/actual-result-review-v1/independent-FD6-copier-actual51-custody-HIGH-v1.md",
+      "sha256": "c06f5c95722e7cb4b895354e10199466357dac24a8eea1f85447f9427bbba46a",
+      "bytes": 3356,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-solo18-full-inventory-v3-one-actual-root._x1lky42/independent-v3-full20355-inventory-actual-HIGH-review-v1.md",
+      "sha256": "b5b4414bf7321367373612d8df835bbab22d819aee4cd562066c12937488e54a",
+      "bytes": 3428,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-helper120-external-owner-source.peh7u4l0/independent-helper120-functional-custody-and-wrapper-FAIL-HIGH-v1.md",
+      "sha256": "cf9f4b521684eaaaad30e7ce6383b72d9a7fd2d1b38e2a63d8bbd925025c220a",
+      "bytes": 2556,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-census28-root-source.u8xc8ome/independent-pure28-functional-current-custody-actual-HIGH-v1.md",
+      "sha256": "37f9f13c81882db0a080f0bea830bab5364dd122c865ebf79233edf2cc650c0d",
+      "bytes": 2611,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-original22-observed-root-source.l_zoq6n1/independent-original22-controls-current-custody-actual-HIGH-v1.md",
+      "sha256": "61273bbcf88b63ce39c8f709caad1f503c414a484cca5b699ced406fb8f4d106",
+      "bytes": 2616,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/tmp/starship-private-native4-labeled-data30-root-source.x1pw4o30/independent-private-native4-configure-data30-actual-HIGH-v1.md",
+      "sha256": "3cbe55195cd48288c9d4756ac408b685cda6a9267fb32feb7bc39e2c03fe7bf2",
+      "bytes": 3308,
+      "mode": 384,
+      "roleClass": "metadata"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/independent-current-cloud-qualification-six-doc-source-HIGH-v1.md",
+      "sha256": "627776b775cae6f9443410a75bb223f098b0d55af322ec23708635bbdef69063",
+      "bytes": 3013,
+      "mode": 384,
+      "roleClass": "metadata"
+    }
+  ],
+  "executionGranted": false,
+  "phaseAccepted": false,
+  "gateAccepted": false
+}

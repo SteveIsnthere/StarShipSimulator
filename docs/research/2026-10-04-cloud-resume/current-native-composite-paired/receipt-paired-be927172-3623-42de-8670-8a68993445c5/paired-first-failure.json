@@ -1,0 +1,9 @@
+{
+  "status": "failed",
+  "ticks": 2875,
+  "text": "Error: research flight supervision bound\n    at /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired/receipt-paired-be927172-3623-42de-8670-8a68993445c5/materialized/full-flight.ts:55:50\n    at ViteNodeRunner.runModule (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:368:4)\n    at ViteNodeRunner.directRequest (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:348:3)\n    at ViteNodeRunner.cachedRequest (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:181:11)\n    at ViteNodeRunner.executeFile (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs:156:10)\n    at CAC.run (file:///workspace/StarShipSimulator/node_modules/vite-node/dist/cli.mjs:92:28)",
+  "counts": {
+    "totalNodes": 8876134,
+    "totalEdges": 66211688
+  }
+}

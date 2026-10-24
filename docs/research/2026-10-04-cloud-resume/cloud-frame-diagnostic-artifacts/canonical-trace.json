@@ -1,0 +1,11 @@
+{
+  "canonical": "browser-all-threads-trace.json.gz",
+  "compressedSha256": "192e6b64b398348ec015f73c24f6f86ac575ff12e77047650960ccd25fc8bcee",
+  "expandedSha256": "1bc1edd31ca940487ad3fe4813219c4bc7d02056575fcbf353768e25f9733c67",
+  "expandedBytes": 23670394,
+  "identicalRawCopies": [
+    "test-results/visual-budget-diagnostic-l-5a356-ead-trace-visual-diagnostic-chromium/browser-all-threads-trace.json",
+    "test-results/visual-budget-diagnostic-l-5a356-ead-trace-visual-diagnostic-chromium/attachments/browser-all-threads-trace-json-82c2c1046fad29b171ed34a4819770003d462a77.json",
+    "html-report/data/5e143547b773f8b8457ce017a5a8e82124c91dec.json"
+  ]
+}

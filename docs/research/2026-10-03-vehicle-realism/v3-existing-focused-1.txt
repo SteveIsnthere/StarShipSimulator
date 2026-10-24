@@ -1,0 +1,342 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-burn-bound.test.ts (2 tests | 2 failed) 38ms
+     × contains the full physical burn predictor across descent and mass boundaries 36ms
+     × allows skipping far above a feasible burn but keeps the exact calculation near the trigger 0ms
+ ❯ |unit| tests/core/mission-continuation.test.ts (9 tests | 2 failed) 282ms
+     × uses remaining-mass station and actual paid thrust without making rotation a translation impulse 10ms
+     × catches at the physical hull lug and holds it without consuming fuel after separation 3ms
+ ❯ |unit| tests/core/mass.test.ts (20 tests | 9 failed) 22ms
+     × fits inside the hull, above the engine skirt 6ms
+     × reads the 2021 arms as stations on the hull 5ms
+     × is 12.7 m at the pad’s 350 t and 21.8 m dry — the range the flight covers 0ms
+     × is the 2021 cylinder exactly when the tanks are empty 0ms
+     × is FAR below the old model at full tanks, because the propellant is short and low 0ms
+     × every arm is exactly the 2021 constant when the tanks are dry 0ms
+     × and within a metre or two of them on the loads the landings are flown at 0ms
+     × agrees with a numerical integration of |r|^3 along the hull 5ms
+     × and the constant it replaces was half the rod, about the wrong axis 0ms
+ ❯ |unit| tests/core/scenarios.test.ts (51 tests | 3 failed) 597ms
+     × floors altitude at vehicleHeight / 2, so nothing spawns underground 7ms
+     × caps propellant at 1200 t, as the 2021 form did 1ms
+     × the launch pad preset reproduces the default spawn 2ms
+ ❯ |unit| tests/reference/ratchet.test.ts (3 tests | 1 failed) 6ms
+     × every tier-A row in band is gated 3ms
+ ❯ |unit| tests/core/guidance-physics.test.ts (26 tests | 3 failed) 1077ms
+     × scales with the engine count and the pressure, as the engines do 3ms
+     × returns null at the hover limit: no burn can end at the pad if thrust there is below weight 6ms
+     × a vertical drop from 40 km 506ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 20 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-burn-bound.test.ts > conservative booster burn trigger bound > contains the full physical burn predictor across descent and mass boundaries
+AssertionError: expected 0 to be greater than 0
+ ❯ tests/core/booster-burn-bound.test.ts:18:57
+     16|       }
+     17|     }
+     18|     expect(finite).toBeGreaterThan(20);expect(tooHeavy).toBeGreaterTha…
+       |                                                         ^
+     19|   });
+     20|   it('allows skipping far above a feasible burn but keeps the exact ca…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/20]⎯
+
+ FAIL  |unit| tests/core/booster-burn-bound.test.ts > conservative booster burn trigger bound > allows skipping far above a feasible burn but keeps the exact calculation near the trigger
+AssertionError: expected 430.5169381748348 to be greater than 450
+ ❯ tests/core/booster-burn-bound.test.ts:22:19
+     20|   it('allows skipping far above a feasible burn but keeps the exact ca…
+     21|     const bound=conservativeBurnStartAltitude(3,300000,100,CATCH.bodyC…
+     22|     expect(bound).toBeGreaterThan(450);expect(bound).toBeLessThan(500);
+       |                   ^
+     23|     expect(10000>bound).toBe(true);expect(400>bound).toBe(false);
+     24|     expect(conservativeBurnStartAltitude(0,300000,100,CATCH.bodyCentre…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/20]⎯
+
+ FAIL  |unit| tests/core/guidance-physics.test.ts > thrustFor > scales with the engine count and the pressure, as the engines do
+AssertionError: expected 7354987.5 to be 6766588.5 // Object.is equality
+
+- Expected
++ Received
+
+- 6766588.5
++ 7354987.5
+
+ ❯ tests/core/guidance-physics.test.ts:69:35
+     67| describe('thrustFor', () => {
+     68|   it('scales with the engine count and the pressure, as the engines do…
+     69|     expect(thrustFor(3, 101.325)).toBe(3 * C.thrustPerRaptorAt(101.325…
+       |                                   ^
+     70|     expect(thrustFor(1, 0)).toBe(C.thrustPerRaptorAt(0));
+     71|     expect(thrustFor(0, 50)).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/20]⎯
+
+ FAIL  |unit| tests/core/guidance-physics.test.ts > landingBurnStartAltitude: the edges > returns null at the hover limit: no burn can end at the pad if thrust there is below weight
+AssertionError: expected 426.49507271635645 to be null
+
+- Expected:
+null
+
++ Received:
+426.49507271635645
+
+ ❯ tests/core/guidance-physics.test.ts:160:79
+    158|     // One engine on 232 t: 2.25 MN against 2.26 MN of weight at sea l…
+    159|     // can stop high up, where thrust is larger, but never at touchdow…
+    160|     expect(landingBurnStartAltitude(1, 232_000, 30, 25, createBurnScra…
+       |                                                                               ^
+    161|   });
+    162|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/20]⎯
+
+ FAIL  |unit| tests/core/guidance-physics.test.ts > unpoweredFallInto against the simulation, attitude held > a vertical drop from 40 km
+AssertionError: time 104.6 vs 1500.0 s: expected 0.9302375076733413 to be less than 0.03
+ ❯ tests/core/guidance-physics.test.ts:296:115
+    294|       unpoweredFallInto(ref.start, C.vehicleHeight / 2, createBurnScra…
+    295|       expect(out.reached).toBe(true);
+    296|       expect(Math.abs(out.time - ref.time) / ref.time, `time ${out.tim…
+       |                                                                                                                   ^
+    297|       expect(Math.abs(out.downRange - ref.downRange), `downrange ${out…
+    298|         Math.max(0.1 * Math.abs(ref.downRange), 50),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > the stated tank layout > fits inside the hull, above the engine skirt
+AssertionError: expected 35.14559752401155 to be close to 27.6, received difference is 7.545597524011548, but expected 0.05
+ ❯ tests/core/mass.test.ts:45:17
+     43|     // 22.6 m of tank from 5 m to 27.6 m in a 50 m hull, which leaves …
+     44|     // payload volume above it that a Starship actually has.
+     45|     expect(top).toBeCloseTo(27.6, 1);
+       |                 ^
+     46|   });
+     47|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > the stated tank layout > reads the 2021 arms as stations on the hull
+AssertionError: expected 22.672 to be 21.8 // Object.is equality
+
+- Expected
++ Received
+
+- 21.8
++ 22.672
+
+ ❯ tests/core/mass.test.ts:58:32
+     56|     // The four constants were arms about a centre of mass at 21.8 m; …
+     57|     // they are places, and the dry centre of mass is that same 21.8.
+     58|     expect(DRY_CENTRE_OF_MASS).toBe(C.engineDistanceFromCenterOfMass);
+       |                                ^
+     59|     expect(AFT_FIN_STATION).toBe(DRY_CENTRE_OF_MASS - C.aftFinDistance…
+     60|     expect(RCS_STATION).toBe(DRY_CENTRE_OF_MASS + C.rcsThrustDistanceF…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > the centre of mass > is 12.7 m at the pad’s 350 t and 21.8 m dry — the range the flight covers
+AssertionError: expected 13.63257964257932 to be close to 12.7, received difference is 0.93257964257932, but expected 0.05
+ ❯ tests/core/mass.test.ts:111:35
+    109|
+    110|   it('is 12.7 m at the pad’s 350 t and 21.8 m dry — the range the flig…
+    111|     expect(centreOfMass(350_000)).toBeCloseTo(12.7, 1);
+       |                                   ^
+    112|     expect(centreOfMass(20_000)).toBeCloseTo(19.8, 1);
+    113|     expect(centreOfMass(0)).toBeCloseTo(21.8, 1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > the moment of inertia > is the 2021 cylinder exactly when the tanks are empty
+AssertionError: expected 27647500 to be close to 25607500, received difference is 2040000, but expected 5e-7
+ ❯ tests/core/mass.test.ts:130:32
+    128|       C.vehicleDryMass * (C.vehicleDiameter / 2) ** 2 * 0.25 +
+    129|       (C.vehicleDryMass * C.vehicleHeight ** 2) / 12;
+    130|     expect(momentOfInertia(0)).toBeCloseTo(cylinder, 6);
+       |                                ^
+    131|   });
+    132|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > the moment of inertia > is FAR below the old model at full tanks, because the propellant is short and low
+AssertionError: expected 59716806.035098396 to be close to 50300000, received difference is 9416806.035098396, but expected 50000
+ ❯ tests/core/mass.test.ts:148:38
+    146|     const old = (m: number) =>
+    147|       m * (C.vehicleDiameter / 2) ** 2 * 0.25 + (m * C.vehicleHeight *…
+    148|     expect(momentOfInertia(350_000)).toBeCloseTo(5.03e7, -5);
+       |                                      ^
+    149|     expect(momentOfInertia(350_000) / old(C.vehicleDryMass + 350_000))…
+    150|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > what this does to control, which is why it is safe to fly > every arm is exactly the 2021 constant when the tanks are dry
+AssertionError: expected 22.672 to be 21.8 // Object.is equality
+
+- Expected
++ Received
+
+- 21.8
++ 22.672
+
+ ❯ tests/core/mass.test.ts:173:28
+    171|   it('every arm is exactly the 2021 constant when the tanks are dry', …
+    172|     writeMassProperties(0, arms);
+    173|     expect(arms.engineArm).toBe(C.engineDistanceFromCenterOfMass);
+       |                            ^
+    174|     // To rounding, not to the bit: an arm is a station minus a centre…
+    175|     // 41.8 - 21.8 is 20.000000000000004 in binary floating point.
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > what this does to control, which is why it is safe to fly > and within a metre or two of them on the loads the landings are flown at
+AssertionError: expected 4.9517425487821285 to be less than 4.1
+ ❯ tests/core/mass.test.ts:188:79
+    186|       writeMassProperties(p, arms);
+    187|       expect(Math.abs(arms.engineArm - C.engineDistanceFromCenterOfMas…
+    188|       expect(Math.abs(arms.frontFinArm - C.frontFinDistanceFromCenterO…
+       |                                                                               ^
+    189|     }
+    190|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > the angular drag integral (M12, Fidelity) > agrees with a numerical integration of |r|^3 along the hull
+AssertionError: com 0 m: expected 1827904 to be close to 1562499.9999804795, received difference is 265404.0000195205, but expected 0.5
+ ❯ tests/core/mass.test.ts:241:51
+    239|   it('agrees with a numerical integration of |r|^3 along the hull', ()…
+    240|     for (const com of [0, 5, 12.71, 21.8, 25, 40, vehicleHeight]) {
+    241|       expect(rCubedIntegral(com), `com ${com} m`).toBeCloseTo(numeric(…
+       |                                                   ^
+    242|     }
+    243|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/20]⎯
+
+ FAIL  |unit| tests/core/mass.test.ts > the angular drag integral (M12, Fidelity) > and the constant it replaces was half the rod, about the wrong axis
+AssertionError: expected 230516.5 to be 195312.5 // Object.is equality
+
+- Expected
++ Received
+
+- 195312.5
++ 230516.5
+
+ ❯ tests/core/mass.test.ts:265:47
+    263|     // as written; the whole-rod figure about the midpoint is exactly …
+    264|     expect(integralOfRCubedTimesDx).toBe(Math.trunc((vehicleHeight / 2…
+    265|     expect(rCubedIntegral(vehicleHeight / 2)).toBe((vehicleHeight / 2)…
+       |                                               ^
+    266|     expect(Math.abs(rCubedIntegral(vehicleHeight / 2) - 2 * integralOf…
+    267|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/20]⎯
+
+ FAIL  |unit| tests/core/mission-continuation.test.ts > physical COM continuation after real paid Stage > uses remaining-mass station and actual paid thrust without making rotation a translation impulse
+AssertionError: expected 83971.3149847096 to be less than or equal to 3.4307494527899927e-9
+ ❯ roundoff tests/core/mission-continuation.test.ts:32:39
+     30|   //16 floating operations of point transforms: a roundoff bound, not …
+     31|   //selected from a flight outcome or relaxed catch tolerance.
+     32|   expect(Math.abs(actual - expected)).toBeLessThanOrEqual(16 * Number.…
+       |                                       ^
+     33| }
+     34| function integrate(x: number, y: number, vx: number, vy: number, fx: n…
+ ❯ tests/core/mission-continuation.test.ts:118:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/20]⎯
+
+ FAIL  |unit| tests/core/mission-continuation.test.ts > physical COM continuation after real paid Stage > catches at the physical hull lug and holds it without consuming fuel after separation
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/mission-continuation.test.ts:135:37
+    133|     m.booster.status.onTheGround = false;
+    134|     m = stepMission(m, DT);
+    135|     expect(m.booster.status.landed).toBe(true);
+       |                                     ^
+    136|     expect(m.booster.status.onTheGround).toBe(false);
+    137|     expect(m.booster.kinematics.altitude).toBe(90.5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/20]⎯
+
+ FAIL  |unit| tests/core/scenarios.test.ts > createScenarioState applies configureNewFlight verbatim > floors altitude at vehicleHeight / 2, so nothing spawns underground
+AssertionError: expected 26 to be 25 // Object.is equality
+
+- Expected
++ Received
+
+- 25
++ 26
+
+ ❯ tests/core/scenarios.test.ts:105:61
+    103|   it('floors altitude at vehicleHeight / 2, so nothing spawns undergro…
+    104|     const sunken = { ...LAUNCH_PAD, altitude: -500 };
+    105|     expect(createScenarioState(sunken).kinematics.altitude).toBe(C.veh…
+       |                                                             ^
+    106|     // And the real presets are all above it already.
+    107|     for (const p of PRESETS) expect(p.altitude).toBeGreaterThanOrEqual…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/20]⎯
+
+ FAIL  |unit| tests/core/scenarios.test.ts > createScenarioState applies configureNewFlight verbatim > caps propellant at 1200 t, as the 2021 form did
+AssertionError: expected 1600000 to be 1200000 // Object.is equality
+
+- Expected
++ Received
+
+- 1200000
++ 1600000
+
+ ❯ tests/core/scenarios.test.ts:112:66
+    110|   it('caps propellant at 1200 t, as the 2021 form did', () => {
+    111|     const overfull = { ...LAUNCH_PAD, propellant: 5000 };
+    112|     expect(createScenarioState(overfull).vehicle.propellantMass).toBe(…
+       |                                                                  ^
+    113|   });
+    114|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/20]⎯
+
+ FAIL  |unit| tests/core/scenarios.test.ts > createScenarioState applies configureNewFlight verbatim > the launch pad preset reproduces the default spawn
+AssertionError: expected 26 to be 25 // Object.is equality
+
+- Expected
++ Received
+
+- 25
++ 26
+
+ ❯ tests/core/scenarios.test.ts:124:35
+    122|   it('the launch pad preset reproduces the default spawn', () => {
+    123|     const s = createScenarioState(LAUNCH_PAD);
+    124|     expect(s.kinematics.altitude).toBe(C.vehicleHeight / 2);
+       |                                   ^
+    125|     expect(s.kinematics.downRangeDistance).toBe(C.starBaseXPos);
+    126|     expect(s.vehicle.propellantMass).toBe(C.propellantMass);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/20]⎯
+
+ FAIL  |unit| tests/reference/ratchet.test.ts > the reference ratchet > every tier-A row in band is gated
+AssertionError: add raptor3.sl.thrust to tests/reference/in-band.json: expected [ 'earth.radius', …(10) ] to include 'raptor3.sl.thrust'
+ ❯ tests/reference/ratchet.test.ts:37:73
+     35|     for (const band of BANDS.filter((b) => b.tier === 'A')) {
+     36|       if (judge(band).status === 'IN') {
+     37|         expect(gated, `add ${band.id} to tests/reference/in-band.json`…
+       |                                                                         ^
+     38|       }
+     39|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/20]⎯
+
+
+ Test Files  6 failed | 3 passed (9)
+      Tests  20 failed | 103 passed (123)
+   Start at  13:15:59
+   Duration  1.48s (transform 742ms, setup 0ms, import 1.36s, tests 4.18s, environment 1ms)
+

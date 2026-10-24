@@ -1,0 +1,64 @@
+[WebServer] (node:28107) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:28108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [pixel-landscape] › tests/e2e/short-landscape-hud.spec.ts:11:1 › short booster strip leaves a usable world and expanded rails below readable instruments @mobile (1.2s)
+(node:28119) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [iphone-landscape] › tests/e2e/short-landscape-hud.spec.ts:11:1 › short booster strip leaves a usable world and expanded rails below readable instruments @mobile (768ms)
+
+
+  1) [pixel-landscape] › tests/e2e/short-landscape-hud.spec.ts:11:1 › short booster strip leaves a usable world and expanded rails below readable instruments @mobile 
+
+    Error: folded strip height follows the declared instrument geometry budget
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 152
+    Received:    159.5
+
+      33 |   }
+      34 |   const zone = await hud.boundingBox();
+    > 35 |   expect(zone!.height, 'folded strip height follows the declared instrument geometry budget').toBeLessThanOrEqual(FOLDED_STRIP_BUDGET);
+         |                                                                                               ^
+      36 |   const world = await page.getByTestId('world-canvas').boundingBox();
+      37 |   expect(world!.y, 'world remains below every primary instrument').toBeGreaterThanOrEqual(zone!.y + zone!.height - 1);
+      38 |   expect(world!.height, 'world gets remaining viewport below the declared strip budget').toBeGreaterThanOrEqual(page.viewportSize()!.height - zone!.y - FOLDED_STRIP_BUDGET - 1);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/short-landscape-hud.spec.ts:35:95
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    docs/research/2026-10-03-vehicle-realism/natural-browser/short-layout/short-landscape-hud-short--a4087-readable-instruments-mobile-pixel-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: docs/research/2026-10-03-vehicle-realism/natural-browser/short-layout/short-landscape-hud-short--a4087-readable-instruments-mobile-pixel-landscape/error-context.md
+
+  2) [iphone-landscape] › tests/e2e/short-landscape-hud.spec.ts:11:1 › short booster strip leaves a usable world and expanded rails below readable instruments @mobile 
+
+    Error: folded strip height follows the declared instrument geometry budget
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 152
+    Received:    159.5
+
+      33 |   }
+      34 |   const zone = await hud.boundingBox();
+    > 35 |   expect(zone!.height, 'folded strip height follows the declared instrument geometry budget').toBeLessThanOrEqual(FOLDED_STRIP_BUDGET);
+         |                                                                                               ^
+      36 |   const world = await page.getByTestId('world-canvas').boundingBox();
+      37 |   expect(world!.y, 'world remains below every primary instrument').toBeGreaterThanOrEqual(zone!.y + zone!.height - 1);
+      38 |   expect(world!.height, 'world gets remaining viewport below the declared strip budget').toBeGreaterThanOrEqual(page.viewportSize()!.height - zone!.y - FOLDED_STRIP_BUDGET - 1);
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/short-landscape-hud.spec.ts:35:95
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    docs/research/2026-10-03-vehicle-realism/natural-browser/short-layout/short-landscape-hud-short--a4087-readable-instruments-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: docs/research/2026-10-03-vehicle-realism/natural-browser/short-layout/short-landscape-hud-short--a4087-readable-instruments-mobile-iphone-landscape/error-context.md
+
+  2 failed
+    [pixel-landscape] › tests/e2e/short-landscape-hud.spec.ts:11:1 › short booster strip leaves a usable world and expanded rails below readable instruments @mobile 
+    [iphone-landscape] › tests/e2e/short-landscape-hud.spec.ts:11:1 › short booster strip leaves a usable world and expanded rails below readable instruments @mobile 

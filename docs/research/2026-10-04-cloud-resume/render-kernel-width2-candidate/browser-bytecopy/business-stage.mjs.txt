@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,mkdtempSync,copyFileSync,chmodSync,realpathSync} from 'node:fs';
+import {createHash} from 'node:crypto';import {resolve} from 'node:path';import {pathToFileURL} from 'node:url';
+const sha=file=>createHash('sha256').update(readFileSync(file)).digest('hex');const [manifestPath,manifestSha]=process.argv.slice(2);
+assert.match(manifestSha,/^[a-f0-9]{64}$/);assert.equal(sha(manifestPath),manifestSha);const m=JSON.parse(readFileSync(manifestPath,'utf8'));
+assert.equal(m.kind,'width2-concrete-stage-owner-input-v1');assert.equal(m.mode,'prepare');assert.equal(m.purpose,'width2-browser-bytecopy');assert.equal(process.cwd(),realpathSync(m.root));assert.equal(process.version,'v22.23.3');assert.equal(sha(process.execPath),m.node.sha);assert(!process.env.NODE_OPTIONS);
+const keys=['helper','preparer','builder','qualifier','pins','stage','observer','python','bridge'];for(const key of keys)assert.equal(sha(m[key].path),m[key].sha,key);
+const deadline=Number(process.env.WIDTH2_ROOT_DEADLINE);assert(Number.isFinite(deadline)&&deadline>Date.now()&&deadline<=Date.now()+120000);
+const stage=mkdtempSync('/tmp/starship-width2-stage.');chmodSync(stage,0o700);process.stdout.write(JSON.stringify({stageReceipt:stage,manifestSha})+'\n');
+const save=(name,value)=>writeFileSync(resolve(stage,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const materialized=new Map();const put=(name,role)=>{const file=resolve(stage,name);copyFileSync(m[role].path,file);assert.equal(sha(file),m[role].sha);copyFileSync(file,file+'.txt');materialized.set(file,m[role].sha);return file;};
+let args,actualReceipt=null;const env={...process.env};
+if(m.mode==='prepare'){const preparer=put('prepare.py','preparer'),bridge=put('python-bridge.mjs','bridge');args=[bridge,manifestPath,manifestSha,preparer];}
+else{assert.match(m.setup,/^\/tmp\/starship-render-kernel\.[A-Za-z0-9]+$/);assert.equal(realpathSync(m.setup),m.setup);actualReceipt=m.setup;
+ if(m.mode==='build'){args=[put('build.mjs','builder'),m.setup];env.RUN_WIDTH2_LIBRARY_BUILD='1';}
+ else{assert.equal(m.mode,'qualify');args=[put('qualify.mjs','qualifier'),m.setup];env.RUN_WIDTH2_OUTPUT_QUALIFICATION='1';}}
+const {runOwnedCommand,verifyNoOwnedProcesses}=await import(pathToFileURL(m.helper.path).href);
+let code=null,failure=null,actualExit=null;try{code=await runOwnedCommand({name:'preparation',args,root:m.root,receipt:stage,env,deadlineMs:Math.min({'prepare':44000,'build':104000,'qualify':14000}[m.mode],deadline-Date.now())});}catch(error){failure=error;}
+// Persist real child status BEFORE interpreting proof/build/preparation receipts.
+try{actualExit=JSON.parse(readFileSync(resolve(stage,'preparation.process.json'),'utf8')).exit;}catch(error){failure??=error;}
+save('actual-child-exit.json',{code,exit:actualExit,error:failure?String(failure.stack??failure):null,mode:m.mode,processReceipt:resolve(stage,'preparation.process.json')});
+try{const processReceipt=JSON.parse(readFileSync(resolve(stage,'preparation.process.json'),'utf8'));
+ assert.equal(code,0);assert.deepStrictEqual(processReceipt.exit,{code:0,signal:null});assert.equal(processReceipt.failure,null);assert.equal(processReceipt.finished,true);assert.equal(processReceipt.closed,true);assert.equal(processReceipt.cleanup.executing.length,0);
+ const stdoutPath=resolve(stage,'preparation.stdout.txt');assert(processReceipt.bytes.stdout<=processReceipt.cap);
+ if(m.mode==='prepare'){const locations=readFileSync(stdoutPath,'utf8').trim().split(/\r?\n/).filter(line=>/^\/tmp\/starship-render-kernel\.[A-Za-z0-9]+$/.test(line));assert.equal(locations.length,1);actualReceipt=locations[0];assert.equal(realpathSync(actualReceipt),actualReceipt);
+  const prepared=JSON.parse(readFileSync(resolve(actualReceipt,'width2-browser-bytecopy-composite.json')));assert.equal(prepared.setup,actualReceipt);assert.equal(prepared.passed,true);assert.equal(prepared.buildExecuted,false);assert.equal(prepared.physicsProofExecuted,false);assert.equal(prepared.browserLaunched,false);assert.equal(prepared.byteIdenticalCopy,true);assert.equal(prepared.copyFiles.length,21);assert.equal(prepared.mapSourceContents.length,492);}
+ else{const result=JSON.parse(readFileSync(resolve(actualReceipt,m.mode==='build'?'kernel-build-result.json':'width2-qualification-outcome.json')));assert.equal(result.passed,true);assert.equal(result.error,null);}
+ for(const [file,pin]of materialized){assert.equal(sha(file),pin,'Executed child bytes drift');copyFileSync(file,file+'.after.txt');}
+ assert.equal(sha(manifestPath),manifestSha);for(const key of keys)assert.equal(sha(m[key].path),m[key].sha,key);assert.equal(sha(process.execPath),m.node.sha);
+ assert(verifyNoOwnedProcesses().every(row=>row.executing.length===0));assert(Date.now()<=deadline,'Stage root work bound exceeded');
+}catch(error){failure??=error;}
+save('stage-result.json',{completed:!failure,code,error:failure?String(failure.stack??failure):null,manifestSha,mode:m.mode,actualReceipt,
+ processReceipt:resolve(stage,'preparation.process.json'),actualStdoutPath:resolve(stage,'preparation.stdout.txt'),acceptance:'This stage only; rootALLobserved/nestedactualabsence and freshHIGH actualresult before nextstage'});
+process.stdout.write(JSON.stringify({stageReceipt:stage,actualReceipt,completed:!failure})+'\n');if(failure)throw failure;

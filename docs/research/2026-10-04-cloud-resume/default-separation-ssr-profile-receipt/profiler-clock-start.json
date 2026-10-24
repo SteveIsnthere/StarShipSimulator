@@ -1,0 +1,5 @@
+{
+  "startBefore": 11134704804,
+  "startAfter": 11134775411,
+  "clock": "process.hrtime CLOCK_MONOTONIC microseconds; verify against exported profile.startTime"
+}

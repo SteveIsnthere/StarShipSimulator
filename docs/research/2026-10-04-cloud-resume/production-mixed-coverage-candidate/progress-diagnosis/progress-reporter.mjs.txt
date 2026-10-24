@@ -1,0 +1,98 @@
+import assert from 'node:assert/strict';
+import { openSync, writeSync, fsyncSync, closeSync, lstatSync, realpathSync, readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+// Tagged trees retain undefined, nonfinite numbers and -0 without confusing user keys.
+function tagged(value, depth = 0, budget = { nodes: 0 }) {
+  assert(depth <= 32 && ++budget.nodes <= 65536, 'Public metadata depth/node cap');
+  if (value === undefined) return ['undefined'];
+  if (value === null) return ['null'];
+  if (typeof value === 'number') return ['number', Object.is(value, -0) ? '-0' : Number.isFinite(value) ? value : String(value)];
+  if (typeof value === 'string' || typeof value === 'boolean') return [typeof value, value];
+  if (Array.isArray(value)) return ['array', value.map(item => tagged(item, depth + 1, budget))];
+  assert.equal(typeof value, 'object', 'Unsupported public metadata type');
+  assert(value instanceof Error || Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null,
+    'Unsupported public metadata object');
+  const entries = value instanceof Error
+    ? Object.getOwnPropertyNames(value).map(key => [key, value[key]]) : Object.entries(value);
+  if (value instanceof Error) {
+    for (const key of ['name', 'message', 'stack']) {
+      if (!entries.some(([name]) => name === key)) entries.push([key, value[key]]);
+    }
+  }
+  return ['object', entries.map(([key, item]) => [key, tagged(item, depth + 1, budget)])];
+}
+function identity(entity) {
+  const module = entity.type === 'module' ? entity : entity.module;
+  return { id: entity.id, type: entity.type, file: module.moduleId,
+    project: entity.project.name, fullName: entity.fullName };
+}
+function testRow(test) {
+  return { ...identity(test), options: tagged(test.options), result: tagged(test.result()),
+    diagnostic: tagged(test.diagnostic()), metadata: tagged(test.meta()) };
+}
+export default class CoverageProgressReporter {
+  onInit(ctx) {
+    const directory = process.env.STARSHIP_COVERAGE_PROGRESS;
+    assert.match(directory, /^\/tmp\/starship-coverage-progress\.[a-f0-9]{32}$/);
+    assert.equal(realpathSync(directory), directory);
+    const stat = lstatSync(directory);
+    assert(stat.isDirectory() && !stat.isSymbolicLink());
+    assert.equal(stat.mode & 0o777, 0o700);
+    assert.deepEqual(readdirSync(directory), []);
+    assert.equal(ctx.config.coverage.enabled, true);
+    assert.equal(ctx.config.coverage.provider, 'v8');
+    assert.equal(ctx.config.testTimeout, 120000);
+    this.fd = openSync(resolve(directory, 'progress.jsonl'), 'wx', 0o600);
+    this.started = process.hrtime.bigint(); this.bytes = 0; this.sequence = 0;
+    this.emit('init', { reporterPid: process.pid, nodeVersion: process.version,
+      clock: 'reporter-receipt time; not worker CPU or simulation time',
+      coverage: tagged(ctx.config.coverage), testTimeout: ctx.config.testTimeout,
+      maxWorkers: ctx.config.maxWorkers, metadataEncoding: 'tagged-tree-v1', acceptance: false });
+  }
+  emit(event, data) {
+    assert(this.fd !== undefined, 'Progress reporter is not open');
+    const bytes = Buffer.from(JSON.stringify({ sequence: this.sequence,
+      utc: new Date().toISOString(), elapsedNs: String(process.hrtime.bigint() - this.started),
+      event, ...data }) + '\n');
+    assert(this.sequence < 20000, 'Progress event cap20000');
+    assert(bytes.length <= 1024 * 1024, 'Progress single-event cap1MiB');
+    assert(this.bytes + bytes.length <= 16 * 1024 * 1024, 'Progress aggregate cap16MiB');
+    let offset = 0;
+    while (offset < bytes.length) {
+      const written = writeSync(this.fd, bytes, offset, bytes.length - offset);
+      assert(written > 0, 'Progress write did not advance'); offset += written;
+    }
+    fsyncSync(this.fd); this.bytes += bytes.length; this.sequence++;
+  }
+  onTestRunStart(specifications) {
+    this.emit('run-start', { specifications: specifications.map(spec => ({
+      file: spec.moduleId, project: spec.project.name, pool: spec.pool })) });
+  }
+  onTestModuleQueued(module) { this.emit('module-queued', identity(module)); }
+  onTestModuleCollected(module) {
+    this.emit('module-collected', { ...identity(module), tests: [...module.children.allTests()].map(testRow) });
+  }
+  onTestModuleStart(module) { this.emit('module-start', identity(module)); }
+  onTestModuleEnd(module) {
+    this.emit('module-end', { ...identity(module), state: module.state(),
+      errors: tagged(module.errors()), diagnostic: tagged(module.diagnostic()) });
+  }
+  onTestSuiteReady(suite) { this.emit('suite-ready', { ...identity(suite), options: tagged(suite.options) }); }
+  onTestSuiteResult(suite) {
+    this.emit('suite-result', { ...identity(suite), state: suite.state(), errors: tagged(suite.errors()) });
+  }
+  onTestCaseReady(test) { this.emit('case-ready', testRow(test)); }
+  onTestCaseResult(test) { this.emit('case-result', testRow(test)); }
+  onHookStart(hook) { this.emit('hook-start', { name: hook.name, entity: identity(hook.entity) }); }
+  onHookEnd(hook) { this.emit('hook-end', { name: hook.name, entity: identity(hook.entity) }); }
+  onCoverage() { this.emit('coverage-dispatched', { providerMapContentsCapturedHere: false }); }
+  onTestRunEnd(modules, unhandledErrors, reason) {
+    try {
+      this.emit('run-end', { reason, errors: tagged(unhandledErrors), modules: modules.map(module => ({
+        ...identity(module), state: module.state(), errors: tagged(module.errors()) })) });
+    } finally {
+      closeSync(this.fd); this.fd = undefined;
+    }
+  }
+}

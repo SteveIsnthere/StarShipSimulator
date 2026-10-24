@@ -1,0 +1,73 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
+const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+const [inputPath, inputSha] = process.argv.slice(2);
+assert.equal(digest(inputPath), inputSha);
+const m = JSON.parse(readFileSync(inputPath, 'utf8'));
+assert.equal(m.kind, 'recovery08-concrete-owner-input-v1');
+assert.equal(m.purpose, 'recovery08-capture');
+assert.equal(m.outerMs, 120000);
+assert.equal(m.childMs, 90000);
+assert.deepEqual(m.pinKeys, ['node', 'helper', 'capture', 'captureInput', 'stage', 'observer', 'python']);
+const stageReceipt = mkdtempSync('/tmp/starship-recovery08-stage.');
+console.log(JSON.stringify({ stageReceipt }));
+let code = null, error = null, processReceipt = null, pythonResult = null;
+const posterrors = [];
+let owned;
+const privateScript = stageReceipt + '/capture.py';
+try {
+  for (const key of m.pinKeys) assert.equal(digest(m[key].path), m[key].sha, key);
+  assert.equal(digest(new URL(import.meta.url)), m.stage.sha);
+  assert.equal(process.execPath, m.node.path);
+  writeFileSync(privateScript, readFileSync(m.capture.path), { flag: 'wx', mode: 0o600 });
+  assert.equal(digest(privateScript), m.capture.sha);
+  owned = await import(pathToFileURL(m.helper.path).href);
+  // Existing owner spawns NODE. Python executes synchronously inside that owned
+  // detached Node group, with inherited stdio/topology; no direct killpg exists.
+  const bridge = `import { spawnSync } from 'node:child_process';
+const [python, script, input, sha] = process.argv.slice(1);
+const r = spawnSync(python, [script, input, sha], {cwd: ${JSON.stringify(m.root)},
+env: process.env, stdio: 'inherit', detached: false, timeout: 80000});
+console.error(JSON.stringify({kind:'recovery08-python-exit-v1',pid:r.pid,status:r.status,
+signal:r.signal,error:r.error ? String(r.error.stack ?? r.error) : null}));
+process.exitCode = r.error || r.signal ? 1 : r.status ?? 1;
+`;
+  writeFileSync(stageReceipt + '/executed-bridge.mjs.txt', bridge, { flag: 'wx' });
+  code = await owned.runOwnedCommand({ name: 'recovery08-capture', root: m.root,
+    receipt: stageReceipt, deadlineMs: m.childMs,
+    args: ['--input-type=module', '--eval', bridge, m.python.path, privateScript,
+      m.captureInput.path, m.captureInput.sha],
+    env: { ...process.env, STARSHIP_RECOVERY08_APPROVED: m.captureInput.sha } });
+} catch (failure) { error = String(failure.stack ?? failure); }
+try {
+  processReceipt = JSON.parse(readFileSync(stageReceipt + '/recovery08-capture.process.json', 'utf8'));
+  assert.equal(processReceipt.exit.code, 0); assert.equal(processReceipt.exit.signal, null);
+  assert.equal(processReceipt.failure, null); assert.equal(processReceipt.closed, true);
+  assert.equal(processReceipt.cleanup.executing.length, 0);
+  const markers = readFileSync(stageReceipt + '/recovery08-capture.stderr.txt', 'utf8').split('\n')
+    .filter(line => line.startsWith('{')).map(line => JSON.parse(line))
+    .filter(row => row.kind === 'recovery08-python-exit-v1');
+  assert.equal(markers.length, 1); pythonResult = markers[0];
+  assert(Number.isInteger(pythonResult.pid) && pythonResult.pid > 0);
+  assert.equal(pythonResult.status, 0); assert.equal(pythonResult.signal, null); assert.equal(pythonResult.error, null);
+  const actual = JSON.parse(readFileSync(m.root + '/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08-verification/result.json', 'utf8'));
+  assert.equal(actual.completed, true); assert.equal(actual.primaryFailure, null);
+  assert.deepEqual(actual.posterrors, []); assert.equal(actual.applyCount, 1);
+} catch (failure) { posterrors.push({ stage: 'actual-capture-process-result', error: String(failure.stack ?? failure) }); }
+try {
+  for (const key of m.pinKeys) assert.equal(digest(m[key].path), m[key].sha, key);
+  assert.equal(digest(inputPath), inputSha);
+  assert.equal(digest(new URL(import.meta.url)), m.stage.sha);
+  assert.equal(digest(privateScript), m.capture.sha);
+} catch (failure) { posterrors.push({ stage: 'actual-input-code', error: String(failure.stack ?? failure) }); }
+if (owned) {
+  try { owned.verifyNoOwnedProcesses(); }
+  catch (failure) { posterrors.push({ stage: 'actual-owned-absence', error: String(failure.stack ?? failure) }); }
+}
+const completed = code === 0 && error === null && posterrors.length === 0;
+writeFileSync(stageReceipt + '/stage-result.json', JSON.stringify({ completed, code, error,
+  posterrors, processReceipt, pythonResult, inputSha,
+  scope: 'Recovery snapshot only; independent root/actual-result review still required' }) + '\n', { flag: 'wx' });
+process.exitCode = completed ? 0 : 1;

@@ -1,0 +1,67 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/heat-look.test.ts (0 test)
+ ❯ |unit| tests/view/skin-glow.test.ts (2 tests | 2 failed) 5ms
+     × keeps hot skin visible with no atmospheric plasma and removes both when cold 2ms
+     × changes skin glow at equal flux while preserving windward direction and paused time 2ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/heat-look.test.ts [ tests/view/heat-look.test.ts ]
+Error: Cannot find module '$view/heat-look' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/view/heat-look.test.ts
+ ❯ tests/view/heat-look.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import { tileGlow } from '$view/heat-look';
+       | ^
+      3|
+      4| describe('authored equilibrium-temperature incandescence', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/skin-glow.test.ts > independent skin and plasma controls > keeps hot skin visible with no atmospheric plasma and removes both when cold
+ReferenceError: document is not defined
+ ❯ Object.createCanvas node_modules/pixi.js/src/environment-browser/BrowserAdapter.ts:24:23
+ ❯ getTestContext node_modules/pixi.js/src/rendering/renderers/gl/shader/program/getTestContext.ts:16:40
+ ❯ getMaxFragmentPrecision node_modules/pixi.js/src/rendering/renderers/gl/shader/program/getMaxFragmentPrecision.ts:13:19
+ ❯ new _GlProgram node_modules/pixi.js/src/rendering/renderers/gl/shader/GlProgram.ts:157:47
+ ❯ _GlProgram.from node_modules/pixi.js/src/rendering/renderers/gl/shader/GlProgram.ts:213:32
+ ❯ createSheath src/view/reentry.ts:208:31
+    206|
+    207| export function createSheath(): Sheath {
+    208|   sharedProgram ??= GlProgram.from({ vertex: VERTEX, fragment: FRAGMEN…
+       |                               ^
+    209|   const shader = new Shader({
+    210|     glProgram: sharedProgram,
+ ❯ tests/view/skin-glow.test.ts:6:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/view/skin-glow.test.ts > independent skin and plasma controls > changes skin glow at equal flux while preserving windward direction and paused time
+AssertionError: expected undefined to be +0 // Object.is equality
+
+- Expected:
+0
+
++ Received:
+undefined
+
+ ❯ tests/view/skin-glow.test.ts:21:35
+     19|     sheath.set(0.4, 1, 0, 12, 0);
+     20|     expect(uniforms.uStrength).toBe(0.4);
+     21|     expect(uniforms.uSurfaceGlow).toBe(0);
+       |                                   ^
+     22|     sheath.set(0.4, -1, 0, 12, 1);
+     23|     expect(uniforms.uStrength).toBe(0.4);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  2 failed | 8 passed (10)
+   Start at  08:26:41
+   Duration  429ms (transform 116ms, setup 0ms, import 592ms, tests 7ms, environment 0ms)
+

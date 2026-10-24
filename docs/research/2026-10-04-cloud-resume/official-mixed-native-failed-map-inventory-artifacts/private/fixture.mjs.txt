@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+let claimed = false;
+export function claimFixtureModule() { const previous = claimed; claimed = true; return previous; }
+export function tagged(value) {
+  if (typeof value === 'number') return { number: Object.is(value, -0) ? '-0' : String(value) };
+  if (value === undefined) return { undefined: true };
+  if (value === null || typeof value === 'boolean' || typeof value === 'string') return value;
+  if (Array.isArray(value)) return value.map(tagged);
+  assert.equal(typeof value, 'object');
+  return Object.fromEntries(Object.keys(value).sort().map(key => [key, tagged(value[key])]));
+}
+export function exercise(g) {
+  assert.equal(g.DT, 1 / 120); assert.equal(typeof g.heatLimit, 'number');
+  assert.equal(typeof g.starBaseXPos, 'number');
+  const preset = g.PRESETS.find(row => row.id === 'booster-sep'); assert(preset);
+  const flight = g.createScenarioVehicle(preset, 123);
+  assert.equal(flight.vehicle, g.SUPER_HEAVY);
+  const initial = g.cloneState(flight.state);
+  const moved = g.step(flight.state, g.DT, {}, g.SUPER_HEAVY);
+  const lug = g.createCatchPose(); g.writeCatchPose(moved, g.SUPER_HEAVY, lug);
+  const authority = g.createScenarioVehicle(g.PRESETS[0], 123).state;
+  authority.autopilot.autoLandOn = true; authority.autopilot.boosterPhase = 'boostback';
+  authority.autopilot.boosterPredictorCountdown = 1; authority.autopilot.boosterRangeError = 100000;
+  g.runBoosterAutopilot(authority, g.DT, g.SUPER_HEAVY);
+  assert.equal(authority.rng.counters.ignitionFailure, 13);
+  assert.equal(authority.rng.counters.ignitionDelay, 13);
+  g.runBoosterAutopilot(authority, g.DT, g.SUPER_HEAVY);
+  assert.equal(authority.rng.counters.ignitionFailure, 13);
+  assert.equal(authority.rng.counters.ignitionDelay, 13);
+  const intro = g.createIntroState(); g.toggleAutoLand(intro);
+  return tagged({ initial, moved, lug, authority, intro,
+    constants: { DT: g.DT, heatLimit: g.heatLimit, starBaseXPos: g.starBaseXPos, CATCH: g.CATCH } });
+}

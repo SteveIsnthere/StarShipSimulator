@@ -1,0 +1,211 @@
+import assert from 'node:assert/strict';
+import { readdirSync, lstatSync, realpathSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { digest, parse, utilities } from './integrity.mjs';
+export const originalTests = ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts'];
+export const runtimeAliases = {
+  'tests/core/booster-guidance.test.ts': ['$core/scenarios', '$core/state', '$core/autopilot/booster', '$core/step', '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants'],
+  'tests/flies-every-scenario.test.ts': ['$core/scenarios', '$core/step', '$app/loop', '$core/control/commands', '$core/vehicle', '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants'],
+};
+const aliases = ['$core/scenarios', '$core/state', '$core/autopilot/booster', '$core/step',
+  '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants',
+  '$core/control/commands', '$core/vehicle', '$app/loop'];
+export function strictFiles(directory) {
+  const result = {}; let bytes = 0;
+  function walk(path, depth) {
+    assert(depth <= 16);
+    for (const name of readdirSync(path).sort()) {
+      const file = resolve(path, name), stat = lstatSync(file);
+      assert(!stat.isSymbolicLink());
+      if (stat.isDirectory()) walk(file, depth + 1);
+      else { assert(stat.isFile()); bytes += stat.size; assert(bytes <= 16 * 1024 * 1024);
+        result[relative(directory, file)] = digest(file); }
+      assert(Object.keys(result).length <= 2048);
+    }
+  }
+  walk(directory, 0); return result;
+}
+// BEGIN typed portable projection
+function repositoryResource(root, name) {
+  assert.equal(typeof name, 'string');
+  assert(name.length > 0 && !name.includes('\\') && !name.includes('\0'));
+  const parts = name.split('/');
+  assert(parts.every(part => part.length > 0 && part !== '.' && part !== '..'));
+  assert(!name.startsWith('/') && !name.includes(':'));
+  const file = resolve(root, name);
+  assert.equal(relative(root, file), name);
+  return file;
+}
+const goldenDataNames = ["tests/golden/booster-replay.test.ts", "tests/golden/fixtures/before-flip-autoland.json", "tests/golden/fixtures/booster-sep-boostback.json", "tests/golden/fixtures/booster/booster-sep-catch.json", "tests/golden/fixtures/booster/rtls-catch.json", "tests/golden/fixtures/intro-demo.json", "tests/golden/fixtures/landing-burn-autoland.json", "tests/golden/fixtures/landing-burn-headwind.json", "tests/golden/fixtures/launch-pad-takeoff.json", "tests/golden/fixtures/reentry-autoland.json", "tests/golden/fixtures/rtls-boostback.json", "tests/golden/unification.test.ts"];
+const goldenEvidenceRoles = ['recording-result', 'recording-review', 'replay-result', 'replay-review', 'audit-review'];
+function applyGoldenDataDelta(anchor, base, q, root) {
+  const authority = anchor.goldenDataDelta;
+  assert.deepEqual(Object.keys(authority).sort(), ['path', 'sha256']);
+  assert.match(authority.sha256, /^[a-f0-9]{64}$/);
+  const file = repositoryResource(root, authority.path);
+  assert.equal(realpathSync(file), file); assert.equal(digest(file), authority.sha256);
+  const data = parse(file);
+  assert.deepEqual(Object.keys(data).sort(), ['kind', 'status', 'baseQualificationSha', 'postAuditSnapshot', 'rows', 'evidence'].sort());
+  assert.equal(data.kind, 'reviewed-golden-data-delta-v1');
+  assert.equal(data.status, 'accepted-reviewed-recording-replay-audit');
+  assert.equal(data.baseQualificationSha, anchor.baseQualification.sha256);
+  assert.deepEqual(Object.keys(data.postAuditSnapshot).sort(), ['path', 'sha256']);
+  assert.match(data.postAuditSnapshot.sha256, /^[a-f0-9]{64}$/);
+  const snapshotFile = repositoryResource(root, data.postAuditSnapshot.path);
+  assert.equal(realpathSync(snapshotFile), snapshotFile);
+  assert.equal(digest(snapshotFile), data.postAuditSnapshot.sha256);
+  const snapshot = parse(snapshotFile);
+  assert.equal(snapshot.node, base.nodeVersion); assert.equal(snapshot.platform, 'linux'); assert.equal(snapshot.arch, 'x64');
+  assert.deepEqual(snapshot.tools, base.installedTools);
+  assert.deepEqual(Object.keys(data.evidence).sort(), goldenEvidenceRoles.slice().sort());
+  for (const role of goldenEvidenceRoles) {
+    const row = data.evidence[role]; assert.deepEqual(Object.keys(row).sort(), ['path', 'sha256']);
+    assert.match(row.sha256, /^[a-f0-9]{64}$/);
+    const evidenceFile = repositoryResource(root, row.path);
+    assert.equal(realpathSync(evidenceFile), evidenceFile); assert.equal(digest(evidenceFile), row.sha256, role);
+  }
+  const expected = { ...base.source };
+  for (const [name, row] of Object.entries(base.integrationBridge)) {
+    if (row.after === null) delete expected[name]; else expected[name] = row.after;
+  }
+  assert(Array.isArray(data.rows)); assert.deepEqual(data.rows.map(row => row.path), goldenDataNames);
+  for (const row of data.rows) {
+    assert.deepEqual(Object.keys(row).sort(), ['path', 'role', 'before', 'after'].sort());
+    assert.equal(row.role, row.path.endsWith('.ts') ? 'audit-literals-and-comments' : 'golden-json');
+    assert.match(row.before, /^[a-f0-9]{64}$/); assert.match(row.after, /^[a-f0-9]{64}$/);
+    assert(Object.hasOwn(expected, row.path)); assert.equal(row.before, expected[row.path]);
+    assert(!Object.hasOwn(base.graph, row.path) && !Object.hasOwn(base.originalTests, row.path));
+    expected[row.path] = row.after;
+    if (base.source[row.path] === row.after) delete q.integrationBridge[row.path];
+    else q.integrationBridge[row.path] = { before: base.source[row.path], after: row.after };
+  }
+  assert.deepEqual(snapshot.source, expected);
+  return authority;
+}
+function projectPortableQualification(anchor, base, root, npmCli, anchorSha) {
+  const golden = anchor.kind === 'portable-native-flight-anchor-v2';
+  assert.deepEqual(Object.keys(anchor).sort(), ['kind', 'baseQualification', 'runtime', 'resources', 'sourceChanges', ...(golden ? ['goldenDataDelta'] : [])].sort());
+  assert(['portable-native-flight-anchor-v1', 'portable-native-flight-anchor-v2'].includes(anchor.kind));
+  assert.equal(anchor.runtime.platform, 'linux'); assert.equal(anchor.runtime.arch, 'x64');
+  assert.equal(anchor.runtime.nodeVersion, base.nodeVersion);
+  assert.equal(anchor.runtime.nodeBinary, base.nodeBinary);
+  assert.equal(typeof npmCli, 'string'); assert(npmCli.startsWith('/'));
+  assert.deepEqual(Object.keys(anchor.resources).sort(), ['evidence', 'baselineMapPath', 'retainedOriginPath'].sort());
+  assert.deepEqual(Object.keys(anchor.resources.evidence).sort(), base.evidence.map(row => row.role).sort());
+  const q = JSON.parse(JSON.stringify(base));
+  const goldenDelta = golden ? applyGoldenDataDelta(anchor, base, q, root) : null;
+  const changes = anchor.sourceChanges;
+  assert.deepEqual(Object.keys(changes).sort(), ['.nvmrc', 'scripts/test/admission.mjs', 'scripts/test/build.mjs', 'scripts/test/run.mjs'].sort());
+  for (const [name, row] of Object.entries(changes)) {
+    assert.deepEqual(Object.keys(row).sort(), ['after', 'before']);
+    assert.match(row.after, /^[a-f0-9]{64}$/);
+    const previous = base.integrationBridge[name];
+    assert.equal(row.before, previous ? previous.after : base.source[name]);
+    q.integrationBridge[name] = { before: previous ? previous.before : base.source[name], after: row.after };
+  }
+  for (const row of q.evidence) {
+    const name = anchor.resources.evidence[row.role];
+    assert.equal(row.path, base.root + '/' + name);
+    row.path = repositoryResource(root, name);
+  }
+  for (const field of ['baselineMapPath', 'retainedOriginPath']) {
+    const name = anchor.resources[field];
+    assert.equal(base[field], base.root + '/' + name);
+    q[field] = repositoryResource(root, name);
+  }
+  q.expectedNativeInventory = base.expectedNativeInventory.map(row => {
+    const file = base.originalTests && originalTests.find(name => row.file === base.root + '/' + name);
+    assert(file, 'Foreign original inventory file');
+    return { ...row, file: repositoryResource(root, file) };
+  });
+  q.root = root; q.npmCli = npmCli;
+  q.portableProjection = { kind: 'typed-native-flight-relocation-v1', anchorSha,
+    baseQualificationSha: anchor.baseQualification.sha256, originalRoot: base.root,
+    currentRoot: root, npmCli, resources: anchor.resources, sourceChanges: changes, ...(golden ? { goldenDataDelta: goldenDelta } : {}) };
+  return q;
+}
+// END typed portable projection
+export async function admitComposite(file, expectedSha) {
+  assert.match(expectedSha, /^[a-f0-9]{64}$/); assert.equal(digest(file), expectedSha);
+  const selected = parse(file), root = realpathSync(process.cwd());
+  let q = selected; let admittedGoldenData = false;
+  if (['portable-native-flight-anchor-v1', 'portable-native-flight-anchor-v2'].includes(selected.kind)) {
+    assert.equal(process.arch, selected.runtime.arch);
+    assert.equal(process.platform, selected.runtime.platform);
+    assert.equal(process.version, selected.runtime.nodeVersion);
+    const basePath = repositoryResource(root, selected.baseQualification.path);
+    assert.equal(realpathSync(basePath), basePath);
+    assert.match(selected.baseQualification.sha256, /^[a-f0-9]{64}$/);
+    assert.equal(digest(basePath), selected.baseQualification.sha256);
+    const npmCli = realpathSync(process.env.npm_execpath);
+    q = projectPortableQualification(selected, parse(basePath), root, npmCli, expectedSha);
+    admittedGoldenData = selected.kind === 'portable-native-flight-anchor-v2';
+    for (const resource of [q.baselineMapPath, q.retainedOriginPath, ...q.evidence.map(row => row.path)]) {
+      assert.equal(realpathSync(resource), resource);
+    }
+  }
+  assert.equal(process.platform, 'linux');
+  assert.equal(q.kind, 'retained-failed-compiler-reviewed-flight-composite-v1');
+  assert.equal(q.originalCompilerPipelineCode, 1); assert.equal(q.originalBuildContract, 'FAILED');
+  assert.equal(q.scope, 'exact-two-original-flight-files');
+  assert.equal(q.root, root); assert.equal(q.nodeVersion, process.version);
+  assert.equal(q.nodeBinary, digest(process.execPath));
+  // Every historical receipt stays byte-identical; acceptance is a new composite.
+  for (const row of q.evidence) assert.equal(digest(row.path), row.sha256, row.role);
+  assert.deepEqual(q.evidence.map(row => row.role).sort(), [
+    'failed-build-boundary', 'failed-build-owner', 'failed-build-process', 'failed-build-root',
+    'fresh-integrity-result', 'fresh-integrity-review', 'body-role-evidence',
+    'body-role-review', 'paired-semantic-review', 'standalone-cost-review'].sort());
+  const old = parse(q.evidence.find(row => row.role === 'failed-build-process').path);
+  assert.equal(old.exit.code, 1); assert.equal(old.exit.signal, null);
+  const fresh = parse(q.evidence.find(row => row.role === 'fresh-integrity-result').path);
+  assert.equal(fresh.completed, true); assert.equal(fresh.error, null);
+  assert.deepEqual(fresh.afterErrors, []);
+  assert.equal(fresh.classification.originalBuildContract, 'FAILED');
+  assert.equal(fresh.classification.compilerPipelineCode, 1);
+  assert.equal(fresh.classification.productionAcceptance, false);
+  assert.deepEqual(fresh.classification.mapped, q.graph);
+  assert.deepEqual(fresh.classification.completeClosure, q.closure);
+  assert.deepEqual(fresh.classification.options, q.options);
+  assert.deepEqual(Object.keys(q.originalTests), originalTests);
+  for (const [name, sha] of Object.entries(q.originalTests)) assert.equal(digest(resolve(root, name)), sha);
+  for (const [name, sha] of Object.entries(q.graph)) assert.equal(digest(resolve(root, name)), sha);
+  const u = await utilities(root, q.utilityDigest);
+  assert.deepEqual(u.installedToolSnapshot(root, q.npmCli), q.installedTools);
+  // Exact finite integration bridge, separately reviewed. No historical resealing.
+  const current = u.sourceSnapshot(root), before = q.source;
+  const changed = [...new Set([...Object.keys(before), ...Object.keys(current)])]
+    .filter(name => before[name] !== current[name]).sort();
+  assert.deepEqual(changed, Object.keys(q.integrationBridge).sort());
+  for (const name of changed) {
+    assert(!name.startsWith('src/'));
+    assert(!name.startsWith('tests/') || (admittedGoldenData && goldenDataNames.includes(name)));
+    assert.deepEqual(q.integrationBridge[name], { before: before[name] ?? null, after: current[name] ?? null });
+  }
+  assert.equal(digest(q.baselineMapPath), q.retainedFiles[q.mappedCode + '.map']);
+  assert.equal(digest(q.retainedOriginPath), q.retainedOriginSha);
+  assert.deepEqual(q.closure, ['entry.mjs', 'simulation-CN0-W409.js']);
+  assert.deepEqual(q.aliases, aliases);
+  assert.equal(q.mappedCode, q.closure[1]);
+  assert.equal(q.retainedEntryBytes, 504);
+  return q;
+}
+export async function admitRun(file, expectedSha) {
+  assert.equal(digest(file), expectedSha); const m = parse(file);
+  assert.equal(m.kind, 'official-native-flight-run-v1');
+  const q = await admitComposite(m.compositePath, m.compositeSha);
+  assert.deepEqual(m.qualificationProjection ?? null, q.portableProjection ?? null);
+  assert.equal(m.root, q.root); assert.deepEqual(m.source, (await utilities(q.root, q.utilityDigest)).sourceSnapshot(q.root));
+  assert.deepEqual(strictFiles(m.directory), m.files);
+  assert.equal(m.freshBuildCompleted, true);
+  assert.equal(m.mapTranslation, 'relative-original-source-routes-only');
+  for (const name of q.closure) assert.equal(m.files[name], q.retainedFiles[name]);
+  const boundary = parse(m.directory + '.boundary.json');
+  assert.equal(boundary.completed, true); assert.equal(boundary.error, null); assert.deepEqual(boundary.afterErrors, []);
+  const owner = parse(m.directory + '.receipts/native-build.process.json');
+  assert.equal(owner.exit.code, 0); assert.equal(owner.exit.signal, null);
+  assert.equal(owner.failure, null); assert.equal(owner.closed, true);
+  assert.equal(owner.cleanup.executing.length, 0);
+  assert.equal(m.files['constants.mjs'], digest(resolve(q.root, 'scripts/test/constants.mjs')));
+  return { manifest: m, qualification: q };
+}

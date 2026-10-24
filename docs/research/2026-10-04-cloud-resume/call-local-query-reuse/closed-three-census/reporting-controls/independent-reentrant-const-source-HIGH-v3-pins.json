@@ -1,0 +1,16 @@
+{
+  "kind": "independent-reporting-reentrant-const-source-HIGH-v3",
+  "sourceReadyForChangedScopesAndMaker": true,
+  "executionApproved": false,
+  "exactSoleReplacement": true,
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/input-pins.json": "803c8926f49d17601b9f3bebcc3e1d7f9e1c9a9a0d2b09d0531e2de3ad2cdb4e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/before-reentrant-const-repair/driver.mjs.txt": "369057f42fad8a32cf05c7e9d54b5f097b4a9eb6284d310c5d03b8fc02ba3e80",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/driver.mjs.txt": "10b83b2b4d6762e23cd67162ae6165e77d53167e3f69b1d5c1a7d0f07a5f9a93",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/before-reentrant-const-repair/input-pins.json": "f8e09490cf7ad454e06dab82f560699f5669c90aec7bffc2779a9d8f245c162b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/owner.mjs.txt": "2fea06d23b5376ade11cd832f06ea9c12be85a48037c69b210fcac488befd5a0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/root-observer.py.txt": "0189429d8f09dd2b5d5fd152c218049fbee979815bdd10917b4efd3de7a844ca",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/make-input.py.txt": "e8ee9fb7a8e1ddcb1e709fb17e0ea38e7bbdc6ec6e715ee90cf59714be0f896f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/independent-reentrant-const-source-HIGH-v3.md": "885eaa50736bfb367704f08952dd0fda2db4c0160101aa3a24eaffb0ba68fb2b"
+  }
+}

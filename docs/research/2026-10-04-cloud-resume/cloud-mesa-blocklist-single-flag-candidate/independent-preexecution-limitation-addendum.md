@@ -1,0 +1,3 @@
+# Actual failure review pre-execution limitation addendum
+
+Root supplied root-launch-preexecution-syntaxerror-transcript.json after the actual FAILED review froze. It explicitly preserves the direct Python parser exit1 transcription from tool chunk5edc90 before any execution, with no original disk receipt or PID/start forensic witness. This addendum binds that provenance record without treating it as original raw evidence. The single browser attempt remains observer94822/start6079930 with independently retained launch/status; no extra attempt or successful functional result is implied. The previous FAILED review and its pins remain unchanged.

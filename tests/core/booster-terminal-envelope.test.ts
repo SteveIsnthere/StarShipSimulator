@@ -14,6 +14,7 @@ import { verticalGravityAcceleration } from '$core/physics/gravity';
 import { rad } from '$core/units';
 import * as C from '$core/constants';
 import { createBoosterArrival, writeBoosterArrival } from '$core/control/booster-arrival';
+import { HISTORICAL_SUPER_HEAVY } from '../reference/historical-vehicles';
 
 function nearTower() {
   const s = createScenarioVehicle(PRESETS.find(p => p.id === 'rtls')!, 123).state;
@@ -34,13 +35,14 @@ function nearTower() {
 
 describe('physical terminal catch envelope', () => {
   it('keeps a finite terminal command through the recorded transient nominal cone rejection',()=>{
-    // Exact first-job mechanical input: the frozen-environment end demand
+    // Historical first-job Raptor2 mechanical input: the frozen end demand
     // exceeds the nominal cone while its current bounded command is feasible.
     const s=cloneState(admission.state as unknown as SimState);
-    const demand=createBoosterArrival();writeBoosterArrival(s,0,SUPER_HEAVY,demand);
+    s.damage = null;
+    const demand=createBoosterArrival();writeBoosterArrival(s,0,HISTORICAL_SUPER_HEAVY,demand);
     expect(demand.lateralFeasible).toBe(false);
     const deadline=s.autopilot.boosterArrivalTime!;
-    runBoosterPolicy(s,admission.dt,SUPER_HEAVY);
+    runBoosterPolicy(s,admission.dt,HISTORICAL_SUPER_HEAVY);
     expect(s.autopilot.boosterTerminalMissed).not.toBe(true);
     expect(s.engines.running.slice(0,3)).toEqual([true,true,true]);
     expect(s.autopilot.boosterArrivalTime).toBeCloseTo(deadline-admission.dt,10);
@@ -48,7 +50,7 @@ describe('physical terminal catch envelope', () => {
     expect(s.vehicle.throttle).toBeLessThanOrEqual(100);
     // Finite expiry remains irreversible; a nominal estimate never resets it.
     s.autopilot.boosterArrivalTime=admission.dt/2;
-    runBoosterPolicy(s,admission.dt,SUPER_HEAVY);
+    runBoosterPolicy(s,admission.dt,HISTORICAL_SUPER_HEAVY);
     expect(s.autopilot.boosterTerminalMissed).toBe(true);
     expect(s.engines.running.some(Boolean)).toBe(false);
   });

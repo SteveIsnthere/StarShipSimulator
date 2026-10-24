@@ -1,0 +1,126 @@
+import assert from 'node:assert/strict';
+import { mkdtempSync, writeFileSync, readFileSync, readdirSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { prepareRun } from './prepare-run.mjs';
+import { admitRun, admitComposite, originalTests } from './admission.mjs';
+import { digest, parse } from './integrity.mjs';
+const root = process.cwd(), args = process.argv.slice(2);
+const explicit = process.env.NATIVE_FLIGHT_COMPOSITE !== undefined || process.env.NATIVE_FLIGHT_COMPOSITE_SHA !== undefined;
+let compositePath = process.env.NATIVE_FLIGHT_COMPOSITE;
+let compositeSha = process.env.NATIVE_FLIGHT_COMPOSITE_SHA;
+let fallbackReason = null;
+if (!explicit) {
+  const defaultPath = resolve(root, 'docs/verification/native-flight-qualification.json');
+  const defaultPin = resolve(root, 'docs/verification/native-flight-qualification.sha256');
+  if (existsSync(defaultPath) && existsSync(defaultPin)) {
+    compositePath = defaultPath; compositeSha = readFileSync(defaultPin, 'utf8').trim();
+    try { await admitComposite(compositePath, compositeSha); }
+    catch (error) { fallbackReason = String(error.message); }
+  } else fallbackReason = 'No durable native qualification for this checkout/runtime';
+}
+if (!explicit && fallbackReason !== null) {
+  // Original ordinary SSR route, including BOTH roots; no timeout/worker/floor override.
+  process.stdout.write('Native flight ineligible; running original SSR selection: ' + fallbackReason + '\n');
+  const child = spawnSync(process.execPath, [resolve(root, 'node_modules/vitest/vitest.mjs'), ...args],
+    { cwd: root, env: { ...process.env, NATIVE_FLIGHT_RUN: '', NATIVE_FLIGHT_RUN_SHA: '', NATIVE_FLIGHT_MAPPED_CODE: '' }, stdio: 'inherit' });
+  if (child.error) throw child.error;
+  if (child.signal) process.kill(process.pid, child.signal);
+  process.exit(child.status ?? 1);
+}
+const wrapper = mkdtempSync(resolve(tmpdir(), 'starship-official-tests-owner.'));
+const describeError = error => String(error.stack ?? error);
+let m, q, manifestPath, manifestSha, code = null, failure = null, receipt = null, lifecycle = null;
+let verifyNoOwnedProcesses;
+const afterErrors = [];
+try {
+  const prepared = await prepareRun(compositePath, compositeSha);
+  ({ manifestPath, manifestSha, manifest: m } = prepared);
+  ({ qualification: q } = await admitRun(manifestPath, manifestSha));
+  const owner = resolve(root, 'scripts/bench/owned-command.mjs');
+  assert.equal(digest(owner), q.ownedCommandDigest);
+  const owned = await import(pathToFileURL(owner).href);
+  verifyNoOwnedProcesses = owned.verifyNoOwnedProcesses;
+  code = await owned.runOwnedCommand({ name: 'official-tests', root, receipt: m.directory + '.receipts',
+    args: [resolve(root, 'node_modules/vitest/vitest.mjs'), ...args,
+      '--reporter=default', '--reporter=' + resolve(root, 'scripts/test/lifecycle-reporter.mjs')],
+    deadlineMs: 300000,
+    env: { ...process.env, NATIVE_FLIGHT_RUN: manifestPath, NATIVE_FLIGHT_RUN_SHA: manifestSha,
+      NATIVE_FLIGHT_MAPPED_CODE: resolve(m.directory, q.mappedCode),
+      NATIVE_FLIGHT_LIFECYCLE: m.directory + '.lifecycle.json' } });
+} catch (error) { failure = describeError(error); }
+// Independent postaudit steps continue after a primary failure and retain each error.
+if (m) {
+  try { await admitRun(manifestPath, manifestSha); } catch (error) { afterErrors.push({ stage: 'source-tools-artifact', error: describeError(error) }); }
+  try {
+    receipt = parse(resolve(m.directory + '.receipts', 'official-tests.process.json'));
+    assert.equal(receipt.failure, null); assert.equal(receipt.closed, true);
+    assert.equal(receipt.cleanup.executing.length, 0);
+  } catch (error) { afterErrors.push({ stage: 'owned-process-receipt', error: describeError(error) }); }
+  try {
+    lifecycle = parse(m.directory + '.lifecycle.json');
+    assert.equal(lifecycle.reason, 'passed');
+    assert.deepEqual(lifecycle.unhandledErrors, []);
+    for (const module of lifecycle.modules) {
+      assert.deepEqual(module.errors, []);
+      for (const suite of module.suites) {
+        assert.deepEqual(suite.errors, []);
+        assert.notEqual(suite.options.mode, 'only');
+        assert.notEqual(suite.options.fails, true);
+      }
+    }
+    const native = lifecycle.inventory.filter(row => row.project === 'native-flight');
+    assert.equal(native.length, 21);
+    assert.deepEqual(native.map(row => ({ file: row.file, fullName: row.fullName })).sort((a, b) =>
+      (a.file + a.fullName).localeCompare(b.file + b.fullName)), q.expectedNativeInventory);
+    for (const row of native) {
+      assert.equal(row.result.state, 'passed'); assert.equal(row.options.mode, 'run');
+      assert.notEqual(row.options.fails, true);
+      assert.equal(row.diagnostic.retryCount, 0); assert.equal(row.diagnostic.repeatCount, 0);
+      assert.equal(row.diagnostic.flaky, false);
+      assert.equal(row.options.repeats ?? 0, 0); assert.equal(row.options.retry ?? 0, 0);
+    }
+  } catch (error) { afterErrors.push({ stage: 'named-original-lifecycle', error: describeError(error) }); }
+}
+if (m && q) {
+  try {
+    const names = readdirSync(m.directory + '.receipts').filter(name => /^native-worker-\d+-\d+\.jsonl$/.test(name));
+    assert.equal(names.length, 2);
+    const seen = new Set(), covered = new Set();
+    for (const name of names) {
+      const bytes = readFileSync(resolve(m.directory + '.receipts', name)); assert(bytes.length <= 65536);
+      const rows = bytes.toString('utf8').trimEnd().split('\n').map(line => JSON.parse(line));
+      const first = rows[0]; assert.equal(first.kind, 'startup');
+      const identity = first.pid + ':' + first.start; assert(!seen.has(identity)); seen.add(identity);
+      assert.equal(name, 'native-worker-' + first.pid + '-' + first.start + '.jsonl');
+      assert.equal(first.nodeVersion, process.version); assert.equal(first.nodeBinary, digest(process.execPath));
+      assert.equal(first.runSha, manifestSha); assert.equal(first.loaderSha, digest(resolve(root, 'scripts/test/loader.mjs')));
+      assert.deepEqual(first.code, m.files);
+      for (const row of rows) { assert.equal(row.pid, first.pid); assert.equal(row.start, first.start); }
+      const aliases = rows.filter(row => row.kind === 'original-alias');
+      const parents = [...new Set(aliases.map(row => row.parentURL))]; assert.equal(parents.length, 1);
+      assert(originalTests.some(file => pathToFileURL(resolve(root, file)).href === parents[0]));
+      assert(!covered.has(parents[0])); covered.add(parents[0]);
+      for (const row of aliases) {
+        assert(q.aliases.includes(row.specifier));
+        assert.equal(row.url, row.specifier === '$core/constants' ? first.constantsURL : first.entryURL);
+      }
+      assert(rows.some(row => row.kind === 'native-module-edge' && row.parentURL === first.entryURL && row.url === first.chunkURL));
+      assert(rows.some(row => row.kind === 'native-module-edge' && row.parentURL === first.constantsURL && row.url === first.entryURL));
+    }
+    assert.equal(covered.size, 2);
+  } catch (error) { afterErrors.push({ stage: 'native-worker-module-provenance', error: describeError(error) }); }
+}
+if (verifyNoOwnedProcesses) {
+  try { assert(verifyNoOwnedProcesses().every(row => row.executing.length === 0)); }
+  catch (error) { afterErrors.push({ stage: 'owned-process-live-audit', error: describeError(error) }); }
+}
+const completed = code === 0 && failure === null && afterErrors.length === 0;
+writeFileSync(resolve(wrapper, 'result.json'), JSON.stringify({ kind: 'official-tests-owner-result-v1',
+  completed, rawCode: code, failure, afterErrors, manifestPath, manifestSha,
+  processReceipt: receipt, lifecycle,
+  parentMustIndependentlyVerifyAllObservedAndTrackedPidStarts: true }) + '\n', { flag: 'wx' });
+process.stdout.write('Official test receipt: ' + resolve(wrapper, 'result.json') + '\n');
+process.exitCode = completed ? 0 : 1;

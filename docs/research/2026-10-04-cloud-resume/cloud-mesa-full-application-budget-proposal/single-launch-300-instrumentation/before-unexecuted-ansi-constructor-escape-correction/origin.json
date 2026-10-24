@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/business-stage.ansi-lint-clean.mjs.txt",
+      "sha256": "37349d8df6b986e9ce4ea92e4b61e42598d283ef699c91d7989480708f09c466",
+      "snapshot": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/before-unexecuted-ansi-constructor-escape-correction/business-stage.ansi-lint-clean.mjs.txt.txt"
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ansi-string-controls.mjs",
+      "sha256": "dbdce1b63644f691d3c291db698768304215255067f9cef47bc7cb92970e27fc",
+      "snapshot": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/before-unexecuted-ansi-constructor-escape-correction/ansi-string-controls.mjs.txt"
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach-ansi-lint-clean.json",
+      "sha256": "d61d6e0e873bebb5d928237b15edca8fa3b79957f0677c5311356af5be0eca6d",
+      "snapshot": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/before-unexecuted-ansi-constructor-escape-correction/source-pins-bounded-detach-ansi-lint-clean.json.txt"
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.ansi-lint-clean.py.txt",
+      "sha256": "d267140c8556b7f256a353f53d7d2e6a0a63a4a03684a67e75641777b7246bdb",
+      "snapshot": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/before-unexecuted-ansi-constructor-escape-correction/make-input.ansi-lint-clean.py.txt.txt"
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ansi-lint-clean-successor-source-pins.json",
+      "sha256": "5f6148debf7aca980afe3b9ee86ad46f68d02bbbb1206a11d9b757b7c141fff0",
+      "snapshot": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/before-unexecuted-ansi-constructor-escape-correction/ansi-lint-clean-successor-source-pins.json.txt"
+    }
+  ],
+  "unreviewedUnexecutedAuthoringEscapeCorrection": true,
+  "generationSyntaxWarningRetained": "invalid escape sequence\\["
+}

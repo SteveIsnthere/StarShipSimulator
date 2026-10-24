@@ -1,0 +1,15 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+(node:22498) ExperimentalWarning: vm.USE_MAIN_CONTEXT_DEFAULT_LOADER is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22505) ExperimentalWarning: vm.USE_MAIN_CONTEXT_DEFAULT_LOADER is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22526) ExperimentalWarning: vm.USE_MAIN_CONTEXT_DEFAULT_LOADER is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  6 passed (6)
+      Tests  76 passed (76)
+   Start at  07:38:04
+   Duration  4.56s (transform 332ms, setup 0ms, import 714ms, tests 3.09s, environment 1ms)
+

@@ -2,7 +2,7 @@
  * and prove prepared per-body work cannot be overwritten by a second body. */
 import { describe, expect, it } from 'vitest';
 import { cloneState } from '$core/state';
-import { SHIP } from '$core/vehicle';
+import { HISTORICAL_SHIP as SHIP } from '../reference/historical-vehicles';
 import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
 import { step } from '$core/step';
 import { rad } from '$core/units';

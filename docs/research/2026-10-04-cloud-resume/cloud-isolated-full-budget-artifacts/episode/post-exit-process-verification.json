@@ -1,0 +1,33 @@
+{
+  "ownedProcesses": [
+    {
+      "pid": 26145,
+      "absent": true
+    },
+    {
+      "pid": 26189,
+      "absent": true
+    },
+    {
+      "pid": 26163,
+      "absent": true
+    },
+    {
+      "pid": 26165,
+      "absent": true
+    },
+    {
+      "pid": 26220,
+      "absent": true
+    },
+    {
+      "pid": 26108,
+      "state": "Z",
+      "starttime": "1087281",
+      "matchesOwnedStart": true
+    }
+  ],
+  "previewPort4174Listening": false,
+  "verifiedNoExecutingOwnedProcess": true,
+  "limitation": "Zombie state is not reaping or absence"
+}

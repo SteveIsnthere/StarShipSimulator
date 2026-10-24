@@ -1,0 +1,40 @@
+{
+  "kind": "recovery06-independent-actual-review-v1",
+  "decision": "CONTENT-QUALIFIED-procedural-HOLD-recommend-reviewed07",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-independent-actual-review.md",
+    "sha256": "2dcffe67a4a8cecb2f8c2822b23bc3f4edefdebda1211a5afdaed5e4fea79828"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06.json",
+      "sha256": "a3a16306d59ef857ceaab60b2733d698d57d43e868ae44161e5ffd50724176ba"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06.patch",
+      "sha256": "fd3b223ac134207bd9fbb279be0920ca8107c4985e73b704a8c915c6c26f35dd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-verification/readonly-continuation-result.json",
+      "sha256": "6e4114600e742f601383515b8b3c3002fdab2b542791f8d6cb5e431890b59146"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-verification/continuation-commands.json",
+      "sha256": "624defa37add9d7126608bd9c6512809ae201cb79492956cfa1b6d36f72e3fb5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-05.json",
+      "sha256": "a1b54dd51b4335cbfcb89c291925906c293b455cc87c8c387b27938c1ed2a01b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-05.patch",
+      "sha256": "9a0607c5e01a197ffdc7f90c51d8ce20ad1a5329f552d9808d04c570b30a6130"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-bounded-loss-path-procedure.md",
+      "sha256": "12b7f800b329f9fc8af72aede27254b3d73ea9cd14c7de26d6ed741bce143818"
+    }
+  ],
+  "workloadExecuted": false,
+  "patchAppliedByReviewer": false
+}

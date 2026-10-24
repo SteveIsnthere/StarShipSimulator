@@ -1,0 +1,38 @@
+{
+  "kind": "actual-instrumented-launch-failure-high-pins-v1",
+  "files": {
+    "/tmp/starship-mesa-app-structural-root.wvuycnqm/root-safe-diagnostic-summary.json": "b35df263581ade2520f611a641df9002bfc479f712b95b6e695be8337c539a88",
+    "/tmp/starship-mesa-app-structural-root.wvuycnqm/root-independent-postexit.json": "0c14bc80762735023493b56c49be8042e974f9e913e0e9b1e3dc505e38385eb5",
+    "/tmp/starship-mesa-app-structural-root.wvuycnqm/wrapper-outcome.json": "39e0e721cb1bb56357217e32f9ed385ef902d155aa8e0776fdd4aec4fd7ce475",
+    "/tmp/starship-mesa-app-structural-root.wvuycnqm/root-structural-before.json": "55c9565a2318e9f3b86221228256d3b112689475efaef2e2fd4d8f21d4b6a986",
+    "/tmp/starship-mesa-app-structural-root.wvuycnqm/root-structural-after.json": "c6d2179cb2a68cd9a99e7d9aa0571be9855a29b287a2dae26769d933717a6e69",
+    "/tmp/starship-mesa-app-structural-root.wvuycnqm/finally-checker-actual-exit-final.json": "e023ec7c8251a8a304c51f1ed8963218fe5c4fd7f2f5d8b6e880d5d83b386344",
+    "/tmp/starship-original21-root.b9lx9ts9/root-outcome.json": "6f719481b30a4fadf90e3de7a422148145fa6c370000046ba979c8a388e39c8d",
+    "/tmp/starship-original21-stage.6DxEkd/stage-result.json": "e4671e100c6bb5b20664842ec3ad34aecb222b41c120f8181ce1ad9f3a83b37c",
+    "/tmp/starship-original21-stage.6DxEkd/preparation.process.json": "ecd896711ac8dcd8932a341a068492c548aa60f9bc758b4d899155afa7089a59",
+    "/tmp/starship-original21-stage.6DxEkd/preparation.stdout.txt": "0c522dfc29d4d1378c5b495cdcbe94ff77c0c18cfe360f05e6a87a50bf8f4f51",
+    "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/diagnostic-all-raf.json": "d9f752c0c8674c5a5fa5076220555a957ce5e296e56b3f7008f8d992a84f5e29",
+    "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/diagnostic-thread-cgroup.json": "7cce77b9d997075a9fe337c983cc1fe19b8a837ef8490475474a0af49619b862",
+    "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/diagnostic-observer-result.json": "d8f4be177eeea619bcfc9afc119a181e7fbed3f8b0a228452fc12ddb4852c94c",
+    "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/trace-buffer-usage.json": "c96382f5ed4e6943ef7b1839a97faebf62038d46a549b8a629adc5cd596e3aee",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/bounded-partial-trace-offline-assessment-proposal.md": "306a94deb084d2d5a3551f680a866b4bc7244b60c3e03aadba9efce0bbad7c64",
+    "/tmp/starship-original21-stage.6DxEkd/source-before.json": "fcc61a7ec24d659d4094049dde0d5c59f2f6807ec20d220c9d98d7f212935b62",
+    "/tmp/starship-original21-stage.6DxEkd/source-after.json": "fcc61a7ec24d659d4094049dde0d5c59f2f6807ec20d220c9d98d7f212935b62",
+    "/tmp/starship-original21-stage.6DxEkd/source-after-observed.json": "fcc61a7ec24d659d4094049dde0d5c59f2f6807ec20d220c9d98d7f212935b62",
+    "/tmp/starship-original21-stage.6DxEkd/installed-before.json": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+    "/tmp/starship-original21-stage.6DxEkd/installed-after.json": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+    "/tmp/starship-original21-stage.6DxEkd/installed-after-observed.json": "ae081e21e1e49d5836c6e7311b56909a64c5c9580144dbbf5efd8c6fe1badd11",
+    "/tmp/starship-original21-stage.6DxEkd/runtime-before.json": "6d91d914f3c0a8a01042a927d650fe49ec6e029400ea68185abefefd88f905d4",
+    "/tmp/starship-original21-stage.6DxEkd/runtime-after.json": "6d91d914f3c0a8a01042a927d650fe49ec6e029400ea68185abefefd88f905d4",
+    "/tmp/starship-original21-stage.6DxEkd/runtime-after-observed.json": "6d91d914f3c0a8a01042a927d650fe49ec6e029400ea68185abefefd88f905d4",
+    "/tmp/starship-original21-stage.6DxEkd/dist-after.json": "2c4eb1e1978ed2fb053af53e2562d1a932e0e4e7c9bdba670cf2f5ed6ea4d996",
+    "/tmp/starship-original21-stage.6DxEkd/dist-after-observed.json": "2c4eb1e1978ed2fb053af53e2562d1a932e0e4e7c9bdba670cf2f5ed6ea4d996"
+  },
+  "partialTrace": {
+    "path": "/tmp/starship-mesa-app-matrix.063e062d2300476dbcfeace0c1a465be/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/browser-all-threads-trace.partial.json",
+    "bytes": 67108864,
+    "complete": false,
+    "reviewerDidNotParseOrHash": true
+  },
+  "reviewSha256": "c07534a6fdd6333624ed4b881fd0107561b7e3a603f30f5bb8a359e81842fe9b"
+}

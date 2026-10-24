@@ -1,0 +1,9 @@
+# Independent actual inert codec input HIGH
+
+Disposition: SUPPORTED for one separately root-granted17-control proof, one5-second helper within30-second root/22work+8cleanup. No live capture/progress or profile repetition is authorized.
+
+Actual pure input9d5ff3512af8ff8f3b43af96e024bf3fb0f5952669cac29c1d73824dcab10779 and rootebe10beb5e5bb4b214fa0833743b83203f9b2b626737e76dfb9cc8599b076ae2 bind the reviewed exact route. All32 pure file pins match actual bytes (28 original plus four materialized sources); all34 root inventory rows retain those plus input/source-manifest authority. Copied owner, driver, codec and consumer are byte-identical to their selected sources. Private namespace is nonsymlink0700 and contains exactly initial code/input files, with no prior proof output. Expected seventeen names agree with the source proof and no physical test body is selected.
+
+Root retains12 zero JS scopes plus two zero Python scopes and the one maker0/reaped record PID101197/start6499085. Actual Node/Python binaries require root identity preflight, not an inferred version from source metadata. Both owner and root pin helper/source/input bytes; raw child exit,17 exact names, zero errors/skips and source postchecks/all actual tracked PID/start audit must decide result. Historical failed live capture remainsFAILED; the actual owning undefined path/prototype remainsUNKNOWN. The inert public FileCoverage fixture is no production coverage-floor or source-schema acceptance.
+
+The unexecuted captureV2 and56-case progress candidates are not invoked by this driver. Method: finite private metadata/code reads and selected hashes/mode checks only; no import, tests, provider, workload, full source/tools/native scan, copy or product edits. Actual pure result and independent owned cleanup require subsequent review.

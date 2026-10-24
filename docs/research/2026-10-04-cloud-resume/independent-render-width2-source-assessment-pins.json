@@ -1,0 +1,76 @@
+{
+  "kind": "independent-static-render-width2-assessment-v1",
+  "execution": "offline source/JSON inspection only; no workloads",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/pixi.js/lib/rendering/batcher/shared/Batcher.mjs",
+      "sha256": "aaf2400fc4ecfd0ff17adcb82f842a4f201307e392e56730937e0b0cbc9f96d1",
+      "bytes": 12381
+    },
+    {
+      "path": "/workspace/StarShipSimulator/src/view/particles.ts",
+      "sha256": "e4b526fcb9e2df5d8315309903bafaa6329b26dc69b14d53c10c10e66b5fa624",
+      "bytes": 42093
+    },
+    {
+      "path": "/workspace/StarShipSimulator/src/ui/session/scene.ts",
+      "sha256": "f174d32f047f52c82269df7b111d15be5fff98c4b37f7994bfb42d207f452dc0",
+      "bytes": 8559
+    },
+    {
+      "path": "/workspace/StarShipSimulator/src/ui/session/scene-vehicles.ts",
+      "sha256": "1d4edad88bd196572c1ecb67d0d8d702026a6125b2e788a2b0b9eb1b8518afd0",
+      "bytes": 10411
+    },
+    {
+      "path": "/tmp/starship-render-kernel.vlntmfw7/kernel-program-attribution-hook.mjs",
+      "sha256": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+      "bytes": 13574
+    },
+    {
+      "path": "/tmp/starship-render-kernel.vlntmfw7/width32-draws.json",
+      "sha256": "f7d9d2e6cf674e98b7b496ca7464aae2ef77d0e49e67b2f3eb62d6e0a92d5068",
+      "bytes": 497408
+    },
+    {
+      "path": "/tmp/starship-render-kernel.vlntmfw7/width1-draws.json",
+      "sha256": "f69a2a50ee59d4e84b1057d139d785eeacfbc7fbff4324a25bc529c932549548",
+      "bytes": 497357
+    },
+    {
+      "path": "/tmp/starship-render-kernel.vlntmfw7/width32-actual-program-operations.json",
+      "sha256": "6eed26caa731793f4ae3ff67ed08a380f8582940319c82a34fe6b305e53ea1a6",
+      "bytes": 1487697
+    },
+    {
+      "path": "/tmp/starship-render-kernel.vlntmfw7/width1-actual-program-operations.json",
+      "sha256": "335ad63933e623fa5e94a9e2e02d30ce33489366315939bf8de4393663657732",
+      "bytes": 6428248
+    },
+    {
+      "path": "/tmp/starship-render-kernel.vlntmfw7/candidate-prewindow-pixel-equivalence.json",
+      "sha256": "e098e977cc5f2bdd84240d8dc15cb01f712dcd62fe0b1e8becf9b3c7b556df87",
+      "bytes": 103
+    },
+    {
+      "path": "/tmp/starship-render-kernel.vlntmfw7/failure.json",
+      "sha256": "4f50f2eaf5c7a368c795287f1307a296bec15641fba867414ddfca1e87997fd9",
+      "bytes": 100
+    },
+    {
+      "path": "/tmp/starship-render-kernel.vlntmfw7/final-integrity.json",
+      "sha256": "56278a4298c121fec5cabfa5cea4a3fe27dd143b01373e3ea5bcf31c0db25ba7",
+      "bytes": 102
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/independent-render-width2-source-assessment.md",
+      "sha256": "f3cc8a51f98e54f60906a82a51651d7b902bdf61180a8f29573be85e1549a937",
+      "bytes": 5855
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/independent-render-width2-source-evidence.json",
+      "sha256": "75b89d963d3da31373a659dee7f8a566e2df934f3b72f4aafd2dcb4db4223f0b",
+      "bytes": 2334
+    }
+  ]
+}

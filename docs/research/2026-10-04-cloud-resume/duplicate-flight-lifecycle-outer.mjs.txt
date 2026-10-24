@@ -1,0 +1,60 @@
+/** Research proof owner. No product tests/config edits or actual physics. */
+import fs from 'node:fs';import path from 'node:path';import {spawn,execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {fileURLToPath} from 'node:url';import assert from 'node:assert/strict';
+const repo='/workspace/StarShipSimulator',research=`${repo}/docs/research/2026-10-04-cloud-resume`;
+assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'duplicate-flight-lifecycle-proof');assert.equal(process.version,'v22.23.3');process.chdir(repo);
+const expected=JSON.parse(fs.readFileSync(`${research}/duplicate-flight-lifecycle-expected-pins.json.txt`,'utf8'));
+const sha=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+for(const [file,digest]of Object.entries(expected))assert.equal(sha(`${research}/${file}`),digest,file);
+const executedOuter=fileURLToPath(import.meta.url);assert.equal(sha(executedOuter),expected['duplicate-flight-lifecycle-outer.mjs.txt']);
+const dir=fs.mkdtempSync(`${research}/.duplicate-flight-lifecycle-proof-`);fs.chmodSync(dir,0o700);
+const save=(file,value)=>fs.writeFileSync(`${dir}/${file}`,JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const pairs=[['duplicate-flight-observations.ts.txt','observations.ts'],['duplicate-flight-lifecycle-proof.test.ts.txt','lifecycle.test.ts'],['duplicate-flight-lifecycle-config.ts.txt','config.ts'],['duplicate-flight-lifecycle-runner.mjs.txt','runner.mjs'],['duplicate-flight-lifecycle-finalize.mjs.txt','finalize.mjs']];
+for(const [template,actual]of pairs){fs.copyFileSync(`${research}/${template}`,`${dir}/${actual}`,fs.constants.COPYFILE_EXCL);assert.equal(sha(`${dir}/${actual}`),expected[template]);}
+function manifest(){
+ const files=execFileSync('git',['ls-files','-z','--cached','--others','--exclude-standard'],{encoding:'utf8'}).split('\0').filter(p=>/^(src\/|tests\/|scripts\/|public\/|\.agents\/|package[^/]*\.json$|[^/]*config\.[^/]+$|\.nvmrc$)/.test(p));
+ for(const name of Object.keys(expected))files.push(`${research}/${name}`);
+ files.push(`${research}/duplicate-flight-lifecycle-expected-pins.json.txt`);
+ files.push(executedOuter);
+ for(const [,actual]of pairs)files.push(`${dir}/${actual}`);
+ // Pin installed public API, task lifecycle, mock detection and reporter implementation.
+ for(const root of ['node_modules/vitest','node_modules/@vitest','node_modules/vite']){
+  function walk(p){for(const e of fs.readdirSync(p,{withFileTypes:true})){const f=path.join(p,e.name);if(e.isDirectory())walk(f);else if(e.isFile())files.push(f);}}walk(root);
+ }
+ files.push(process.execPath);
+ return{node:process.version,head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),expected,executed:Object.fromEntries(pairs.map(([template,actual])=>[actual,{template,sha256:sha(`${dir}/${actual}`)}])),hashes:Object.fromEntries([...new Set(files)].sort().map(f=>[f,fs.existsSync(f)?sha(f):null]))};
+}
+const before=manifest();save('before-pins.json',before);
+let child,rootIdentity,deadlineTimer,killTimer,waitTimer,timedOut=false,exit,primary;const owned=new Map(),errors=[];
+function stat(pid){try{const s=fs.readFileSync(`/proc/${pid}/stat`,'utf8'),v=s.slice(s.lastIndexOf(')')+2).split(' ');return{pid,starttime:v[19],ppid:Number(v[1]),pgrp:Number(v[2]),state:v[0]};}catch(e){if(['ENOENT','ESRCH','EACCES'].includes(e.code)){if(owned.has(pid)&&e.code==='EACCES')errors.push(`Owned stat inaccessible:${pid}`);return null;}throw e;}}
+function snapshot(){if(!rootIdentity)return;const liveRoot=stat(rootIdentity.pid);if(liveRoot&&liveRoot.starttime!==rootIdentity.starttime){const uncertainty=`Owned root PID reused:${rootIdentity.pid}:${rootIdentity.starttime}->${liveRoot.starttime}`;if(!errors.includes(uncertainty))errors.push(uncertainty);return;}
+ const candidates=[];for(const name of fs.readdirSync('/proc'))if(/^\d+$/.test(name)){const v=stat(Number(name));if(v)candidates.push(v);}
+ for(const v of candidates){let admissible=v.pgrp===rootIdentity.pid&&BigInt(v.starttime)>=BigInt(rootIdentity.starttime);
+  const prior=owned.get(v.pid);if(prior?.starttime===v.starttime)admissible=true;
+  let ancestor=v,seen=new Set();while(!admissible&&ancestor&&!seen.has(ancestor.pid)){seen.add(ancestor.pid);if(ancestor.pid===rootIdentity.pid&&ancestor.starttime===rootIdentity.starttime)admissible=true;ancestor=candidates.find(x=>x.pid===ancestor.ppid);}
+  if(admissible)owned.set(v.pid,v);
+ }}
+function signal(signal){try{snapshot();}catch(e){errors.push(String(e));}for(const saved of owned.values()){try{const current=stat(saved.pid);if(current&&current.starttime===saved.starttime&&current.pgrp===saved.pgrp&&current.state!=='Z')process.kill(saved.pid,signal);}catch(e){if(e.code!=='ESRCH')errors.push(String(e));}}}
+const started=Date.now();
+try{
+ const log=fs.openSync(`${dir}/output.txt`,'wx');
+ child=spawn(process.execPath,[`${dir}/runner.mjs`,`${dir}/config.ts`],{cwd:repo,detached:true,env:{...process.env,DUPLICATE_FLIGHT_PROOF_RECEIPT:dir,DUPLICATE_FLIGHT_PROOF_FILE:`${dir}/lifecycle.test.ts`},stdio:['ignore',log,log]});fs.closeSync(log);
+ rootIdentity=stat(child.pid);assert.ok(rootIdentity);assert.equal(rootIdentity.pgrp,child.pid);owned.set(child.pid,rootIdentity);
+ deadlineTimer=setTimeout(()=>{timedOut=true;signal('SIGTERM');killTimer=setTimeout(()=>signal('SIGKILL'),5000);},30000);
+ const poll=setInterval(()=>{try{snapshot();}catch(e){errors.push(String(e));}},50);
+ try{exit=await Promise.race([new Promise((resolve,reject)=>{child.once('error',reject);child.once('close',(code,signal)=>resolve({code,signal}));}),new Promise((_,reject)=>{waitTimer=setTimeout(()=>reject(Error('Declared35s child termination bound')),35000);})]);}finally{clearInterval(poll);clearTimeout(waitTimer);}
+}catch(e){primary=e;}
+finally{
+ clearTimeout(deadlineTimer);clearTimeout(killTimer);
+ const cleanupStart=Date.now(),end=cleanupStart+5000;
+ signal('SIGKILL');
+ while(Date.now()<end-100){snapshot();if(![...owned.values()].some(v=>{const n=stat(v.pid);return n&&n.starttime===v.starttime&&n.state!=='Z';}))break;await new Promise(r=>setTimeout(r,25));}
+ const remaining=[...owned.values()].filter(v=>{const n=stat(v.pid);return n&&n.starttime===v.starttime&&n.state!=='Z';});
+ save('termination.json',{exit:exit??null,timedOut,owned:[...owned.values()],remaining,errors,verifiedOwnedAbsence:remaining.length===0&&errors.length===0,cleanupMs:Date.now()-cleanupStart,totalMs:Date.now()-started});
+ fs.writeFileSync(`${dir}/exit-status.txt`,String(exit?.code??'unknown')+'\n',{flag:'wx'});
+ const after=manifest();save('after-pins.json',after);
+ try{assert.deepEqual(after,before);assert.equal(timedOut,false);assert.deepEqual(exit,{code:1,signal:null});assert.equal(remaining.length,0);assert.equal(errors.length,0);assert.ok(Date.now()-cleanupStart<=5000);}catch(e){primary??=e;}
+}
+if(primary){save('outer-failure.json',{error:String(primary)});throw primary;}
+// Own finalization child is separately bounded; no browser/worker descendants remain.
+execFileSync(process.execPath,[`${dir}/finalize.mjs`,dir],{cwd:repo,timeout:5000,killSignal:'SIGKILL',stdio:'inherit'});
+console.log(`Finalized research proof: ${dir}`);

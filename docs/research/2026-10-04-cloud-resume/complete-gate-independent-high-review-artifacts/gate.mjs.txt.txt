@@ -1,0 +1,82 @@
+import assert from 'node:assert/strict';
+import {createServer} from 'node:net';
+import {randomUUID,randomBytes} from 'node:crypto';
+import {mkdirSync,mkdtempSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
+import {resolve,dirname,relative} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {performance} from 'node:perf_hooks';
+import {runOwnedCommand,verifyNoOwnedProcesses} from './bench/owned-command.mjs';
+import {pins,buildPins,digestFile,expectedFiles,validateMap} from './gate/integrity.mjs';
+const started=performance.now(),root=resolve(dirname(fileURLToPath(import.meta.url)),'..');process.chdir(root);
+const parent=resolve(root,'node_modules/.cache/starship-gate');mkdirSync(parent,{recursive:true});
+const directory=mkdtempSync(resolve(parent,'invocation-')),reports=resolve(directory,'reports');mkdirSync(reports);
+const nonce=randomUUID(),secret=randomBytes(32).toString('hex');
+// Short Unix path below Node's platform limit; exclusive random name, unlinked after closure.
+const socketPath=`/tmp/starship-gate-${randomBytes(12).toString('hex')}.sock`;
+let stage='setup',status=0,before=null,built=null,sealed=null,consumed=false,server=null;const sockets=new Set();
+const save=(name,value)=>writeFileSync(resolve(directory,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const env={...process.env,STARSHIP_GATE_SOCKET:socketPath,STARSHIP_GATE_SECRET:secret,STARSHIP_GATE_NONCE:nonce,STARSHIP_GATE_REPORTS:reports};
+const npm=process.env.npm_execpath;assert(npm,'Invoke through npm run gate');
+const budget=()=>{const remaining=300000-(performance.now()-started)-8000;assert(remaining>0,'Whole gate 300s ceiling; cleanup reserve exhausted');return remaining;};
+function boundary(){assert.deepEqual(pins(root),before,'Source/config/lock/tool/Node changed');if(built)assert.deepEqual(buildPins(root),built,'Built app changed');}
+async function command(name,args,childEnv=env){
+ budget();stage=name;boundary();const code=await runOwnedCommand({name,args,env:childEnv,root,receipt:directory,deadlineMs:budget()});
+ save(`${name}.exit.json`,{code,ownedExecuting:0,elapsedMs:performance.now()-started});
+ process.stdout.write(readFileSync(resolve(directory,`${name}.stdout.txt`)));process.stderr.write(readFileSync(resolve(directory,`${name}.stderr.txt`)));
+ assert.equal(code,0,`${name} failed; following stages denied`);budget();boundary();
+}
+const declaredSkip='unit\0tests/core/damage-material-inversion.test.ts\0certified steel enthalpy inversion > reports warmed cost without a wall-time assertion';
+function finalizeUnit(){
+ const inventory=JSON.parse(readFileSync(resolve(reports,'complete-inventory.json'),'utf8'));
+ const json=JSON.parse(readFileSync(resolve(reports,'test-results.json'),'utf8'));
+ assert.equal(inventory.nonce,nonce);assert.equal(inventory.reason,'passed');assert.equal(inventory.unhandledErrors.length,0);assert.equal(json.success,true);assert.equal(json.numFailedTests,0);
+ const expected=expectedFiles(root);assert.deepEqual(inventory.specifications,expected);assert.deepEqual(inventory.modules.map(row=>row.file).sort(),expected);assert.equal(new Set(expected).size,expected.length);
+ const collected=new Map(inventory.collected);assert.deepEqual([...collected.keys()].sort(),expected);
+ const finalKeys=[],skips=[];
+ for(const module of inventory.modules){assert(module.ok,'Module load/hook error');assert(module.tasks.length>0,'Empty collected module');
+  assert.deepEqual(module.tasks.map(({id,name})=>({id,name})),collected.get(module.file),'Task collection/execution changed');
+  for(const task of module.tasks){const key=`${module.file}\0${task.name}`;finalKeys.push(key);assert.equal(task.errors.length,0,'Task runner error');
+   if(task.state==='skipped'){skips.push(key);assert.equal(task.options.mode,'skip','No pending/todo/only conversion');}
+   else assert.equal(task.state,'passed',key);
+  }
+ }
+ assert.equal(new Set(finalKeys).size,finalKeys.length,'Duplicate named task');assert.deepEqual(skips,[declaredSkip],'Only unchanged declared diagnostic skip');
+ assert.equal(json.numTotalTests,finalKeys.length);assert.equal(json.numPendingTests,1);assert.equal(json.numTodoTests,0);assert.equal(json.numPassedTests,finalKeys.length-1);
+ const fromJSON=json.testResults.flatMap(file=>file.assertionResults.map(test=>`${relative(root,file.name)}\0${[...test.ancestorTitles,test.title].join(' > ')}`)).sort();
+ assert.deepEqual(fromJSON,finalKeys.map(key=>key.slice(key.indexOf('\0')+1)).sort(),'Independent JSON named-task report mismatch');
+ const coveragePath=resolve(reports,'coverage-final.json'),summary=resolve(reports,'coverage-summary.json');
+ const map=JSON.parse(readFileSync(coveragePath,'utf8'));validateMap(root,map);assert(JSON.parse(readFileSync(summary,'utf8')).total,'Missing coverage summary');
+ boundary();const paths=[coveragePath,summary,resolve(reports,'test-results.json'),resolve(reports,'complete-inventory.json')];
+ const envelope={finalized:true,unitExit:0,nonce,root,pins:before,build:built,files:expected,coveragePath,reports:Object.fromEntries(paths.map(path=>[path,digestFile(path)]))};
+ save('unit-finalized.json',envelope);sealed={path:resolve(directory,'unit-finalized.json'),digest:digestFile(resolve(directory,'unit-finalized.json'))};
+}
+try{
+ before=pins(root);save('source-tools-before.json',before);save('runtime.json',{nonce,node:before.node,budgetMs:300000,originalTestTimeout:30000});
+ assert.equal(process.versions.node,'22.23.3');assert.equal(process.platform,'linux');assert.equal(process.arch,'x64');
+ server=createServer(socket=>{sockets.add(socket);socket.setTimeout(2000,()=>socket.destroy());let text='';socket.on('error',()=>{});socket.on('close',()=>sockets.delete(socket));
+  socket.on('data',chunk=>{text+=chunk;if(Buffer.byteLength(text)>32768)return socket.destroy();const end=text.indexOf('\n');if(end<0)return;
+   try{const request=JSON.parse(text.slice(0,end));assert.equal(request.secret,secret);assert.equal(request.nonce,nonce);budget();boundary();let value;
+    if(request.action==='config'){assert(stage==='unit'||stage==='coverage','Config outside active gate unit/floor stage');value={reports,nonce};}
+    else{assert.equal(request.action,'consume-coverage');assert.equal(stage,'coverage');assert(sealed&&!consumed,'Coverage capability missing/not-finalized/already-consumed');assert.equal(digestFile(sealed.path),sealed.digest);consumed=true;value=sealed;}
+    socket.end(JSON.stringify({ok:true,value})+'\n');
+   }catch(error){socket.end(JSON.stringify({ok:false,error:error.message})+'\n');}
+  });
+ });
+ await new Promise((done,reject)=>{server.once('error',reject);server.listen(socketPath,done);});
+ // Six unchanged logical proof stages; fresh unit instrumentation performs no second test execution.
+ await command('lint',[npm,'run','lint']);
+ await command('build',[npm,'run','build']);built=buildPins(root);assert(Object.keys(built).length>0);save('build-pins.json',built);
+ await command('unit',[npm,'run','test','--','--config','vitest.complete-gate.config.ts','--coverage','--reporter=default','--reporter=json','--reporter=./scripts/gate/complete-reporter.mjs',`--outputFile.json=${resolve(reports,'test-results.json')}`]);
+ finalizeUnit();
+ await command('coverage',[npm,'run','coverage']);assert(consumed,'Coverage stage did not consume live one-use capability');
+ const floor=JSON.parse(readFileSync(resolve(reports,'floor-validation.json'),'utf8'));assert.equal(floor.finalized,true);assert.equal(floor.nonce,nonce);assert.equal(floor.nativeExit,0);assert.equal(floor.collectedFiles,0);
+ await command('smoke',[npm,'run','test:e2e'],{...env,E2E_SKIP_BUILD:'1'});
+ await command('subpath-deploy',[npm,'run','test:deploy'],{...env,E2E_SKIP_BUILD:'1'});
+}catch(error){status=1;save('failure.json',{stage,message:error.message,stack:error.stack});console.error(error);}
+finally{
+ for(const socket of sockets)socket.destroy();if(server?.listening)await new Promise(done=>server.close(done));rmSync(socketPath,{force:true});
+ try{assert(before,'Preflight verification unavailable');boundary();save('source-tools-after.json',pins(root));save('owned-process-final.json',verifyNoOwnedProcesses());}
+ catch(error){status=70;save('integrity-failure.json',{message:error.message});}
+ const elapsedMs=performance.now()-started;if(elapsedMs>300000)status=124;
+ save('final.json',{status,stage,elapsedMs,budgetMs:300000,capabilityConsumed:consumed,receipt:directory});process.exitCode=status;
+}

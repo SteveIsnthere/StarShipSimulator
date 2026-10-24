@@ -5,15 +5,15 @@ import { createMetricBinder } from '$hud/binder';
 import { metricsFor } from '$hud/metrics';
 
 describe('physical booster group readouts', () => {
-  it('uses the actual3400t tank for the booster propellant bars', () => {
+  it('uses the active V3 3650t tank for the booster propellant bars', () => {
     const { state, vehicle } = createScenarioVehicle(getScenario('rtls')!);
     let width = '';
     const binder = createMetricBinder({ metrics: metricsFor(vehicle), resolve: id => id === 'propellant-ch4'
       ? { setAttribute: (_attribute, value) => { width = value; } } : null });
     state.vehicle.propellantMass = 500_000;
     binder.update(state);
-    expect(width).toBe('14.7');
-    state.vehicle.propellantMass = 3_400_000;
+    expect(width).toBe('13.7');
+    state.vehicle.propellantMass = 3_650_000;
     binder.update(state);
     expect(width).toBe('100.0');
   });

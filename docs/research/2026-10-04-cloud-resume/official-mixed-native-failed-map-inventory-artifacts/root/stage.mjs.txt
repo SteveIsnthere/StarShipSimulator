@@ -1,0 +1,73 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, existsSync, mkdtempSync, chmodSync, realpathSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const sha = file => createHash('sha256').update(readFileSync(file)).digest('hex');
+const [manifestPath, manifestSha] = process.argv.slice(2);
+assert.match(manifestSha, /^[a-f0-9]{64}$/); assert.equal(sha(manifestPath), manifestSha);
+const m = JSON.parse(readFileSync(manifestPath, 'utf8'));
+assert.equal(m.kind, 'official-mixed-native-build-owner-input-v1');
+assert.equal(process.cwd(), realpathSync(m.root)); assert.equal(process.version, 'v22.23.3');
+assert.equal(sha(process.execPath), m.node.sha);
+for (const key of ['helper', 'utility', 'pins', 'npmCli', 'stage', 'observer', 'python', 'buildInput']) assert.equal(sha(m[key].path), m[key].sha, key);
+const deadline = Number(process.env.OFFICIAL_NATIVE_ROOT_DEADLINE);
+assert(Number.isFinite(deadline) && deadline > Date.now() && deadline <= Date.now() + 90000);
+const input = JSON.parse(readFileSync(m.buildInput.path, 'utf8'));
+assert.equal(input.kind, 'mixed-native-build-input-v1');
+assert.equal(input.nodeBinary, m.node.sha); assert.equal(input.ownedCommandDigest, m.helper.sha);
+assert.equal(input.utilityDigest, m.utility.sha); assert.equal(input.npmCli, m.npmCli.path);
+const actualReceipt = realpathSync(m.privateReceipt);
+assert.equal(actualReceipt, m.privateReceipt); assert.equal(m.buildInput.path, resolve(actualReceipt, 'external-build-input.json'));
+for (const name of ['native', 'native-flight-build.process.json', 'candidate-manifest.json', 'build-owner-result.json', 'build-boundary.json']) {
+  assert(!existsSync(resolve(actualReceipt, name)), 'Refusing prior build output: ' + name);
+}
+assert.equal(Object.keys(input.materializedInputs).length, 19);
+for (const [file, expected] of Object.entries(input.materializedInputs)) assert.equal(sha(file), expected, file);
+const stage = mkdtempSync('/tmp/starship-official-native-build-stage.'); chmodSync(stage, 0o700);
+process.stdout.write(JSON.stringify({ stageReceipt: stage, actualBuildReceipt: actualReceipt, manifestSha }) + '\n');
+const { runOwnedCommand, verifyNoOwnedProcesses } = await import(pathToFileURL(m.helper.path).href);
+let code = null, failure = null, actualExit = null;
+try {
+  // Frozen run-build retains its own90s ceiling. This actual outer cutoff is stricter:
+  // root90s minus preparation, with all detached descendants observed by root.
+  code = await runOwnedCommand({ name: 'owned-build',
+    args: [resolve(actualReceipt, 'run-build.mjs'), m.root, actualReceipt, m.buildInput.path, m.buildInput.sha],
+    root: m.root, receipt: stage, env: { ...process.env }, deadlineMs: deadline - Date.now() });
+} catch (error) { failure = error; }
+try { actualExit = JSON.parse(readFileSync(resolve(stage, 'owned-build.process.json'), 'utf8')).exit; }
+catch (error) { failure ??= error; }
+writeFileSync(resolve(stage, 'actual-child-exit.json'), JSON.stringify({ code, exit: actualExit,
+  error: failure ? String(failure.stack ?? failure) : null,
+  processReceipt: resolve(stage, 'owned-build.process.json'), actualBuildReceipt: actualReceipt,
+}) + '\n', { flag: 'wx' });
+try {
+  const outerProcess = JSON.parse(readFileSync(resolve(stage, 'owned-build.process.json'), 'utf8'));
+  const innerProcess = JSON.parse(readFileSync(resolve(actualReceipt, 'native-flight-build.process.json'), 'utf8'));
+  assert.equal(code, 0);
+  for (const processReceipt of [outerProcess, innerProcess]) {
+    assert.equal(processReceipt.exit.code, 0); assert.equal(processReceipt.exit.signal, null);
+    assert.equal(processReceipt.failure, null); assert.equal(processReceipt.finished, true);
+    assert.equal(processReceipt.closed, true); assert.equal(processReceipt.cleanup.executing.length, 0);
+  }
+  const owner = JSON.parse(readFileSync(resolve(actualReceipt, 'build-owner-result.json'), 'utf8'));
+  assert.equal(owner.completed, true); assert.equal(owner.code, 0); assert.equal(owner.error, null);
+  assert.equal(owner.inputSha, m.buildInput.sha); assert.equal(owner.nodeBinary, m.node.sha);
+  assert.equal(sha(resolve(actualReceipt, 'candidate-manifest.json')), owner.candidateSha);
+  assert.equal(sha(resolve(actualReceipt, 'build-boundary.json')), owner.boundarySha);
+  assert.equal(JSON.parse(readFileSync(resolve(actualReceipt, 'build-boundary.json'), 'utf8')).completed, true);
+  const candidate = JSON.parse(readFileSync(resolve(actualReceipt, 'candidate-manifest.json'), 'utf8'));
+  assert.equal(candidate.qualified, false); assert.equal(candidate.inputSha, m.buildInput.sha);
+  for (const [file, expected] of Object.entries(input.materializedInputs)) assert.equal(sha(file), expected, file);
+  for (const key of ['helper', 'utility', 'pins', 'npmCli', 'stage', 'observer', 'python', 'buildInput']) assert.equal(sha(m[key].path), m[key].sha);
+  assert.equal(sha(process.execPath), m.node.sha); assert.equal(sha(manifestPath), manifestSha);
+  assert(verifyNoOwnedProcesses().every(row => row.executing.length === 0));
+  assert(Date.now() <= deadline, 'Whole private-build90s workload exceeded');
+} catch (error) { failure ??= error; }
+writeFileSync(resolve(stage, 'stage-result.json'), JSON.stringify({ completed: !failure, code,
+  error: failure ? String(failure.stack ?? failure) : null, manifestSha, actualBuildReceipt: actualReceipt,
+  processReceipt: resolve(stage, 'owned-build.process.json'),
+  acceptance: 'Unqualified build evidence only; actual maps/body/role/closure review before controls',
+}) + '\n', { flag: 'wx' });
+process.stdout.write(JSON.stringify({ stageReceipt: stage, actualBuildReceipt: actualReceipt, completed: !failure }) + '\n');
+if (failure) throw failure;

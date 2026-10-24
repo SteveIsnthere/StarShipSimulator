@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node",
+    "--experimental-strip-types",
+    "docs/research/2026-10-04-cloud-resume/kernel-display-witness-controls.mjs"
+  ],
+  "exitCode": 0,
+  "timeout": false,
+  "wallSeconds": 0.5575484180008061,
+  "owned": {
+    "pid": 47678,
+    "startTime": "2467179"
+  },
+  "nonexecuting": true,
+  "integrity": true,
+  "beforeAfterEntries": 3726,
+  "scope": "pure public SDK; no renderer/browser/core initialization",
+  "stdoutBytes": 1252,
+  "stderrBytes": 0
+}

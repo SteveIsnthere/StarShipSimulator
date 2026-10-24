@@ -1,0 +1,10 @@
+{
+  "args": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "/tmp/starship-mixed-map-input.gmpt60un/observer.py",
+    "/tmp/starship-mixed-map-input.gmpt60un/root-owner-input.json",
+    "3ccd867654b935b7fa498d22ef03080d4279da3d1a7539e016f9824a6af43d8a"
+  ],
+  "wholeBoundMs": 5000,
+  "noBuildOrArtifactExecution": true
+}

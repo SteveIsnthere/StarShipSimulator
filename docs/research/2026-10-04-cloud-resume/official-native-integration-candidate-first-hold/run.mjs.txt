@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { prepareRun } from './prepare-run.mjs';
+import { admitRun } from './admission.mjs';
+import { digest, parse } from './integrity.mjs';
+const root = process.cwd(), args = process.argv.slice(2);
+const { manifestPath, manifestSha, manifest: m } = await prepareRun(
+  process.env.NATIVE_FLIGHT_COMPOSITE, process.env.NATIVE_FLIGHT_COMPOSITE_SHA);
+const { qualification: q } = await admitRun(manifestPath, manifestSha);
+const owner = resolve(root, 'scripts/bench/owned-command.mjs');
+assert.equal(digest(owner), q.ownedCommandDigest);
+const { runOwnedCommand, verifyNoOwnedProcesses } = await import(pathToFileURL(owner).href);
+let code, failure;
+try {
+  code = await runOwnedCommand({ name: 'official-tests', root, receipt: m.directory + '.receipts',
+    args: [resolve(root, 'node_modules/vitest/vitest.mjs'), ...args,
+      '--reporter=default', '--reporter=' + resolve(root, 'scripts/test/lifecycle-reporter.mjs')], deadlineMs: 300000,
+    env: { ...process.env, NATIVE_FLIGHT_RUN: manifestPath, NATIVE_FLIGHT_RUN_SHA: manifestSha, NATIVE_FLIGHT_MAPPED_CODE: resolve(m.directory, q.mappedCode), NATIVE_FLIGHT_LIFECYCLE: m.directory + '.lifecycle.json' } });
+} catch (error) { failure = error; }
+const afterErrors = [];
+try { await admitRun(manifestPath, manifestSha); } catch (error) { afterErrors.push(String(error.stack ?? error)); }
+try { assert(verifyNoOwnedProcesses().every(row => row.executing.length === 0)); }
+catch (error) { afterErrors.push(String(error.stack ?? error)); }
+const receipt = parse(resolve(m.directory + '.receipts', 'official-tests.process.json'));
+if (failure) throw failure;
+assert.deepEqual(afterErrors, []);
+assert.equal(receipt.failure, null); assert.equal(receipt.closed, true);
+assert.equal(receipt.cleanup.executing.length, 0);
+const lifecycle = parse(m.directory + '.lifecycle.json');
+assert.deepEqual(lifecycle.unhandledErrors, []);
+const native = lifecycle.inventory.filter(row => row.project === 'native-flight');
+assert.equal(native.length, 21);
+assert.deepEqual(native.map(row => ({ file: row.file, fullName: row.fullName })).sort((a, b) =>
+  (a.file + a.fullName).localeCompare(b.file + b.fullName)), q.expectedNativeInventory);
+assert(native.every(row => row.state === 'passed'));
+process.exitCode = code;

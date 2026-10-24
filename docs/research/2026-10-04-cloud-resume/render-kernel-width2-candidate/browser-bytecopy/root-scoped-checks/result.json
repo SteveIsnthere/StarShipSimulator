@@ -1,0 +1,45 @@
+{
+  "inputMapSha256": "f9d6b6d82a1fdfafb3189037b8a4dc518f76712fec1d7f9d32ba3602e8b58039",
+  "scopes": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/prepare-browser-bytecopy.py.txt",
+      "sha256": "e41b2d6390a6f7d3b08a9bdd8d21bc9b4cf6167767f40bd0e4c33590149a8c94",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/prepare-stage-input.py.txt",
+      "sha256": "eaf204143601b97d1e036e1d8b8ec88b0c6ed3ed96a66bbe465eda9ec71139a0",
+      "kind": "python-ast",
+      "code": 0
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/business-stage.mjs.txt",
+      "sha256": "87f9d7fbfaf77f073e3013e9e53454a6e9a8207909a2efc4f386c42e6a84e65c",
+      "kind": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.027132845993037336
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/business-stage.mjs.txt",
+      "sha256": "87f9d7fbfaf77f073e3013e9e53454a6e9a8207909a2efc4f386c42e6a84e65c",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8906281430026866
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/python-bridge.mjs.txt",
+      "sha256": "92c84df6e94700bb19794e18a05a9db9d46d47abec87d7efaeda249a19aac367",
+      "kind": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.03286851399752777
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/python-bridge.mjs.txt",
+      "sha256": "92c84df6e94700bb19794e18a05a9db9d46d47abec87d7efaeda249a19aac367",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8370887260025484
+    }
+  ]
+}

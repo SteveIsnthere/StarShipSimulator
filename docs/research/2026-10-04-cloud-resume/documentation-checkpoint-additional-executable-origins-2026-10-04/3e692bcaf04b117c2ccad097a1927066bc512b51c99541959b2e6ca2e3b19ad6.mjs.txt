@@ -1,0 +1,140 @@
+/** Pinned tiny-fixture analytical validation only; no coverage conversion. */
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+export const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const json = value => JSON.stringify(value);
+export function assertNoBranchCollisions(map) {
+  const starts = Object.values(map).map(branch => json(branch.locations[0].start));
+  assert.equal(new Set(starts).size, starts.length, 'Branch first-location/container collision');
+}
+
+export function fixtureContext(rule, source) {
+  assert.equal(sha(source), rule.sourceSha256, 'Unknown/changed exact fixture source');
+  assert(['/tmp/starship-native-provider-control.L8vbAO/src/core/coverage-control.ts',
+    '/tmp/starship-native-provider-control.L8vbAO/src/core/unimported-control.ts'].includes(rule.file), 'Unknown fixture path');
+  const contexts = new Map();
+  function walk(value, prefix) {
+    if (value && typeof value === 'object') {
+      if (value.start && value.end) contexts.set(prefix, structuredClone(value));
+      if (Array.isArray(value)) value.forEach((item, index) => walk(item, `${prefix}.${index}`));
+      else for (const [key, item] of Object.entries(value)) walk(item, prefix ? `${prefix}.${key}` : key);
+    }
+  }
+  walk(rule.schema, '');
+  return { rule, source, lines: source.toString().split('\n'), ranges: contexts };
+}
+
+export function validateRange(range, context, rangePath, branch) {
+  const reference = context.ranges.get(rangePath);
+  assert(reference, 'Unknown fixture range path');
+  assert(range && Object.keys(range).sort().join() === 'end,start', 'Malformed range shape');
+  const empty = value => value && typeof value === 'object' && Object.keys(value).length === 0;
+  if (empty(range.start) && empty(range.end)) {
+    assert(branch && branch.type === 'if' && branch.locations.length === 2 && branch.counts.length === 2, 'Invalid implicit-else container/vector');
+    assert(['branchMap.0.locations.1', 'branchMap.1.locations.1', 'branchMap.2.locations.1'].includes(rangePath)
+      && context.rule.file.endsWith('/coverage-control.ts'), 'Unknown implicit-else fixture path');
+    assert(empty(reference.start) && empty(reference.end), 'Reference has real else location');
+    assert(!context.source.toString().includes('else'), 'Explicit else source cannot use missing-else sentinel');
+    const expectedLine = [3, 7, 8][Number(rangePath.split('.')[1])];
+    assert.equal(branch.loc.start.line, expectedLine, 'Unknown fixture if site');
+    validateRange(branch.loc, context, rangePath.replace(/\.locations\.1$/, '.loc'));
+    validateRange(branch.locations[0], context, rangePath.replace(/\.1$/, '.0'));
+    return 'source-backed-implicit-else';
+  }
+  for (const [side, position] of Object.entries(range)) {
+    assert(position && Object.keys(position).sort().join() === 'column,line', 'Missing/unknown position fields');
+    assert(Number.isInteger(position.line) && position.line > 0 && position.line <= context.lines.length, 'Out-of-source line');
+    if (side === 'end' && position.column === null) {
+      assert.equal(reference.end.column, null, 'Unknown null outside pinned source-mapped end');
+      assert.equal(position.line, reference.end.line, 'Null end-line provenance changed');
+    } else assert(Number.isInteger(position.column) && position.column >= 0
+      && position.column <= context.lines[position.line - 1].length, 'Invalid finite source column');
+  }
+  assert(range.start.column !== null, 'Null start forbidden');
+  assert(range.start.line < range.end.line || range.start.line === range.end.line
+    && (range.end.column === null || range.start.column <= range.end.column), 'Finite reversed source range');
+  if (range.end.column === null) assert.deepEqual(range.start, reference.start, 'Open-end start provenance changed');
+  return range.end.column === null ? 'source-mapped-open-line-end' : 'finite';
+}
+
+export function validateFixtureFile(file, context) {
+  assert.equal(file.path, context.rule.file, 'Unknown/noncanonical file path');
+  const schemas = { statementMap: file.statementMap, fnMap: file.fnMap, branchMap: file.branchMap };
+  for (const [mapName, map] of Object.entries(schemas)) {
+    assert.equal(new Set(Object.values(map).map(json)).size, Object.keys(map).length, 'Duplicate raw schema');
+    for (const [id, item] of Object.entries(map)) {
+      const prefix = `${mapName}.${id}`;
+      if (mapName === 'statementMap') validateRange(item, context, prefix);
+      else if (mapName === 'fnMap') {
+        validateRange(item.decl, context, `${prefix}.decl`); validateRange(item.loc, context, `${prefix}.loc`);
+      } else {
+        validateRange(item.loc, context, `${prefix}.loc`);
+        assert(Array.isArray(file.b[id]) && item.locations.length === file.b[id].length, 'Branch vector/denominator mismatch');
+        item.locations.forEach((range, index) => validateRange(range, context, `${prefix}.locations.${index}`, { ...item, counts: file.b[id] }));
+      }
+    }
+  }
+  assertNoBranchCollisions(file.branchMap);
+  for (const [schema, count] of [['statementMap', 's'], ['fnMap', 'f'], ['branchMap', 'b']]) {
+    assert.deepEqual(Object.keys(file[schema]).sort(), Object.keys(file[count]).sort(), 'Counter/schema discrepancy');
+  }
+  for (const count of [...Object.values(file.s), ...Object.values(file.f), ...Object.values(file.b).flat()]) assert(Number.isSafeInteger(count) && count >= 0, 'Invalid hit counter');
+  assert.deepEqual(schemas, context.rule.schema, 'Raw source schema drift; no normalization');
+}
+
+export function expectedMainHits({ initializations, chooseInputs, nestedInputs }) {
+  const yes = chooseInputs.filter(value => value > 0).length, positive = nestedInputs.filter(value => value > 0).length;
+  const large = nestedInputs.filter(value => value > 10).length;
+  return { s: Object.fromEntries([initializations, initializations, initializations, chooseInputs.length, yes,
+    chooseInputs.length - yes, nestedInputs.length, positive, large, positive - large,
+    nestedInputs.length - positive, 0].map((count, id) => [String(id), count])),
+  f: { 0: initializations, 1: chooseInputs.length, 2: nestedInputs.length, 3: 0 },
+  b: { 0: [yes, chooseInputs.length - yes], 1: [positive, nestedInputs.length - positive],
+    2: [large, positive - large], 3: [0, 0] } };
+}
+
+export function validateHits(file, expected) {
+  for (const counter of ['s', 'f', 'b']) assert.deepEqual(file[counter], expected[counter], 'Actual explicit recipe hit mismatch');
+}
+
+export function runPureControls(context, main) {
+  const range = name => structuredClone(context.ranges.get(name));
+  const passed = [];
+  function positive(name, action) { action(); passed.push({ name, expected: 'accept' }); }
+  function negative(name, action) { assert.throws(action, { code: 'ERR_ASSERTION' }); passed.push({ name, expected: 'reject' }); }
+  positive('finite source range', () => validateRange(range('statementMap.1'), context, 'statementMap.1'));
+  positive('same-line known open end', () => validateRange(range('statementMap.0'), context, 'statementMap.0'));
+  positive('multiline known open end', () => validateRange(range('fnMap.1.loc'), context, 'fnMap.1.loc'));
+  positive('exact implicit else', () => validateFixtureFile(main, context));
+  for (const [name, change] of [
+    ['null start', value => { value.start.column = null; }],
+    ['missing start', value => { delete value.start; }],
+    ['negative column', value => { value.start.column = -1; }],
+    ['out-of-source column', value => { value.start.column = 10000; }],
+    ['out-of-source line', value => { value.end.line = 10000; }],
+    ['finite reversal', value => { value.end.column = value.start.column - 1; }],
+    ['malformed null end', value => { value.end.line = null; }],
+  ]) negative(name, () => { const value = range('statementMap.1'); change(value); validateRange(value, context, 'statementMap.1'); });
+  negative('null outside known end path', () => { const value = range('statementMap.1'); value.end.column = null; validateRange(value, context, 'statementMap.1'); });
+  negative('unknown range path', () => validateRange(range('statementMap.0'), context, 'unknown'));
+  for (const pathName of ['statementMap.0', 'fnMap.1.loc', 'branchMap.0.loc', 'branchMap.0.locations.0']) {
+    negative(`empty forbidden ${pathName}`, () => validateRange({ start: {}, end: {} }, context, pathName));
+  }
+  for (const [name, change] of [
+    ['wrong else type', value => { value.branchMap[0].type = 'cond-expr'; }],
+    ['mismatched branch vector', value => { value.b[0] = [1]; }],
+    ['duplicate branch container', value => { value.branchMap[4] = structuredClone(value.branchMap[0]); value.b[4] = [1, 0]; }],
+    ['schema location drift', value => { value.statementMap[1].end.column--; }],
+    ['counter credit fabrication', value => { value.f[3] = 1; }],
+  ]) negative(name, () => {
+    const value = structuredClone(main); change(value); validateFixtureFile(value, context);
+    validateHits(value, expectedMainHits({ initializations: 1, chooseInputs: [1], nestedInputs: [1] }));
+  });
+  negative('explicit else source', () => fixtureContext(context.rule, Buffer.from(`${context.source}\nelse {}`)));
+  negative('unknown fixture path', () => fixtureContext({ ...context.rule, file: '/tmp/unknown.ts' }, context.source));
+  negative('distinct branch containers with colliding first location', () => {
+    const map = structuredClone(main.branchMap); map[1].locations[0].start = structuredClone(map[0].locations[0].start);
+    assertNoBranchCollisions(map);
+  });
+  return passed;
+}

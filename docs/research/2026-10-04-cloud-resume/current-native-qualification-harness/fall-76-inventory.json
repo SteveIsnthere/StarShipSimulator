@@ -1,0 +1,998 @@
+[
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "shares scratch without sharing prepared results across interleaved predictions"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "pays one canonical query for held zero controls while retaining nonzero queries"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "does not let prepared controls bypass invalid dynamic forcing"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "preserves prepared incidence validation for nonfinite pitch"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains exact fall results across incidence boundaries and extreme finite pitch"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains force-scale overflow rejection even when dynamic pressure itself is finite"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "proves zero-area independence for actual detached and permanently failed control surfaces"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/normal",
+    "row": 0,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "normal",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 227.27133589188966,
+        "downRange": 207713.69027637618
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/capped",
+    "row": 1,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "capped",
+        "h": 60000,
+        "vx": 0,
+        "vy": 7000,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": false,
+        "time": null,
+        "downRange": 3246.2139561608574
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/wind",
+    "row": 2,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "wind",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 35
+      },
+      "expected": {
+        "reached": true,
+        "time": 226.5529986732744,
+        "downRange": 212360.40093318853
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/nonzero",
+    "row": 3,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "nonzero",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 35,
+        "aft": 20,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 228.70933565629707,
+        "downRange": 206470.22660517288
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/hot",
+    "row": 4,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "hot",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 227.27133589188966,
+        "downRange": 207713.69027637618
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/unavailable",
+    "row": 5,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "unavailable",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 227.27133589188966,
+        "downRange": 207713.69027637618
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/detached",
+    "row": 6,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "detached",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 228.49720516546986,
+        "downRange": 207045.82910834355
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/invalid-root",
+    "row": 7,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "invalid-root",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 227.27133589188966,
+        "downRange": 207713.69027637618
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for ship/invalid-temperature",
+    "row": 8,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "invalid-temperature",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": null,
+      "error": "304 mechanical temperature must be finite and positiveK"
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/normal",
+    "row": 9,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "normal",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/capped",
+    "row": 10,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "capped",
+        "h": 60000,
+        "vx": 0,
+        "vy": 7000,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": false,
+        "time": null,
+        "downRange": 0
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/wind",
+    "row": 11,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "wind",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 35
+      },
+      "expected": {
+        "reached": true,
+        "time": 163.96871880505827,
+        "downRange": 226259.85473885416
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/nonzero",
+    "row": 12,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "nonzero",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 75,
+        "aft": 20,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/hot",
+    "row": 13,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "hot",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/unavailable",
+    "row": 14,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "unavailable",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/detached",
+    "row": 15,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "detached",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.44731997933923,
+        "downRange": 223973.40644786914
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/invalid-root",
+    "row": 16,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "invalid-root",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+    "name": "retains original synchronous and sliced bits for booster/invalid-temperature",
+    "row": 17,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "invalid-temperature",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": null,
+      "error": "304 mechanical temperature must be finite and positiveK"
+    }
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-continuation-proof.test.ts.txt",
+    "name": "retains exactly4000 iterations and the uncrossed capped result"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-continuation-proof.test.ts.txt",
+    "name": "rejects invalid historical mass without a numerical slice"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-continuation-proof.test.ts.txt",
+    "name": "uses the caller scratch continuation repeatedly without a new per-call record"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-continuation-proof.test.ts.txt",
+    "name": "retains floor semantics and the mechanical cap for every numeric slice budget"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-continuation-proof.test.ts.txt",
+    "name": "preserves the original synchronous bits for h=79000",
+    "recipe": [
+      79000,
+      2000,
+      -50
+    ]
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-continuation-proof.test.ts.txt",
+    "name": "preserves the original synchronous bits for h=1000",
+    "recipe": [
+      1000,
+      0,
+      -10
+    ]
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "matches complete force scratch and continuation across dense pitch and control domains"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "matches signed-zero, adjacent quadrant, nonfinite and extreme incidence with full scratch/errors"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "retains all scratch inputs, conditional fixed thrust, nonfinite products and finite cancellation"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "preserves prepared forcing, overflow and inventory exceptions and partial scratch"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "preserves damage roots and actual control loss, including complete errors"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "pays exactly two ISA/force queries per midpoint, zero for no work, and 8000 at cap"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "preserves synchronous thrown source/work retention without any added retained source pointers"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "matches complete synchronous scratch/work for normal, capped and invalid mass inputs"
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "matches sliced interleaving with positively effective mutable scratch at budget 1",
+    "recipe": 1
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "matches sliced interleaving with positively effective mutable scratch at budget 37",
+    "recipe": 37
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "matches sliced interleaving with positively effective mutable scratch at budget 512",
+    "recipe": 512
+  },
+  {
+    "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-boundary-proof.test.ts.txt",
+    "name": "matches sliced interleaving with positively effective mutable scratch at budget 4000",
+    "recipe": 4000
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "shares scratch without sharing prepared results across interleaved predictions"
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "pays one canonical query for held zero controls while retaining nonzero queries"
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "does not let prepared controls bypass invalid dynamic forcing"
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "preserves prepared incidence validation for nonfinite pitch"
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains exact fall results across incidence boundaries and extreme finite pitch"
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains force-scale overflow rejection even when dynamic pressure itself is finite"
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "proves zero-area independence for actual detached and permanently failed control surfaces"
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/normal",
+    "row": 0,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "normal",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 227.27133589188966,
+        "downRange": 207713.69027637618
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/capped",
+    "row": 1,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "capped",
+        "h": 60000,
+        "vx": 0,
+        "vy": 7000,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": false,
+        "time": null,
+        "downRange": 3246.2139561608574
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/wind",
+    "row": 2,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "wind",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 35
+      },
+      "expected": {
+        "reached": true,
+        "time": 226.5529986732744,
+        "downRange": 212360.40093318853
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/nonzero",
+    "row": 3,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "nonzero",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 35,
+        "aft": 20,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 228.70933565629707,
+        "downRange": 206470.22660517288
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/hot",
+    "row": 4,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "hot",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 227.27133589188966,
+        "downRange": 207713.69027637618
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/unavailable",
+    "row": 5,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "unavailable",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 227.27133589188966,
+        "downRange": 207713.69027637618
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/detached",
+    "row": 6,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "detached",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 228.49720516546986,
+        "downRange": 207045.82910834355
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/invalid-root",
+    "row": 7,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "invalid-root",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 227.27133589188966,
+        "downRange": 207713.69027637618
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for ship/invalid-temperature",
+    "row": 8,
+    "recipe": {
+      "params": {
+        "kind": "ship",
+        "variant": "invalid-temperature",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 0,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": null,
+      "error": "304 mechanical temperature must be finite and positiveK"
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/normal",
+    "row": 9,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "normal",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/capped",
+    "row": 10,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "capped",
+        "h": 60000,
+        "vx": 0,
+        "vy": 7000,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": false,
+        "time": null,
+        "downRange": 0
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/wind",
+    "row": 11,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "wind",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 35
+      },
+      "expected": {
+        "reached": true,
+        "time": 163.96871880505827,
+        "downRange": 226259.85473885416
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/nonzero",
+    "row": 12,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "nonzero",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 75,
+        "aft": 20,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/hot",
+    "row": 13,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "hot",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/unavailable",
+    "row": 14,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "unavailable",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/detached",
+    "row": 15,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "detached",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.44731997933923,
+        "downRange": 223973.40644786914
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/invalid-root",
+    "row": 16,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "invalid-root",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": {
+        "reached": true,
+        "time": 164.38450246755326,
+        "downRange": 224054.86079664476
+      },
+      "error": null
+    }
+  },
+  {
+    "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+    "name": "retains original synchronous and sliced bits for booster/invalid-temperature",
+    "row": 17,
+    "recipe": {
+      "params": {
+        "kind": "booster",
+        "variant": "invalid-temperature",
+        "h": 79000,
+        "vx": 2000,
+        "vy": -50,
+        "front": 50,
+        "aft": 0,
+        "wind": 0
+      },
+      "expected": null,
+      "error": "304 mechanical temperature must be finite and positiveK"
+    }
+  },
+  {
+    "collection": "tests/core/fall-continuation.test.ts",
+    "name": "retains exactly4000 iterations and the uncrossed capped result"
+  },
+  {
+    "collection": "tests/core/fall-continuation.test.ts",
+    "name": "rejects invalid historical mass without a numerical slice"
+  },
+  {
+    "collection": "tests/core/fall-continuation.test.ts",
+    "name": "uses the caller scratch continuation repeatedly without a new per-call record"
+  },
+  {
+    "collection": "tests/core/fall-continuation.test.ts",
+    "name": "retains floor semantics and the mechanical cap for every numeric slice budget"
+  },
+  {
+    "collection": "tests/core/fall-continuation.test.ts",
+    "name": "preserves the original synchronous bits for h=79000",
+    "recipe": [
+      79000,
+      2000,
+      -50
+    ]
+  },
+  {
+    "collection": "tests/core/fall-continuation.test.ts",
+    "name": "preserves the original synchronous bits for h=1000",
+    "recipe": [
+      1000,
+      0,
+      -10
+    ]
+  },
+  {
+    "collection": "tests/proofs/acceleration-components.test.ts",
+    "name": "matches scalar bits through dense angles, quadrant edges, cancellation and signed zeros"
+  },
+  {
+    "collection": "tests/proofs/acceleration-components.test.ts",
+    "name": "retains individual nonfinite inputs and conditional fixed-thrust arithmetic"
+  }
+]

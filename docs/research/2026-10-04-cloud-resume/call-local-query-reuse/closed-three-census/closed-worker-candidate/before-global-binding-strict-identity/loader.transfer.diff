@@ -1,0 +1,77 @@
+--- scripts/test/loader.mjs
++++ closed-worker-candidate/loader.mjs.txt
+@@ -4,11 +4,33 @@
+ import { appendFileSync, readFileSync } from 'node:fs';
+ import { resolve } from 'node:path';
+ import { pathToFileURL } from 'node:url';
+-import { digest } from './integrity.mjs';
+-import { admitRun, originalTests, runtimeAliases } from './admission.mjs';
+-import { goldenAliases, supportFileForURL, assertSupportAdmission, relativeTarget } from './golden-support-policy.mjs';
+-const { manifest: m, qualification: q } = await admitRun(process.env.NATIVE_FLIGHT_RUN, process.env.NATIVE_FLIGHT_RUN_SHA);
++const digest = file => createHash('sha256').update(readFileSync(file)).digest('hex');
++import { admitArtifacts } from './admission.mjs';
++import { goldenAliases, supportFileForURL, assertSupportAdmission, relativeTarget } from '/workspace/StarShipSimulator/scripts/test/golden-support-policy.mjs';
++const {m: input,artifact:m}=await admitArtifacts(process.env.QUERY_CENSUS_NATIVE_MANIFEST,process.env.QUERY_CENSUS_NATIVE_MANIFEST_SHA);
++const originalTests=['tests/golden/booster-replay.test.ts'];const runtimeAliases={};const q={root:input.root,aliases:['$core/step','$core/vehicles/super-heavy','$core/constants','$core/scenarios','$core/vehicle'],originalTests:input.originalSources,goldenSourceFiles:input.originalSources,mappedCode:m.mappedCode};
+ assert.equal(process.platform, 'linux');
++assert.equal(process.env.NODE_OPTIONS??'','');assert.equal(process.env.NODE_PATH??'','');
++const suppression=resolve(input.root,'node_modules/vitest/suppress-warnings.cjs');
++assert.deepEqual(process.execArgv,['--experimental-import-meta-resolve','--require',suppression,...input.workerConditions.flatMap(condition=>['--conditions',condition]),'--import',resolve(input.setup,'loader.mjs')]);
++// Capture before original root loading. This is a closed-worker consistency guard,
++// not detection of arbitrary preexisting monkeypatches outside the source domain.
++const closedGlobal=globalThis,readDescriptors=Object.getOwnPropertyDescriptors,readDescriptor=Object.getOwnPropertyDescriptor,compareDescriptors=assert.deepEqual;
++const intrinsicNames=['Math','Number','Object','Array','Reflect','globalThis'];
++const bindingBaseline=[],intrinsicOwners=[],intrinsicBaseline=[];
++for(let index=0;index<intrinsicNames.length;index++){
++ const binding=readDescriptor(closedGlobal,intrinsicNames[index]);compareDescriptors(typeof binding.value,intrinsicNames[index]==='Number'||intrinsicNames[index]==='Object'||intrinsicNames[index]==='Array'?'function':'object');
++ bindingBaseline.push(binding);intrinsicOwners.push(binding.value);intrinsicBaseline.push(intrinsicNames[index]==='globalThis'?null:readDescriptors(binding.value));
++}
++export function assertClosedWorkerIntrinsics(){
++ for(let index=0;index<intrinsicNames.length;index++){
++  compareDescriptors(readDescriptor(closedGlobal,intrinsicNames[index]),bindingBaseline[index]);
++  // Captured reader/comparator and owners survive a replaced Object binding.
++  if(intrinsicBaseline[index]!==null)compareDescriptors(readDescriptors(intrinsicOwners[index]),intrinsicBaseline[index]);
++ }
++}
++assertClosedWorkerIntrinsics();
++
+ const stat = readFileSync('/proc/self/stat', 'utf8');
+ const start = stat.slice(stat.lastIndexOf(')') + 2).trim().split(/\s+/)[19];
+ assert.match(start, /^\d+$/);
+@@ -23,9 +45,9 @@
+   appendFileSync(receipt, line, { flag: 'a' });
+ }
+ record({ kind: 'startup', nodeVersion: process.version, nodeBinary: digest(process.execPath),
+-  runSha: process.env.NATIVE_FLIGHT_RUN_SHA, loaderSha: digest(new URL(import.meta.url)),
++  runSha: process.env.QUERY_CENSUS_NATIVE_MANIFEST_SHA, loaderSha: digest(new URL(import.meta.url)),
+   entryURL, chunkURL, constantsURL, code: m.files });
+-const parents = new Map(originalTests.map(file => [pathToFileURL(resolve(q.root, file)).href, runtimeAliases[file]]));
++const parents = new Map(originalTests.map(file => [pathToFileURL(resolve(q.root, file)).href, goldenAliases[file]]));
+ const originalLoads = new Map();
+ const certificates = new Map();
+ const cacheTokenDigits = String(Date.now()).length;
+@@ -79,10 +101,10 @@
+     return { url: relative.url, shortCircuit: true };
+   }
+   const result = nextResolve(specifier, context);
+-  if (context.parentURL === entryURL || context.parentURL === constantsURL) {
+-    assert.equal(result.url, context.parentURL === entryURL ? chunkURL : entryURL);
+-    record({ kind: 'native-module-edge', specifier, parentURL: context.parentURL, url: result.url });
+-  }
++  const parentFile=[...m.edges.map(edge=>edge.fileName),'constants.mjs'].find(file=>pathToFileURL(resolve(m.directory,file)).href===context.parentURL);
++  if(parentFile){const allowed=parentFile==='constants.mjs'?['entry.mjs']:m.edges.find(edge=>edge.fileName===parentFile).imports;
++    assert(allowed.some(file=>result.url===pathToFileURL(resolve(m.directory,file)).href),'Foreign emitted native edge');
++    record({kind:'native-module-edge',specifier,parentURL:context.parentURL,url:result.url});}
+   return result;
+ }, load(url, context, nextLoad) {
+   const support = supportFileForURL(q.root, url); // Reject exact known support variants BEFORE delegation.
+@@ -115,8 +137,7 @@
+       cacheToken: null, format: result.format, sourceBytes: source.length, sourceSha };
+     record(certificate); certificates.set(url, certificate);
+   }
+-  const expected = new Map([[entryURL, m.files['entry.mjs']], [constantsURL, m.files['constants.mjs']],
+-    [chunkURL, m.files[q.mappedCode]]]);
++  const expected=new Map(Object.entries(m.files).filter(([file])=>/\.(?:mjs|js)$/.test(file)).map(([file,h])=>[pathToFileURL(resolve(m.directory,file)).href,h]));
+   if (expected.has(url)) {
+     assert.equal(result.format, 'module');
+     const source = sourceBytes(result);

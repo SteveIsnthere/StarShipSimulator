@@ -1,0 +1,88 @@
+[
+  {
+    "path": "/tmp/starship-official-flight.sxypD4/native.receipts/native-build.process.json",
+    "sha256": "f45dd4c9799913b040c9ba25b5ec9c6f1c6dea027c188daa40c87e7daa7fdeaf",
+    "raw": {
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "failure": null,
+      "bytes": {
+        "stdout": 387,
+        "stderr": 0
+      },
+      "cap": 8388608,
+      "finished": true,
+      "closed": true,
+      "cleanup": {
+        "pid": 77444,
+        "start": "5068503",
+        "group": 77444,
+        "session": 77444,
+        "tracked": [
+          {
+            "pid": 77444,
+            "state": "R",
+            "parent": 77437,
+            "group": 77444,
+            "session": 77444,
+            "start": "5068503"
+          }
+        ],
+        "executing": []
+      }
+    }
+  },
+  {
+    "path": "/tmp/starship-official-flight.sxypD4/native.receipts/official-tests.process.json",
+    "sha256": "705e9aed73052f2db516737d5711ab1084ccda20f3a1105a563be55db83cad33",
+    "raw": {
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "failure": null,
+      "bytes": {
+        "stdout": 980,
+        "stderr": 0
+      },
+      "cap": 8388608,
+      "finished": true,
+      "closed": true,
+      "cleanup": {
+        "pid": 77472,
+        "start": "5068924",
+        "group": 77472,
+        "session": 77472,
+        "tracked": [
+          {
+            "pid": 77472,
+            "state": "S",
+            "parent": 77437,
+            "group": 77472,
+            "session": 77472,
+            "start": "5068924"
+          },
+          {
+            "pid": 77497,
+            "state": "R",
+            "parent": 77472,
+            "group": 77472,
+            "session": 77472,
+            "start": "5069372"
+          },
+          {
+            "pid": 77498,
+            "state": "R",
+            "parent": 77472,
+            "group": 77472,
+            "session": 77472,
+            "start": "5069372"
+          }
+        ],
+        "executing": []
+      }
+    }
+  }
+]

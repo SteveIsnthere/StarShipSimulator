@@ -1,0 +1,28 @@
+--- original/graph-oracle.ts
++++ candidate/graph-oracle.ts
+@@ -4,6 +4,7 @@
+  const forward=new WeakMap<object,object>(),reverse=new WeakMap<object,object>();
+  const functions=new WeakMap<object,object>();const immutable=new WeakMap<object,boolean>();
+  const proven=new WeakMap<object,object>();let totalNodes=0,totalEdges=0;
++ let immutableProbeVisits=0,immutableTrueHits=0,immutableFalseHits=0;
+  const bind=(a:object,b:object,path:string)=>{
+   assert(!forward.has(a)||forward.get(a)===b,`forward alias mismatch ${path}`);
+   assert(!reverse.has(b)||reverse.get(b)===a,`reverse alias mismatch ${path}`);
+@@ -19,6 +20,10 @@
+   const seen=new WeakSet<object>(),pending=[a];let paid=0;
+   while(pending.length){const node=pending.pop()!;if(seen.has(node))continue;seen.add(node);
+    assert(++paid<=2_000_000,'deep immutable proof node budget');
++   const completed=immutable.get(node);
++   if(completed===false){immutableFalseHits++;immutable.set(a,false);return false;}
++   if(completed===true){immutableTrueHits++;continue;}
++   immutableProbeVisits++;
+    if(!Object.isFrozen(node)){immutable.set(a,false);return false;}
+    for(const key of Reflect.ownKeys(node)){
+     const d=Object.getOwnPropertyDescriptor(node,key)!;
+@@ -62,5 +67,5 @@
+   walk(a,b,label);return {nodes,edges,totalNodes,totalEdges};
+  }
+  for(const name of ['SHIP','SUPER_HEAVY','CATCH'])compare(leftAPI[name],rightAPI[name],`model:${name}`);
+- return {compare,counts:()=>({totalNodes,totalEdges})};
++ return {compare,counts:()=>({totalNodes,totalEdges,immutableProbeVisits,immutableTrueHits,immutableFalseHits})};
+ }

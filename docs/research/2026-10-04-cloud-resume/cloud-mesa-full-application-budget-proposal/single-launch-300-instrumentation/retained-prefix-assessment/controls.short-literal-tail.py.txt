@@ -1,0 +1,108 @@
+"""Pure fixture controls; no native tools/browser or retained-trace reads."""
+import json, pathlib, re
+def controls(module, deadline):
+    receipts = []
+    def run(name, payload, accepted, check=None):
+        try: result = module.classify(payload, deadline)
+        except module.Malformed:
+            if accepted: raise
+            receipts.append({'name': name, 'rejected': True}); return
+        if not accepted: raise AssertionError('negative-control-accepted:' + name)
+        if check: check(result)
+        receipts.append({'name': name, 'accepted': True})
+    event = {'cat': 'gpu', 'name': 'GPUTask', 'ph': 'X', 'pid': 1, 'tid': 2, 'ts': 3.5, 'dur': 4}
+    def encoded(value): return json.dumps({'traceEvents': [value]}, ensure_ascii=False).encode()
+    def count(value):
+        assert value['validatedCompleteEvents'] == 1 and value['categoryCounts'] == {'gpu': 1}
+        assert value['completeTrace'] is False and value['wholeRunCriticalPath'] is False
+    run('complete-one-event', encoded(event), True, count)
+    payload = b'{"traceEvents":[' + json.dumps(event).encode() + b',{"cat":"gpu","name":"cut'
+    def partial(value):
+        count(value); assert value['incompleteTailExcluded'] and not value['traceArrayClosedWithinPrefix']
+    run('partial-string-tail-excluded', payload, True, partial)
+    escaped = {**event, 'args': {'value': 'DO_NOT_EMIT_SECRET_TOKEN " } ], \\ https://private.invalid/?token=secret'}}
+    def private(value):
+        count(value); text = json.dumps(value)
+        assert 'DO_NOT_EMIT_SECRET_TOKEN' not in text and 'private.invalid' not in text and 'secret' not in text
+    run('escaped-quotes-brackets-private-args', encoded(escaped), True, private)
+    unknown = {**event, 'cat': 'https://private.invalid', 'name': 'DO_NOT_EMIT_SECRET_TOKEN'}
+    def unknown_labels(value):
+        assert value['categoryCounts'] == {'other-category': 1} and value['nameCounts'] == {'other-name': 1}
+        assert 'private.invalid' not in json.dumps(value) and 'DO_NOT_EMIT' not in json.dumps(value)
+    run('unknown-category-name-redacted', encoded(unknown), True, unknown_labels)
+    run('utf8-tail-excluded', payload + b'\xe2\x82', True, partial)
+    for name, data in [
+        ('malformed-complete-event', b'{"traceEvents":[{"cat" "gpu"}]}'),
+        ('malformed-partial-before-tail', b'{"traceEvents":[{"cat":BAD'),
+        ('invalid-escape', b'{"traceEvents":[{"name":"bad\\q'),
+        ('event-string-not-object', b'{"traceEvents":["not-event"]}'),
+        ('invalid-utf8', b'{"traceEvents":[\xff'),
+        ('duplicate-event-key', b'{"traceEvents":[{"name":"GPUTask","name":"x","ph":"X"}]}'),
+        ('array-trailing-comma', b'{"traceEvents":['+json.dumps(event).encode()+b',]}'),
+        ('header-key-not-string', b'{traceEvents:[]}'),
+        ('missing-trace-header', b'"traceEvents":[{}]'),
+    ]: run(name, data, False)
+    run('category-list-rejected', encoded({**event, 'cat': ['gpu']}), False)
+    run('category-empty-token-rejected', encoded({**event, 'cat': 'gpu,,viz'}), False)
+    run('duplicate-category-rejected', encoded({**event, 'cat': 'gpu,gpu'}), False)
+    run('name-number-rejected', encoded({**event, 'name': 42}), False)
+    run('nonfinite-time-rejected', encoded({**event, 'ts': float('inf')}), False)
+    run('input-byte-cap-rejected', b' '*(module.BYTE_CAP+1), False)
+    header = b'{"traceEvents":['
+    leading4096 = b'{' + b' '*(4096-len(header)) + b'"traceEvents":['
+    assert len(leading4096) == 4096
+    run('leading-whitespace-header-exact4096', leading4096+json.dumps(event).encode()+b']}', True, count)
+    run('leading-whitespace-header4097-rejected', b'{' + b' '*(4097-len(header)) + b'"traceEvents":[' + json.dumps(event).encode()+b']}', False)
+    token_base = b'{"padding":"","traceEvents":['
+    token4096 = b'{"padding":"' + b'x'*(4096-len(token_base)) + b'","traceEvents":['
+    assert len(token4096) == 4096
+    run('header-token-exact4096', token4096+json.dumps(event).encode()+b']}', True, count)
+    run('header-token4097-rejected', b'{"padding":"' + b'x'*(4097-len(token_base)) + b'","traceEvents":[' + json.dumps(event).encode()+b']}', False)
+    padding = b'\xc3\xa9'*((4096-len(token_base))//2) + b'x'*((4096-len(token_base))%2)
+    unicode4096 = b'{"padding":"' + padding + b'","traceEvents":['
+    assert len(unicode4096) == 4096
+    run('utf8-header-exact4096-bytes', unicode4096+json.dumps(event).encode()+b']}', True, count)
+    run('utf8-header4097-bytes-rejected', b'{"padding":"' + padding + b'x","traceEvents":[' + json.dumps(event).encode()+b']}', False)
+    original_source = pathlib.Path(module.__file__).with_name('prefix_reader.header-bound.py.txt').read_text()
+    repaired_source = pathlib.Path(module.__file__).read_text()
+    original_line = '            if literal.startswith(self.text[p:]): raise Incomplete()'
+    repaired_line = '            if self.n-p < len(literal) and literal.startswith(self.text[p:]): raise Incomplete()'
+    assert original_source.count(original_line) == repaired_source.count(repaired_line) == 1
+    assert repaired_source.replace(repaired_line, original_line) == original_source
+    def old_decision(text, literal): return literal.startswith(text)
+    def new_decision(text, literal): return len(text) < len(literal) and literal.startswith(text)
+    # The unchanged startswith(literal,p) branch already returns complete literals.
+    for literal in ('true', 'false', 'null'):
+        for tail in ('', 't', 'tr', 'tru', 'f', 'fa', 'fal', 'fals', 'n', 'nu', 'nul', 'X', 'trueX', 'falseX', 'nullX'):
+            if tail.startswith(literal): continue
+            assert old_decision(tail, literal) == new_decision(tail, literal)
+    receipts.append({'name': 'literal-short-tail-semantics-and-exact-one-line-restoration', 'accepted': True})
+    class CountedText(str):
+        def __new__(cls, text):
+            value = super().__new__(cls, text); value.suffix_bytes = 0; value.suffix_copies = 0
+            return value
+        def __getitem__(self, key):
+            result = super().__getitem__(key)
+            if isinstance(key, slice) and key.stop is None:
+                self.suffix_copies += 1; self.suffix_bytes += len(result.encode())
+            return result
+    old_volumes = []
+    for count in (256, 512):
+        fixture = json.dumps({'numbers': list(range(count))})
+        actual = CountedText(fixture)
+        assert module.Grammar(actual, deadline).value(0) == len(actual)
+        assert actual.suffix_copies == 0 and actual.suffix_bytes == 0
+        before = CountedText(fixture); after = CountedText(fixture)
+        for match in re.finditer('[0-9]+', fixture):
+            p = match.start()
+            for literal in ('true', 'false', 'null'):
+                original_decision = literal.startswith(before[p:])
+                repaired_decision = len(after)-p < len(literal) and literal.startswith(after[p:])
+                assert original_decision == repaired_decision
+        assert before.suffix_copies == 3*count and after.suffix_copies == 0
+        old_volumes.append(before.suffix_bytes)
+    assert old_volumes[1] > 3*old_volumes[0]
+    receipts.append({'name': 'actual-parser-numeric-suffix-copy-work-bound', 'accepted': True,
+        'actualRepairedGrammarSuffixBytesCopied': 0, 'oldIsolatedPredicateFixtureVolumes': old_volumes,
+        'sameNumericLiteralDecisions': True, 'wallTimeAssertions': False, 'retainedTraceNotUsed': True})
+    return receipts

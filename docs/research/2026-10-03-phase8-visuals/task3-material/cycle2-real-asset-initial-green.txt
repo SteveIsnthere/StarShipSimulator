@@ -1,0 +1,14 @@
+[WebServer] (node:95579) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:95580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[real-tile-albedo] {
+  morning: [ 28.226694425167707, 37.23756092032188 ],
+  afternoon: [ 61.713046495489245, 14.728210359288225 ]
+}
+  ✓  1 [chromium] › tests/e2e/post-compositing.spec.ts:29:1 › real asset tile faces follow mirrored sunlight without retaining photographed shading @mobile (518ms)
+
+  1 passed (2.3s)

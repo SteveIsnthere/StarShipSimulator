@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/coast.test.ts (5 tests | 1 failed) 9ms
+   × darkens the distant ridgeline at midnight instead of leaving a daylight seam above the clipped band 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/coast.test.ts > darkens the distant ridgeline at midnight instead of leaving a daylight seam above the clipped band
+AssertionError: expected 546 to be less than 273
+ ❯ tests/view/coast.test.ts:90:35
+     88|   for (let i = 0; i < 3; i++) {
+     89|     const luma = (colour: number) => ((colour >> 16) & 255) + ((colour…
+     90|     expect(luma(ridges[i]!.tint)).toBeLessThan(luma(values[i]!) * 0.5);
+       |                                   ^
+     91|   }
+     92|   earth.container.destroy({ children: true });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  10:33:32
+   Duration  442ms (transform 81ms, setup 0ms, import 320ms, tests 9ms, environment 0ms)
+

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "bash",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates/run-controls.sh"
+  ],
+  "pins": {
+    "launch-input-pins.json": "f6834a46ce96d758f58de6e220af869a9b9020a7b312073e4480b1944cb57ee8",
+    "launcher-independent-review.md": "f1bc09136dba94b7c3b37f8bc911c191602334933c2eb7f72b619652704ec2a1",
+    "launcher-independent-review-pins.json": "e4062abb4b8d14388065f349e6c88a74a7c5df7d6d86094d3375c49ffe879e06"
+  },
+  "parentSourceSha256": "82b7151977928c52064cf822efb8f9570c1066071a59a88ea6eea2d10eb7058f",
+  "childBoundSeconds": 30,
+  "externalBoundSeconds": 70,
+  "cpuExclusive": true
+}

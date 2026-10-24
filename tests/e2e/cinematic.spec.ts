@@ -184,13 +184,13 @@ test('onboard looks twice as close as follow, and the choice survives a reload @
   test.setTimeout(120_000);
   await page.goto('/', { waitUntil: 'load' });
   await ready(page);
-  // Let the intro land, so the vehicle stands still for two measurements.
+  // Wait for its model-owned touchdown outcome before measuring the settled hull.
   await expect
-    .poll(async () => Number(await page.locator(byTestId(readoutValueTestId('altitude'))).textContent()), {
-      timeout: 90_000,
-      intervals: [500],
-    })
-    .toBeLessThan(26);
+    .poll(
+      async () => page.locator('[data-testid="debrief"][data-outcome="TOUCHDOWN"]').isVisible(),
+      { timeout: 90_000, intervals: [500] },
+    )
+    .toBe(true);
   await page.waitForTimeout(1_500);
 
   await page.locator(byTestId('cinematic-toggle')).click();

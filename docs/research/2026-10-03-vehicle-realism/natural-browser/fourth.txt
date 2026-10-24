@@ -1,0 +1,15 @@
+[WebServer] (node:23724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:23725) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+  ✓  1 [chromium] › tests/e2e/vehicle-damage.spec.ts:47:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (8.2s)
+(node:23740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+  ✓  2 [pixel-portrait] › tests/e2e/vehicle-damage.spec.ts:47:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (9.5s)
+
+  2 passed (20.1s)

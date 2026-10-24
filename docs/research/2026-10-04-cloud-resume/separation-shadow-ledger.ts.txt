@@ -1,0 +1,85 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {strictEqual,ok} from 'node:assert';
+import {createScenarioVehicle,PRESETS} from '../../../src/core/scenarios';
+import {SUPER_HEAVY} from '../../../src/core/vehicles/super-heavy';
+import {createMassProperties} from '../../../src/core/physics/mass';
+import {createDamageMassProperties} from '../../../src/core/physics/damage-mass';
+import {writeFlightMassQuery} from '../../../src/core/physics/flight-mass-query';
+import {writeFlightGridForces} from '../../../src/core/physics/damage-flight';
+import {createGridFinForces} from '../../../src/core/physics/grid-fins';
+import {gimballedShare} from '../../../src/core/physics/engines';
+import {rcsControl,frontFinActuation} from '../../../src/core/control/actuation';
+import {rad} from '../../../src/core/units';
+import * as C from '../../../src/core/constants';
+import type {SimState} from '../../../src/core/state';
+const dir='docs/research/2026-10-04-cloud-resume/';
+const pins=JSON.parse(readFileSync(dir+'separation-shadow-ledger-source-hashes.json','utf8'));
+const sha=(data:string|Buffer)=>createHash('sha256').update(data).digest('hex');
+function check(){for(const [path,hash] of Object.entries(pins))strictEqual(sha(readFileSync(path)),hash,path);}
+check();const evidence=JSON.parse(readFileSync(dir+'separation-evidence-hashes.json','utf8'));
+const raw=readFileSync(evidence.rawDirectory+'/trace.jsonl','utf8');strictEqual(sha(raw),evidence.rawTraceSha256);
+const receipt=readFileSync(dir+'separation-receipt.jsonl','utf8').trim().split('\n').map(l=>JSON.parse(l));
+const plane=receipt.find(r=>r.event==='first-plane-crossing');ok(plane,'first plane receipt');
+const planeTick=plane.data.tick;
+const rows=raw.trim().split('\n').map(l=>JSON.parse(l)).filter(r=>r.event==='terminal-tick'
+ && r.data.previous.autopilot.boosterPhase==='terminal' && r.data.tick<=planeTick);
+ok(rows.length>0 && rows.length<4000,'bounded recorded terminal pairs');
+const baseline=createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!).state;
+for(const key of ['wind','gust','gustVertical','turbulenceU','turbulenceW1','turbulenceW2'] as const)strictEqual(baseline.world[key],0,key);
+const dt=1/120,arms=createMassProperties(),mass=createDamageMassProperties(),grid=createGridFinForces();
+const limit=SUPER_HEAVY.gridFins!.maxAngle;
+let reserve=rows[0].data.previous.vehicle.rcsRunTimeRemaining,fin=rows[0].data.previous.vehicle.frontFinExtension;
+const initialReserve=reserve,records:any[]=[];let referenceDepletion:number|undefined,shadowDepletion:number|undefined;
+let maxDeficit=0,totalAbsoluteDeficitImpulse=0,baselineChecks=0;
+function owned(endpoint:any,gimbal:number,extension:number,budget:number):SimState {
+ return {...baseline,...endpoint,world:{...baseline.world,environmentTime:endpoint.time},
+  vehicle:{...endpoint.vehicle,gimbalPosition:gimbal,frontFinExtension:extension,rcsRunTimeRemaining:budget},
+  forces:{...endpoint.forces},autopilot:{...endpoint.autopilot},status:{...endpoint.status,rcsActive:budget>0}};
+}
+function request(s:SimState):{required:number;gimbal:number;currentGrid:number;gridTarget:number} {
+ writeFlightMassQuery(s,SUPER_HEAVY,mass,arms);ok(mass.hasMass && mass.engineSupportAvailable);
+ const k=s.kinematics,error=Math.atan2(Math.sin(-k.pitch),Math.cos(-k.pitch));
+ const required=(error/.5**2-2*k.angularVelocity/.5-s.forces.offAxisThrustDifferenceAcceleration-s.forces.angularDragAcceleration)*mass.momentOfInertia;
+ const steerable=s.forces.thrust*gimballedShare(s.engines.running,s.atmosphere.airPressure,SUPER_HEAVY);
+ const gimbal=steerable*arms.engineArm*Math.sin(s.vehicle.gimbalPosition*.01*C.gimbalAngleLimit);
+ const currentGrid=gridAt(s,(s.vehicle.frontFinExtension-50)/50*limit);
+ return {required,gimbal,currentGrid,gridTarget:required-gimbal};
+}
+function gridAt(s:SimState,angle:number):number {
+ writeFlightGridForces(s,s.atmosphere.airDensity,s.kinematics.speedX,s.kinematics.speedY,s.kinematics.pitch,arms,SUPER_HEAVY,grid,rad(angle));return grid.torque;
+}
+function pay(s:SimState,r:{required:number;gimbal:number;currentGrid:number}) {
+ s.autopilot.rcsThrustCommand=Math.max(-C.rcsMaxThrust,Math.min(C.rcsMaxThrust,(r.required-r.gimbal-r.currentGrid)/arms.rcsArm));
+ rcsControl(s,0,dt,true);return r.required-r.gimbal-r.currentGrid-s.forces.rcsThrust*arms.rcsArm;
+}
+try {
+ for(const row of rows) {
+  const {previous:p,current:c,tick}=row.data,original=JSON.stringify(row);
+  strictEqual(c.damage.revision,0);strictEqual(c.rng.counters.turbulence,0);ok(!c.damage.terminal.active);
+  const reference=owned(c,p.vehicle.gimbalPosition,p.vehicle.frontFinExtension,p.vehicle.rcsRunTimeRemaining);
+  const referenceRequest=request(reference);pay(reference,referenceRequest);
+  strictEqual(reference.forces.rcsThrust,c.forces.rcsThrust,'original paid RCS tick'+tick);
+  strictEqual(reference.vehicle.rcsRunTimeRemaining,c.vehicle.rcsRunTimeRemaining,'original reserve tick'+tick);
+  baselineChecks++;if(c.vehicle.rcsRunTimeRemaining===0 && referenceDepletion===undefined)referenceDepletion=c.time;
+  const s=owned(c,p.vehicle.gimbalPosition,fin,reserve),r=request(s);
+  const lowTorque=gridAt(s,-limit),highTorque=gridAt(s,limit);let lo=-limit,hi=limit;
+  if(Math.abs(highTorque-lowTorque)>1){for(let i=0;i<14;i++){const mid=(lo+hi)/2;if((gridAt(s,mid)<r.gridTarget)===(highTorque>lowTorque))lo=mid;else hi=mid;}}
+  else lo=hi=0;
+  const target=(lo+hi)/2,finBefore=fin,reserveBefore=reserve;
+  const deficit=pay(s,r);reserve=s.vehicle.rcsRunTimeRemaining;
+  frontFinActuation(s,50+target/limit*50,dt);fin=s.vehicle.frontFinExtension;
+  ok(Math.abs(fin-finBefore)<=C.finActuationSpeed*dt+1e-12,'physical slew bound');
+  if(reserve===0 && shadowDepletion===undefined)shadowDepletion=c.time;
+  maxDeficit=Math.max(maxDeficit,Math.abs(deficit));totalAbsoluteDeficitImpulse+=Math.abs(deficit)*dt;
+  records.push({tick,time:c.time,finBefore,finAfter:fin,targetAngle:target,reserveBefore,reserveAfter:reserve,
+   paidRCS:s.forces.rcsThrust,referenceRCS:c.forces.rcsThrust,referenceReserve:c.vehicle.rcsRunTimeRemaining,
+   ...r,unmetTorque:deficit});strictEqual(JSON.stringify(row),original,'raw pair mutated');
+ }
+ check();const summary={node:process.version,rawSha256:evidence.rawTraceSha256,newFlight:false,counterfactualOnly:true,
+  records:records.length,baselineChecks,firstPolicy:rows[0].data.current.time,lastPolicy:rows[rows.length-1].data.current.time,
+  initialReserve,finalReserve:reserve,reserveConsumed:initialReserve-reserve,finalFin:fin,referenceDepletion,shadowDepletion,
+  maxDeficit,totalAbsoluteDeficitImpulse,originalFirstPlane:plane.data};
+ writeFileSync(dir+'separation-shadow-ledger-results.json',JSON.stringify({summary,records},null,2)+'\n');
+ console.log(JSON.stringify(summary,null,2));
+} catch(error) {writeFileSync(dir+'separation-shadow-ledger-rejection.json',JSON.stringify({message:String(error),baselineChecks,records},null,2)+'\n');throw error;}

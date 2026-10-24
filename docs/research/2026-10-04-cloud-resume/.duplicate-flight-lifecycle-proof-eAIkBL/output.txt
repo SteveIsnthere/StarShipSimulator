@@ -1,0 +1,113 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts (24 tests | 6 failed | 1 skipped) 26ms
+     ✓ producer 2ms
+     ✓ consumer 2ms
+     × producer 3ms
+     ✓ consumer 0ms
+     × producer 1ms
+     ✓ consumer 0ms
+     × producer 1ms
+     ✓ consumer 1ms
+     × producer 1ms
+     ✓ consumer 0ms
+     × producer 1ms
+     ✓ consumer 0ms
+     × producer 6ms
+     ✓ consumer 0ms
+     ↓ producer 0ms
+     ✓ consumer 0ms
+     ✓ producer 0ms
+     ✓ consumer 0ms
+     ✓ producer 1ms (retry x1)
+     ✓ consumer 0ms
+     ✓ producer 0ms (repeat x1)
+     ✓ consumer 0ms
+     ✓ producer 0ms
+     ✓ consumer 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts > body-fail > producer
+Error: declared body failure
+ ❯ producer docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts:24:86
+     22|   if(kind==='dynamic-skip')ctx.skip();
+     23|   if(kind==='timeout')await new Promise(r=>setTimeout(r,25));
+     24|   if(kind==='body-fail'||kind==='expected-failure'||(kind==='retry'&&r…
+       |                                                                                      ^
+     25|  };
+     26|  if(kind==='fixture-fail')fixtureTest('producer',options,async({token,…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts > afterEach-fail > producer
+Error: declared hook failure
+ ❯ docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts:14:80
+     12|  const run=()=>({state:{prediction:{receipts:[{time:1}],rng:[1],damage…
+     13|  let producerTask:any;
+     14|  afterEach(({task})=>{if(kind==='afterEach-fail'&&task.name==='produce…
+       |                                                                                ^
+     15|  aroundEach(async(runTest,{task})=>{await runTest();if(kind==='aroundE…
+     16|  const fixtureTest=it.extend<{token:number}>({token:async({},use)=>{aw…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts > finished-fail > producer
+Error: declared finished failure
+ ❯ docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts:21:59
+     19|   producerTask=ctx.task;
+     20|   cache.get(ctx.task,recipe(),run);
+     21|   if(kind==='finished-fail')ctx.onTestFinished(()=>{throw Error('decla…
+       |                                                           ^
+     22|   if(kind==='dynamic-skip')ctx.skip();
+     23|   if(kind==='timeout')await new Promise(r=>setTimeout(r,25));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts > aroundEach-fail > producer
+Error: declared around completion failure
+ ❯ docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts:15:111
+     13|  let producerTask:any;
+     14|  afterEach(({task})=>{if(kind==='afterEach-fail'&&task.name==='produce…
+     15|  aroundEach(async(runTest,{task})=>{await runTest();if(kind==='aroundE…
+       |                                                                                                               ^
+     16|  const fixtureTest=it.extend<{token:number}>({token:async({},use)=>{aw…
+     17|  const options={...(kind==='retry'?{retry:1}:{}),...(kind==='repeat'?{…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts > fixture-fail > producer
+ FAIL  docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts > fixture-fail > producer
+Error: declared fixture teardown failure
+ ❯ token docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts:16:88
+     14|  afterEach(({task})=>{if(kind==='afterEach-fail'&&task.name==='produce…
+     15|  aroundEach(async(runTest,{task})=>{await runTest();if(kind==='aroundE…
+     16|  const fixtureTest=it.extend<{token:number}>({token:async({},use)=>{aw…
+       |                                                                                        ^
+     17|  const options={...(kind==='retry'?{retry:1}:{}),...(kind==='repeat'?{…
+     18|  const producer=async(ctx:any)=>{
+ ❯ docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts:15:37
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts > timeout > producer
+Error: Test timed out in 5ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/lifecycle.test.ts:27:45
+     25|  };
+     26|  if(kind==='fixture-fail')fixtureTest('producer',options,async({token,…
+     27|  else (kind==='expected-failure'?it.fails:it)('producer',options,produ…
+       |                                             ^
+     28|  it('consumer',ctx=>{
+     29|   const value=cache.get(ctx.task,recipe(),run);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 16 passed | 1 expected fail | 1 skipped (24)
+   Start at  10:21:33
+   Duration  227ms (transform 37ms, setup 0ms, import 54ms, tests 26ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/.duplicate-flight-lifecycle-proof-eAIkBL/test-results.json

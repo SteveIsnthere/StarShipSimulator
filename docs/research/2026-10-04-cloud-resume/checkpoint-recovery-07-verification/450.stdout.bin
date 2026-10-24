@@ -1,0 +1,318 @@
+[
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "normal",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 0,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 227.27133589188966,
+      "downRange": 207713.69027637618
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "capped",
+      "h": 60000,
+      "vx": 0,
+      "vy": 7000,
+      "front": 0,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": false,
+      "time": null,
+      "downRange": 3246.2139561608574
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "wind",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 0,
+      "aft": 0,
+      "wind": 35
+    },
+    "expected": {
+      "reached": true,
+      "time": 226.5529986732744,
+      "downRange": 212360.40093318853
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "nonzero",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 35,
+      "aft": 20,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 228.70933565629707,
+      "downRange": 206470.22660517288
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "hot",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 0,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 227.27133589188966,
+      "downRange": 207713.69027637618
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "unavailable",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 0,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 227.27133589188966,
+      "downRange": 207713.69027637618
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "detached",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 0,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 228.49720516546986,
+      "downRange": 207045.82910834355
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "invalid-root",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 0,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 227.27133589188966,
+      "downRange": 207713.69027637618
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "ship",
+      "variant": "invalid-temperature",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 0,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": null,
+    "error": "304 mechanical temperature must be finite and positiveK"
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "normal",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 50,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 164.38450246755326,
+      "downRange": 224054.86079664476
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "capped",
+      "h": 60000,
+      "vx": 0,
+      "vy": 7000,
+      "front": 50,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": false,
+      "time": null,
+      "downRange": 0
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "wind",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 50,
+      "aft": 0,
+      "wind": 35
+    },
+    "expected": {
+      "reached": true,
+      "time": 163.96871880505827,
+      "downRange": 226259.85473885416
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "nonzero",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 75,
+      "aft": 20,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 164.38450246755326,
+      "downRange": 224054.86079664476
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "hot",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 50,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 164.38450246755326,
+      "downRange": 224054.86079664476
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "unavailable",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 50,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 164.38450246755326,
+      "downRange": 224054.86079664476
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "detached",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 50,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 164.44731997933923,
+      "downRange": 223973.40644786914
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "invalid-root",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 50,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": {
+      "reached": true,
+      "time": 164.38450246755326,
+      "downRange": 224054.86079664476
+    },
+    "error": null
+  },
+  {
+    "params": {
+      "kind": "booster",
+      "variant": "invalid-temperature",
+      "h": 79000,
+      "vx": 2000,
+      "vy": -50,
+      "front": 50,
+      "aft": 0,
+      "wind": 0
+    },
+    "expected": null,
+    "error": "304 mechanical temperature must be finite and positiveK"
+  }
+]

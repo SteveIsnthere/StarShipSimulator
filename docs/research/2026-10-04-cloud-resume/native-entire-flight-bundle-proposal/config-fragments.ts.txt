@@ -1,0 +1,29 @@
+// Research fragments only. Retain original root options/floors; no acceptance config was edited.
+import { configDefaults } from 'vitest/config';
+const originalFlightFiles = ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts'];
+// Fresh source/tool/graph qualification chooses these values before config creation.
+declare const qualifiedLoaderAbsolutePath: string;
+declare const qualifiedCompiledArtifactAbsolutePaths: readonly string[];
+export const nativeFlightProject = {
+  extends: true,
+  test: {
+    name: 'native-flight',
+    include: originalFlightFiles,
+    exclude: [...configDefaults.exclude],
+    pool: 'forks',
+    isolate: true,
+    experimental: { viteModuleRunner: false },
+    execArgv: ['--import', qualifiedLoaderAbsolutePath],
+    // testTimeout/maxWorkers inherit unchanged original root policy.
+  },
+};
+// Add ONLY these2 files to current SSR unit exclude when this native project is eligible.
+// If not eligible, keep original SSR includes/excludes and omit native project entirely.
+export const extraSSRUnitExcludes = originalFlightFiles;
+// Preserve every current reporter/floor/coverage option; these are the only proposed additions.
+export const nativeCoverageAmendment = {
+  include: ['src/core/**', ...qualifiedCompiledArtifactAbsolutePaths],
+  excludeAfterRemap: true,
+};
+// Acceptance also requires immutable raw report validation: ONLY canonical protected src/core keys,
+// expected inventory/sourcesContent/schema and real hits; no filtering/repair of the raw report.

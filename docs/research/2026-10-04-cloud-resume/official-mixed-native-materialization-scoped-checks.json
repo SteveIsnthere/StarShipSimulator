@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-official-mixed-native-candidate.mjs.txt",
+      "sha256": "820353501e5e6039f92cfb8ac1f50f658aa8170225f142b274a6d9f81256a0cc",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mixed-prep-scope.423aese7/prepare.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-official-mixed-native-candidate.mjs.txt",
+      "sha256": "820353501e5e6039f92cfb8ac1f50f658aa8170225f142b274a6d9f81256a0cc",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-official-mixed-native-candidate.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 0.9051435270012007,
+  "runtimeExecuted": false
+}

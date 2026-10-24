@@ -1,0 +1,12 @@
+{
+  "node": "v22.23.3",
+  "source": "largest existing historical mechanical-boundary snapshot; three independently owned states, no mechanics replay",
+  "sampleSerializedBytes": 8560,
+  "sampleV8Bytes": 6638,
+  "ownedEntries": 1024,
+  "retainedHeapDelta": 27480576,
+  "constructionMs": 293.31561999999997,
+  "constructionPerEntryMs": 0.28644103515624997,
+  "scope": "cloud storage/clone characterization; not local performance acceptance",
+  "prior": "The first sample accidentally aliased all three states; storage-alias-control.json preserves that invalid independent-storage measurement. Corrected workload clones each state independently and asserts separate damage ownership."
+}

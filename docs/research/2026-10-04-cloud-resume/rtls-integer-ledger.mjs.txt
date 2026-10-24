@@ -1,0 +1,89 @@
+// Pure scheduling arithmetic from measured work. No physics evaluation.
+import {readFileSync,writeFileSync} from 'node:fs';
+import {strictEqual,ok} from 'node:assert';
+const dir='docs/research/2026-10-04-cloud-resume/';
+const measured=JSON.parse(readFileSync(dir+'rtls-feasibility-measured.json','utf8'));
+const stages=[];
+let beforeStage='upper',beforeDuration=604/120;
+for(const event of measured.events){
+  let segment=stages.at(-1);
+  if(!segment || segment.stage!==beforeStage || segment.duration!==beforeDuration){
+    segment={stage:beforeStage,duration:beforeDuration,calls:0,force:0};stages.push(segment);
+  }
+  segment.calls+=event.calls;segment.force+=event.force;
+  beforeStage=event.afterStage;beforeDuration=event.duration;
+}
+strictEqual(stages.length,6);
+strictEqual(JSON.stringify(stages.map(s=>s.calls)),JSON.stringify([1893,4,5,708,715,2540]));
+strictEqual(measured.normalization.matches,1098);
+function schedule(extraMisses=new Set(),deferFinal=false){
+  const queue=[],events=[];
+  let tick=0,stage=0,remaining=stages[0].calls,forceRemaining=0;
+  let prefixProduced=0,prefixConsumed=0,hits=0,peakQueue=0,totalSearch=0;
+  let time=0,publicationTick=0;
+  while(!publicationTick && tick<2500){
+    tick++;time+=1/120;
+    let mechanics=0,force=0,search=0,hit=false,publication=false;
+    // Prepare-before-search: do not borrow a receipt produced later this tick.
+    if(tick<=1098 && queue[0]===prefixConsumed && !extraMisses.has(tick)){
+      queue.shift();hit=true;hits++;
+    }else{
+      mechanics++; // original independent observer; fallback consumes its index
+      if(queue[0]===prefixConsumed)queue.shift();
+    }
+    prefixConsumed++;
+    // Ready-stage carry has independent mechanical and hint force allowances.
+    while(stage<stages.length){
+      if(remaining>0){
+        if(mechanics===4)break;
+        remaining--;mechanics++;search++;totalSearch++;
+        if(prefixProduced<1098){
+          if(prefixProduced>=prefixConsumed)queue.push(prefixProduced);
+          prefixProduced++;peakQueue=Math.max(peakQueue,queue.length);
+        }
+      }
+      if(remaining===0){
+        if(forceRemaining===0)forceRemaining=stages[stage].force;
+        const used=Math.min(512-force,forceRemaining);force+=used;forceRemaining-=used;
+        if(forceRemaining>0)break;
+        stage++;
+        if(stage===stages.length){
+          // Publication changes observer inputs. A credited transaction must
+          // defer the event instead of spending a fifth mechanical call.
+          if(hit || deferFinal)publicationTick=tick+1;
+          else{publicationTick=tick;publication=true;}
+          break;
+        }
+        remaining=stages[stage].calls;
+      }
+    }
+    ok(mechanics<=4);ok(force<=512);
+    events.push({tick,time,mechanics,force,search,hit,queue:queue.length,stage,publication});
+  }
+  return {publicationTick,publicationTime:publicationTick/120,hits,peakQueue,totalSearch,
+    strictFuture:publicationTick/120<measured.original.cutoff,
+    slackTicks:Math.ceil(measured.original.cutoff*120)-publicationTick,
+    conservativePeakSerializedBytes:peakQueue*measured.normalization.maxReceiptBytes,events};
+}
+const normal=schedule();
+ok(normal.strictFuture);strictEqual(normal.totalSearch,5865);strictEqual(normal.hits,1097);
+// Deliberate additional misses consume slack, never increase new-call budget.
+const missed=schedule(new Set([2,3,4,5,6,7,8,9,10,11,12]));
+const tooMany=schedule(new Set([2,3,4,5,6,7,8,9,10,11,12,13]));
+// Exact repeated-float time, rather than rounded tick conversion, is authoritative.
+for(const run of [normal,missed,tooMany]){
+  let t=0;for(let i=0;i<run.publicationTick;i++)t+=1/120;
+  run.publicationTime=t;run.strictFuture=t<measured.original.cutoff;
+}
+ok(normal.strictFuture);ok(missed.strictFuture);ok(!tooMany.strictFuture);
+// Generic publication witness, independent of this RTLS late-validation path:
+// four newly paid searches plus credited observer; changed event may not issue
+// a fifth observer. Hold publication until next tick, then independently pay it.
+const fifthCall={creditTick:{search:4,newObserver:0,publish:false},
+  publicationTick:{search:0,newObserver:1,publish:true}};
+strictEqual(fifthCall.creditTick.search+fifthCall.creditTick.newObserver,4);
+strictEqual(fifthCall.publicationTick.search+fifthCall.publicationTick.newObserver,1);
+const compact=r=>({...r,events:undefined});
+const result={stages,normal,elevenMisses:compact(missed),twelveMisses:compact(tooMany),fifthCall};
+writeFileSync(dir+'rtls-integer-ledger.json',JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({...result,normal:compact(normal)},null,2));

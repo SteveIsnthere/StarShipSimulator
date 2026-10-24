@@ -1,0 +1,22 @@
+{
+  "review": "5fd93da68c1aad812fa0c0421bc916f505c6386c15b213b2f83c038607701cdf",
+  "status": "scoped builds/artifacts/76 accepted; parent failed; burn unexecuted",
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/finalized.json": "6b441b8bff570b5b4c564f1f5b319fc8d2a673fa1a564eaee9618ab973c789f5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/evidence-manifest.json": "ef81bbf12ebac1d141d30634d6ea38ff50d0d26bffcffce671bc9e82aea6cd01",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/fall-report.json": "34052c35a17ad46d42731d1a9bbd89570b4668b38cdc42fcbe0cfcbe3f934255",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/fall-76.exit.json": "0bc667d4633c351b1685fafa86ef7ae3465be8873b8d4c03d09d52e4e7bce2d8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/app-build.exit.json": "43c5bc2755c60f07a95a1fff05fd9cbdd84ac6ae24f3075dc5f04915014df109",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/native-build.exit.json": "055a16abcbbbccb696b4b85fe3a5cabb7b9ebeab785973af0b75cee7141b3b6b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/artifact-pins.json": "14746d72c8378eb6eb40c08f56141623fad6e606d37e98cbc58f3d49216e0a02",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain-source-map-manifest.json": "20315e4de0b6a793f97273dbb17a761e82c1bb3b08bc94c083436032e19b3503",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/virtual-source-manifest.json": "624b1ec5bd89c3ae58323b9ab89b1e879a07191b2c16b10d8eae5cffe8c33a4e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/source-before.json": "50c2d919243a3a6568f4d04c2ab24ec8cffdf7672df0d83b759272afe60cc608",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/source-after.json": "50c2d919243a3a6568f4d04c2ab24ec8cffdf7672df0d83b759272afe60cc608",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/owned-cleanup.json": "8bdb3c5314b4e5499c39aa58be795ccfe4fd84ad032b8edb22b949dfa3ae08fb"
+  },
+  "originalInventory": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/fall-76-inventory.json": "668eaaf773317edd8b3ddc12645cf2190e0f0eb052e4cde7b9e26820a8bed489"
+  }
+}

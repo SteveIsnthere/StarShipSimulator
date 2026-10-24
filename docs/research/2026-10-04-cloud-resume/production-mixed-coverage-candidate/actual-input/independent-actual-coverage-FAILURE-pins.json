@@ -1,0 +1,235 @@
+{
+  "disposition": "FAILED/incomplete no coverage acceptance",
+  "files": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/independent-actual-coverage-FAILURE-review.md",
+      "bytes": 4211,
+      "sha256": "3f96197b0f5505c5885f65713ededc33226e9dcee140682562b8fd6823200e68"
+    },
+    {
+      "path": "/tmp/starship-original21-root.y4iefrh1/root-outcome.json",
+      "bytes": 6479,
+      "sha256": "bac69cd911c3a8fc990ea1f3174a6937e7fc8dbdecb9b87eb4f8299f2a547847"
+    },
+    {
+      "path": "/tmp/starship-original21-root.y4iefrh1/root-independent-postexit.json",
+      "bytes": 12346,
+      "sha256": "f47d2a61df4e9c0d2953ecefbb538d88f488287c22c62e2050fddaacab9ad6a3"
+    },
+    {
+      "path": "/tmp/starship-original21-root.y4iefrh1/root-postexit-first-absence-assertion-failure.json",
+      "bytes": 142,
+      "sha256": "fb93705c08c7c95af26bc1e07387fc8c18c768d2a3f33f79f7fa9d1ff345a2a9"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.hRSoud/stage-result.json",
+      "bytes": 1562,
+      "sha256": "ef40d67df82d8a75eebf07b4d22b8490d6d9f1311cf6562d69e539789adbb8b8"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.hRSoud/actual-child-exit.json",
+      "bytes": 345,
+      "sha256": "7f45125c610b3b140921e9f92b81dbc34a318ed8eac760750bcf8f4682672702"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.hRSoud/preparation.process.json",
+      "bytes": 6277,
+      "sha256": "81bb42d7cc0b46f8d8c9e4e0aab9c91dd39fee44f2ebf10013abca7630e8059a"
+    },
+    {
+      "path": "/tmp/starship-official-flight.lSz05x/native.receipts/native-build.process.json",
+      "bytes": 492,
+      "sha256": "f578b38e9a9119a9724d6fd36b228425f271880bc1fdd71e1f72b4cf64859bf1"
+    },
+    {
+      "path": "/tmp/starship-official-flight.lSz05x/native.receipts/official-tests.process.json",
+      "bytes": 5940,
+      "sha256": "1abd962d3cd8752a51b629ad99c0ec5e5c5bf1f1a8cb74ce9dd2469339de3ea6"
+    },
+    {
+      "path": "/tmp/starship-official-flight.lSz05x/native.receipts/official-tests.stdout.txt",
+      "bytes": 3315,
+      "sha256": "5c25207faaa1f21881a8f686e7091ec9f9f461fc104675edbc22c8db49c7b57d"
+    },
+    {
+      "path": "/tmp/starship-official-flight.lSz05x/native.receipts/official-tests.stderr.txt",
+      "bytes": 1300,
+      "sha256": "8328ea333ee91550b02f01fee90c67b0cf0bbbb8e245c4ccaa310793cbf1266e"
+    },
+    {
+      "path": "/tmp/starship-official-tests-owner.pcThbj/result.json",
+      "bytes": 4547,
+      "sha256": "b846e3421ce9946d44b80fd3be952554383f95adbcddaeaa7348513bd30dd27c"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/capture/resolved-configuration.json",
+      "bytes": 2630,
+      "sha256": "8d4d0d292e51c03d80816387d39a1ee66f60e350b90144344fabfee434bcc5df"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/root-before-full-admission.json",
+      "bytes": 161,
+      "sha256": "632dae6ea9b1e3cfb37f9d1a6e3f5eb128dc23402d10351dd333a937b951d6b5"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/root-after-full-admission.json",
+      "bytes": 191,
+      "sha256": "c0aacb406b7e213eb17269b1e4649a7da2bab3696e4b36ed21b7307cfdd8bc48"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-0.json",
+      "bytes": 18303,
+      "sha256": "5fad8081c0c57d8931cbb1978cda05cd7eaca288667be640af92b38cd6892888"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-1.json",
+      "bytes": 14311,
+      "sha256": "90c3ac0c6a15ad5d7e880e6152a5fb3c1e837732114900e266d0da63663d5df0"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-10.json",
+      "bytes": 3506,
+      "sha256": "d1363a266030ee7ab0282434ab52811ad7faaf31905dd73034144f007241cd7b"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-11.json",
+      "bytes": 3801,
+      "sha256": "23c30d5813552e5925243feacd76fb3f841d2796ea7b942a47d424e6cfc34355"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-12.json",
+      "bytes": 3405,
+      "sha256": "ea48513779dc5efaf6fa30a8476131ca2241cd6ce7898248a83b0d90dcb952a6"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-13.json",
+      "bytes": 13929,
+      "sha256": "d1fc751bb0510b67b1005b8db4e37218112d66336e5c8d07854c9fb54a8bdc50"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-14.json",
+      "bytes": 2939,
+      "sha256": "e9b37b711deef747e5be304761344bdac36b0669d2424ea4e5022dc8c97d39be"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-15.json",
+      "bytes": 9023,
+      "sha256": "3aa9200b8375d0b7c919ce810fb1ecb2022125ed29ff0a10f7c5086657d26732"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-16.json",
+      "bytes": 2845,
+      "sha256": "ccde70c66ea49ae0395545af668cc8e662498390ab5cebf99c016197b93a3160"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-17.json",
+      "bytes": 3150,
+      "sha256": "040db2e43076ff76e88c92249a293e9d00dfa7e24bb60d25f31714da5920ca38"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-18.json",
+      "bytes": 7838,
+      "sha256": "eb5fee3e84fd5d57ab4c3b0af575b9335e8f8424d5cf2327c35493705e8f55db"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-19.json",
+      "bytes": 10858,
+      "sha256": "9b51aa882dd2a364564ee85227fd2937849a27ff6e2ba3f827acc8cd6ce97f9d"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-2.json",
+      "bytes": 25923,
+      "sha256": "b5d4c03c68b17ae19fd7d0314c10cb0c66f7ecac62fc0a98b97cc203d9f233fc"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-20.json",
+      "bytes": 3766,
+      "sha256": "d2c73704863db012aaadf937515c66d9ad516f613c522679c66b294f73d7e462"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-21.json",
+      "bytes": 5643,
+      "sha256": "c973500ca7bb9a00757a89f0e34f45babdbc6c7431c62da6016aae0291d720a0"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-22.json",
+      "bytes": 4060,
+      "sha256": "60aaf386bd7f9d731fb524f615878fc6765b6e603ef43ec9192167e58451da0b"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-23.json",
+      "bytes": 3650,
+      "sha256": "70cf4d95b70aaf2adec0468f994926e4936403991d07466a5c51e16262617689"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-24.json",
+      "bytes": 9426,
+      "sha256": "5bb90728e15147303b6a2f534802b683c3c12127d0e9e922b6d6e2d89d8c13cd"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-25.json",
+      "bytes": 2271,
+      "sha256": "81a143f22f81298fc5e071686eec141eef6f3bceffb9d1f0e73131c3d7bc4cf9"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-26.json",
+      "bytes": 4247,
+      "sha256": "1cad29e94d11479a03ab2880b3c09fe107a4d9f269b4bc63722497a02d3995a2"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-27.json",
+      "bytes": 1800,
+      "sha256": "12eff4aebf961445cf00d9d2a4ea955449fe7456171c998af3d0b7d0adbd30b9"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-28.json",
+      "bytes": 51468,
+      "sha256": "386c4ff087f7e22fef0ee40290a998216e84fc9ea83468da5f56d1788446b5bc"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-29.json",
+      "bytes": 125588,
+      "sha256": "50a933cb12b7531dd226f19ab6ce0dc10999b7e9b105a70a3975d6d9c3ee907f"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-3.json",
+      "bytes": 6069,
+      "sha256": "13c34c79d45d5ada075ec56f742613b06c380cac991c34336535e8f084f853dd"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-30.json",
+      "bytes": 110087,
+      "sha256": "d260e44fb9ccb05acc55b00d1ff7543c22881b87784220c28b86d60b7b4a832f"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-4.json",
+      "bytes": 23068,
+      "sha256": "13d958d55a8d08fa2de04652bb6ae6b673ef2bdf23d8d33be1cd9275b5a3c349"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-5.json",
+      "bytes": 5890,
+      "sha256": "66ab442c0e23c674a2ee7bcb1b7cbfc830bd071e91d2a0d132dcf16f923f3347"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-6.json",
+      "bytes": 5491,
+      "sha256": "6865a2aa943ebf7159c0c8831429784fadc960fc7365b4e01e5c71b2918b8083"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-7.json",
+      "bytes": 11653,
+      "sha256": "b1ea58a46ee9c73a1b7061a2e0504372c3d6e45047a876d7b0b1a9a80d9d87ed"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-8.json",
+      "bytes": 12214,
+      "sha256": "2c0b238a7e433bf68bd54fb9852fcf7068eff43deb0920b91108b76b8e124dae"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.1073a26568544aec825ea46a9004277b/reports/.tmp/coverage-9.json",
+      "bytes": 3144,
+      "sha256": "5f3679be12d4fe3279c9f2ae1a12e9c2846bf7f6867e8851ffb3e7b410a47ced"
+    }
+  ]
+}

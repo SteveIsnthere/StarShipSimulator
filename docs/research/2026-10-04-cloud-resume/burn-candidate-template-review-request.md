@@ -1,0 +1,21 @@
+# Concrete scalar candidate — templates only, before application
+
+Parent's qualifying build passed on Node22.23.3; the sole pre-edit seven-contract RED invocation produced exactly six passes and the missing `isCanonicalBurnPropulsion` introduction assertion failure. See `burn-preparation-preedit-red/` (child1, expected-RED parent0, unchanged core/proof before/after). No numerical, getter, scratch or ISA-query oracle failed. These introduction proofs do not discharge the additional dynamic/mock domain obligations.
+
+Production core is still untouched. Three complete replacement templates, not imported/compiled/executed, are ready for concrete high review:
+
+```text
+40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1 burn-candidate-guidance-physics.ts.txt
+972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a burn-candidate-propulsion.ts.txt
+535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713 burn-candidate-aero.ts.txt
+```
+
+All are in this directory; `burn-candidate-template-pins.json` records those digests. Base source hashes are preserved in `prepared-burn-preimplementation-pins.json` and the independent frozen oracle files. Application must require that base still match and copy each approved template once; no historical patch or overwrite of intervening core work.
+
+The only new propulsion/aero code is a pure self-validating certificate comparing predicate and actual helper identities with its original module-local declarations. Guidance tests namespace presence with `in` before access, rejects absent/wrapped/throwing certificates, admits only exact SUPER_HEAVY, and preserves the original prefix once. SHIP/custom/mutable/accessor/proxy models continue through the original backwardPass unchanged. The prepared helper duplicates that exact midpoint loop with local numeric scalar arguments and original1200cap; the existing root loop remains24passes/1kg/Illinois, with only a scalar-route choice at its two pass calls. No object/closure/array/context/scratch allocation or model freeze is introduced.
+
+The tail route preserves JS callee-before-arguments semantics: original ISA → Mach; capture live getDrag; read density; recheck area certificate; query original coefficient; invoke captured drag. Pressure getter runs before thrust identity recheck, after paid drag. Per-backwardPass flow identity recheck runs at original flow entry before capped reset. A changed helper uses the original live helper at that site, without replaying prior ISA/midpoints or restarting the solver. Pressure clamp/subtraction/max/engine multiplication and subsequent mass division/drag/gravity keep original IEEE order. No evolving atmosphere, pressure, speed, mass, root solve or command-dependent expression is hoisted.
+
+The current complete proof candidates are `burn-preparation-mocked-domain-proofs.ts.txt` (public helpers, before-helper wrappers, mid-ISA/pressure thrust, mid-flow, density/callee-order and throw/read logs), `burn-preparation-module-mock-proofs.ts.txt` (both propulsion/aero full absence and partial helper mocks, mirrored frozen helper logs/fullscratch/identities/ISA sequence), and `burn-preparation-predicate-pressure-proofs.ts.txt` (before/mid predicate wrappers/throws plus actually admitted SUPER_HEAVY pressure getters across IEEE boundaries and fullscratch/ISA sequence). These replace the preliminary obligations/example in `burn-preparation-additional-proofs.ts.txt`, which is historical draft context, not current proof evidence. All are uncollected; review and install the complete domain before any candidate GREEN claim. Every expected scratch uses the frozen before factory and helpers; Object.is/fullscratch/erroridentity/read/ISA/work comparisons remain required.
+
+Review must assess whether per-query identity guards erase any useful savings and whether supported mock/accessor ordering is fully retained. No speedup,30second unit or300second gate acceptance is claimed. Current graphics A/B retains unchanged runtime source ownership; no product application/build/test/CPU execution occurs until parent grant after that diagnostic and concrete review. Prior SSR exit1, arithmetic v1 failure and v2 signed-delta/count receipts remain unchanged.

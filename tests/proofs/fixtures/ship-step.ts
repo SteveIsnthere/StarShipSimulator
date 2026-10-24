@@ -1,3 +1,4 @@
+/** Phase8: import-only historical dependency routing; preserved numerical body unchanged. */
 /** Shipped step from934d3cd (same as7a757d7).
  * Original SHA256: 8b4c26123be6fd4398ae6639cae8c3115c854589bd3e4535afb5910ccec77044
  * Only imports adjusted; dependent Ship helpers have independent equivalence proofs.
@@ -57,14 +58,14 @@
 import * as C from '$core/constants';
 import { speedOfSoundAt, updateAtmosphere } from '$core/physics/atmosphere';
 import { getReentryHeatPower, radiativeSinkKelvin, surfaceTemperature } from '$core/physics/thermal';
-import * as aero from '$core/physics/aero';
+import * as aero from './ship-aero';
 import * as comp from '$core/physics/components';
 import * as gravity from '$core/physics/gravity';
-import * as eng from '$core/physics/engines';
+import * as eng from './ship-engines';
 import * as wind from '$core/physics/wind';
-import { createMassProperties, writeMassProperties } from '$core/physics/mass';
-import * as act from '$core/control/actuation';
-import { runAutopilot } from '$core/autopilot';
+import { createMassProperties, writeMassProperties } from './ship-mass';
+import * as act from './historical-runtime';
+import { runAutopilot } from './historical-runtime';
 import { cloneState, type SimState } from '$core/state';
 import { rad } from '$core/units';
 

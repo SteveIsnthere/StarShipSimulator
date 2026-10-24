@@ -1,0 +1,943 @@
+//#region src/core/units.ts
+function e(e) {
+	return e;
+}
+function t(e) {
+	return e;
+}
+function n(e) {
+	return e / 180 * Math.PI;
+}
+var r = 12742e3 * Math.PI;
+r / 86400;
+var i = 7292115e-11, a = n(t(25.997));
+i * Math.cos(a);
+var o = 9.807;
+r / 2;
+var s = Math.PI * (9 / 2) ** 2, c = 35e4, l = 47e4;
+l * (9 / 2) ** 2 * .25 + l * 2500 / 12;
+var u = 1 / 2, d = 1 / 2, f = (e, t) => ({
+	kind: e,
+	offAxis: t,
+	offAxisForceFraction: -t / Math.sqrt(t ** 2 + 625)
+}), p = [
+	f("sea-level", -1),
+	f("sea-level", u),
+	f("sea-level", d),
+	f("vacuum", -3),
+	f("vacuum", 1.5),
+	f("vacuum", 1.5)
+], m = p.flatMap((e, t) => e.kind === "sea-level" ? [t] : []), h = 21.8;
+n(t(15));
+var g = 9.80665, _ = 23e4 * g;
+_ / (327 * g) * g * 350, 258e3 * g / (380 * g), Math.PI * (2.3 / 2) ** 2;
+var ee = _, te = 24.2, ne = 23.3, re = 45.8, ie = 12.6, v = 5.670374419e-8;
+.85 * v * 1533 ** 4, o * 1.6;
+var y = 1 * ee;
+y * 2, y * 3, 1 * ee * 40 * .01, n(t(3)), n(t(10)), n(t(20));
+var b = 5.5;
+b * 1.5, b * 2, n(t(55)), n(t(85)), Math.PI * .5, n(t(30));
+//#endregion
+//#region src/core/vehicles/v3.ts
+var x = 9.80665, S = Object.freeze({
+	standardGravity: x,
+	referencePressurePa: 101325,
+	seaLevel: Object.freeze({
+		thrustSeaLevel: 25e4 * x,
+		ispSeaLevel: 327,
+		ispVacuum: 350
+	}),
+	vacuum: Object.freeze({
+		thrustVacuum: 275e3 * x,
+		ispVacuum: 380,
+		effectiveExitArea: Math.PI * (2.3 / 2) ** 2
+	})
+});
+function C(e, t) {
+	return Object.freeze({
+		kind: e,
+		gimballed: t
+	});
+}
+var w = Object.freeze({
+	id: "ship",
+	height: 52,
+	diameter: 9,
+	dryMass: 12e4,
+	propellantCapacity: 16e5,
+	engines: Object.freeze([
+		C("sea-level", !0),
+		C("sea-level", !0),
+		C("sea-level", !0),
+		C("vacuum", !1),
+		C("vacuum", !1),
+		C("vacuum", !1)
+	]),
+	propulsion: S
+}), T = Object.freeze({
+	id: "super-heavy",
+	height: 72,
+	diameter: 9,
+	dryMass: 2e5,
+	propellantCapacity: 365e4,
+	engines: Object.freeze(Array.from({ length: 33 }, (e, t) => C("sea-level", t < 13))),
+	propulsion: S,
+	gridFins: Object.freeze({
+		count: 3,
+		area: 27
+	})
+});
+Object.freeze({
+	ship: w,
+	superHeavy: T
+});
+var ae = 3.6 / 4.6, oe = 1141, se = w.propellantCapacity, E = w.height / 50, ce = 5, le = Math.PI * (9 / 2) ** 2, ue = se * ae / (oe * le), de = se * .21739130434782605 / (424 * le), fe = Object.freeze({
+	id: "ship",
+	propulsion: w.propulsion,
+	height: w.height,
+	diameter: w.diameter,
+	dryMass: w.dryMass,
+	propellantCapacity: se,
+	initialPropellant: c,
+	dryCentreOfMass: h * E,
+	tankBottom: ce,
+	loxTankHeight: ue,
+	ch4TankHeight: de,
+	ch4TankBottom: ce + ue,
+	aftFinStation: (h - ie) * E,
+	frontFinStation: (h + ne) * E,
+	rcsStation: (h + 20) * E,
+	minArea: s,
+	maxArea: w.height * w.diameter,
+	frontFinArea: te,
+	aftFinArea: re,
+	engines: Object.freeze(p.map((e) => Object.freeze({
+		...e,
+		offAxisForceFraction: -e.offAxis / Math.sqrt(e.offAxis ** 2 + (w.height / 2) ** 2)
+	}))),
+	ignitionGroup: m
+}), pe = Object.freeze([
+	0,
+	1,
+	2
+]), me = Object.freeze(Array.from({ length: 13 }, (e, t) => t));
+Object.freeze({
+	centre: pe,
+	inner: Object.freeze(Array.from({ length: 10 }, (e, t) => t + 3)),
+	outer: Object.freeze(Array.from({ length: 20 }, (e, t) => t + 13))
+});
+var D = T.height, he = T.diameter, ge = T.propellantCapacity, _e = 3, ve = .9 * D, ye = 66 / 71 * D, be = Math.PI * (he / 2) ** 2, xe = ge * ae / (oe * be), Se = ge * (1 - ae) / (424 * be), O = (e, t) => Object.freeze({
+	kind: "sea-level",
+	offAxis: e,
+	gimballed: t,
+	offAxisForceFraction: 0
+}), Ce = (e, t, n) => Array.from({ length: e }, (r, i) => O(t * Math.cos(2 * Math.PI * i / e), n)), we = Object.freeze({
+	id: "super-heavy",
+	propulsion: T.propulsion,
+	height: D,
+	diameter: he,
+	dryMass: T.dryMass,
+	propellantCapacity: ge,
+	initialPropellant: 5e5,
+	dryCentreOfMass: D / 2,
+	tankBottom: _e,
+	loxTankHeight: xe,
+	ch4TankHeight: Se,
+	ch4TankBottom: _e + xe,
+	aftFinStation: ve,
+	frontFinStation: ve,
+	rcsStation: ye,
+	minArea: be,
+	maxArea: D * he,
+	frontFinArea: 0,
+	aftFinArea: 0,
+	engines: Object.freeze([
+		O(0, !0),
+		O(-.65, !0),
+		O(.65, !0),
+		...Ce(10, 2, !0),
+		...Ce(20, 3.8, !1)
+	]),
+	ignitionGroup: me,
+	gridFins: Object.freeze({
+		count: 3,
+		area: T.gridFins.area,
+		station: ve,
+		maxAngle: Math.PI / 4
+	})
+}), Te = 65 / 71 * D;
+Object.freeze({
+	lugStation: Te,
+	planeAltitude: 120,
+	bodyCentreAltitude: 120 - (Te - D / 2),
+	halfWidth: 2.25,
+	maxDownSpeed: 4.5,
+	maxLateralSpeed: 1,
+	maxPitch: 5 * Math.PI / 180
+});
+//#endregion
+//#region src/core/physics/damage-material.ts
+var Ee = 7920, k = 293.15, A = 1473.15;
+function De(e) {
+	if (!Number.isFinite(e) || e < 4 || e > 1473.15) throw RangeError("304 thermal temperature must be within4–1473.15K");
+}
+var Oe = [
+	22.0061,
+	-127.5528,
+	303.647,
+	-381.0098,
+	274.0328,
+	-112.9212,
+	24.7593,
+	-2.239153
+], ke = [
+	-1.4087,
+	1.3982,
+	.2543,
+	-.626,
+	.2334,
+	.4256,
+	-.4658,
+	.165,
+	-.0199
+], j = 273.15, Ae = 20, je = .0625, Me = Math.ceil(269.15 / je), M = /* @__PURE__ */ new Float64Array(4308), N = /* @__PURE__ */ new Float64Array(4308);
+function Ne(e, t) {
+	let n = Math.log10(e), r = 0;
+	for (let e = t.length - 1; e >= 0; e--) r = r * n + t[e];
+	return 10 ** r;
+}
+function P(e) {
+	return Math.min(j, 4 + e * je);
+}
+for (let e = 0; e <= Me; e++) {
+	let t = P(e);
+	if (M[e] = Ne(t, Oe), e > 0) {
+		let n = t - P(e - 1);
+		N[e] = N[e - 1] + n * (M[e - 1] + M[e]) / 2;
+	}
+}
+function Pe(e) {
+	return 6.683 + .04906 * e + 80.74 * Math.log(e);
+}
+function Fe(e) {
+	return 9.705 + .0176 * e - 16e-7 * e ** 2;
+}
+var F = M[Me], Ie = Pe(k), Le = Ne(j, ke), Re = Fe(k), I = Ae * (F + Ie) / 2, L = -N[Me] - I;
+function ze(e) {
+	return Math.min(4306, Math.floor((e - 4) / je));
+}
+function Be(e) {
+	return (e - j) / Ae;
+}
+function Ve(e, t, n) {
+	return e + (t - e) * n ** 2 * (3 - 2 * n);
+}
+function He(e) {
+	if (De(e), e >= 293.15) return Pe(e);
+	if (e >= j) return Ve(F, Ie, Be(e));
+	let t = ze(e), n = (e - P(t)) / (P(t + 1) - P(t));
+	return M[t] + n * (M[t + 1] - M[t]);
+}
+function Ue(e) {
+	return De(e), e >= 293.15 ? Fe(e) : e >= j ? Ve(Le, Re, Be(e)) : Ne(e, ke);
+}
+function We(e) {
+	return 6.683 * e + .02453 * e ** 2 + 80.74 * (e * Math.log(e) - e);
+}
+var Ge = We(k), Ke = We(A) - Ge;
+function R(e) {
+	if (e >= 293.15) return We(e) - Ge;
+	if (e >= j) {
+		let t = Be(e);
+		return -I + Ae * (F * t + (Ie - F) * (t ** 3 - t ** 4 / 2));
+	}
+	let t = ze(e), n = e - P(t), r = P(t + 1) - P(t), i = (M[t + 1] - M[t]) / r;
+	return L + N[t] + M[t] * n + i * n ** 2 / 2;
+}
+function z(e) {
+	return De(e), R(e);
+}
+function qe(e) {
+	let t = 4, n = A;
+	for (let r = 0; r < 48; r++) {
+		let r = (t + n) / 2;
+		R(r) < e ? t = r : n = r;
+	}
+	return (t + n) / 2;
+}
+function Je(e) {
+	if (e < -I) {
+		let t = 0, n = Me;
+		for (; n - t > 1;) {
+			let r = Math.floor((t + n) / 2);
+			L + N[r] <= e ? t = r : n = r;
+		}
+		let r = P(t + 1) - P(t), i = M[t], a = (M[t + 1] - i) / r, o = e - (L + N[t]), s = 2 * o / (i + Math.sqrt(i * i + 2 * a * o));
+		return P(t) + s;
+	}
+	let t = e < 0 ? j : k, n = e < 0 ? k : A, r = e < 0 ? -I : 0, i = e < 0 ? 0 : Ke, a = t + (n - t) * (e - r) / (i - r);
+	for (let r = 0; r < 6; r++) {
+		let r = R(a);
+		if (r === e) break;
+		r < e ? t = a : n = a;
+		let i = a - (r - e) / He(a);
+		if (i === a) break;
+		a = i > t && i < n ? i : (t + n) / 2;
+	}
+	return a;
+}
+function Ye(e) {
+	if (B.length >= 8192) throw Error("Passive witness cap");
+	if (B.push([e]), !Number.isFinite(e) || e < L || e > Ke) throw RangeError("304 specific enthalpy is outside the thermal fit domain");
+	if (e === 0) return k;
+	if (e === L) return 4;
+	if (e === Ke) return A;
+	let t = Je(e), n = 4, r = A, i = n, a = r;
+	for (let e = 0; e < 48; e++) {
+		let o = (n + r) / 2;
+		o < t ? n = o : r = o, e === 39 && (i = n, a = r);
+	}
+	if (R(n) < e && R(r) >= e) return (n + r) / 2;
+	if (R(i) < e && R(a) >= e) {
+		n = i, r = a;
+		for (let t = 40; t < 48; t++) {
+			let t = (n + r) / 2;
+			R(t) < e ? n = t : r = t;
+		}
+		return (n + r) / 2;
+	}
+	return qe(e);
+}
+var Xe = [
+	[
+		373.15,
+		18721e7,
+		223e6
+	],
+	[
+		473.15,
+		176314e6,
+		19e7
+	],
+	[
+		573.15,
+		169642e6,
+		18e7
+	],
+	[
+		673.15,
+		159526e6,
+		172e6
+	],
+	[
+		773.15,
+		1468e8,
+		153e6
+	],
+	[
+		873.15,
+		13739e7,
+		136e6
+	],
+	[
+		973.15,
+		12545e7,
+		112e6
+	],
+	[
+		1073.15,
+		10808e7,
+		62e6
+	],
+	[
+		1173.15,
+		6755e7,
+		35e6
+	]
+];
+function Ze(e, t) {
+	if (!Number.isFinite(e) || e <= 0) throw RangeError("304 mechanical temperature must be finite and positiveK");
+	if (e > 1173.15) return 0;
+	let n = 373.15, r = Xe[0][t];
+	if (e <= n) return r;
+	for (let i of Xe) {
+		if (e <= i[0]) {
+			let a = (e - n) / (i[0] - n);
+			return r + a * (i[t] - r);
+		}
+		n = i[0], r = i[t];
+	}
+	return 0;
+}
+function Qe(e) {
+	return Ze(e, 1);
+}
+function $e(e) {
+	return Ze(e, 2);
+}
+var B = [];
+function et() {
+	B.length = 0;
+}
+function tt() {
+	return B.map((e) => e.slice());
+}
+//#endregion
+//#region src/core/physics/damage-root.ts
+function nt(e) {
+	let t = .1 * e, n = .15 * e, r = .05 * e, i = .004;
+	if (!(t > 2 * i && n > 2 * i)) throw RangeError("Invalid attachment section");
+	let a = t * n - (t - 2 * i) * (n - 2 * i), o = (t * n ** 3 - (t - 2 * i) * (n - 2 * i) ** 3) / 12;
+	return Object.freeze({
+		area: a,
+		inertia: o,
+		modulus: 2 * o / n,
+		length: r,
+		heatArea: t * r,
+		mass: Ee * a * r
+	});
+}
+function V(e, t) {
+	return t === "plate" ? Math.sin(e) : Math.hypot(Math.sin(2 * e), 1.2 * Math.sin(e) ** 2);
+}
+function rt(e, t, n, r, i, a) {
+	if (H.length >= 8192) throw Error("Passive witness cap");
+	H.push([
+		e,
+		t,
+		n,
+		r,
+		i.length,
+		i.inertia,
+		a
+	]);
+	let o = Math.abs(e), s = a === "plate" ? Math.PI / 2 : Math.PI / 4;
+	if (!Number.isFinite(e) || o > s || t < 0 || n < 0 || !Number.isFinite(t) || !Number.isFinite(n)) throw RangeError("Attachment load outside the monotone force domain");
+	let c = Qe(r);
+	if (c === 0) return 0;
+	if (o === 0 || t === 0 || n === 0) return e;
+	let l = t * n * i.length / (c * i.inertia), u = o;
+	for (let e = 0; e < 2; e++) {
+		let e = V(u, a), t = Math.sin(u), n = Math.cos(u), r = a === "plate" ? n : e === 0 ? 2 : (2 * Math.sin(2 * u) * Math.cos(2 * u) + 2.88 * t ** 3 * n) / e;
+		if (u -= (u + l * e - o) / (1 + l * r), !(u > 0 && u <= o)) break;
+	}
+	if (u > 0 && u <= o) {
+		let t = 0, n = o;
+		for (let e = 0; e < 40; e++) {
+			let e = (t + n) / 2;
+			e < u ? t = e : n = e;
+		}
+		if (t + l * V(t, a) < o && n + l * V(n, a) >= o) return Math.sign(e) * (t + n) / 2;
+	}
+	let d = 0, f = o;
+	for (let e = 0; e < 40; e++) {
+		let e = (d + f) / 2;
+		e + l * V(e, a) < o ? d = e : f = e;
+	}
+	return Math.sign(e) * (d + f) / 2;
+}
+function it(e, t, n) {
+	let r = $e(t) * n.modulus;
+	return r === 0 ? Infinity : Math.abs(e) / r;
+}
+var H = [];
+function at() {
+	H.length = 0;
+}
+function ot() {
+	return H.map((e) => e.slice());
+}
+//#endregion
+//#region src/core/physics/vehicle-components.ts
+var st = 1525, ct = .004, lt = 144, ut = .0254, dt = 20 * Math.PI / 180;
+function U(e, t, n, r, i) {
+	if (!(t > 0 && i > 0) || !Number.isFinite(t + n + r + i)) throw RangeError("Component slice requires positive finite mass and inertia");
+	return Object.freeze({
+		role: e,
+		mass: t,
+		x: n,
+		station: r,
+		inertia: i
+	});
+}
+function W(e, t, n, r, i = 0) {
+	let a = n.reduce((e, t) => e + t.mass, 0), o = n.reduce((e, t) => e + t.mass * t.x, 0) / a, s = n.reduce((e, t) => e + t.mass * t.station, 0) / a, c = n.reduce((e, t) => e + t.inertia + t.mass * ((t.x - o) ** 2 + (t.station - s) ** 2), 0);
+	return Object.freeze({
+		id: e,
+		kind: t,
+		mass: a,
+		x: o,
+		station: s,
+		inertia: c,
+		loadLever: i,
+		rootMass: n.reduce((e, t) => e + (t.role === "root" ? t.mass : 0), 0),
+		tpsMass: n.reduce((e, t) => e + (t.role === "tps" ? t.mass : 0), 0),
+		...r ? { hinge: Object.freeze({ ...r }) } : {},
+		slices: Object.freeze(n)
+	});
+}
+function ft(e, t, n, r, i, a, o, s, c) {
+	if (!(n > 0 && r > 0)) throw RangeError("Appendage area and span must be positive");
+	let l = n / r, u = Ee * ct * n, d = i * (o + r / 2), f = i * (o + s.length / 2), p = s.heatArea / s.length, m = u * ((r * i) ** 2 + l ** 2) / 12, h = s.mass * ((s.length * i) ** 2 + p ** 2) / 12, g = [U("structure", u, d, a, m), U("root", s.mass, f, a, h)];
+	if (c) {
+		let e = lt * s.heatArea * ut;
+		g.push(U("tps", e, f, a, e * ((s.length * i) ** 2 + p ** 2) / 12));
+	}
+	return W(e, t, g, {
+		x: i * o,
+		station: a
+	}, r / 2);
+}
+function pt(e) {
+	let { height: t, diameter: n, dryMass: r, dryCentreOfMass: i } = e;
+	if (!(t > 0 && n > 0 && r > 0 && i > 0 && i < t) || !Number.isFinite(t + n + r + i)) throw RangeError("Invalid intact vehicle mass geometry");
+	let a = n / 2, o = e.id === "ship", s = nt(n), c = [], l = t * (o ? .035 : .03), u = e.engines.length * st;
+	if (c.push(W(`${o ? "ship" : "booster"}-engine-support`, "engine-support", [U("structure", u, 0, l / 2, u * (a ** 2 / 4 + l ** 2 / 12))])), o) {
+		let i = r * .05;
+		c.push(W("ship-nose", "nose", [U("structure", i, 0, t * .87, i * ((.4 * a) ** 2 + (.08 * t) ** 2) / 5)]));
+		for (let t of [!0, !1]) for (let r of [-1, 1]) {
+			let i = t ? e.frontFinStation : e.aftFinStation;
+			c.push(ft(`ship-${t ? "front" : "aft"}-flap-${r < 0 ? "left" : "right"}`, "flap", (t ? e.frontFinArea : e.aftFinArea) / 2, n * (t ? .34 : .46), r, i, a, s, !0));
+		}
+	} else {
+		let i = e.gridFins;
+		if (!i || !Number.isInteger(i.count) || i.count < 3) throw RangeError("Booster component partition requires a grid inventory");
+		let o = r * .02;
+		c.push(W("booster-hot-stage", "hot-stage", [U("structure", o, 0, t * .975, o * (a ** 2 / 2 + (.05 * t) ** 2 / 12))]));
+		for (let e = 0; e < i.count; e++) c.push(ft(`booster-grid-${e}`, "grid-fin", i.area / i.count, n * .46, Math.sin(dt + e * 2 * Math.PI / i.count), i.station, a, s, !1));
+	}
+	for (let e of c) if (!(e.station >= 0 && e.station <= t)) throw RangeError("Component centroid outside the hull");
+	let d = r - c.reduce((e, t) => e + t.mass, 0);
+	if (!(d > 0)) throw RangeError("No positive hull mass remains");
+	let f = (r * i - c.reduce((e, t) => e + t.mass * t.station, 0)) / d, p = -c.reduce((e, t) => e + t.mass * t.x, 0) / d, m = r * (a ** 2 / 4 + t ** 2 / 12), h = (m - c.reduce((e, t) => e + t.inertia + t.mass * (t.x ** 2 + (t.station - i) ** 2), 0) - d * (p ** 2 + (f - i) ** 2)) / d - a ** 2 / 4, g = t * (o ? .055 : .05), _ = t * (o ? .72 : .93), ee = t * (o ? .3 : .5), te = (f - g) * (_ - f);
+	if (!(f > g && f < _ && h > 0 && h < te)) throw RangeError("Hull residual moments have no positive supported partition");
+	let ne = h / te, re = d * ne * (_ - f) / (_ - g), ie = d * ne * (f - g) / (_ - g), v = d - re - ie, y = [
+		U("structure", re, p, g, re * a ** 2 / 4),
+		U("structure", v, p, f, v * a ** 2 / 4),
+		U("structure", ie, p, _, ie * a ** 2 / 4)
+	], b = o ? "ship" : "booster", x = W(`${b}-hull-aft`, "hull", y.filter((e) => e.station < ee)), S = W(`${b}-hull-forward`, "hull", y.filter((e) => e.station >= ee));
+	return c.push(x, S), Object.freeze({
+		id: e.id,
+		dryMass: r,
+		dryCentreOfMassX: 0,
+		dryCentreOfMass: i,
+		dryMomentOfInertia: m,
+		hullThermalMass: x.mass + S.mass,
+		rootSection: s,
+		components: Object.freeze(c)
+	});
+}
+//#endregion
+//#region src/core/physics/tps-material.ts
+var G = 116.483, mt = 1922.04, ht = 116.667, K = 1922.22, gt = 101330, _t = 293.15, q = [
+	[116.483, 293],
+	[172.039, 440],
+	[255.372, 628],
+	[394.261, 879],
+	[533.15, 1060],
+	[672.039, 1150],
+	[810.928, 1210],
+	[949.817, 1240],
+	[1088.71, 1260],
+	[1199.82, 1260],
+	[1227.59, 1270],
+	[1366.48, 1270],
+	[1533.15, 1270],
+	[1922.04, 1270]
+], J = [
+	116.667,
+	255.556,
+	394.444,
+	533.333,
+	672.222,
+	811.111,
+	950,
+	1088.89,
+	1227.78,
+	1366.67,
+	1533.33,
+	1644.44,
+	1811.11,
+	1922.22
+], Y = [
+	[10.133, [
+		.00865,
+		.013,
+		.0159,
+		.0216,
+		.0303,
+		.0403,
+		.0533,
+		.072,
+		.0981,
+		.127,
+		.167,
+		.201,
+		.267,
+		.329
+	]],
+	[101.33, [
+		.013,
+		.0173,
+		.0216,
+		.0289,
+		.0374,
+		.0476,
+		.0606,
+		.0795,
+		.106,
+		.135,
+		.177,
+		.213,
+		.28,
+		.339
+	]],
+	[1013.3, [
+		.026,
+		.0317,
+		.0389,
+		.0478,
+		.0563,
+		.0679,
+		.0852,
+		.107,
+		.133,
+		.163,
+		.201,
+		.241,
+		.312,
+		.379
+	]],
+	[10133, [
+		.0374,
+		.0433,
+		.0547,
+		.0692,
+		.0852,
+		.104,
+		.125,
+		.151,
+		.183,
+		.22,
+		.268,
+		.31,
+		.384,
+		.454
+	]],
+	[101330, [
+		.0403,
+		.0476,
+		.059,
+		.075,
+		.0924,
+		.114,
+		.135,
+		.163,
+		.196,
+		.235,
+		.289,
+		.336,
+		.419,
+		.502
+	]]
+];
+function X(e, t, n) {
+	if (!Number.isFinite(e) || e < t || e > n) throw RangeError("LI900 temperature is outside its material property data domain");
+}
+function vt(e) {
+	if (!Number.isFinite(e) || e < 0 || e > 101330) throw RangeError("LI900 pressure must be within0–101330Pa");
+}
+var Z = new Float64Array(q.length);
+for (let e = 1; e < q.length; e++) {
+	let t = q[e - 1], n = q[e];
+	Z[e] = Z[e - 1] + (n[0] - t[0]) * (t[1] + n[1]) / 2;
+}
+function yt(e) {
+	for (let t = 1; t < q.length; t++) if (e < q[t][0]) return t - 1;
+	return q.length - 2;
+}
+function bt(e) {
+	let t = yt(e), n = q[t], r = q[t + 1];
+	if (e === r[0]) return Z[t + 1];
+	let i = e - n[0], a = (r[1] - n[1]) / (r[0] - n[0]);
+	return Z[t] + n[1] * i + a * i ** 2 / 2;
+}
+var xt = bt(_t), St = -xt, Ct = Z[q.length - 1] - xt;
+function wt(e) {
+	X(e, G, mt);
+	let t = yt(e), n = q[t], r = q[t + 1];
+	if (e === r[0]) return r[1];
+	let i = (e - n[0]) / (r[0] - n[0]);
+	return n[1] + i * (r[1] - n[1]);
+}
+function Tt(e) {
+	return X(e, G, mt), bt(e) - xt;
+}
+function Et(e) {
+	if (!Number.isFinite(e) || e < St || e > Ct) throw RangeError("LI900 specific enthalpy is outside the heat-capacity data domain");
+	if (e === 0) return _t;
+	if (e === St) return G;
+	if (e === Ct) return mt;
+	let t = e + xt, n = 0, r = q.length - 1;
+	for (; r - n > 1;) {
+		let e = Math.floor((n + r) / 2);
+		Z[e] <= t ? n = e : r = e;
+	}
+	let i = q[n], a = q[n + 1], o = (a[1] - i[1]) / (a[0] - i[0]), s = t - Z[n], c = 2 * s / (i[1] + Math.sqrt(i[1] ** 2 + 2 * o * s));
+	return Math.max(i[0], Math.min(a[0], i[0] + c));
+}
+function Dt(e, t) {
+	let n = Y[0];
+	if (t <= n[0]) return n[1][e];
+	for (let n = 1; n < Y.length; n++) {
+		let r = Y[n];
+		if (t === r[0]) return r[1][e];
+		if (t < r[0]) {
+			let i = Y[n - 1], a = Math.log(t / i[0]) / Math.log(r[0] / i[0]);
+			return i[1][e] + a * (r[1][e] - i[1][e]);
+		}
+	}
+	return Y[Y.length - 1][1][e];
+}
+function Ot(e, t) {
+	for (let n = 1; n < J.length; n++) {
+		let r = J[n];
+		if (e === r) return Dt(n, t);
+		if (e < r) {
+			let i = J[n - 1], a = Dt(n - 1, t), o = Dt(n, t);
+			return a + (e - i) / (r - i) * (o - a);
+		}
+	}
+	return Dt(J.length - 1, t);
+}
+function kt(e, t) {
+	return X(e, ht, K), vt(t), Ot(e, t);
+}
+function At(e, t, n) {
+	if (X(e, ht, K), X(t, ht, K), vt(n), e === t) return Ot(e, n);
+	let r = Math.min(e, t), i = Math.max(e, t), a = 0;
+	for (let e = 1; e < J.length; e++) {
+		let t = Math.max(r, J[e - 1]), o = Math.min(i, J[e]);
+		o > t && (a += (o - t) * (Ot(t, n) + Ot(o, n)) / 2);
+	}
+	return a / (i - r);
+}
+var jt = /* @__PURE__ */ function(e) {
+	return e[e.None = 0] = "None", e[e.ProofExceeded = 1] = "ProofExceeded", e[e.MaterialDomain = 2] = "MaterialDomain", e[e.Terminal = 3] = "Terminal", e;
+}({});
+function Q(e, t) {
+	if (!Number.isFinite(e) || !Number.isFinite(t)) throw RangeError("Thermal state requires finite temperature and energy");
+	return {
+		valid: !0,
+		temperature: e,
+		energy: t
+	};
+}
+function Mt(t, n) {
+	let r = t.components.length;
+	if (r < 1 || r > 12) throw RangeError("Damage inventory must contain1–12 components");
+	if (!(t.hullThermalMass > 0) || !Number.isFinite(t.hullThermalMass)) throw RangeError("Damage state requires positive finite hull thermal mass");
+	let i = z(n), a = t.components.some((e) => e.tpsMass > 0), o = 0;
+	if (a) {
+		if (n < 116.667 || n > 1922.04) throw RangeError("TPS ambient temperature is outside its thermal data domains");
+		o = Tt(n);
+	}
+	let s = t.components.map((t, r) => {
+		if (!(t.rootMass >= 0 && t.tpsMass >= 0) || !Number.isFinite(t.rootMass + t.tpsMass)) throw RangeError("Invalid component thermal mass");
+		let a = t.rootMass > 0 ? Q(n, t.rootMass * i) : Q(0, 0), s = () => t.tpsMass > 0 ? Q(n, t.tpsMass / 2 * o) : Q(0, 0);
+		return {
+			componentIndex: r,
+			attached: !0,
+			permanentFailure: 0,
+			root: a,
+			tps: [s(), s()],
+			loadedAngle: e(0)
+		};
+	}), c = s.map((t) => ({
+		componentIndex: t.componentIndex,
+		active: !1,
+		x: 0,
+		altitude: 0,
+		pitch: e(0),
+		speedX: 0,
+		speedY: 0,
+		angularVelocity: 0
+	}));
+	return {
+		components: s,
+		hull: Q(n, t.hullThermalMass * i),
+		debris: c,
+		terminal: {
+			active: !1,
+			reason: 0,
+			time: 0,
+			x: 0,
+			altitude: 0,
+			pitch: e(0),
+			speedX: 0,
+			speedY: 0,
+			angularVelocity: 0,
+			retainedDryMass: 0,
+			retainedPropellant: 0,
+			releasedEnergy: 0,
+			releasedMomentumX: 0,
+			releasedMomentumY: 0,
+			releasedAngularMomentum: 0,
+			releasedKineticEnergy: 0
+		},
+		revision: 0,
+		eventCount: 0
+	};
+}
+//#endregion
+//#region src/core/physics/damage-controls.ts
+function Nt(e, t) {
+	let n = [];
+	for (let r = 0; r < e.components.length; r++) {
+		let i = e.components[r];
+		if (i.kind === "grid-fin") {
+			let e = t.gridFins;
+			if (!e) throw RangeError("Grid component requires grid geometry");
+			n.push(Object.freeze({
+				index: r,
+				group: "grid",
+				area: e.area / e.count,
+				lever: i.loadLever
+			}));
+		} else if (i.kind === "flap") {
+			let e = i.id.includes("-front-");
+			n.push(Object.freeze({
+				index: r,
+				group: e ? "front" : "aft",
+				area: (e ? t.frontFinArea : t.aftFinArea) / 2,
+				lever: i.loadLever
+			}));
+		}
+	}
+	return Object.freeze({
+		componentCount: e.components.length,
+		root: e.rootSection,
+		columns: Object.freeze(n)
+	});
+}
+function Pt(e) {
+	return {
+		frontArea: 0,
+		aftArea: 0,
+		frontFraction: 0,
+		aftFraction: 0,
+		gridLiftArea: 0,
+		gridDragArea: 0,
+		loadedAngles: Array(e).fill(0),
+		proofMask: 0,
+		domainMask: 0
+	};
+}
+function Ft(e, t, n, r, i) {
+	if (!(n >= 0 && r >= 0 && r <= 1) || !Number.isFinite(n) || e.components.length !== t.componentCount || i.loadedAngles.length < t.componentCount) throw RangeError("Invalid component control forcing or inventory");
+}
+function It(e, t, n, r, i, a, o) {
+	Ft(e, t, n, r, o), o.frontArea = o.aftArea = o.gridLiftArea = o.gridDragArea = 0, o.frontFraction = o.aftFraction = 0, o.proofMask = o.domainMask = 0, o.loadedAngles.fill(0);
+	for (let s of t.columns) {
+		let c = e.components[s.index];
+		if (!c.attached || c.permanentFailure !== jt.None) continue;
+		if (!c.root.valid || $e(c.root.temperature) === 0) {
+			o.domainMask |= 1 << s.index;
+			continue;
+		}
+		let l = s.group === "grid", u = s.group === "aft" ? a : i, d = n * s.area * (l ? 1 : 2 * r), f = l ? "grid" : "plate", p = rt(u, d, s.lever, c.root.temperature, t.root, f);
+		if (o.loadedAngles[s.index] = p, it(d * V(Math.abs(p), f) * s.lever, c.root.temperature, t.root) > 1) {
+			o.proofMask |= 1 << s.index;
+			continue;
+		}
+		if (l) o.gridLiftArea += s.area * Math.sin(2 * p), o.gridDragArea += s.area * 1.2 * Math.sin(p) ** 2;
+		else {
+			let e = Math.sin(p);
+			s.group === "front" ? (o.frontArea += s.area * e, o.frontFraction += .5 * e) : (o.aftArea += s.area * e, o.aftFraction += .5 * e);
+		}
+	}
+}
+//#endregion
+//#region src/core/physics/damage-thermal.ts
+var Lt = 4096, Rt = .8, zt = 8, Bt = .0254, Vt = Bt / 2, Ht = Bt / 4, Ut = Math.max(G, ht), $ = Math.min(mt, K), Wt = Rt * v, Gt = z(4), Kt = z(A), qt = Tt(Ut), Jt = Tt($);
+function Yt(e) {
+	let t = e.components.length, n = e.rootSection;
+	if (t < 1 || t > 12 || !(e.hullThermalMass > 0 && n.area > 0 && n.length > 0 && n.heatArea > 0) || !Number.isFinite(e.hullThermalMass + n.area + n.length + n.heatArea)) throw RangeError("Invalid thermal catalogue geometry/inventory");
+	let r = He(4), i = Ue(A), a = wt(G), o = kt(K, gt), s = n.length / 2, c = n.area / s, l = s / n.area, u = i * c, d = 4 * Wt * n.heatArea * A ** 3, f = 4 * Wt * n.heatArea * $ ** 3, p = [], m = Infinity, h = 0;
+	for (let s = 0; s < t; s++) {
+		let t = e.components[s];
+		if (!(t.rootMass >= 0 && t.tpsMass >= 0) || !Number.isFinite(t.rootMass + t.tpsMass)) throw RangeError("Invalid component thermal masses");
+		if (t.rootMass === 0) {
+			if (t.tpsMass > 0) throw RangeError("TPS column requires a finite root");
+			continue;
+		}
+		let g = t.tpsMass / 2, _ = t.rootMass * r;
+		if (g > 0) {
+			let e = o * n.heatArea / Vt, t = 1 / (Ht / (o * n.heatArea) + l / i), r = g * a;
+			m = Math.min(m, r / (e + f), r / (e + t), _ / (t + u));
+		} else m = Math.min(m, _ / (u + d));
+		h += u, p.push(Object.freeze({
+			componentIndex: s,
+			rootMass: t.rootMass,
+			tpsCellMass: g,
+			heatArea: n.heatArea,
+			steelPathRatio: c,
+			steelResistanceRatio: l,
+			rootMinEnergy: t.rootMass * Gt,
+			rootMaxEnergy: t.rootMass * Kt,
+			tpsMinEnergy: g * qt,
+			tpsMaxEnergy: g * Jt
+		}));
+	}
+	return h > 0 && (m = Math.min(m, e.hullThermalMass * r / h)), Object.freeze({
+		componentCount: t,
+		columns: Object.freeze(p),
+		hullMass: e.hullThermalMass,
+		hullMinEnergy: e.hullThermalMass * Gt,
+		hullMaxEnergy: e.hullThermalMass * Kt,
+		safeStep: m
+	});
+}
+function Xt(e, t, n) {
+	if (!Number.isFinite(e.temperature) || e.temperature < t || e.temperature > n || !Number.isFinite(e.energy)) throw RangeError("Valid thermal node has invalid temperature/energy");
+}
+function Zt(e, t, n, r, i, a) {
+	return e.energy += t, !Number.isFinite(e.energy) || e.energy < r || e.energy > i ? (e.valid = !1, !1) : (t !== 0 && (e.temperature = e.energy === r ? a ? Ut : 4 : e.energy === i ? a ? $ : A : a ? Et(e.energy / n) : Ye(e.energy / n)), !0);
+}
+function Qt(e, t, n, r, i, a) {
+	if (!Number.isFinite(n) || n < 0 || n > t.safeStep * zt || !Number.isFinite(r) || r < 0 || !Number.isFinite(i) || i < 186 || i > 1473.15 || !Number.isFinite(a) || a < 0 || a > 101330 || e.components.length !== t.componentCount) throw RangeError("Thermal forcing/inventory outside the supported numerical contract");
+	let o = e.hull.valid ? 0 : Lt;
+	for (let n of t.columns) {
+		let t = e.components[n.componentIndex];
+		if (t.componentIndex !== n.componentIndex) throw RangeError("Thermal catalogue identity mismatch");
+		t.attached && (!t.root.valid || n.tpsCellMass > 0 && (!t.tps[0].valid || !t.tps[1].valid)) && (o |= 1 << n.componentIndex);
+	}
+	if (o !== 0 || n === 0) return o;
+	Xt(e.hull, 4, A);
+	for (let n of t.columns) {
+		let t = e.components[n.componentIndex];
+		t.attached && (Xt(t.root, 4, A), n.tpsCellMass > 0 && (Xt(t.tps[0], Ut, $), Xt(t.tps[1], Ut, $)));
+	}
+	let s = Math.min(zt, Math.max(1, Math.ceil(n / t.safeStep))), c = n / s, l = i ** 4;
+	for (let n = 0; n < s; n++) {
+		let n = e.hull.temperature, i = Ue(n), s = 0;
+		for (let u of t.columns) {
+			let t = e.components[u.componentIndex];
+			if (!t.attached) continue;
+			let d = t.root.temperature, f = Ue(d), p = c * (f + i) / 2 * u.steelPathRatio * (d - n);
+			s += p;
+			let m = -p, h = !0;
+			if (u.tpsCellMass > 0) {
+				let e = t.tps[0], n = t.tps[1], i = e.temperature, o = n.temperature, s = c * At(i, o, a) * u.heatArea / Vt * (i - o), p = c * (o - d) / (Ht / (kt(o, a) * u.heatArea) + u.steelResistanceRatio / f), g = c * u.heatArea * (r - Wt * (i ** 4 - l));
+				m += p, h = Zt(e, g - s, u.tpsCellMass, u.tpsMinEnergy, u.tpsMaxEnergy, !0), Zt(n, s - p, u.tpsCellMass, u.tpsMinEnergy, u.tpsMaxEnergy, !0) || (h = !1);
+			} else m += c * u.heatArea * (r - Wt * (d ** 4 - l));
+			Zt(t.root, m, u.rootMass, u.rootMinEnergy, u.rootMaxEnergy, !1) || (h = !1), h || (o |= 1 << u.componentIndex);
+		}
+		if (Zt(e.hull, s, t.hullMass, t.hullMinEnergy, t.hullMaxEnergy, !1) || (o |= Lt), o !== 0) return o;
+	}
+	return 0;
+}
+//#endregion
+export { fe as _, Nt as a, pt as c, at as d, tt as f, we as g, Ye as h, Pt as i, rt as l, z as m, Qt as n, It as o, et as p, Yt as r, Mt as s, Rt as t, ot as u, v };
+
+//# sourceMappingURL=simulation-6hkdveS9.js.map

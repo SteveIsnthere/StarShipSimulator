@@ -1,0 +1,451 @@
+ M docs/plans/modernization/modernization-GOAL.md
+ M docs/plans/modernization/modernization-handover.md
+ M docs/plans/modernization/modernization-phase-8.md
+ M docs/research/2026-10-04-cloud-resume/README.md
+ M docs/research/2026-10-04-cloud-resume/current-native-bench-minimal-consumer-proposal.md
+ M eslint.config.js
+ M package.json
+ M src/app/debug.ts
+ M src/audio/params.ts
+ M src/core/autopilot/booster.ts
+ M src/core/autopilot/index.ts
+ M src/core/autopilot/landing-burn.ts
+ M src/core/control/actuation.ts
+ M src/core/control/booster-arrival.ts
+ M src/core/control/booster-forecast.ts
+ M src/core/control/booster-prediction.ts
+ M src/core/control/booster-return-plan.ts
+ M src/core/control/guidance-physics.ts
+ M src/core/control/mechanical.ts
+ M src/core/control/primitives.ts
+ M src/core/mission-free-flight.ts
+ M src/core/mission.ts
+ M src/core/physics/aero.ts
+ M src/core/physics/components.ts
+ M src/core/physics/engines.ts
+ M src/core/physics/mass.ts
+ M src/core/physics/step-dynamics.ts
+ M src/core/scenarios.ts
+ M src/core/state.ts
+ M src/core/step.ts
+ M src/core/vehicle.ts
+ M src/core/vehicles/super-heavy.ts
+ M src/hud/debrief.ts
+ M src/hud/prediction.ts
+ M src/hud/trajectory-draw.ts
+ M src/ui/session/camera-follow.ts
+ M src/ui/session/debug-presentation.ts
+ M src/ui/session/scene-vehicles.ts
+ M src/ui/session/scene.ts
+ M src/ui/session/session.ts
+ M src/ui/shell/BoosterEngineGroups.tsx
+ M src/ui/shell/Controls/ControlGroup.tsx
+ M src/ui/shell/Controls/Controls.tsx
+ M src/ui/shell/Hud/EngineDots.tsx
+ M src/ui/shell/Hud/Hud.tsx
+ M src/view/assets.ts
+ M src/view/booster.ts
+ M src/view/effects.ts
+ D src/view/heat-shield.ts
+ D src/view/lighting.ts
+ M src/view/post.ts
+ M src/view/reentry.ts
+ D src/view/vehicle-detail.ts
+ M src/view/vehicle.ts
+ M src/view/world.ts
+ M tests/core/angular-momentum.test.ts
+ M tests/core/autopilot-stages.test.ts
+ M tests/core/autopilot.test.ts
+ M tests/core/booster-burn-bound.test.ts
+ M tests/core/booster-command.test.ts
+ M tests/core/booster-forecast.test.ts
+ M tests/core/booster-planning-latency.test.ts
+ M tests/core/booster-policy-boundaries.test.ts
+ M tests/core/booster-prediction.test.ts
+ M tests/core/booster-scheduling-boundaries.test.ts
+ M tests/core/booster-terminal-envelope.test.ts
+ M tests/core/collapsed-trig.test.ts
+ M tests/core/control-contracts.test.ts
+ M tests/core/domain-edges.test.ts
+ M tests/core/failure-freshness.test.ts
+ M tests/core/felt-g.test.ts
+ M tests/core/final-descent-profile.test.ts
+ M tests/core/grid-fins.test.ts
+ M tests/core/guidance-physics.test.ts
+ M tests/core/guidance-truth.test.ts
+ M tests/core/hot-staging.test.ts
+ M tests/core/invariants.test.ts
+ M tests/core/landing-burn.test.ts
+ M tests/core/mass.test.ts
+ M tests/core/mission-continuation.test.ts
+ M tests/core/orbit-demo.test.ts
+ M tests/core/orbit.test.ts
+ M tests/core/rcs-dead-zone.test.ts
+ M tests/core/rvac.test.ts
+ M tests/core/scenarios.test.ts
+ M tests/core/ship-control-boundaries.test.ts
+ M tests/core/step.test.ts
+ M tests/core/super-heavy.test.ts
+ M tests/core/thrust-altitude.test.ts
+ M tests/core/tower-catch.test.ts
+ M tests/core/wind.test.ts
+ M tests/e2e/chromium.ts
+ M tests/e2e/post-compositing.spec.ts
+ M tests/e2e/renderer/heat-shield-witness.ts
+ M tests/e2e/shake.spec.ts
+ M tests/e2e/staging.spec.ts
+ M tests/e2e/visual-scenes.spec.ts
+ M tests/golden/booster-record.test.ts
+ M tests/golden/booster-record.ts
+ M tests/golden/booster-replay.test.ts
+ M tests/golden/fixtures/before-flip-autoland.json
+ M tests/golden/fixtures/booster-sep-boostback.json
+ M tests/golden/fixtures/booster/booster-sep-catch.json
+ M tests/golden/fixtures/booster/rtls-catch.json
+ M tests/golden/fixtures/intro-demo.json
+ M tests/golden/fixtures/landing-burn-autoland.json
+ M tests/golden/fixtures/landing-burn-headwind.json
+ M tests/golden/fixtures/launch-pad-takeoff.json
+ M tests/golden/fixtures/reentry-autoland.json
+ M tests/golden/fixtures/rtls-boostback.json
+ M tests/golden/unification.test.ts
+ M tests/hud/booster-presentation.test.ts
+ M tests/hud/debrief.test.ts
+ M tests/hud/engine-groups.test.ts
+ M tests/hud/prediction.test.ts
+ M tests/proofs/fixtures/legacy-ladders.ts
+ M tests/proofs/fixtures/ship-guidance.ts
+ M tests/proofs/fixtures/ship-initial.ts
+ M tests/proofs/fixtures/ship-primitives.ts
+ M tests/proofs/fixtures/ship-step.ts
+ M tests/proofs/ship-engines.test.ts
+ M tests/proofs/ship-geometry.test.ts
+ M tests/proofs/ship-guidance.test.ts
+ M tests/proofs/ship-step.test.ts
+ M tests/proofs/ship-vehicle.test.ts
+ M tests/proofs/step-dynamics.test.ts
+ M tests/reference/anchors.ts
+ M tests/reference/in-band.json
+ M tests/ui/camera-follow.test.ts
+ M tests/ui/menu.test.ts
+ M tests/ui/shell/Debrief.test.tsx
+ M tests/ui/shell/fields-presets.test.ts
+ M tests/view/booster.test.ts
+ M tests/view/catch-tower.test.ts
+ M tests/view/dynamic-pressure.test.ts
+ M tests/view/heat-shield.test.ts
+ M tests/view/lighting.test.ts
+ M tests/view/vehicle-detail.test.ts
+ M vite.config.ts
+ M vitest.config.ts
+ M vitest.timing.config.ts
+?? docs/research/2026-10-04-cloud-resume/archive-original21-v7.py.txt
+?? docs/research/2026-10-04-cloud-resume/before-accepted-software-webgl2-doc-update/
+?? docs/research/2026-10-04-cloud-resume/before-actual-mesa-blocklist-original12-proof-doc-update/
+?? docs/research/2026-10-04-cloud-resume/before-actual-native38-collector-matrix-doc-update/
+?? docs/research/2026-10-04-cloud-resume/before-actual-public-admission-doc-update/
+?? docs/research/2026-10-04-cloud-resume/before-current-record-replay-coverage-mesa-doc-update/
+?? docs/research/2026-10-04-cloud-resume/before-stage-a-profile-failure-doc-update/
+?? docs/research/2026-10-04-cloud-resume/call-local-query-reuse-independent-native-HIGH.md
+?? docs/research/2026-10-04-cloud-resume/call-local-query-reuse-independent-native-pins.json
+?? docs/research/2026-10-04-cloud-resume/call-local-query-reuse/
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-independent-actual-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-independent-actual-review.md
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-procedure.md
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06-verification/
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06.json
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-06.patch
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-bounded-loss-path-procedure.md
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-owned-artifacts/
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07-verification/
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07.json
+?? docs/research/2026-10-04-cloud-resume/checkpoint-recovery-07.patch
+?? docs/research/2026-10-04-cloud-resume/cloud-alternate-mesa-backend-feasibility-independent-pins.json
+?? docs/research/2026-10-04-cloud-resume/cloud-alternate-mesa-backend-feasibility-independent-review.md
+?? docs/research/2026-10-04-cloud-resume/cloud-frame-diagnostic-artifacts/html-report/data/5e143547b773f8b8457ce017a5a8e82124c91dec.json
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-angle-public-source-14/
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-angle-public-source-independent-high-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-angle-public-source-independent-high-review.md
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/
+?? docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/
+?? docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/owned-launch-5zgl7caU/launcher.mjs
+?? docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/owned-launch-5zgl7caU/owned-command.mjs
+?? docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/after-pins.json
+?? docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/before-pins.json
+?? docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/receipt-canonical-stack-4a70c84f-95cf-482a-b8e1-7ea15d6cb2bb/materialized/
+?? docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot/run-controls.sh
+?? docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/owned-launch-ZffwxiZF/launcher.mjs
+?? docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/owned-launch-ZffwxiZF/owned-command.mjs
+?? docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/after-pins.json
+?? docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/before-pins.json
+?? docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b/materialized/
+?? docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/run-witness.sh
+?? docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/owned-launch-BXBucfBX/launcher.mjs
+?? docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/owned-launch-BXBucfBX/owned-command.mjs
+?? docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/after-pins.json
+?? docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/before-pins.json
+?? docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/receipt-guards-97367ab9-7243-405e-b615-9b0ef8d6ffb7/materialized/
+?? docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/run-controls.sh
+?? docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/owned-launch-7mZp3W6l/launcher.mjs
+?? docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/owned-launch-7mZp3W6l/owned-command.mjs
+?? docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/after-pins.json
+?? docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/before-pins.json
+?? docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/receipt-public-assert-a262811f-12a6-417c-83ac-b59ab567be40/materialized/
+?? docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors/run-controls.sh
+?? docs/research/2026-10-04-cloud-resume/current-native-bench-minimal-consumer-proposal-before-height-role-correction.md
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-cost/owned-launch-rQYsPTDD/label-audit.mjs
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-cost/owned-launch-rQYsPTDD/launcher.mjs
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-cost/owned-launch-rQYsPTDD/owned-command.mjs
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-cost/receipt-cost-fdef3b1c-793a-4134-be20-7f8af4857352/materialized/
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-cost/receipt-cost-fdef3b1c-793a-4134-be20-7f8af4857352/source-after.json
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-cost/receipt-cost-fdef3b1c-793a-4134-be20-7f8af4857352/source-before.json
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/actual-result-independent-pins.json
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/actual-result-independent-review.md
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/declaration.md
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/early-popen-fallback.diff
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/entry.ts.txt
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/full-flight.ts.txt
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/graph-oracle.ts.txt
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-ownership-hold-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-ownership-hold-review.md
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-ownership-repair-followup-hold-pins.json
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-ownership-repair-followup-hold.md
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/independent-review.md
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/input-pins.json
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/label-audit.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/launcher.diff
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/launcher.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/neutral-launcher-lint-fix.diff
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/neutral-launcher-lint-fix.md
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/neutral-launcher-lint-independent-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/neutral-launcher-lint-independent-review.md
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-command.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/owned-launch-ChBgiuPz/
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/ownership-repair.diff
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/parent-jt6sq3gr/
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3/
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/root-parent.py.txt
+?? docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/run.sh.txt
+?? docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/
+?? docs/research/2026-10-04-cloud-resume/current-original12-four-role-qualification-independent-HIGH-pins.json
+?? docs/research/2026-10-04-cloud-resume/current-original12-four-role-qualification-independent-HIGH-review.md
+?? docs/research/2026-10-04-cloud-resume/current-original12-four-role-qualification-plan-pins.json
+?? docs/research/2026-10-04-cloud-resume/current-original12-four-role-qualification-plan.md
+?? docs/research/2026-10-04-cloud-resume/current-original12-owned-proof/
+?? docs/research/2026-10-04-cloud-resume/current-truth-after-full247/
+?? docs/research/2026-10-04-cloud-resume/documentation-checkpoint-2026-10-04-before-dedup-selection.json.txt
+?? docs/research/2026-10-04-cloud-resume/documentation-checkpoint-2026-10-04-final-selection.json
+?? docs/research/2026-10-04-cloud-resume/documentation-checkpoint-recovery05-current-disk-verification.json
+?? docs/research/2026-10-04-cloud-resume/documentation-checkpoint-recovery05-deletions-aware-disk-verification.json
+?? docs/research/2026-10-04-cloud-resume/full-golden-owned-route/
+?? docs/research/2026-10-04-cloud-resume/gate-coverage-cost-feasibility-review/
+?? docs/research/2026-10-04-cloud-resume/golden-cycle4-independent-review/
+?? docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/classify.mjs
+?? docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/fixture-validation.mjs
+?? docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-classifier/run-owned.mjs
+?? docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/artifact-validation.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/classify-closure.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/contract.md
+?? docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/qualify-retained.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/root-invocation.md
+?? docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/root-observer.py.txt
+?? docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/root-owner-input-contract.json
+?? docs/research/2026-10-04-cloud-resume/official-mixed-native-offline-map-classification/run-owned.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/official-native-composite-actual-input-independent-high-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/official-native-composite-actual-input-independent-high-review.md
+?? docs/research/2026-10-04-cloud-resume/official-native-composite-projected-input.json
+?? docs/research/2026-10-04-cloud-resume/official-native-integration-applied-once/
+?? docs/research/2026-10-04-cloud-resume/official-native-query-parent-candidate-v7/
+?? docs/research/2026-10-04-cloud-resume/official-original21-root-routing/
+?? docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/
+?? docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/
+?? docs/research/2026-10-04-cloud-resume/ordinary-native-portability-independent-design-HIGH-pins.json
+?? docs/research/2026-10-04-cloud-resume/ordinary-native-portability-independent-design-HIGH-review.md
+?? docs/research/2026-10-04-cloud-resume/ordinary-native-qualification-portability-proposal-pins.json
+?? docs/research/2026-10-04-cloud-resume/ordinary-native-qualification-portability-proposal.md
+?? docs/research/2026-10-04-cloud-resume/original21-v7-archive-before-qualified-q-repair/
+?? docs/research/2026-10-04-cloud-resume/original21-v7-archive-independent-code-pins.json
+?? docs/research/2026-10-04-cloud-resume/original21-v7-archive-independent-code-review.md
+?? docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/
+?? docs/research/2026-10-04-cloud-resume/original21-v7-archive-proposal.json
+?? docs/research/2026-10-04-cloud-resume/original21-v7-documentation-update-proposal.md
+?? docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/
+?? docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/
+?? docs/research/2026-10-04-cloud-resume/recovery07-before-finally-repair/
+?? docs/research/2026-10-04-cloud-resume/recovery07-capture-input.json
+?? docs/research/2026-10-04-cloud-resume/recovery07-capture.py.txt
+?? docs/research/2026-10-04-cloud-resume/recovery07-finally-repair-root-syntax-result.json
+?? docs/research/2026-10-04-cloud-resume/recovery07-independent-actual-HIGH-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/recovery07-independent-actual-HIGH-review.md
+?? docs/research/2026-10-04-cloud-resume/recovery07-independent-actual-verification.json
+?? docs/research/2026-10-04-cloud-resume/recovery07-independent-finally-repair-HIGH-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/recovery07-independent-finally-repair-HIGH-review.md
+?? docs/research/2026-10-04-cloud-resume/recovery07-independent-source-HOLD-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/recovery07-independent-source-HOLD-review.md
+?? docs/research/2026-10-04-cloud-resume/recovery07-owner-before-managed-python/
+?? docs/research/2026-10-04-cloud-resume/recovery07-owner-input.json
+?? docs/research/2026-10-04-cloud-resume/recovery07-owner-root-scoped-checks/
+?? docs/research/2026-10-04-cloud-resume/recovery07-owner-route-independent-HIGH-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/recovery07-owner-route-independent-HIGH-review.md
+?? docs/research/2026-10-04-cloud-resume/recovery07-owner-stage.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/recovery07-root-parent.py.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/before-rootstage-style-repair/owned-command.mjs
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/compile-input-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/declaration.md
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/declaration.md.high-boundary.diff.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/lexer.d.ts
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/owned-command.mjs
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-parent/
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2-stage-input.py.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2-stage-input.py.txt.style.diff.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt.high-boundary.diff.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualification-parent/
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt.high-boundary.diff.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/root-stage-declaration.md
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/root-stage-input-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt.diff.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt.style.diff.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt.diff.txt
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/after.json
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/before.json
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-extraction-failed-artifacts/owner-result.json
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/after.json
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/before.json
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/owner-result.json
+?? docs/research/2026-10-04-cloud-resume/render-kernel-width2-sdk-repaired-artifacts/proof-result.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-actual-result-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-actual-result-review.md
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-final-high-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-final-high-review.md
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-hold-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-hold-review.md
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-input-review.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-independent-actual-result-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-independent-actual-result-review.md
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-retained-attribution-assessment.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-runtime-independent-final-input-review.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-runtime-independent-hold-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-runtime-independent-hold-review.md
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-runtime-independent-input-review.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-runtime-independent-metadata-retarget-review.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-runtime-independent-repaired-high-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-browser-runtime-independent-repaired-high-review.md
+?? docs/research/2026-10-04-cloud-resume/render-width2-next-cost-feasibility-independent-HIGH-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-next-cost-feasibility-independent-HIGH-review.md
+?? docs/research/2026-10-04-cloud-resume/render-width2-next-cost-feasibility-pins.json
+?? docs/research/2026-10-04-cloud-resume/render-width2-next-cost-feasibility-proposal.md
+?? docs/research/2026-10-04-cloud-resume/render-width2-next-cost-feasibility.json
+?? docs/research/2026-10-04-cloud-resume/sky-mesh-candidate-independent-high-source-review-pins.json
+?? docs/research/2026-10-04-cloud-resume/sky-mesh-candidate-independent-high-source-review.md
+?? docs/research/2026-10-04-cloud-resume/sky-mesh-candidate/
+?? docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/
+?? docs/verification/
+?? playwright.visual-budget.config.ts
+?? playwright.visual-diagnostic.config.ts
+?? playwright.visual-motion.config.ts
+?? scripts/bench.mjs
+?? scripts/bench/
+?? scripts/test/
+?? src/app/debug-request.ts
+?? src/core/control/booster-cutoff-hint.ts
+?? src/core/control/booster-receipts.ts
+?? src/core/control/booster-source.ts
+?? src/core/damage-state.ts
+?? src/core/physics/body-reference.ts
+?? src/core/physics/damage-controls.ts
+?? src/core/physics/damage-debris.ts
+?? src/core/physics/damage-detachment.ts
+?? src/core/physics/damage-flight.ts
+?? src/core/physics/damage-mass.ts
+?? src/core/physics/damage-material.ts
+?? src/core/physics/damage-model.ts
+?? src/core/physics/damage-root.ts
+?? src/core/physics/damage-terminal.ts
+?? src/core/physics/damage-thermal.ts
+?? src/core/physics/flight-mass-query.ts
+?? src/core/physics/heat-transfer.ts
+?? src/core/physics/propulsion.ts
+?? src/core/physics/tps-material.ts
+?? src/core/physics/vehicle-components.ts
+?? src/core/vehicles/v3.ts
+?? src/view/component-vehicle.ts
+?? src/view/vehicle-geometry.ts
+?? src/view/vehicle-material.ts
+?? tests/core/body-reference.test.ts
+?? tests/core/booster-bracket-priority.test.ts
+?? tests/core/booster-cutoff-hint.test.ts
+?? tests/core/booster-negative-probe.test.ts
+?? tests/core/booster-paid-receipts.test.ts
+?? tests/core/booster-source.test.ts
+?? tests/core/booster-terminal-allocation.test.ts
+?? tests/core/damage-controls.test.ts
+?? tests/core/damage-debris.test.ts
+?? tests/core/damage-detachment.test.ts
+?? tests/core/damage-endpoint.test.ts
+?? tests/core/damage-exposure.test.ts
+?? tests/core/damage-flight.test.ts
+?? tests/core/damage-forecast.test.ts
+?? tests/core/damage-guidance.test.ts
+?? tests/core/damage-lifecycle.test.ts
+?? tests/core/damage-mass.test.ts
+?? tests/core/damage-material-inversion.test.ts
+?? tests/core/damage-material.test.ts
+?? tests/core/damage-mission.test.ts
+?? tests/core/damage-natural-flight.test.ts
+?? tests/core/damage-root-solver.test.ts
+?? tests/core/damage-root.test.ts
+?? tests/core/damage-state.test.ts
+?? tests/core/damage-terminal.test.ts
+?? tests/core/damage-thermal.test.ts
+?? tests/core/fall-continuation.test.ts
+?? tests/core/guidance-retained-hardware.test.ts
+?? tests/core/heat-transfer.test.ts
+?? tests/core/paid-force-epoch.test.ts
+?? tests/core/rcs-payment.test.ts
+?? tests/core/tps-material.test.ts
+?? tests/core/v3-flight.test.ts
+?? tests/core/v3.test.ts
+?? tests/core/vehicle-components.test.ts
+?? tests/e2e/short-landscape-hud.spec.ts
+?? tests/e2e/vehicle-damage.spec.ts
+?? tests/e2e/visual-browser-trace.ts
+?? tests/e2e/visual-budget-probe.ts
+?? tests/e2e/visual-budget-receipts.ts
+?? tests/e2e/visual-budget.spec.ts
+?? tests/e2e/visual-evidence-fixture.ts
+?? tests/e2e/visual-runtime-receipt.ts
+?? tests/fixtures/booster-terminal-allocation.json
+?? tests/hud/v3-prediction.test.ts
+?? tests/proofs/acceleration-components.test.ts
+?? tests/proofs/burn-preparation-module-mock.test.ts
+?? tests/proofs/burn-preparation.test.ts
+?? tests/proofs/fixtures/booster-alignment-before-terminal-grid.ts
+?? tests/proofs/fixtures/burn-before-preparation/
+?? tests/proofs/fixtures/historical-runtime.ts
+?? tests/proofs/fixtures/unpowered-fall-before-preparation.json
+?? tests/proofs/fixtures/unpowered-fall-original.ts
+?? tests/proofs/unpowered-fall-preparation.test.ts
+?? tests/proofs/v3-default-dispatch.test.ts
+?? tests/reference/historical-vehicles.ts
+?? tests/support/
+?? tests/ui/damage-scene.test.ts
+?? tests/ui/session-debug-loading.test.ts
+?? tests/view/assets.test.ts
+?? tests/view/component-vehicle.test.ts
+?? tests/view/fixtures/
+?? tests/view/post-metadata.test.ts
+?? tests/view/vehicle-geometry.test.ts

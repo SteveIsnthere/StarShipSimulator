@@ -1,0 +1,26 @@
+"""Construct one concrete root-owned stage manifest; no imports/build/browser/test."""
+import hashlib,json,pathlib,sys,tempfile,os
+repo=pathlib.Path('/workspace/StarShipSimulator');directory=repo/'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification'
+mode=sys.argv[1]
+if mode not in ('prepare','build','qualify'):raise RuntimeError('Concrete stage only')
+if (mode=='prepare' and len(sys.argv)!=2) or (mode!='prepare' and len(sys.argv)!=3):raise RuntimeError('mode [actual prepared setup] required')
+sha=lambda p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+entry=lambda p:{'path':str(p),'sha':sha(p)}
+node=pathlib.Path('/workspace/cloud-bootstrap/starship-v1/node/bin/node')
+if sha(node)!='fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48':raise RuntimeError('Managed Node drift')
+m={'kind':'width2-concrete-stage-owner-input-v1','root':str(repo),'mode':mode,'outerMs':{'prepare':60000,'build':120000,'qualify':30000}[mode],
+'node':entry(node),'python':entry(pathlib.Path(sys.executable).resolve()),'helper':entry(repo/'scripts/bench/owned-command.mjs'),
+'preparer':entry(directory/'prepare-width2.py.txt'),'builder':entry(directory/'build-width2.mjs.txt'),'qualifier':entry(directory/'qualify-width2.mjs.txt'),
+'pins':entry(directory/'compile-input-pins.json'),'stage':entry(directory/'width2-business-stage.mjs.txt'),'observer':entry(directory/'width2-root-observer.py.txt'),
+'bridge':entry(directory/'width2-python-preparation-bridge.mjs.txt'),
+'codec':entry(repo/'docs/research/2026-10-04-cloud-resume/cloud-render-kernel-compact-codec-actual-independent-approval.json'),
+'sdkReview':entry(repo/'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/sdk-repair/independent-repaired-sdk-result-review-pins.json')}
+if m['codec']['sha']!='2e9d1a2adaa78a11852234a24dfe31e3b969f22c77518f72172bd9abf26d5e58' or m['sdkReview']['sha']!='608b8d24741126580d68fbf4fe85fde34d894024736e54b1f4e3ff6030a5b165':raise RuntimeError('Accepted actual evidence drift')
+if mode!='prepare':
+ setup=pathlib.Path(sys.argv[2]);import re
+ if not re.fullmatch('/tmp/starship-render-kernel\.[A-Za-z0-9]+',str(setup)) or setup.resolve()!=setup:raise RuntimeError('Wrong prepared setup')
+ m['setup']=str(setup)
+receipt=pathlib.Path(tempfile.mkdtemp(prefix='starship-width2-stage-input.',dir='/tmp'));os.chmod(receipt,0o700)
+file=receipt/'owner-input.json'
+with file.open('x') as output:json.dump(m,output,indent=2);output.write('\n')
+print(json.dumps({'manifestPath':str(file),'manifestSha':sha(file),'mode':mode,'outerMs':m['outerMs'],'python':m['python']['path']}))

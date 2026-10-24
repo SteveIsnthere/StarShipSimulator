@@ -13,6 +13,12 @@ describe('paid return planning at production receipt/work timing',()=>{
     const initial=createScenarioVehicle(PRESETS.find(p=>p.id===id)!);
     initial.state.autopilot.autoLandOn=true;
     const s=step(initial.state,1/120,{},SUPER_HEAVY);
+    // Explicit calculator-only witness: receipt time moves while physical state
+    // is frozen, so it cannot carry the production observer's live provenance.
+    // A calculator plan remains ineligible for actual cutoff without a verified
+    // lineage (booster-source.test.ts); original work/deadline checks stay below.
+    delete s.autopilot.boosterSource;
+    delete s.autopilot.boosterPrediction!.sourceLineage;
     const kinematics={...s.kinematics},fuel=s.vehicle.propellantMass,rng={...s.rng.counters};
     let calls=0;
     const advance:typeof advanceMechanics=(...args)=>{calls++;return advanceMechanics(...args);};

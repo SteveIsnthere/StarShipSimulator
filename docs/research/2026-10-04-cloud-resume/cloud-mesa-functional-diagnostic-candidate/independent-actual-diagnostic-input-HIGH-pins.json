@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "decision": "supported-one-same-backend-logging-diagnostic-readiness",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-functional-input.json": "c05b727652dbea1761bab5bdebd22dbefa67fda2734edde75e37607821dd5841",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-owner-input.json": "0a28b7dfaa7ed66f1f5ddcaf36fda8cd7f241461e962002d9dd6e6a5946bbbc0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-parent-closure.json": "5fb5ad0ab3d4f02f87739cf1e650eb813339876936c0b0ca6960bcec5d4850ec",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-runner-materialization.json": "5b8d1b3c5a8b0f1898e10ab63c452526dfcb2f10a7013479820b072159389c9e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-actual-utilsBundle-pin.json": "a63c4cd8d86922d42c1cdc95ec0d1ce9d65668cbf1bddc0adc9811931cded80b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-source-scopes/result.json": "58f24c3171f2c7fe14313918a72bbb4259958b01fc41bb64b1930cb5dad11adc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-logging-source-HIGH-review.md": "bcf4ce666801ff52db00e65d156382710c98ea6c366276746c764aba6f8ebe07",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-logging-source-HIGH-pins.json": "7706846aba9c17bcda4f6fabeb97928dd52b075708546a5823450ae5f6a3c99f",
+    "/tmp/starship-mesa-diagnostic-source.t6w3odkf/run-functional-diagnostic.mjs": "adb7c21e136f1a4a57d738b544943f574e3142da01cba7c4ddb3996555493b7e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/functional-input.json": "0f374980edc2c201e823ebeaaa3785a286d98c05c7324cbec1440d26e9c1e63b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/owner-input.json": "cd4959cf598e986172715132639f2f2e33d6a9f005bbecda0269e697ecf048d6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/parent-closure.json": "c6a2e0ac2eb70d50c71cc3af1844609fde273a6ee3e0dbc1d41dec43c52c1db0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/independent-actual-functional-FAILURE-review.md": "01ff334985a3695053a7f11411b22cd20376ae3ee1ea8e595ec2b64afacc82ec",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/independent-actual-functional-FAILURE-pins.json": "0af2b652c946a4500000db8bf33d63afde46d789fe4c4dbb59138088dc6f05cc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-actual-diagnostic-input-HIGH-review.md": "3101d8e4edae51e612c8e47d65696ae38f51627e3c935130e6c57070fa2b0040"
+  },
+  "original244PinPairsPreserved": true,
+  "addedPinnedRows": 15,
+  "receiptFreshEmpty0700": true,
+  "executionPerformed": false,
+  "functionalAccepted": false,
+  "causeEstablished": false
+}

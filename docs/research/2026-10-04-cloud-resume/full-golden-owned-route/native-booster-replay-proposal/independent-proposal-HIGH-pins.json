@@ -1,0 +1,74 @@
+{
+  "kind": "independent-source-only-bounded-plan-HIGH-review-v1",
+  "executionApproved": false,
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/entry.ts",
+      "sha256": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/loader.mjs",
+      "sha256": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/admission.mjs",
+      "sha256": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/projects.mjs",
+      "sha256": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/run.mjs",
+      "sha256": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/booster-replay.test.ts",
+      "sha256": "cce053083240b7af301fdcb1cd84ecfaa4810815f906141f861c561d4c38d3b4"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/booster-record.ts",
+      "sha256": "dbb1f874135dbd0da06cf2e682e91c0cdfd7f059d4074f649760f41a1671b265"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/record.ts",
+      "sha256": "a5d1d85d26d31f889656aacf5109b7a1d142886106d3bfa61e83e43188bfbb9e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/golden/compare.ts",
+      "sha256": "84273766eb445751392bc888dd31596b9008089bc974b80421efc8d92ce2deaf"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-proposal/proposal.md",
+      "sha256": "b7bb62d4327e2ef410c3c60304788ecd7128c70ba5a6bc5163d912c4aec2678c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json",
+      "sha256": "0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/predictions.json",
+      "sha256": "ec68e8ab990cf833140bd3e94859425da1a409d326ad71125346d8a8235adf25"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-proposal/actual-failure-reviewed-addendum.md",
+      "sha256": "1d659e9d71911ce8b41450609def2071ccd1414cebe07d904e9d3a095224d1ec"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/five-file-replay-route/actual-input/independent-actual-replay-FAILURE-review.md",
+      "sha256": "ac5900606db45e19c7fe8bbb46f55a7b0438a2a7597ced2fde5b1ff119cc2335"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/five-file-replay-route/actual-input/independent-actual-replay-FAILURE-pins.json",
+      "sha256": "b81ba9f4bb47d26eff44503e6560c31ed9b671b5bb6c393817db84e92fe218cc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-proposal/input-pins.json",
+      "sha256": "21a1fd4208e6ac37c78efb9309a813a21afa98d6d7152e76024ce86497b1dfa4"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-replay-proposal/independent-proposal-HIGH-review.md",
+      "sha256": "9d124fe229b11a26fbfebed683ac14890c7ac6b56c4ddec523fa590c29b91b0d"
+    }
+  ]
+}

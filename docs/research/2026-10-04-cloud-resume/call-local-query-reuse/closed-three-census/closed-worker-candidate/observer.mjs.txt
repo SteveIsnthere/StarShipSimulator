@@ -1,0 +1,46 @@
+// Closed three-recipe observer only. Never mutates incoming live graph or intrinsics.
+import assert from 'node:assert/strict';
+import {assertClosedWorkerIntrinsics} from './loader.mjs';
+import {beforeEach,afterEach} from 'vitest';
+import {getTestName} from '@vitest/runner/utils';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {createHash} from 'node:crypto';
+import {pathToFileURL} from 'node:url';
+const [manifest,expected]=[process.env.QUERY_CENSUS_NATIVE_MANIFEST,process.env.QUERY_CENSUS_NATIVE_MANIFEST_SHA];
+const sha=path=>createHash('sha256').update(readFileSync(path)).digest('hex');assert.equal(sha(manifest),expected);
+const m=JSON.parse(readFileSync(manifest,'utf8'));assert.equal(m.kind,'closed-three-original-query-census-artifact-v1');
+// Whole fresh artifact/source/tool/import qualification must precede this observer; no cached fallback.
+for(const[path,h]of Object.entries(m.files))assert.equal(sha(resolve(m.directory,path)),h);
+assert.equal(process.env.NODE_OPTIONS??'','');
+const api=await import(pathToFileURL(resolve(m.directory,'entry.mjs')).href);
+const names=[
+ 'actual booster capture golden regressions > has exactly the two declared recordings and discriminating immutable digests',
+ "actual booster capture golden regressions > 'booster-sep-catch' replays all physical state/control leaves through an airborne catch",
+ "actual booster capture golden regressions > 'rtls-catch' replays all physical state/control leaves through an airborne catch",
+];
+const seen=new Set();
+beforeEach(context=>{
+ assertClosedWorkerIntrinsics();const name=getTestName(context.task);assert.ok(names.includes(name));assert.ok(!seen.has(name));seen.add(name);
+ api.resetRootOpportunityCensus();api.resetSteelOpportunityCensus();api.resetOriginalStepCensus();
+});
+afterEach(context=>{
+ const name=getTestName(context.task);assert.ok(names.includes(name));
+ const root=api.readRootOpportunityCensus(),steel=api.readSteelOpportunityCensus(),steps=api.readOriginalStepCensus();
+ const index=names.indexOf(name);const record={kind:'original-query-opportunity-census-v2',name,index,steps,root,steel,
+  topLevelReturnsComplete:steps.completed===(index===0?0:108000)&&steps.thrown===0,
+  finalStateTimeAndSamplesVerified:false,rawTaskStateAtHook:context.task.result?.state??null,
+  allOriginalQueriesPaid:true,queryResultsNeverSubstituted:true,acceptance:false,timed:false};
+ // Preserve decisive raw mismatches/partial counters BEFORE enforcing policy.
+ writeFileSync(resolve(m.receipt,'case-'+index+'.json'),JSON.stringify(record,null,2)+'\n',{flag:'wx'});
+ assertClosedWorkerIntrinsics();
+ for(const values of [root,steel,steps])for(const value of Object.values(values))assert.ok(Number.isSafeInteger(value)&&value>=0);
+ for(const values of [root,steel]){
+  assert.equal(values.framesStarted,values.framesClosed);assert.equal(values.nonIdenticalDuplicates,0);
+  assert.equal(values.duplicateInputs,values.bitIdenticalDuplicates);assert.ok(values.duplicateInputs<=values.successfulQueries&&values.successfulQueries<=values.paidQueries);
+ }
+ assert.equal(steps.attempted,steps.closed);assert.equal(steps.completed+steps.thrown,steps.attempted);assert.ok(steps.attempted<=108000);
+ if(index===0)for(const values of [root,steel,steps])for(const value of Object.values(values))assert.equal(value,0,'Digest case performs no physical/query work');
+ // Returns count alone never certifies final state,900s time or1801 samples.
+
+});

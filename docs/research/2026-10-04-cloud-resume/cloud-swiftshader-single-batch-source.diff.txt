@@ -1,0 +1,32 @@
+Unapplied research source sketch; exact applied bases/meaningful tests/lifecycle and frozen-state qualification need independent review before root grant.
+
+diff --git a/src/view/app.ts b/src/view/app.ts
+--- a/src/view/app.ts
++++ b/src/view/app.ts
+@@
+ import { installEmissionBlending } from './emission-blending';
++import { applySwiftShaderBatchPolicy } from './software-batch-policy';
+@@
+   });
++  applySwiftShaderBatchPolicy(app.renderer);
+   const restoreEmissionBlending = installEmissionBlending(app.renderer);
+
+diff --git a/src/view/software-batch-policy.ts b/src/view/software-batch-policy.ts
+new file mode 100644
+--- /dev/null
++++ b/src/view/software-batch-policy.ts
+@@
++import { RendererType, type Renderer, type WebGLRenderer } from 'pixi.js';
++
++/** Narrow batching policy; actual hardware limits and visual sampling stay intact. */
++export function applySwiftShaderBatchPolicy(renderer: Renderer): void {
++  if (renderer.type !== RendererType.WEBGL) return;
++  const webgl = renderer as WebGLRenderer;
++  const extension = webgl.gl.getExtension('WEBGL_debug_renderer_info');
++  if (!extension) return;
++  const observed: unknown = webgl.gl.getParameter(extension.UNMASKED_RENDERER_WEBGL);
++  if (typeof observed !== 'string' || !/\bSwiftShader\b/i.test(observed)) return;
++  const existing = webgl.limits.maxBatchableTextures;
++  if (!Number.isInteger(existing) || existing < 1) return;
++  webgl.limits.maxBatchableTextures = 1;
++}

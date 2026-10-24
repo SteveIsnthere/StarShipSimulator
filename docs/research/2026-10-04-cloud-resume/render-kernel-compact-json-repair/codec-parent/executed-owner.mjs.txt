@@ -1,0 +1,48 @@
+import assert from 'node:assert/strict';
+import { readFileSync,writeFileSync,mkdtempSync,chmodSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { fileURLToPath,pathToFileURL } from 'node:url';
+import path from 'node:path';
+const root='/workspace/StarShipSimulator',research=path.join(root,'docs/research/2026-10-04-cloud-resume');
+const directory=path.join(research,'render-kernel-compact-json-repair');
+const hash=b=>createHash('sha256').update(b).digest('hex');
+assert.equal(process.version,'v22.23.3');
+assert.equal(process.env.RUN_COMPACT_CODEC,'1','Explicit exclusive parent grant required');
+const pinBytes=readFileSync(path.join(directory,'owned-input-pins.json'));
+assert.equal(hash(pinBytes),process.env.COMPACT_CODEC_INPUT_PINS_SHA256);
+const pins=JSON.parse(pinBytes);
+function snapshot(){const out={};for(const [file,sha]of Object.entries(pins)){out[file]=hash(readFileSync(file));assert.equal(out[file],sha,'Owned input drift '+file);}
+ const ownerFile=fileURLToPath(import.meta.url);out[ownerFile]=hash(readFileSync(ownerFile));assert.equal(out[ownerFile],pins[path.join(directory,'run-owned-codec.mjs.txt')],'Executed owner/template mismatch');
+ out[process.execPath]=hash(readFileSync(process.execPath));assert.equal(out[process.execPath],process.env.COMPACT_CODEC_NODE_SHA256,'Independent Node binary pin required');return out;}
+const before=snapshot();assert.equal(before[fileURLToPath(import.meta.url)],hash(readFileSync(fileURLToPath(import.meta.url))));
+const approval=JSON.parse(readFileSync(path.join(research,'cloud-render-kernel-compact-code-independent-approval.json')));
+assert.equal(approval.browserApproved,false);assert.equal(approval.productAcceptance,false);
+for(const [file,sha]of Object.entries(approval.pins))assert.equal(hash(readFileSync(path.join(root,file))),sha);
+const setup=mkdtempSync('/tmp/starship-codec-proof.');chmodSync(setup,0o700);
+const put=(name,bytes)=>writeFileSync(path.join(setup,name),bytes,{flag:'wx',mode:0o600});
+put('before.json',JSON.stringify(before,null,2)+'\n');
+const files=[['compact-codec-controls.mjs','compact-codec-controls.mjs.txt'],['run-render-kernel-compact-json.mjs','run-render-kernel-compact-json.mjs.txt']];
+const executed={};for(const [name,template]of files){const bytes=readFileSync(path.join(directory,template));put(name,bytes);executed[name]=hash(readFileSync(path.join(setup,name)));assert.equal(executed[name],hash(bytes));}
+const hook='kernel-program-attribution-hook.mjs';put(hook,readFileSync(path.join(research,hook)));executed[hook]=hash(readFileSync(path.join(setup,hook)));
+put('declaration.json',JSON.stringify({kind:'compact-codec-owned-proof-v1',setup,exclusiveParentGrant:true,childDeadlineMs:5000,
+ parentExternalMs:20000,inputs:before,executed,command:[process.execPath,path.join(setup,files[0][0]),path.join(research,'run-render-kernel-texture-repair.mjs'),path.join(setup,files[1][0]),path.join(setup,'proof-result.json')],browserLaunches:0},null,2)+'\n');
+process.stdout.write(setup+'\n');
+const {runOwnedCommand,verifyNoOwnedProcesses}=await import(pathToFileURL(path.join(root,'scripts/bench/owned-command.mjs')).href);
+let failure,code,absence,after,proofResultSha256;
+try{code=await runOwnedCommand({name:'codec',args:[path.join(setup,files[0][0]),path.join(research,'run-render-kernel-texture-repair.mjs'),path.join(setup,files[1][0]),path.join(setup,'proof-result.json')],
+ env:{...process.env},root,receipt:setup,deadlineMs:5000});assert.equal(code,0);
+ const actual=JSON.parse(readFileSync(path.join(setup,'codec.process.json')));assert.equal(actual.exit.code,0);assert.equal(actual.exit.signal,null);assert.equal(actual.failure,null);
+ const proofBytes=readFileSync(path.join(setup,'proof-result.json'));proofResultSha256=hash(proofBytes);const result=JSON.parse(proofBytes);assert.equal(result.finalized,true);assert.equal(result.results.length,6);assert(result.results.every(x=>x.passed));assert.equal(result.negativeControls,4);
+ assert.equal(result.candidateSha256,executed[files[1][0]]);
+}catch(e){failure=e;}finally{
+ try{absence=verifyNoOwnedProcesses();after=snapshot();assert.deepStrictEqual(after,before);
+  for(const [name,sha]of Object.entries(executed)){const bytes=readFileSync(path.join(setup,name));assert.equal(hash(bytes),sha);put(name+'.txt',bytes);}
+ }catch(e){failure??=e;}
+ put('after.json',JSON.stringify(after??null,null,2)+'\n');
+ put('owner-result.json',JSON.stringify({kind:'compact-codec-owner-result-v1',setup,childCode:code??null,
+ failure:failure?.message??null,before,after:after??null,executed,absence:absence??null,
+ proofResultSha256:proofResultSha256??null,
+ sourceExact:!!after&&JSON.stringify(before)===JSON.stringify(after),independentParentAbsenceRequired:true,
+ browserLaunches:0,finalized:!failure},null,2)+'\n');
+}
+if(failure)throw failure;

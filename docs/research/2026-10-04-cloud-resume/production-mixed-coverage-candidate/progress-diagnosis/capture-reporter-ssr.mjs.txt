@@ -1,0 +1,77 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, readdirSync, lstatSync, realpathSync, mkdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+// Retain live Infinity/-0 rather than silently treating JSON null/zero as source locations.
+function lossless(value) {
+  if (typeof value === 'number') {
+    if (Object.is(value, -0)) return { $number: '-0' };
+    if (!Number.isFinite(value)) return { $number: String(value) };
+    return value;
+  }
+  if (Array.isArray(value)) return value.map(lossless);
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, lossless(item)]));
+  assert(value !== undefined, 'Unexpected undefined in provider map');
+  return value;
+}
+export default class CaptureReporter {
+  onInit(ctx) {
+    const path = process.env.STARSHIP_MIXED_COVERAGE_RECEIPT;
+    assert.match(path, /^\/tmp\/starship-mixed-coverage\.[a-f0-9]{32}$/);
+    assert.equal(realpathSync(path), path);
+    assert.equal(lstatSync(path).mode & 0o777, 0o700);
+    const capture = resolve(path, 'capture');
+    assert.equal(readdirSync(capture).length, 0);
+    assert.equal(ctx.config.coverage.reportsDirectory, resolve(path, 'reports'));
+    assert.equal(ctx.config.coverage.provider, 'v8');
+    assert.equal(ctx.config.testTimeout, 120000);
+    assert.equal(ctx.config.coverage.excludeAfterRemap, true);
+    assert.deepEqual(ctx.config.coverage.include, ['src/core/**']);
+    for (const key of ['NATIVE_FLIGHT_RUN', 'NATIVE_FLIGHT_RUN_SHA', 'NATIVE_FLIGHT_MAPPED_CODE']) {
+      assert.equal(process.env[key] ?? '', '', 'SSR diagnostic must not admit native code');
+    }
+    assert(!ctx.config.coverage.thresholds.autoUpdate);
+    this.capture = capture;
+    this.reports = ctx.config.coverage.reportsDirectory;
+    this.save('resolved-configuration.json', { coverage: ctx.config.coverage, testTimeout: ctx.config.testTimeout,
+      nativeRun: process.env.NATIVE_FLIGHT_RUN, nativeRunSha: process.env.NATIVE_FLIGHT_RUN_SHA,
+      mappedCode: process.env.NATIVE_FLIGHT_MAPPED_CODE, acceptance: 'Selected2 SSR diagnostic standalone120; no complete coverage/unit30/gate acceptance' });
+  }
+  save(name, value) {
+    const bytes = Buffer.from(JSON.stringify(value) + '\n');
+    assert(bytes.length <= 64 * 1024 * 1024, 'Capture JSON64MiB cap');
+    writeFileSync(resolve(this.capture, name), bytes, { flag: 'wx' });
+    return { file: name, bytes: bytes.length, sha256: digest(bytes) };
+  }
+  onCoverage(coverage) {
+    try {
+      assert.equal(typeof coverage.toJSON, 'function', 'Expected public Istanbul map');
+      const rawDirectory = resolve(this.reports, '.tmp');
+      assert(lstatSync(rawDirectory).isDirectory() && !lstatSync(rawDirectory).isSymbolicLink());
+      const names = readdirSync(rawDirectory).sort();
+      assert(names.length > 0 && names.length <= 1024);
+      const retained = resolve(this.capture, 'raw'); mkdirSync(retained, { mode: 0o700 });
+      let total = 0; const raw = [];
+      for (const name of names) {
+        assert.match(name, /^coverage-[0-9]+\.json$/);
+        const file = resolve(rawDirectory, name), st = lstatSync(file);
+        assert(st.isFile() && !st.isSymbolicLink());
+        assert(st.size <= 64 * 1024 * 1024, 'Raw coverage file64MiB cap');
+        total += st.size; assert(total <= 256 * 1024 * 1024, 'Raw coverage aggregate256MiB cap');
+        const bytes = readFileSync(file); assert.equal(bytes.length, st.size);
+        writeFileSync(resolve(retained, name), bytes, { flag: 'wx', mode: 0o600 });
+        raw.push({ file: 'raw/' + name, bytes: bytes.length, sha256: digest(bytes) });
+      }
+      assert.deepEqual(readdirSync(rawDirectory).sort(), names);
+      const map = coverage.toJSON();
+      const reports = [this.save('provider-map.json', map), this.save('provider-map-lossless.json', lossless(map))];
+      this.save('capture-completed.json', { completed: true, raw, rawBytes: total, reports,
+        originalRangeJSONRetained: true, sourceSchemaNormalized: false, projectAssociationInvented: false,
+        providerThresholdDecisionPending: true, productionAcceptance: false });
+    } catch (error) {
+      this.save('capture-failure.json', { completed: false, error: String(error.stack ?? error), productionAcceptance: false });
+      throw error;
+    }
+  }
+}

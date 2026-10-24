@@ -1,0 +1,19 @@
+[
+  "earth.radius",
+  "orbit.circular.200km",
+  "raptor2.sl.thrust",
+  "raptor2.vac.isp",
+  "raptor3.sl.thrust",
+  "rvac2.vac.thrust",
+  "rvac3.vac.thrust",
+  "ship.engine.count",
+  "ship.propellant.capacity",
+  "ship.v3.height",
+  "ship.v3.propellant.capacity",
+  "super-heavy.diameter",
+  "super-heavy.engine.count",
+  "super-heavy.height",
+  "super-heavy.propellant.capacity",
+  "super-heavy.v3.height",
+  "super-heavy.v3.propellant.capacity"
+]

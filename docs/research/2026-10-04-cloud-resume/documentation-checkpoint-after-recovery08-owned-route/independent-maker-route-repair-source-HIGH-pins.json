@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "decision": "source-ready-for-archive-scopes-and-separate-maker-input-preparation-only",
+  "sourceManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/source-pins.json",
+    "sha256": "4b1b4c5fac53b0a88e0f7f51064717dc519559d140a9d55460ed69e84c60d166"
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/independent-maker-route-repair-source-HIGH-review.md",
+    "sha256": "9b7e1ad486b47f7e87e9a395be9df342ff33151e6e929563b8389e7b4d952c02"
+  },
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/archive.py.txt",
+      "sha256": "3240f5cb277cd480d58c3cd9c9ad3e0468d809b05cf7ac707d21448571f1b901"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/proposal.json",
+      "sha256": "ded73087458e3317046de0a619f2958b09ff847033172e41741bd63c1dbff110"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/root-observer.py.txt",
+      "sha256": "130e4be7746d9d18e04c0704e7acb228551631b2f32dc6071c4cd5ee0761ce39"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/make-input.py.txt",
+      "sha256": "a130796eeb329100abc6459e2baf294442f4c576a550c133bdf56c978c1fa9e8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/capture-selection.py.txt",
+      "sha256": "66791db0448870459ed8a87d658e6db430f1f13db51d9b7b34b135d7f3b61435"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/PLAN.md",
+      "sha256": "db771c2e3e8d7db7ba408ea2d9025f2b1a028921eafbd2d02b304610ce292e5b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/maker-source-route-repair.md",
+      "sha256": "e99957bb79ff85f6edcf5e171e0a8f4536e11e7ec1dfc1c1f8ec5a671f208171"
+    }
+  ],
+  "predecessorManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-route/before-maker-source-route-repair/source-pins.json",
+    "sha256": "da326a19474abb0b725efb025ca6ec5dba3cfe6769cbf597bdccdccca1c0c9b2"
+  },
+  "captureSelectionExecutionApproved": false,
+  "actualCopyExecutionApproved": false,
+  "runtimeExecuted": false
+}

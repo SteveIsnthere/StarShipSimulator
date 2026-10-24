@@ -1,0 +1,70 @@
+{
+  "allExecutingAbsent": true,
+  "observations": [
+    {
+      "pid": 40607,
+      "savedStart": "1796704",
+      "status": "absent"
+    },
+    {
+      "pid": 40639,
+      "savedStart": "1796718",
+      "status": "absent"
+    },
+    {
+      "pid": 40611,
+      "savedStart": "1796714",
+      "currentStart": "1796714",
+      "state": "Z",
+      "status": "nonexecuting"
+    },
+    {
+      "pid": 40614,
+      "savedStart": "1796714",
+      "currentStart": "1796714",
+      "state": "Z",
+      "status": "nonexecuting"
+    },
+    {
+      "pid": 40615,
+      "savedStart": "1796714",
+      "currentStart": "1796714",
+      "state": "Z",
+      "status": "nonexecuting"
+    },
+    {
+      "pid": 40617,
+      "savedStart": "1796714",
+      "currentStart": "1796714",
+      "state": "Z",
+      "status": "nonexecuting"
+    },
+    {
+      "pid": 40642,
+      "savedStart": "1796718",
+      "status": "absent"
+    },
+    {
+      "pid": 40653,
+      "savedStart": "1796721",
+      "status": "absent"
+    },
+    {
+      "pid": 40677,
+      "savedStart": "1796727",
+      "status": "absent"
+    },
+    {
+      "pid": 40678,
+      "savedStart": "1796727",
+      "currentStart": "1796727",
+      "state": "Z",
+      "status": "nonexecuting"
+    },
+    {
+      "pid": 40703,
+      "savedStart": "1796990",
+      "status": "absent"
+    }
+  ]
+}

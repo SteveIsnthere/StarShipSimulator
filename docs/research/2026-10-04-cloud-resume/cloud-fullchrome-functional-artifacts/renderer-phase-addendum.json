@@ -1,0 +1,89 @@
+{
+  "reason": "Preserve renderer phase distinction; original immutable summary stores browser startup snapshot, not final measured presentation.",
+  "startupRenderer": {
+    "backend": "webgl",
+    "backendType": 1,
+    "resolution": 1,
+    "screen": {
+      "width": 1280,
+      "height": 720
+    },
+    "backing": {
+      "width": 1280,
+      "height": 720
+    },
+    "antialias": true,
+    "webgl": {
+      "drawingBufferWidth": 1280,
+      "drawingBufferHeight": 720,
+      "antialias": true,
+      "contextLost": false
+    },
+    "filters": [
+      {
+        "id": "bloom",
+        "attached": false,
+        "enabled": true,
+        "compatible": true,
+        "resolution": "inherit",
+        "antialias": "inherit",
+        "inputResolution": null,
+        "inputAntialias": null
+      },
+      {
+        "id": "heat",
+        "attached": false,
+        "enabled": true,
+        "compatible": true,
+        "resolution": 1,
+        "antialias": "off",
+        "inputResolution": null,
+        "inputAntialias": null
+      }
+    ]
+  },
+  "postDrawRenderer": {
+    "backend": "webgl",
+    "backendType": 1,
+    "resolution": 1,
+    "screen": {
+      "width": 1280,
+      "height": 720
+    },
+    "backing": {
+      "width": 1280,
+      "height": 720
+    },
+    "antialias": true,
+    "webgl": {
+      "drawingBufferWidth": 1280,
+      "drawingBufferHeight": 720,
+      "antialias": true,
+      "contextLost": false
+    },
+    "filters": [
+      {
+        "id": "bloom",
+        "attached": true,
+        "enabled": true,
+        "compatible": true,
+        "resolution": "inherit",
+        "antialias": "inherit",
+        "inputResolution": 1,
+        "inputAntialias": true
+      },
+      {
+        "id": "heat",
+        "attached": false,
+        "enabled": true,
+        "compatible": true,
+        "resolution": 1,
+        "antialias": "off",
+        "inputResolution": null,
+        "inputAntialias": null
+      }
+    ]
+  },
+  "authoritativeReview": "cloud-fullchrome-functional-independent-result-review.md",
+  "claim": "Startup bloom detached; post-draw bloom attached inputResolution1/inputAAtrue; heat detached both. No post-draw bloom-detached inference."
+}

@@ -1,0 +1,42 @@
+{
+  "kind": "independent-source-only-bounded-plan-HIGH-review-v1",
+  "executionApproved": false,
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/proposal.md",
+      "sha256": "0fb2272b50a787b2be7f9998802075e6b83ae887b34c9059052a2a49968e674a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/app/view-clock.test.ts",
+      "sha256": "7026d3779d51783c5d2e0f69a6f2e7dd58e26293d53562332d7648e123cad895"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/vitest.config.ts",
+      "sha256": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vitest/dist/chunks/cli-api.CnMVyzaz.js",
+      "sha256": "a236001d048380e2c67d05423fc9ea3f26b07ee019ba8d6e622082f29d49102e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+      "sha256": "bf6af6d2f4469911879a67e83b8f9e7b20332cf42795032c53457b10ccc1c617"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json",
+      "sha256": "0d8aa697f5255d26ccd1da9e3135de5e4a49ee67ba4ac00222f5c21ca6313d4b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-diagnostic-failure/report.md",
+      "sha256": "f506c7460a47365555933c845ca2f19928a6fc2eb29d4f135adf8110f360c325"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/proposal-pins.json",
+      "sha256": "dadc85d246d60c9be035670ec2c5ec837e76636beb1fdadb4f57cddf58d9cca1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/independent-proposal-HIGH-review.md",
+      "sha256": "33b344148ef496988e9d3846b6e9206553c65acb1a96b6904a4a2123a5ae8f56"
+    }
+  ]
+}

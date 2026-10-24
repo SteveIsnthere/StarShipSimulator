@@ -1,0 +1,100 @@
+/** Pure actual SDK batching/packing metadata. No renderer/browser/GPU/physics imports. */
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {pathToFileURL} from 'node:url';
+import path from 'node:path';
+import {stripTypeScriptTypes} from 'node:module';
+const [root,entry,output]=process.argv.slice(2);assert([root,entry,output].every(x=>x&&path.isAbsolute(x)));assert.equal(process.version,'v22.23.3');
+const sdk=path.join(root,'node_modules/pixi.js/lib');const hash=b=>createHash('sha256').update(b).digest('hex');
+const {DOMAdapter}=await import(pathToFileURL(path.join(sdk,'environment/adapter.mjs')).href);
+const {TextureSource}=await import(pathToFileURL(path.join(sdk,'rendering/renderers/shared/texture/sources/TextureSource.mjs')).href);
+const {Texture}=await import(pathToFileURL(path.join(sdk,'rendering/renderers/shared/texture/Texture.mjs')).href);
+const {getAdjustedBlendModeBlend}=await import(pathToFileURL(path.join(sdk,'rendering/renderers/shared/state/getAdjustedBlendModeBlend.mjs')).href);
+const adapter=DOMAdapter.get();let nullContextRequests=0;
+// Explicit inert adapter supplies ONLY documented null test-context fallback during DefaultShader CPU construction.
+// No GL object, capability or native rendering success is fabricated. Fresh child owns module-local precision/cache state.
+DOMAdapter.set({...adapter,createCanvas(){return{getContext(){nullContextRequests++;return null;}};}});
+let sequence=0,elementWork=0;const results=[],ownedTextures=[],ownedSources=[];
+function texture(alphaMode='premultiply-alpha-on-upload'){const source=new TextureSource({width:1,height:1,alphaMode});source._batchTick=-1;
+ const tex=new Texture({source});ownedSources.push(source);ownedTextures.push(tex);return tex;}
+function elements(recipe){const textures=new Map();return recipe.map(([name,blend='normal',topology='triangle-list',mesh=false,alpha='premultiply-alpha-on-upload'],ordinal)=>{
+ const key=name+':'+alpha;if(!textures.has(key))textures.set(key,texture(alpha));const tex=textures.get(key);
+ return{ordinal,texture:tex,blendMode:blend,topology,packAsQuad:!mesh,indexSize:mesh?3:6,attributeSize:mesh?3:4,
+ attributeOffset:0,indexOffset:0,indices:new Uint16Array([0,1,2]),positions:new Float32Array([0,0,1,0,0,1]),uvs:new Float32Array([0,0,1,0,0,1]),
+ transform:{a:1,b:0,c:0,d:1,tx:ordinal/8,ty:-ordinal/8},bounds:{minX:0,minY:0,maxX:1,maxY:1},roundPixels:ordinal&1,color:(0xff000000|ordinal)>>>0};});}
+async function freshClass(){return(await import(pathToFileURL(path.join(sdk,'rendering/batcher/shared/DefaultBatcher.mjs')).href+'?owned-width2-controls='+sequence++)).DefaultBatcher;}
+function witnessed(batch){return{start:batch.start,size:batch.size,blendMode:batch.blendMode,topology:batch.topology,
+ elements:batch.elements.map(e=>e.ordinal),sources:batch.textures.textures.slice(0,batch.textures.count).map(s=>s.uid)};}
+async function checkRecipe(name,recipe,breakAfter=[]){const rows=[];
+ for(const width of [1,2,32]){
+  const DefaultBatcher=await freshClass();const batcher=new DefaultBatcher({maxTextures:width});assert.equal(batcher.maxTextures,width);assert.equal(batcher.shader.maxTextures,width);
+  assert(new RegExp('uTextures\\s*\\[\\s*'+width+'\\s*\\]').test(batcher.shader.glProgram.fragment));
+  const input=elements(recipe);elementWork+=input.length;assert(elementWork<=12000,'Declared total element bound');const sink={items:[],add(batch){this.items.push(batch);}};
+  try{batcher.begin();for(let i=0;i<input.length;i++){batcher.add(input[i]);if(breakAfter.includes(i+1))batcher.break(sink);}batcher.finish(sink);
+   const once=sink.items.length;batcher.finish(sink);assert.equal(sink.items.length,once,'Final finish must not duplicate instructions');
+   assert.deepEqual(sink.items.flatMap(b=>b.elements.map(e=>e.ordinal)),input.map(e=>e.ordinal),'Original element order/coverage');
+   let expectedIndexStart=0;for(const batch of sink.items){assert.equal(batch.start,expectedIndexStart);assert.equal(batch.size,batch.elements.reduce((n,e)=>n+e.indexSize,0));expectedIndexStart+=batch.size;
+    assert(batch.textures.count>=1&&batch.textures.count<=width);for(const e of batch.elements){const slot=e._textureId;
+     assert(Number.isInteger(slot)&&slot>=0&&slot<batch.textures.count);assert.equal(batch.textures.textures[slot],e.texture._source);
+     assert.equal(batch.blendMode,getAdjustedBlendModeBlend(e.blendMode,e.texture._source));assert.equal(batch.topology,e.topology);}}
+   assert.equal(expectedIndexStart,batcher.indexSize);
+   for(const e of input){const start=e._attributeStart,index=e._indexStart,vertexStart=start/6;
+    const vertices=e.packAsQuad?[[0,0,0,0],[1,0,1,0],[1,1,1,1],[0,1,0,1]]:[[0,0,0,0],[1,0,1,0],[0,1,0,1]];
+    for(let v=0;v<vertices.length;v++){const [x,y,u,w]=vertices[v],o=start+6*v;
+     assert(Object.is(batcher.attributeBuffer.float32View[o],Math.fround(x+e.transform.tx)));
+     assert(Object.is(batcher.attributeBuffer.float32View[o+1],Math.fround(y+e.transform.ty)));
+     assert.equal(batcher.attributeBuffer.float32View[o+2],u);assert.equal(batcher.attributeBuffer.float32View[o+3],w);
+     assert.equal(batcher.attributeBuffer.uint32View[o+4],e.color);
+     assert.equal(batcher.attributeBuffer.uint32View[o+5],((e._textureId<<16)|(e.roundPixels&65535))>>>0);}
+    const expected=e.packAsQuad?[0,1,2,0,2,3]:[0,1,2];assert.deepEqual(Array.from(batcher.indexBuffer.slice(index,index+e.indexSize)),expected.map(i=>vertexStart+i));}
+   let runs=0,genuine=0;for(let i=0;i<input.length;i++){const e=input[i],prior=input[i-1];if(!prior||e.texture._source!==prior.texture._source||breakAfter.includes(i))runs++;
+    if(prior&&!breakAfter.includes(i)&&(e.topology!==prior.topology||getAdjustedBlendModeBlend(e.blendMode,e.texture._source)!==getAdjustedBlendModeBlend(prior.blendMode,prior.texture._source)))genuine++;}
+   const segments=input.length?1+breakAfter.filter(i=>i<input.length).length:0;
+   const bound=runs+genuine+segments; if(width===2)assert(sink.items.length<=bound,'Width2 source/run/genuine-break conservative bound');
+   // Actual updateTexture admits an owned present source and denies a distinct absent source.
+   if(input.length){const e=input[0];assert.equal(batcher.checkAndUpdateTexture(e,e.texture),true);
+    const absent=texture();assert.equal(batcher.checkAndUpdateTexture(e,absent),false);}
+   const count=sink.items.length;const record={name,width,elements:input.length,batches:count,runs,genuine,segments,bound,
+    instructions:sink.items.map(witnessed),indicesSha256:hash(Buffer.from(batcher.indexBuffer.buffer,0,batcher.indexSize*2))};rows.push(record);
+   batcher.begin();const emptySink={items:[],add(b){this.items.push(b);}};batcher.finish(emptySink);assert.equal(emptySink.items.length,0,'Empty/reset lifecycle');
+  }finally{batcher.destroy();assert.equal(batcher.batches,null);assert.equal(batcher.attributeBuffer,null);batcher.destroy();}
+ }
+ if(name.startsWith('long-')){assert(rows.find(r=>r.width===1).batches>400,'Witness actual width1 repeated flush');assert(rows.find(r=>r.width===2).batches<=4,'Width2 recovery');}
+ results.push(...rows);
+}
+try{
+ const run=(source,count,blend='normal',topology='triangle-list')=>Array.from({length:count},()=>[source,blend,topology]);
+ await checkRecipe('long-capacity-forward',[['A'],['B'],...run('C',405)]);
+ await checkRecipe('long-capacity-reverse',[['C'],['B'],...run('A',405)]);
+ await checkRecipe('long-blend',[['A'],...run('B',405,'add')]);
+ await checkRecipe('long-topology',[['A'],...run('B',405,'normal','triangle-strip')]);
+ await checkRecipe('alternating',Array.from({length:180},(_,i)=>[['A','B','C'][i%3]]));
+ await checkRecipe('return-source',Array.from({length:120},(_,i)=>[['A','B','C','A','B','A'][i%6]]));
+ await checkRecipe('external-break',[...run('A',8),...run('B',8),...run('A',8)],[8,16]);
+ await checkRecipe('alpha-adjusted',[['A','normal','triangle-list',false,'no-premultiply-alpha'],['B','normal'],['A','add','triangle-list',false,'no-premultiply-alpha'],['B','add']]);
+ await checkRecipe('mesh-quad',[['A'],['A','normal','triangle-list',true],['B','add','triangle-list',true],['B','add']]);
+ await checkRecipe('empty',[]);
+ // Real module cache negative: a second instance cannot be certified by changing only maxTextures.
+ const Cached=await freshClass(),first=new Cached({maxTextures:32}),later=new Cached({maxTextures:2});
+ try{assert.equal(first.shader,later.shader);assert.equal(later.maxTextures,2);assert.equal(later.shader.maxTextures,32);}finally{first.destroy();later.destroy();}
+ // Actual BatcherPipe lazy public-limit consumption and late-limit cache negative, no GPU adapter calls.
+ const {BatcherPipe}=await import(pathToFileURL(path.join(sdk,'rendering/batcher/shared/BatcherPipe.mjs')).href);
+ const renderer={limits:{maxBatchableTextures:32}},pipe=new BatcherPipe(renderer,{}),instruction={uid:777,add(){}};
+ renderer.limits.maxBatchableTextures=2;pipe.buildStart(instruction);const selected=pipe._activeBatch;
+ try{assert.equal(selected.maxTextures,2);assert.equal(selected.shader.maxTextures,2);
+  renderer.limits.maxBatchableTextures=32;pipe.buildStart(instruction);assert.equal(pipe._activeBatch,selected);assert.equal(selected.maxTextures,2);}
+ finally{pipe.destroy();}
+ // Execute the actual candidate function's entry guard only; no product imports or valid canvas access.
+ const source=readFileSync(entry,'utf8'),at=source.indexOf('export async function createKernel(');assert(at>=0);
+ const fn=stripTypeScriptTypes(source.slice(at).replace(/^export /,''),{mode:'strip',sourceUrl:entry});
+ const createKernel=new Function(fn+'; return createKernel;')();const descriptor=Object.getOwnPropertyDescriptor(globalThis,'document');let reads=0;
+ const sentinel=new Error('owned-document-boundary');Object.defineProperty(globalThis,'document',{configurable:true,get(){reads++;throw sentinel;}});
+ try{for(const value of [1,0,3,NaN,Infinity,'2',undefined,null]){const prior=reads;await assert.rejects(createKernel(value),/Exactly declared baseline32 or candidate2/);assert.equal(reads,prior);}
+  for(const value of [2,32]){const prior=reads;await assert.rejects(createKernel(value),e=>e===sentinel);assert.equal(reads,prior+1);}}
+ finally{if(descriptor)Object.defineProperty(globalThis,'document',descriptor);else delete globalThis.document;}
+ assert(nullContextRequests>0);writeFileSync(output,JSON.stringify({kind:'locked-sdk-width2-controls-v1',node:process.version,
+ recipeCount:10,widthCases:30,elementWork,elementCap:12000,results,cacheNegative:true,latePublicLimitNegative:true,
+ actualEntryGuardNegatives:8,actualEntryGuardAcceptedBoundaries:2,inertNullTestContext:true,nullContextRequests,
+ rendererInstances:0,browserLaunches:0,physicsImports:0,actualSceneQueryBoundProven:false,finalized:true},null,2)+'\n',{flag:'wx'});
+}finally{DOMAdapter.set(adapter);assert.equal(DOMAdapter.get(),adapter);for(const t of ownedTextures)t.destroy(false);for(const s of ownedSources)s.destroy();}

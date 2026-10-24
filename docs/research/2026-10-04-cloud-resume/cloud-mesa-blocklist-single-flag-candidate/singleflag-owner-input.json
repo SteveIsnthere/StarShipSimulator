@@ -1,0 +1,48 @@
+{
+  "kind": "mesa-functional-stage-owner-input-v1",
+  "purpose": "mesa-functional-webgl2",
+  "mode": "build",
+  "outerMs": 120000,
+  "root": "/workspace/StarShipSimulator",
+  "setup": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "preparer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+    "sha": "0f784f7e175efedd30390f92072a6bbbd30db74380bc6de1efc0aae93fc8a51e"
+  },
+  "builder": {
+    "path": "/tmp/starship-mesa-singleflag-source.yfgskvsr/run-functional-single-blocklist-override.mjs",
+    "sha": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd"
+  },
+  "qualifier": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/singleflag-functional-input.json",
+    "sha": "a9d4fc7a005711dfa36d673543a2b1302455b39ccaf5f1b0eaa635b804746fbd"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/candidate-source-pins.json",
+    "sha": "1c5f9e0ef7e5f48799a9b80d74d915ccc7efe99baff3b97e2caf9d9c10e4bc1d"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/business-stage.mjs.txt",
+    "sha": "c09f4c1d19a69f367f4f79d0018976680c60620374f89d3e99fdf2cd4656d590"
+  },
+  "observer": {
+    "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/root-observer.py",
+    "sha": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "bridge": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/source-assessment-and-contract.md",
+    "sha": "bcb9fc1fe0013fc2b7992efd1744b0ef3957b0545455b5b9b73f764d8280e831"
+  }
+}

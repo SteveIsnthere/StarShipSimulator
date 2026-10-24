@@ -1,0 +1,39 @@
+// RESEARCH ONLY: materialize at scripts/bench/consumer-controls.test.ts under a separate root grant.
+import {it} from 'vitest';
+import assert from 'node:assert/strict';
+import * as guidance from '../../src/core/control/guidance-physics';
+import * as state from '../../src/core/state';
+import * as scenarios from '../../src/core/scenarios';
+import * as units from '../../src/core/units';
+import {SHIP} from '../../src/core/vehicle';
+import {SUPER_HEAVY,CATCH} from '../../src/core/vehicles/super-heavy';
+import {step,advanceMechanics} from '../../src/core/step';
+import {runBoosterPolicy} from '../../src/core/autopilot/booster';
+import {toggleAutoLand} from '../../src/core/control/commands';
+import {createCatchPose,writeCatchPose} from '../../src/core/physics/tower-catch';
+import {starBaseXPos,vehicleHeight} from '../../src/core/constants';
+import {originalUnpoweredFall} from '../../tests/proofs/fixtures/unpowered-fall-original';
+import {createBurnScratch,createFallResult,landingBurnStartAltitude,unpoweredFallInto} from '$core/control/guidance-physics';
+import {ALL_SCENARIOS,createScenarioState} from '$core/scenarios';
+import {graphOracle} from './consumer-graph-oracle';
+// @ts-expect-error -- reviewed helper is plain ESM
+import {loadNativeGuidance} from './native-loader.mjs';
+it('source-identical native guidance/scenario consumer: two original recipes per backend',async()=>{
+ const left={...guidance,...state,...scenarios,...units,SHIP,SUPER_HEAVY,CATCH,step,advanceMechanics,runBoosterPolicy,toggleAutoLand,createCatchPose,writeCatchPose,starBaseXPos,originalUnpoweredFall};
+ const right=await loadNativeGuidance(process.env.STARSHIP_NATIVE_BENCH_MANIFEST,process.env.STARSHIP_NATIVE_BENCH_DIGEST,process.env.STARSHIP_NATIVE_BENCH_INVOCATION) as typeof left;
+ assert.equal(createBurnScratch,right.createBurnScratch);assert.equal(createFallResult,right.createFallResult);assert.equal(landingBurnStartAltitude,right.landingBurnStartAltitude);assert.equal(unpoweredFallInto,right.unpoweredFallInto);
+ assert.equal(ALL_SCENARIOS,right.ALL_SCENARIOS);assert.equal(createScenarioState,right.createScenarioState);
+ assert.equal(vehicleHeight,50);assert.equal(right.SHIP.height,52);const ground=vehicleHeight/2;assert.equal(ground,25);
+ const oracle=graphOracle(left,right,{leftObject:Object.getPrototypeOf(SHIP),rightObject:Object.getPrototypeOf(right.SHIP),leftArray:Object.getPrototypeOf(scenarios.ALL_SCENARIOS),rightArray:Object.getPrototypeOf(ALL_SCENARIOS)});
+ const a=guidance.createBurnScratch(),b=createBurnScratch();assert.equal(a.fallWork.model,SHIP);assert.equal(b.fallWork.model,right.SHIP);
+ oracle.compare(a,b,'burn.before');
+ const x=guidance.landingBurnStartAltitude(3,140000,61,ground,a),y=landingBurnStartAltitude(3,140000,61,ground,b);
+ oracle.compare(x,y,'burn.output');oracle.compare(a,b,'burn.after');
+ const l=scenarios.createScenarioState(scenarios.ALL_SCENARIOS.find(p=>p.id==='reentry')!),r=createScenarioState(ALL_SCENARIOS.find(p=>p.id==='reentry')!);
+ for(const s of [l,r]){s.kinematics.altitude=79000;s.kinematics.speedX=2000;s.kinematics.speedY=-50;}
+ const la=guidance.createBurnScratch(),ra=createBurnScratch(),lo=guidance.createFallResult(),ro=createFallResult();
+ oracle.compare(l,r,'fall.state.before');oracle.compare(la,ra,'fall.scratch.before');
+ const lx=guidance.unpoweredFallInto(l,ground,la,lo),rx=unpoweredFallInto(r,ground,ra,ro);
+ oracle.compare(lx,rx,'fall.return');oracle.compare(lo,ro,'fall.output');oracle.compare(la,ra,'fall.scratch.after');oracle.compare(l,r,'fall.state.after');
+ assert.equal(la.fallWork.state,null);assert.equal(ra.fallWork.state,null);assert.equal(la.fallWork.model,SHIP);assert.equal(ra.fallWork.model,right.SHIP);
+});

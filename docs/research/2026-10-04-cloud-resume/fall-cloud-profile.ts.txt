@@ -1,0 +1,33 @@
+/** Diagnostic only: original guidance timing inputs and warm/run counts.
+ * CPU-prof timings include profiling overhead and establish no budget pass. */
+import { createBurnScratch, createFallResult, landingBurnStartAltitude, unpoweredFallInto } from '../../../src/core/control/guidance-physics';
+import { ALL_SCENARIOS, createScenarioState } from '../../../src/core/scenarios';
+import * as C from '../../../src/core/constants';
+
+const burnScratch = createBurnScratch();
+for (let i = 0; i < 200; i++) landingBurnStartAltitude(3, 140_000, 61, 25, burnScratch);
+const burnStart = performance.now();
+let burnResult: number | null = null;
+for (let i = 0; i < 2_000; i++) burnResult = landingBurnStartAltitude(3, 140_000, 61 + (i % 10) * 0.1, 25, burnScratch);
+console.log(JSON.stringify({ kind: 'diagnostic-only', workload: 'burn', warm: 200, runs: 2_000,
+  perCallMs: (performance.now() - burnStart) / 2_000, burnResult, duration: burnScratch.duration }));
+
+for (const config of [
+  { name: 'normal-fall', h: 79_000, vx: 2_000, vy: -50, warm: 20, runs: 200, reached: true },
+  { name: 'capped-fall', h: 60_000, vx: 0, vy: 7_000, warm: 5, runs: 50, reached: false },
+]) {
+  const state = createScenarioState(ALL_SCENARIOS.find(p => p.id === 'reentry')!);
+  state.kinematics.altitude = config.h;
+  state.kinematics.speedX = config.vx;
+  state.kinematics.speedY = config.vy;
+  const scratch = createBurnScratch(), out = createFallResult();
+  for (let i = 0; i < config.warm; i++) unpoweredFallInto(state, C.vehicleHeight / 2, scratch, out);
+  const started = performance.now();
+  for (let i = 0; i < config.runs; i++) unpoweredFallInto(state, C.vehicleHeight / 2, scratch, out);
+  const elapsed = performance.now() - started;
+  if (out.reached !== config.reached) throw new Error('Original fall workload endpoint changed');
+  if (!config.reached && scratch.fallWork.steps !== 4_000) throw new Error('Original capped work count changed');
+  console.log(JSON.stringify({ kind: 'diagnostic-only', workload: config.name, warm: config.warm,
+    runs: config.runs, perCallMs: elapsed / config.runs, out, steps: scratch.fallWork.steps,
+    pitch: state.kinematics.pitch, node: process.version }));
+}

@@ -1,0 +1,3 @@
+Only one command argument is added; all other bytes are identical.
+- args:[resolve(m.root,'scripts/test/run.mjs'),'run',...files]
++ args:[resolve(m.root,'scripts/test/run.mjs'),'run','--maxWorkers=1',...files]

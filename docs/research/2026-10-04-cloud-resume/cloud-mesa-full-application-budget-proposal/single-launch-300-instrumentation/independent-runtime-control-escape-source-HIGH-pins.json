@@ -1,0 +1,14 @@
+{
+  "kind": "runtime-control-escape-successor-source-high-pins-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/business-stage.mjs.txt": "94cc413bfa2e81212885b9654a8bd686293c0f83cc7cca4d61f465f73a4c9448",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach.json": "19984326ff07f6f4db8e7b2d9aeba001cb72d0281daa44fa0d65275fef25e687",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.py.txt": "9db52b8ff6088781c116ca2897a8bb0060d0f2ccdba66e67d8d1211d2418496e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/business-stage.ansi-lint-clean.mjs.txt": "37349d8df6b986e9ce4ea92e4b61e42598d283ef699c91d7989480708f09c466",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/ansi-string-controls.correct-runtime-escape.mjs": "1cb54e221bb897fdff854fcfb56134af6d33c2c94e6370cf9a80e70012fa2d86",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/source-pins-bounded-detach-runtime-control-repair.json": "03eab7bfad227ac8399c36e65eca421278fbc45888572b2f4dc44f1a722a6b1b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/make-input.runtime-control-repair.py.txt": "edb10c87da20547ff5483d9f8bf90031809b0c20dd55fe842b14dd151c8de04d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/single-launch-300-instrumentation/runtime-control-escape-repair-source-pins.json": "5b7c164c0852368424c9e9ba8bbe6bdeba507e8bcc87a1c4c0ba366e6d1d54ed"
+  },
+  "reviewSha256": "91e6f197c194a98484c13c79c229aeab1e2344d8688b68676a84c659bd81de85"
+}

@@ -1,0 +1,174 @@
+/**
+ * Force decomposition into horizontal and vertical components.
+ *
+ * THE SHIPPED FORM IS THE COLLAPSED ONE, since M2.10. Each of these six
+ * coefficients was a quadrant ladder in backend/physics.js:99-249 — 143 of that
+ * file's 539 lines — picking a trig expression by which quadrant its angle
+ * falls in. Every ladder reduces to a single expression, because the branches
+ * are trigonometric identities of one another:
+ *
+ *     horizontalDrag(x)    = -sin(x)      verticalDrag(x)    = -cos(x)
+ *     horizontalLift(x)    = -cos(x)      verticalLift(x)    =  sin(x)
+ *     horizontalThrust(x)  =  sin(x)      verticalThrust(x)  =  cos(x)
+ *
+ * M1.9 proved that — tests/proofs/trig-collapse.test.ts, max absolute
+ * difference 1 unit-ULP over 4,000,001 angles per ladder — and could not apply
+ * it as a Refactor, because about a third of angles differ in the last bit and
+ * that moves the goldens. It shipped as a fidelity flag, and M2.10 made it
+ * unconditional on the owner's instruction.
+ *
+ * The accuracy claim is real rather than a formality: the ladder computes
+ * `sin(PI - a)` where the collapsed form computes `sin(a)`, and for `a` near PI
+ * that subtraction cancels leading digits before the sine is taken. Where the
+ * two differ, it is the ladder carrying the error.
+ *
+ * THE LADDERS ARE STILL HERE, as `legacy*Coefficient`. They are what the 2021
+ * build does, the parity suite compares against them, and the 1-ULP proof needs
+ * both forms to have something to compare. Nothing in the simulation calls
+ * them.
+ */
+import type { Rad } from '../units';
+
+const HALF_PI = Math.PI / 2;
+
+// --- drag ------------------------------------------------------------------
+
+/** physics.js:110, collapsed. */
+export function horizontalDragCoefficient(angleOfMotion: Rad): number {
+  return -Math.sin(angleOfMotion);
+}
+
+/** physics.js:186, collapsed. */
+export function verticalDragCoefficient(angleOfMotion: Rad): number {
+  return -Math.cos(angleOfMotion);
+}
+
+// --- lift ------------------------------------------------------------------
+
+/** physics.js:128, collapsed. */
+export function horizontalLiftCoefficient(angleOfMotion: Rad): number {
+  return -Math.cos(angleOfMotion);
+}
+
+/** physics.js:203, collapsed. */
+export function verticalLiftCoefficient(angleOfMotion: Rad): number {
+  return Math.sin(angleOfMotion);
+}
+
+// --- thrust ----------------------------------------------------------------
+
+/** physics.js:159, collapsed. */
+export function horizontalThrustCoefficient(gimbalPointingDirection: Rad): number {
+  return Math.sin(gimbalPointingDirection);
+}
+
+/** physics.js:230, collapsed. */
+export function verticalThrustCoefficient(gimbalPointingDirection: Rad): number {
+  return Math.cos(gimbalPointingDirection);
+}
+
+/**
+ * physics.js:145 and :218 — the sign of the lift component flips depending on
+ * which side of the airflow the nose is on. Shared by both axes verbatim.
+ */
+export function liftSignIsInverted(angleOfAttack: Rad): boolean {
+  return (
+    (0 < angleOfAttack && angleOfAttack < HALF_PI) ||
+    (-Math.PI < angleOfAttack && angleOfAttack < -HALF_PI)
+  );
+}
+
+// --- composition -----------------------------------------------------------
+
+export interface AccelerationInputs {
+  angleOfMotion: Rad;
+  angleOfAttack: Rad;
+  gimbalPointingDirection: Rad;
+  /** m/s^2 */
+  aerodynamicDragAcceleration: number;
+  /** m/s^2 */
+  aerodynamicLiftAcceleration: number;
+  /** m/s^2 — the GIMBALLED thrust, along `gimbalPointingDirection`. */
+  thrustAcceleration: number;
+  /**
+   * m/s^2 — thrust from fixed engines (the RVacs), along the hull at `pitch`
+   * (Phase 6, independent review: the vacuum engines do not gimbal). At zero,
+   * the sum is the gimballed component's bits.
+   */
+  fixedThrustAcceleration: number;
+  /** rad — the hull's attitude, which fixed thrust follows. */
+  pitch: Rad;
+}
+
+/** The thrust's share of one axis: gimballed, plus fixed along the hull when any is lit. */
+function thrustAlong(i: AccelerationInputs, coefficient: (direction: Rad) => number): number {
+  const gimballed = coefficient(i.gimbalPointingDirection) * i.thrustAcceleration;
+  const fixed = i.fixedThrustAcceleration;
+  return fixed === 0 ? gimballed : gimballed + coefficient(i.pitch) * fixed;
+}
+
+/** physics.js:99 — sum of drag, lift and thrust components. @returns m/s^2 */
+export function getHorizontalAcceleration(i: AccelerationInputs): number {
+  const dragComponent = horizontalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
+
+  const liftCoefficient = horizontalLiftCoefficient(i.angleOfMotion);
+  const liftComponent = liftSignIsInverted(i.angleOfAttack)
+    ? -liftCoefficient * i.aerodynamicLiftAcceleration
+    : liftCoefficient * i.aerodynamicLiftAcceleration;
+
+  const thrustComponent = thrustAlong(i, horizontalThrustCoefficient);
+
+  // 2021 sums drag + thrust + lift, in that order. Kept: float addition is not
+  // associative and the goldens see the difference.
+  return dragComponent + thrustComponent + liftComponent;
+}
+
+/**
+ * physics.js:175 — same, plus gravity.
+ *
+ * `gravity` is still passed as the 2021 flat-earth constant and still
+ * subtracted here; step() then adds it back along with real -GM/r^2 (M2.6).
+ * That looks redundant and is deliberate: keeping the ladder's arithmetic in
+ * exactly this order is what made the M2.10 unification provably bit-identical
+ * to the flag-on path it replaced.
+ *
+ * @param gravity m/s^2
+ * @returns m/s^2
+ */
+export function getVerticalAcceleration(i: AccelerationInputs, gravity: number): number {
+  const dragComponent = verticalDragCoefficient(i.angleOfMotion) * i.aerodynamicDragAcceleration;
+
+  const liftCoefficient = verticalLiftCoefficient(i.angleOfMotion);
+  const liftComponent = liftSignIsInverted(i.angleOfAttack)
+    ? -liftCoefficient * i.aerodynamicLiftAcceleration
+    : liftCoefficient * i.aerodynamicLiftAcceleration;
+
+  const thrustComponent = thrustAlong(i, verticalThrustCoefficient);
+
+  return -gravity + dragComponent + thrustComponent + liftComponent;
+}
+
+/** Both canonical compositions, sharing their identical trig/sign queries.
+ * Keep each scalar expression's order, including zero thrust products and the
+ * conditional fixed-engine addition: signed zero and nonfinite inputs matter.
+ */
+export function writeAccelerationComponents(i: AccelerationInputs, gravity: number,
+  out: { x: number; y: number }): void {
+  const sine = Math.sin(i.angleOfMotion), cosine = Math.cos(i.angleOfMotion);
+  const inverted = liftSignIsInverted(i.angleOfAttack);
+  const dragX = -sine * i.aerodynamicDragAcceleration;
+  const dragY = -cosine * i.aerodynamicDragAcceleration;
+  const liftXCoefficient = -cosine, liftYCoefficient = sine;
+  const liftX = inverted ? -liftXCoefficient * i.aerodynamicLiftAcceleration
+    : liftXCoefficient * i.aerodynamicLiftAcceleration;
+  const liftY = inverted ? -liftYCoefficient * i.aerodynamicLiftAcceleration
+    : liftYCoefficient * i.aerodynamicLiftAcceleration;
+  let thrustX = Math.sin(i.gimbalPointingDirection) * i.thrustAcceleration;
+  let thrustY = Math.cos(i.gimbalPointingDirection) * i.thrustAcceleration;
+  if (i.fixedThrustAcceleration !== 0) {
+    thrustX = thrustX + Math.sin(i.pitch) * i.fixedThrustAcceleration;
+    thrustY = thrustY + Math.cos(i.pitch) * i.fixedThrustAcceleration;
+  }
+  out.x = dragX + thrustX + liftX;
+  out.y = -gravity + dragY + thrustY + liftY;
+}

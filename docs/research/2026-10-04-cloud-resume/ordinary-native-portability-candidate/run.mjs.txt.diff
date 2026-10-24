@@ -1,0 +1,39 @@
+--- scripts/test/run.mjs
++++ /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/run.mjs.txt
+@@ -1,6 +1,5 @@
+ import assert from 'node:assert/strict';
+-import { mkdtempSync, writeFileSync, readFileSync, readdirSync, existsSync } from 'node:fs';
+-import { spawnSync } from 'node:child_process';
++import { mkdtempSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
+ import { tmpdir } from 'node:os';
+ import { resolve } from 'node:path';
+ import { pathToFileURL } from 'node:url';
+@@ -13,24 +12,11 @@
+ const explicit = process.env.NATIVE_FLIGHT_COMPOSITE !== undefined || process.env.NATIVE_FLIGHT_COMPOSITE_SHA !== undefined;
+ let compositePath = process.env.NATIVE_FLIGHT_COMPOSITE;
+ let compositeSha = process.env.NATIVE_FLIGHT_COMPOSITE_SHA;
+-let fallbackReason = null;
+ if (!explicit) {
+-  const defaultPath = resolve(root, 'docs/verification/native-flight-qualification.json');
+-  const defaultPin = resolve(root, 'docs/verification/native-flight-qualification.sha256');
+-  if (existsSync(defaultPath) && existsSync(defaultPin)) {
+-    compositePath = defaultPath; compositeSha = readFileSync(defaultPin, 'utf8').trim();
+-    try { await admitComposite(compositePath, compositeSha); }
+-    catch (error) { fallbackReason = String(error.message); }
+-  } else fallbackReason = 'No durable native qualification for this checkout/runtime';
+-}
+-if (!explicit && fallbackReason !== null) {
+-  // Original ordinary SSR route, including BOTH roots; no timeout/worker/floor override.
+-  process.stdout.write('Native flight ineligible; running original SSR selection: ' + fallbackReason + '\n');
+-  const child = spawnSync(process.execPath, [resolve(root, 'node_modules/vitest/vitest.mjs'), ...args],
+-    { cwd: root, env: { ...process.env, NATIVE_FLIGHT_RUN: '', NATIVE_FLIGHT_RUN_SHA: '', NATIVE_FLIGHT_MAPPED_CODE: '' }, stdio: 'inherit' });
+-  if (child.error) throw child.error;
+-  if (child.signal) process.kill(process.pid, child.signal);
+-  process.exit(child.status ?? 1);
++  compositePath = resolve(root, 'docs/verification/native-flight-portable-anchor-v1.json');
++  compositeSha = readFileSync(resolve(root, 'docs/verification/native-flight-portable-anchor-v1.sha256'), 'utf8').trim();
++  // A stale/missing expected native lane fails closed; it cannot silently select SSR.
++  await admitComposite(compositePath, compositeSha);
+ }
+ const wrapper = mkdtempSync(resolve(tmpdir(), 'starship-official-tests-owner.'));
+ const describeError = error => String(error.stack ?? error);

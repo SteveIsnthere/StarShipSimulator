@@ -1,0 +1,191 @@
+{
+  "ownedIdentityCount": 27,
+  "groups": [
+    31339,
+    31346,
+    31360,
+    31374,
+    31381,
+    31487,
+    31529,
+    31578,
+    31635,
+    31666
+  ],
+  "observations": [
+    {
+      "pid": 31339,
+      "expectedStart": "1393360",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31346,
+      "expectedStart": "1393363",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31353,
+      "expectedStart": "1393366",
+      "actual": {
+        "state": "Z",
+        "group": 31346,
+        "session": 31346,
+        "start": "1393366"
+      },
+      "sameOwnedIdentity": true
+    },
+    {
+      "pid": 31360,
+      "expectedStart": "1393384",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31367,
+      "expectedStart": "1393387",
+      "actual": {
+        "state": "Z",
+        "group": 31360,
+        "session": 31360,
+        "start": "1393387"
+      },
+      "sameOwnedIdentity": true
+    },
+    {
+      "pid": 31374,
+      "expectedStart": "1393415",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31381,
+      "expectedStart": "1393423",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31392,
+      "expectedStart": "1393433",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31393,
+      "expectedStart": "1393433",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31400,
+      "expectedStart": "1393441",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31415,
+      "expectedStart": "1394248",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31422,
+      "expectedStart": "1394252",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31454,
+      "expectedStart": "1394702",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31465,
+      "expectedStart": "1394707",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31487,
+      "expectedStart": "1394792",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31529,
+      "expectedStart": "1395429",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31553,
+      "expectedStart": "1395460",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31578,
+      "expectedStart": "1395596",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31602,
+      "expectedStart": "1395627",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31621,
+      "expectedStart": "1395688",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31628,
+      "expectedStart": "1395735",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31635,
+      "expectedStart": "1395758",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31659,
+      "expectedStart": "1395790",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31666,
+      "expectedStart": "1395983",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31690,
+      "expectedStart": "1396014",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31715,
+      "expectedStart": "1396444",
+      "actual": null,
+      "sameOwnedIdentity": false
+    },
+    {
+      "pid": 31722,
+      "expectedStart": "1396750",
+      "actual": null,
+      "sameOwnedIdentity": false
+    }
+  ],
+  "executingOwnedPids": [],
+  "claim": "No executing owned identities/groups; zombies are not reaped"
+}

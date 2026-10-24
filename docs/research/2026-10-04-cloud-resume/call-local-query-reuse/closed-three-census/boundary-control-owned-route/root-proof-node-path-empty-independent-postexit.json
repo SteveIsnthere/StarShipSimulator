@@ -1,0 +1,38 @@
+{
+  "checkedAt": 1791170768.8672087,
+  "identities": [
+    {
+      "identity": {
+        "pid": 126881,
+        "state": "R",
+        "parent": 126880,
+        "group": 126881,
+        "session": 126881,
+        "start": "7977846"
+      },
+      "status": "ABSENT"
+    },
+    {
+      "identity": {
+        "pid": 126888,
+        "state": "R",
+        "parent": 126881,
+        "group": 126888,
+        "session": 126888,
+        "start": "7977868"
+      },
+      "status": "ABSENT"
+    },
+    {
+      "identity": {
+        "pid": 126880,
+        "start": "7977826",
+        "parent": 126879,
+        "group": 126867,
+        "session": 126867
+      },
+      "status": "ABSENT"
+    }
+  ],
+  "allAbsent": true
+}

@@ -1,0 +1,30 @@
+{
+  "aliases": [
+    {
+      "historicalRecordedPath": "/workspace/StarShipSimulator/tests/e2e/visual-runtime-receipt.ts",
+      "historicalSha256": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+      "historicalMode": 384,
+      "retainedBackingPath": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/original-helper.ts.txt",
+      "backingMode": 384,
+      "beforeModeProof": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/before-modes.json",
+      "beforeModeProofSha256": "b0771394dc839ea55288914217d84777ff51312f37109afc80e38615ce032afd",
+      "modeProofKey": "tests/e2e/visual-runtime-receipt.ts"
+    }
+  ],
+  "canonicalRows": [
+    {
+      "original": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/original-helper.ts.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/helper-receipt/original-helper.ts.txt",
+      "bytes": 4022,
+      "sha256": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+      "originalMode": 384
+    },
+    {
+      "original": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/original-helper.ts.txt",
+      "canonical": "docs/research/2026-10-04-cloud-resume/current-recovery-additions-owned-artifacts/supporting/155-original-helper.ts.txt",
+      "bytes": 4022,
+      "sha256": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+      "originalMode": 384
+    }
+  ]
+}

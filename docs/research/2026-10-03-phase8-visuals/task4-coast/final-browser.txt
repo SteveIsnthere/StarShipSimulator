@@ -1,0 +1,69 @@
+[WebServer] (node:209) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 40 tests using 3 workers
+
+(node:212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:210) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium] › tests/e2e/coast.spec.ts:17:34 › actual near coast ocean and night source have GPU absence controls @mobile (932ms)
+  ✓   4 [chromium] › tests/e2e/coast.spec.ts:17:34 › actual distant coast ocean and night source have GPU absence controls @mobile (536ms)
+  ✓   2 [chromium] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual landing capture @mobile (2.6s)
+  ✓   1 [chromium] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 100000m day and night @mobile (3.2s)
+  ✓   5 [chromium] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual launch capture @mobile (1.7s)
+(node:241) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [pixel-portrait] › tests/e2e/coast.spec.ts:17:34 › actual near coast ocean and night source have GPU absence controls @mobile (648ms)
+  ✓   9 [pixel-portrait] › tests/e2e/coast.spec.ts:17:34 › actual distant coast ocean and night source have GPU absence controls @mobile (451ms)
+  ✓   7 [chromium] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (2.9s)
+(node:249) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [pixel-portrait] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual launch capture @mobile (1.5s)
+  ✓  11 [pixel-portrait] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual landing capture @mobile (1.7s)
+  ✓  12 [pixel-portrait] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 100000m day and night @mobile (2.1s)
+  ✓   6 [chromium] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual catch capture @mobile (9.4s)
+  ✓  14 [pixel-portrait] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (3.3s)
+  ✓  15 [chromium] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 20000m day and night @mobile (1.8s)
+(node:263) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  16 [pixel-landscape] › tests/e2e/coast.spec.ts:17:34 › actual near coast ocean and night source have GPU absence controls @mobile (426ms)
+  ✓  18 [pixel-landscape] › tests/e2e/coast.spec.ts:17:34 › actual distant coast ocean and night source have GPU absence controls @mobile (368ms)
+  ✓  17 [pixel-landscape] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual landing capture @mobile (1.9s)
+  ✓  19 [pixel-landscape] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual launch capture @mobile (1.8s)
+  ✓  13 [pixel-portrait] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual catch capture @mobile (9.7s)
+  ✓  21 [pixel-landscape] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 100000m day and night @mobile (2.0s)
+  ✓  22 [pixel-portrait] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 20000m day and night @mobile (2.0s)
+(node:290) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  24 [iphone-portrait] › tests/e2e/coast.spec.ts:17:34 › actual near coast ocean and night source have GPU absence controls @mobile (570ms)
+  ✓  23 [pixel-landscape] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (3.1s)
+  ✓  25 [iphone-portrait] › tests/e2e/coast.spec.ts:17:34 › actual distant coast ocean and night source have GPU absence controls @mobile (428ms)
+(node:297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [iphone-portrait] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual launch capture @mobile (1.6s)
+  ✓  27 [iphone-portrait] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual landing capture @mobile (1.9s)
+  ✓  28 [iphone-portrait] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 100000m day and night @mobile (2.0s)
+  ✓  20 [pixel-landscape] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual catch capture @mobile (10.0s)
+  ✓  31 [pixel-landscape] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 20000m day and night @mobile (1.9s)
+(node:314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  30 [iphone-portrait] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (3.5s)
+  ✓  32 [iphone-landscape] › tests/e2e/coast.spec.ts:17:34 › actual near coast ocean and night source have GPU absence controls @mobile (554ms)
+(node:329) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  33 [iphone-landscape] › tests/e2e/coast.spec.ts:17:34 › actual distant coast ocean and night source have GPU absence controls @mobile (379ms)
+  ✓  35 [iphone-landscape] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual launch capture @mobile (2.2s)
+  ✓  34 [iphone-landscape] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual landing capture @mobile (2.4s)
+  ✓  36 [iphone-landscape] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 100000m day and night @mobile (2.5s)
+  ✓  29 [iphone-portrait] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual catch capture @mobile (10.8s)
+  ✓  39 [iphone-portrait] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 20000m day and night @mobile (2.3s)
+  ✓  38 [iphone-landscape] › tests/e2e/pixels.spec.ts:337:1 › curved distant ground keeps its night shading in short worlds @mobile (3.5s)
+  ✓  37 [iphone-landscape] › tests/e2e/coast.spec.ts:38:62 › coastal environment actual catch capture @mobile (9.1s)
+  ✓  40 [iphone-landscape] › tests/e2e/coast.spec.ts:43:41 › coastal environment at 20000m day and night @mobile (1.3s)
+
+  40 passed (47.0s)

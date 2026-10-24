@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "root-observer-ast",
+      "code": 0,
+      "elapsedSeconds": 0.0037230870002531447
+    },
+    {
+      "name": "python-bridge",
+      "check": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.02341004499612609
+    },
+    {
+      "name": "python-bridge",
+      "check": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8280916939984309
+    },
+    {
+      "name": "business-stage",
+      "check": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.026146424002945423
+    },
+    {
+      "name": "business-stage",
+      "check": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8479984599980526
+    }
+  ],
+  "all6SourcePinsBeforeAfterMatched": true,
+  "preparationExecuted": false,
+  "browserExecuted": false
+}

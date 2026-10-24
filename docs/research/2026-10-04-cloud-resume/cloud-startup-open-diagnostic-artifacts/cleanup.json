@@ -1,0 +1,86 @@
+{
+  "actions": [
+    {
+      "pid": 21966,
+      "killed": true
+    },
+    {
+      "pid": 21971,
+      "killed": true
+    },
+    {
+      "pid": 21991,
+      "killed": true
+    },
+    {
+      "pid": 21973,
+      "killed": true
+    },
+    {
+      "pid": 21974,
+      "killed": true
+    },
+    {
+      "pid": 22005,
+      "killed": true
+    }
+  ],
+  "ownedIdentities": [
+    {
+      "pid": 21966,
+      "starttime": "815394",
+      "ppid": 21941,
+      "pgrp": 21966,
+      "state": "R",
+      "exe": "/usr/bin/strace"
+    },
+    {
+      "pid": 21971,
+      "starttime": "815403",
+      "ppid": 1,
+      "pgrp": 21966,
+      "state": "Z"
+    },
+    {
+      "pid": 21991,
+      "starttime": "815418",
+      "ppid": 1,
+      "pgrp": 21966,
+      "state": "Z"
+    },
+    {
+      "pid": 21973,
+      "starttime": "815409",
+      "ppid": 1,
+      "pgrp": 21966,
+      "state": "Z"
+    },
+    {
+      "pid": 21974,
+      "starttime": "815409",
+      "ppid": 1,
+      "pgrp": 21966,
+      "state": "Z"
+    },
+    {
+      "pid": 22005,
+      "starttime": "815425",
+      "ppid": 1,
+      "pgrp": 21966,
+      "state": "Z"
+    },
+    {
+      "pid": 22009,
+      "starttime": "815432",
+      "ppid": 1,
+      "pgrp": 21966,
+      "state": "Z"
+    }
+  ],
+  "remaining": [],
+  "inaccessibleOwned": [],
+  "verifiedDescendantAbsence": true,
+  "cleanupMs": 2045,
+  "launchSettled": true,
+  "elapsedMs": 5453
+}

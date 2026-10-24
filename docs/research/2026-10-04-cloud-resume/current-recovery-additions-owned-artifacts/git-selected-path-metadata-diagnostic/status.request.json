@@ -1,0 +1,8 @@
+{
+  "command": [
+    "/usr/local/bin/git",
+    "status",
+    "--porcelain"
+  ],
+  "cwd": "/workspace/StarShipSimulator"
+}

@@ -1,0 +1,72 @@
+
+> starship-simulator-v2@0.1.0 lint
+> eslint .
+
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-03-vehicle-realism/booster-cycle2-attempt2-replay-harness.mjs
+   8:19   error  'createScenarioVehicle' is not defined               no-undef
+   8:41   error  'PRESETS' is not defined                             no-undef
+  10:15   error  'step' is not defined                                no-undef
+  10:43   error  'SUPER_HEAVY' is not defined                         no-undef
+  11:20   error  'cloneBoosterMechanics' is not defined               no-undef
+  12:20   error  'createBoosterReadyWork' is not defined              no-undef
+  12:56   error  'rad' is not defined                                 no-undef
+  13:1    error  'advanceBoosterForecast' is not defined              no-undef
+  13:42   error  'advanceMechanics' is not defined                    no-undef
+  13:59   error  'runBoosterPolicy' is not defined                    no-undef
+  13:76   error  'SUPER_HEAVY' is not defined                         no-undef
+  16:18   error  'createBoosterForecastWork' is not defined           no-undef
+  16:63   error  'rad' is not defined                                 no-undef
+  20:2    error  'advanceBoosterForecast' is not defined              no-undef
+  20:38   error  'advanceMechanics' is not defined                    no-undef
+  20:55   error  'runBoosterPolicy' is not defined                    no-undef
+  20:72   error  'SUPER_HEAVY' is not defined                         no-undef
+  22:20   error  'createCatchPose' is not defined                     no-undef
+  22:50   error  'createCatchPose' is not defined                     no-undef
+  23:1    error  'writeCatchPose' is not defined                      no-undef
+  23:31   error  'SUPER_HEAVY' is not defined                         no-undef
+  24:1    error  'writeCatchPose' is not defined                      no-undef
+  24:33   error  'SUPER_HEAVY' is not defined                         no-undef
+  25:43   error  'CATCH' is not defined                               no-undef
+  25:88   error  'CATCH' is not defined                               no-undef
+  26:45   error  'CATCH' is not defined                               no-undef
+  29:111  error  'CATCH' is not defined                               no-undef
+  29:128  error  'SUPER_HEAVY' is not defined                         no-undef
+  29:172  error  'starBaseXPos' is not defined                        no-undef
+  35:71   error  'physicallyCaught' is not defined                    no-undef
+  39:29   error  'CATCH' is not defined                               no-undef
+  39:74   error  'CATCH' is not defined                               no-undef
+  40:34   error  'CATCH' is not defined                               no-undef
+  40:88   error  'CATCH' is not defined                               no-undef
+  41:53   error  'CATCH' is not defined                               no-undef
+  42:14   error  'cloneBoosterMechanics' is not defined               no-undef
+  42:63   error  'cloneBoosterMechanics' is not defined               no-undef
+  42:107  error  'cloneBoosterMechanics' is not defined               no-undef
+  44:20   error  'replayIgnored1' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  44:42   error  'replayIgnored2' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  44:63   error  'replayIgnored3' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-03-vehicle-realism/booster-planner-advance-ledger.ts
+  23:12  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  28:75  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-03-vehicle-realism/booster-planner-attempt1-live.ts
+  44:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-03-vehicle-realism/booster-planner-attempt2-live.ts
+  50:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-03-vehicle-realism/booster-planner-attempt3-live.ts
+  50:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-03-vehicle-realism/booster-planner-causal-trace.ts
+  76:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/stevewang/dev/StarShipSimulator-realism/docs/research/2026-10-03-vehicle-realism/booster-planner-harness-error.ts
+  76:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/stevewang/dev/StarShipSimulator-realism/src/ui/shell/BlackBox/BlackBox.tsx
+  54:6  warning  React Hook useMemo has an unnecessary dependency: 'selectedVehicle'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+✖ 49 problems (48 errors, 1 warning)
+

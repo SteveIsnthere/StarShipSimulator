@@ -1,0 +1,13 @@
+{
+  "target": "es2022",
+  "minify": "oxc",
+  "sourcemap": true,
+  "cssMinify": true,
+  "mode": "production",
+  "base": "./",
+  "tools": {
+    "vite": "8.2.2",
+    "rolldown": "1.2.5"
+  },
+  "adaptation": "ESM library entry/output retains proof API; Vite library-specific annotation/whitespace policy applies. No math/tier/fast-math overrides."
+}

@@ -1,0 +1,148 @@
+/** One bounded read-only classification of immutable FAILED fixture evidence. */
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
+import { stripVTControlCharacters } from 'node:util';
+import { fixtureContext, validateFixtureFile, expectedMainHits, validateHits, runPureControls, sha } from './fixture-validation.mjs';
+
+assert.equal(process.env.RUN_NATIVE_PROVIDER_OFFLINE_CLASSIFICATION, '1', 'Separate root offline grant required');
+const repo = '/workspace/StarShipSimulator', base = path.dirname(fileURLToPath(import.meta.url));
+const archive = 'docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-failed-source-range-artifacts';
+const output = process.argv[2], deadline = Number(process.env.NATIVE_PROVIDER_OFFLINE_DEADLINE);
+assert(output && /^\/tmp\/starship-provider-offline\.[A-Za-z0-9]+$/.test(output), 'Fresh owned output required');
+assert(Number.isSafeInteger(deadline) && deadline > Date.now() && deadline <= Date.now() + 5000, 'Five-second absolute offline bound');
+const manifestPath = process.env.NATIVE_PROVIDER_OFFLINE_MANIFEST, manifestPin = process.env.NATIVE_PROVIDER_OFFLINE_MANIFEST_SHA256;
+assert(manifestPath && manifestPath.startsWith(`${repo}/docs/research/`) && /^[a-f0-9]{64}$/.test(manifestPin || ''), 'Externally pinned input/self manifest required');
+const manifestBytes = fs.readFileSync(manifestPath); assert.equal(sha(manifestBytes), manifestPin);
+const manifest = JSON.parse(manifestBytes), buffers = new Map(); let inputBytes = 0;
+const selfPrefix = path.relative(repo, base);
+function check() { assert(Date.now() <= deadline, 'Offline absolute deadline exceeded'); }
+function read(name) {
+  check();
+  assert(!path.isAbsolute(name) && path.posix.normalize(name) === name, 'Noncanonical input path');
+  assert(Object.hasOwn(manifest.files, name), `Unpinned input:${name}`);
+  assert(name.startsWith(`${archive}/`) || name.startsWith(`${selfPrefix}/`)
+    || ['scripts/bench/owned-command.mjs', 'node_modules/ast-v8-to-istanbul/dist/index.mjs',
+      'node_modules/@vitest/coverage-v8/dist/provider.js', 'node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js'].includes(name), 'Unknown input scope');
+  if (!buffers.has(name)) {
+    const file = path.join(repo, name); assert(fs.lstatSync(file).isFile(), 'Pinned input must be regular');
+    const bytes = fs.readFileSync(file); inputBytes += bytes.length;
+    assert(bytes.length <= 8 * 1024 * 1024 && inputBytes <= 32 * 1024 * 1024, 'Offline input cap');
+    assert.equal(sha(bytes), manifest.files[name], 'Pinned input byte drift'); buffers.set(name, bytes);
+  }
+  return buffers.get(name);
+}
+const parsed = name => JSON.parse(read(name));
+const retained = name => `${archive}/${name}`;
+const json = name => parsed(retained(name));
+const text = name => read(retained(name)).toString();
+let result, failure;
+try {
+  for (const name of ['classify.mjs', 'fixture-validation.mjs', 'fixture-contexts.json', 'run-owned.mjs', 'declaration.md']) read(`${selfPrefix}/${name}`);
+  const contextData = parsed(`${selfPrefix}/fixture-contexts.json`);
+  const originalRoot = contextData.originalRoot, mainPath = `${originalRoot}/src/core/coverage-control.ts`, dormantPath = `${originalRoot}/src/core/unimported-control.ts`;
+  assert.equal(originalRoot, '/tmp/starship-native-provider-control.L8vbAO');
+  const ast = read('node_modules/ast-v8-to-istanbul/dist/index.mjs').toString();
+  assert(ast.includes('if (u.length === 0) l.end.column = Infinity;') && ast.includes('line: void 0,\n\t\t\t\t\t\tcolumn: void 0'), 'Pinned converter sentinel source provenance absent');
+  const provider = read('node_modules/@vitest/coverage-v8/dist/provider.js').toString();
+  const baseProvider = read('node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js').toString();
+  assert(provider.includes('const transform = this.createUncoveredFileTransformer(this.ctx);')
+    && baseProvider.includes('const projects = new Set([...ctx.projects, ctx.getRootProject()]);'), 'SSR-first uncovered transform source provenance absent');
+  const mainContext = fixtureContext(contextData.contexts.main, read(retained('src/core/coverage-control.ts.txt')));
+  const dormantContext = fixtureContext(contextData.contexts.dormant, read(retained('src/core/unimported-control.ts.txt')));
+  const nativeDormantContext = fixtureContext(contextData.contexts.nativeDormant, read(retained('src/core/unimported-control.ts.txt')));
+  const reports = Object.fromEntries(['ssr', 'native', 'mixed', 'omitted'].map(name => [name, json(`${name}/coverage-final.json`)]));
+  const controls = runPureControls(mainContext, reports.ssr[mainPath]);
+  fs.writeFileSync(path.join(output, 'pure-controls.json'), JSON.stringify({ passed: true, inventory: controls }), { flag: 'wx' });
+  const recipes = { ssr: { initializations: 1, chooseInputs: [1], nestedInputs: [1] },
+    native: { initializations: 1, chooseInputs: [1], nestedInputs: [1] },
+    mixed: { initializations: 2, chooseInputs: [1, -1], nestedInputs: [1, 11] },
+    omitted: { initializations: 0, chooseInputs: [], nestedInputs: [] } };
+  const runs = json('children.json'); assert.equal(runs.length, 4);
+  for (const [index, name] of ['ssr', 'native', 'mixed', 'omitted'].entries()) {
+    assert.deepEqual(Object.keys(reports[name]).sort(), [mainPath, dormantPath].sort(), 'Unknown/missing/noncore source key');
+    validateFixtureFile(reports[name][mainPath], mainContext);
+    validateFixtureFile(reports[name][dormantPath], name === 'native' || name === 'omitted' ? nativeDormantContext : dormantContext);
+    validateHits(reports[name][mainPath], expectedMainHits(recipes[name]));
+    for (const counter of ['s', 'f', 'b']) assert(Object.values(reports[name][dormantPath][counter]).flat().every(hit => hit === 0), 'Dormant source credited');
+    assert.equal(runs[index].name, name); assert.equal(runs[index].status, name === 'omitted' ? 1 : 0);
+    assert.equal(runs[index].signal, null); assert.equal(runs[index].error, null);
+    const lifecycle = json(`${name}/public-run-lifecycle.json`), tests = json(`${name}.tests.json`);
+    assert.equal(lifecycle.reason, 'passed'); assert.deepEqual(lifecycle.unhandledErrors, []);
+    assert.equal(tests.success, true); assert.equal(tests.numFailedTests, 0); assert.equal(tests.numFailedTestSuites, 0);
+    assert.equal(tests.numPassedTests, name === 'mixed' ? 2 : 1);
+    assert(tests.testResults.every(module => module.status === 'passed' && module.message === ''
+      && module.assertionResults.every(test => test.status === 'passed' && test.failureMessages.length === 0)), 'Unrelated test/runtime error');
+    const config = read(retained(`${name}.config.mjs.txt`)); assert.equal(sha(config), runs[index].configSha256);
+    assert.equal(sha(read(retained(`${name}.reporter.mjs.txt`))), runs[index].reporterSha256);
+  }
+  const schemas = file => ({ statementMap: file.statementMap, fnMap: file.fnMap, branchMap: file.branchMap });
+  assert.deepEqual(schemas(reports.ssr[mainPath]), schemas(reports.native[mainPath]));
+  for (const key of [mainPath, dormantPath]) assert.deepEqual(schemas(reports.ssr[key]), schemas(reports.mixed[key]), 'Full SSR/MIXED denominator/schema mismatch');
+  assert.notDeepEqual(schemas(reports.ssr[dormantPath]), schemas(reports.native[dormantPath]), 'Native-only unsupported mismatch disappeared; stop classification');
+  assert.deepEqual(schemas(reports.native[dormantPath]), schemas(reports.omitted[dormantPath]));
+  const processReceipt = json('provider-cohort.process.json'), owner = json('owner-result.json'), originalOutcome = json('cohort-outcome.json');
+  assert.equal(originalOutcome.passed, false); assert.match(originalOutcome.error, /Reversed source range/);
+  assert.equal(owner.passed, false); assert.equal(owner.code, 1); assert.equal(owner.error, null);
+  assert.equal(processReceipt.exit.code, 1); assert.equal(processReceipt.exit.signal, null); assert.equal(processReceipt.failure, null);
+  assert.equal(processReceipt.closed, true); assert.deepEqual(processReceipt.cleanup.executing, []);
+  assert(owner.ownership.every(item => item.executing.length === 0));
+  const stderr = stripVTControlCharacters(text('omitted.stderr.txt')).trim().split('\n');
+  const warning = /^\(node:([0-9]+)\) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time$/.exec(stderr[0]);
+  assert(warning, 'Unknown/missing bounded Node warning');
+  assert.equal(stderr[1], '(Use `node --trace-warnings ...` to show where the warning was created)');
+  const warningPid = Number(warning[1]), witnessed = processReceipt.cleanup.tracked.filter(item => item.pid === warningPid);
+  assert.equal(witnessed.length, 1, 'Warning PID must have one owned start identity');
+  assert.equal(witnessed[0].group, processReceipt.cleanup.group); assert.equal(witnessed[0].session, processReceipt.cleanup.session);
+  assert(/^[0-9]+$/.test(witnessed[0].start) && BigInt(witnessed[0].start) >= BigInt(processReceipt.cleanup.start), 'Unknown warning ownership start');
+  const floorLines = Object.entries({ lines: 20, functions: 50, statements: 20, branches: 20 })
+    .map(([name, floor]) => `ERROR: Coverage for ${name} (0%) does not meet global threshold (${floor}%)`);
+  assert.deepEqual(stderr.slice(2), floorLines, 'Unknown/provider/reporter/late-close diagnostic or missing floor decision');
+  const summary = json('omitted/coverage-summary.json');
+  for (const name of ['s', 'f', 'b']) assert(Object.values(reports.omitted[mainPath][name]).flat().every(hit => hit === 0));
+  for (const name of ['lines', 'functions', 'statements', 'branches']) assert.equal(summary.total[name].pct, 0);
+  const lineage = json('compiled-lineage.json'), code = read(retained('artifact/control.mjs.txt')), map = json('artifact/control.mjs.map');
+  assert.equal(sha(code), lineage.artifact.sha256); assert.equal(code.toString().length, lineage.artifact.utf16Length);
+  assert.equal(sha(read(retained('artifact/control.mjs.map'))), lineage.map.sha256);
+  assert.equal(map.file, 'control.mjs'); assert.equal(map.version, 3); assert.equal(map.sources.length, map.sourcesContent.length);
+  for (const [index, source] of map.sources.entries()) {
+    const resolved = path.resolve(originalRoot, 'artifact', map.sourceRoot || '', source);
+    assert(resolved.startsWith(`${originalRoot}/src/`));
+    assert.equal(read(retained(`${path.relative(originalRoot, resolved)}.txt`)).toString(), map.sourcesContent[index]);
+  }
+  const originManifest = json('origin-manifest.json');
+  assert.equal(originManifest.original, originalRoot);
+  for (const item of originManifest.files) assert.equal(sha(read(retained(item.retained))), item.sha256, 'Raw retained episode/origin digest mismatch');
+  for (const name of ['native', 'mixed', 'omitted']) {
+    const rawFiles = Object.keys(manifest.files).filter(file => file.startsWith(`${archive}/raw-v8-${name}/`) && /\/[0-9]+\.json$/.test(file));
+    let hits = 0;
+    for (const file of rawFiles) for (const script of parsed(file).result) if (script.url === `file://${originalRoot}/artifact/control.mjs`) {
+      hits++; for (const fn of script.functions) for (const range of fn.ranges) assert(Number.isSafeInteger(range.startOffset) && Number.isSafeInteger(range.endOffset)
+        && range.startOffset >= 0 && range.startOffset <= range.endOffset && range.endOffset <= code.toString().length, 'Actual runtime offset mismatch');
+      for (const functionName of ['choose', 'nested', 'outsideCore']) assert(script.functions.some(fn => fn.functionName === functionName && fn.ranges[0].count === 1), 'Actual native calls absent');
+    }
+    assert(hits > 0, 'Missing native raw executed URL');
+  }
+  const toolsBefore = json('installed-tools-before.json'), toolsAfter = json('installed-tools-after.json');
+  assert.deepEqual(toolsBefore, toolsAfter); assert.equal(sha(JSON.stringify(toolsBefore)), owner.installedToolsSha256);
+  assert.deepEqual(json('original-inputs.json'), json('original-inputs-after.json'));
+  result = { classified: true, privateEvidenceOnly: true, originalFourRunContract: 'FAILED', productAcceptance: false,
+    coveredMainSSRNativeEquivalence: true, fullProtectedSSRMixedEquivalence: true, recipes,
+    nativeOnlyFullSource: 'UNSUPPORTED_SCHEMA_MISMATCH', nativeOnlyRawSchemas: {
+      ssr: schemas(reports.ssr[dormantPath]), native: schemas(reports.native[dormantPath]) },
+    omittedArtifactLostCredit: { chooseActualCalls: 1, chooseCredit: 0, nestedActualCalls: 1, nestedCredit: 0, floorLines, warningIdentity: witnessed[0] },
+    protectedSources: [mainPath, dormantPath], rawSchemaAndHits: reports, lineage, inputManifestPin: manifestPin,
+    futureFullProductionSchemasFloorsGate: 'UNQUALIFIED' };
+} catch (error) { failure = error; }
+finally {
+  try {
+    for (const [name, expected] of Object.entries(manifest.files)) assert.equal(sha(read(name)), expected);
+    for (const [name] of buffers) { check(); assert.equal(sha(fs.readFileSync(path.join(repo, name))), manifest.files[name], 'Post-classification input drift'); }
+    assert.equal(sha(fs.readFileSync(manifestPath)), manifestPin); check();
+  } catch (error) { failure ||= error; }
+  fs.writeFileSync(path.join(output, 'mixed-only-evidence-classification.json'), JSON.stringify(failure
+    ? { classified: false, originalFourRunContract: 'FAILED', error: String(failure), productAcceptance: false, inputManifestPin: manifestPin }
+    : result), { flag: 'wx' });
+}
+if (failure) throw failure;

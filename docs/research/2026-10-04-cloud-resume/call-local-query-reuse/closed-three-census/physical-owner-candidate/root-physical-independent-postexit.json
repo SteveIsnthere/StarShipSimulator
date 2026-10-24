@@ -1,0 +1,49 @@
+{
+  "checkedAt": 1791171789.7835195,
+  "identities": [
+    {
+      "identity": {
+        "pid": 128734,
+        "state": "R",
+        "parent": 128733,
+        "group": 128734,
+        "session": 128734,
+        "start": "8073718"
+      },
+      "status": "ABSENT"
+    },
+    {
+      "identity": {
+        "pid": 128741,
+        "state": "R",
+        "parent": 128734,
+        "group": 128741,
+        "session": 128741,
+        "start": "8073843"
+      },
+      "status": "ABSENT"
+    },
+    {
+      "identity": {
+        "pid": 128748,
+        "state": "R",
+        "parent": 128734,
+        "group": 128748,
+        "session": 128748,
+        "start": "8073869"
+      },
+      "status": "ABSENT"
+    },
+    {
+      "identity": {
+        "pid": 128733,
+        "start": "8073698",
+        "parent": 128732,
+        "group": 128720,
+        "session": 128720
+      },
+      "status": "ABSENT"
+    }
+  ],
+  "allAbsent": true
+}

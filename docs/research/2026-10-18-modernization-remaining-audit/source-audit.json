@@ -1,0 +1,529 @@
+{
+  "kind": "read-only-modernization-source-audit-v1",
+  "observedAtUtc": "2026-10-18T06:43:44.668582+00:00",
+  "head": "cd0118c0d9aeefdf2729581b9168caabb6eb75af",
+  "sourceManifest": "docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/source-pins.sha256",
+  "manifestSha256": "9136dec22e1a143fe51d93ff820ecefcf7f6310613ab51ed31f834721e2cfc15",
+  "summary": {
+    "match": 726,
+    "different": 52,
+    "missing": 25
+  },
+  "nonmatchingPaths": [
+    {
+      "path": "eslint.config.js",
+      "expectedSha256": "2ac9570e4ef66bffcf033b50059ba3b4f244c787d5001ac7813235ceb3281931",
+      "actualSha256": "d14082a325233064e92db3ca3a321f165983e6b3bbfad47e0023616a7b0a5d85",
+      "status": "different"
+    },
+    {
+      "path": "package.json",
+      "expectedSha256": "aa229cabc6463b50e25fc0a9b7c7a9e39ddbcb39b4ce4dde93cd8f52afc3ccb3",
+      "actualSha256": "6c07c3f0935753725cdfbb6d7b39285210c7dd47cfc36d940dbab913df0ebbe5",
+      "status": "different"
+    },
+    {
+      "path": "playwright.config.ts",
+      "expectedSha256": "d82172252984a627d34bf357f1f797435de79ac58c8de9b2e0d84d2677707948",
+      "actualSha256": "754bfd106fb9e711e744b85aa95e5411b213f286c9ec2d4dcc9533f425e5994b",
+      "status": "different"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v10.config.ts",
+      "expectedSha256": "fa4b98d0a5a9637e57a10ad5669fa0cf8b20d8e169596c9f9302e889ee470240",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v11.config.ts",
+      "expectedSha256": "c72a6a119bff697629f72428f354fd7a47be8167237e4bca3ad2923a8e3c7b80",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v12.config.ts",
+      "expectedSha256": "f7557317b2c8febe95a21b0e76b74e0720a77157acf0fb113be6ab8a80ce63b6",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v13.config.ts",
+      "expectedSha256": "809a0fc3f5289cb8fb91cbfe759f0613a4a1bb11fac3d219215dcfa0a64a8abb",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v14.config.ts",
+      "expectedSha256": "0538f2f923bbd00f1a17acbfa873a7e486938fea4dec51f88ab6f0fac0657b3d",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v15.config.ts",
+      "expectedSha256": "0886a5809aba9b95fc7696299d639fc6f38a4a3063bc93b673ef07ee2bcb5d8a",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v16.config.ts",
+      "expectedSha256": "acc06da5ddcc69e5b6de503914193af7a1d105687c34963a05b3c83492cf1ec0",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v17.config.ts",
+      "expectedSha256": "cf513ea4910fad628da9614a9755b6d1016d5b4f1c0a78e063882cbb5f6b7743",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v5.config.ts",
+      "expectedSha256": "b65fe813fba593aeb4b8a32b92c7d74a9b02549c65cc56a017c5e8ca19dddee5",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v6.config.ts",
+      "expectedSha256": "0e7d58695ee8f4bcd88d526d7c4e733ecd52184564f43b93213371dae695f799",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v7.config.ts",
+      "expectedSha256": "8cea843dd4c840d0a62228f10cddb915794bf7626172da8d3ca229b16fd6aab1",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v8.config.ts",
+      "expectedSha256": "a95e251f355c7b217dec27bd17ae39e411b500cc3193ac2b38e9f410781a4e4e",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control-v9.config.ts",
+      "expectedSha256": "ff86525d7e42c8206fd0e09ea5999a6d7f2e9c6574e3fc6ab87880d5d26ce47c",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "playwright.visual-cadence-control.config.ts",
+      "expectedSha256": "fc4b65a69c92de7f3322598538e920d219b7949cc5e4d6217df624bafbe2ce03",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "scripts/bench/native-loader.mjs",
+      "expectedSha256": "af1763ea59f2421735c5192743e77c5b01692eb453b9fc22569b520ea4ea9a04",
+      "actualSha256": "ec9c8433bf352fe0d4744857c52bc4ae50f291846772a65d18ff4c0c45c9be5e",
+      "status": "different"
+    },
+    {
+      "path": "scripts/bench/owned-command-controls.mjs",
+      "expectedSha256": "0f9b125f18a9a63c836db98b12978c9a31fc1628e7d76c45dc186924a5b3cce6",
+      "actualSha256": "1c4141b6bfac219c11ab51b945ac03227d34ea025745cc6ec89c22bbcc8b04b1",
+      "status": "different"
+    },
+    {
+      "path": "scripts/bench/owned-command.mjs",
+      "expectedSha256": "3e0af12a86b6d8c5da1219d69c47b4f09fb3683906af0175b4d971aac75e0763",
+      "actualSha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+      "status": "different"
+    },
+    {
+      "path": "scripts/bench/qualification.json",
+      "expectedSha256": "aadc9df0fddc8006b4dcce3d8ab06e88dfddaea662b8e3e7d42f35f6e28a65bf",
+      "actualSha256": "6f82369f7a231dbe0613241be8dfb0c09664ecd8a219e8056ecd629a3220e1ef",
+      "status": "different"
+    },
+    {
+      "path": "scripts/lint-repo.mjs",
+      "expectedSha256": "acb6763e725d38c09f780e567cac3e2a40d5716be6c2aed4c4ae617e602b5c36",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "scripts/test/admission.mjs",
+      "expectedSha256": "127ccf2290348f7b815090235624b3ac56ae6ebe6ac8d53e962bf8a7a3ff4a25",
+      "actualSha256": "88b685353a4b42df5cfa53e8f0d5850df6d4093f98db9690a0e082a0eec2c8fc",
+      "status": "different"
+    },
+    {
+      "path": "scripts/test/run.mjs",
+      "expectedSha256": "eb60e23f3adc318367b33729e85bb2de9d3adf46a27efd526c32b5a47cee1f60",
+      "actualSha256": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d",
+      "status": "different"
+    },
+    {
+      "path": "src/app/debug.ts",
+      "expectedSha256": "579a298626d9e5d91c9e664bb484fe8b6fcd8925bedb622108efeb3ad5f7db38",
+      "actualSha256": "ff8342563244ab8eba555c96699f6940e1229f337059e9a1b0c7ec8aea18525d",
+      "status": "different"
+    },
+    {
+      "path": "src/app/visual-stage-diagnostics.ts",
+      "expectedSha256": "d2273dd0ac86e24d0494d68114778b40cf8d705dbe8389a6a24cbe1f6f2188d3",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "src/core/scenarios.ts",
+      "expectedSha256": "bcd5fb6ca8070dfc9751485de6fce22ccfd8841ad6c2f4db6908117aafc94e7b",
+      "actualSha256": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e",
+      "status": "different"
+    },
+    {
+      "path": "src/hud/trajectory-draw.ts",
+      "expectedSha256": "bfed6bdac4857ecebdd4662e3503986def1f1272fe43c04f66a889515080b542",
+      "actualSha256": "6651c0c72620aab6db00b0bc6c82e6bc5a7cad5762bde56250b48147960ef26a",
+      "status": "different"
+    },
+    {
+      "path": "src/ui/session/debug-presentation.ts",
+      "expectedSha256": "1ca91f3992130a3fff70254070fdffe3031c37da864a0c08e3323440e41ae256",
+      "actualSha256": "e465344eb11bd04c04ef8f50614ec1efaba2f6d05386d8364cf338c50f2203c1",
+      "status": "different"
+    },
+    {
+      "path": "src/ui/session/scene-runtime.ts",
+      "expectedSha256": "fd65140bb4bc52d46aee451741fcb4ff872df1ed45d741c02cdc14f8a48b27d2",
+      "actualSha256": "481bf1f721f5f58d6035c5d26fea8d343e7ba1d71cdccdd29de9416fdfd7a782",
+      "status": "different"
+    },
+    {
+      "path": "src/ui/session/scene-vehicles-runtime.ts",
+      "expectedSha256": "d5e354251255d35976582285dc9089bc19bf9bff8f606e8759562e651a289409",
+      "actualSha256": "68dc472d4dc1233f9ec4c71fa5517138dc0b4ddf37099804aac0b5319d983baf",
+      "status": "different"
+    },
+    {
+      "path": "src/ui/session/scene-vehicles-witness.ts",
+      "expectedSha256": "b4c7091317db03861e5b4651d74e46eded9df53a8baf1db84c520cc5466c10ae",
+      "actualSha256": "2ae7bd8d5b45ff648e0bc00c37029978fcc6c49d9fb6587aea9e0566e1a08313",
+      "status": "different"
+    },
+    {
+      "path": "src/ui/session/scene-witness.ts",
+      "expectedSha256": "a599eeaf212936173b532e2bde30d03c3159a00f33c71e39065a0659b254ea8a",
+      "actualSha256": "c3ca64a5899c30c94c1e77d4694819df4e40cfc233ca71b50036321589fbc92a",
+      "status": "different"
+    },
+    {
+      "path": "src/ui/session/scene.ts",
+      "expectedSha256": "493d6bd063fcd1a9af64fc67e76fe16cc7ad751c01f50d96b924ef7e032eae9b",
+      "actualSha256": "3a23b24cb02076d66d9d277a702dfae7e0d0a348b530ff353a39a7eeba47da4f",
+      "status": "different"
+    },
+    {
+      "path": "src/ui/session/session.ts",
+      "expectedSha256": "f9b4692b406e49a542473341ceec8d207e8d095ef586f9212b4b906006b1e524",
+      "actualSha256": "bbe84ba318100e1b9a71803a524b653b472fff46592b79d4a180d61796503628",
+      "status": "different"
+    },
+    {
+      "path": "src/ui/shell/App.tsx",
+      "expectedSha256": "55dd4981809a252660b38b825fe5a4ea4758d26a40e4824a515079f504912c4c",
+      "actualSha256": "ac108521e05269f175aa4f7de7b43a5dc486cc0428c1c48bdc6ab59a7f8b4e96",
+      "status": "different"
+    },
+    {
+      "path": "src/view/app.ts",
+      "expectedSha256": "61c8509ea6dca2cd2b32cb7d6be8273a044a835333979a0cd63264738d8d4fe2",
+      "actualSha256": "2f9dbd760d61e4edfb722f6521c77fb9e9880f3fe125dba5713af9627863e4bb",
+      "status": "different"
+    },
+    {
+      "path": "src/view/booster.ts",
+      "expectedSha256": "5451dc34c89c786d4634e41c8cd42c878f432dd84a6f43a804ef01ff1934d9c4",
+      "actualSha256": "94ca0b9c0a1f9b724ef15bb4c5ab46541d26cdaf8e48184a2b6f8b5a89476b86",
+      "status": "different"
+    },
+    {
+      "path": "src/view/component-vehicle.ts",
+      "expectedSha256": "3533e29cafe3223cefd723151584e1ce0272a1f56d87da8e4856143b8d332674",
+      "actualSha256": "f8dbe91720257c299dbf97080a2c118d7ffadb3306179ae545757be0d564fc95",
+      "status": "different"
+    },
+    {
+      "path": "src/view/post.ts",
+      "expectedSha256": "9cb4eea1250ac5ca0d01da37174d54ddd0de542dcbcc8707d7ff02da52e967bf",
+      "actualSha256": "4d21d0244e2aa4cd20d6aedc823d27a0a1ce054ab0ab531c5a4b9ad1ce5a47c9",
+      "status": "different"
+    },
+    {
+      "path": "src/view/vehicle-geometry.ts",
+      "expectedSha256": "fee9bec3ef264cea3f0d560e34c2d303ec2c47fe129b46776c29409de49843f8",
+      "actualSha256": "3b100e16f1ec538b3bdee1c9a00bf9f0990d29c5481e3b5ec5542f8f277ae69a",
+      "status": "different"
+    },
+    {
+      "path": "src/view/vehicle-material.ts",
+      "expectedSha256": "192fa86b9536e151533a31150d8a92de578552da86ccd2a3c3fa2d4d94976ee2",
+      "actualSha256": "b66b901f2e5b638fda6c922c03deef05a9c26313919638df3633ab40134e3aca",
+      "status": "different"
+    },
+    {
+      "path": "src/view/vehicle.ts",
+      "expectedSha256": "fc539a60b7bb450adbe81590733f1aaf6f35ed40dbde6f6530349c2f5d82f1eb",
+      "actualSha256": "500bb393b4539002635eb52eb1887be19c9ded594d3a346851713bb611056c02",
+      "status": "different"
+    },
+    {
+      "path": "tests/app/debug.test.ts",
+      "expectedSha256": "b3b13eb459edee3190f3c75fbe4ad6b9ae4a714a791c12987948f1ca626d80ca",
+      "actualSha256": "be6e90555ca236134967234db35b2591dd5d1eb2ff795d3050b192fc0af4cb2d",
+      "status": "different"
+    },
+    {
+      "path": "tests/core/booster-guidance.test.ts",
+      "expectedSha256": "65a069084bf351d87d527dffddd340453a5789f6b57bc60e9fb808b56e11eadb",
+      "actualSha256": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+      "status": "different"
+    },
+    {
+      "path": "tests/core/damage-natural-flight.test.ts",
+      "expectedSha256": "c246929868df0867e9d2a3e630899d6c6ed0108e42a4aaf2bee5cb0a107559ac",
+      "actualSha256": "339036fcf6dc5ba4baec4f32bf404d84a24d22a83fdb822bbb4c55d652e476ec",
+      "status": "different"
+    },
+    {
+      "path": "tests/coverage-exclusions.json",
+      "expectedSha256": "5fc20e529ed7932a167db5d44090851219be898c93bc9a29d1987ba5a6f53bc7",
+      "actualSha256": "b48eb2f2348b72e57f20847b54e52f3ed1fb99ed7051d89561345cc994deac52",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/emissive-bell.spec.ts",
+      "expectedSha256": "879b7c378062e7108e7c732c0f5a015f445ee26386e32c1a83c0f1bdcf871277",
+      "actualSha256": "719d4898ec8e80b76640a2ecae3e957a1dffd15a45e5d52796d56bbec9d75981",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/post-compositing.spec.ts",
+      "expectedSha256": "47d0450b04b8d81ae1d6ebc24cb85b192944456531341ddbd5b9069fd09036ca",
+      "actualSha256": "490a361b13d2b9463eb97bb48616100a3e8e7d72bd1b621a779c85f539ae5faa",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/reentry.spec.ts",
+      "expectedSha256": "3129ad03ba784be426cbe8d088da79efeeddd10272c3b0c8027a0cbb3d3bd6ab",
+      "actualSha256": "f50ab6905e92408288b69a262f602f5363419aefe169b4cc40c2a932efe085e5",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/renderer/post-sampling.ts",
+      "expectedSha256": "74cb7618516f319194409c85d69977944b3f5fb1058b080bcba83e08e3968dd0",
+      "actualSha256": "3eb07b262729268c62233c19e77335171b33a50e7e6e7d257e4d57bf5d1d8520",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/renderer/post-witness.ts",
+      "expectedSha256": "d6cce362755b5381a34cb56f27175cff7f0342e369a5d7c87d91e3106a3bfe5d",
+      "actualSha256": "81609a8a3cc392957f4e238efa79c4385281d57e9af237ea98199da80ab1e05f",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/vehicle-damage.spec.ts",
+      "expectedSha256": "184f080846aa02b92f931234814ad5a6e48be0f35e28e2cf0068fc1ecb216353",
+      "actualSha256": "d2f33e1d5cc6040a785ef2f704031450c924c78f9d2244be04fd2734979fec3f",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/vehicle-terminal-damage.spec.ts",
+      "expectedSha256": "cc3dc401271f09a09ead2a9c9637f05db0e03ed80970bb5775824f3b626fe348",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/e2e/visual-browser-trace.test.ts",
+      "expectedSha256": "d4259860838a1edafa29996e10c633b39c0a3ee9b496a19cffea4e3565c65089",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/e2e/visual-browser-trace.ts",
+      "expectedSha256": "a4c7f5c4e6802c8d805639a6d036f24734e248a19a52bd592286a8f665f74714",
+      "actualSha256": "3bc5d775cea6b0e5844622e2a0810c595abdbb90584f389d2766616ee671d6de",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/visual-budget-bloom-diagnostic.spec.ts",
+      "expectedSha256": "68e9df87c1e394a52baa8f217722947ebd3c0c9677c4aa49e07b64741d66246d",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/e2e/visual-budget-probe.ts",
+      "expectedSha256": "cc6aa36638fcbdb9e6a0f8f47f47ffdb6e593f43793c9dc84715ba1f71c411c6",
+      "actualSha256": "d450cc4671149cb42bb7e1c6a34259b2d1ac06152f22a2302a7d4c3679c44f99",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/visual-budget-receipts.ts",
+      "expectedSha256": "f51371775244a79c18236d9cc80a50b3bce970a416f59eed47dbfb105b47104b",
+      "actualSha256": "2c1fe0d2aacee3acdd808b8a057f5b8f44d4f4e81a5d64be79776c3d92220c1b",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/visual-budget.spec.ts",
+      "expectedSha256": "d62673bcd726d2ba482a88577c87e4b282d665b77ba73777235ba25ea46d94bf",
+      "actualSha256": "98504af61fb46edf0f2555e7f1fec419308cfcbd6363fe3f9b5b104fdea4ce79",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/visual-raf-cadence-control.spec.ts",
+      "expectedSha256": "a03bc78bd06043365f8ccbfa06ba5f071cc88d105797aa29c6c2bec7ae9e6fe9",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/e2e/visual-response-ledger.test.ts",
+      "expectedSha256": "157c284cfcfee5cf80456ad36b660a573754c340ba9e4995fc22fc8749b82615",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/e2e/visual-response-ledger.ts",
+      "expectedSha256": "b4538c0d73c1e18133cec5148baa467b2aab7568a3e2a02db90152ba346d0794",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/e2e/visual-runtime-receipt.ts",
+      "expectedSha256": "916867dad22304e2ebf2ff3ae270143a0b31e576d32fcc5c9861655441820d69",
+      "actualSha256": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/visual-scene-setup.ts",
+      "expectedSha256": "112847a342791166187e111895f85661f02988e5dc55dd48b78fb8c27f8733a6",
+      "actualSha256": "97d1713dd295ce84304eadaa6093f66b45e916fe2b9356c3dbaa4143e7e0bbda",
+      "status": "different"
+    },
+    {
+      "path": "tests/e2e/visual-trace-index.ts",
+      "expectedSha256": "e731e5c12e81e34d2c8df8a67e10e03595e0e752d5f30a0833e54620d982f401",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/flies-every-scenario.test.ts",
+      "expectedSha256": "ecb37ed056299d07a5edc05b4e9d3fed9345ca8fbb1510849dc3604f731b3959",
+      "actualSha256": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9",
+      "status": "different"
+    },
+    {
+      "path": "tests/proofs/isa-into.test.ts",
+      "expectedSha256": "88c222cd5a479e8c48ca95412c702890af3bb4207bd0a2f1c48a0cb3409ce340",
+      "actualSha256": "9cd2745ab2c77354aa7f236951660300e5bbe69726d3e3838e409016a18bd078",
+      "status": "different"
+    },
+    {
+      "path": "tests/ui/damage-scene.test.ts",
+      "expectedSha256": "d28c2e782e7a662d3c8230f73b429d973b419e88736496fd1b18551efdea7241",
+      "actualSha256": "ae72ac0410142655acffa800d1129d816542829df47776aa5dcf5186298e8f2f",
+      "status": "different"
+    },
+    {
+      "path": "tests/ui/session-debug-loading.test.ts",
+      "expectedSha256": "9dc42323afdf626221a92f42b55d2c593620ebcff9cdab7c8205a896e1500da1",
+      "actualSha256": "5a74a8b80c3ba1938487f6251135340aa8ef86335928c1b5cd8a1e0106160c9c",
+      "status": "different"
+    },
+    {
+      "path": "tests/ui/session-optional-witness-lifecycle.test.ts",
+      "expectedSha256": "e3704dc07877ab4184ade6f0a09aa5b3b2bc566d122bf5e2f29d2c9dcf10c5a7",
+      "actualSha256": "9db8190688a488d5889459d0bd66d481de4bc7ec4b6545226030bd9c17ed17d4",
+      "status": "different"
+    },
+    {
+      "path": "tests/ui/session-runtime-load-failure.test.ts",
+      "expectedSha256": "95b08286ed4dffe23ab9fbf1ab8f672bf30a511759c170587761aa39db8bb273",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/ui/shell/App.test.tsx",
+      "expectedSha256": "c3976c3b0caeaa4a034bbad1cf121e28fbfd711955581d5c6814a3ba8d84e058",
+      "actualSha256": null,
+      "status": "missing"
+    },
+    {
+      "path": "tests/view/component-vehicle.test.ts",
+      "expectedSha256": "29183ca2236c11abdc53f73e1da129e94b2e5c88d61cfb54090cdb1ca9b2956a",
+      "actualSha256": "7ca4f3957ad29962fadd3aa5031d3770006d5babcf9d1d72a8ccc7f043504269",
+      "status": "different"
+    },
+    {
+      "path": "tests/view/post-metadata.test.ts",
+      "expectedSha256": "ec673293d8a9408b6d14a2cdceaed3a2304d1b2d0827a85c7fee44f2b1901a82",
+      "actualSha256": "24aa5d709d05dc1be73aecd1d86d19cbffa693d68e56346a70a92519391d95f1",
+      "status": "different"
+    },
+    {
+      "path": "vite.config.ts",
+      "expectedSha256": "2a84313d58fd5e70a3fa0266a128d1d8e915572a8acd2ec649ee4054abfdab0e",
+      "actualSha256": "9d34f33caed74433e608fc036bf086e96f81836913f690bb596382331113a46e",
+      "status": "different"
+    },
+    {
+      "path": "vitest.config.ts",
+      "expectedSha256": "4b3ee81bb15c73ef95ee1ac97a50c6dd05c3693f2e4fdaf03f211d719f23f501",
+      "actualSha256": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7",
+      "status": "different"
+    }
+  ],
+  "documentation": [
+    {
+      "path": "docs/plans/modernization/modernization-GOAL.md",
+      "bytes": 202199,
+      "missingLocalLinkOccurrences": 197,
+      "missingUniqueLocalLinks": 190,
+      "sha256": "b56458e6545eeb26cd53fabc612cd3d631fef4145466bc0e0947727152cf30e4"
+    },
+    {
+      "path": "docs/plans/modernization/modernization-handover.md",
+      "bytes": 217076,
+      "missingLocalLinkOccurrences": 206,
+      "missingUniqueLocalLinks": 197,
+      "sha256": "ea1441107c5c7bd541d5b129d19f12f98f0e014345eb41615e009219d8ab4cdd"
+    },
+    {
+      "path": "docs/plans/modernization/modernization-phase-8.md",
+      "bytes": 222990,
+      "missingLocalLinkOccurrences": 201,
+      "missingUniqueLocalLinks": 189,
+      "sha256": "e7ef347626b8acd31df83f0dc2bd70d449934fd7e948f3bf68a9ae4bdad7ddd7"
+    },
+    {
+      "path": "docs/plans/modernization/modernization-roadmap.md",
+      "bytes": 133790,
+      "missingLocalLinkOccurrences": 145,
+      "missingUniqueLocalLinks": 135,
+      "sha256": "c70c6f534ea3ab76458036141eceff552dddf883ad5255fba1ffa4ef1c209e7e"
+    }
+  ],
+  "recoverySnapshots": [
+    {
+      "manifest": "docs/research/2026-10-03-vehicle-realism/pause-recovery.json",
+      "base": "32e5bb386cadee9098d703c67ebdfc9444eb46a6",
+      "patchSha256Matches": true,
+      "currentFileComparison": {
+        "match": 167,
+        "different": 22
+      },
+      "applied": false
+    },
+    {
+      "manifest": "docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.json",
+      "base": "32e5bb386cadee9098d703c67ebdfc9444eb46a6",
+      "patchSha256Matches": true,
+      "currentFileComparison": {
+        "different": 15,
+        "match": 235
+      },
+      "applied": false
+    }
+  ],
+  "workload": "Static reads, SHA-256 comparisons and GitHub API reads only. No build, tests, flight, browser acceptance, merge or deployment."
+}

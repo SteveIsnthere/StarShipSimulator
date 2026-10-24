@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "/tmp/starship-stage-a-public-qualification.235d5b4be5ed44a7a590e4049b980526/root-observer.py",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/public-qualification-owned-route/actual-input-root-route/root-input.json",
+    "38f19f102ee54ba2247b101d2c0a99b53247d31f806a77cef0bd003cb8daa7d3"
+  ],
+  "externalDeadlineMs": 30000,
+  "noInvocationPerformed": true
+}

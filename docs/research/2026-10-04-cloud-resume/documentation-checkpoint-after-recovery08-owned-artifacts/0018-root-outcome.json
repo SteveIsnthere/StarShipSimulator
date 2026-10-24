@@ -1,0 +1,44 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 126881,
+      "state": "R",
+      "parent": 126880,
+      "group": 126881,
+      "session": 126881,
+      "start": "7977846"
+    },
+    {
+      "pid": 126888,
+      "state": "R",
+      "parent": 126881,
+      "group": 126888,
+      "session": 126888,
+      "start": "7977868"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 126881,
+      "session": 126881,
+      "start": "7977846",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 126888,
+      "session": 126888,
+      "start": "7977868",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4",
+  "manifestSha": "e98d47895252010372959df4f23814cede3faa8cf02bb8111232ed4013a9a40a",
+  "elapsedSeconds": 0.826824426651001,
+  "acceptance": "Fourteen inert source-extracted artifact callback controls only; no actual Vitest lifecycle, physics, golden, coverage, profile or performance acceptance"
+}

@@ -1,0 +1,72 @@
+"""ROOT-only read-only Git/docs selection capture after canonical archive acceptance."""
+from pathlib import Path
+import hashlib,json,os,stat,subprocess,sys,time,traceback
+root=Path('/workspace/StarShipSimulator'); sha=lambda b:hashlib.sha256(b).hexdigest()
+spec_path=Path(sys.argv[1]); assert sha(spec_path.read_bytes())==sys.argv[2]
+m=json.loads(spec_path.read_text()); assert m['kind']=='docs-after08-reviewed-selection-input-v1'
+assert sha(Path(__file__).read_bytes())==m['captureSha256']
+assert m['executionApprovedByIndependentReview'] is True
+output=Path(m['receipt']); assert output.parent==Path('/tmp') and not os.path.lexists(output)
+output.mkdir(mode=0o700); started=time.monotonic(); raw=[]; failure=None; afterErrors=[]; rows=[]
+
+def save(name,b):
+    p=output/name
+    with p.open('xb') as f:f.write(b);f.flush();os.fsync(f.fileno())
+    p.chmod(0o600)
+    fd=os.open(output,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(fd)
+    finally:os.close(fd)
+
+def git(args):
+    assert time.monotonic()-started<45
+    n=len(raw);save(str(n)+'.started.json',(json.dumps({'args':args})+'\n').encode())
+    env=dict(os.environ);env['GIT_OPTIONAL_LOCKS']='0'
+    c=subprocess.run([m['git']['path'],*args],cwd=root,env=env,capture_output=True,timeout=5)
+    save(str(n)+'.stdout.bin',c.stdout);save(str(n)+'.stderr.bin',c.stderr)
+    raw.append({'args':args,'exitCode':c.returncode,'stdoutSha256':sha(c.stdout),'stderrSha256':sha(c.stderr)})
+    save(str(n)+'.completed.json',(json.dumps(raw[-1])+'\n').encode())
+    assert len(c.stdout)+len(c.stderr)<=2097152 and c.returncode==0
+    return c.stdout
+
+def boundary():
+    head=git(['rev-parse','HEAD']).decode().strip()
+    branch=git(['symbolic-ref','--short','HEAD']).decode().strip()
+    staged=git(['diff','--cached','--name-only','-z'])
+    status=git(['status','--porcelain=v1','-z','--untracked-files=all'])
+    ip=(root/'.git/index'); st=ip.lstat();assert stat.S_ISREG(st.st_mode) and st.st_size<=8388608
+    return {'head':head,'branch':branch,'staged':staged.hex(),'statusSha256':sha(status),'indexSha256':sha(ip.read_bytes()),'indexMode':stat.S_IMODE(st.st_mode)}
+
+before=None
+try:
+    assert len(m['files'])<=6000
+    before=boundary();save('before.json',(json.dumps(before)+'\n').encode())
+    assert before['head']=='26e946c7eee0320e68c18f3d4e3ceab8dc4116da'
+    assert before['branch']=='claude/visuals' and before['staged']==''
+    total=0;seen=set()
+    for row in m['files']:
+        assert time.monotonic()-started<45
+        relative=Path(row['path']); assert not relative.is_absolute() and '..' not in relative.parts
+        assert relative.parts[0]=='docs' and str(relative) not in seen;seen.add(str(relative))
+        assert str(relative) not in m['excludedPaths']
+        assert not any(str(relative).startswith(p) for p in m['excludedPrefixes'])
+        p=root/relative
+        for a in [p,*p.parents]:assert not a.is_symlink()
+        st=p.lstat();assert stat.S_ISREG(st.st_mode)
+        cap=16777216
+        if str(relative)=='docs/research/2026-10-04-cloud-resume/checkpoint-recovery-08.patch':
+            cap=18837675;assert st.st_size==cap and row['sha256']=='ac9f96c9daf3534e166a489daf2b46434f387fa343540c653cc903b7b3df3c87'
+        assert st.st_size<=cap
+        b=p.read_bytes();assert sha(b)==row['sha256'] and len(b)==row['bytes'] and stat.S_IMODE(st.st_mode)==row['mode']
+        total+=len(b);assert total<=268435456
+        rows.append(row)
+except BaseException:failure=traceback.format_exc()
+finally:
+    try:
+        after=boundary();save('after.json',(json.dumps(after)+'\n').encode());assert after==before
+        assert sha(spec_path.read_bytes())==sys.argv[2] and sha(Path(__file__).read_bytes())==m['captureSha256']
+        assert time.monotonic()-started<45
+    except BaseException:afterErrors.append(traceback.format_exc())
+    complete=failure is None and not afterErrors and len(rows)==len(m['files'])
+    if complete:save('selection.json',(json.dumps({'kind':'reviewed-docs-only-selection-after08-v1','baseHead':before['head'],'files':rows,'totalBytes':sum(x['bytes'] for x in rows),'noGitMutation':True,'runtimeStageApproved':False,'scope':'Preservation only; no gate/phase/test/frame acceptance'},indent=2)+'\n').encode())
+    save('result.json',(json.dumps({'completed':complete,'primaryFailure':failure,'afterErrors':afterErrors,'commands':raw,'elapsedSeconds':time.monotonic()-started},indent=2)+'\n').encode())
+sys.exit(0 if complete else 1)

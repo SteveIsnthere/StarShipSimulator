@@ -1,0 +1,17 @@
+{
+  "localRawBytes": 1923280,
+  "exportedBytes": 1048576,
+  "exportedSha256": "f9cbc32322879e827da20a1f2279adddeb60b52328c1bcffbc56260ee58a37f9",
+  "exportByteCap": 1048576,
+  "filteredByteCap": 65536,
+  "filteredBytes": 330,
+  "truncated": true,
+  "capError": "Error: Startup trace raw byte cap reached; partial diagnosis only",
+  "syscalls": [
+    "openat",
+    "openat2",
+    "chdir",
+    "fchdir"
+  ],
+  "limitations": "100ms local raw-size monitor may overshoot; exported raw and filtered artifacts have strict byte caps; no read buffers/env logged"
+}

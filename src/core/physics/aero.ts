@@ -304,3 +304,8 @@ export function updateVehicleInFlightMaxArea(
     vehicleInFlightMaxArea,
   };
 }
+
+/** Self-validating identity for synchronous built-in burn-area preparation. */
+export function isCanonicalBurnAero(certificate: unknown, area: unknown): boolean {
+  return certificate === isCanonicalBurnAero && area === getCrossSectionalArea;
+}

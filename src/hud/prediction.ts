@@ -36,6 +36,7 @@ import * as C from '$core/constants';
 import { coastDownrangeDistance } from '$core/physics/gravity';
 import { createBurnScratch, createFallResult, unpoweredFallInto } from '$core/control/guidance-physics';
 import type { SimState } from '$core/state';
+import { SHIP, type VehicleDefinition } from '$core/vehicle';
 
 export type PredictionKind = 'touchdown' | 'entry' | 'none';
 
@@ -48,7 +49,7 @@ export interface Prediction {
   /** m — where it arrives, relative to the landing site at x = 0. */
   downRange: number;
   /**
-   * m — the altitude it arrives at: GROUND_ALTITUDE for a touchdown, the entry
+   * m — the altitude it arrives at: half the selected hull height for a touchdown, the entry
    * interface for an entry.
    */
   altitude: number;
@@ -73,12 +74,12 @@ export const ENTRY_RADIUS = C.planetRadius + C.ENTRY_INTERFACE_ALTITUDE;
  * m — the altitude a touchdown happens at.
  *
  * NOT zero. `altitude` in this simulation is the vehicle's centre of mass, so
- * a vehicle standing on the pad reads 25 m — half its height (state.ts:415,
+ * a Ship standing on the pad reads 26 m — half its height (state.ts,
  * and scenarios.ts floors every configured flight at the same value). Predicting
- * a fall to zero would ask for 25 m of descent that cannot happen, and would
+ * a fall to zero would ask for descent that cannot happen, and would
  * call a vehicle sitting on the pad airborne.
  */
-export const GROUND_ALTITUDE = C.vehicleHeight / 2;
+export const GROUND_ALTITUDE = SHIP.height / 2;
 
 /** Scratch for the fall, so a prediction allocates nothing. */
 const fallScratch = createBurnScratch();
@@ -89,8 +90,9 @@ const fall = createFallResult();
  *
  * Mutates rather than returning, like everything else on the frame path.
  */
-export function predict(state: SimState, out: Prediction): void {
+export function predict(state: SimState, out: Prediction, model: VehicleDefinition = SHIP): void {
   const { kinematics, status, failures } = state;
+  const groundAltitude = model.height / 2;
 
   /*
     A flight that is not in the air predicts nothing — there is no trajectory
@@ -106,7 +108,7 @@ export function predict(state: SimState, out: Prediction): void {
     status.onTheGround ||
     failures.crashed ||
     failures.inFlightBreakUp ||
-    kinematics.altitude <= GROUND_ALTITUDE
+    kinematics.altitude <= groundAltitude
   ) {
     out.kind = 'none';
     out.reason = 'on-ground';
@@ -159,7 +161,7 @@ export function predict(state: SimState, out: Prediction): void {
     there as well, and only a climb that does not come back inside the cap is
     'out-of-domain'.
   */
-  unpoweredFallInto(state, GROUND_ALTITUDE, fallScratch, fall);
+  unpoweredFallInto(state, groundAltitude, fallScratch, fall, model);
   if (!fall.reached) {
     // Climbing away, or still falling at the integrator's cap: not a touchdown.
     out.kind = 'none';
@@ -172,7 +174,7 @@ export function predict(state: SimState, out: Prediction): void {
   out.kind = 'touchdown';
   out.reason = '';
   out.time = time;
-  out.altitude = GROUND_ALTITUDE;
+  out.altitude = groundAltitude;
   out.downRange = here + fall.downRange;
   out.miss = out.downRange;
 }

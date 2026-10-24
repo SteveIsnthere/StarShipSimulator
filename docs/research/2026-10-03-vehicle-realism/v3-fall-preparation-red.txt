@@ -1,0 +1,26 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/proofs/unpowered-fall-preparation.test.ts (21 tests | 1 failed) 207ms
+     × pays one canonical query for held zero controls while retaining nonzero queries 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/unpowered-fall-preparation.test.ts > owned held-control preparation > pays one canonical query for held zero controls while retaining nonzero queries
+AssertionError: expected "writeDamageControls" to be called 1 times, but got 74 times
+ ❯ tests/proofs/unpowered-fall-preparation.test.ts:65:19
+     63|     try {
+     64|       advanceUnpoweredFall(work, 37, scratch);
+     65|       expect(spy).toHaveBeenCalledTimes(1);
+       |                   ^
+     66|       state.vehicle.frontFinExtension = 25;
+     67|       const other = createUnpoweredFallWork(state, model.height / 2, m…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 20 passed (21)
+   Start at  17:52:44
+   Duration  515ms (transform 142ms, setup 0ms, import 177ms, tests 207ms, environment 0ms)
+

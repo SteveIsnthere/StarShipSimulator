@@ -1,0 +1,104 @@
+"""Root-only finite retained-dist matrix materialization; no build, test, driver load or tree scan."""
+import hashlib, json, os, pathlib, sys, uuid
+
+ROOT = pathlib.Path('/workspace/StarShipSimulator')
+BASE = ROOT / 'docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal'
+TEMPLATES = {'config': ('mesa-budget.config.ts.txt', 'mesa-budget.config.ts'),
+             'spec': ('mesa-budget.spec.ts.txt', 'mesa-budget.spec.ts'),
+             'hooks': ('mesa-boundary-hooks.ts.txt', 'mesa-boundary-hooks.ts'),
+             'reporter': ('mesa-reporter.mjs.txt', 'mesa-reporter.mjs')}
+def require(condition, message):
+    if not condition: raise RuntimeError(message)
+def sha(path):
+    path = pathlib.Path(path)
+    require(path.is_file() and not path.is_symlink() and path.stat().st_size <= 8 * 1024 * 1024, 'Finite regular selected metadata/source: ' + str(path))
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+def read(path):
+    return json.loads(pathlib.Path(path).read_text())
+def check(row):
+    require(set(row) == {'path', 'sha'} and pathlib.Path(row['path']).is_absolute(), 'Absolute externally pinned role')
+    require(sha(row['path']) == row['sha'], 'Selected metadata/source drift: ' + row['path'])
+
+seed_path, seed_sha = sys.argv[1:]
+require(sha(seed_path) == seed_sha, 'External root seed mismatch')
+seed = read(seed_path)
+require(seed['kind'] == 'mesa-app-matrix-input-root-seed-v1', 'Wrong matrix-only root seed')
+for key in ('sourcePins', 'buildInput', 'distApproval', 'buildReviewPins', 'maker'): check(seed[key])
+require(pathlib.Path(__file__).resolve() == pathlib.Path(seed['maker']['path']).resolve(), 'Executing root-pinned maker')
+require(seed['sourcePins']['path'] == str(BASE / 'candidate-source-pins.json'), 'Reviewed matrix source inventory')
+source_pins = read(seed['sourcePins']['path']); require(source_pins['kind'] == 'mesa-full-application-two-mode-source-pins-v1', 'Source inventory kind')
+source_files = {}
+for row in source_pins['files']:
+    require(row['path'] not in source_files, 'Duplicate source inventory')
+    require(pathlib.Path(row['path']).stat().st_size == row['bytes'] and sha(row['path']) == row['sha256'], 'Reviewed source inventory drift')
+    source_files[row['path']] = row['sha256']
+require(seed['distApproval']['path'] == str(BASE / 'root-fresh-dist-approval.json') and
+        seed['distApproval']['sha'] == '3f2442caba85a782d132bcd6378a4931871210caf3e95181208ab758d620ecd9', 'Exact externally approved actual fresh dist')
+build_input = read(seed['buildInput']['path'])
+require(build_input['kind'] == 'mesa-app-budget-owner-input-v1' and build_input['mode'] == 'app-build' and
+        build_input['outerMs'] == 338000 and build_input['root'] == str(ROOT), 'Actual approved app-build input')
+check(build_input['pins'])
+inventory = read(build_input['pins']['path'])
+require(inventory['kind'] == 'mesa-app-budget-external-inventory-v1', 'Original external inventory')
+approval = read(seed['distApproval']['path'])
+require(approval['kind'] == 'mesa-app-dist-externally-approved-v1' and approval['approved'] is True, 'Independent dist approval required')
+check(approval['buildReceipt']); check(approval['review'])
+require(approval['review']['sha'] == '7383a8c4052c9a3be2acbfaaf4ce0c10c929204ec6dc2cb1c1e743c12d825e86', 'Actual fresh appbuild Other HIGH')
+built = read(approval['buildReceipt']['path'])
+require(built['mode'] == 'app-build' and built['completed'] is True and built['code'] == 0 and
+        built['error'] is None and built['afterErrors'] == [], 'Accepted actual public build receipt')
+receipt = pathlib.Path(built['receipt'])
+require(receipt.resolve() == receipt and receipt.is_dir() and str(receipt).startswith('/tmp/starship-original21-stage.'), 'Actual build receipt identity')
+before_source = receipt / 'source-before.json'; before_tools = receipt / 'installed-before.json'; dist_table = receipt / 'dist-after-build.json'
+require(sha(before_source) == approval['sourceSha'] and sha(before_tools) == approval['toolsSha'], 'Actual build source/tool authority')
+require(read(dist_table) == approval['dist'], 'Retained actual complete dist table')
+check(build_input['qualification'])
+authority = read(build_input['qualification']['path'])
+require(read(before_source) == authority['source'] and read(before_tools) == authority['tools'], 'Current770/tool20355 authority equals actual build')
+require(len(authority['source']) == 770 and len(authority['tools']) == 20355, 'Current authority counts')
+require(len(approval['dist']['files']) == 61 and len(approval['dist']['directories']) == 2 and
+        sum(row[0].endswith('.map') for row in approval['dist']['files']) == 18, 'Accepted full dist inventory')
+cpu_max = pathlib.Path('/sys/fs/cgroup/cpu.max').read_text().strip()
+cpuset = pathlib.Path('/sys/fs/cgroup/cpuset.cpus.effective').read_text().strip()
+require(cpu_max == seed['cpuMax'] and cpuset == seed['cpuset'], 'Root-pinned actual current cgroup metadata')
+
+material = pathlib.Path('/tmp/starship-mesa-app-material.' + uuid.uuid4().hex)
+matrix = pathlib.Path('/tmp/starship-mesa-app-matrix.' + uuid.uuid4().hex)
+inputs = pathlib.Path('/tmp/starship-mesa-app-matrix-input.' + uuid.uuid4().hex)
+for directory in (material, matrix, inputs): directory.mkdir(mode=0o700); os.chmod(directory, 0o700)
+roles = {}
+for role, (template, filename) in TEMPLATES.items():
+    source = BASE / template; require(source_files[str(source)] == sha(source), 'Reviewed template bytes')
+    destination = material / filename
+    with destination.open('xb') as output: output.write(source.read_bytes())
+    os.chmod(destination, 0o600)
+    require(sha(destination) == source_files[str(source)], 'Exact materialized template')
+    roles[role] = {'path': str(destination), 'sha': sha(destination)}
+require(sorted(p.name for p in material.iterdir()) == sorted(pair[1] for pair in TEMPLATES.values()), 'Exact four private templates')
+files = dict(inventory['files'])
+def pin(path, digest):
+    require(path not in files or files[path] == digest, 'Conflicting inherited pin: ' + path)
+    files[path] = digest
+for row in (*roles.values(), seed['sourcePins'], seed['buildInput'], seed['distApproval'], seed['buildReviewPins'],
+            seed['maker'], approval['buildReceipt'], approval['review']): pin(row['path'], row['sha'])
+for path in (before_source, before_tools, dist_table): pin(str(path), sha(path))
+pin(seed_path, seed_sha)
+def emit(name, value):
+    path = inputs / name
+    with path.open('x') as output: json.dump(value, output, indent=2); output.write('\n')
+    os.chmod(path, 0o600)
+    return {'path': str(path), 'sha': sha(path)}
+pins = emit('external-inventory.json', {'kind': 'mesa-app-budget-external-inventory-v1', 'files': files})
+owner = {**build_input, 'mode': 'mesa-budget', 'pins': pins, **roles,
+         'distApproval': seed['distApproval'], 'distBuildReceipt': approval['buildReceipt'], 'distReview': approval['review'],
+         'materializationRoot': str(material), 'matrixReceipt': str(matrix), 'cpuMax': cpu_max, 'cpuset': cpuset}
+result = emit('owner-input.json', owner)
+# Drift after materialization fails without rewriting any historical input or qualification.
+for key in ('sourcePins', 'buildInput', 'distApproval', 'buildReviewPins', 'maker'): check(seed[key])
+require(sha(seed_path) == seed_sha and not list(matrix.iterdir()), 'Frozen seed and unexecuted empty matrix receipt')
+emit('assembly-origin.json', {'seed': {'path': seed_path, 'sha': seed_sha}, 'buildInput': seed['buildInput'],
+     'approval': seed['distApproval'], 'materialized': roles, 'matrixReceipt': str(matrix),
+     'sourceCount': 770, 'toolCount': 20355, 'distFiles': 61, 'distMaps': 18,
+     'noBuildOrTreeScanOrNativeLoad': True, 'whole338Work330ChildMaximum300': True,
+     'actualOwnerAndStructuralWrapperInputOtherHIGHRequired': True, 'matrixExecutionGranted': False})
+print(json.dumps(result))

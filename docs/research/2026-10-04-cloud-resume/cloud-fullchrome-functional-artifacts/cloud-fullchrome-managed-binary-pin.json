@@ -1,0 +1,12 @@
+{
+  "scope": "ONE read-only pin of existing managed full Chrome; no execution/copy/source edits or performance acceptance",
+  "registry": "node_modules/playwright-core/browsers.json",
+  "registrySha256": "f306eed529599b1eaf2f8a85db9de2b23e1a3fe36c2b66434b7c9434fb627a99",
+  "declaredRevision": "1234",
+  "declaredVersion": "151.0.7922.34",
+  "actualBinary": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+  "bytes": 290614600,
+  "mode": 493,
+  "sha256": "0b20b130e7edd9dd51873be867761295fe0cfad490c2b9a64f95bd3cfc08fa71",
+  "versionExecuted": false
+}

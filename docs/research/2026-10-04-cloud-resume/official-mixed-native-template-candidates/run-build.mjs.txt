@@ -1,0 +1,50 @@
+import assert from 'node:assert/strict';
+import { realpathSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { digest, parse, inputsEqual, utilities } from './integrity.mjs';
+const started = Date.now(), deadline = started + 90000;
+const [rootArg, receiptArg, inputPath, inputSha] = process.argv.slice(2);
+const root = realpathSync(rootArg), receipt = realpathSync(receiptArg);
+assert.equal(root, process.cwd()); assert.match(inputSha, /^[a-f0-9]{64}$/);
+assert.equal(digest(inputPath), inputSha);
+const input = parse(inputPath);
+assert.equal(input.kind, 'mixed-native-build-input-v1');
+assert.equal(input.nodeVersion, process.version); assert.equal(input.nodeBinary, digest(process.execPath));
+inputsEqual(input.materializedInputs);
+assert.equal(input.materializedInputs[resolve(receipt, 'run-build.mjs')], digest(resolve(receipt, 'run-build.mjs')));
+assert.equal(input.materializedInputs[resolve(receipt, 'integrity.mjs')], digest(resolve(receipt, 'integrity.mjs')));
+const ownedFile = resolve(root, 'scripts/bench/owned-command.mjs');
+assert.equal(digest(ownedFile), input.ownedCommandDigest);
+const { runOwnedCommand, verifyNoOwnedProcesses } = await import(pathToFileURL(ownedFile).href);
+let processReceipt, failure;
+try {
+  const remaining = deadline - Date.now(); assert(remaining > 0);
+  const code = await runOwnedCommand({ name: 'native-flight-build',
+    args: [resolve(receipt, 'build.mjs'), root, receipt, inputPath, inputSha],
+    root, receipt, env: { ...process.env }, deadlineMs: remaining });
+  processReceipt = parse(resolve(receipt, 'native-flight-build.process.json'));
+  assert.equal(code, 0); assert.equal(processReceipt.exit.code, 0);
+  assert.equal(processReceipt.exit.signal, null); assert.equal(processReceipt.failure, null);
+  assert.equal(processReceipt.finished, true); assert.equal(processReceipt.closed, true);
+  assert.equal(processReceipt.cleanup.executing.length, 0);
+  assert.equal(parse(resolve(receipt, 'build-boundary.json')).completed, true);
+  assert.equal(parse(resolve(receipt, 'candidate-manifest.json')).qualified, false);
+} catch (error) { failure = error; }
+try {
+  const u = await utilities(root, input.utilityDigest);
+  assert.deepEqual(u.sourceSnapshot(root), input.source);
+  assert.deepEqual(u.installedToolSnapshot(root, input.npmCli), input.installedTools);
+  inputsEqual(input.materializedInputs); assert.equal(digest(inputPath), inputSha);
+  assert.equal(digest(process.execPath), input.nodeBinary); assert.equal(digest(ownedFile), input.ownedCommandDigest);
+  assert(verifyNoOwnedProcesses().every(row => row.executing.length === 0));
+  assert(Date.now() <= deadline, 'Whole owned build workload exceeded 90 seconds');
+} catch (error) { failure ??= error; }
+writeFileSync(resolve(receipt, 'build-owner-result.json'), JSON.stringify({
+  completed: !failure, code: failure ? 1 : 0, error: failure ? String(failure.stack ?? failure) : null,
+  elapsedMs: Date.now() - started, inputSha, nodeBinary: digest(process.execPath), processReceipt,
+  candidateSha: failure ? null : digest(resolve(receipt, 'candidate-manifest.json')),
+  boundarySha: failure ? null : digest(resolve(receipt, 'build-boundary.json')),
+  ownership: 'Parent must independently verify actual PID/start nonexecution; candidate is not qualified',
+}) + '\n', { flag: 'wx' });
+if (failure) throw failure;

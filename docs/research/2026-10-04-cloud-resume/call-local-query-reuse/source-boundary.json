@@ -1,0 +1,9 @@
+{
+  "kind": "call-local-query-reuse-research-only-v1",
+  "source": {
+    "src/core/physics/damage-controls.ts": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+    "src/core/physics/damage-thermal.ts": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0"
+  },
+  "productionSelectionImplemented": false,
+  "proofExecuted": false
+}

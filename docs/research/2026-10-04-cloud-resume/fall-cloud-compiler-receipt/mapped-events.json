@@ -1,0 +1,313 @@
+{
+  "raw_sha256": "f8bf72458b2dc306566915bb8bf7f644ef5fe8bc735ba6e6a177edf3ae23bb7a",
+  "events": [
+    {
+      "raw_line": 2818,
+      "text": "Inlining 0x4405c298 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>} into 0x4405bef0 {0x28689546d5d1 <SharedFunctionInfo tailFirstDragDeceleration>}"
+    },
+    {
+      "raw_line": 2848,
+      "text": "  - target: 0x7f54b8023a08 {0x18b39a7c85c9 <SharedFunctionInfo [completed optimizing 0x0d85376ea871 getCrossSectionalArea<JSFunction tableStateInto </workspace/StarShipSimulator/src/core/physics/isa.ts> (sfi = 0x19d01bebc321)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 2858,
+      "text": "Inlining 0x7f54b8023a08 {0x18b39a7c85c9 <SharedFunctionInfo getCrossSectionalArea>} into 0x4404c5d0 {0x28689546d681 <SharedFunctionInfo burnDeceleration>}"
+    },
+    {
+      "raw_line": 2866,
+      "text": "Inlining 0x4405ca58 {0x18b39a7c85c9 <SharedFunctionInfo getCrossSectionalArea>} into 0x4405bef0 {0x28689546d5d1 <SharedFunctionInfo tailFirstDragDeceleration>}"
+    },
+    {
+      "raw_line": 2872,
+      "text": "[completed optimizing 0x0d85376ea5d1   - target: 0x7f54b80235c8 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}, bytecode size: 308"
+    },
+    {
+      "raw_line": 2915,
+      "text": "[completed optimizing Inlining 0x7f54b8026ea0 {0x06c5777fe4e1 <SharedFunctionInfo engineMassFlow>} into 0x4404c5d0 {0x28689546d681 0x2045a98106d1 <JSFunction getCrossSectionalArea </workspace/StarShipSimulator/src/core/physics/aero.ts> (sfi = 0x18b39a7c85c9)> (target TURBOFAN)<SharedFunctionInfo burnDeceleration>}"
+    },
+    {
+      "raw_line": 2999,
+      "text": "Inlining 0x43f7bae0 {0x19d01bebc321 <SharedFunctionInfo tableStateInto>} into 0x43f7b6e0 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}"
+    },
+    {
+      "raw_line": 3002,
+      "text": "Inlining 0x43f7d0a8 {0x19d01bebc1c1 <SharedFunctionInfo geopotentialAltitude>} into 0x43f7b6e0 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}"
+    },
+    {
+      "raw_line": 3010,
+      "text": "Inlining 0x7f54b8023da8 {0x19d01bebc169 <SharedFunctionInfo pressureInLayer>} into 0x43f7b6e0 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}"
+    },
+    {
+      "raw_line": 3016,
+      "text": "Inlining 0x7f54b8023c10 {0x19d01bebc219 <SharedFunctionInfo layerFor>} into 0x43f7b6e0 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}"
+    },
+    {
+      "raw_line": 3018,
+      "text": "[completed optimizing 0x0d85376ea969 <JSFunction isaAtmosphereInto </workspace/StarShipSimulator/src/core/physics/isa.ts> (sfi = 0x19d01bebc429)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3024,
+      "text": "[bailout (kind: deopt-eager, reason: lost precision or NaN): begin. deoptimizing 0x2045a98106d1 <JSFunction getCrossSectionalArea </workspace/StarShipSimulator/src/core/physics/aero.ts> (sfi = 0x18b39a7c85c9)>, 0x3611d5d75209 <Code TURBOFAN>, opt id 89, bytecode offset 24, deopt exit 1, FP to SP delta 48, caller SP 0x7ffc7fc316d0, pc 0x7f54c295ae87]"
+    },
+    {
+      "raw_line": 3026,
+      "text": "[bailout (kind: deopt-eager, reason: Insufficient type feedback for generic named access): begin. deoptimizing 0x0d85376ea969 <JSFunction isaAtmosphereInto </workspace/StarShipSimulator/src/core/physics/isa.ts> (sfi = 0x19d01bebc429)>, 0x3611d5d77371 <Code TURBOFAN>, opt id 105, bytecode offset 10, deopt exit 10, FP to SP delta 80, caller SP 0x7ffc7fc316d0, pc 0x7f54c295e658]"
+    },
+    {
+      "raw_line": 3057,
+      "text": "[completed optimizing 0x2045a98106d1 <JSFunction getCrossSectionalArea </workspace/StarShipSimulator/src/core/physics/aero.ts> (sfi = 0x18b39a7c85c9)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3066,
+      "text": "[completed optimizing 0x12ad051f3241 <JSFunction validateDamageControlForcing </workspace/StarShipSimulator/src/core/physics/damage-controls.ts> (sfi = 0x3e68051051e1)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3073,
+      "text": "Inlining 0x43f8dcc0 {0x32e77a0888d9 <SharedFunctionInfo liftSignIsInverted>} into 0x43f8d710 {0x32e77a088a39 <SharedFunctionInfo writeAccelerationComponents>}"
+    },
+    {
+      "raw_line": 3075,
+      "text": "[completed optimizing 0x0af676cb02f1 <JSFunction liftSignIsInverted </workspace/StarShipSimulator/src/core/physics/components.ts> (sfi = 0x32e77a0888d9)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3081,
+      "text": "[completed optimizing 0x0af676cb03f1 <JSFunction writeAccelerationComponents </workspace/StarShipSimulator/src/core/physics/components.ts> (sfi = 0x32e77a088a39)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3114,
+      "text": "[completed optimizing Considering 0x43c93530 {0x3e68051051e1 <SharedFunctionInfo validateDamageControlForcing>} for inlining with 0x7f54b8023950 {0x29973f942051 <FeedbackVector[25]>}"
+    },
+    {
+      "raw_line": 3118,
+      "text": "Inlining 0x7f54b804f798 {0x1c0cc9c3f761 <SharedFunctionInfo rad>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3123,
+      "text": "Inlining 0x7f54b804f798 {0x1c0cc9c3f761 <SharedFunctionInfo rad>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3126,
+      "text": "Inlining 0x7f54b804f798 {0x1c0cc9c3f761 <SharedFunctionInfo rad>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3129,
+      "text": "Inlining 0x7f54b8050b30 {0x18b39a7c8729 <SharedFunctionInfo getBodyDragCoefficient>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3133,
+      "text": "Inlining 0x7f54b804f798 {0x1c0cc9c3f761 <SharedFunctionInfo rad>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3163,
+      "text": "Inlining 0x7f54b8050bf8 {0x18b39a7c8621 <SharedFunctionInfo getDrag>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3187,
+      "text": "Inlining 0x43c92890 {0x18b39a7c89e9 <SharedFunctionInfo foldedIntoWind>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3211,
+      "text": "Inlining 0x43c927b8 {0x18b39a7c8991 <SharedFunctionInfo wrappedAttackAngle>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3231,
+      "text": "Inlining 0x43c92470 {0x32e77a099199 <SharedFunctionInfo meanWindAt>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3258,
+      "text": "Inlining 0x43c92378 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>} into 0x43c91a00 {0x28689546d7e1 [compiling method 0x0af676ca67d1 <JSFunction </workspace/StarShipSimulator/src/core/physics/wind.ts> (sfi = 0x32e77a099561)><SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3290,
+      "text": "Inlining 0x7f54b80510f0 {0x32e77a0910a1 <SharedFunctionInfo [completed compiling 0x2045a98102d1 verticalGravityAcceleration>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration<JSFunction </workspace/StarShipSimulator/src/core/physics/aero.ts> (sfi = 0x18b39a7c9019)> (target TURBOFAN) - took 0.002, 0.139, 0.004 ms]"
+    },
+    {
+      "raw_line": 3299,
+      "text": "[completed optimizing fallAcceleration>}"
+    },
+    {
+      "raw_line": 3318,
+      "text": "getCrossSectionalArea[completed optimizing 0x19be77d2fbd9 <JSFunction </workspace/StarShipSimulator/src/core/physics/damage-controls.ts> (sfi = 0x3e6805105341)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3322,
+      "text": "Inlining 0x7f54b80a9bc8 {0x32e77a091151 <SharedFunctionInfo inertialTangentialSpeed>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3336,
+      "text": "Inlining 0x7f54b8050fa8 {0x32e77a091201 <SharedFunctionInfo tangentialAcceleration>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3348,
+      "text": "Inlining 0x7f54b8050d58 {0x18b39a7c86d1 <SharedFunctionInfo getLift>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3359,
+      "text": "Inlining 0x7f54b8050968 {0x19d01beaf219 <SharedFunctionInfo speedOfSoundAt>} into 0x43c91a00 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3369,
+      "text": "[completed optimizing 0x00f2a5575719 <JSFunction fallAcceleration </workspace/StarShipSimulator/src/core/control/guidance-physics.ts> (sfi = 0x28689546d7e1)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3373,
+      "text": "Cannot consider 0x43f7c200 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>} for inlining (reason: 5)"
+    },
+    {
+      "raw_line": 3374,
+      "text": "Cannot consider 0x43f7c200 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>} for inlining (reason: 5)"
+    },
+    {
+      "raw_line": 3376,
+      "text": "[completed optimizing 0x00f2a5575859 <JSFunction advanceUnpoweredFall </workspace/StarShipSimulator/src/core/control/guidance-physics.ts> (sfi = 0x28689546d999)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3380,
+      "text": "[marking dependent code 0x3f4239189a09 <Code TURBOFAN> (0x28689546d7e1 <SharedFunctionInfo fallAcceleration>) (opt id 110) for deoptimization, reason: code dependencies]"
+    },
+    {
+      "raw_line": 3381,
+      "text": "[bailout (kind: deopt-eager, reason: Insufficient type feedback for compare operation): begin. deoptimizing 0x0af676cb03f1 <JSFunction writeAccelerationComponents </workspace/StarShipSimulator/src/core/physics/components.ts> (sfi = 0x32e77a088a39)>, 0x3f4239187391 <Code TURBOFAN>, opt id 114, bytecode offset 13, deopt exit 12, FP to SP delta 88, caller SP 0x7ffc7fc31738, pc 0x7f54c296a6ba]"
+    },
+    {
+      "raw_line": 3382,
+      "text": "[bailout (kind: deopt-eager, reason: Insufficient type feedback for compare operation): begin. deoptimizing 0x0af676cb02f1 <JSFunction liftSignIsInverted </workspace/StarShipSimulator/src/core/physics/components.ts> (sfi = 0x32e77a0888d9)>, 0x3f4239186ee9 <Code TURBOFAN>, opt id 115, bytecode offset 13, deopt exit 1, FP to SP delta 32, caller SP 0x7ffc7fc31660, pc 0x7f54c2969f4b]"
+    },
+    {
+      "raw_line": 3390,
+      "text": "Inlining 0x43c9de50 {0x19d01bebc321 <SharedFunctionInfo tableStateInto>} into 0x43c9da50 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}"
+    },
+    {
+      "raw_line": 3393,
+      "text": "Inlining 0x7f54b402eb68 {0x19d01bebc1c1 <SharedFunctionInfo geopotentialAltitude>} into 0x43c9da50 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}"
+    },
+    {
+      "raw_line": 3401,
+      "text": "Inlining 0x7f54b402ff58 {0x19d01bebc169 <SharedFunctionInfo pressureInLayer>} into 0x43c9da50 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}"
+    },
+    {
+      "raw_line": 3405,
+      "text": "Inlining 0x7f54b402edc0 {0x19d01bebc219 <SharedFunctionInfo layerFor>} into 0x43c9da50 {0x19d01bebc429 <SharedFunctionInfo isaAtmosphereInto>}"
+    },
+    {
+      "raw_line": 3407,
+      "text": "[completed optimizing 0x0d85376ea969 <JSFunction isaAtmosphereInto </workspace/StarShipSimulator/src/core/physics/isa.ts> (sfi = 0x19d01bebc429)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3424,
+      "text": "Inlining 0x43f7bc90 {0x32e77a0888d9 <SharedFunctionInfo liftSignIsInverted>} into 0x43f7b6e0 {0x32e77a088a39 <SharedFunctionInfo writeAccelerationComponents>}"
+    },
+    {
+      "raw_line": 3428,
+      "text": "[completed optimizing 0x0af676cb02f1 <JSFunction liftSignIsInverted </workspace/StarShipSimulator/src/core/physics/components.ts> (sfi = 0x32e77a0888d9)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3433,
+      "text": "Inlining 0x7f54bc02e178 {0x1c0cc9c3f761 <SharedFunctionInfo rad>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3438,
+      "text": "Inlining 0x7f54bc02e178 {0x1c0cc9c3f761 <SharedFunctionInfo rad>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3441,
+      "text": "Inlining 0x7f54bc02e178 {0x1c0cc9c3f761 <SharedFunctionInfo rad>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3444,
+      "text": "Inlining 0x7f54bc02f510 {0x18b39a7c8729 <SharedFunctionInfo getBodyDragCoefficient>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3448,
+      "text": "Inlining 0x7f54bc02e178 {0x1c0cc9c3f761 <SharedFunctionInfo rad>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3480,
+      "text": "Inlining 0x7f54bc02f5d8 {0x18b39a7c8621 <SharedFunctionInfo getDrag>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3504,
+      "text": "Inlining 0x43c9e8e0 {0x18b39a7c89e9 <SharedFunctionInfo foldedIntoWind>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3506,
+      "text": "[completed optimizing 0x0af676cb03f1 <JSFunction writeAccelerationComponents </workspace/StarShipSimulator/src/core/physics/components.ts> (sfi = 0x32e77a088a39)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3528,
+      "text": "Inlining 0x7f54bc02fad0 {0x32e77a0910a1 <SharedFunctionInfo verticalGravityAcceleration>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3532,
+      "text": "Inlining 0x7f54bc0b00f0 {0x32e77a090ff1 <SharedFunctionInfo gravityAt>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3554,
+      "text": "Inlining 0x7f54bc06f888 {0x32e77a091151 <SharedFunctionInfo inertialTangentialSpeed>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3574,
+      "text": "Inlining 0x7f54bc02f988 {0x32e77a091201 <SharedFunctionInfo tangentialAcceleration>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3592,
+      "text": "Inlining 0x7f54bc02f880 {0x32e77a088a39 <SharedFunctionInfo writeAccelerationComponents>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3611,
+      "text": "Inlining 0x7f54bc02f738 {0x18b39a7c86d1 <SharedFunctionInfo getLift>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3630,
+      "text": "Inlining 0x7f54bc02f348 {0x19d01beaf219 <SharedFunctionInfo speedOfSoundAt>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3646,
+      "text": "Inlining 0x7f54bc02e240 {0x18b39a7c85c9 <SharedFunctionInfo getCrossSectionalArea>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3660,
+      "text": "Inlining 0x43c9e808 {0x18b39a7c8991 <SharedFunctionInfo wrappedAttackAngle>} into 0x43c9da50 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>}"
+    },
+    {
+      "raw_line": 3672,
+      "text": "[bailout (kind: deopt-eager, reason: Insufficient type feedback for generic named access): begin. deoptimizing 0x00f2a5575859 <JSFunction advanceUnpoweredFall </workspace/StarShipSimulator/src/core/control/guidance-physics.ts> (sfi = 0x28689546d999)>, 0x3f423918a491 <Code TURBOFAN>, opt id 129, bytecode offset 520, deopt exit 10, FP to SP delta 248, caller SP 0x7ffc7fc31a70, pc 0x7f54c297472d]"
+    },
+    {
+      "raw_line": 3674,
+      "text": "[completed optimizing 0x00f2a5575719 <JSFunction fallAcceleration </workspace/StarShipSimulator/src/core/control/guidance-physics.ts> (sfi = 0x28689546d7e1)> (target TURBOFAN)]"
+    },
+    {
+      "raw_line": 3681,
+      "text": "Cannot consider 0x43c9de30 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>} for inlining (reason: 5)"
+    },
+    {
+      "raw_line": 3682,
+      "text": "Cannot consider 0x43c9de30 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>} for inlining (reason: 5)"
+    },
+    {
+      "raw_line": 3683,
+      "text": "Cannot consider 0x43c9de30 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>} for inlining (reason: 5)"
+    },
+    {
+      "raw_line": 3684,
+      "text": "Cannot consider 0x43c9de30 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>} for inlining (reason: 5)"
+    },
+    {
+      "raw_line": 3686,
+      "text": "Cannot consider 0x43f7c200 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>} for inlining (reason: 5)"
+    },
+    {
+      "raw_line": 3687,
+      "text": "Cannot consider 0x43f7c200 {0x28689546d7e1 <SharedFunctionInfo fallAcceleration>} for inlining (reason: 5)"
+    },
+    {
+      "raw_line": 3689,
+      "text": "[completed optimizing 0x00f2a5575859 <JSFunction advanceUnpoweredFall </workspace/StarShipSimulator/src/core/control/guidance-physics.ts> (sfi = 0x28689546d999)> (target TURBOFAN) OSR]"
+    },
+    {
+      "raw_line": 3691,
+      "text": "[completed optimizing 0x00f2a5575859 <JSFunction advanceUnpoweredFall </workspace/StarShipSimulator/src/core/control/guidance-physics.ts> (sfi = 0x28689546d999)> (target TURBOFAN)]"
+    }
+  ]
+}

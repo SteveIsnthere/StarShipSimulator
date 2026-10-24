@@ -1,0 +1,8 @@
+{
+  "code": 1,
+  "phase": "before any browser launch",
+  "error": "FileNotFoundError: checker expected parent-closure.json; actual reviewed metadata is diagnostic-parent-closure.json",
+  "probeExecuted": false,
+  "fix": "Exclusive byte-identical metadata alias, SHA5fb5ad...; checker bytee067 unchanged",
+  "originalParentMetadataUnchanged": true
+}

@@ -1,0 +1,51 @@
+import pathlib,json,subprocess,os,time,signal,hashlib
+base=pathlib.Path('/tmp')
+research=pathlib.Path('docs/research/2026-10-04-cloud-resume').resolve();draft=research/'render-kernel-width2-candidate/delimiter-repair';parent=draft/'focused-parent';parent.mkdir()
+sha=lambda b:hashlib.sha256(b).hexdigest()
+pin=draft/'focused-owner-input-pins.json';assert sha(pin.read_bytes())=='4a393dda7b701910f48ef671ab5043af2c2fcf676497c965561267f789d35d42'
+node=pathlib.Path(subprocess.check_output(['which','node'],text=True).strip());nodePin=sha(node.read_bytes());assert nodePin=='fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'
+ownerBytes=(draft/'run-owned-focused-delimiter.mjs.txt').read_bytes();assert sha(ownerBytes)=='757b3190fc0cbea35ef1ec3afc58f53aaad3194aa04a9012b42cec3ffa4aa867'
+import tempfile
+owner=pathlib.Path(tempfile.mkdtemp(prefix='starship-width2-delimiter-owner.',dir='/tmp'))/'run-owner.mjs';owner.write_bytes(ownerBytes);(parent/'executed-owner.mjs.txt').write_bytes(ownerBytes)
+env={**os.environ,'NODE_OPTIONS':'','RUN_FOCUSED_DELIMITER':'1','FOCUSED_DELIMITER_INPUT_PINS_SHA256':'4a393dda7b701910f48ef671ab5043af2c2fcf676497c965561267f789d35d42','FOCUSED_DELIMITER_NODE_SHA256':nodePin}
+
+def identity(pid):
+ try:
+  raw=pathlib.Path(f'/proc/{pid}/stat').read_text();f=raw[raw.rfind(')')+2:].split();return {'pid':pid,'start':f[19],'ppid':int(f[1]),'group':int(f[2]),'state':f[0]}
+ except (FileNotFoundError,ProcessLookupError):return None
+before=set(base.glob('starship-width2-delimiter.*'));seen={};started=time.monotonic();expired=False
+with (parent/'stdout.txt').open('xb') as out,(parent/'stderr.txt').open('xb') as err:
+ child=subprocess.Popen([str(node),str(owner)],stdout=out,stderr=err,env=env,start_new_session=True)
+ while child.poll() is None:
+  rows=[identity(int(p.name)) for p in pathlib.Path('/proc').iterdir() if p.name.isdigit()];rows=[r for r in rows if r]
+  parents={child.pid};changed=True
+  while changed:
+   changed=False
+   for r in rows:
+    if r['ppid'] in parents and r['pid'] not in parents:parents.add(r['pid']);changed=True
+  for r in rows:
+   if r['pid'] in parents or r['group']==child.pid:seen[(r['pid'],r['start'])]=r
+  if time.monotonic()-started>30:
+   expired=True;os.killpg(child.pid,signal.SIGTERM)
+   try:child.wait(timeout=9)
+   except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=2)
+   break
+  time.sleep(.1)
+ code=child.wait()
+new=set(base.glob('starship-width2-delimiter.*'))-before;assert len(new)==1,new
+receipt=new.pop();rows=list(seen.values())
+process=receipt/'delimiter.process.json'
+if process.exists():rows+=json.loads(process.read_text())['cleanup']['tracked']
+pi=receipt/'parent-identity.json'
+if pi.exists():rows.append(json.loads(pi.read_text()))
+post=[]
+for r in rows:
+ actual=identity(r['pid']);post.append({**r,'executing':bool(actual and actual['start']==str(r['start']) and actual['state'] not in ['Z','X'])})
+nodeAfter=sha(node.read_bytes());nodeExact=nodeAfter==nodePin
+sourceExact=sha(owner.read_bytes())==sha(ownerBytes) and sha(pin.read_bytes())=='4a393dda7b701910f48ef671ab5043af2c2fcf676497c965561267f789d35d42'
+result={'nodeBefore':nodePin,'nodeAfter':nodeAfter,'nodeExact':nodeExact,'sourceExact':sourceExact,'childExit':code,'timeout':expired,'elapsedSeconds':time.monotonic()-started,'receipt':str(receipt),'allOwnedNonexecuting':not any(r['executing'] for r in post)}
+(parent/'observed-identities.json').write_text(json.dumps(list(seen.values()),indent=2)+'\n')
+(parent/'independent-all-owned-postexit.json').write_text(json.dumps(post,indent=2)+'\n')
+(parent/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2));print((parent/'stderr.txt').read_text())
+if code or expired or not nodeExact or not sourceExact or not result['allOwnedNonexecuting']:raise SystemExit(1)

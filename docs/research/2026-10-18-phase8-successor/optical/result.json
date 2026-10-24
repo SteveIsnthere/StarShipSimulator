@@ -1,0 +1,489 @@
+{
+  "kind": "phase8-optical-attempt-v1",
+  "sourceBasis": "0d87c758 plus C1 constructor/matrix/descending-booster delta pinned in adjacent results",
+  "sourceBuildScope": "Last production build booster-descent/build.txt exit0; no source change between build and capture. Documentation changed during capture outside source manifest.",
+  "command": "E2E_SKIP_BUILD=1 E2E_VISUAL_RECEIPTS=1 E2E_GPU_POLICY=swiftshader ./node_modules/.bin/playwright test tests/e2e/visual-scenes.spec.ts --project=chromium --workers=1 --retries=0 --output=/tmp/starship-c3-optical-20261018.RDtoQq",
+  "exit": 1,
+  "passed": [
+    "launch",
+    "staging",
+    "belly-flop",
+    "entry",
+    "landing"
+  ],
+  "failed": [
+    "catch"
+  ],
+  "failure": "Catch synchronous pageevaluate exceeded unchanged60s test budget; fixture teardown also60s; no catch capture/afterreceipt.",
+  "checks": [
+    {
+      "directory": "visual-scenes-actual-belly-5395f-tate-absence-control-mobile-chromium",
+      "sourceBefore": "9aef66abfa86e4b59ef9ea8ae632394b96f5dfeffc365a3a01f6ff7d6a8cbb07",
+      "buildBefore": "124a449abc38c001f92c5236b7b881274dd54d54fff46b355aa4cef8c60c9f90",
+      "afterPresent": true,
+      "sourceStable": true,
+      "buildStable": true,
+      "browser": {
+        "name": "chromium",
+        "version": "151.0.7922.34",
+        "gpuPolicy": "swiftshader",
+        "launch": {
+          "executablePath": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+          "args": [
+            "--no-sandbox",
+            "--use-gl=angle",
+            "--use-angle=swiftshader",
+            "--enable-unsafe-swiftshader"
+          ]
+        },
+        "headless": true,
+        "cpuThrottling": "none requested"
+      },
+      "host": {
+        "platform": "linux",
+        "release": "6.18.55",
+        "arch": "x64",
+        "node": "v22.23.3",
+        "availableParallelism": 4,
+        "logicalCpuCount": 5,
+        "cpuModels": [
+          "INTEL(R) XEON(R) PLATINUM 8573C"
+        ],
+        "totalMemoryBytes": 18882674688,
+        "loadAverage": [
+          3.19,
+          0.99,
+          0.44
+        ],
+        "cpuQuota": "400000 100000",
+        "cpuset": "0-4",
+        "cpuStat": "usage_usec 755600979\nuser_usec 649603853\nsystem_usec 105997125\nnice_usec 0\nnr_periods 13893\nnr_throttled 360\nthrottled_usec 30747824\nnr_bursts 0\nburst_usec 0",
+        "memoryMax": "17179869184"
+      }
+    },
+    {
+      "directory": "visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium",
+      "sourceBefore": "9aef66abfa86e4b59ef9ea8ae632394b96f5dfeffc365a3a01f6ff7d6a8cbb07",
+      "buildBefore": "124a449abc38c001f92c5236b7b881274dd54d54fff46b355aa4cef8c60c9f90",
+      "afterPresent": false,
+      "sourceStable": null,
+      "buildStable": null,
+      "browser": {
+        "name": "chromium",
+        "version": "151.0.7922.34",
+        "gpuPolicy": "swiftshader",
+        "launch": {
+          "executablePath": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+          "args": [
+            "--no-sandbox",
+            "--use-gl=angle",
+            "--use-angle=swiftshader",
+            "--enable-unsafe-swiftshader"
+          ]
+        },
+        "headless": true,
+        "cpuThrottling": "none requested"
+      },
+      "host": {
+        "platform": "linux",
+        "release": "6.18.55",
+        "arch": "x64",
+        "node": "v22.23.3",
+        "availableParallelism": 4,
+        "logicalCpuCount": 5,
+        "cpuModels": [
+          "INTEL(R) XEON(R) PLATINUM 8573C"
+        ],
+        "totalMemoryBytes": 18882674688,
+        "loadAverage": [
+          3.95,
+          1.84,
+          0.79
+        ],
+        "cpuQuota": "400000 100000",
+        "cpuset": "0-4",
+        "cpuStat": "usage_usec 1052206327\nuser_usec 935972453\nsystem_usec 116233873\nnice_usec 0\nnr_periods 14706\nnr_throttled 936\nthrottled_usec 81149631\nnr_bursts 0\nburst_usec 0",
+        "memoryMax": "17179869184"
+      }
+    },
+    {
+      "directory": "visual-scenes-actual-entry-aa9ae-tate-absence-control-mobile-chromium",
+      "sourceBefore": "9aef66abfa86e4b59ef9ea8ae632394b96f5dfeffc365a3a01f6ff7d6a8cbb07",
+      "buildBefore": "124a449abc38c001f92c5236b7b881274dd54d54fff46b355aa4cef8c60c9f90",
+      "afterPresent": true,
+      "sourceStable": true,
+      "buildStable": true,
+      "browser": {
+        "name": "chromium",
+        "version": "151.0.7922.34",
+        "gpuPolicy": "swiftshader",
+        "launch": {
+          "executablePath": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+          "args": [
+            "--no-sandbox",
+            "--use-gl=angle",
+            "--use-angle=swiftshader",
+            "--enable-unsafe-swiftshader"
+          ]
+        },
+        "headless": true,
+        "cpuThrottling": "none requested"
+      },
+      "host": {
+        "platform": "linux",
+        "release": "6.18.55",
+        "arch": "x64",
+        "node": "v22.23.3",
+        "availableParallelism": 4,
+        "logicalCpuCount": 5,
+        "cpuModels": [
+          "INTEL(R) XEON(R) PLATINUM 8573C"
+        ],
+        "totalMemoryBytes": 18882674688,
+        "loadAverage": [
+          4.03,
+          1.36,
+          0.58
+        ],
+        "cpuQuota": "400000 100000",
+        "cpuset": "0-4",
+        "cpuStat": "usage_usec 859451145\nuser_usec 749923895\nsystem_usec 109527249\nnice_usec 0\nnr_periods 14179\nnr_throttled 563\nthrottled_usec 49479727\nnr_bursts 0\nburst_usec 0",
+        "memoryMax": "17179869184"
+      }
+    },
+    {
+      "directory": "visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-chromium",
+      "sourceBefore": "9aef66abfa86e4b59ef9ea8ae632394b96f5dfeffc365a3a01f6ff7d6a8cbb07",
+      "buildBefore": "124a449abc38c001f92c5236b7b881274dd54d54fff46b355aa4cef8c60c9f90",
+      "afterPresent": true,
+      "sourceStable": true,
+      "buildStable": true,
+      "browser": {
+        "name": "chromium",
+        "version": "151.0.7922.34",
+        "gpuPolicy": "swiftshader",
+        "launch": {
+          "executablePath": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+          "args": [
+            "--no-sandbox",
+            "--use-gl=angle",
+            "--use-angle=swiftshader",
+            "--enable-unsafe-swiftshader"
+          ]
+        },
+        "headless": true,
+        "cpuThrottling": "none requested"
+      },
+      "host": {
+        "platform": "linux",
+        "release": "6.18.55",
+        "arch": "x64",
+        "node": "v22.23.3",
+        "availableParallelism": 4,
+        "logicalCpuCount": 5,
+        "cpuModels": [
+          "INTEL(R) XEON(R) PLATINUM 8573C"
+        ],
+        "totalMemoryBytes": 18882674688,
+        "loadAverage": [
+          4.81,
+          1.77,
+          0.74
+        ],
+        "cpuQuota": "400000 100000",
+        "cpuset": "0-4",
+        "cpuStat": "usage_usec 940681607\nuser_usec 827807603\nsystem_usec 112874004\nnice_usec 0\nnr_periods 14401\nnr_throttled 724\nthrottled_usec 63968205\nnr_bursts 0\nburst_usec 0",
+        "memoryMax": "17179869184"
+      }
+    },
+    {
+      "directory": "visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium",
+      "sourceBefore": "9aef66abfa86e4b59ef9ea8ae632394b96f5dfeffc365a3a01f6ff7d6a8cbb07",
+      "buildBefore": "124a449abc38c001f92c5236b7b881274dd54d54fff46b355aa4cef8c60c9f90",
+      "afterPresent": true,
+      "sourceStable": true,
+      "buildStable": true,
+      "browser": {
+        "name": "chromium",
+        "version": "151.0.7922.34",
+        "gpuPolicy": "swiftshader",
+        "launch": {
+          "executablePath": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+          "args": [
+            "--no-sandbox",
+            "--use-gl=angle",
+            "--use-angle=swiftshader",
+            "--enable-unsafe-swiftshader"
+          ]
+        },
+        "headless": true,
+        "cpuThrottling": "none requested"
+      },
+      "host": {
+        "platform": "linux",
+        "release": "6.18.55",
+        "arch": "x64",
+        "node": "v22.23.3",
+        "availableParallelism": 4,
+        "logicalCpuCount": 5,
+        "cpuModels": [
+          "INTEL(R) XEON(R) PLATINUM 8573C"
+        ],
+        "totalMemoryBytes": 18882674688,
+        "loadAverage": [
+          1.12,
+          0.33,
+          0.22
+        ],
+        "cpuQuota": "400000 100000",
+        "cpuset": "0-4",
+        "cpuStat": "usage_usec 603994807\nuser_usec 509220954\nsystem_usec 94773853\nnice_usec 0\nnr_periods 13443\nnr_throttled 83\nthrottled_usec 3536090\nnr_bursts 0\nburst_usec 0",
+        "memoryMax": "17179869184"
+      }
+    },
+    {
+      "directory": "visual-scenes-actual-stagi-9ea7a-tate-absence-control-mobile-chromium",
+      "sourceBefore": "9aef66abfa86e4b59ef9ea8ae632394b96f5dfeffc365a3a01f6ff7d6a8cbb07",
+      "buildBefore": "124a449abc38c001f92c5236b7b881274dd54d54fff46b355aa4cef8c60c9f90",
+      "afterPresent": true,
+      "sourceStable": true,
+      "buildStable": true,
+      "browser": {
+        "name": "chromium",
+        "version": "151.0.7922.34",
+        "gpuPolicy": "swiftshader",
+        "launch": {
+          "executablePath": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+          "args": [
+            "--no-sandbox",
+            "--use-gl=angle",
+            "--use-angle=swiftshader",
+            "--enable-unsafe-swiftshader"
+          ]
+        },
+        "headless": true,
+        "cpuThrottling": "none requested"
+      },
+      "host": {
+        "platform": "linux",
+        "release": "6.18.55",
+        "arch": "x64",
+        "node": "v22.23.3",
+        "availableParallelism": 4,
+        "logicalCpuCount": 5,
+        "cpuModels": [
+          "INTEL(R) XEON(R) PLATINUM 8573C"
+        ],
+        "totalMemoryBytes": 18882674688,
+        "loadAverage": [
+          2.37,
+          0.67,
+          0.33
+        ],
+        "cpuQuota": "400000 100000",
+        "cpuset": "0-4",
+        "cpuStat": "usage_usec 671361588\nuser_usec 570714688\nsystem_usec 100646899\nnice_usec 0\nnr_periods 13651\nnr_throttled 188\nthrottled_usec 13107971\nnr_bursts 0\nburst_usec 0",
+        "memoryMax": "17179869184"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": ".last-run.json",
+      "bytes": 96,
+      "sha256": "71ed95a9cc3b8c37ab9adf3193bba1bb5946601c1b26eeaae1f6b7432f72bc6f"
+    },
+    {
+      "path": "visual-scenes-actual-belly-5395f-tate-absence-control-mobile-chromium/after-runtime.json",
+      "bytes": 131660,
+      "sha256": "de0ad6fcf3168cdcf38d2a5ee797dfc1adfb98e7690a88dfd3795de2505a15a7"
+    },
+    {
+      "path": "visual-scenes-actual-belly-5395f-tate-absence-control-mobile-chromium/attachments/after-runtime-json-7e7b15095fcbeaa5440058e4a9615426cddd60f6.json",
+      "bytes": 131660,
+      "sha256": "de0ad6fcf3168cdcf38d2a5ee797dfc1adfb98e7690a88dfd3795de2505a15a7"
+    },
+    {
+      "path": "visual-scenes-actual-belly-5395f-tate-absence-control-mobile-chromium/attachments/before-runtime-json-d565e81c590da35482039e24cc4e423bce858a46.json",
+      "bytes": 131660,
+      "sha256": "fb7850cf1cd04ae0dd8719a913e4a1af82bfc544e9cda93ba0cd822ae8d8d57e"
+    },
+    {
+      "path": "visual-scenes-actual-belly-5395f-tate-absence-control-mobile-chromium/before-runtime.json",
+      "bytes": 131660,
+      "sha256": "fb7850cf1cd04ae0dd8719a913e4a1af82bfc544e9cda93ba0cd822ae8d8d57e"
+    },
+    {
+      "path": "visual-scenes-actual-belly-5395f-tate-absence-control-mobile-chromium/belly-flop-state.json",
+      "bytes": 54900,
+      "sha256": "bbae16e4519b19025b00efc710bb6d349b14ba2007b52fcfb492cc0834b558e6"
+    },
+    {
+      "path": "visual-scenes-actual-belly-5395f-tate-absence-control-mobile-chromium/belly-flop-without-vehicles.png",
+      "bytes": 212298,
+      "sha256": "d6339ebeef6b8030dad55e77a05bc09e1ed32dafad390191b647be03edac36ed"
+    },
+    {
+      "path": "visual-scenes-actual-belly-5395f-tate-absence-control-mobile-chromium/belly-flop.png",
+      "bytes": 214227,
+      "sha256": "43a60824c3e33f594c5c941f41d640b84509b7516ceb85c0bead79839b43ad2c"
+    },
+    {
+      "path": "visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/attachments/before-runtime-json-279b2ed7a2c6c7579765766180664795f69db2d4.json",
+      "bytes": 131661,
+      "sha256": "744f4b425a468d12ff1a02aabdd299328eabd73461df2d4fab01033a44d54a62"
+    },
+    {
+      "path": "visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/before-runtime.json",
+      "bytes": 131661,
+      "sha256": "744f4b425a468d12ff1a02aabdd299328eabd73461df2d4fab01033a44d54a62"
+    },
+    {
+      "path": "visual-scenes-actual-catch-79dfe-tate-absence-control-mobile-chromium/error-context.md",
+      "bytes": 484,
+      "sha256": "df77bd25e2e7c212ffeab2500c9b263105e3ab9696e8bb23d9d67bbbd1097387"
+    },
+    {
+      "path": "visual-scenes-actual-entry-aa9ae-tate-absence-control-mobile-chromium/after-runtime.json",
+      "bytes": 131660,
+      "sha256": "fe3ab9c72d5892a69558cd89b65064218d70c10f38fb55d452dd683543b03024"
+    },
+    {
+      "path": "visual-scenes-actual-entry-aa9ae-tate-absence-control-mobile-chromium/attachments/after-runtime-json-9107a9bcfbecf9aace8963436bdabfc50bbeb921.json",
+      "bytes": 131660,
+      "sha256": "fe3ab9c72d5892a69558cd89b65064218d70c10f38fb55d452dd683543b03024"
+    },
+    {
+      "path": "visual-scenes-actual-entry-aa9ae-tate-absence-control-mobile-chromium/attachments/before-runtime-json-c3a90a7dbdda3ad7d0ade8065c5f8208608628d5.json",
+      "bytes": 131660,
+      "sha256": "e92565018f6d47e4b288c26d014f0a1fc1980cbd1b09463525870c1cedad92da"
+    },
+    {
+      "path": "visual-scenes-actual-entry-aa9ae-tate-absence-control-mobile-chromium/before-runtime.json",
+      "bytes": 131660,
+      "sha256": "e92565018f6d47e4b288c26d014f0a1fc1980cbd1b09463525870c1cedad92da"
+    },
+    {
+      "path": "visual-scenes-actual-entry-aa9ae-tate-absence-control-mobile-chromium/entry-state.json",
+      "bytes": 55658,
+      "sha256": "1fdfca12e016a7dac840203261a3c8eef766f8d65ccca12d9944f308dacbaa32"
+    },
+    {
+      "path": "visual-scenes-actual-entry-aa9ae-tate-absence-control-mobile-chromium/entry-without-vehicles.png",
+      "bytes": 93953,
+      "sha256": "7767979dee2510339f029698487f2114a6a23a6e4efab483b666e7157da9bbfa"
+    },
+    {
+      "path": "visual-scenes-actual-entry-aa9ae-tate-absence-control-mobile-chromium/entry.png",
+      "bytes": 107251,
+      "sha256": "4dcd0174162808e1d7c5ab74c656caf9ff8e942db9cdd657b855a5a89a5c7e71"
+    },
+    {
+      "path": "visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-chromium/after-runtime.json",
+      "bytes": 131661,
+      "sha256": "9e393e3ff01dfea99f0acf24e9e97029ea7ff698e5c32e96a97c4c237a4aa48e"
+    },
+    {
+      "path": "visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-chromium/attachments/after-runtime-json-6be693a534388e97dbbea016e09e20cf8419be90.json",
+      "bytes": 131661,
+      "sha256": "9e393e3ff01dfea99f0acf24e9e97029ea7ff698e5c32e96a97c4c237a4aa48e"
+    },
+    {
+      "path": "visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-chromium/attachments/before-runtime-json-306beab22493b263be6398258e61441340971511.json",
+      "bytes": 131660,
+      "sha256": "36ccf7012f282c25b915ed0030c0cd8db56262a0c293f5e7dec5dd6e1d131379"
+    },
+    {
+      "path": "visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-chromium/before-runtime.json",
+      "bytes": 131660,
+      "sha256": "36ccf7012f282c25b915ed0030c0cd8db56262a0c293f5e7dec5dd6e1d131379"
+    },
+    {
+      "path": "visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-chromium/landing-state.json",
+      "bytes": 55465,
+      "sha256": "be4defb2b8f9846c9762edfe74015cd02642b5082bd6dbfe5f241f3b2a849446"
+    },
+    {
+      "path": "visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-chromium/landing-without-vehicles.png",
+      "bytes": 290074,
+      "sha256": "7764e099bcd0125befc599025b8f48f7dd9032a0727cdb69205a085cc47ed085"
+    },
+    {
+      "path": "visual-scenes-actual-landi-6a4eb-tate-absence-control-mobile-chromium/landing.png",
+      "bytes": 293573,
+      "sha256": "1c32ee1484d04976029650fabaf55ee9a16c4a84dfb043365cd6fb0ceea00b6d"
+    },
+    {
+      "path": "visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/after-runtime.json",
+      "bytes": 131659,
+      "sha256": "14a4a28f273fa5b47cd2106020a73aa91f9ac72b6c8923ccb40bfb1ecd33af8e"
+    },
+    {
+      "path": "visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/attachments/after-runtime-json-0b64df3ea075ec6b4961e4d34c3bdb12d27bc337.json",
+      "bytes": 131659,
+      "sha256": "14a4a28f273fa5b47cd2106020a73aa91f9ac72b6c8923ccb40bfb1ecd33af8e"
+    },
+    {
+      "path": "visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/attachments/before-runtime-json-d2c4e1652d51c4c637695d6a655999dfebdf6210.json",
+      "bytes": 131657,
+      "sha256": "8dbf1e6a45be0ee40e0adcee910fc36dd7c393cad313e87fc6dbc652dc7eee4e"
+    },
+    {
+      "path": "visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/before-runtime.json",
+      "bytes": 131657,
+      "sha256": "8dbf1e6a45be0ee40e0adcee910fc36dd7c393cad313e87fc6dbc652dc7eee4e"
+    },
+    {
+      "path": "visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/launch-state.json",
+      "bytes": 55205,
+      "sha256": "b4bd9df31310e1c62a0591f6e28e0748ffb3e2b2bb6b3b67f4cd4e9e20410e0e"
+    },
+    {
+      "path": "visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/launch-without-vehicles.png",
+      "bytes": 211717,
+      "sha256": "4752e8fa45d792a73621f5ed6fc3f1822bd82dc5eeb8504ced8856568080c4d8"
+    },
+    {
+      "path": "visual-scenes-actual-launc-1f359-tate-absence-control-mobile-chromium/launch.png",
+      "bytes": 214263,
+      "sha256": "6cdc7428dad830927a227a5ceaa1aa00d9be6e4295b852755aa4504ab06b6ba4"
+    },
+    {
+      "path": "visual-scenes-actual-stagi-9ea7a-tate-absence-control-mobile-chromium/after-runtime.json",
+      "bytes": 131659,
+      "sha256": "5f25cf876555984682b084cd5d9aaa6c0c4cb5c42ee7527c4a7cd2e7b83755af"
+    },
+    {
+      "path": "visual-scenes-actual-stagi-9ea7a-tate-absence-control-mobile-chromium/attachments/after-runtime-json-335df14c0001f56d4a148dd8b8238b5f54d4df62.json",
+      "bytes": 131659,
+      "sha256": "5f25cf876555984682b084cd5d9aaa6c0c4cb5c42ee7527c4a7cd2e7b83755af"
+    },
+    {
+      "path": "visual-scenes-actual-stagi-9ea7a-tate-absence-control-mobile-chromium/attachments/before-runtime-json-6298724bcd7d8452f9acca38cf387d7e463d8f04.json",
+      "bytes": 131660,
+      "sha256": "16075b849645704fb9b846f25f4fec21ce058dbf95b8a2fb331931d1e41fb43d"
+    },
+    {
+      "path": "visual-scenes-actual-stagi-9ea7a-tate-absence-control-mobile-chromium/before-runtime.json",
+      "bytes": 131660,
+      "sha256": "16075b849645704fb9b846f25f4fec21ce058dbf95b8a2fb331931d1e41fb43d"
+    },
+    {
+      "path": "visual-scenes-actual-stagi-9ea7a-tate-absence-control-mobile-chromium/staging-state.json",
+      "bytes": 55659,
+      "sha256": "6b7a3e4de7c34b9239ec2245497abc96deb52968b21c667c7211d7056c3123dc"
+    },
+    {
+      "path": "visual-scenes-actual-stagi-9ea7a-tate-absence-control-mobile-chromium/staging-without-vehicles.png",
+      "bytes": 60771,
+      "sha256": "322d143b22313c34088c8c5492b8bf93a69121f79ff87ad849770376450dbfdd"
+    },
+    {
+      "path": "visual-scenes-actual-stagi-9ea7a-tate-absence-control-mobile-chromium/staging.png",
+      "bytes": 70182,
+      "sha256": "6c5ddfbc2c4e9e9c46748525873f838db187e01488631e0cba0e75ee314a535d"
+    }
+  ],
+  "scope": "Five production-body presence/absence/framing witnesses only. Paused captures worldDt0/particlecounts0 do not establish developed exhaust. No R3 reference, naturaldamage, phone/reduced, motion, frame/GPU, fullgate/phase/deploy acceptance.",
+  "actualRenderer": "WebGL observed; ANGLE/SwiftShader requested. Unmasked renderer identity not durably saved in inspected receipts."
+}

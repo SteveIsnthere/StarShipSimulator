@@ -1,0 +1,12 @@
+{
+  "kind": "single-helper-matrix-maker-source-high-pins-v1",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-single-helper-candidate-source-pins.json": "2e17000c04f3fe8227bb94e0bcf711dd607ac7189b485bad6762783eb29cb491",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-matrix-single-helper-input.py.txt": "9bfc23781206e6f4d72de0d955383fff438ddb27ec2537e7e216d6357b1ad0f2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-single-helper-input-contract.md": "17e33356b74d979af948f850e6f51f01dd21a0cca524b86f8017f7fb04366365",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-preview-cwd-candidate-source-pins.json": "6a199f1b82d0e35cb5074161adbf5b4c6ed0018f62b95e270ae23ea2fa1513dc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-matrix-preview-cwd-input.py.txt": "b267478aa730a39e60cabab48ff2fa8d9f8d3c9fbdae4955796d98aa6dbbecf2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-single-helper-maker-review-pins.json": "2fd2633325d76a25b9b54b14cf50f948f120e5528bf40000ce99bf317a40edbe"
+  },
+  "reviewSha256": "659e9a878ca495cbc894a9f91f474210ce3759d2fbbebf62ba88d095e665c2ce"
+}

@@ -1,0 +1,41 @@
+import assert from 'node:assert/strict';
+import { registerHooks } from 'node:module';
+import { appendFileSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { digest } from './integrity.mjs';
+import { admitRun, originalTests } from './admission.mjs';
+const { manifest: m, qualification: q } = await admitRun(process.env.NATIVE_FLIGHT_RUN, process.env.NATIVE_FLIGHT_RUN_SHA);
+assert.equal(process.platform, 'linux');
+const stat = readFileSync('/proc/self/stat', 'utf8');
+const start = stat.slice(stat.lastIndexOf(')') + 2).trim().split(/\s+/)[19];
+assert.match(start, /^\d+$/);
+const entryURL = pathToFileURL(resolve(m.directory, 'entry.mjs')).href;
+const chunkURL = pathToFileURL(resolve(m.directory, q.mappedCode)).href;
+const constantsURL = pathToFileURL(resolve(m.directory, 'constants.mjs')).href;
+const receipt = resolve(m.directory + '.receipts', 'native-worker-' + process.pid + '-' + start + '.jsonl');
+let bytes = 0;
+function record(row) {
+  const line = JSON.stringify({ pid: process.pid, start, ...row }) + '\n';
+  bytes += Buffer.byteLength(line); assert(bytes <= 65536);
+  appendFileSync(receipt, line, { flag: 'a' });
+}
+record({ kind: 'startup', nodeVersion: process.version, nodeBinary: digest(process.execPath),
+  runSha: process.env.NATIVE_FLIGHT_RUN_SHA, loaderSha: digest(new URL(import.meta.url)),
+  entryURL, chunkURL, constantsURL, code: m.files });
+const parents = new Set(originalTests.map(file => pathToFileURL(resolve(q.root, file)).href));
+registerHooks({ resolve(specifier, context, nextResolve) {
+  if (q.aliases.includes(specifier)) {
+    assert(parents.has(context.parentURL), 'Native application alias requested by foreign parent');
+    const url = specifier === '$core/constants' ? constantsURL : entryURL;
+    record({ kind: 'original-alias', specifier, parentURL: context.parentURL, url });
+    return { url, shortCircuit: true };
+  }
+  if (/^\$(core|app|view|hud|ui|audio)\//.test(specifier)) throw Error('Unknown native application alias: ' + specifier);
+  const result = nextResolve(specifier, context);
+  if (context.parentURL === entryURL || context.parentURL === constantsURL) {
+    assert.equal(result.url, context.parentURL === entryURL ? chunkURL : entryURL);
+    record({ kind: 'native-module-edge', specifier, parentURL: context.parentURL, url: result.url });
+  }
+  return result;
+} });

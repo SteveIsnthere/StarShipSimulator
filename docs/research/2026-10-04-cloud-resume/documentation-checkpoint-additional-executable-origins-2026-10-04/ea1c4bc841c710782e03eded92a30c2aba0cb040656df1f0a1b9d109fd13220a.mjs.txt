@@ -1,0 +1,252 @@
+import assert from 'node:assert/strict';
+import { graphOracle } from './graph-oracle.ts';
+import { graphOracle as beforeOracle } from './graph-oracle-before.ts';
+import { graphOracle as beforeScaled } from './graph-oracle-before-scaled.ts';
+import { graphOracle as guardScaled } from './graph-oracle-scaled.ts';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { stripTypeScriptTypes } from 'node:module';
+
+const [receipt] = process.argv.slice(2);
+assert(receipt); assert.equal(process.version, 'v22.23.3');
+const results=[];const errorEvidence=[];
+const apis=()=>[{SHIP:0,SUPER_HEAVY:0,CATCH:0},{SHIP:0,SUPER_HEAVY:0,CATCH:0}];
+const both=(exercise)=>{for(const make of [beforeOracle,graphOracle])exercise(make(...apis()));};
+const test=(name,fn)=>{fn();results.push({name,status:'passed'});};
+const denied=(oracle,x,y,pattern)=>assert.throws(()=>oracle.compare(x,y),pattern);
+
+test('previously complete immutable descendant reuses certificate under new parent',()=>{
+ const x=Object.freeze({leaf:Object.freeze({n:1})}),y=Object.freeze({leaf:Object.freeze({n:1})});
+ const o=graphOracle(...apis());o.compare(x,y);const first=o.counts();
+ const result=o.compare(Object.freeze({child:x}),Object.freeze({child:y}));const last=o.counts();
+ assert.equal(result.nodes,2);assert.equal(result.edges,2);
+ assert.equal(last.immutableProbeVisits-first.immutableProbeVisits,2);
+ assert.equal(last.immutableTrueHits-first.immutableTrueHits,2);
+});
+test('fully frozen cycle certification and reused cycle descendant',()=>{
+ const a={},b={};a.self=a;b.self=b;Object.freeze(a);Object.freeze(b);
+ both(o=>{o.compare(a,b);o.compare(Object.freeze({child:a}),Object.freeze({child:b}));});
+});
+test('partly mutable cyclic graph never publishes partial true certificate',()=>{
+ const a={n:0},b={n:0},x={leaf:a},y={leaf:b};a.root=x;b.root=y;Object.freeze(x);Object.freeze(y);
+ both(o=>{o.compare(x,y);b.n=1;denied(o,x,y,/0 !== 1/);b.n=0;});
+});
+test('mutable leaf below frozen parent remains fully compared',()=>{
+ const a={n:0},b={n:0},x=Object.freeze({leaf:a}),y=Object.freeze({leaf:b});
+ both(o=>{o.compare(x,y);b.n=1;denied(o,x,y,/0 !== 1/);b.n=0;});
+});
+test('previous negative descendant certificate conservatively rejects new parent',()=>{
+ const a={n:1},b={n:1};const o=graphOracle(...apis());o.compare(a,b);const start=o.counts();
+ o.compare(Object.freeze({child:a}),Object.freeze({child:b}));
+ // Original deeplyFrozen(left) && deeplyFrozen(right) short-circuits on false.
+ assert.equal(o.counts().immutableFalseHits-start.immutableFalseHits,1);
+ b.n=2;denied(o,Object.freeze({child:a}),Object.freeze({child:b}),/1 !== 2/);
+});
+test('late freeze after rejected root does not promote cached false to true',()=>{
+ both(o=>{const a={leaf:{n:1}},b={leaf:{n:1}};o.compare(a,b);
+  Object.freeze(a.leaf);Object.freeze(b.leaf);Object.freeze(a);Object.freeze(b);
+  o.compare(a,b);const repeat=o.compare(a,b);assert.equal(repeat.nodes,2);assert.equal(repeat.edges,3);
+  denied(o,Object.freeze({child:a,n:0}),Object.freeze({child:b,n:1}),/0 !== 1/);
+ });
+});
+test('forward alias mismatch after certified descendant remains denied',()=>{
+ both(o=>{const a=Object.freeze({n:0}),b=Object.freeze({n:0});o.compare(a,b);
+  denied(o,{a,b:a},{a:b,b:Object.freeze({n:0})},/forward alias mismatch/);});
+});
+test('reverse alias mismatch remains denied',()=>{
+ both(o=>{const a={n:0};denied(o,{a:{n:0},b:{n:0}},{a,b:a},/reverse alias mismatch/);});
+});
+test('Object.is signed zero and NaN semantics remain exact',()=>{
+ both(o=>{o.compare({n:NaN},{n:NaN});denied(o,{n:-0},{n:0},/-0 !== 0/);});
+});
+test('accessor denied without invoking getter',()=>{
+ both(o=>{let calls=0;const a={};Object.defineProperty(a,'n',{get(){calls++;throw Error('must not execute');},enumerable:true});
+  denied(o,a,{n:0},/accessor unsupported/);assert.equal(calls,0);});
+});
+test('descriptor mismatch remains denied',()=>{
+ both(o=>{const a={},b={};Object.defineProperty(a,'n',{value:0,enumerable:true,writable:false,configurable:true});
+  Object.defineProperty(b,'n',{value:0,enumerable:true,writable:true,configurable:true});denied(o,a,b,/writable/);});
+});
+test('unmapped function below frozen graph remains denied',()=>{
+ both(o=>denied(o,Object.freeze({f(){}}),Object.freeze({f(){}}),/unmapped function/));
+});
+test('mapped functions retain role and alias correspondence',()=>{
+ for(const make of [beforeOracle,graphOracle]){const a=()=>0,b=()=>0;const [l,r]=apis();l.operation=a;r.operation=b;
+  const o=make(l,r);o.compare(Object.freeze({f:a}),Object.freeze({f:b}));denied(o,{f:a},{f:()=>0},/unmapped function/);}
+});
+test('symbols and unsupported prototypes remain denied',()=>{
+ both(o=>{const sym=Symbol('n');denied(o,{[sym]:0},{[sym]:0},/unsupported symbol/);
+  denied(o,Object.create({n:0}),Object.create({n:0}),/unsupported prototype/);});
+});
+// Tiny cap controls exercise identical check sites without allocating millions of
+// objects. Original literal production caps are checked first and remain intact.
+{
+ const sources=['graph-oracle-before.ts','graph-oracle.ts'].map(f=>readFileSync(new URL(f,import.meta.url),'utf8'));
+ const caps=['2_000_000','20_000_000','2_000_000_000','20_000_000_000'];
+ for(const cap of caps)assert.equal(sources[0].split(cap).length,sources[1].split(cap).length);
+ for(let i=0;i<sources.length;i++){
+  const scaled=sources[i].replaceAll('20_000_000_000','20').replaceAll('2_000_000_000','8')
+   .replaceAll('20_000_000','6').replaceAll('2_000_000','4');
+  const js=stripTypeScriptTypes(scaled,{mode:'strip'});
+  const {graphOracle: make}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+  const o=make(...apis());denied(o,{a:1,b:2,c:3,d:4,e:5,f:6},{a:1,b:2,c:3,d:4,e:5,f:6},/oracle edge budget/);
+  const node=make(...apis());denied(node,{a:{b:{c:{d:{}}}}},{a:{b:{c:{d:{}}}}},/oracle node budget/);
+  const aggregateNodes=make(...apis());for(let n=0;n<8;n++)aggregateNodes.compare({},{});
+  denied(aggregateNodes,{},{},/oracle node budget/);
+  const aggregateEdges=make(...apis());for(let n=0;n<17;n++)aggregateEdges.compare(0,0);
+  denied(aggregateEdges,0,0,/oracle edge budget/);
+ }
+ results.push({name:'all original cap checks unchanged with bounded scaled-cap negative controls',status:'passed'});
+}
+// Identity is established separately in each executing backend/realm. No stack
+// getter or setter is invoked by this snapshot helper.
+const canonicalStack=Object.getOwnPropertyDescriptor(new Error('canonical stack sentinel'),'stack');
+assert.equal(canonicalStack.enumerable,false);assert.equal(canonicalStack.configurable,true);
+assert.equal(typeof canonicalStack.get,'function');assert.equal(typeof canonicalStack.set,'function');
+assert(!('value'in canonicalStack));assert(!('writable'in canonicalStack));
+function errorSnapshot(error){
+ const keys=Reflect.ownKeys(error);assert(keys.every(key=>typeof key==='string'));
+ const entries=[];
+ // Validate ALL own descriptors before accessing any error field. Only the
+ // observed canonical stack accessor is admitted; unknown getters never run.
+ for(const key of keys){
+  const d=Object.getOwnPropertyDescriptor(error,key);
+  if('value'in d){
+   if(key==='stack')assert.equal(typeof d.value,'string','Error stack data must be string');
+   entries.push([key,{...d,value:key==='stack'?'SOURCE_STACK_EXCLUDED':d.value}]);
+  }else{
+   assert.equal(key,'stack','Error accessor unsupported');
+   assert.equal(d.get,canonicalStack.get,'Error stack getter unsupported');
+   assert.equal(d.set,canonicalStack.set,'Error stack setter unsupported');
+   assert.equal(d.enumerable,false,'Error stack enumerable unsupported');
+   assert.equal(d.configurable,true,'Error stack configurable unsupported');
+   assert(!('writable'in d),'Error accessor writable unsupported');
+   entries.push([key,{kind:'accessor',enumerable:d.enumerable,configurable:d.configurable,
+    getRole:'canonical-Error-stack-get',setRole:'canonical-Error-stack-set'}]);
+  }
+ }
+ // Requested inherited fields must also be data descriptors. Read values from
+ // descriptors instead of executing a property getter (including on prototypes).
+ const field=key=>{for(let object=error;object!==null;object=Object.getPrototypeOf(object)){
+  const d=Object.getOwnPropertyDescriptor(object,key);if(d){assert('value'in d,'Error field accessor unsupported');return d.value;}
+ }return undefined;};
+ return {name:field('name'),message:field('message'),code:field('code'),operator:field('operator'),
+  actual:field('actual'),expected:field('expected'),ownKeys:keys,descriptors:Object.fromEntries(entries)};
+}
+function parityCase(name,recipe,expectedMessage){
+ test(name,()=>{
+  const execute=make=>{const log=[],fixture=recipe(log);let o,error;
+   try{o=make(...(fixture.api??apis()));fixture.run(o);}catch(caught){error=caught;}
+   assert(error instanceof Error,'Negative must throw');
+   if(expectedMessage!==undefined)assert.equal(error.message,expectedMessage);
+   return{snapshot:errorSnapshot(error),constructor:error.constructor,counts:o?.counts()??null,log};};
+  const before=execute(beforeOracle),after=execute(graphOracle);
+  assert.equal(after.constructor,before.constructor);assert.deepEqual(after.snapshot,before.snapshot);
+  assert.deepEqual(after.counts,before.counts);assert.deepEqual(after.log,before.log);
+  errorEvidence.push({name,before:before.snapshot,after:after.snapshot,beforeCounts:before.counts,afterCounts:after.counts,log:before.log});
+ });
+}
+parityCase('full error parity signed-zero scalar',()=>({run:o=>o.compare({n:-0},{n:0})}),'root.n: -0 !== 0');
+parityCase('full error parity NaN inequality',()=>({run:o=>o.compare({n:NaN},{n:0})}),'root.n: NaN !== 0');
+parityCase('full error parity primitive-vs-object string formatter throws',log=>({run:o=>o.compare(0,{toString(){log.push('string');throw new Error('formatter sentinel');}})}),'formatter sentinel');
+parityCase('full error parity mapped-function initialization',()=>({api:[{...apis()[0],f:()=>0},{...apis()[1],f:0}],run:()=>{}}),'f');
+parityCase('full error parity unmapped callback',()=>({run:o=>o.compare({f:()=>0},{f:()=>0})}),'unmapped function root.f');
+parityCase('full error parity forward alias',()=>({run:o=>{const a={},b={};o.compare(a,b);o.compare(a,{});}}),'forward alias mismatch root');
+parityCase('full error parity reverse alias',()=>({run:o=>{const a={},b={};o.compare(a,b);o.compare({},b);}}),'reverse alias mismatch root');
+parityCase('full error parity array classification',()=>({run:o=>o.compare([],{})}),'root array');
+parityCase('full error parity null prototype',()=>({run:o=>o.compare(Object.create(null),{})}),'root null prototype');
+parityCase('full error parity unsupported left prototype',()=>({run:o=>o.compare(Object.create({}),{})}),'root unsupported prototype');
+parityCase('full error parity unsupported right prototype',()=>({run:o=>o.compare({},Object.create({}))}),'root unsupported prototype');
+parityCase('full error parity deep keys unchanged',()=>({run:o=>o.compare({a:0},{b:0})}),'root own keys');
+parityCase('full error parity frozen classification',()=>({run:o=>o.compare(Object.freeze({a:0}),{a:0})}),'root frozen');
+parityCase('full error parity enumerable-first descriptor',()=>({run:o=>{
+ const a={},b={};Object.defineProperty(a,'n',{value:0,enumerable:false,writable:false,configurable:false});
+ Object.defineProperty(b,'n',{value:0,enumerable:true,writable:true,configurable:true});o.compare(a,b);
+}}),'root.n.enumerable');
+parityCase('full error parity configurable-before-writable descriptor',()=>({run:o=>{
+ const a={},b={};Object.defineProperty(a,'n',{value:0,enumerable:true,writable:false,configurable:false});
+ Object.defineProperty(b,'n',{value:0,enumerable:true,writable:true,configurable:true});o.compare(a,b);
+}}),'root.n.configurable');
+parityCase('full error parity writable descriptor',()=>({run:o=>{
+ const a={},b={};Object.defineProperty(a,'n',{value:0,enumerable:true,writable:false,configurable:true});
+ Object.defineProperty(b,'n',{value:0,enumerable:true,writable:true,configurable:true});o.compare(a,b);
+}}),'root.n.writable');
+parityCase('full error parity accessor denial no getter payment',log=>({run:o=>{
+ const a={};Object.defineProperty(a,'n',{get(){log.push('getter must not run');throw Error('getter sentinel');},enumerable:true});o.compare(a,{n:0});
+}}),'root.n accessor unsupported');
+parityCase('full error parity unsupported symbol',()=>({run:o=>{const s=Symbol('shared');o.compare({[s]:0},{[s]:0});}}),'root unsupported symbol');
+parityCase('full error parity proxy trap failure order',log=>({run:o=>{
+ const a=new Proxy({n:0},{getPrototypeOf(t){log.push('prototype');return Reflect.getPrototypeOf(t);},
+  isExtensible(t){log.push('extensible');return Reflect.isExtensible(t);},
+  ownKeys(t){log.push('keys');return Reflect.ownKeys(t);},
+  getOwnPropertyDescriptor(t,k){log.push('descriptor:'+String(k));return Reflect.getOwnPropertyDescriptor(t,k);}});
+ o.compare(a,{n:1});
+}}),'root.n: 0 !== 1');
+test('success full numerical and counts parity undefined bool NaN signed-zero',()=>{
+ const a=beforeOracle(...apis()),b=graphOracle(...apis());
+ for(const n of [undefined,false,true,NaN,-0,0,Infinity,-Infinity])assert.deepEqual(a.compare({n},{n}),b.compare({n},{n}));
+ assert.deepEqual(a.counts(),b.counts());
+});
+// Scale ONLY separate in-memory test copies for small deterministic budget errors.
+for(const budget of ['per-call-edge','per-call-node','aggregate-edge','aggregate-node']){
+ const makes=[beforeScaled,guardScaled];
+ test('full error parity scaled '+budget,()=>{
+  const execute=make=>{const o=make(...apis());let error;try{
+   if(budget==='per-call-edge')o.compare({a:1,b:2,c:3,d:4,e:5,f:6},{a:1,b:2,c:3,d:4,e:5,f:6});
+   if(budget==='per-call-node')o.compare({a:{b:{c:{d:{}}}}},{a:{b:{c:{d:{}}}}});
+   if(budget==='aggregate-edge')for(let n=0;n<18;n++)o.compare(0,0);
+   if(budget==='aggregate-node')for(let n=0;n<9;n++)o.compare({},{});
+  }catch(caught){error=caught;}assert(error instanceof Error);return{error:errorSnapshot(error),counts:o.counts()};};
+  const before=execute(makes[0]),after=execute(makes[1]);assert.deepEqual(before,after);errorEvidence.push({name:budget,before,after});
+ });
+}
+// Snapshot admission controls supplement (and do not replace) all original39.
+test('canonical snapshot public AssertionError reference identity',()=>{
+ const error=new assert.AssertionError({actual:false,expected:true,operator:'==',message:'canonical assertion'});
+ const d=Object.getOwnPropertyDescriptor(error,'stack');
+ assert.equal(d.get,canonicalStack.get);assert.equal(d.set,canonicalStack.set);
+ const snap=errorSnapshot(error);assert.equal(snap.name,'AssertionError');assert.equal(snap.code,'ERR_ASSERTION');
+ assert.equal(snap.descriptors.stack.kind,'accessor');assert.deepEqual(snap.ownKeys,Reflect.ownKeys(error));
+});
+test('canonical snapshot ordinary Error reference identity',()=>{
+ const error=new Error('canonical ordinary');const d=Object.getOwnPropertyDescriptor(error,'stack');
+ assert.equal(d.get,canonicalStack.get);assert.equal(d.set,canonicalStack.set);
+ const snap=errorSnapshot(error);assert.equal(snap.name,'Error');assert.equal(snap.message,'canonical ordinary');
+ assert.equal(snap.descriptors.stack.kind,'accessor');assert.deepEqual(snap.ownKeys,Reflect.ownKeys(error));
+});
+test('canonical snapshot explicit string data stack preserves flags',()=>{
+ const error=new Error('data stack');Object.defineProperty(error,'stack',{value:'explicit source stack',writable:false,enumerable:true,configurable:false});
+ assert.deepEqual(errorSnapshot(error).descriptors.stack,{value:'SOURCE_STACK_EXCLUDED',writable:false,enumerable:true,configurable:false});
+});
+for(const variant of ['unknown-nonstack','replaced-get','replaced-set','enumerable','configurable','missing-set','nonstring-data']){
+ test('canonical snapshot rejects '+variant+' without getter or setter payment',()=>{
+  let calls=0;const error=new Error('rejected descriptor');
+  const unknownGet=()=>{calls++;throw Error('getter must not execute');};const unknownSet=()=>{calls++;throw Error('setter must not execute');};
+  if(variant==='unknown-nonstack')Object.defineProperty(error,'message',{get:unknownGet,set:unknownSet,enumerable:false,configurable:true});
+  else if(variant==='nonstring-data')Object.defineProperty(error,'stack',{value:canonicalStack.get,writable:true,enumerable:false,configurable:true});
+  else Object.defineProperty(error,'stack',{get:variant==='replaced-get'?unknownGet:canonicalStack.get,
+   set:variant==='replaced-set'?unknownSet:variant==='missing-set'?undefined:canonicalStack.set,
+   enumerable:variant==='enumerable',configurable:variant!=='configurable'});
+  assert.throws(()=>errorSnapshot(error),assert.AssertionError);assert.equal(calls,0);
+ });
+}
+test('canonical snapshot own __proto__ data entry retains keys flags and value',()=>{
+ const error=new Error('own proto data'),value={sentinel:true};
+ Object.defineProperty(error,'__proto__',{value,writable:false,enumerable:true,configurable:false});
+ const snap=errorSnapshot(error);assert.equal(Object.getPrototypeOf(snap.descriptors),Object.prototype);
+ assert(Object.hasOwn(snap.descriptors,'__proto__'));assert.deepEqual(Reflect.ownKeys(snap.descriptors),Reflect.ownKeys(error));
+ assert.deepEqual(snap.descriptors.__proto__,{value,writable:false,enumerable:true,configurable:false});
+ assert.equal(snap.descriptors.__proto__.value,value);
+});
+test('canonical snapshot own __proto__ accessor rejects without payment',()=>{
+ let calls=0;const error=new Error('own proto accessor');
+ Object.defineProperty(error,'__proto__',{get(){calls++;throw Error('must not read');},set(){calls++;},enumerable:true,configurable:true});
+ assert.throws(()=>errorSnapshot(error),/Error accessor unsupported/);assert.equal(calls,0);
+});
+test('canonical snapshot inherited selected field accessor rejects without payment',()=>{
+ let calls=0;const error=new Error('inherited code accessor'),prototype=Object.create(Error.prototype);
+ Object.defineProperty(prototype,'code',{get(){calls++;throw Error('must not read');},set(){calls++;},enumerable:true,configurable:true});
+ Object.setPrototypeOf(error,prototype);assert.throws(()=>errorSnapshot(error),/Error field accessor unsupported/);assert.equal(calls,0);
+});
+writeFileSync(receipt,JSON.stringify({kind:'primitive-success-guard-canonical-stack-controls-v1',finalized:true,
+ node:process.version,cases:results,passed:results.length,failed:0,
+ physicalSteps:0,productionImports:0,errorEvidence},null,2)+'\n',{flag:'wx'});

@@ -1,0 +1,10 @@
+{
+  "priorSource": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/browser-root-parent.py.txt",
+  "priorSha256": "928453c1defdb96e4419109842d5935e49de66624a0e26ff58df8dac20f5eafc",
+  "newSource": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/browser-root-parent.py.txt",
+  "newSha256": "13dc9ad322ce841131f0268871fa6ddb7444e3d9485a56efdc72d30c81e04139",
+  "ownershipBodyExactAfterOneCommandSubstitutionAndExitReceiptInsertion": true,
+  "commandDelta": "node via qualified full path; compact runner name to width2 runner name",
+  "rawExitInsertion": "(parent/'actual-child-exit.json').write_text(json.dumps({'returncode':code,'exitCode':code if code>=0 else None,'signal':-code if code<0 else None,'timeout':expired,'elapsedSeconds':time.monotonic()-started},indent=2)+'\\n')\n",
+  "newFramework": false
+}

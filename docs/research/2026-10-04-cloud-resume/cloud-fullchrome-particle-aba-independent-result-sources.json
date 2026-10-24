@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/aba-phase-summary.json",
+    "sha256": "fc9d7821b53352b05fcfc85641a60cd6398777c3689e8f0b2d2d041952a3d608"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/positive-control-pixels.json",
+    "sha256": "1a0500e9cfa65a13acb36b166addf9c9fd3408a85fd06c137a1b8a56ac1a32b2"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/qualification-outcome.json",
+    "sha256": "0072e71a3797835255409996838ea9d9a53ddf4c95cf92b189bb318255c419ab"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/final-integrity.json",
+    "sha256": "ac9d64fb75e888a05214a626e6d0f04fd3fc50d1d4baa6a4bd199ee39e8e73d7"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/A-visible-draws.json",
+    "sha256": "d1da8f7984d2e7004a755c137fd417a9690204272cc44b042f1d5b43cb1db58d"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/B-hidden-draws.json",
+    "sha256": "ae165faa41c52b8a02961f08fa65a32a491cebddf60eb87c63ccf7f9629d204f"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/A-restored-draws.json",
+    "sha256": "8f817c9a69a59ef4975d30701b2a7c87d38539904afda5e7da32a27f0ef317c1"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/before-identity.json",
+    "sha256": "f70661d36f70e155ca60acfb164564d37a5a3fb56aeb0cc788b53fd28b6eb7d7"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/after-identity.json",
+    "sha256": "f70661d36f70e155ca60acfb164564d37a5a3fb56aeb0cc788b53fd28b6eb7d7"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/receipt/cleanup.json",
+    "sha256": "49e043a3fdba2be65c5574e63a08adf19d58effb33012e09f16a384fafb50fd7"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/artifact-manifest.json",
+    "sha256": "3f965bc948618d9032a8ab952e2e74aa35dc1fa90c5e1f79b9991ac6df1a0f1f"
+  },
+  {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-particle-aba-artifacts/outcome-summary.json",
+    "sha256": "e55577a9348e92de6629b4fa31a8fb493fbc71db5366814ef47a98a4bf697b59"
+  }
+]

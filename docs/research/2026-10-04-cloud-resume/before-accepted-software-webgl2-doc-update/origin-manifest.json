@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "before": "84b021ad69eb06f4cd93d98fc4af8bade04534397761a510585fa4c52018c2e7",
+      "after": "48bb20714a92401bcb272333131164a9597a88ee479e28c7d847f0038064f83e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md",
+      "before": "424d0d3e5f1c2cf065f23a98b7a4f75fe8b991f3233c6692a71ee1900a97be87",
+      "after": "a11bda2e0dd46b1b28144065cb97a7ce738e41ea230c96c714b3c7924b353cc2"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "before": "8ceec1f602467e6e1d99e50f9b22bad1f2a77b06e9775dd22ffd9afc5755134d",
+      "after": "40dac9c3fd0d94935b6934b8ed733c4bce43cff400f00d5e68561392d60fdf1e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md",
+      "before": "9e0e0908973b0dfdd4a03d5b743e8690ab2babf5d77aed6996f0e4d8f929d3d8",
+      "after": "cf2f224d95a8c235ca5153675f13a0d942e9c031df3d36c91ba248f3be8e9c02"
+    }
+  ],
+  "onlyCurrentStatusTextChanged": true
+}

@@ -1,0 +1,113 @@
+/** Research translation facade only. Every native calculation owns its constructor/model/work graph.
+ * Public caller records retain historical source-reference assertions. No full-flight use. */
+import * as ssr from '$core/control/guidance-physics';
+import {SHIP} from '$core/vehicle';
+import {SUPER_HEAVY} from '$core/vehicles/super-heavy';
+import {deepStrictEqual,strictEqual,ok} from 'node:assert';
+import {Script,constants} from 'node:vm';
+import {pathToFileURL} from 'node:url';
+import type {SimState} from '$core/state';
+import type {VehicleDefinition} from '$core/vehicle';
+import type {Rad} from '$core/units';
+const nativeImport=new Script('url => import(url)',{importModuleDynamically:constants.USE_MAIN_CONTEXT_DEFAULT_LOADER}).runInThisContext();
+const plain=await nativeImport(pathToFileURL('PLAIN_ENTRY_PLACEHOLDER').href);
+const counted=await nativeImport(pathToFileURL('COUNTED_ENTRY_PLACEHOLDER').href);
+const backends=[plain,counted];
+export const resetCounts=()=>counted.resetCounts();export const readCounts=()=>counted.readCounts();
+const locals=new WeakMap<object,object[]>();
+const nativeRoots=new WeakMap<object,SimState>();
+const callerSources=new WeakMap<object,SimState>();
+const callerModels=new WeakMap<object,VehicleDefinition>();
+function cloneData(value:unknown,seen=new WeakMap<object,object>()):any{
+ if(typeof value==='function')throw new Error('unsupported opaque function in fall recipe');
+ if(!value||typeof value!=='object')return value;
+ if(seen.has(value))return seen.get(value);
+ ok(Object.getPrototypeOf(value)===Object.prototype||Object.getPrototypeOf(value)===Array.prototype||Object.getPrototypeOf(value)===null,'unsupported fall recipe prototype');
+ const out=Array.isArray(value)?[]:{};seen.set(value,out);
+ for(const key of Reflect.ownKeys(value)){
+  ok(typeof key==='string','fall recipe symbol');const descriptor=Object.getOwnPropertyDescriptor(value,key)!;ok('value'in descriptor,'fall recipe accessor');
+  if(Array.isArray(value)&&key==='length')continue;
+  Object.defineProperty(out,key,{...descriptor,value:cloneData(descriptor.value,seen)});
+ }
+ if(Object.isFrozen(value))Object.freeze(out);return out;
+}
+function modelFor(api:any,model:VehicleDefinition){
+ if(model===SHIP)return api.SHIP;if(model===SUPER_HEAVY)return api.SUPER_HEAVY;
+ return cloneData(model);
+}
+function stateFor(api:any,state:SimState,model:VehicleDefinition){
+ // Constructor graph establishes native initial state/model. Exact caller recipe hydration owns every child.
+ const own=api.createInitialState(123,model);const data=cloneData(state);
+ for(const key of Reflect.ownKeys(own))delete own[key];
+ Object.defineProperties(own,Object.getOwnPropertyDescriptors(data));deepStrictEqual(own,state);
+ return own;
+}
+function nativeWork(work:ssr.UnpoweredFallWork,api:any){
+ const source=work.state;ok(source,'new fall facade requires retained source');
+ const model=modelFor(api,work.model),state=stateFor(api,source,model);
+ const result=api.createUnpoweredFallWork(state,work.groundAltitude,model,work.pitch);
+ strictEqual(result.state,state);strictEqual(result.model,model);deepStrictEqual(result,work);nativeRoots.set(result,state);return result;
+}
+function hydrate(work:ssr.UnpoweredFallWork,local:any,api:any){
+ // Reflect caller mutations before each paid slice. Preserve native model/control graph identities.
+ const model=local.model;
+ let state=null;
+ if(work.state){const recipe=cloneData(work.state);state=nativeRoots.get(local);ok(state,'registered backend constructor source required');
+  if(state!==recipe){for(const key of Reflect.ownKeys(state))delete state[key];Object.defineProperties(state,Object.getOwnPropertyDescriptors(recipe));}
+  deepStrictEqual(state,work.state);
+ }
+ const data=cloneData({...work,state:null,model:null,controlModel:null});
+ for(const key of Object.keys(data))if(!['state','model','controlModel'].includes(key))local[key]=data[key];
+ local.state=state;local.model=model;deepStrictEqual(local.controlModel,work.controlModel);
+ deepStrictEqual(local,work);
+}
+function expose(native:any,caller:ssr.UnpoweredFallWork){
+ const source=caller.state,model=caller.model,controls=caller.controlModel;
+ for(const key of Object.keys(native))if(!['state','model','controlModel'].includes(key))caller[key as keyof typeof caller]=cloneData(native[key]) as never;
+ caller.state=native.state===null?null:source;caller.model=model;caller.controlModel=controls;
+ deepStrictEqual(caller,native);
+}
+function outcome(run:()=>unknown){try{return {value:run(),error:null as unknown};}catch(error){return {value:null,error};}}
+function comparable(result:ReturnType<typeof outcome>){return {value:result.value,error:result.error?{name:(result.error as Error).name,message:(result.error as Error).message}:null};}
+export function createBundleFallResult(){const value=ssr.createFallResult();for(const api of backends)deepStrictEqual(api.createFallResult(),value);return value;}
+export function createPrototypeScratch(){
+ const burn=ssr.createBurnScratch();const local=backends.map(api=>api.createBurnScratch());
+ for(const s of local)deepStrictEqual(s,burn);locals.set(burn,local);return {burn};
+}
+export function createBundleFallWork(state:SimState,ground:number,model=SHIP,pitch=state.kinematics.pitch){
+ const work=ssr.createUnpoweredFallWork(state,ground,model,pitch);
+ const local=backends.map(api=>nativeWork(work,api));locals.set(work,local);callerSources.set(work,state);callerModels.set(work,model);return work;
+}
+function scratchFor(burn:ssr.BurnScratch,index:number){
+ const local=locals.get(burn)![index] as ssr.BurnScratch;
+ for(const key of ['inputs','acc','atmosphere'] as const)Object.assign(local[key],cloneData(burn[key]));
+ local.duration=burn.duration;local.capped=burn.capped;return local;
+}
+function exposeScratch(local:ssr.BurnScratch,burn:ssr.BurnScratch){
+ for(const key of ['inputs','acc','atmosphere'] as const)Object.assign(burn[key],cloneData(local[key]));
+ burn.duration=local.duration;burn.capped=local.capped;
+}
+export function advancePrototypeFall(work:ssr.UnpoweredFallWork,budget:number,owned:ReturnType<typeof createPrototypeScratch>){
+ const pair=locals.get(work);ok(pair,'unregistered caller work');
+ const outcomes=backends.map((api,i)=>{
+  const w=pair[i] as ssr.UnpoweredFallWork;hydrate(work,w,api);
+  return outcome(()=>api.advanceUnpoweredFall(w,budget,scratchFor(owned.burn,i)));
+ });
+ deepStrictEqual(comparable(outcomes[0]!),comparable(outcomes[1]!));deepStrictEqual(pair[0],pair[1]);
+ deepStrictEqual(locals.get(owned.burn)![0],locals.get(owned.burn)![1]);
+ expose(pair[0],work);exposeScratch(locals.get(owned.burn)![0] as ssr.BurnScratch,owned.burn);
+ if(outcomes[0]!.error)throw outcomes[0]!.error;return outcomes[0]!.value as number;
+}
+export function prototypeFallInto(state:SimState,ground:number,owned:ReturnType<typeof createPrototypeScratch>,out:ssr.FallResult,model=SHIP,pitch=state.kinematics.pitch){
+ const outputs=backends.map(api=>api.createFallResult());
+ const sources=backends.map(api=>stateFor(api,state,modelFor(api,model)));
+ const outcomes=backends.map((api,i)=>outcome(()=>api.unpoweredFallInto(sources[i],ground,scratchFor(owned.burn,i),outputs[i],modelFor(api,model),pitch)));
+ deepStrictEqual(comparable(outcomes[0]!),comparable(outcomes[1]!));deepStrictEqual(outputs[0],outputs[1]);
+ const scratches=locals.get(owned.burn)! as ssr.BurnScratch[];deepStrictEqual(scratches[0],scratches[1]);
+ for(let i=0;i<2;i++)if(scratches[i]!.fallWork.state!==null)strictEqual(scratches[i]!.fallWork.state,sources[i]);
+ const caller=owned.burn.fallWork;caller.state=state;caller.model=model;
+ // Native retained control model is data-equal; its caller facade remains owned data.
+ caller.controlModel=cloneData(scratches[0]!.fallWork.controlModel);
+ expose(scratches[0]!.fallWork,caller);exposeScratch(scratches[0]!,owned.burn);Object.assign(out,outputs[0]);
+ if(outcomes[0]!.error)throw outcomes[0]!.error;
+}

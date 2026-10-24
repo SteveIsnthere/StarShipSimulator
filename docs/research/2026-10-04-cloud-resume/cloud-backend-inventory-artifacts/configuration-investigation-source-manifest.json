@@ -1,0 +1,17 @@
+[
+  {
+    "file": "swiftshader-Configurator.cpp",
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/System/Configurator.cpp",
+    "sha256": "3161694f6538817b39029f27847e22ff8f80ccda8bca0f2d62655a0d92117e73"
+  },
+  {
+    "file": "swiftshader-Configurator.hpp",
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/src/System/Configurator.hpp",
+    "sha256": "5a85e3f8dd47c980fe151c82f0732c203bda4f972d4e90720744f0637eebd853"
+  },
+  {
+    "file": "swiftshader-BUILD.gn",
+    "url": "https://raw.githubusercontent.com/google/swiftshader/5b0479bd2d15058aaa9eb490e364f920ff824a8c/BUILD.gn",
+    "sha256": "43a9272291ea42a579e3425c0f3dadcc8857621c1b590535a7121cb7f4f53bc8"
+  }
+]

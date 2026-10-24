@@ -1,0 +1,22 @@
+{
+  "kind": "independent-reporting-owned-source-HIGH-v2",
+  "sourceReadyForScopesAndMaker": true,
+  "executionApproved": false,
+  "publicLifecycleApproved": false,
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/input-pins.json": "f8e09490cf7ad454e06dab82f560699f5669c90aec7bffc2779a9d8f245c162b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/driver.mjs.txt": "369057f42fad8a32cf05c7e9d54b5f097b4a9eb6284d310c5d03b8fc02ba3e80",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/owner.mjs.txt": "2fea06d23b5376ade11cd832f06ea9c12be85a48037c69b210fcac488befd5a0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/make-input.py.txt": "e8ee9fb7a8e1ddcb1e709fb17e0ea38e7bbdc6ec6e715ee90cf59714be0f896f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/root-observer.py.txt": "0189429d8f09dd2b5d5fd152c218049fbee979815bdd10917b4efd3de7a844ca",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/owner.mjs.txt.transfer.diff": "ee2a48c80e3d16d4c917bdd48efa2c914686b3dc0efc77e967802a6b0ef4ca35",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/make-input.py.txt.transfer.diff": "9cbc13fc8c0ad6714abb739da0b2d5a60ebea4a2267490cd0434f92c5e2a5386",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/root-observer.py.txt.transfer.diff": "1b24b5dd5f50a3e093c5a619fa6056a4f391b44ee8a6a832c1255a83cb527cc9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/declaration.md": "caf5a7316e758944831eb2fcbd4ed9e233073bc279974fc2a4e97ff6e52eb7d5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/source-freeze-lineage.json": "98b3e8c7cc58bf7eb6a0c14b365e231367f6287766e31407f1010df4fbd2f015",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/independent-OTHER-owned-source-HIGH-v2.md": "a74e526dc486bbf518d4fa3a6fca8dc0a1bceefd00d691db0e2f462e9671e17f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/before-default-identity-repair/input-pins.json": "f69de5037e647ba8c386741c24e135f39b4576443c782f4b7072d46ec8ceeb39",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/before-default-identity-repair/driver.mjs.txt": "40e00a64eb42175f92037e19ba5b1a5210b5cd6370267b31f4680e7f79c17017",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/before-owned-route/input-pins.json": "b058899921b615bfce616e1abbbd22e576efa868110974495734474acf90f7e1"
+  }
+}

@@ -1,0 +1,22 @@
+--- before/launcher.mjs
++++ local-scopes/launcher.mjs
+@@ -9,7 +9,7 @@
+ const digest=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+ const save=(name,value)=>writeFileSync(resolve(receipt,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+ const outer=resolve(process.argv[1]),owner=resolve(dirname(outer),'owned-command.mjs');
+-const pins={};let before=null,after=null,status=1,failure=null,stage='receipt-created',cleanup=null,sourceInventory=null;
++const pins={};let before=null,status=1,failure=null,stage='receipt-created',sourceInventory=null;
+ function productFiles(){const files=[];function walk(dir){for(const item of readdirSync(dir,{withFileTypes:true})){const p=resolve(dir,item.name);assert(item.isFile()||item.isDirectory());if(item.isDirectory())walk(p);else files.push(p);}}
+  for(const dir of ['src','tests','scripts'])walk(resolve(root,dir));
+  for(const item of readdirSync(root,{withFileTypes:true}))if(item.isFile()&&/^(?:package.*\.json|.*config\..*|\.nvmrc)$/.test(item.name))files.push(resolve(root,item.name));return files.sort();}
+@@ -72,8 +72,8 @@
+  status=0;stage='completed';
+ }catch(error){failure=String(error.stack??error).slice(0,32768);}
+ finally{
+- try{cleanup=verifyNoOwnedProcesses();save('owned-cleanup.json',cleanup);}catch(error){status=1;failure??=String(error.stack??error).slice(0,32768);}
+- try{after=snapshot();save('after-pins.json',after);assert(before,'Before-pin snapshot unavailable');assert.deepEqual(after,before);}catch(error){status=1;failure??=String(error.stack??error).slice(0,32768);save('integrity-failure.json',{beforeAvailable:Boolean(before),error:String(error.message)});}
++ try{const cleanup=verifyNoOwnedProcesses();save('owned-cleanup.json',cleanup);}catch(error){status=1;failure??=String(error.stack??error).slice(0,32768);}
++ try{const after=snapshot();save('after-pins.json',after);assert(before,'Before-pin snapshot unavailable');assert.deepEqual(after,before);}catch(error){status=1;failure??=String(error.stack??error).slice(0,32768);save('integrity-failure.json',{beforeAvailable:Boolean(before),error:String(error.message)});}
+  const ownFiles=[];function files(dir){for(const item of readdirSync(dir,{withFileTypes:true})){const p=resolve(dir,item.name);assert(item.isFile()||item.isDirectory());if(item.isDirectory())files(p);else ownFiles.push(p);}}files(receipt);
+  let storageBytes=0;for(const file of ownFiles)storageBytes+=readFileSync(file).length;
+  // Reserve1MiB for bounded finalization/evidence metadata; finalize exactly once.

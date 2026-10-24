@@ -1,0 +1,20 @@
+{
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/independent-current-matrix-failure-four-doc-truth-HIGH-review.md",
+  "reviewSha256": "f487ce3cd0099f4489d4bd9259ddeb65e3e52c54de407722cdf9c4ba004ef95c",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-current-matrix-failure-truth-update/before-after.json": "4f681484c2ec735b370057ddd54382ba78f2bd0217393f0fe7b4cdce4c21d712",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-current-matrix-failure-truth-update/0-before.md": "3c973bbf2725456b9a783910045ed191223c069ad4cb987fb049ae3095181b97",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": "b5791ae2e6be1905cf6f773d6851cba34286fd09cbb6b68f7b51f95db8dfd752",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-current-matrix-failure-truth-update/1-before.md": "3f75322d36ae48f8e698966d62fb10012dab8f15197b5f2dee113702ff3d182a",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md": "9f4ddb2e8fd912ecb5e8a716b3fabed8d1f9aba18b504adcd70089f310967ba5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-current-matrix-failure-truth-update/2-before.md": "86a04e7dcafad9731faaaf15218d1d3cafc63ee59409f8af75c8afe387be5c18",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md": "b5f5dcf1c4d9d2b3eefd9f3e0c99530980b4fd134ca2bc4df1d40863af6009d6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/before-current-matrix-failure-truth-update/3-before.md": "ed34c9f63876d05e245ed58d434b16b6f813c5e225fdebfeced1e19157cb86df",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md": "a23968243ee47ae2cd5438fa13b6b795ae0de15e3f28995ab8989e70f0800db1",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-third-app-matrix-actual-failure-HIGH-review.md": "2e55c2b76e30c81df63625c34aa5fd0d891ba3ac231165704093fd3c53546f73",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-third-app-matrix-actual-failure-HIGH-pins.json": "3cf28a95179f86b226010d58fdb857f2c18c5c95245f1e7dc15355d6e67e1321",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-single-helper-fresh-public-build-actual-HIGH-review.md": "f536dff0345ae74eee1fff5852601151149091b1c8509a481a4ac690294e3686",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-single-helper-fresh-public-build-actual-HIGH-pins.json": "841a00b57f70780affa8a5c176f2a9f976664e90b7dabbfd7d21ad058d730f44"
+  },
+  "disposition": "accepted exactly four docs truth-only single-substring update; no runtime/acceptance grant"
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "independent-canonical-lossless-verification",
+  "selectionSha256": "942e95908e2883f882f6e6ca34bc96aa0f752d6f0b4ba5ebcfae0644bc71be5f",
+  "originSha256": "878c927ce2c0ac9107b5ff2f18cb04a5b01213cf836fe6d41ee508a761fa29a0",
+  "all209CanonicalAndExpandedAndOriginalBytesExact": true,
+  "originalModesExact": true,
+  "originRecordCount": 209,
+  "distinctPayloadFileCount": 205,
+  "recordExpandedBytes": 27024481,
+  "recordCanonicalBytes": 10003562,
+  "distinctExpandedBytes": 26988084,
+  "distinctCanonicalBytes": 9967165,
+  "gzipFiles": 10,
+  "duplicateAliasMappings": 4,
+  "verificationSeconds": 0.1277912169971387,
+  "scope": "documentation archive preservation only; no product/workload acceptance"
+}

@@ -1,0 +1,52 @@
+{
+  "kind": "retained-offline-validator-actual-failure-review-v1",
+  "reviewSha256": "edf4f12d88ae7a8eb260248227fe56a838fc300bcb706677258032ffb36b685d",
+  "pidObservation": [
+    {
+      "pid": 99490,
+      "start": "6423121",
+      "current": null
+    },
+    {
+      "pid": 99491,
+      "start": "6423141",
+      "current": null
+    },
+    {
+      "pid": 99498,
+      "start": "6423164",
+      "current": null
+    }
+  ],
+  "inputs": {
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/raw-offline-exit.json": "6581ca73bbd0a11a5bb04adab41a0c8d9fd59390d118781ead149e80376162ac",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/driver.mjs": "b828e43f28bf8821184d0748626798fac06a7a44f6c3f396511f45ffdccd2746",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/root-inventory.json": "cfac425d70357af66132ba5af79112b6575dcb3005ac59bfb874648bd9c967c1",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/input.json": "24d67f73fab4e25538ba853082cc72423d6f00cddedcd89b8c5f80c53a224702",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/owner.mjs": "a2b03df3b484c1bcaee4dc4e15172395ef9fcc900a3e575eacf818cbcc3b67d8",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/owner-result.json": "486f55666d83e50c581d88960008afe944980f9f21bbbaa9913bda63055543cd",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/offline.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/selected-after.json": "c745ca3b6841f406bf697f1bfd3ba3580c1f3c2db134dc1a417750714aa1089f",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/selected-before.json": "c745ca3b6841f406bf697f1bfd3ba3580c1f3c2db134dc1a417750714aa1089f",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/owned-final.json": "7110e38e5cd7a16aca9c1f8b37d1cec74a784f5fa79e17da007cc1b0397f98b3",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/offline.process.json": "28f9ec05878e41d3b00947ddbb23774de05bf9c952065a0d9e9550eb79f8e5a9",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/offline.stderr.txt": "65bd08a0c972195bea7e80e27107ade4949fb88c568fc0eca6bb112879b9e4ad",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-offline-3814c3a54a45430f9e64059ca2510e64/root-input.json": "5f880a34cad8d55769ced82b23fbfb919267823e1b1484af02274533dd63fff8",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/root-outcome.json": "eff57d3be5f5a2f1b1c48beaf05fbb2b21a350876d789b236bc5550307bd5820",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/actual-outer-exit-final-independent.json": "f409db72a584f46d5da23b26598766a4530a75ad0ee5160121a2a75160afb9c5",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/actual-outer-exit-final.json": "6cba12a357141e2b425de2884db1966a5b26e94d3cbf2d90ce253e7f4e19439a",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/actual-outer-exit.json": "902d210368c466f92cb0a37656637fc32da7b392a56d7b5bf6ccae25b4794107",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/outer-registration.json": "fcb3346fa49ee4f45e780bf7b5b4ab2f346a5cdfcff040de9478a99b4d68c847",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/identities.jsonl": "d2fec6e5dda934c414283e06e7b4c4bcc777b07d4032301b35591419616c1f06",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/outer.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/outer.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-view-clock-offline-root.l2qmdqe8/executed-owner.mjs.txt": "a2b03df3b484c1bcaee4dc4e15172395ef9fcc900a3e575eacf818cbcc3b67d8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/root-actual-observer.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/root-actual-observer.stdout.txt": "91a3afa432ac2a0c5993751fa7b6c3eee8c0faa967c3b73d3a0c7329ea2ebbc9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/root-actual-independent-postexit.json": "41a06e5175ab7eb0562be8a47b9b36e2926fe94284ddfd6677e4ed6257a36300",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/root-actual-observer-registration.json": "dfc0ff90d1f2d832bd6c1a88dfee7fa8d531a21bfe4b92926328d4440d859a19",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/root-actual-offline-launch.json": "de404d260237e025e298ecf9b0b8344c452777f70ff6b4dcd13799be47720d96",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/independent-actual-input-HIGH-review.md": "c3f427a925a31967bdd746b969d11be94e83f564777b257d0ba30dbbf0db80b0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation/independent-actual-input-HIGH-pins.json": "0af1cc55824c3eb4e10886add12258edffc57faa4ac45f535870ccb5d6a7a83a"
+  }
+}

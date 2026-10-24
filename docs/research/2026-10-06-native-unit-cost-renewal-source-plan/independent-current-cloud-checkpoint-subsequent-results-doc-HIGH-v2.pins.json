@@ -1,0 +1,95 @@
+{
+  "kind": "independent-current-cloud-checkpoint-subsequent-results-doc-HIGH-v2",
+  "verdict": "HIGH",
+  "SourceOnly": true,
+  "documentationOnly": true,
+  "actualExecutionGranted": false,
+  "compilerGranted": false,
+  "checkpoint": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md",
+    "sha256": "e164c7fc65a54dc8f76cac6f13d186182fde88cb8dbb2a46d17b3a1884dc763b",
+    "bytes": 17631,
+    "mode": 384
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/independent-current-cloud-checkpoint-subsequent-results-doc-HIGH-v2.md",
+    "sha256": "2a59e9d261a1cc93e55f7f51fad51f2733c4cfb09c5e70ce6d4ee1b03ebae06c",
+    "bytes": 1986,
+    "mode": 384
+  },
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-cloud-qualification-checkpoint.md",
+      "sha256": "e164c7fc65a54dc8f76cac6f13d186182fde88cb8dbb2a46d17b3a1884dc763b",
+      "bytes": 17631,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-current120-complete-schema-input-gsbnj76r/ROOT-output/independent-current120-complete-schema-actual-HIGH-v1.md",
+      "sha256": "5a7d05e92b06072ed1636de481e504b95eb3158554dda9c194538f2fab35ce85",
+      "bytes": 2415,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-current82-exact-import-input-iptuf_1y/ROOT-output/independent-current82-exact-import-actual-HIGH-v1.md",
+      "sha256": "2d9d281ec60552878879ee3ac7b198e6c4e7075e8e2333a47b068a3c6a748d43",
+      "bytes": 2377,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-private-native-build-I-qualification-projection-3933bebc578b45289d45de941c285ebe/ROOT-output/independent-owner-I-syntax3-direct50-actual-HIGH-v1.md",
+      "sha256": "0c97fd0dad42660d9e76a975e3aa58d9e72db6dac0548530a1b56e62335de065",
+      "bytes": 2592,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/static29-projection-Source-v14/actual-PASS-review-v1/independent-static29-v14-whole-static-custody-actual-PASS-HIGH-v1.md",
+      "sha256": "ee19637a1639897c2ff161150fe84af9cd4b3c5d05f057d5596e62638a59c832",
+      "bytes": 5158,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-help-source-root.5lloc81k/independent-pure34-whole-FAIL-contained-functional-HIGH-v1.md",
+      "sha256": "c896a0528d0b7f0fd472fcb8e58e607172fa28a1d5ae3bd34ea147eaa2291133",
+      "bytes": 2802,
+      "mode": 384
+    },
+    {
+      "path": "/tmp/starship-help-source-root.5lloc81k/independent-pure34-contained-literal-supplement-HIGH-v1.md",
+      "sha256": "627e65f775d4c02a897d062723d9f99856ae608474368a8b379c717fd5c964f8",
+      "bytes": 1811,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current235-next32-scalar-observation-complete-runner-source-input-v5/independent-scalar-complete-runner-next32-actual-FAIL-HIGH-v1.md",
+      "sha256": "4b94f3de138c8690f219ea8f9dadd5a14f49af6004f8d7eb943ac167e2e6e33f",
+      "bytes": 1875,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current235-next11-scalar-observation-complete-runner-source-input-v5/independent-scalar-complete-runner-next11-actual-FAIL-HIGH-v1.md",
+      "sha256": "dd9c270b22fd76a764dadaf5e53a7edab174ff83310e31a3aacd8bb1b5fc61d2",
+      "bytes": 1875,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current235-scalar-observation24-source-proof-schema-source-input-v3/independent-scalar-observation24-actual-PASS-HIGH-v1.md",
+      "sha256": "d73a4cd6c3cd17eb486b666faadbcb6bb1041cff34350a62d951a3af276a4a06",
+      "bytes": 2704,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current235-consumed974-custody-residual-independent-assessment-v1/independent-consumed974-source-custody-residual-HOLD-v1.md",
+      "sha256": "d960d8e6488bf5cf55c24d6d74389020817121062f22aacfa32394140dbe1483",
+      "bytes": 2829,
+      "mode": 384
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/independent-current-cloud-checkpoint-subsequent-results-doc-HIGH-v2.md",
+      "sha256": "2a59e9d261a1cc93e55f7f51fad51f2733c4cfb09c5e70ce6d4ee1b03ebae06c",
+      "bytes": 1986,
+      "mode": 384
+    }
+  ],
+  "runtimeOrTreeAudited": false
+}

@@ -1,0 +1,32 @@
+{
+  "decision": "ONE bounded offline distinct unchanged-library reuse preparation approved; browser held",
+  "sourcePins": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/prepare-reused-library.py.txt": "93706d6601fa59f4c8c3771550d15417e7a0c351f86f1af91baeeffe27461c8b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/reuse-input-pins.json": "a1a2a6f02d691af2b7e08d91109a5e28e29a8000f7bad2ef5200ba7ed67966df",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/prepare-reused-library-process-pin-repair.py.txt": "21a9a5645f75bba149bcc69a7968242cf346b516b82e8058d784847ad6354d85",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/reuse-process-pin-repair-input-pins.json": "644518b83797069b5b0f190183094c46e5f600b97f9df668aa1da53d490daf4a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/process-pin-repair-addendum.md": "4a7ab08a8a58b87c55a6c4f73a8197206756e38b35eebf137e46dbd6dfab22c7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/process-pin-repair.diff.txt": "c361805e7b9dae12ccab8d201cba69efb6b0c8fb9893d88aac0ea6b7f521e026",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/prepare-reused-library.process-pin-before.py.txt": "93706d6601fa59f4c8c3771550d15417e7a0c351f86f1af91baeeffe27461c8b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/reuse-input-pins.process-pin-before.json.txt": "a1a2a6f02d691af2b7e08d91109a5e28e29a8000f7bad2ef5200ba7ed67966df",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-render-kernel-compact-codec-actual-independent-approval.json": "2e9d1a2adaa78a11852234a24dfe31e3b969f22c77518f72172bd9abf26d5e58"
+  },
+  "pinsManifestSha256": "9dd19ad280ef12880690f87c690a56372b4d26f55349b32a57ee1090e5916f59",
+  "templatePath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/prepare-reused-library-process-pin-repair.py.txt",
+  "templateSha256": "21a9a5645f75bba149bcc69a7968242cf346b516b82e8058d784847ad6354d85",
+  "reuseInputPinsSha256": "644518b83797069b5b0f190183094c46e5f600b97f9df668aa1da53d490daf4a",
+  "actualCodecApprovalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-render-kernel-compact-codec-actual-independent-approval.json",
+  "actualCodecApprovalSha256": "2e9d1a2adaa78a11852234a24dfe31e3b969f22c77518f72172bd9abf26d5e58",
+  "conditions": [
+    "Root exclusive serial slot; no prep during current diagnostic",
+    "One exact materialized Python/template beforeafter with60s bound/owned cleanup/external absence",
+    "New unique same-depth setup; preserve old failed artifacts/maps/manifests/proof source",
+    "Mandatory actualProcessPath membership/checked digest; child0/nullsignal/no failure/nonexecuting tracked",
+    "21compiled/10maps/492current sourceContents and relative URLs byte-exact, fullsource/CI/dist/proof/tool pins",
+    "Separate new composite oldgreenbuild+oldFAILEDbrowser+newcodec; no manifest rewrite/Vite/physics rebuild",
+    "Fresh actual setup/maps/source/owner result review and concrete browser launcher grant required"
+  ],
+  "buildApproved": false,
+  "browserApproved": false,
+  "productAcceptance": false
+}

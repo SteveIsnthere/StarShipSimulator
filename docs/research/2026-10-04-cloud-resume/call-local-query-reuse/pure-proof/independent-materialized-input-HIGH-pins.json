@@ -1,0 +1,25 @@
+{
+  "kind": "independent-materialized-input-review-v1",
+  "verdict": "READY root grant one exact120s proof execution",
+  "executed": false,
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/independent-materialized-input-HIGH.md": "61e731175438c0511b95a33517c737f7cb16f19ca3240e3ae789aac1c5f206cf",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/input-pins.json": "c3be151715e675918c37ec095dbdb376922b0fa88fb2342ac439cf07eb8be44d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-scoped-checks.json": "e01f62cb24f26a20b70724784e07698159c63ca3a3e4ece6eb9def2aba0fdfb5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-maker-process.json": "02ff725ba597f0b2ed5b4592cb54fa748216a22ff9f3e23cdbe10db4dc1a22b7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-maker.stdout.txt": "72d4c16860f8c384cb7405df0c949b6d85458f7e2f538ada442db098d26fb58b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/pure-proof/root-maker.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/input.json": "07375b47a3b495e371880aa4b03fde25a24c9797755f3382d26d6ddb3d6d5b0e",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/root-input.json": "0532d65f8a4e9d1514c761ef2d799595aed85cb49b173d56c6d0555ea547c3cd",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/root-inventory.json": "4e2565563c7bf778ef192c798d1dd29cc5aabe70ce50128f2b988b797cc8b9bf",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/owner.mjs": "7b77d1475b48efa77660545eb3221308f86af1d92d80a920fdefd0ae51b66985",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/builder.mjs": "ae943f3efa2d39398a4795bb79d90d25f0830650b2508ae244ff5cadf0741eff",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/driver.mjs": "66af3f80a62d1f5b4428b966350f33b55f28bd5432bf43b5c285c7e28a1d97b4",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/entry.ts": "f870865020e5aa24191e336792275b353236ddd6b5119c7f7fa8976a45ae2c90",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/canonical-equivalence-driver.mjs": "679ff675b6bab99b68d4e99941e07c77843410ce81fa0b2f54b3aca61f039e55",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/damage-controls.original.ts.txt": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/damage-controls.candidate.ts.txt": "11d754b1078efbf8bd5afe35815524d15f8a48bfe15b624a9813b630b6db094a",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/damage-thermal.original.ts.txt": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/damage-thermal.candidate.ts.txt": "0e91f95f2c2a4e63e428f574fb046bd080cd5ef314afff4d2c23aa72fc9c2a9a"
+  }
+}

@@ -1,0 +1,24 @@
+import {writeFileSync} from 'node:fs';
+import {createScenarioState,getScenario} from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/scenarios';
+import {createInitialState} from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/state';
+import {SHIP} from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/vehicle';
+import {SUPER_HEAVY} from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/vehicles/super-heavy';
+import {createBurnScratch,createFallResult,unpoweredFallInto} from '/Users/stevewang/dev/StarShipSimulator-realism/src/core/control/guidance-physics';
+const rows=[];
+for(const kind of ['ship','booster'])for(const variant of ['normal','capped','wind','nonzero','hot','unavailable','detached','invalid-root','invalid-temperature']) {
+ const model=kind==='ship'?SHIP:SUPER_HEAVY;
+ const params={kind,variant,h:variant==='capped'?60000:79000,vx:variant==='capped'?0:2000,vy:variant==='capped'?7000:-50,front:kind==='ship'?0:50,aft:0,wind:variant==='wind'?35:0};
+ if(variant==='nonzero'){params.front=kind==='ship'?35:75;params.aft=20;}
+ const s=kind==='ship'?createScenarioState(getScenario('reentry')!):createInitialState(123,model);
+ Object.assign(s.kinematics,{altitude:params.h,speedX:params.vx,speedY:params.vy});
+ s.vehicle.frontFinExtension=params.front;s.vehicle.aftFinExtension=params.aft;s.world.wind=params.wind;
+ if(variant==='hot')for(const part of s.damage!.components)part.root.temperature=1100;
+ if(variant==='unavailable')for(const part of s.damage!.components)part.root.temperature=1200;
+ if(variant==='detached')s.damage!.components[1]!.attached=false;
+ if(variant==='invalid-root')for(const part of s.damage!.components){part.root.valid=false;part.root.temperature=NaN;}
+ if(variant==='invalid-temperature')for(const part of s.damage!.components)part.root.temperature=NaN;
+ const out=createFallResult();
+ try{unpoweredFallInto(s,model.height/2,createBurnScratch(),out,model);rows.push({params,expected:out,error:null});}
+ catch(e){rows.push({params,expected:null,error:(e as Error).message});}
+}
+writeFileSync('/Users/stevewang/dev/StarShipSimulator-realism/tests/proofs/fixtures/unpowered-fall-before-preparation.json',JSON.stringify(rows,null,2)+'\n');

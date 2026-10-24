@@ -1,0 +1,27 @@
+{
+  "status": "UNPROVEN; future source/capture approval required",
+  "publicRole": "positively constructed exact first gradient child of actual skyContents",
+  "sourceIdentity": "node.texture.source.resource === actual texImage2D DOM upload argument",
+  "glIdentity": "bound GL_TEXTURE_2D WebGLTexture belongs to actual root context and maps to retained hook texture ID",
+  "programIdentity": "successful linked generation and actual selected sampler binding, not every cached texture unit",
+  "geometryIdentity": "exact position/UV/index typedbytes, primitive/winding/offset and owned object",
+  "forbidden": [
+    "dimensions-only matching",
+    "guessing white contents from1x1",
+    "matching by label alone",
+    "reuse across contexts/epochs",
+    "inventing GL session or upload IDs"
+  ],
+  "negativeControls": [
+    "equal-sized foreign Canvas resource",
+    "same dims different Texture/source",
+    "wrong upload target",
+    "two role owners claim one alias",
+    "role resource moved to foreign context",
+    "old program generation",
+    "wrong source style",
+    "actual UV/index mutation"
+  ],
+  "newHookImplemented": false,
+  "newCaptureExecuted": false
+}

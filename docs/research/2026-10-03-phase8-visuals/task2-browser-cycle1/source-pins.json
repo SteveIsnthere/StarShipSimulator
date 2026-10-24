@@ -1,0 +1,14 @@
+{
+  "base": "a99df5ef05677b9c895cc6e16519fc7fbfe87ccd",
+  "sha256": {
+    "src/view/engine-look.ts": "becad6ca93ff77e6c39b39ec0858507db2b6358a60ef71daf17a8ba52ee4e28c",
+    "src/view/emissive-bell.ts": "6b2c0572dadb398f99084acbdca25de379f7e80249ef95dc09e614ccb29fdb8f",
+    "src/view/effects.ts": "d049818865a4204f673aeaac24499b0f01668ad6e5672a40d28c22cb537d64f8",
+    "src/view/particles.ts": "e4b526fcb9e2df5d8315309903bafaa6329b26dc69b14d53c10c10e66b5fa624",
+    "tests/view/engine-look.test.ts": "f32689b70ee3fcf1bee455036cebdaaf46ce47185748c5b9277ee59485f54d2d",
+    "tests/view/engine-effects.test.ts": "0cb96c2caa3d2102732ee8866e8039dd6ce7a2b012790bc3c81a9abdc5c72a80",
+    "tests/view/particle-emitters.test.ts": "a7461b4a2346d64bb0e4be60c5e9e37dd8d60518a0c437e4a5ad90478310adda",
+    "tests/view/emissive-bell.test.ts": "952dfb2fc9c49b093034705ba4de896900d1db0aee1825149f79948412ee673a"
+  },
+  "protectedDiff": ""
+}

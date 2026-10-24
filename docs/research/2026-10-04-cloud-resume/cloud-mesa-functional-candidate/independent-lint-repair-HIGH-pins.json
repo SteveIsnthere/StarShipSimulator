@@ -1,0 +1,25 @@
+{
+  "disposition": "APPROVE neutral SOURCE lint repair only",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-lint-repair-HIGH-review.md",
+      "sha256": "10e8624ef28e9a8b86d7238b0d864073806d0fd8e4240df126dcb1942d1a5733"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/source-pins.json",
+      "sha256": "04f17f436cca5252705236648cd6c82a2a7a40b03d39365aa4e2a9367498e160"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/run-functional.mjs.txt",
+      "sha256": "af63c6de9ff5a2a1e49e46b5b7bc06918d5d3eb1fd93355b782531d1a887b1e0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-lint-repair/source-pins.json",
+      "sha256": "608ecc948ffeb2ceebc3958b175b9bad346ebfa4db1a8ea194d33c5e74eba3b7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-lint-repair/run-functional.mjs.txt",
+      "sha256": "7bced15ccaee04f578476f09606aedc64205bc7d1350ae59f1f2aab6e4c42113"
+    }
+  ]
+}

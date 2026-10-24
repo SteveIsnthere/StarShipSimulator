@@ -1,0 +1,43 @@
+--- held2a-root
++++ early-popen-identity-fallback
+@@ -80,6 +80,18 @@
+ 
+ signal.signal(signal.SIGTERM, on_interrupt)
+ signal.signal(signal.SIGINT, on_interrupt)
++
++
++def ensure_outer_identity():
++    # Popen.poll(None) establishes that this unreaped direct child PID remains
++    # reserved. Verify its actual parent/session/start before admitting it;
++    # inability is failure, never raw-PID signaling or fabricated ownership.
++    if child is not None and child.poll() is None:
++        row = identity(child.pid)
++        assert row, 'Outer identity unavailable in finalizer'
++        assert row['parent'] == os.getpid(), 'Outer direct-child parent mismatch'
++        assert row['group'] == child.pid and row['session'] == child.pid, 'Outer dedicated session required'
++        remember(row, 'independent-outer-identity-finalizer')
+ 
+ 
+ def observe():
+@@ -194,6 +206,10 @@
+         finally:
+             # Each independent operation runs despite earlier observation,
+             # termination, status-write or pipe-drain failure.
++            try:
++                ensure_outer_identity()
++            except BaseException as error:
++                failure(error)
+             try:
+                 observe()
+             except BaseException as error:
+@@ -244,6 +260,10 @@
+     # one partial file never suppresses remaining cleanup/postexit truth.
+     fresh_receipts = []
+     try:
++        ensure_outer_identity()
++    except BaseException as error:
++        failure(error)
++    try:
+         if prefix is not None:
+             fresh_receipts = sorted(set(draft.glob(prefix + '*')) - before_receipts)
+             for path in fresh_receipts:

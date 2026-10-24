@@ -1,0 +1,22 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Reversed source range
+    at validateLocations (file:///tmp/starship-native-provider-control.L8vbAO/finalize.mjs:28:33)
+    at validateLocations (file:///tmp/starship-native-provider-control.L8vbAO/finalize.mjs:29:44)
+    at schema (file:///tmp/starship-native-provider-control.L8vbAO/finalize.mjs:34:70)
+    at finalize (file:///tmp/starship-native-provider-control.L8vbAO/finalize.mjs:110:26)
+    at file:///tmp/starship-native-provider-control.L8vbAO/cohort.mjs:96:18
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

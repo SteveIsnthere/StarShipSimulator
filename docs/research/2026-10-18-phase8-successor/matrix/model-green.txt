@@ -1,0 +1,17 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/proofs/scenario-model-selection.test.ts tests/core/scenarios.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/matrix/model-green.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |unit| tests/proofs/scenario-model-selection.test.ts (2 tests) 126ms
+ ✓ |unit| tests/core/scenarios.test.ts (51 tests) 1816ms
+
+ Test Files  2 passed (2)
+      Tests  53 passed (53)
+   Start at  07:36:12
+   Duration  2.81s (transform 432ms, setup 0ms, import 597ms, tests 1.94s, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/matrix/model-green.json

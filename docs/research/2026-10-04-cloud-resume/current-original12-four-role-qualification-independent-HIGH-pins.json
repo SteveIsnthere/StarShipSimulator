@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "decision": "supported-bounded-producer-consumer-preparation-only",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-four-role-qualification-independent-HIGH-review.md",
+    "sha256": "25c583039bf6aeacd50c526eaa566e4e72b2488f5857344d3efb3ead75c4dde8"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-four-role-qualification-plan.md",
+      "sha256": "876cc2fd0473400a48387543fa520cdc3131b24fee951a2fb819919e8366604d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench.mjs",
+      "sha256": "21fdc2ab89e36de730e0bd3f72c4afc4cfd7cb41726e162cfd817a13706c53e3"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench/native-guidance-entry.ts",
+      "sha256": "b725fe1cbedc14aefe9c18d98f34662dd2ce9a856c33ca8c473d2ef5655234cc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench/build-native-guidance.mjs",
+      "sha256": "5f2b66b655615473f358c08cd9a95af26bbedd6621d05107072d93b5c1d3aac7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs",
+      "sha256": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/bench/qualification.json",
+      "sha256": "09ac0f90d87e60a7c235040bf92136d21ef2be0db68f129e04535c46ee56ccab"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/support/native-guidance-benchmark.ts",
+      "sha256": "a9de71bb3b45929bc0ec6d057102c5766298919802a052ec6788868af6d6d422"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/tests/core/guidance-physics.timing.test.ts",
+      "sha256": "8bfddfb28e72aee994f6a7fe0d352b13df76a63706cc4c58bd211c26a4965358"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/entry.ts.txt",
+      "sha256": "3248a9f1674e0eb1aac6379b3b25db28e2113e37150286061c59ba9b5b1425cb"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/entry.mjs",
+      "sha256": "9cd03dcd8ca1af2d59fb0c0f4cebd78fdaefadc88df62e7ac0f91ce0326d09fd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/entry.mjs.map",
+      "sha256": "c3244a737d2a82a05216bbb459a778cc8929a605d98a330003e2f727e5124050"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/simulation-Cnsem1hb.js.map",
+      "sha256": "7bd0c541dd35c8a9c23ae100b2226aa78dd72471c47dc681b5ff24147fef59a0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-burn-continuation/independent-composite-result-review.md",
+      "sha256": "27b7111749c81b49ab23759e7144a50fb72ed39066858aff033716f9cb65b140"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/plain/simulation-Cnsem1hb.js",
+      "sha256": "687baba1e826a457196e645d3bcbcf6c3a1110e9aeeefd419b4c9b7da2118e84"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-original12-four-role-qualification-plan-pins.json",
+      "sha256": "5c372b17f482ec55b631284c657a003cb26f506f2e69e0dc7798bbbecc0cb8a3"
+    }
+  ],
+  "retainedMaps": {
+    "entrySourceCount": 1,
+    "chunkCoreSourceCount": 54
+  },
+  "executionPerformed": false,
+  "official12Accepted": false
+}

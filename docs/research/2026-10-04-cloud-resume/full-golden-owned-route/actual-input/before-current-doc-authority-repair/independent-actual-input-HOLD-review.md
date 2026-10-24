@@ -1,0 +1,7 @@
+# Independent actual golden input HOLD
+
+Do not invoke current owner371c28f8/inventoryb87219c7. The stage checks every raw file pin before the recorder. Exactly two newly added live documentation pins disagree with current bytes: modernization-GOAL.md and modernization-phase-8.md. Expected/actual SHA values are retained in the accompanying pins. This is a deterministic pre-command failure; no invocation occurred.
+
+All21440 prior raw pairs remain unchanged, complete769-source and20355-installed snapshot maps are identical to accepted247 metadata, and all21526 raw paths are absolute and distinct under lexical normalization with no conflicting digests. All84 other additions independently match current file digests. Exactly ten fixture paths agree across owner/inventory/frozen prediction and the relative allowed mutable-source list. No fixture payload was read or hashed and no whole source/tool scan occurred.
+
+Preserve owner/inventory and this HOLD before repair. Bind historical planning-document authority to immutable before bytes, or document and independently review the authorized finite current documentation delta and distinct new live doc digests. No verifier changes, source/fixture edits or broader reseal are needed. Other recording readiness conditions remain: changed-stage scopes, actual before-admission, unchanged300s helper/338s whole bound, old-fixture capture before the public unfiltered command, independent all-identity cleanup and exact ten post-record exceptions. Historical q73 cannot be claimed green after fixture changes.

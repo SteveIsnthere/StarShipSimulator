@@ -1,0 +1,437 @@
+{
+  "outcome": "FAILED incomplete acceptance",
+  "exitCode": 1,
+  "cause": "TimeoutError: page.waitForFunction: Timeout 60000ms exceeded.",
+  "scene": "launch",
+  "requestedMeasured": 300,
+  "requestedWarm": 60,
+  "captureTimeoutMs": 60000,
+  "measuredSummary": {
+    "count": 117,
+    "cpuMs": {
+      "mean": 5.816239316287076,
+      "median": 4.800000000745058,
+      "p95": 10.699999999254942,
+      "max": 25.700000001117587
+    },
+    "gpuCompletionWaitMs": {
+      "mean": 0.02564102564102564,
+      "median": 0,
+      "p95": 0.10000000149011612,
+      "max": 0.2999999988824129
+    },
+    "fullRAFWorkMs": {
+      "mean": 5.841880341928102,
+      "median": 4.800000000745058,
+      "p95": 10.699999999254942,
+      "max": 25.700000001117587
+    },
+    "intervalsMs": {
+      "mean": 362.0543103448276,
+      "median": 366.59999999999854,
+      "p95": 616.7000000000007,
+      "max": 716.6000000000022
+    },
+    "cadenceFps": 2.762016557813054
+  },
+  "warmSummary": {
+    "count": 60,
+    "cpuMs": {
+      "mean": 5.405000000074506,
+      "median": 4.599999999627471,
+      "p95": 9.400000000372529,
+      "max": 12.5
+    },
+    "gpuCompletionWaitMs": {
+      "mean": 0.02333333333954215,
+      "median": 0,
+      "p95": 0.10000000149011612,
+      "max": 0.19999999925494194
+    },
+    "fullRAFWorkMs": {
+      "mean": 5.428333333414048,
+      "median": 4.599999999627471,
+      "p95": 9.400000000372529,
+      "max": 12.699999999254942
+    },
+    "intervalsMs": {
+      "mean": 278.23728813559325,
+      "median": 266.60000000000036,
+      "p95": 500,
+      "max": 833.3000000000011
+    },
+    "cadenceFps": 3.5940545808966857
+  },
+  "noDrawSummary": {
+    "count": 0,
+    "cpuMs": null,
+    "gpuCompletionWaitMs": null,
+    "fullRAFWorkMs": null,
+    "intervalsMs": null,
+    "cadenceFps": null
+  },
+  "probeErrors": [],
+  "snapshotErrors": [],
+  "sampleComplete": false,
+  "failureFlags": {
+    "failures.crashed": false,
+    "failures.inFlightBreakUp": false,
+    "failures.coldGasRunOut": false,
+    "failures.fuelRunOut": false,
+    "failures.heatDamaged": false,
+    "failures.overPressure": false,
+    "failures.overGLoad": false,
+    "failures.flippedOver": false,
+    "failures.randomFailure": false
+  },
+  "actualRenderer": {
+    "backend": "webgl",
+    "backendType": 1,
+    "resolution": 1,
+    "screen": {
+      "width": 1280,
+      "height": 720
+    },
+    "backing": {
+      "width": 1280,
+      "height": 720
+    },
+    "antialias": true,
+    "webgl": {
+      "drawingBufferWidth": 1280,
+      "drawingBufferHeight": 720,
+      "antialias": true,
+      "contextLost": false
+    },
+    "filters": [
+      {
+        "id": "bloom",
+        "attached": true,
+        "enabled": true,
+        "compatible": true,
+        "resolution": "inherit",
+        "antialias": "inherit",
+        "inputResolution": 1,
+        "inputAntialias": true
+      },
+      {
+        "id": "heat",
+        "attached": false,
+        "enabled": true,
+        "compatible": true,
+        "resolution": 1,
+        "antialias": "off",
+        "inputResolution": null,
+        "inputAntialias": null
+      }
+    ]
+  },
+  "sourceBefore": {
+    "head": "6eff85137570af0ebbb958e2dac3c5c526d37462",
+    "dirty": true,
+    "sha256": "2826162dc83149cfdb37c3958725b8f2e95953fcdc8fde74622365526e924af8"
+  },
+  "sourceAfter": {
+    "head": "6eff85137570af0ebbb958e2dac3c5c526d37462",
+    "dirty": true,
+    "sha256": "2826162dc83149cfdb37c3958725b8f2e95953fcdc8fde74622365526e924af8"
+  },
+  "buildBefore": {
+    "sha256": "ace49b2aea9b07cc1da6098c7feb50faabfedaa56eac6e5eec06486f725721a7",
+    "serviceWorkerVersion": "114ebd77cc56",
+    "preparation": "explicit prebuilt dist"
+  },
+  "buildAfter": {
+    "sha256": "ace49b2aea9b07cc1da6098c7feb50faabfedaa56eac6e5eec06486f725721a7",
+    "serviceWorkerVersion": "114ebd77cc56",
+    "preparation": "explicit prebuilt dist"
+  },
+  "sourceAndBuildStable": true,
+  "boundaryIdentities": {
+    "pre-controls": {
+      "label": "pre-controls",
+      "bundleManifestSha256": "07ef404bb5667e951f53099c703ccd06567c8c65e76341d8fc6729b9f200fd49",
+      "files": 287,
+      "directories": 3,
+      "harness": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts",
+          "sha256": "b3ee9e89567f0692d6abbd1bfae7779434917be3766eeec2ee037d135e11051b"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.config.ts",
+          "sha256": "de7e33101ecd080b556bbcd7255fdfa8115e848b7762306b278a9e0512175526"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-boundary.ts",
+          "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-cleanup.ts",
+          "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-isolated-budget-episode.sh",
+          "sha256": "c95b3b268a58b7f172dfb4b933ff48fa2dcb16ac09b57c2ec53665376485dd49"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-declaration.md",
+          "sha256": "759eab653e3aaeffac2d9964614fd8fa2f903c44faa767643cbaa7d3f9e20c4d"
+        }
+      ],
+      "configSha256": "e43ffe92a9336b19c2d6ffa8d9b0287bbfe9eeb37819924f037b54985ae42260",
+      "librarySha256": "4d39038dd6d448a3a6b5cf6aefb583d50346fd75ea8879e2563d67844f460dd0",
+      "browserSha256": "e11fc9ce65c96313476f7ee9844b6fb6a9220fb048693cfe9eee00acf4170a9f",
+      "node": "v22.23.3",
+      "nodeExecutable": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "quota": "400000 100000",
+      "cpuset": "0-4",
+      "cpuStat": "usage_usec 4064932271\nuser_usec 3880901733\nsystem_usec 184030538\nnice_usec 0\nnr_periods 33015\nnr_throttled 3589\nthrottled_usec 237081195\nnr_bursts 0\nburst_usec 0\n",
+      "scope": "complete original/copy identity before any flight/control initialization or after pause"
+    },
+    "before-measured": {
+      "label": "before-measured",
+      "bundleManifestSha256": "07ef404bb5667e951f53099c703ccd06567c8c65e76341d8fc6729b9f200fd49",
+      "files": 287,
+      "directories": 3,
+      "harness": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts",
+          "sha256": "b3ee9e89567f0692d6abbd1bfae7779434917be3766eeec2ee037d135e11051b"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.config.ts",
+          "sha256": "de7e33101ecd080b556bbcd7255fdfa8115e848b7762306b278a9e0512175526"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-boundary.ts",
+          "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-cleanup.ts",
+          "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-isolated-budget-episode.sh",
+          "sha256": "c95b3b268a58b7f172dfb4b933ff48fa2dcb16ac09b57c2ec53665376485dd49"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-declaration.md",
+          "sha256": "759eab653e3aaeffac2d9964614fd8fa2f903c44faa767643cbaa7d3f9e20c4d"
+        }
+      ],
+      "configSha256": "e43ffe92a9336b19c2d6ffa8d9b0287bbfe9eeb37819924f037b54985ae42260",
+      "librarySha256": "4d39038dd6d448a3a6b5cf6aefb583d50346fd75ea8879e2563d67844f460dd0",
+      "browserSha256": "e11fc9ce65c96313476f7ee9844b6fb6a9220fb048693cfe9eee00acf4170a9f",
+      "node": "v22.23.3",
+      "nodeExecutable": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "quota": "400000 100000",
+      "cpuset": "0-4",
+      "cpuStat": "usage_usec 4071409285\nuser_usec 3886797496\nsystem_usec 184611789\nnice_usec 0\nnr_periods 33041\nnr_throttled 3590\nthrottled_usec 237083708\nnr_bursts 0\nburst_usec 0\n",
+      "scope": "lightweight GPU/ownership boundary outside measured RAF window"
+    },
+    "failure": {
+      "label": "failure",
+      "bundleManifestSha256": "07ef404bb5667e951f53099c703ccd06567c8c65e76341d8fc6729b9f200fd49",
+      "files": 287,
+      "directories": 3,
+      "harness": [
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts",
+          "sha256": "b3ee9e89567f0692d6abbd1bfae7779434917be3766eeec2ee037d135e11051b"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.config.ts",
+          "sha256": "de7e33101ecd080b556bbcd7255fdfa8115e848b7762306b278a9e0512175526"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-boundary.ts",
+          "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-cleanup.ts",
+          "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-isolated-budget-episode.sh",
+          "sha256": "c95b3b268a58b7f172dfb4b933ff48fa2dcb16ac09b57c2ec53665376485dd49"
+        },
+        {
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-declaration.md",
+          "sha256": "759eab653e3aaeffac2d9964614fd8fa2f903c44faa767643cbaa7d3f9e20c4d"
+        }
+      ],
+      "configSha256": "e43ffe92a9336b19c2d6ffa8d9b0287bbfe9eeb37819924f037b54985ae42260",
+      "librarySha256": "4d39038dd6d448a3a6b5cf6aefb583d50346fd75ea8879e2563d67844f460dd0",
+      "browserSha256": "e11fc9ce65c96313476f7ee9844b6fb6a9220fb048693cfe9eee00acf4170a9f",
+      "node": "v22.23.3",
+      "nodeExecutable": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "quota": "400000 100000",
+      "cpuset": "0-4",
+      "cpuStat": "usage_usec 4262294601\nuser_usec 4074228255\nsystem_usec 188066346\nnice_usec 0\nnr_periods 33665\nnr_throttled 3604\nthrottled_usec 237389544\nnr_bursts 0\nburst_usec 0\n",
+      "scope": "complete original/copy identity before any flight/control initialization or after pause"
+    }
+  },
+  "actualGpuWorkers": {
+    "pre-controls": [
+      {
+        "identity": {
+          "pid": 26163,
+          "starttime": "1087419",
+          "ppid": 26147,
+          "pgrp": 26145
+        },
+        "workers": [
+          {
+            "tid": 26169,
+            "comm": "Thread<00>",
+            "affinity": "0-4"
+          },
+          {
+            "tid": 26170,
+            "comm": "Thread<01>",
+            "affinity": "0-4"
+          },
+          {
+            "tid": 26171,
+            "comm": "Thread<02>",
+            "affinity": "0-4"
+          }
+        ]
+      }
+    ],
+    "before-measured": [
+      {
+        "identity": {
+          "pid": 26163,
+          "starttime": "1087419",
+          "ppid": 26147,
+          "pgrp": 26145
+        },
+        "workers": [
+          {
+            "tid": 26169,
+            "comm": "Thread<00>",
+            "affinity": "0-4"
+          },
+          {
+            "tid": 26170,
+            "comm": "Thread<01>",
+            "affinity": "0-4"
+          },
+          {
+            "tid": 26171,
+            "comm": "Thread<02>",
+            "affinity": "0-4"
+          }
+        ]
+      }
+    ],
+    "failure": [
+      {
+        "identity": {
+          "pid": 26163,
+          "starttime": "1087419",
+          "ppid": 26147,
+          "pgrp": 26145
+        },
+        "workers": [
+          {
+            "tid": 26169,
+            "comm": "Thread<00>",
+            "affinity": "0-4"
+          },
+          {
+            "tid": 26170,
+            "comm": "Thread<01>",
+            "affinity": "0-4"
+          },
+          {
+            "tid": 26171,
+            "comm": "Thread<02>",
+            "affinity": "0-4"
+          }
+        ]
+      }
+    ]
+  },
+  "cleanup": {
+    "owned": [
+      {
+        "pid": 26145,
+        "starttime": "1087412",
+        "ppid": 26133,
+        "pgrp": 26145,
+        "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+      },
+      {
+        "pid": 26189,
+        "starttime": "1087423",
+        "ppid": 26148,
+        "pgrp": 26145,
+        "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+      },
+      {
+        "pid": 26163,
+        "starttime": "1087419",
+        "ppid": 26147,
+        "pgrp": 26145,
+        "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+      },
+      {
+        "pid": 26165,
+        "starttime": "1087419",
+        "ppid": 26145,
+        "pgrp": 26145,
+        "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+      },
+      {
+        "pid": 26220,
+        "starttime": "1087894",
+        "ppid": 26145,
+        "pgrp": 26145,
+        "exe": "/tmp/starship-isolated-worker.yaw4OkY0/browser/chrome-headless-shell"
+      }
+    ],
+    "remaining": [],
+    "errors": [],
+    "fallbackOrphanedGroups": [],
+    "verifiedNonexecutingDescendants": true,
+    "cleanupMs": 3,
+    "limitation": "stateZ remains possible underPID1; not a reaping claim"
+  },
+  "independentParentCleanup": {
+    "ownedProcesses": [
+      {
+        "pid": 26145,
+        "absent": true
+      },
+      {
+        "pid": 26189,
+        "absent": true
+      },
+      {
+        "pid": 26163,
+        "absent": true
+      },
+      {
+        "pid": 26165,
+        "absent": true
+      },
+      {
+        "pid": 26220,
+        "absent": true
+      },
+      {
+        "pid": 26108,
+        "state": "Z",
+        "starttime": "1087281",
+        "matchesOwnedStart": true
+      }
+    ],
+    "previewPort4174Listening": false,
+    "verifiedNoExecutingOwnedProcess": true,
+    "limitation": "Zombie state is not reaping or absence"
+  },
+  "limits": "117 partial samples cannot establish a 300-sample p95 acceptance. Cadence fails59fps floor. No comparison isolating worker-count effect; no perf/nativeGPU/roadmap pass; cycle2 attempt3 red, no rerun."
+}

@@ -1,0 +1,10 @@
+[WebServer] (node:14124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:14149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/visual-budget.spec.ts:238:1 › diagnostic launch: 60 warm + 30 measured with all-browser-thread trace @visual-diagnostic (35.9s)
+
+  1 passed (41.5s)

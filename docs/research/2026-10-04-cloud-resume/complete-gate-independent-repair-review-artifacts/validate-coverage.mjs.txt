@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {createVitest} from 'vitest/node';
+import coverageModule from '@vitest/coverage-v8';
+import {finalizeNativeDecision} from './decision.mjs';
+import {requestCapability} from './capability.mjs';
+import {readSealed,validateBoundary,validateMap,preservedFloors} from './integrity.mjs';
+const root=process.cwd();let ctx=null,receipt=null;const nativeErrors=[];
+try{
+ const claim=await requestCapability('consume-coverage');
+ const envelope=readSealed(claim.path,claim.digest);assert.equal(envelope.nonce,process.env.STARSHIP_GATE_NONCE);assert.equal(envelope.unitExit,0);assert.equal(envelope.finalized,true);
+ validateBoundary(root,envelope);
+ const data=readSealed(envelope.coveragePath,envelope.reports[envelope.coveragePath]);validateMap(root,data);
+ ctx=await createVitest('test',{root,config:resolve(root,'vitest.complete-gate.config.ts'),watch:false,run:false,coverage:{enabled:true}});
+ assert.deepEqual(ctx.config.coverage.thresholds,preservedFloors);assert.equal(ctx.config.testTimeout,30000);assert.deepEqual(ctx.config.coverage.include,['src/core/**']);assert(!ctx.config.coverage.thresholds.autoUpdate,'No coverage config writes');assert.equal(ctx.state.getFiles().length,0);
+ const log=ctx.logger.error.bind(ctx.logger);ctx.logger.error=(...values)=>{nativeErrors.push(values.map(String).join(' '));log(...values);};
+ const provider=await coverageModule.getProvider();await provider.initialize(ctx);assert.equal(provider.name,'v8');assert.equal(provider.version,'4.1.11');validateMap(root,data,provider.options.exclude);
+ const map=provider.createCoverageMap();map.merge(data);await provider.reportThresholds(map,true);
+ const code=process.exitCode??0;assert(code===0||code===1,'Unexpected native threshold decision');assert.equal(nativeErrors.length>0,code===1,'Native threshold errors/status disagreement');assert.equal(ctx.state.getFiles().length,0,'Floor stage collected/executed tests');
+ receipt={finalized:true,nonce:envelope.nonce,provider:provider.constructor.name,version:provider.version,thresholds:ctx.config.coverage.thresholds,collectedFiles:0,nativeExit:code,mapFiles:map.files(),reportDigests:envelope.reports};
+ process.exitCode=await finalizeNativeDecision({code,errors:nativeErrors,close:async()=>{await ctx.close();ctx=null;},verify:()=>validateBoundary(root,envelope),write:()=>writeFileSync(resolve(process.env.STARSHIP_GATE_REPORTS,'floor-validation.json'),JSON.stringify({...receipt,nativeErrors},null,2),{flag:'wx'})});
+}catch(error){console.error(error);process.exitCode=2;}
+finally{if(ctx)try{await ctx.close();}catch(error){console.error(error);process.exitCode=2;}}

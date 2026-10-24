@@ -1,0 +1,7 @@
+{
+  "nodeSyntaxCode": 0,
+  "eslintCode": 1,
+  "sourceSha": "43b91f6d187bfadb51891aa9c4d9a02421c57d8f123ac0ff4c9a3e28b914ec42",
+  "finding": "2:73 existsSync defined but never used @typescript-eslint/no-unused-vars",
+  "pythonCompileNotReached": true
+}

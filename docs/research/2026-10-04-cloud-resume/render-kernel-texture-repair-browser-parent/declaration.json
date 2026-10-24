@@ -1,0 +1,27 @@
+{
+  "approvalSha256": "dbd0bbd6256000281296a5696896d8466f426bb88c9bebffaaf80d731fadcb99",
+  "setup": "/tmp/starship-render-kernel.m9xok0x9",
+  "compiledManifest": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+  "sourcePins": {
+    "kernel-display-witness.ts": "fd3504595c61a44935aa88a7cd8859338fd5027337587f738c61270fd199f039",
+    "kernel-display-witness-controls.mjs": "74df5ba1cc3aafca65be61cbbcaf97cda11649f06d3f905f5cfcb20753729f30",
+    "render-kernel-texture-repair-entry.ts": "8d5ddb05c1dabf9b1794a163e64d34ff53a22895874380aba206575e4a346337",
+    "render-kernel-texture-repair-build.config.mjs": "3c7130ef80bb15d242f7275ef0ad9084f8c91696e8d71c1ce281d49ece3a77b0",
+    "prepare-render-kernel-texture-repair.py": "9e3256b7402e0d53c5f434f7ab456ed700b3ba8677322e653153257c26be60c0",
+    "build-render-kernel-texture-repair.mjs": "5bdc2b760d79bbc2d0edac85f2a70d6c3435d8a435a8ae4aae9ebb9411443b8a",
+    "qualify-render-kernel-texture-repair.mjs": "e143e5ac3ba8a8a66325199c9c153db2a7077dc591f88e221540467ea2d25fb0",
+    "run-render-kernel-texture-repair.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "cloud-render-kernel-display-witness-repair-declaration.md": "431551398ddc1a36ade688965e95c70032487671fefed73d658259e32a0ce39d",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907"
+  },
+  "parentSourceSha256": "de3cc607c3b1c13b478a814a03f17449b6a5bb0adf46fb39031ae8fbcdfccacf",
+  "command": [
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/run-render-kernel-texture-repair.mjs",
+    "/tmp/starship-render-kernel.m9xok0x9"
+  ],
+  "externalTimeoutSeconds": 120,
+  "harnessWorkSeconds": 90,
+  "harnessCleanupSeconds": 5,
+  "cpuExclusive": true
+}

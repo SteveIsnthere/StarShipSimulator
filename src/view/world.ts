@@ -8,7 +8,7 @@
  */
 import { Container, Graphics, Sprite, TilingSprite, type Texture } from 'pixi.js';
 import { GROUND_OBJECTS, type GroundObject } from './assets';
-import { worldToScreen, type CameraState, type Viewport } from './camera';
+import { writeWorldToScreen, type CameraState, type Viewport } from './camera';
 import {
   groundTint,
   hazeIntensity,
@@ -16,10 +16,11 @@ import {
   padLightIntensity,
 } from './atmosphere-look';
 import { skyLightness, skyTint, skyTintLit } from './sky';
-import { groundDaylight, groundShadow, type GroundShadow, type SunLight } from './sun';
-import { vehicleDiameter, vehicleHeight } from '$core/constants';
+import { groundDaylight, groundShadow, createSunLight, type GroundShadow, type SunLight } from './sun';
+import { SHIP } from '$core/vehicle';
 import { scaleColour } from './colour';
 import { horizonCurve, horizonDrop, HORIZON_SEGMENTS } from './horizon';
+import { createCoast } from './coast';
 import { MOTTLE_MEAN, MOTTLE_TILE, type TerrainTextures } from './terrain';
 
 /**
@@ -41,6 +42,8 @@ interface Placed {
 
 /** M11.4 — what the ground needs to know about the light and the caster. */
 export interface WorldLighting {
+  readonly vehicleHeight?: number;
+  readonly vehicleDiameter?: number;
   readonly sun: SunLight;
   /** m — the vehicle, for its shadow. */
   readonly downRangeDistance: number;
@@ -82,6 +85,8 @@ export interface World {
  */
 export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTextures): World {
   const container = new Container({ label: 'worldContents' });
+  const horizon = { x: 0, y: 0 }, shadowPoint = { x: 0, y: 0 };
+  const pad = { x: 0, y: 0 }, screen = { x: 0, y: 0 };
 
   // The ground is a single rectangle redrawn on resize rather than a sprite:
   // it has to cover any viewport at any zoom.
@@ -122,6 +127,13 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
   */
   const horizonHaze = terrain ? new Sprite(terrain.haze) : undefined;
   if (horizonHaze) container.addChild(horizonHaze);
+
+  const coast = createCoast();
+  const coastMask = new Graphics({ context: ground.context });
+  coastMask.label = 'coast-ground-mask';
+  container.addChild(coast.container, coastMask);
+  coast.container.mask = coastMask;
+  const defaultSun = createSunLight();
 
   /*
     THE VEHICLE'S SHADOW (M11.4), on the ground and under the scenery. Its
@@ -169,7 +181,7 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
 
     update(camera, viewport, speedX, altitude, lighting): void {
       // Ground: a band from y = 0 downward, wide enough to always cover.
-      const horizon = worldToScreen(camera, viewport, camera.posX, 0);
+      writeWorldToScreen(camera, viewport, camera.posX, 0, horizon);
       // M11.4: the ground's light is the sky's, times the hour's. By day the
       // second factor is exactly one.
       const sun = lighting?.sun;
@@ -229,10 +241,14 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
         of this did, left the near ground's stripe in place AND made the two
         layers disagree with each other where they meet.
       */
-      ground.tint = scaleColour(groundTint(GROUND_COLOR, lightness), MOTTLE_MEAN);
+      ground.tint = scaleColour(groundTint(GROUND_COLOR, skyLightness(altitude)),
+        MOTTLE_MEAN * (sun ? groundDaylight(sun) : 1));
       // Hidden when the camera is high enough that the ground is off screen,
       // which saves a full-screen fill on every frame of an ascent.
       ground.visible = horizon.y < viewport.height;
+      coastMask.position.set(ground.x, ground.y);
+      coast.update(camera, viewport, sun ?? defaultSun);
+      coast.container.visible = ground.visible;
 
       if (mottle && ramp) {
         mottle.visible = ground.visible;
@@ -322,8 +338,8 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
         groundShadow(
           lighting.altitude,
           lighting.pitch,
-          vehicleHeight,
-          vehicleDiameter,
+          lighting.vehicleHeight ?? SHIP.height,
+          lighting.vehicleDiameter ?? SHIP.diameter,
           lighting.sun,
           shadowGeometry,
         );
@@ -344,13 +360,14 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           shadow.ellipse(0, 0, lengthPx / 2, heightPx / 2);
           shadow.fill({ color: 0x000000, alpha: 1 });
         }
-        const at = worldToScreen(
+        writeWorldToScreen(
           camera,
           viewport,
           lighting.downRangeDistance + shadowGeometry.centreX,
           0,
+          shadowPoint,
         );
-        shadow.x = at.x;
+        shadow.x = shadowPoint.x;
         /*
           ON THE GROUND LINE, extending up from it. The camera's floor keeps
           the eye at ground height (M7.3), so the ground plane is seen edge-on
@@ -360,14 +377,14 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           streak and not a row. A camera above the ground (M11.6) sees the
           ellipse.
         */
-        shadow.y = at.y - heightPx / 2;
+        shadow.y = shadowPoint.y - heightPx / 2;
         shadow.alpha = shadowGeometry.alpha;
       }
 
       // The pad's own lights, which come up as the sky goes down.
       padGlow.visible = ground.visible && padLightIntensity(lightness) > 0.02;
       if (padGlow.visible) {
-        const pad = worldToScreen(camera, viewport, 0, 0);
+        writeWorldToScreen(camera, viewport, 0, 0, pad);
         padGlow.x = pad.x;
         padGlow.y = pad.y;
         const radius = Math.max(24, 90 * viewport.scale);
@@ -395,13 +412,14 @@ export function createWorld(textures: Map<string, Texture>, terrain?: TerrainTex
           }
         }
 
-        const screen = worldToScreen(camera, viewport, item.x, 0);
+        writeWorldToScreen(camera, viewport, item.x, 0, screen);
         item.sprite.x = screen.x;
         item.sprite.y = screen.y;
         item.sprite.width = item.object.width * viewport.scale;
         item.sprite.height = item.object.height * viewport.scale;
         // Scenery dims with the ground it stands on, for the same reason.
-        item.sprite.tint = groundTint(0xffffff, lightness);
+        item.sprite.tint = scaleColour(groundTint(0xffffff, skyLightness(altitude)),
+          sun ? groundDaylight(sun) : 1);
 
         // Cull off-screen sprites rather than asking the GPU to reject them.
         const halfPx = item.sprite.width * 0.5;

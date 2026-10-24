@@ -1,0 +1,105 @@
+{
+  "status": "pass",
+  "syntaxOnlyPlaceholders": true,
+  "runtimeClaim": false,
+  "results": [
+    {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/run-owned.mjs",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-route-syntax.27005_65/check.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/run-owned.mjs",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/route-syntax-scope.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/external-map-route.mjs",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-route-syntax.fjw8j659/check.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/external-map-route.mjs",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/route-syntax-scope.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/route-control-proof.mjs",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-route-syntax.j8hjrk5h/check.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/route-control-proof.mjs",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/route-syntax-scope.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/cohort.mjs.txt",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-route-syntax.ti1z5wci/check.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/cohort.mjs.txt",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/route-syntax-scope.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 3.651589447999868,
+  "manifestSha256": "c378f94dde0f8df29509bd63b238908dcd9e0f6bb6f1afb806d49891fedf658d"
+}

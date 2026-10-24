@@ -14,7 +14,8 @@ import {
 } from '$app/menu';
 import { ALL_SCENARIOS, createScenarioState, getScenario, INTRO, PRESETS, ORBITAL_PRESETS } from '$core/scenarios';
 import { advance, createLoopState, DT } from '$app/loop';
-import { vehicleHeight, starBaseXPos } from '$core/constants';
+import { starBaseXPos } from '$core/constants';
+import { SHIP } from '$core/vehicle';
 import { toDeg } from '$core/units';
 
 describe('time warp', () => {
@@ -232,13 +233,13 @@ describe('what the editor produces is flyable', () => {
     const state = createScenarioState(preset);
 
     // Altitude floored at half the vehicle height, so it cannot spawn buried.
-    expect(state.kinematics.altitude).toBe(vehicleHeight / 2);
+    expect(state.kinematics.altitude).toBe(SHIP.height / 2);
     // X is relative to StarBase.
     expect(state.kinematics.downRangeDistance).toBe(250 + starBaseXPos);
     // Pitch is degrees in, radians inside.
     expect(toDeg(state.kinematics.pitch)).toBeCloseTo(45, 10);
-    // Propellant is tonnes, capped at 1200 t.
-    expect(state.vehicle.propellantMass).toBe(1_200_000);
+    // Propellant is tonnes, capped at the active V3 Ship's 1600t tank.
+    expect(state.vehicle.propellantMass).toBe(1_600_000);
   });
 
   it('every orbital preset is offered and builds a state', () => {

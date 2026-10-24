@@ -1,0 +1,11 @@
+{
+  "kind": "pre-native-application-recovery05-disk-verification",
+  "runtimeFiles": 226,
+  "patchDigest": "9a0607c5e01a197ffdc7f90c51d8ce20ad1a5329f552d9808d04c570b30a6130",
+  "mismatches": [
+    "src/view/heat-shield.ts",
+    "src/view/lighting.ts",
+    "src/view/vehicle-detail.ts"
+  ],
+  "reapplied": false
+}

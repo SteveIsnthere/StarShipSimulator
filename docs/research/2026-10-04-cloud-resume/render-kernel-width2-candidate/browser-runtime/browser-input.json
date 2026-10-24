@@ -1,0 +1,139 @@
+{
+  "kind": "width2-one-browser-runtime-input-v1",
+  "decision": "PROPOSED ONE root-exclusive32/2 experiment; fresh source/input review and root grant required",
+  "setup": "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994",
+  "compiledManifestSha256": "32a883259dda991218b24890e4ef1248f39084ac4836061b4ecc03b381819da8",
+  "compositeSha256": "da1dc8f63555ad134d630fe3287d6d0464357859a9fbaaace79ad3a9ea705b18",
+  "setupReceiptSha256": "c4115487e6d546824456de63aee7a2dc4dce6910bdc6133a832d5d47398d71c6",
+  "wrapperSha256": "b1e2ae1a46a64ec2cb1419fc2fee87c5c59c23457b6cee4046b8df51ada528e3",
+  "runnerSha256": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c",
+  "hookSha256": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+  "nodeExecutable": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+  "nodeSha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+  "evidencePins": {
+    "/tmp/starship-width2-root.2av0sbzy/root-outcome.json": "dee84157062a626b9a72754aa7a00b4bafe5eaff934a558dd8d2c59cb2de73e1",
+    "/tmp/starship-width2-root.2av0sbzy/actual-outer-exit.json": "9438688f30314571d50e3f16170a095e89a99cc1e3874a017b2961bc426634eb",
+    "/tmp/starship-width2-root.2av0sbzy/actual-outer-exit-final.json": "32a0a14c18f09ad8fbebc22b6688d57d5106bd87b7cb5daf766c4e4f891970da",
+    "/tmp/starship-width2-root.2av0sbzy/identities.jsonl": "7c4de080d767ed6d3b96dd264055171b36868ab07b8780fdd3fa40b905e43a22",
+    "/tmp/starship-width2-stage.JsHXgr/preparation.process.json": "14f34d02fb3b00458c5646b19cb796c26cf3eb3549d9070bb5a9f0103f07c10b",
+    "/tmp/starship-width2-stage.JsHXgr/stage-result.json": "d41b2bc2b2ce9c694e817deefa59b8673d5b875d1cff9ff43c4d4e4cf9e69376",
+    "/tmp/starship-width2-stage.JsHXgr/actual-child-exit.json": "52e3b4273a3e538d5017d58ca0fae14492ec3398f47ce73f39c64809be077a82",
+    "/tmp/starship-width2-stage.JsHXgr/prepare.py.txt": "e41b2d6390a6f7d3b08a9bdd8d21bc9b4cf6167767f40bd0e4c33590149a8c94",
+    "/tmp/starship-width2-stage.JsHXgr/prepare.py.after.txt": "e41b2d6390a6f7d3b08a9bdd8d21bc9b4cf6167767f40bd0e4c33590149a8c94",
+    "/tmp/starship-width2-stage.JsHXgr/python-bridge.mjs.txt": "92c84df6e94700bb19794e18a05a9db9d46d47abec87d7efaeda249a19aac367",
+    "/tmp/starship-width2-stage.JsHXgr/python-bridge.mjs.after.txt": "92c84df6e94700bb19794e18a05a9db9d46d47abec87d7efaeda249a19aac367",
+    "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994/width2-browser-bytecopy-composite.json": "da1dc8f63555ad134d630fe3287d6d0464357859a9fbaaace79ad3a9ea705b18",
+    "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994/setup-receipt.json": "c4115487e6d546824456de63aee7a2dc4dce6910bdc6133a832d5d47398d71c6",
+    "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994/kernel-compiled-manifest.json": "32a883259dda991218b24890e4ef1248f39084ac4836061b4ecc03b381819da8",
+    "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994/run-render-kernel-width2.mjs": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c",
+    "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994/kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "/tmp/starship-render-kernel.9704071cae85487582016ab327cf9994/browser-wrapper.sh": "b1e2ae1a46a64ec2cb1419fc2fee87c5c59c23457b6cee4046b8df51ada528e3",
+    "/tmp/starship-width2-browser-input.f40fbe45cd12428f896ca861e9d439e4/owner-input.json": "12c09c14fe6ec316532d45b8e62adfcfef2e16e016a79483b0d6e0ff7b2dee96",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-actual-result-review.md": "d44bb4995240b5d82871e79e3a9e1e907565182a4a31f38864c8c7bafaa48853",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-width2-browser-bytecopy-independent-actual-result-review-pins.json": "5adc2d23fd43f99ffd73bf44c2eb6736d431fbae7777b4c194a3f6d28679f5ef",
+    "/tmp/starship-width2-root.2av0sbzy/root-independent-postexit.json": "7d2b48cfd909e552d387ccf8a3aad973adc049238bbb0e469a004790da22cbd2"
+  },
+  "compiledFiles": [
+    [
+      "BufferResource-uMLrSSVl.js",
+      "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24"
+    ],
+    [
+      "BufferResource-uMLrSSVl.js.map",
+      "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2"
+    ],
+    [
+      "CanvasPool-4lFBuryO.js",
+      "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55"
+    ],
+    [
+      "CanvasPool-4lFBuryO.js.map",
+      "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d"
+    ],
+    [
+      "Geometry-CYPxRocb.js",
+      "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8"
+    ],
+    [
+      "Geometry-CYPxRocb.js.map",
+      "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58"
+    ],
+    [
+      "RenderTargetSystem-Bs_X-W5p.js",
+      "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845"
+    ],
+    [
+      "RenderTargetSystem-Bs_X-W5p.js.map",
+      "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8"
+    ],
+    [
+      "browserAll-D5DBqH_a.js",
+      "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370"
+    ],
+    [
+      "browserAll-D5DBqH_a.js.map",
+      "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85"
+    ],
+    [
+      "canvasUtils-B52VJkLn.js",
+      "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988"
+    ],
+    [
+      "canvasUtils-B52VJkLn.js.map",
+      "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81"
+    ],
+    [
+      "getTextureBatchBindGroup-9HBchnv9.js",
+      "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260"
+    ],
+    [
+      "getTextureBatchBindGroup-9HBchnv9.js.map",
+      "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1"
+    ],
+    [
+      "init--pTYeZJt.js",
+      "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77"
+    ],
+    [
+      "init--pTYeZJt.js.map",
+      "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7"
+    ],
+    [
+      "init-Dz7_hNy6.js",
+      "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303"
+    ],
+    [
+      "init-Dz7_hNy6.js.map",
+      "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6"
+    ],
+    [
+      "kernel.js",
+      "6422a541cace2003317dbee2f7f92c11ca0d33b9b57a418d4a20d6d6409619fe"
+    ],
+    [
+      "kernel.js.map",
+      "0e5eb77f02654babc69cf8a9dcb5adb217d2bd256a78b4320b259f86a5ebb82d"
+    ],
+    [
+      "webworkerAll-DXoAr3HC.js",
+      "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8"
+    ]
+  ],
+  "mapSources": 492,
+  "maps": 10,
+  "browserContract": {
+    "baseline": 32,
+    "candidate": 2,
+    "framesPerPhase": 20,
+    "queryCap": 4096,
+    "positivePixelThreshold": 6,
+    "internalWorkMs": 90000,
+    "internalCleanupMs": 5000,
+    "externalMs": 120000
+  },
+  "retry": 0,
+  "actualPreparationAccepted": true,
+  "browserAlreadyLaunched": false,
+  "originalFailuresPreserved": true,
+  "parentIndependentAllCleanupIdentitiesRequired": true
+}

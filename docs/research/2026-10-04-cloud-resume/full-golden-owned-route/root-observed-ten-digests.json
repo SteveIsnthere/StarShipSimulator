@@ -1,0 +1,347 @@
+{
+  "recordingRoot": "/tmp/starship-original21-root.xgm4z1sj",
+  "stage": "/tmp/starship-original21-stage.GWNWi1",
+  "rows": [
+    {
+      "file": "tests/golden/fixtures/launch-pad-takeoff.json",
+      "wholeSha256": "b0acaade1ec64bc3201e27548f12e6a6376e9c162ba523cc5083618d22313faf",
+      "beforeWholeSha256": "4b12b151bcd85352b7c3326bcc797bfd4fd70d639bb2ed2872428719a724ac18",
+      "rowsSha256": "916a5b147289a85298740e9bc5f14275628e669c9daf26fc9d7996a26b7a20c6",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 181,
+      "beforeRowCount": 181,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/booster-sep-boostback.json",
+      "wholeSha256": "d69463ab51057ec77203d4104e56a79c65d17203327a5119e76c9b1f4c6716d8",
+      "beforeWholeSha256": "042c5e74039a92a4c85ef176b0190ef2e6d9b82944e81c483c4d87531a1c1d54",
+      "rowsSha256": "6b08750b2a1e0e4821f93c5f5c8735a8025e3498606490d61beaa0ef5963c95c",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 241,
+      "beforeRowCount": 241,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/rtls-boostback.json",
+      "wholeSha256": "660a9cfee76bdf871e8d8edfb3772824848b85bed9f307b125d6187da736a420",
+      "beforeWholeSha256": "f7b8f3aca74fe88ceb3e558061e47119ea1474a80cef129117f8698ff1d0d4df",
+      "rowsSha256": "439df56193035d258aee641bfdd0c09a1f90bbf3b9c2eb3b4b1c0e6efdbf8ed8",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 241,
+      "beforeRowCount": 241,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/reentry-autoland.json",
+      "wholeSha256": "8f56ef72e62942414737279fe433c5e9c13aac3f9afdbde4237aea46939b0c32",
+      "beforeWholeSha256": "02a070d010b97a8c666bf92fa72aa59c8f839e7e13d176033f832f2c8c99cf9b",
+      "rowsSha256": "3fb0076c5ac5dc5b29a461079ebf93c379da8c5ff0aa23a10da42eb55f3f5f29",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 1201,
+      "beforeRowCount": 1201,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/before-flip-autoland.json",
+      "wholeSha256": "e245e1adfe82d0932b6d6c469f04e293baca32f95cbd4bd3ee090f07c76e0946",
+      "beforeWholeSha256": "cbfb87a0930a42720942f6ebac435c5f7431a3b92a341b4f1fb4251cf79630ac",
+      "rowsSha256": "11df739d7201f3bb971bb63e15c06fca87c5f3940a4fa81d5aeeceb37a7aac4b",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 121,
+      "beforeRowCount": 121,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/landing-burn-autoland.json",
+      "wholeSha256": "7ada8d9148f17f608453f3aa9e74f354c6125cc2a8a8232ba3042479049cb0da",
+      "beforeWholeSha256": "a17089cba6dbb0d3aa79ff2f2ae058cbbb469640f2ad733e258323a9f4b87796",
+      "rowsSha256": "1454b4f2a9997e12dcc0b1d506884696e5f0322185089731b2ff6dbff10f7964",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 91,
+      "beforeRowCount": 91,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/landing-burn-headwind.json",
+      "wholeSha256": "0b71c1f10dbac3997025cdfd6f001eec3067df9563a2b6fa7514ee8641ec869f",
+      "beforeWholeSha256": "422c4ad6e6940f5afea8c0df2b055c597689dd3b2382c4a1c8bbc46a6b9867ec",
+      "rowsSha256": "27faabb7f4541fa6f630f768c8dfcc063520885d9c5b8a48538768e07c65d887",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 91,
+      "beforeRowCount": 91,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/intro-demo.json",
+      "wholeSha256": "fcd13bcea315df972300443eb3d8f3703896cf60ce405f56a025eae212d363cb",
+      "beforeWholeSha256": "5936807264fccd93933de09b1bf292c48d0a7dc22e487ea074f2515538b9f1c7",
+      "rowsSha256": "21c17914fefc1e679a56bd5a97e5ff8d904c31709d57ac016bb90cd9bec7d5f8",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 91,
+      "beforeRowCount": 91,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/booster/booster-sep-catch.json",
+      "wholeSha256": "845da274d0e59758fabebf57e734c28ce1f8276ccc33fa33452f59bc3e912e33",
+      "beforeWholeSha256": "5c754d0217301aeec35c9850a8ac71b31abae86635898e2724abdb1e08dbbd98",
+      "rowsSha256": "c2cc095e9f0fff270c0c7ef8c7bd034ec325c8c646da19717482cfc42fc19cbb",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 1801,
+      "beforeRowCount": 1801,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    },
+    {
+      "file": "tests/golden/fixtures/booster/rtls-catch.json",
+      "wholeSha256": "a20123bb78d3fdf77affd26e2140e142247d07d13319786f2673e1a5a62d9bb9",
+      "beforeWholeSha256": "8b10c24c1d68136477226b0728420870046d456f198dcedf64aaf4ba9113fb33",
+      "rowsSha256": "0259109b2c2b08affd2280d08f58a3adb0a313f3ff99922a3e745b5df4462362",
+      "keys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "beforeKeys": [
+        "scenario",
+        "steps",
+        "dt",
+        "sampleEvery",
+        "seed",
+        "setup",
+        "constant",
+        "keys",
+        "rows"
+      ],
+      "rowCount": 1801,
+      "beforeRowCount": 1801,
+      "headerChangedKeys": [
+        "constant",
+        "keys"
+      ]
+    }
+  ],
+  "onlyObservedDigestsNotReplayAcceptance": true
+}

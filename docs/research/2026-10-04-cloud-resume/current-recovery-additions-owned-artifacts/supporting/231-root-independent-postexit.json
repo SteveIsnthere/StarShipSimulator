@@ -1,0 +1,30 @@
+{
+  "identities": [
+    {
+      "pid": 112045,
+      "start": "7087852",
+      "status": "ABSENT"
+    },
+    {
+      "pid": 112052,
+      "start": "7087974",
+      "status": "ABSENT"
+    }
+  ],
+  "groups": [
+    {
+      "group": 112045,
+      "session": 112045,
+      "start": "7087852",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 112052,
+      "session": 112052,
+      "start": "7087974",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

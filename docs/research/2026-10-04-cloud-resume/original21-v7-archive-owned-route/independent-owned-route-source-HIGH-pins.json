@@ -1,0 +1,58 @@
+{
+  "decision": "SUPPORTED scopes/private preparation; actual input and one archive grant separate",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/root-observer.py.txt",
+      "bytes": 15688,
+      "sha256": "13e17df21d82ac80ac94fc6e8116941f8a54a128eef852bf79fd582db16261d5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/make-input.py.txt",
+      "bytes": 3058,
+      "sha256": "e431722dfd5172704d095bd86ae6067615298186165f2f4ef59bb6133c4b143b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/declaration.md",
+      "bytes": 3452,
+      "sha256": "b1669f689e9d7235b6453b7e7e9e4f80fc75fe8b39ad84d2f87acdaf3340c25f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/ownership-core-transfer.json",
+      "bytes": 1224,
+      "sha256": "627fd7ef2df5d6fcad929f47501f04537daa08fe6e9b1e10e09ece04f8047651"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/archive-original21-v7.py.txt",
+      "bytes": 7168,
+      "sha256": "f8710754750276bdb89c7fda4a4a07b7f41adf77667c253a4cee7abb1fabddf8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-proposal.json",
+      "bytes": 4875,
+      "sha256": "fa51f4e622b5f616994dbbad59ab1d497fb2f4cef30fc0213c00e9aa060d2083"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-independent-code-review.md",
+      "bytes": 2786,
+      "sha256": "7b8b22b01fb6b119c42dbb53f42b5f7993dda0a1766473a67e024927e1875d3e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-independent-code-pins.json",
+      "bytes": 909,
+      "sha256": "267c52e00f497541c847a4c4393df0a087c5bcc06bc226ce487f484da14b868b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+      "bytes": 17669,
+      "sha256": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/input-pins.json",
+      "sha256": "75c6a8335384706b36a6e319514b96dd4dceb8db27925a1cfb07af2bf415eecc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/independent-owned-route-source-HIGH-review.md",
+      "sha256": "4b5dbe201c5b57d56f789f846ae198a3332fc553e10b4131b73786b00a656ebe"
+    }
+  ]
+}

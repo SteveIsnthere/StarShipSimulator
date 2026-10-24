@@ -1,0 +1,9 @@
+{
+  "finalized": true,
+  "status": "pass",
+  "stage": "completed",
+  "failure": null,
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-error-descriptor-witness/receipt-witness-dbdf4094-2fc3-4653-a917-79da1266a64b",
+  "node": "v22.23.3",
+  "acceptance": "Native descriptor witness only; no cause fix/control/flight acceptance"
+}

@@ -1,0 +1,21 @@
+{
+  "runtime": "Node 22.23.3",
+  "proofs": {
+    "result": "33 passed / 3 files passed",
+    "exitCode": 0
+  },
+  "targetedEslint": {
+    "exitCode": 0,
+    "output": ""
+  },
+  "typescriptNoEmit": {
+    "exitCode": 0,
+    "output": ""
+  },
+  "gitApplyCheck": {
+    "exitCode": 0,
+    "patch": "rejected-fall-thrust-preparation.patch"
+  },
+  "timingRerun": false,
+  "restoredFileHashesVerified": true
+}

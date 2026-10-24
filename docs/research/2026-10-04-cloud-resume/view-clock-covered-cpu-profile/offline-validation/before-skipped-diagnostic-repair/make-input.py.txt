@@ -1,0 +1,18 @@
+# Finite private materialization only; no application, profile, tooling or source inventory.
+import json,hashlib,uuid,os
+from pathlib import Path
+r=Path('/workspace/StarShipSimulator');b=r/'docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/offline-validation';sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();pins=b/'input-pins.json';rows=json.loads(pins.read_text())['files'];assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='view-clock-offline-preparation'
+for p,h in rows.items():assert sha(p)==h,p
+s=r/'node_modules/.cache'/('starship-view-clock-offline-'+uuid.uuid4().hex);s.mkdir(mode=0o700)
+for source,name in [(b/'owner.mjs.txt','owner.mjs'),(b/'driver.mjs.txt','driver.mjs')]:
+ with(s/name).open('xb')as f:f.write(source.read_bytes())
+ rows[str(s/name)]=sha(s/name)
+node={'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'};helper={'path':str(r/'scripts/bench/owned-command.mjs'),'sha':'0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db'}
+old=r/'node_modules/.cache/starship-view-clock-profile-671d64be12c84ba281ce1c87e3840b5a';oi=json.loads((old/'input.json').read_text());wd=Path(oi['profileReceipt'])/'worker-97889-6257908-0';m={'kind':'view-clock-offline-input-v1','root':str(r),'setup':str(s),'files':rows,'node':node,'helper':helper,'driver':{'path':str(s/'driver.mjs'),'sha':sha(s/'driver.mjs')},'failedOwner':str(old/'owner-result.json'),'failedRoot':'/tmp/starship-view-clock-profile-root.rdhc2e1z/root-outcome.json','capturedAuthority':str(r/'docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-post-audit-current-snapshot.json'),'capturedBefore':str(old/'source-before.json'),'capturedAfter':str(old/'source-after.json'),'workerIdentity':str(wd/'identity.json'),'sourceRecord':str(wd/'finalized.json'),'workerDirectory':str(wd),'profile':str(Path(oi['profileReceipt'])/'profiles/CPU.20261004.223916.97889.0.001.cpuprofile'),'profileInput':str(old/'input.json'),'progress':str(Path(oi['progressReceipt'])/'progress.jsonl'),'captureFailure':str(Path(oi['coverageReceipt'])/'capture/capture-failure.json'),'expectedInventory':str(b/'expected-collected-inventory.json')}
+with(s/'input.json').open('x')as f:json.dump(m,f,indent=2);f.write('\n')
+rows={**rows,str(pins):sha(pins),str(s/'input.json'):sha(s/'input.json')}
+with(s/'root-inventory.json').open('x')as f:json.dump({'kind':'view-clock-offline-root-inventory-v1','files':rows},f,indent=2);f.write('\n')
+root={'kind':'view-clock-offline-root-input-v1','mode':'view-clock-offline','outerMs':30000,'root':str(r),'setup':str(s),'steps':['offline'],'node':node,'helper':helper,'pureInput':{'path':str(s/'input.json'),'sha':sha(s/'input.json')},'pins':{'path':str(s/'root-inventory.json'),'sha':sha(s/'root-inventory.json')},'stage':{'path':str(s/'owner.mjs'),'sha':sha(s/'owner.mjs')},'observer':{'path':str(b/'root-observer.py.txt'),'sha':sha(b/'root-observer.py.txt')},'python':{'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}}
+with(s/'root-input.json').open('x')as f:json.dump(root,f,indent=2);f.write('\n')
+for p,h in rows.items():assert sha(p)==h,p
+print(json.dumps({'setup':str(s),'input':str(s/'input.json'),'inputSha':sha(s/'input.json'),'rootInput':str(s/'root-input.json'),'rootInputSha':sha(s/'root-input.json'),'argv':[root['python']['path'],root['observer']['path'],str(s/'root-input.json'),sha(s/'root-input.json')]}))

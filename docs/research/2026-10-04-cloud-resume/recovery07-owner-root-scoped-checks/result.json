@@ -1,0 +1,29 @@
+{
+  "inputSHA": "221e30e59216ac018e868a303c4e50585fc952cc75a8ed2f514a9ebd3f5ba368",
+  "results": [
+    {
+      "check": "AST",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-capture.py.txt",
+      "code": 0,
+      "sha": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b"
+    },
+    {
+      "check": "AST",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-root-parent.py.txt",
+      "code": 0,
+      "sha": "7da93aca30ad367faa9514c1334fdbd68c13790866f3f578266947402e73ac1a"
+    },
+    {
+      "check": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.030734937005036045
+    },
+    {
+      "check": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8466761269955896
+    }
+  ],
+  "passed": true,
+  "captureExecuted": false
+}

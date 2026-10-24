@@ -1,0 +1,16 @@
+{
+  "kind": "mesa-receipt-pathspec-source-application-manifest-v1",
+  "status": "DEFERRED unexecuted research design; root pure physics proof completion and independent source/input HIGH required",
+  "onlyLivePath": "/workspace/StarShipSimulator/tests/e2e/visual-runtime-receipt.ts",
+  "oldSha": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e",
+  "newSha": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e",
+  "oldAuthoritySha": "2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c",
+  "sourceCountBeforeAfter": 770,
+  "toolsCountBeforeAfter": 20355,
+  "sourcePathsAndAllModesUnchanged": true,
+  "onlyLiteralDelta": "ls-files receives eight top/glob pathspecs before its existing JavaScript filtering, deduplication and sorting",
+  "unchanged": ["all original helper fields", "source regex", "head and dirty semantics", "all scenario/assertion bodies", "warm/measure samples", "all frame budgets", "all Mesa flags", "all installed tools", "all protected physics bodies"],
+  "inverse": "Separately granted only after exact new full snapshot/tools/modes and old original-helper.ts.txt hash guards; no automatic rollback",
+  "nextBuild": "NEW public build under approved wrapper9c3b and Other2fae; old337 keys retained except exact one helper pin, new qualification pointer distinct, no old dist61 reseal",
+  "noAutomaticApplicationOrBuildOrMatrix": true
+}

@@ -1,0 +1,16 @@
+{
+  "approvalSha256": "b2989317b464eb65120a58d9137655f64c41edcc17a854c4817d2675c79c5b13",
+  "setup": "/tmp/starship-render-kernel.vlntmfw7",
+  "before": {
+    "kernel-compiled-manifest.json": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+    "library-reuse-composite.json": "5e9a5426c68101f3de6440ce82c6c62643aa1626c8bb64233df3f44dab100c80",
+    "setup-receipt.json": "37d73d9405d6dff48281f53668cff12830d946ca4f4036c4772dae5a6b027ef0",
+    "browser-wrapper.sh": "fe3850849b93cfbe7aadf53bd3ff5affe44fc59b3c35af168c62c4404477d350",
+    "run-render-kernel-compact-json.mjs": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907"
+  },
+  "workSeconds": 90,
+  "cleanupSeconds": 5,
+  "externalSeconds": 120,
+  "cpuExclusive": true
+}

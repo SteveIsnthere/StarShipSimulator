@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "draws": 20,
+  "conditioningDraws": 3,
+  "performanceAcceptance": false,
+  "limitation": "Frozen-positive actual program/framebuffer timer-query attribution only; submission overhead and query semantics require fresh review; no throughput/quality acceptance"
+}

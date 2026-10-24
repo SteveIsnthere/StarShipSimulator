@@ -1,0 +1,47 @@
+[WebServer] (node:2288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 30 tests using 1 worker
+
+(node:2290) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/visual-scenes.spec.ts:12:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.7s)
+  ✓   2 [chromium] › tests/e2e/visual-scenes.spec.ts:12:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.1s)
+  ✓   3 [chromium] › tests/e2e/visual-scenes.spec.ts:12:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓   4 [chromium] › tests/e2e/visual-scenes.spec.ts:12:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.1s)
+  ✓   5 [chromium] › tests/e2e/visual-scenes.spec.ts:12:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓   6 [chromium] › tests/e2e/visual-scenes.spec.ts:12:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (5.9s)
+(node:2309) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓   8 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.4s)
+  ✓   9 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.7s)
+  ✓  10 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.4s)
+  ✓  11 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓  12 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (6.8s)
+(node:2324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.9s)
+  ✓  14 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.3s)
+  ✓  15 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓  16 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.3s)
+  ✓  17 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.8s)
+  ✓  18 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (6.5s)
+(node:2343) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.7s)
+  ✓  20 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.3s)
+  ✓  21 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓  22 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.3s)
+  ✓  23 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓  24 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:12:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (6.6s)
+(node:2360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  25 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (2.0s)
+  ✓  26 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓  27 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓  28 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.3s)
+  ✓  29 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.8s)
+  ✓  30 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:12:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (6.4s)
+
+  30 passed (1.2m)

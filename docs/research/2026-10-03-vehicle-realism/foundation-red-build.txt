@@ -1,0 +1,38 @@
+
+> starship-simulator-v2@0.1.0 build
+> tsc -b tsconfig.kit.json && tsc --noEmit -p tsconfig.json && node scripts/check-design-contract.mjs && node scripts/check-ui-contract.mjs && vite build && node scripts/build-sw.mjs dist && node scripts/check-budget.mjs && node scripts/check-entry-graph.mjs dist
+
+tests/core/v3-flight.test.ts(25,34): error TS2554: Expected 2 arguments, but got 3.
+tests/view/vehicle-geometry.test.ts(2,80): error TS2307: Cannot find module '$view/vehicle-geometry' or its corresponding type declarations.
+tests/view/vehicle-geometry.test.ts(12,35): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(13,40): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(14,38): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(16,36): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(16,54): error TS7006: Parameter 'v' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(24,39): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(26,53): error TS7006: Parameter 'v' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(27,53): error TS7006: Parameter 'v' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(32,41): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(33,40): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(34,39): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(36,40): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(36,94): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(37,40): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(37,97): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(38,33): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(43,45): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(44,22): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(45,30): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(46,24): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(47,43): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(50,33): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(51,45): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(51,67): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(53,36): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(54,46): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(54,51): error TS7006: Parameter 'p' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(54,89): error TS7006: Parameter 'a' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(54,92): error TS7006: Parameter 'v' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(54,95): error TS7006: Parameter 'i' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(65,37): error TS7006: Parameter 'c' implicitly has an 'any' type.
+tests/view/vehicle-geometry.test.ts(69,37): error TS7006: Parameter 'c' implicitly has an 'any' type.

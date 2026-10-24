@@ -1,0 +1,9 @@
+{
+  "path": "docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+  "sha256": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5",
+  "inputManifestSha256": "6ceaffa30e904befed750c2f932e13e7fc1f3c7f5bf96b9afe888721444e1879",
+  "kind": "python-ast",
+  "code": 0,
+  "unchangedStageChecks": "Retained prior Node syntax/lint; not rerun",
+  "priorAdHocPrecheck": "Incorrect manually expanded short digest rejected before AST/check output; actual independently reviewed full digest used."
+}

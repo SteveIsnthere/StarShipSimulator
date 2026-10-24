@@ -1,0 +1,476 @@
+{
+  "kind": "independently-checked-retained-worker-sample-envelope-v1",
+  "profileSha256": "7822ad7cefbf9111591ec2caa8b63b23417a94e79861886537eab32a3435d345",
+  "outputSha256": "2dfca6b13c49e8113fb422fea3ac8b4c9f1441e49697642dd38861223c23cdaf",
+  "samples": 35035,
+  "groups": 685,
+  "unknownSelfSamples": 828,
+  "generatedLineTableEntries": 1258,
+  "sourceMapTableEntries": 46,
+  "coverageAcceptance": false,
+  "physicalOrPerformanceAcceptance": false,
+  "scope": "whole retained covered/Inspector worker; samples are not wall-time or physical-only fractions",
+  "top25SelfGroups": [
+    {
+      "functionName": "loadedRootAngle",
+      "scriptId": "275",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-275.txt",
+        "sha256": "431d7ac02a8562b82e0ac33b8db04f05d43959d96a5d072327672d1b86333623",
+        "lineIndexZeroBased": 39,
+        "column": 24,
+        "textReference": "431d7ac02a8562b82e0ac33b8db04f05d43959d96a5d072327672d1b86333623:39",
+        "sourceMapURLReference": "431d7ac02a8562b82e0ac33b8db04f05d43959d96a5d072327672d1b86333623",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 2816,
+      "inclusiveSamples": 3402,
+      "selfPercentOfWholeWorkerSamples": 8.03767660910518,
+      "inclusivePercentOfWholeWorkerSamples": 9.710289710289711
+    },
+    {
+      "functionName": "steelTemperatureFromEnthalpy",
+      "scriptId": "271",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-271.txt",
+        "sha256": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd",
+        "lineIndexZeroBased": 213,
+        "column": 37,
+        "textReference": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd:213",
+        "sourceMapURLReference": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 2784,
+      "inclusiveSamples": 3972,
+      "selfPercentOfWholeWorkerSamples": 7.946339374910803,
+      "inclusivePercentOfWholeWorkerSamples": 11.337234194377052
+    },
+    {
+      "functionName": "writeDamageMass",
+      "scriptId": "279",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-279.txt",
+        "sha256": "2d03efe423e3f7a33457ac2277048edaee151024f1959eebd175bf0ef8327938",
+        "lineIndexZeroBased": 40,
+        "column": 24,
+        "textReference": "2d03efe423e3f7a33457ac2277048edaee151024f1959eebd175bf0ef8327938:40",
+        "sourceMapURLReference": "2d03efe423e3f7a33457ac2277048edaee151024f1959eebd175bf0ef8327938",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 1534,
+      "inclusiveSamples": 2242,
+      "selfPercentOfWholeWorkerSamples": 4.37847866419295,
+      "inclusivePercentOfWholeWorkerSamples": 6.399314970743541
+    },
+    {
+      "functionName": "pressureConductivity",
+      "scriptId": "272",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-272.txt",
+        "sha256": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04",
+        "lineIndexZeroBased": 225,
+        "column": 29,
+        "textReference": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04:225",
+        "sourceMapURLReference": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 1053,
+      "inclusiveSamples": 1053,
+      "selfPercentOfWholeWorkerSamples": 3.00556586270872,
+      "inclusivePercentOfWholeWorkerSamples": 3.00556586270872
+    },
+    {
+      "functionName": "writeDamageControls",
+      "scriptId": "277",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-277.txt",
+        "sha256": "97843e729eeec6183acaab07903829da8c672300e55b8375af78b9d97d74cc8d",
+        "lineIndexZeroBased": 66,
+        "column": 28,
+        "textReference": "97843e729eeec6183acaab07903829da8c672300e55b8375af78b9d97d74cc8d:66",
+        "sourceMapURLReference": "97843e729eeec6183acaab07903829da8c672300e55b8375af78b9d97d74cc8d",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 994,
+      "inclusiveSamples": 5567,
+      "selfPercentOfWholeWorkerSamples": 2.8371628371628375,
+      "inclusivePercentOfWholeWorkerSamples": 15.889824461253033
+    },
+    {
+      "functionName": "pressureInLayer",
+      "scriptId": "261",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-261.txt",
+        "sha256": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0",
+        "lineIndexZeroBased": 95,
+        "column": 24,
+        "textReference": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0:95",
+        "sourceMapURLReference": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 792,
+      "inclusiveSamples": 792,
+      "selfPercentOfWholeWorkerSamples": 2.260596546310832,
+      "inclusivePercentOfWholeWorkerSamples": 2.260596546310832
+    },
+    {
+      "functionName": "advanceDamageHeat",
+      "scriptId": "276",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-276.txt",
+        "sha256": "68e8fd4aadd03c277e88c4a55b48b92a68982983008921fd3dd07d10a74ddec2",
+        "lineIndexZeroBased": 123,
+        "column": 26,
+        "textReference": "68e8fd4aadd03c277e88c4a55b48b92a68982983008921fd3dd07d10a74ddec2:123",
+        "sourceMapURLReference": "68e8fd4aadd03c277e88c4a55b48b92a68982983008921fd3dd07d10a74ddec2",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 766,
+      "inclusiveSamples": 9016,
+      "selfPercentOfWholeWorkerSamples": 2.186385043527901,
+      "inclusivePercentOfWholeWorkerSamples": 25.734265734265733
+    },
+    {
+      "functionName": "layerFor",
+      "scriptId": "261",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-261.txt",
+        "sha256": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0",
+        "lineIndexZeroBased": 123,
+        "column": 17,
+        "textReference": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0:123",
+        "sourceMapURLReference": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 726,
+      "inclusiveSamples": 726,
+      "selfPercentOfWholeWorkerSamples": 2.072213500784929,
+      "inclusivePercentOfWholeWorkerSamples": 2.072213500784929
+    },
+    {
+      "functionName": "conductivityUnchecked",
+      "scriptId": "272",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-272.txt",
+        "sha256": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04",
+        "lineIndexZeroBased": 240,
+        "column": 30,
+        "textReference": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04:240",
+        "sourceMapURLReference": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 632,
+      "inclusiveSamples": 1680,
+      "selfPercentOfWholeWorkerSamples": 1.8039103753389467,
+      "inclusivePercentOfWholeWorkerSamples": 4.795204795204795
+    },
+    {
+      "functionName": "mechanicalProperty",
+      "scriptId": "271",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-271.txt",
+        "sha256": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd",
+        "lineIndexZeroBased": 296,
+        "column": 27,
+        "textReference": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd:296",
+        "sourceMapURLReference": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 610,
+      "inclusiveSamples": 610,
+      "selfPercentOfWholeWorkerSamples": 1.7411160268303125,
+      "inclusivePercentOfWholeWorkerSamples": 1.7411160268303125
+    },
+    {
+      "functionName": "applyEnergy",
+      "scriptId": "276",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-276.txt",
+        "sha256": "68e8fd4aadd03c277e88c4a55b48b92a68982983008921fd3dd07d10a74ddec2",
+        "lineIndexZeroBased": 99,
+        "column": 20,
+        "textReference": "68e8fd4aadd03c277e88c4a55b48b92a68982983008921fd3dd07d10a74ddec2:99",
+        "sourceMapURLReference": "68e8fd4aadd03c277e88c4a55b48b92a68982983008921fd3dd07d10a74ddec2",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 593,
+      "inclusiveSamples": 5078,
+      "selfPercentOfWholeWorkerSamples": 1.6925931211645497,
+      "inclusivePercentOfWholeWorkerSamples": 14.494077351220207
+    },
+    {
+      "functionName": "temperatureHint",
+      "scriptId": "271",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-271.txt",
+        "sha256": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd",
+        "lineIndexZeroBased": 171,
+        "column": 24,
+        "textReference": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd:171",
+        "sourceMapURLReference": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 542,
+      "inclusiveSamples": 852,
+      "selfPercentOfWholeWorkerSamples": 1.5470244041672612,
+      "inclusivePercentOfWholeWorkerSamples": 2.431853860425289
+    },
+    {
+      "functionName": "isaAtmosphereInto",
+      "scriptId": "261",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-261.txt",
+        "sha256": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0",
+        "lineIndexZeroBased": 308,
+        "column": 26,
+        "textReference": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0:308",
+        "sourceMapURLReference": "9cf6dcbe9b32d33bc271af96823e82d672352928daa1ea0d6438b3267b5f28c0",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 511,
+      "inclusiveSamples": 2317,
+      "selfPercentOfWholeWorkerSamples": 1.4585414585414587,
+      "inclusivePercentOfWholeWorkerSamples": 6.613386613386614
+    },
+    {
+      "functionName": "advanceFreeBody",
+      "scriptId": "304",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-304.txt",
+        "sha256": "8de3b1942431e27971e4154b90be583360d7762ef03b39e4f4a75929d8f70592",
+        "lineIndexZeroBased": 72,
+        "column": 24,
+        "textReference": "8de3b1942431e27971e4154b90be583360d7762ef03b39e4f4a75929d8f70592:72",
+        "sourceMapURLReference": "8de3b1942431e27971e4154b90be583360d7762ef03b39e4f4a75929d8f70592",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 506,
+      "inclusiveSamples": 33391,
+      "selfPercentOfWholeWorkerSamples": 1.4442700156985873,
+      "inclusivePercentOfWholeWorkerSamples": 95.30754959326387
+    },
+    {
+      "functionName": "cloneState",
+      "scriptId": "295",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-295.txt",
+        "sha256": "de1f2e11fc97488475a734f6b8e0e94ef4ed2bb5cf17bf521e84adcceeffb29e",
+        "lineIndexZeroBased": 252,
+        "column": 19,
+        "textReference": "de1f2e11fc97488475a734f6b8e0e94ef4ed2bb5cf17bf521e84adcceeffb29e:252",
+        "sourceMapURLReference": "de1f2e11fc97488475a734f6b8e0e94ef4ed2bb5cf17bf521e84adcceeffb29e",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 489,
+      "inclusiveSamples": 744,
+      "selfPercentOfWholeWorkerSamples": 1.3957471100328243,
+      "inclusivePercentOfWholeWorkerSamples": 2.1235906950192662
+    },
+    {
+      "functionName": "burnDeceleration",
+      "scriptId": "288",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-288.txt",
+        "sha256": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880",
+        "lineIndexZeroBased": 203,
+        "column": 25,
+        "textReference": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880:203",
+        "sourceMapURLReference": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 462,
+      "inclusiveSamples": 6892,
+      "selfPercentOfWholeWorkerSamples": 1.3186813186813187,
+      "inclusivePercentOfWholeWorkerSamples": 19.671756814613957
+    },
+    {
+      "functionName": "prepareDynamics",
+      "scriptId": "258",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-258.txt",
+        "sha256": "9829bbf4f034c3ed805e64931ac2d3e8633f2e0644400d92c4e04da5b8daa728",
+        "lineIndexZeroBased": 186,
+        "column": 24,
+        "textReference": "9829bbf4f034c3ed805e64931ac2d3e8633f2e0644400d92c4e04da5b8daa728:186",
+        "sourceMapURLReference": "9829bbf4f034c3ed805e64931ac2d3e8633f2e0644400d92c4e04da5b8daa728",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 436,
+      "inclusiveSamples": 5767,
+      "selfPercentOfWholeWorkerSamples": 1.2444698158983873,
+      "inclusivePercentOfWholeWorkerSamples": 16.46068217496789
+    },
+    {
+      "functionName": "tpsTemperatureFromEnthalpy",
+      "scriptId": "272",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-272.txt",
+        "sha256": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04",
+        "lineIndexZeroBased": 202,
+        "column": 35,
+        "textReference": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04:202",
+        "sourceMapURLReference": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 416,
+      "inclusiveSamples": 416,
+      "selfPercentOfWholeWorkerSamples": 1.1873840445269017,
+      "inclusivePercentOfWholeWorkerSamples": 1.1873840445269017
+    },
+    {
+      "functionName": "engineThrust",
+      "scriptId": "267",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-267.txt",
+        "sha256": "2b65ac87b397527228ac299b915a0380cd0a48f809e079d1ad689946b2df3c67",
+        "lineIndexZeroBased": 9,
+        "column": 21,
+        "textReference": "2b65ac87b397527228ac299b915a0380cd0a48f809e079d1ad689946b2df3c67:9",
+        "sourceMapURLReference": "2b65ac87b397527228ac299b915a0380cd0a48f809e079d1ad689946b2df3c67",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 393,
+      "inclusiveSamples": 650,
+      "selfPercentOfWholeWorkerSamples": 1.1217354074496932,
+      "inclusivePercentOfWholeWorkerSamples": 1.855287569573284
+    },
+    {
+      "functionName": "tpsMeanConductivity",
+      "scriptId": "272",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-272.txt",
+        "sha256": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04",
+        "lineIndexZeroBased": 265,
+        "column": 28,
+        "textReference": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04:265",
+        "sourceMapURLReference": "ca4c5e5208f711a769a30b90e9214de7da4f2ea8d127bd6e1af6609ee46ffb04",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 375,
+      "inclusiveSamples": 1815,
+      "selfPercentOfWholeWorkerSamples": 1.070358213215356,
+      "inclusivePercentOfWholeWorkerSamples": 5.180533751962323
+    },
+    {
+      "functionName": "rootLoadCoefficient",
+      "scriptId": "275",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-275.txt",
+        "sha256": "431d7ac02a8562b82e0ac33b8db04f05d43959d96a5d072327672d1b86333623",
+        "lineIndexZeroBased": 29,
+        "column": 28,
+        "textReference": "431d7ac02a8562b82e0ac33b8db04f05d43959d96a5d072327672d1b86333623:29",
+        "sourceMapURLReference": "431d7ac02a8562b82e0ac33b8db04f05d43959d96a5d072327672d1b86333623",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 354,
+      "inclusiveSamples": 355,
+      "selfPercentOfWholeWorkerSamples": 1.0104181532752963,
+      "inclusivePercentOfWholeWorkerSamples": 1.0132724418438706
+    },
+    {
+      "functionName": "(idle)",
+      "scriptId": "0",
+      "definition": {
+        "known": false,
+        "reason": "No retained actual Debugger source for scriptId"
+      },
+      "selfSamples": 349,
+      "inclusiveSamples": 349,
+      "selfPercentOfWholeWorkerSamples": 0.9961467104324248,
+      "inclusivePercentOfWholeWorkerSamples": 0.9961467104324248
+    },
+    {
+      "functionName": "specificEnthalpyUnchecked",
+      "scriptId": "271",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-271.txt",
+        "sha256": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd",
+        "lineIndexZeroBased": 137,
+        "column": 34,
+        "textReference": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd:137",
+        "sourceMapURLReference": "dad97ef9a420c5e143b1e2975ea41945a9ac44770f3e21d8ea91c1249dfc34cd",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 336,
+      "inclusiveSamples": 498,
+      "selfPercentOfWholeWorkerSamples": 0.959040959040959,
+      "inclusivePercentOfWholeWorkerSamples": 1.4214357071499928
+    },
+    {
+      "functionName": "backwardPass",
+      "scriptId": "288",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-288.txt",
+        "sha256": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880",
+        "lineIndexZeroBased": 167,
+        "column": 21,
+        "textReference": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880:167",
+        "sourceMapURLReference": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 334,
+      "inclusiveSamples": 7230,
+      "selfPercentOfWholeWorkerSamples": 0.9533323819038104,
+      "inclusivePercentOfWholeWorkerSamples": 20.636506350792065
+    },
+    {
+      "functionName": "tailFirstDragDeceleration",
+      "scriptId": "288",
+      "definition": {
+        "known": true,
+        "actualScript": "/tmp/starship-view-clock-cpu.86f931ac65bb4bc0850e649d31ae2404/worker-97889-6257908-0/script-288.txt",
+        "sha256": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880",
+        "lineIndexZeroBased": 148,
+        "column": 34,
+        "textReference": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880:148",
+        "sourceMapURLReference": "870be26c572053137d072cf7a2d20f91fd35316242e1a3fbb509708ff3103880",
+        "remappedToTypeScript": false
+      },
+      "selfSamples": 315,
+      "inclusiveSamples": 4275,
+      "selfPercentOfWholeWorkerSamples": 0.8991008991008992,
+      "inclusivePercentOfWholeWorkerSamples": 12.20208363065506
+    }
+  ],
+  "allProcessObservation": [
+    {
+      "pid": 101444,
+      "start": "6508965",
+      "current": null
+    },
+    {
+      "pid": 101445,
+      "start": "6508985",
+      "current": null
+    },
+    {
+      "pid": 101452,
+      "start": "6509008",
+      "current": null
+    }
+  ]
+}

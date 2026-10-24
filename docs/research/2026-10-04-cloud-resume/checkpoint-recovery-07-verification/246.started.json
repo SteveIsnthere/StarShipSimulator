@@ -1,0 +1,1 @@
+{"applyCount": 0, "args": ["diff", "--cached", "--binary", "--full-index", "--no-ext-diff", "--no-renames", "--no-color", "32e5bb386cadee9098d703c67ebdfc9444eb46a6", "--", ".", ":(exclude)docs/**"], "number": 246, "optionalLocks": "0", "stdinSha256": null, "temporaryIndex": "/tmp/starship-recovery07.u9ln8edh/capture-index"}

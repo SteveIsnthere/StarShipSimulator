@@ -1,0 +1,48 @@
+{
+  "kind": "mesa-functional-stage-owner-input-v1",
+  "purpose": "mesa-functional-webgl2",
+  "mode": "build",
+  "outerMs": 120000,
+  "root": "/workspace/StarShipSimulator",
+  "setup": "/tmp/starship-mesa-functional.ff9739748edc461bb23bd0979d73a1e9",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "preparer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+    "sha": "0f784f7e175efedd30390f92072a6bbbd30db74380bc6de1efc0aae93fc8a51e"
+  },
+  "builder": {
+    "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/run-functional.mjs",
+    "sha": "af63c6de9ff5a2a1e49e46b5b7bc06918d5d3eb1fd93355b782531d1a887b1e0"
+  },
+  "qualifier": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/functional-input.json",
+    "sha": "0f374980edc2c201e823ebeaaa3785a286d98c05c7324cbec1440d26e9c1e63b"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/source-pins.json",
+    "sha": "04f17f436cca5252705236648cd6c82a2a7a40b03d39365aa4e2a9367498e160"
+  },
+  "stage": {
+    "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/stage.mjs",
+    "sha": "4c97dbde7a2a5683cf7dc4b67ac8ab3799d9ae86a49a5060d13d2452c6a22f11"
+  },
+  "observer": {
+    "path": "/tmp/starship-mesa-input.db3a4584bbae4313bdba08ab8579e67e/root-observer.py",
+    "sha": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "bridge": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/contract.md",
+    "sha": "ba4988f0d347ae0c48f76842408ce3f7a3ecf53b5074b168e38c5d2308e7a106"
+  }
+}

@@ -52,7 +52,8 @@
  *    statistic, because a single misdetection should not be able to pass or fail
  *    this test.
  */
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from './visual-evidence-fixture';
 import type { SimDebug } from '../../src/app/debug';
 import { byTestId, readoutValueTestId } from '../../src/ui/testids';
 import { ready } from './helpers';

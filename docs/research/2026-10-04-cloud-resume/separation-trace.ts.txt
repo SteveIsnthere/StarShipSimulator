@@ -1,0 +1,162 @@
+/** Research only. Bundle with the declaration's embedded core hash manifest.
+ * No alternative flights, forecasts, source mutation, or timing acceptance. */
+import { createHash } from 'node:crypto';
+import { readdirSync, readFileSync, appendFileSync, writeFileSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { PRESETS, createScenarioVehicle } from '../../../src/core/scenarios';
+import { step } from '../../../src/core/step';
+import { DEFAULT_SEED, type SimState } from '../../../src/core/state';
+import { CATCH } from '../../../src/core/vehicles/super-heavy';
+import { createCatchPose, writeCatchPose } from '../../../src/core/physics/tower-catch';
+import * as C from '../../../src/core/constants';
+
+// esbuild define embeds the manifest BEFORE reading/bundling the source.
+declare const __SEPARATION_CORE_HASHES__: Record<string, string>;
+const expected = __SEPARATION_CORE_HASHES__;
+const root = resolve(process.env.SEP_ROOT ?? '');
+const output = process.env.SEP_OUTPUT;
+if (!process.env.SEP_ROOT || !output) throw new Error('SEP_ROOT and fresh SEP_OUTPUT required');
+if (process.versions.node.split('.')[0] !== '22') throw new Error('Node22 required');
+const digest = (bytes: string | Buffer) => createHash('sha256').update(bytes).digest('hex');
+function hashes(): Record<string, string> {
+  const entries: Record<string, string> = {};
+  function visit(dir: string): void {
+    for (const item of readdirSync(dir, { withFileTypes: true }).sort((a,b)=>a.name.localeCompare(b.name))) {
+      const path = resolve(dir, item.name);
+      if (item.isDirectory()) visit(path);
+      else if (item.isFile()) entries[relative(root,path)] = digest(readFileSync(path));
+      else throw new Error(`Unexpected core entry: ${path}`);
+    }
+  }
+  visit(resolve(root,'src/core'));
+  return entries;
+}
+function assertPinned(): Record<string,string> {
+  const current = hashes();
+  if (JSON.stringify(current) !== JSON.stringify(expected)) throw new Error('Core manifest mismatch; do not run/retry');
+  return current;
+}
+const beforeHashes = assertPinned();
+writeFileSync(output, '', { flag: 'wx' });
+const emit = (event: string, data: unknown) => appendFileSync(output, JSON.stringify({event,data})+'\n');
+const git = (...args: string[]) => execFileSync('git',args,{cwd:root,encoding:'utf8'}).trim();
+const preset=PRESETS.find(p=>p.id==='booster-sep');
+if(!preset)throw new Error('Missing preset');
+const flight=createScenarioVehicle(preset); // DEFAULT_SEED, no explicit override.
+const model=flight.vehicle;
+let state=flight.state;
+if(state.rng.seed!==DEFAULT_SEED || DEFAULT_SEED!==0x57414c4b)throw new Error('Default seed changed');
+state.autopilot.autoLandOn=true;
+const DT=1/120, MAX_TICKS=120*900;
+const lug=createCatchPose();
+function point(s:SimState) { writeCatchPose(s,model,lug);return {...lug}; }
+function snapshot(s:SimState) {
+  const {boosterSource,boosterPrediction,...autopilot}=s.autopilot;
+  return {time:s.world.environmentTime,lug:point(s),kinematics:s.kinematics,
+    vehicle:s.vehicle,forces:s.forces,atmosphere:s.atmosphere,engines:s.engines,
+    status:s.status,failures:s.failures,damage:s.damage,rng:s.rng,autopilot,
+    source:boosterSource?{lineageId:boosterSource.lineageId,revision:boosterSource.revision,
+      originTime:boosterSource.originTime,valid:boosterSource.valid,checked:boosterSource.checked,
+      expectedDt:boosterSource.expectedDt,event:boosterSource.event,
+      predictedTerminal:boosterSource.expected?.damage?.terminal}:null,
+    prediction:boosterPrediction?{stage:boosterPrediction.stage,iterations:boosterPrediction.iterations,
+      attemptedTicks:boosterPrediction.attemptedTicks,duration:boosterPrediction.duration,
+      sourceLineage:boosterPrediction.sourceLineage,originTime:boosterPrediction.origin.world.environmentTime,
+      done:boosterPrediction.done,lastCandidate:boosterPrediction.lastCandidate,selected:boosterPrediction.selected,
+      published:boosterPrediction.published,rollout:{steps:boosterPrediction.rollout.result.steps,
+        time:boosterPrediction.rollout.result.time,done:boosterPrediction.rollout.done}}:null};
+}
+function crossing(previous:SimState,current:SimState) {
+  const before=point(previous),after=point(current);
+  if(!(before.altitude>CATCH.planeAltitude && after.altitude<=CATCH.planeAltitude))return null;
+  const fraction=(before.altitude-CATCH.planeAltitude)/(before.altitude-after.altitude);
+  const p=previous.kinematics,k=current.kinematics;
+  const pitch=p.pitch+Math.atan2(Math.sin(k.pitch-p.pitch),Math.cos(k.pitch-p.pitch))*fraction;
+  const x=p.downRangeDistance+(k.downRangeDistance-p.downRangeDistance)*fraction
+    +(CATCH.lugStation-model.height/2)*Math.sin(pitch);
+  const speedX=before.speedX+(after.speedX-before.speedX)*fraction;
+  const speedY=before.speedY+(after.speedY-before.speedY)*fraction;
+  const groundHeight=model.height*Math.abs(Math.cos(k.pitch))/2+model.diameter*Math.abs(Math.sin(k.pitch))/2;
+  const finite=[x,pitch,speedX,speedY].every(Number.isFinite);
+  const gates={finite,lateralPosition:Math.abs(x-C.starBaseXPos)<=CATCH.halfWidth,
+    lateralSpeed:Math.abs(speedX)<=CATCH.maxLateralSpeed,
+    downSpeed:speedY<0 && speedY>=-CATCH.maxDownSpeed,pitch:Math.abs(pitch)<=CATCH.maxPitch,
+    aboveGround:k.altitude>groundHeight,noCrash:!current.failures.crashed,
+    noBreakup:!current.failures.inFlightBreakUp,noFuelRunOut:!current.failures.fuelRunOut};
+  return {fraction,pitch,xRelativeTower:x-C.starBaseXPos,speedX,speedY,groundHeight,gates,
+    eligible:Object.values(gates).every(Boolean),margins:{position:CATCH.halfWidth-Math.abs(x-C.starBaseXPos),
+      lateralSpeed:CATCH.maxLateralSpeed-Math.abs(speedX),downSpeed:speedY+CATCH.maxDownSpeed,
+      pitch:CATCH.maxPitch-Math.abs(pitch)}};
+}
+let seenIgnitionRequest=false,seenIgnitionCompletion=false;
+function transitions(previous:SimState,current:SimState):string[] {
+  const p=previous.autopilot,a=current.autopilot,out:string[]=[];
+  if(p.boosterPhase!==a.boosterPhase)out.push('phase');
+  if(!seenIgnitionRequest && current.engines.ignitionCountdown.some((v,i)=>v!==null && previous.engines.ignitionCountdown[i]===null)) {
+    seenIgnitionRequest=true;out.push('first-ignition-request');
+  }
+  if(!seenIgnitionCompletion && current.engines.running.some((v,i)=>v && !previous.engines.running[i])) {
+    seenIgnitionCompletion=true;out.push('first-ignition-completion');
+  }
+  if(p.boosterTerminalIgnitionTime===undefined && a.boosterTerminalIgnitionTime!==undefined)out.push('first-terminal-ignition');
+  if(!p.boosterTerminalMissed && a.boosterTerminalMissed)out.push('first-terminal-missed');
+  if(p.boosterArrivalTime===undefined && a.boosterArrivalTime!==undefined)out.push('first-arrival-horizon');
+  if((p.boosterArrivalTime??Infinity)>0 && a.boosterArrivalTime===0)out.push('horizon-expiry');
+  if(!previous.failures.fuelRunOut && current.failures.fuelRunOut)out.push('first-fuel-run-out');
+  if(JSON.stringify(previous.engines)!==JSON.stringify(current.engines)) {
+    // Countdown decrements are retained in terminal tick rows; log only mask changes/new requests globally.
+    if(JSON.stringify(previous.engines.running)!==JSON.stringify(current.engines.running)
+      || JSON.stringify(previous.engines.failed)!==JSON.stringify(current.engines.failed)
+      || current.engines.ignitionCountdown.some((v,i)=>v!==null && previous.engines.ignitionCountdown[i]===null))out.push('engine-event');
+  }
+  if(JSON.stringify(p.boosterReturnPlan)!==JSON.stringify(a.boosterReturnPlan))out.push('plan');
+  if(previous.damage?.revision!==current.damage?.revision)out.push('damage-revision');
+  if(p.boosterSource?.valid!==a.boosterSource?.valid || p.boosterSource?.lineageId!==a.boosterSource?.lineageId)out.push('source');
+  if(p.boosterPrediction?.stage!==a.boosterPrediction?.stage || p.boosterPrediction?.iterations!==a.boosterPrediction?.iterations)out.push('planner-stage');
+  return out;
+}
+emit('pin',{head:git('rev-parse','HEAD'),diffSha256:digest(execFileSync('git',['diff','--binary'],{cwd:root})),
+  node:process.version,platform:process.platform,architecture:process.arch,
+  bundleSha256:digest(readFileSync(process.argv[1])),coreHashes:beforeHashes,preset,modelId:model.id,
+  modelHeight:model.height,seed:state.rng.seed,dt:DT,maxTicks:MAX_TICKS,catch:CATCH,
+  caveat:'Research trace; no local gameplay/render/frame/performance/release acceptance'});
+emit('initial',snapshot(state));
+let firstPlane=false,reason='maximum-duration',ticks=0;
+const ring:string[]=[]; // Five seconds of exact adjacent live pre-terminal snapshots, bounded600 rows.
+try {
+  for(ticks=1;ticks<=MAX_TICKS;ticks++) {
+    const previous=state;
+    state=step(previous,DT,undefined,model);
+    const events=transitions(previous,state);
+    const terminal=!!state.damage?.terminal.active || state.failures.crashed || state.failures.inFlightBreakUp;
+    const caught=state.status.landed;
+    // A successful secureTowerCatch replaces post-crossing velocities with0;
+    // do not manufacture an incoming gate evaluation from that secured endpoint.
+    const contact=caught?null:crossing(previous,state);
+    if(!firstPlane && (contact || caught)) {
+      firstPlane=true;
+      emit(caught?'secured-catch':'first-plane-crossing',{tick:ticks,contact,
+        previous:snapshot(previous),current:snapshot(state),
+        caveat:caught?'Secured endpoint; incoming velocities are not recoverable from returned step':'Unsecured endpoints; exact production interpolation'});
+    }
+    if(events.length)emit('transition',{tick:ticks,events,previous:snapshot(previous),current:snapshot(state)});
+    if(ticks%120===0)emit('one-second',snapshot(state));
+    if(previous.autopilot.boosterPhase==='terminal' || state.autopilot.boosterPhase==='terminal')
+      emit('terminal-tick',{tick:ticks,previous:snapshot(previous),current:snapshot(state)});
+    ring.push(JSON.stringify({tick:ticks,previous:snapshot(previous),current:snapshot(state)}));
+    if(ring.length>600)ring.shift();
+    if(terminal || caught) {
+      reason=caught?'caught':state.failures.crashed?'crashed':'terminal-breakup';
+      emit('pre-terminal-ring',ring.map(row=>JSON.parse(row)));
+      emit('outcome',{reason,ticks,time:state.world.environmentTime,firstPlane,
+        previous:snapshot(previous),current:snapshot(state),
+        preRelease:state.damage?.terminal??null,
+        warning:'terminal retained propellant is event inventory; endpoint fuel0/failed masks cannot prove starvation'});
+      break;
+    }
+  }
+  if(reason==='maximum-duration')emit('outcome',{reason,ticks:MAX_TICKS,firstPlane,current:snapshot(state)});
+} finally {
+  emit('source-verification',{afterHashes:assertPinned(),unchanged:true});
+}

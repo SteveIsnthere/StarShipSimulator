@@ -1,0 +1,15 @@
+{
+  "kind": "lossless-frozen-manifest-reconstruction-v1",
+  "output": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/original-exact-facade-input-pins.reconstructed.json",
+  "sha256": "8b5a7b379ceccf484171d52492e3723dc44789864a13606dbc301a9b15e253f5",
+  "bytes": 3881,
+  "method": "Reverse only the single maker SHA substitution in newec72 manifest bytes; SHA matches original8b5a frozen independent review authority. Reconstruction explicitly labelled; not claimed as direct original-file copy.",
+  "sourceManifestPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/input-pins.json",
+  "sourceSha256": "ec72cf5698c6b8a2192843fa533f78dd16e200ddbb54c149d78062d0185c8b84",
+  "previousIndependentReviewPinsPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/independent-review-pins.json",
+  "retainedContinuationManifestUnchanged": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/input-pins.json",
+  "oldMakerPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/prepare-stage-input.py.txt",
+  "oldMakerSha256": "fa36cf5b4d088436a179b64d7786ae6a5753499d4c3d9af6a9b097d96dfd537e",
+  "originalGeneratedInputUnchanged": true,
+  "consumerUnchanged": true
+}

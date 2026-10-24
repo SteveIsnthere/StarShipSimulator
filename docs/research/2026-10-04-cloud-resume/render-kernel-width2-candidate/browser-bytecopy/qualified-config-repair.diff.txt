@@ -1,0 +1,23 @@
+--- docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/before-qualified-config-repair/prepare-browser-bytecopy.py.txt
++++ docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-bytecopy/prepare-browser-bytecopy.py.txt
+@@ -55,7 +55,10 @@
+ for proof in receipt.get('physicsProofs',[]):checked(repo/proof['path'],proof['sha256'])
+ for field,pin in [('nodeExecutable','nodeExecutableSha256'),('originalBrowser','originalBrowserSha256'),('actualBrowser','actualBrowserSha256'),('config','configSha256')]:checked(receipt[field],receipt[pin])
+ bundle_bytes=checked(origin/'bundle-copy-manifest.json',receipt['bundleManifestSha256']);bundle=json.loads(bundle_bytes);browser_root=pathlib.Path(bundle['copiedRoot'])
+-if sorted(str(f.relative_to(browser_root)) for f in tree_files(browser_root))!=sorted(row['path'] for row in bundle['files']):raise RuntimeError('Qualified browser bundle set drift')
++config_path=pathlib.Path(receipt['config'])
++if str(browser_root)!='/tmp/starship-fullchrome-worker.VB1uzYO9/browser' or config_path!=browser_root/'SwiftShader.ini' or (config_path.stat().st_mode&511)!=384:raise RuntimeError('Separately qualified configuration path/mode drift')
++expected_browser=sorted([row['path'] for row in bundle['files']]+['SwiftShader.ini'])
++if len(bundle['files'])!=303 or 'SwiftShader.ini' in [row['path'] for row in bundle['files']] or sorted(str(f.relative_to(browser_root)) for f in tree_files(browser_root))!=expected_browser:raise RuntimeError('Qualified browser bundle plus exact separate config set drift')
+ for row in bundle['files']:
+  file=browser_root/row['path'];data=checked(file,row['sha256'])
+  if len(data)!=row['bytes'] or (file.stat().st_mode&511)!=row['mode']:raise RuntimeError('Qualified browser file byte/mode drift')
+@@ -137,7 +140,7 @@
+  after_listed=sorted(p for p in after_listed if re.match(r'^(src/|tests/|scripts/|public/|\.agents/|\.nvmrc$|package[^/]*\.json$|[^/]*config\.[^/]+$)',p))
+  if after_listed!=listed:raise RuntimeError('Source set changed during copy')
+  if sorted(str(f.relative_to(repo/'dist')) for f in tree_files(repo/'dist'))!=[name for name,pin in expected_dist]:raise RuntimeError('Dist set changed during copy')
+- if sorted(str(f.relative_to(browser_root)) for f in tree_files(browser_root))!=sorted(row['path'] for row in bundle['files']):raise RuntimeError('Browser set changed during copy')
++ if sorted(str(f.relative_to(browser_root)) for f in tree_files(browser_root))!=expected_browser or (config_path.stat().st_mode&511)!=384:raise RuntimeError('Browser/config set or mode changed during copy')
+  for row in bundle['files']:
+   if ((browser_root/row['path']).stat().st_mode&511)!=row['mode']:raise RuntimeError('Browser mode changed during copy')
+  for name in ('playwright','playwright-core','typescript'):

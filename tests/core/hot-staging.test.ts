@@ -6,7 +6,7 @@ import { SHIP } from '$core/vehicle';
 import { SUPER_HEAVY, CENTRE_ENGINES } from '$core/vehicles/super-heavy';
 import { PRESETS } from '$core/scenarios';
 import { rad } from '$core/units';
-import { planetRadius, standardGravity, thrustPerRaptorAt } from '$core/constants';
+import { planetRadius, standardGravity } from '$core/constants';
 import { tangentialAcceleration, verticalGravityAcceleration } from '$core/physics/gravity';
 import { prepareDynamics, createStepDynamics } from '$core/physics/step-dynamics';
 import { toggleRaptor } from '$core/control/commands';
@@ -48,7 +48,7 @@ describe('physical attached hot staging', () => {
     expect(released.ship.engines.running.filter(Boolean)).toHaveLength(6);
   });
 
-  it('retains the original booster pose/load and places a full Ship above its touching hull', () => {
+  it('retains the original booster pose/load and places the selected Ship load above its touching hull', () => {
     const m = createHotStageMission(123);
     const p = PRESETS.find(p => p.id === 'booster-sep')!;
     expect(m.booster.kinematics.altitude).toBe(p.altitude);
@@ -66,9 +66,10 @@ describe('physical attached hot staging', () => {
   it('uses both actual masses and the parallel-axis inertia about the aggregate COM', () => {
     const m = createHotStageMission(123), properties = stackMassProperties(m.booster, m.ship);
     const mb = 700_000, ms = 1_320_000;
-    const cb = centreOfMass(500_000, SUPER_HEAVY), cs = 71 + centreOfMass(1_200_000, SHIP);
+    const cb = centreOfMass(500_000, SUPER_HEAVY), cs = 72 + centreOfMass(1_200_000, SHIP);
     const c = (mb * cb + ms * cs) / (mb + ms);
     expect(properties.mass).toBe(mb + ms);
+    expect(properties.centreX).toBe(0);
     expect(properties.centreStation).toBe(c);
     expect(properties.inertia).toBe(momentOfInertia(500_000, SUPER_HEAVY)
       + momentOfInertia(1_200_000, SHIP) + mb * (cb - c) ** 2 + ms * (cs - c) ** 2);
@@ -103,7 +104,7 @@ describe('physical attached hot staging', () => {
     for (const k of [initial.aggregate.kinematics, initial.booster.kinematics, initial.ship.kinematics]) k.altitude += 300_000_000;
     initial.booster.engines.running[1] = true; // Actual -0.65m central mount.
     const m = stepMission(initial, DT);
-    const torque = 0.65 * thrustPerRaptorAt(0) * initial.booster.vehicle.throttleCurrent * 0.01;
+    const torque = 0.65 * (250000 / 327 * standardGravity * 350) * initial.booster.vehicle.throttleCurrent * 0.01;
     const expectedAlpha = torque / stackMassProperties(m.booster, m.ship).inertia;
     expect(m.aggregate.kinematics.angularAcceleration).toBeCloseTo(expectedAlpha, 12);
     expect(m.aggregate.kinematics.angularAcceleration).toBeGreaterThan(0);

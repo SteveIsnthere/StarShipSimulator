@@ -1,0 +1,160 @@
+{
+  "kind": "width2-retained-qualification-lineage-v1",
+  "originalSetup": "/tmp/starship-render-kernel.2co6w1rl",
+  "originalQualifierSha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+  "originalInputManifestSha256": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e",
+  "originalFailurePath": "/tmp/starship-render-kernel.2co6w1rl/width2-qualification-outcome.json",
+  "originalRootOutcomePath": "/tmp/starship-width2-root.75nncpcy/root-outcome.json",
+  "originalFailureStatus": "FAILED child1 retained224 partial mapped sources; no reinterpretation",
+  "compiledFiles": [
+    [
+      "BufferResource-uMLrSSVl.js",
+      "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24"
+    ],
+    [
+      "BufferResource-uMLrSSVl.js.map",
+      "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2"
+    ],
+    [
+      "CanvasPool-4lFBuryO.js",
+      "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55"
+    ],
+    [
+      "CanvasPool-4lFBuryO.js.map",
+      "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d"
+    ],
+    [
+      "Geometry-CYPxRocb.js",
+      "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8"
+    ],
+    [
+      "Geometry-CYPxRocb.js.map",
+      "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58"
+    ],
+    [
+      "RenderTargetSystem-Bs_X-W5p.js",
+      "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845"
+    ],
+    [
+      "RenderTargetSystem-Bs_X-W5p.js.map",
+      "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8"
+    ],
+    [
+      "browserAll-D5DBqH_a.js",
+      "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370"
+    ],
+    [
+      "browserAll-D5DBqH_a.js.map",
+      "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85"
+    ],
+    [
+      "canvasUtils-B52VJkLn.js",
+      "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988"
+    ],
+    [
+      "canvasUtils-B52VJkLn.js.map",
+      "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81"
+    ],
+    [
+      "getTextureBatchBindGroup-9HBchnv9.js",
+      "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260"
+    ],
+    [
+      "getTextureBatchBindGroup-9HBchnv9.js.map",
+      "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1"
+    ],
+    [
+      "init--pTYeZJt.js",
+      "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77"
+    ],
+    [
+      "init--pTYeZJt.js.map",
+      "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7"
+    ],
+    [
+      "init-Dz7_hNy6.js",
+      "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303"
+    ],
+    [
+      "init-Dz7_hNy6.js.map",
+      "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6"
+    ],
+    [
+      "kernel.js",
+      "6422a541cace2003317dbee2f7f92c11ca0d33b9b57a418d4a20d6d6409619fe"
+    ],
+    [
+      "kernel.js.map",
+      "0e5eb77f02654babc69cf8a9dcb5adb217d2bd256a78b4320b259f86a5ebb82d"
+    ],
+    [
+      "webworkerAll-DXoAr3HC.js",
+      "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8"
+    ]
+  ],
+  "expectedCompleteFiles": 21,
+  "expectedCompleteMaps": 10,
+  "expectedCompleteSources": 492,
+  "exactAdditionalRegionLabel": {
+    "before": "//#region docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-entry.ts",
+    "after": "//#region docs/research/2026-10-04-cloud-resume/render-kernel-width2-entry.ts",
+    "count": 1
+  },
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/compile-input-pins.json": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e",
+    "/tmp/starship-render-kernel.2co6w1rl/width2-qualification-outcome.json": "815d67aa5a3c71b7eec42a5917653d2defa3e4cd700a0c9039bace61a8f426e6",
+    "/tmp/starship-render-kernel.2co6w1rl/width2-preparation.json": "3b7724e6d7651a7693ffb5126d5fb6e0ef2a5879005567fa7c73da671bfccf76",
+    "/tmp/starship-render-kernel.2co6w1rl/setup-receipt.json": "8e130fbf80ac7d752f5d0c5bbfa8db553bde743d9cb515ac1d29b1b579791e6f",
+    "/tmp/starship-render-kernel.2co6w1rl/kernel-build-before.json": "384c839ad0fbe875eaa03aac9f0263922dfb8561f0e591d840298f940b7f2d65",
+    "/tmp/starship-render-kernel.2co6w1rl/kernel-build-after.json": "384c839ad0fbe875eaa03aac9f0263922dfb8561f0e591d840298f940b7f2d65",
+    "/tmp/starship-render-kernel.2co6w1rl/kernel-build-result.json": "563ddca8f4b87df0b31b868022f289e67c45a8f4cd0ff966439c5ee62417a4d7",
+    "/tmp/starship-render-kernel.2co6w1rl/vite-build.process.json": "ecdd284584759d837e7e2e871ac30cf0c414fefa5087f15b2f12e30498f17e9d",
+    "/tmp/starship-render-kernel.2co6w1rl/vite-build.stdout.txt": "bdead4db0a39ec521acfedbf69aae2e45dbc2af79dd4c7a11a58191f9b62d862",
+    "/tmp/starship-render-kernel.2co6w1rl/vite-build.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-width2-root.75nncpcy/root-outcome.json": "3f7806c725369385f6e29a3837334292cb44afee0487d2f9ab34382f4300ed67",
+    "/tmp/starship-width2-root.75nncpcy/actual-outer-exit.json": "a99f1c3a7b820ea0ca4c936c0048178e266a13712fa767228b1fb59e2a239766",
+    "/tmp/starship-width2-stage.3wUEl8/stage-result.json": "d04a7c6a49b2ab1c0f43578154d18012e91edd9904081062de04c089b7ccd22e",
+    "/tmp/starship-width2-stage.3wUEl8/preparation.process.json": "e802e5d7eb289e863fbb1a0f82eb1239adc2f0e71cf826968cda89ef0505a4d7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/owner-input.json": "d3d207a14cf140dc964b5138607f32e0c1216fa141e74be8a781ac2fce0cafb0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/observer-os-exit.json": "915a2fb7cb5886d8720b4db07856d5c7a5877ef47c8fbaf346415dbc389ba204",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/invocation.json": "e8f3b3bdf4d76b6eb6c2f3d6ae9aecd790f34419b072b17128a18289dd404a84",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/stdout.txt": "a83d8ebd97426245f31b0a58d7bbedc2fcf10026f4400f6f10afe120da4d0957",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-parent/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-width2-root.rcwfikl2/root-outcome.json": "e077dcb342552a99f6ead4e3eda9ae48297051929c6519a1cdd26907b437c29b",
+    "/tmp/starship-width2-root.rcwfikl2/actual-outer-exit.json": "3bfc4b0229724e5bed1fb34f4d00c67f8ff6dc3736c5d03d79665afa5f88cad3",
+    "/tmp/starship-width2-root.rcwfikl2/actual-outer-exit-final.json": "b1db7bd4761cef9713a1c4f11f55d31c66a49a97d7069c0b3a21a8049a5e7ef4",
+    "/tmp/starship-width2-root.rcwfikl2/identities.jsonl": "ab0266b6d070d7fb1d34607c01750d52197b4a09b07ceabec74155d9823611f4",
+    "/tmp/starship-width2-stage.q28VdJ/stage-result.json": "1116359b3b47663bcfe216115223efb2202effb1e5fe966d50698783e3c3467d",
+    "/tmp/starship-width2-stage.q28VdJ/actual-child-exit.json": "a005eb73b6319999818ef215045039b3a3b249db026f49499e5539606e13b346",
+    "/tmp/starship-width2-stage.q28VdJ/preparation.process.json": "a78d711ed374c824850dd9c5ac3ca02466d9798f67f474de13522dae3327c58b",
+    "/tmp/starship-render-kernel.2co6w1rl/executed-build-owner.mjs.txt": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-width2-build-independent-actual-result-review.md": "dd65a73d91e9cb6291134bd030871efd2bbad4c72d4e9fb977d3f1d7bb320689",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-width2-build-independent-actual-result-review-pins.json": "ba7fd822ae086ee50735e674ba8922c82e330de0846faf20dbd954282b6476ca",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/BufferResource-uMLrSSVl.js": "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/BufferResource-uMLrSSVl.js.map": "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/CanvasPool-4lFBuryO.js": "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/CanvasPool-4lFBuryO.js.map": "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/Geometry-CYPxRocb.js": "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/Geometry-CYPxRocb.js.map": "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/RenderTargetSystem-Bs_X-W5p.js": "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/RenderTargetSystem-Bs_X-W5p.js.map": "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/browserAll-D5DBqH_a.js": "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/browserAll-D5DBqH_a.js.map": "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/canvasUtils-B52VJkLn.js": "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/canvasUtils-B52VJkLn.js.map": "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/getTextureBatchBindGroup-9HBchnv9.js": "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/getTextureBatchBindGroup-9HBchnv9.js.map": "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/init--pTYeZJt.js": "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/init--pTYeZJt.js.map": "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/init-Dz7_hNy6.js": "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/init-Dz7_hNy6.js.map": "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/kernel.js": "6422a541cace2003317dbee2f7f92c11ca0d33b9b57a418d4a20d6d6409619fe",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/kernel.js.map": "0e5eb77f02654babc69cf8a9dcb5adb217d2bd256a78b4320b259f86a5ebb82d",
+    "/tmp/starship-render-kernel.2co6w1rl/compiled/webworkerAll-DXoAr3HC.js": "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/qualify-retained-width2.mjs.txt": "a0b68dacc9b60a5ddfc4b562547efb71eb460a74ea6f5dcba700b7059c5c646c"
+  },
+  "compilerRetry": false,
+  "applicationBuild": false,
+  "browserLaunch": false
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "bash",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards/run.sh.txt"
+  ],
+  "review": "fa80fb7812d4e2b01f56965257e2d5dbf106cb2fd0ffc7d8d8a3d1f07e0b6f48",
+  "reviewPins": "2882c5d9e931fffdacd39ff4e38e111874178b2b5a52da9d4b76f11e86ca9058",
+  "inputManifest": "0a24b76f6907b5326d8ad3a1aeaeb3d69fa0cfa68f12bda203ca9944ec777d45",
+  "parentSourceSha256": "49a9a2941a079d31e564ed23d3c8a6a62c6a07307cda8f29a9f0fbc80e44e9e3",
+  "receiptPrefixFromLauncher": "receipt-paired-",
+  "childBoundSeconds": 900,
+  "externalBoundSeconds": 930,
+  "outputCapBytes": 2097152,
+  "observationIntervalSeconds": 0.1,
+  "identityCap": 4096,
+  "cpuExclusive": true
+}

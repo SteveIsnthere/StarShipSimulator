@@ -1,0 +1,13 @@
+{
+  "kind": "independent-metadata-only-high-review",
+  "manifestSha256": "45aca13aeca8ef1df4e5715b07fca81453a125c2be09b1869f3244bb95f2e762",
+  "transferSha256": "f353bda1c99474563e09e298c14148f2ccf679dd295b28f2c3786600588c6fdb",
+  "all12InputPinsIndependentlyExact": true,
+  "soleKeyReplacement": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-final-whole-bound/root-observer.py.txt",
+  "fallbackImmutableSha256": "80a60579ac88d360f8739af5823d25fcfb9fd8beb1189e4d856912d7188dc892",
+  "fallbackBlockByteExactToCurrentBrowserOwner": true,
+  "fallbackBlockSha256": "581e8e40cca5471d1639946d4222de43bd46a042ff98c3767492adde367bcf78",
+  "observerStageMakerFactsUnchanged": true,
+  "oldUnexecutedInputIneligiblePreserved": "fd348d69a9de49242c8771fffcd09c2d69478d34fda4b6bb9e966b34039b0858",
+  "disposition": "one-new-maker-only then actual-generated-input review; no repeat unchanged executable scopes; no workload yet"
+}

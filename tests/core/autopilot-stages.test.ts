@@ -22,6 +22,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import * as C from '$core/constants';
+import { SHIP } from '$core/vehicle';
 import { rad, type Rad } from '$core/units';
 import {
   autoBoostBack,
@@ -288,9 +289,8 @@ describe('the final descent compensates for which engines are lit', () => {
    * With an asymmetric engine set the thrust does not act through the
    * centreline, so the controller biases its steering to compensate — a
    * different bias per configuration (-0.8, +0.8, +0.72, 0). At these attitudes
-   * the yoke SATURATES, so the discriminating signal is the sign of the
-   * command, not its size: magnitude compares equal across branches and would
-   * prove nothing.
+   * the discriminating signal is the sign of the delivered gimbal command,
+   * rather than its size; V3 need not saturate to retain this steering intent.
    */
   function steeringFor(running: [boolean, boolean, boolean]): number {
     const s = createInitialState();
@@ -304,7 +304,10 @@ describe('the final descent compensates for which engines are lit', () => {
     s.kinematics.downRangeDistance = 0;
     s.autopilot.finalDescentStageInitialised = true;
     s.status.rcsActive = true;
-    s.forces.thrust = 0;
+    // Supply the running engines' delivered Raptor3 thrust so the assertion
+    // observes signed gimbal intent, rather than an unsaturated RCS command
+    // (whose pitch slider correctly stays neutral).
+    s.forces.thrust = running.filter(Boolean).length * 250_000 * C.standardGravity * 350 / 327;
     s.kinematics.pitch = rad(0) as Rad;
     s.kinematics.angularVelocity = 0;
     return s.autopilot.pitchControl === 0
@@ -360,7 +363,7 @@ describe('the final descent compensates for which engines are lit', () => {
     const s = litCount(3);
     cmd.toggleAutoLand(s);
     s.autopilot.finalDescentStageInitialised = true;
-    s.kinematics.altitude = C.vehicleHeight * 0.5;
+    s.kinematics.altitude = SHIP.height * 0.5;
     s.kinematics.speedY = -0.1;
 
     finalDescentStageController(s, 1 / 60);
@@ -376,7 +379,7 @@ describe('the final descent compensates for which engines are lit', () => {
     // The demo landing supplies its own hook; this is the branch that lets it.
     const s = litCount(3);
     s.autopilot.finalDescentStageInitialised = true;
-    s.kinematics.altitude = C.vehicleHeight * 0.5;
+    s.kinematics.altitude = SHIP.height * 0.5;
     let called = 0;
     finalDescentStageController(s, 1 / 60, -5, () => {
       called += 1;
@@ -391,21 +394,26 @@ describe('the final descent compensates for which engines are lit', () => {
     // points the vehicle upright.
     const high = litCount(3);
     high.autopilot.finalDescentStageInitialised = true;
-    high.kinematics.altitude = C.vehicleHeight * 0.5 + C.noSteeringHeight + 100;
+    high.forces.thrust = 3 * 250_000 * C.standardGravity * 350 / 327;
+    high.kinematics.altitude = SHIP.height * 0.5 + C.noSteeringHeight + 100;
     high.kinematics.downRangeDistance = 500;
+    // The final-stage law regulates horizontal speed, not position directly.
+    // At its 5 m/s correction threshold a vehicle moving away needs steering.
+    high.kinematics.speedX = 5;
     high.autopilot.landingSiteXPos = 0;
     finalDescentStageController(high, 1 / 60);
 
     const low = litCount(3);
     low.autopilot.finalDescentStageInitialised = true;
-    low.kinematics.altitude = C.vehicleHeight * 0.5 + 1;
+    low.kinematics.altitude = SHIP.height * 0.5 + 1;
     low.kinematics.downRangeDistance = 500;
+    low.kinematics.speedX = 5;
     low.autopilot.landingSiteXPos = 0;
     low.kinematics.pitch = rad(0) as Rad;
     finalDescentStageController(low, 1 / 60);
 
     // Upright and on target, the low case commands essentially nothing;
-    // the high case is still trying to close 500 m of downrange error.
+    // the high case is still arresting motion away from the landing site.
     expect(Math.abs(low.autopilot.pitchControl)).toBeLessThan(
       Math.abs(high.autopilot.pitchControl),
     );
@@ -746,10 +754,10 @@ describe('the descent shutdown threshold is what separates demo from real', () =
       // something to do when it is consulted.
       // M11.2: the controller reads thrust at the state's ambient pressure,
       // which a hand-built state carries as 0 (vacuum) until a step sets it.
-      s.vehicle.vehicleMass =
-        (3 * C.thrustPerRaptorAt(s.atmosphere.airPressure) * C.throttleLowerLimit * 0.01) /
-        C.gravity /
-        2;
+      const mass = (3 * 250_000 * C.standardGravity * 350 / 327 * C.throttleLowerLimit * .01) / C.gravity / 2;
+      // Retained mass is owned by hardware and fuel, not this cached field.
+      s.vehicle.propellantMass = mass - SHIP.dryMass;
+      s.vehicle.vehicleMass = mass;
       finalDescentStageController(s, 1 / 60, threshold);
       return s.engines.running.filter(Boolean).length;
     }

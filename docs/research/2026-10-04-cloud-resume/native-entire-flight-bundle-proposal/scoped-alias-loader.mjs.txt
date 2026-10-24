@@ -1,0 +1,27 @@
+import { registerHooks } from 'node:module';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+// Materialized qualification-specific manifest is required. No product source loader is replaced.
+const manifest=JSON.parse(readFileSync(new URL('./native-flight-manifest.json',import.meta.url),'utf8'));
+const digest=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
+assert.equal(manifest.kind,'native-entire-flight-qualified-graph-v1');
+assert.equal(manifest.node,process.version);
+for(const [file,sha] of Object.entries(manifest.inputs))assert.equal(digest(file),sha,'Stale native qualification input '+file);
+const parents=new Set(manifest.originalTestFiles.map(file=>pathToFileURL(file).href));
+assert.equal(parents.size,2);
+const expected=['$core/scenarios','$core/state','$core/autopilot/booster','$core/step','$core/vehicles/super-heavy',
+ '$core/physics/tower-catch','$core/constants','$core/control/commands','$core/vehicle','$app/loop'];
+assert.deepEqual(Object.keys(manifest.aliases).sort(),expected.sort());
+for(const file of Object.values(manifest.aliases))assert(path.isAbsolute(file)&&Object.hasOwn(manifest.inputs,file));
+registerHooks({resolve(specifier,context,nextResolve){
+ if(Object.hasOwn(manifest.aliases,specifier)){
+  assert(parents.has(context.parentURL),'Native alias requested outside two original isolated test modules');
+  return {url:pathToFileURL(manifest.aliases[specifier]).href,shortCircuit:true};
+ }
+ // Unknown application aliases fail explicitly; builtin/Vitest/relative graph imports retain public native behavior.
+ if(/^\$(core|app|view|hud|ui|audio)\//.test(specifier))throw Error('Unqualified native alias '+specifier);
+ return nextResolve(specifier,context);
+}});

@@ -1,0 +1,42 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/camera-follow.test.ts (4 tests | 1 failed) 26ms
+   × frames the real attached stack readably while retaining its whole hull extent 22ms
+ ❯ |unit| tests/view/vehicle-detail.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/vehicle-detail.test.ts [ tests/view/vehicle-detail.test.ts ]
+Error: Cannot find module '$view/vehicle-detail' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/view/vehicle-detail.test.ts
+ ❯ tests/view/vehicle-detail.test.ts:3:1
+      1| import { expect, it } from 'vitest';
+      2| import { Texture } from 'pixi.js';
+      3| import { createVehicleDetail } from '$view/vehicle-detail';
+       | ^
+      4| import { createBoosterVehicle } from '$view/booster';
+      5| import { createVehicle } from '$view/vehicle';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/camera-follow.test.ts > frames the real attached stack readably while retaining its whole hull extent
+AssertionError: a real stack should occupy enough of the frame to read its separation: expected 66.18519471906944 to be greater than 180
+ ❯ tests/ui/camera-follow.test.ts:62:97
+     60|   expect(top).toBeGreaterThan(720 * 0.1);
+     61|   expect(bottom).toBeLessThan(720 * 0.9);
+     62|   expect(bottom - top, 'a real stack should occupy enough of the frame…
+       |                                                                                                 ^
+     63| });
+     64|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  1 failed | 3 passed (4)
+   Start at  10:45:48
+   Duration  412ms (transform 179ms, setup 0ms, import 179ms, tests 26ms, environment 0ms)
+

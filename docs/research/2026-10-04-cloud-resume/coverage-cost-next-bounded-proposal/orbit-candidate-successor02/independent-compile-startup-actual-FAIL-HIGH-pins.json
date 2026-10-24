@@ -1,0 +1,38 @@
+{
+  "kind": "independent-orbit18-compile-startup-failure-review-v1",
+  "scope": "failure-and-cleanup-only",
+  "files": {
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-47aeac2e777e4ddb8959359ca9613b5d/input.json": "9e6a37b2d67a156a949dd9659f086e88d8b30b891af95bb1c60d6f787bfdeca6",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-47aeac2e777e4ddb8959359ca9613b5d/root-input.json": "4973fb79994aef03a8029f5afdde73d6cf6dd72a7af6035f8aa3ffa8c0b3b713",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-47aeac2e777e4ddb8959359ca9613b5d/owner.mjs": "b70cdde40172abdd8f0fbb77d775d2ddfc328c12ed9376498d2fdc78b47c6e26",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/owner.mjs.txt": "b70cdde40172abdd8f0fbb77d775d2ddfc328c12ed9376498d2fdc78b47c6e26",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/root-observer.py.txt": "aea096e18004710d7296cdd1e941428061f7fce3f037e46f61f229b4fd2a6785",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/input-pins.json": "63ce2b9a95dd99f912afdbbaecdea554f247e86c0b59523f720338c15a4268fa",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/root-compile-result.json": "a976a46dde49a820cd486d35c1e7f747ab66eb30389b6b4eb681e92c550b97e9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/root-compile-registration.json": "ae52e600b51af2f14d9b54cfb6b84f57e8f0b4797a64cc0f890d5ca0cc96eeb9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/root-compile.stdout.txt": "f5524333d3e3a3fdba6957ec78e84e8ef4568013816eb278d3611dc9d9b165ee",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/root-compile.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/independent-compile-actual-input-HIGH-review.md": "b9685aa6855de87fc3f424734870a5212910458261d0656f2edfa41d68da09d4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/independent-compile-actual-input-HIGH-pins.json": "d9d08b2e780f8725fcacf05924d55a62b7ecb8db84768b285b576f8c90ff74d4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/independent-successor02-compile-source-HIGH-review.md": "86f3afd1ec92446399e1f660ddfee3049b57f45b912d0d27fffe26245f3694bf",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/outer.stderr.txt": "937694a7c52bf86f39fdbc0c8c9f68389e4d05930657d9bc62197e5f976d8a04",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/outer.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/root-outcome.json": "a6f7d38d768b7fbb114d11690561e557b2579c01fa81ac3f1681409509126004",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/root-independent-postexit.json": "ff2f455fb50309eabee31cad72339a751edf51b7948be92701fe8e0563901045",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/identities.jsonl": "5820d4daa8218964ff1f85c6d5e5c8f34da4cc0310de8e34655fde8d120fdd52",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/executed-owner.mjs.txt": "b70cdde40172abdd8f0fbb77d775d2ddfc328c12ed9376498d2fdc78b47c6e26",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/actual-outer-exit.json": "1100222490b9b61ae1bff372fc53fd671339d34ce6752dbbb807e87d2a0f7910",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/actual-outer-exit-final.json": "d6cbe827e8a5226ca30caeb10f4e9dee7b0099812f3a0c6c0417d750dd506a36",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/actual-outer-exit-final-independent.json": "16cb605b2917e0f208cd1058a98024638882dbd9dda7c96f03cb2d811865d761",
+    "/tmp/starship-orbit18-qualification-root.ahu2fbaa/outer-registration.json": "a1ca62b210f389bcb2c130ce4d2655de211ce2dc0bcf71538f625426830bbc05",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-candidate-successor02/independent-compile-startup-actual-FAIL-HIGH-review.md": "a87768304a2accaad3583bdb6258a73f7db4c8e7572830474295f0194ce27048"
+  },
+  "absence": [
+    "owner-result.json",
+    "selected-before.json",
+    "complete-before.json",
+    "loader-controls.process.json",
+    "native-build.process.json"
+  ],
+  "evidenceDirectoryEmpty": true
+}

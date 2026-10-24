@@ -1,0 +1,30 @@
+{
+  "finalized": true,
+  "status": "pass",
+  "failure": null,
+  "completed": 500,
+  "recipe": {
+    "warmIterations": 50,
+    "measuredIterations": 500,
+    "cells": 64,
+    "samplingIntervalUs": 100,
+    "softDiagnosticBoundMs": 25000
+  },
+  "verified": {
+    "controlIterations": 16,
+    "counts": {
+      "totalNodes": 1104,
+      "totalEdges": 17509,
+      "immutableProbeVisits": 115,
+      "immutableTrueHits": 32,
+      "immutableFalseHits": 0
+    },
+    "negativeSignedZeroDenied": true
+  },
+  "originalDigest": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+  "executingDigest": "891c440453f23579243bccfec0302f5a423074d0e0961eff35a63c24ff1e92a0",
+  "physicalImports": 0,
+  "physicalTicks": 0,
+  "backend": "same locked vite-node SSR as full-flight comparator",
+  "acceptance": "unchanged comparator puregraph samples only; no physical trajectory/timing acceptance"
+}

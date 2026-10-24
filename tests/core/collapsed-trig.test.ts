@@ -18,6 +18,7 @@
  * still the 2021 ones.
  */
 import * as legacy from '../proofs/fixtures/legacy-ladders';
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
 import { describe, expect, it } from 'vitest';
 import * as comp from '$core/physics/components';
 import {
@@ -91,7 +92,7 @@ describe('the shipped coefficient is the single expression', () => {
   it('the seventh ladder, inlined in primitives, is collapsed too', () => {
     const running = [true, true, true];
     for (const angle of ANGLES) {
-      expect(getEffectiveVerticalMaxThrust(running, angle, 0)).toBe(
+      expect(getEffectiveVerticalMaxThrust(running, angle, 0, rad(0), HISTORICAL_SHIP)).toBe(
         3 * RAPTOR_THRUST_VACUUM * Math.cos(angle),
       );
     }
@@ -113,8 +114,8 @@ describe('the 2021 ladders are still here, and still 2021', () => {
       ANGLES.some(
         (a) =>
           !Object.is(
-            getEffectiveVerticalMaxThrust(running, a, 0),
-            legacy.legacyEffectiveVerticalMaxThrust(running, a, 0),
+            getEffectiveVerticalMaxThrust(running, a, 0, rad(0), HISTORICAL_SHIP),
+            legacy.legacyEffectiveVerticalMaxThrust(running, a, 0, HISTORICAL_SHIP),
           ),
       ),
     ).toBe(true);

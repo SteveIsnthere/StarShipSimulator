@@ -1,0 +1,53 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/skin-glow.test.ts (2 tests | 2 failed) 5ms
+     × keeps hot skin visible with no atmospheric plasma and removes both when cold 3ms
+     × changes skin glow at equal flux while preserving windward direction and paused time 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/skin-glow.test.ts > independent skin and plasma controls > keeps hot skin visible with no atmospheric plasma and removes both when cold
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/view/skin-glow.test.ts:16:33
+     14|     const sheath = createSheath();
+     15|     sheath.set(0, 1, 0, 0, 1);
+     16|     expect(sheath.mesh.visible).toBe(true);
+       |                                 ^
+     17|     sheath.set(0, 1, 0, 0, 0);
+     18|     expect(sheath.mesh.visible).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/view/skin-glow.test.ts > independent skin and plasma controls > changes skin glow at equal flux while preserving windward direction and paused time
+AssertionError: expected undefined to be +0 // Object.is equality
+
+- Expected:
+0
+
++ Received:
+undefined
+
+ ❯ tests/view/skin-glow.test.ts:29:35
+     27|     sheath.set(0.4, 1, 0, 12, 0);
+     28|     expect(uniforms.uStrength).toBe(0.4);
+     29|     expect(uniforms.uSurfaceGlow).toBe(0);
+       |                                   ^
+     30|     sheath.set(0.4, -1, 0, 12, 1);
+     31|     expect(uniforms.uStrength).toBe(0.4);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  08:27:28
+   Duration  257ms (transform 51ms, setup 0ms, import 156ms, tests 5ms, environment 0ms)
+

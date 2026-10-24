@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-detachment.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-detachment.test.ts [ tests/core/damage-detachment.test.ts ]
+Error: Cannot find module '$core/physics/damage-detachment' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/damage-detachment.test.ts
+ ❯ tests/core/damage-detachment.test.ts:7:1
+      5| import { createDamageState, ComponentFailure, type DamageState } from …
+      6| import { rad } from '$core/units';
+      7| import { createDetachmentScratch, detachComponents, type PhysicalCOMPo…
+       | ^
+      8|
+      9| // Independent whole-system construction: no production mass-writer ca…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  14:36:35
+   Duration  309ms (transform 134ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

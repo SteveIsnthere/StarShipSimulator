@@ -22,6 +22,7 @@
  * pause, respects warp exactly, and is deterministic under replay.
  */
 import * as C from '../constants';
+import { engineThrust } from '../physics/propulsion';
 import { SHIP, type VehicleDefinition } from '../vehicle';
 import { runBoosterAutopilot } from './booster';
 import { runBoosterUtilities } from './booster-utilities';
@@ -38,7 +39,9 @@ import {
   getWorkingEngineCount,
   getWorkingSeaLevelCount,
 } from '../physics/engines';
-import { createMassProperties, writeMassProperties } from '../physics/mass';
+import { createMassProperties } from '../physics/mass';
+import { createDamageMassProperties } from '../physics/damage-mass';
+import { writeFlightMassQuery } from '../physics/flight-mass-query';
 import type { SimState } from '../state';
 import { rad } from '../units';
 import { finalDescentStartAltitude, plannedEngineCount, triggerBurnAltitude } from './landing-burn';
@@ -48,6 +51,7 @@ const toggleFin = cmd.toggleFin;
 
 /** M11.8 — the arms for the estimate in hand; written before read. */
 const flipArms = createMassProperties();
+const retained = createDamageMassProperties();
 
 /** autoPilotModes.js:1 — hold the current attitude. */
 export function pitchHold(state: SimState): void {
@@ -285,7 +289,7 @@ export function autoLand(state: SimState, dt: number): void {
 
 /** autoPilotModes.js:194 — how high to start the flip, worst case. */
 function updateBellyFlopTriggerAltitude(state: SimState): void {
-  const { autopilot, kinematics, vehicle } = state;
+  const { autopilot, kinematics } = state;
   // Read only below the ceiling (aeroDescentController); not worth computing above it.
   if (kinematics.altitude >= C.flipTriggerCeiling) return;
 
@@ -301,12 +305,24 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
   // the propellant since this milestone, and pairing a variable inertia with a
   // fixed arm made this estimate 10-13% short — it sets the belly-flop trigger
   // altitude, so short here means the margin it exists to provide.
-  writeMassProperties(vehicle.propellantMass, flipArms);
-  const flipStagePessimisticAcc = getAngularAcceleration(
-    C.flipStagePessimisticAvailableThrust,
-    flipArms.engineArm,
-    vehicle.vehicleMomentOfInertia,
-  );
+  writeFlightMassQuery(state, SHIP, retained, flipArms);
+  // Future supported, healthy engines, after the paid ignition delay below.
+  // Preserve the existing minimum-throttle torque estimate for an intact ship.
+  const flipEngines = retained.engineSupportAvailable
+    ? Math.min(C.flipStageEngineCount, getHealthySeaLevelCount(state.engines.failed)) : 0;
+  const flipStagePessimisticAcc = flipEngines > 0 && retained.momentOfInertia > 0 && flipArms.engineArm > 0
+    ? getAngularAcceleration(
+      flipEngines * engineThrust(SHIP.propulsion, 'sea-level', C.SEA_LEVEL_PRESSURE_PA / 1000)
+        * C.throttleLowerLimit * .01,
+      flipArms.engineArm,
+      retained.momentOfInertia,
+    ) : 0;
+  if (!(flipStagePessimisticAcc > 0)) {
+    // Unavailable capability is a sentinel, including zero descent speed;
+    // do not let 0*Infinity manufacture a NaN trigger at that boundary.
+    autopilot.bellyFlopTriggerAltitude = Infinity;
+    return;
+  }
   const flipStagePessimisticDuration =
     Math.sqrt((((Math.PI / 2 + C.flipGoalAngle) / 2 / flipStagePessimisticAcc) * 2)) * 2;
 
@@ -318,7 +334,7 @@ function updateBellyFlopTriggerAltitude(state: SimState): void {
     autopilot.finalStagePessimisticAltitude +
     -kinematics.speedY * (flipStagePessimisticDuration + IGNITION_DELAY_MAX_S) -
     C.horizontalAdjustmentVerticalSpeedLimit * horizontalAdjustmentDurationEstimate +
-    C.vehicleHeight / 2;
+    SHIP.height / 2;
 }
 
 /** autoPilotModes.js:222 — glide belly-down, steering toward the pad. */
@@ -416,7 +432,7 @@ function horizontalAdjustmentStageController(state: SimState): void {
   autopilot.finalStagePessimisticAltitude = finalDescentStartAltitude(state);
 
   autopilot.horizontalAdjustmentTimeLeft =
-    (kinematics.altitude - autopilot.finalStagePessimisticAltitude - C.vehicleHeight / 2) /
+    (kinematics.altitude - autopilot.finalStagePessimisticAltitude - SHIP.height / 2) /
     -kinematics.speedY;
 
 
@@ -475,10 +491,10 @@ export function finalDescentStageController(
 
   if (!autopilot.finalDescentStageInitialised) autopilot.finalDescentStageInitialised = true;
 
-  autopilot.distanceToGround = kinematics.altitude - C.vehicleHeight * 0.5;
+  autopilot.distanceToGround = kinematics.altitude - SHIP.height * 0.5;
 
   // steering
-  if (kinematics.altitude > C.vehicleHeight * 0.5 + C.noSteeringHeight) {
+  if (kinematics.altitude > SHIP.height * 0.5 + C.noSteeringHeight) {
     const [n1, n2, n3] = engines.running;
     if (n1 && !n2 && !n3) {
       prim.horizontalSteering(state, -0.8, rad(C.adjustmentMaxAngle / 2), 5, 0.7);
@@ -499,9 +515,11 @@ export function finalDescentStageController(
 
   const nominalTarget = -autopilot.distanceToGround / 3 - 0.1;
   const weight = localGravity(state);
-  const brakingAcceleration = prim.getEffectiveVerticalMaxThrust(
-    engines.running, vehicle.gimbalPointingDirection, state.atmosphere.airPressure, kinematics.pitch,
-  ) / vehicle.vehicleMass - weight;
+  writeFlightMassQuery(state, SHIP, retained);
+  const brakingAcceleration = (retained.engineSupportAvailable && retained.hasMass
+    ? prim.getEffectiveVerticalMaxThrust(
+      engines.running, vehicle.gimbalPointingDirection, state.atmosphere.airPressure, kinematics.pitch,
+    ) / retained.totalMass : 0) - weight;
   const brakingSpeed = Math.sqrt(2 * Math.max(0, brakingAcceleration) * Math.max(0, autopilot.distanceToGround));
   if (!onTouchdown && brakingAcceleration > 0 && -nominalTarget > brakingSpeed) {
     // Phase 6b descent braking, retained with the Task 5 throttle fix: distance/3 can ask a lone engine to
@@ -518,7 +536,7 @@ export function finalDescentStageController(
   }
 
   // checkIfTD
-  if (kinematics.altitude <= C.vehicleHeight * 0.5 + 0.05) {
+  if (kinematics.altitude <= SHIP.height * 0.5 + 0.05) {
     if (onTouchdown) {
       onTouchdown(state);
       return;
@@ -607,7 +625,9 @@ function rangeToGoFromHere(state: SimState): number {
  * an orbit it cannot leave.
  */
 function predictedDeorbitRange(state: SimState): number {
-  const { kinematics, vehicle, engines } = state;
+  const { kinematics, engines } = state;
+  writeFlightMassQuery(state, SHIP, retained);
+  if (!retained.engineSupportAvailable || !retained.hasMass) return Infinity;
 
   // The engines are OFF while this decision is being made — the mode shut them
   // down at configure — so what matters is the thrust that will light, not the
@@ -618,8 +638,8 @@ function predictedDeorbitRange(state: SimState): number {
   // M11.2: the burn happens where the air is, which at 150 km is nowhere — so
   // this is the vacuum thrust, not the sea-level constant it used to be.
   const burnSeconds =
-    (C.DEORBIT_DELTA_V * vehicle.vehicleMass) /
-    (willLight * C.thrustPerRaptorAt(state.atmosphere.airPressure));
+    (C.DEORBIT_DELTA_V * retained.totalMass) /
+    (willLight * engineThrust(SHIP.propulsion, 'sea-level', state.atmosphere.airPressure));
   const burnRange = (kinematics.speedX - C.DEORBIT_DELTA_V / 2) * burnSeconds;
 
   const coastRange = gravity.coastDownrangeDistance(

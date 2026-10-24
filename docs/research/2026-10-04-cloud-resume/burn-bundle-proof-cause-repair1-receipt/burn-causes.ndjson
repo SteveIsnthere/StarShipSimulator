@@ -1,0 +1,6 @@
+{"id":"one-engine-225t-high-touchdown","nullCause":"cap-flag-true","outcome":{"value":null,"error":null},"capped":true,"duration":"24.86145343497472","isa":null}
+{"id":"one-engine-thin-air-3kms","nullCause":"cap-flag-true","outcome":{"value":null,"error":null},"capped":true,"duration":"123.5","isa":null}
+{"id":"three-engine-200t-4kms","nullCause":"non-cap-null; exact return branch unobserved","outcome":{"value":null,"error":null},"capped":false,"duration":"41.93795856286947","isa":null}
+{"id":"no-engine-zero-query","nullCause":"non-cap-null; exact return branch unobserved","outcome":{"value":null,"error":null},"capped":false,"duration":"0","isa":0}
+{"id":"dry-mass-fuel-insufficient","nullCause":"non-cap-null; exact return branch unobserved","outcome":{"value":null,"error":null},"capped":false,"duration":"1.1955915763356513","isa":48}
+{"id":"thin-air-real-1200-step-cap","nullCause":"cap-flag-true","outcome":{"value":null,"error":null},"capped":true,"duration":"0","isa":2400}

@@ -1,0 +1,221 @@
+{
+  "source": "Vitest4.1.11 formatTitle->$attribute objDisplay->inspectString single quotes; all18fixture stringpairs finiteASCII under truncate40, duplicatedSSR/native",
+  "changed": [
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 0,
+      "before": "retains original synchronous and sliced bits for ship/normal",
+      "after": "retains original synchronous and sliced bits for 'ship'/'normal'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 1,
+      "before": "retains original synchronous and sliced bits for ship/capped",
+      "after": "retains original synchronous and sliced bits for 'ship'/'capped'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 2,
+      "before": "retains original synchronous and sliced bits for ship/wind",
+      "after": "retains original synchronous and sliced bits for 'ship'/'wind'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 3,
+      "before": "retains original synchronous and sliced bits for ship/nonzero",
+      "after": "retains original synchronous and sliced bits for 'ship'/'nonzero'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 4,
+      "before": "retains original synchronous and sliced bits for ship/hot",
+      "after": "retains original synchronous and sliced bits for 'ship'/'hot'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 5,
+      "before": "retains original synchronous and sliced bits for ship/unavailable",
+      "after": "retains original synchronous and sliced bits for 'ship'/'unavailable'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 6,
+      "before": "retains original synchronous and sliced bits for ship/detached",
+      "after": "retains original synchronous and sliced bits for 'ship'/'detached'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 7,
+      "before": "retains original synchronous and sliced bits for ship/invalid-root",
+      "after": "retains original synchronous and sliced bits for 'ship'/'invalid-root'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 8,
+      "before": "retains original synchronous and sliced bits for ship/invalid-temperature",
+      "after": "retains original synchronous and sliced bits for 'ship'/'invalid-temperature'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 9,
+      "before": "retains original synchronous and sliced bits for booster/normal",
+      "after": "retains original synchronous and sliced bits for 'booster'/'normal'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 10,
+      "before": "retains original synchronous and sliced bits for booster/capped",
+      "after": "retains original synchronous and sliced bits for 'booster'/'capped'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 11,
+      "before": "retains original synchronous and sliced bits for booster/wind",
+      "after": "retains original synchronous and sliced bits for 'booster'/'wind'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 12,
+      "before": "retains original synchronous and sliced bits for booster/nonzero",
+      "after": "retains original synchronous and sliced bits for 'booster'/'nonzero'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 13,
+      "before": "retains original synchronous and sliced bits for booster/hot",
+      "after": "retains original synchronous and sliced bits for 'booster'/'hot'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 14,
+      "before": "retains original synchronous and sliced bits for booster/unavailable",
+      "after": "retains original synchronous and sliced bits for 'booster'/'unavailable'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 15,
+      "before": "retains original synchronous and sliced bits for booster/detached",
+      "after": "retains original synchronous and sliced bits for 'booster'/'detached'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 16,
+      "before": "retains original synchronous and sliced bits for booster/invalid-root",
+      "after": "retains original synchronous and sliced bits for 'booster'/'invalid-root'"
+    },
+    {
+      "collection": "docs/research/2026-10-04-cloud-resume/fall-bundle-preparation-proof.test.ts.txt",
+      "row": 17,
+      "before": "retains original synchronous and sliced bits for booster/invalid-temperature",
+      "after": "retains original synchronous and sliced bits for 'booster'/'invalid-temperature'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 0,
+      "before": "retains original synchronous and sliced bits for ship/normal",
+      "after": "retains original synchronous and sliced bits for 'ship'/'normal'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 1,
+      "before": "retains original synchronous and sliced bits for ship/capped",
+      "after": "retains original synchronous and sliced bits for 'ship'/'capped'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 2,
+      "before": "retains original synchronous and sliced bits for ship/wind",
+      "after": "retains original synchronous and sliced bits for 'ship'/'wind'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 3,
+      "before": "retains original synchronous and sliced bits for ship/nonzero",
+      "after": "retains original synchronous and sliced bits for 'ship'/'nonzero'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 4,
+      "before": "retains original synchronous and sliced bits for ship/hot",
+      "after": "retains original synchronous and sliced bits for 'ship'/'hot'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 5,
+      "before": "retains original synchronous and sliced bits for ship/unavailable",
+      "after": "retains original synchronous and sliced bits for 'ship'/'unavailable'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 6,
+      "before": "retains original synchronous and sliced bits for ship/detached",
+      "after": "retains original synchronous and sliced bits for 'ship'/'detached'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 7,
+      "before": "retains original synchronous and sliced bits for ship/invalid-root",
+      "after": "retains original synchronous and sliced bits for 'ship'/'invalid-root'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 8,
+      "before": "retains original synchronous and sliced bits for ship/invalid-temperature",
+      "after": "retains original synchronous and sliced bits for 'ship'/'invalid-temperature'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 9,
+      "before": "retains original synchronous and sliced bits for booster/normal",
+      "after": "retains original synchronous and sliced bits for 'booster'/'normal'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 10,
+      "before": "retains original synchronous and sliced bits for booster/capped",
+      "after": "retains original synchronous and sliced bits for 'booster'/'capped'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 11,
+      "before": "retains original synchronous and sliced bits for booster/wind",
+      "after": "retains original synchronous and sliced bits for 'booster'/'wind'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 12,
+      "before": "retains original synchronous and sliced bits for booster/nonzero",
+      "after": "retains original synchronous and sliced bits for 'booster'/'nonzero'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 13,
+      "before": "retains original synchronous and sliced bits for booster/hot",
+      "after": "retains original synchronous and sliced bits for 'booster'/'hot'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 14,
+      "before": "retains original synchronous and sliced bits for booster/unavailable",
+      "after": "retains original synchronous and sliced bits for 'booster'/'unavailable'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 15,
+      "before": "retains original synchronous and sliced bits for booster/detached",
+      "after": "retains original synchronous and sliced bits for 'booster'/'detached'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 16,
+      "before": "retains original synchronous and sliced bits for booster/invalid-root",
+      "after": "retains original synchronous and sliced bits for 'booster'/'invalid-root'"
+    },
+    {
+      "collection": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "row": 17,
+      "before": "retains original synchronous and sliced bits for booster/invalid-temperature",
+      "after": "retains original synchronous and sliced bits for 'booster'/'invalid-temperature'"
+    }
+  ]
+}

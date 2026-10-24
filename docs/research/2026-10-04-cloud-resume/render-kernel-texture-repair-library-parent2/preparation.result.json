@@ -1,0 +1,16 @@
+{
+  "name": "preparation",
+  "command": [
+    "python3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-render-kernel-texture-repair.py",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-render-build-qualification/qualification.json"
+  ],
+  "childExit": 0,
+  "timeout": false,
+  "elapsedSeconds": 0.0646240329988359,
+  "owned": {
+    "pid": 48116,
+    "starttime": "2494853"
+  },
+  "nonexecuting": true
+}

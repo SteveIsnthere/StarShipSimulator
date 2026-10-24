@@ -1,0 +1,29 @@
+{
+  "status": "DISTINCT source-only repair/actual input; OTHER HIGH and changed scopes required",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/root-observer.py.txt",
+      "sha": "418bbe5db80540728caba30c9521bca710ec8dba37551664f029475d48138e24"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/python-bridge.mjs.txt",
+      "sha": "636d98db9f4c998852171acfa7302ea192749e18a335f65e0e1957d66a22036a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-owner/business-stage.mjs.txt",
+      "sha": "989b348a740527ff808e04e9ceebd89e7fb96e613f430b5431a097654cf90a97"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/external-preparation-runpath-repair-spec.json",
+      "sha": "806d7ccc4da1a3ad7abf82a018fb130594ad485dc6dbf716eb4be7be15fa77ff"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha": "0f784f7e175efedd30390f92072a6bbbd30db74380bc6de1efc0aae93fc8a51e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/runpath-journal-repair-source-pins.json",
+      "sha": "126e39622c11b0e50961b36eaf1dd611ffed363389b2886580072ae62be579ce"
+    }
+  ]
+}

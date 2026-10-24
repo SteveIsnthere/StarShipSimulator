@@ -4,12 +4,20 @@ import * as C from '$core/constants';
 import { finalDescentStageController } from '$core/autopilot';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { rad } from '$core/units';
+import { SHIP } from '$core/vehicle';
+import { verticalWeight } from '$core/physics/gravity';
 
 function singleEngineDescent() {
  const s = createScenarioState(getScenario('landing-burn')!);
  s.kinematics.altitude = 600;
  s.kinematics.distanceToPlanetCenter = C.planetRadius + 600;
- s.kinematics.speedY = -80;
+ // At the one-engine stopping envelope, braking feed-forward requires full
+ // thrust. Derive the precondition from published Raptor3 sea-level thrust;
+ // the former -80 m/s input lies inside the stronger engine's envelope.
+ const height = 600 - SHIP.height / 2;
+ const mass = SHIP.dryMass + 26_000;
+ const acceleration = 250_000 * C.standardGravity / mass - verticalWeight(C.planetRadius + 600);
+ s.kinematics.speedY = -Math.sqrt(2 * acceleration * height);
  s.kinematics.pitch = rad(0);
  s.vehicle.propellantMass = 26_000;
  s.vehicle.vehicleMass = C.vehicleDryMass + s.vehicle.propellantMass;

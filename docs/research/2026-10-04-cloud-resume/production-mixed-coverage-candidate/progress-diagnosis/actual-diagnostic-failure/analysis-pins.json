@@ -1,0 +1,129 @@
+{
+  "sourceAndActualRawOnly": true,
+  "authorSelfAcceptance": false,
+  "files": [
+    {
+      "path": "/tmp/starship-coverage-progress.38047cf94309b610bceea3440b0e7cf1/progress.jsonl",
+      "bytes": 201960,
+      "sha": "f7df5bd4e7cf0d2a2917091dab4d2ff4a4d4e4e00b6992d7db044937b586d824"
+    },
+    {
+      "path": "/tmp/starship-original21-root.juonzhn4/root-outcome.json",
+      "bytes": 1315,
+      "sha": "80df8718f79028d2b098b4ae06de7e4377ec981bd4b1855c607ad975eee9eade"
+    },
+    {
+      "path": "/tmp/starship-original21-root.juonzhn4/root-independent-postexit.json",
+      "bytes": 897,
+      "sha": "26d6e9e51e82e39c6e6079d3326880a9179ab48aabac9019faadc89a0c3081b3"
+    },
+    {
+      "path": "/tmp/starship-original21-root.juonzhn4/identities.jsonl",
+      "bytes": 592,
+      "sha": "69ae7a84ae721282ac0d365c0aaa77adb51dee38de7b5ef9d10549d4bcebc6ed"
+    },
+    {
+      "path": "/tmp/starship-original21-root.juonzhn4/actual-outer-exit.json",
+      "bytes": 61,
+      "sha": "687c4b74dcca1c296e812e60f2375894aa1667d3d09e539f9665d37920013e09"
+    },
+    {
+      "path": "/tmp/starship-original21-root.juonzhn4/actual-outer-exit-final-independent.json",
+      "bytes": 62,
+      "sha": "b15596ac0bb85d807380518fdcadc068b5146439edbd7609f789d78b73a468c3"
+    },
+    {
+      "path": "/tmp/starship-original21-root.juonzhn4/outer.stdout.txt",
+      "bytes": 135,
+      "sha": "a0b5f24f2ae19524864554185447cbd065e9eee1519837d507aefb7cb0df2941"
+    },
+    {
+      "path": "/tmp/starship-original21-root.juonzhn4/outer.stderr.txt",
+      "bytes": 0,
+      "sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.jG84hI/preparation.process.json",
+      "bytes": 898,
+      "sha": "d3395ad9bfc4e895206c850f202a3ab0ec2e277699e014a62f946696a08675f3"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.jG84hI/preparation.stdout.txt",
+      "bytes": 3998,
+      "sha": "778338c097121bfb40af48855c808f5bbc8b749a92ca2ab5aeec4617a4adb0d7"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.jG84hI/preparation.stderr.txt",
+      "bytes": 0,
+      "sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.jG84hI/actual-child-exit.json",
+      "bytes": 319,
+      "sha": "efb0452c7854152925b9a2faf70c54619348fbb35de7d4c7a38e86150a1dce40"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.jG84hI/source-tools-before.json",
+      "bytes": 163,
+      "sha": "8d373233159f77ba86719e86f9df2e353b1966e1fa69b52388ffa536499f8f67"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.jG84hI/source-tools-after.json",
+      "bytes": 163,
+      "sha": "8d373233159f77ba86719e86f9df2e353b1966e1fa69b52388ffa536499f8f67"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.jG84hI/progress-preserved.json",
+      "bytes": 803,
+      "sha": "301cdb67a18b28f484928b548cf3f33a1f8aca8305d582f2bd4c605f58cb0423"
+    },
+    {
+      "path": "/tmp/starship-original21-stage.jG84hI/stage-result.json",
+      "bytes": 6886,
+      "sha": "c27c782b3b209d53ce19aa970685b348609b17cf76a226d85e3b26ae7a17979f"
+    },
+    {
+      "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/capture/resolved-configuration.json",
+      "bytes": 2056,
+      "sha": "2f8fc9b30f6c359b2d29eed2859c96d3af7af67cd8bc95dbf3ccf11b3adb3d54"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/root-actual-progress-summary.json",
+      "bytes": 197027,
+      "sha": "9277a9513b2f4fe451b9847a3653b662f0eb21b8d43659c69453c5f3c314e924"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/owner-input.json",
+      "bytes": 21428,
+      "sha": "9d5a42628afed1cd50669d6423e4484673d8f8d12dadae434284a4af8d91a99b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/inventory.json",
+      "bytes": 6237623,
+      "sha": "7697edd1cd25bbbccfe8afc27e8e61f282227cc9fd9d9efbfd8d6394e3be5460"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/independent-actual-input-HIGH-review.md",
+      "bytes": 3035,
+      "sha": "12c1421a0b8e96136de56d634216e0ec9ba931013cf49649eb898086b04395f0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-input/independent-actual-input-HIGH-pins.json",
+      "bytes": 7524,
+      "sha": "da501f04bc3d8279c77c818768ec4a7ed56c8ee03355114a878a8f2b301a31ad"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-diagnostic-failure/analysis.json",
+      "bytes": 67127,
+      "sha": "e2fec5ddb4ec5bfcfb83e06853f9c2ba08af065ff7ce790c624c62881baf55f9"
+    }
+  ],
+  "partialRawCoverage": [
+    {
+      "path": "/tmp/starship-mixed-coverage.6ee8ba656b2c5a318978ee518f6be2de/reports/.tmp/coverage-0.json",
+      "bytes": 186488,
+      "sha": "0811f51cc330d47f534092b95be0216795716c340522e5b498cbbfb77f49b890"
+    }
+  ],
+  "noProviderOrWorkloadInvoked": true
+}

@@ -1,0 +1,9 @@
+{
+  "bundleManifestSha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff",
+  "files": 303,
+  "originalBrowser": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+  "actualBrowser": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+  "nodeVersion": "v22.23.3",
+  "nodeExecutable": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+  "nodeSha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+}

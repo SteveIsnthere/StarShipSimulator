@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+routes=(/workspace/cloud-bootstrap/starship-v*/activate.sh)
+[[ ${#routes[@]} == 1 && -f ${routes[0]} ]] || exit 69
+source "${routes[0]}"
+cd /workspace/StarShipSimulator
+[[ ${STARSHIP_CPU_SLOT_GRANTED:-} == current-native-composite-paired-guards ]] || exit 69
+[[ -n ${STARSHIP_CURRENT_NATIVE_REVIEW_SHA:-} && -n ${STARSHIP_CURRENT_NATIVE_REVIEW_PINS_SHA:-} ]] || exit 69
+export npm_execpath
+npm_execpath=$(readlink -f "$(command -v npm)")
+draft=docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards
+launchdir=$(mktemp -d "$draft/owned-launch-XXXXXXXX")
+python3 - "$draft" "$launchdir" <<'PY'
+from pathlib import Path
+import sys,json,hashlib
+r=Path(sys.argv[1]);out=Path(sys.argv[2]);source=(r/'launcher.mjs.txt').read_text()
+for token,path in [('NATIVE_LOADER_PLACEHOLDER',Path('scripts/bench/native-loader.mjs').resolve()),('OWNED_COMMAND_PLACEHOLDER',(out/'owned-command.mjs').resolve()),('LABEL_AUDIT_PLACEHOLDER',(out/'label-audit.mjs').resolve())]:
+ assert source.count(token)==1
+ source=source.replace(token,str(path))
+(out/'launcher.mjs').write_text(source)
+for name in ['owned-command.mjs','label-audit.mjs']:(out/name).write_bytes((r/(name+'.txt')).read_bytes())
+(out/'executed-before.json').write_text(json.dumps({str(out/name):hashlib.sha256((out/name).read_bytes()).hexdigest() for name in ['launcher.mjs','owned-command.mjs','label-audit.mjs']},indent=2)+'\n')
+PY
+status=0
+node "$launchdir/launcher.mjs" > "$launchdir/stdout.txt" 2> "$launchdir/stderr.txt" || status=$?
+printf '%s\n' "$status" > "$launchdir/node-status.txt"
+python3 - "$launchdir" <<'PY' || status=70
+from pathlib import Path
+import json,hashlib,sys
+r=Path(sys.argv[1]);before=json.loads((r/'executed-before.json').read_text());after={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in before}
+(r/'executed-after.json').write_text(json.dumps(after,indent=2)+'\n');assert after==before
+PY
+printf '%s\n' "$launchdir"
+exit "$status"

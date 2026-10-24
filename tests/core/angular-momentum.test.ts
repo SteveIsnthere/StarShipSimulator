@@ -133,18 +133,27 @@ describe('angular momentum is conserved on an eccentric orbit', () => {
   const altitude = 400_000;
   const r0 = C.planetRadius + altitude;
   const v0 = circularOrbitalSpeed(r0) * 1.1;
+  // Both assertions observe the same 720,000-step flight, as immutable scalar
+  // measurements. No shorter orbit, different seed, or looser bound.
+  let measured: Readonly<{ worst: number; peak: number }> | undefined;
+  function measureEccentricOrbit() {
+    if (measured) return measured;
+    let state = inVacuum(altitude, v0), worst = 0, peak = 0;
+    const h0 = r0 * v0;
+    for (let i = 0; i < 120 * 6_000; i++) {
+      state = step(state, DT);
+      const h = state.kinematics.distanceToPlanetCenter
+        * inertialTangentialSpeed(state.kinematics.distanceToPlanetCenter, state.kinematics.speedX);
+      worst = Math.max(worst, Math.abs(h / h0 - 1));
+      peak = Math.max(peak, state.kinematics.altitude);
+    }
+    measured = Object.freeze({ worst, peak });
+    return measured;
+  }
+
 
   it('to better than a part in ten thousand over a hundred minutes', () => {
-    let s = inVacuum(altitude, v0);
-    const h0 = r0 * v0;
-    let worst = 0;
-    for (let i = 0; i < 120 * 6_000; i++) {
-      s = step(s, DT);
-      const h =
-        s.kinematics.distanceToPlanetCenter *
-        inertialTangentialSpeed(s.kinematics.distanceToPlanetCenter, s.kinematics.speedX);
-      worst = Math.max(worst, Math.abs(h / h0 - 1));
-    }
+    const { worst } = measureEccentricOrbit();
     // Measured 1.2e-6 after the fix; 0.126 before it.
     expect(worst, `drifted ${(worst * 100).toFixed(4)}%`).toBeLessThan(1e-4);
   });
@@ -154,12 +163,7 @@ describe('angular momentum is conserved on an eccentric orbit', () => {
     const a = 1 / (2 / r0 - (v0 * v0) / MU);
     const apogee = 2 * a - r0 - C.planetRadius;
 
-    let s = inVacuum(altitude, v0);
-    let peak = 0;
-    for (let i = 0; i < 120 * 6_000; i++) {
-      s = step(s, DT);
-      peak = Math.max(peak, s.kinematics.altitude);
-    }
+    const { peak } = measureEccentricOrbit();
     // ~4015 km. The shipped term reached 1380 km — the orbit was not merely
     // imprecise, it was a different orbit.
     expect(peak / apogee, `apogee ${(peak / 1000).toFixed(0)} km vs ${(apogee / 1000).toFixed(0)} km`)

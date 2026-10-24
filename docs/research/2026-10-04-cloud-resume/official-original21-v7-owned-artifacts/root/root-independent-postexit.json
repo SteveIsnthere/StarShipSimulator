@@ -1,0 +1,147 @@
+{
+  "passed": true,
+  "identities": [
+    {
+      "pid": 77430,
+      "expectedStart": "5068276",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 77437,
+      "expectedStart": "5068403",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 77444,
+      "expectedStart": "5068503",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 77472,
+      "expectedStart": "5068924",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 77497,
+      "expectedStart": "5069372",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 77498,
+      "expectedStart": "5069372",
+      "absent": true,
+      "executingSameIdentity": false
+    }
+  ],
+  "allActualHelperTrackedObservedByRoot": true,
+  "helperIdentityRecords": [
+    {
+      "pid": 77437,
+      "state": "R",
+      "parent": 77430,
+      "group": 77437,
+      "session": 77437,
+      "start": "5068403"
+    },
+    {
+      "pid": 77444,
+      "state": "R",
+      "parent": 77437,
+      "group": 77444,
+      "session": 77444,
+      "start": "5068503"
+    },
+    {
+      "pid": 77472,
+      "state": "R",
+      "parent": 77437,
+      "group": 77472,
+      "session": 77472,
+      "start": "5068924"
+    },
+    {
+      "pid": 77497,
+      "state": "R",
+      "parent": 77472,
+      "group": 77472,
+      "session": 77472,
+      "start": "5069372"
+    },
+    {
+      "pid": 77498,
+      "state": "R",
+      "parent": 77472,
+      "group": 77472,
+      "session": 77472,
+      "start": "5069372"
+    },
+    {
+      "pid": 77444,
+      "state": "R",
+      "parent": 77437,
+      "group": 77444,
+      "session": 77444,
+      "start": "5068503"
+    },
+    {
+      "pid": 77472,
+      "state": "S",
+      "parent": 77437,
+      "group": 77472,
+      "session": 77472,
+      "start": "5068924"
+    },
+    {
+      "pid": 77497,
+      "state": "R",
+      "parent": 77472,
+      "group": 77472,
+      "session": 77472,
+      "start": "5069372"
+    },
+    {
+      "pid": 77498,
+      "state": "R",
+      "parent": 77472,
+      "group": 77472,
+      "session": 77472,
+      "start": "5069372"
+    }
+  ],
+  "rawCode": 0,
+  "allGroups": [
+    {
+      "group": 77430,
+      "session": 77430,
+      "start": "5068276",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 77437,
+      "session": 77437,
+      "start": "5068403",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 77444,
+      "session": 77444,
+      "start": "5068503",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 77472,
+      "session": 77472,
+      "start": "5068924",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

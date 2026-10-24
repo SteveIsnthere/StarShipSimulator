@@ -1,0 +1,12 @@
+{
+  "sourceManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-angle-public-source-14/source-manifest.json",
+    "sha256": "fc567969b50f55bf88265eab0f3164790184e2930fe0d56d3f4820550df3bd6b"
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-angle-public-source-independent-high-review.md",
+    "sha256": "7e6d1d245a85593225200ab8c8435c4c68dcdaa2197d050d0bc528b94015dad7"
+  },
+  "targets": 14,
+  "disposition": "HOLD missing raw gl-egl to init_displays caller closure; no runtime grant"
+}

@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "decision": "conditional-existing-EGL-software-capability-design-only",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-alternate-mesa-backend-feasibility-independent-review.md",
+  "reviewSha256": "8de9401861380981df30aa7406ef494fc7ecc96db9207f36db9484ec9e908b63",
+  "inputs": {
+    "/var/lib/dpkg/status": "5a59c7501ca286678c24bd3a68d675c2b7ec559434e017a08da60265cf61bea2",
+    "/var/lib/dpkg/info/libgl1-mesa-dri:amd64.list": "02a17f94802da79c35ce07e59e7e8b07f34ae7df9d0e55aad07b1f10a97e31eb",
+    "/var/lib/dpkg/info/mesa-libgallium:amd64.list": "4fed8d07bdc9f61c151dd845180626e7601e220cc9e941cc5b80a420a52acbbd",
+    "/var/lib/dpkg/info/libegl-mesa0:amd64.list": "77ad935a1598e0a0eb4a0983a242f25c3ccd065546b2387e09dcdc53ed3dbd61",
+    "/usr/share/glvnd/egl_vendor.d/50_mesa.json": "cd3881df4227c13ca7f9cfe6c78820f21d5f7a00a41b299214f6f827e63be369",
+    "/workspace/StarShipSimulator/tests/e2e/chromium.ts": "e32107c386cfd11dd8f01c9cc5384adf7222b1f48a24ab7de9687e6dbb3f601b",
+    "/workspace/cloud-bootstrap/starship-v1/bootstrap.sh": "0213e1047397640f703befa1a3b3c61bfab8be3134c0137c68357b09e753915d",
+    "/workspace/cloud-bootstrap/starship-v1/activate.sh": "fb3d7cb2a9b366a53fa3570b0db9589373e988ad5a7e7dd54ebd966a5188eb45"
+  },
+  "installedPackages": {
+    "libegl-mesa0": {
+      "Status": "install ok installed",
+      "Version": "25.0.7-2+deb13u1",
+      "Architecture": "amd64",
+      "Depends": "libc6 (>= 2.38), libdrm2 (>= 2.4.121), libexpat1 (>= 2.0.1), libgbm1 (= 25.0.7-2+deb13u1), libgcc-s1 (>= 3.4), libwayland-client0 (>= 1.23.0), libwayland-server0 (>= 1.15.0), libx11-xcb1, libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0 (>= 1.3), libxcb-shm0, libxcb-xfixes0, libxcb1 (>= 1.6), mesa-libgallium (= 25.0.7-2+deb13u1)",
+      "Recommends": null
+    },
+    "libegl1": {
+      "Status": "install ok installed",
+      "Version": "1.7.0-1+b2",
+      "Architecture": "amd64",
+      "Depends": "libc6 (>= 2.38), libglvnd0 (= 1.7.0-1+b2), libegl-mesa0",
+      "Recommends": null
+    },
+    "libgbm1": {
+      "Status": "install ok installed",
+      "Version": "25.0.7-2+deb13u1",
+      "Architecture": "amd64",
+      "Depends": "libc6 (>= 2.38), libdrm2 (>= 2.4.121), libexpat1 (>= 2.0.1), libwayland-server0 (>= 1.15.0), mesa-libgallium (= 25.0.7-2+deb13u1)",
+      "Recommends": null
+    },
+    "libgl1-mesa-dri": {
+      "Status": "install ok installed",
+      "Version": "25.0.7-2+deb13u1",
+      "Architecture": "amd64",
+      "Depends": "libgbm1 (= 25.0.7-2+deb13u1), libvulkan1, libc6 (>= 2.34)",
+      "Recommends": null
+    },
+    "libglx-mesa0": {
+      "Status": "install ok installed",
+      "Version": "25.0.7-2+deb13u1",
+      "Architecture": "amd64",
+      "Depends": "libc6 (>= 2.38), libdrm2 (>= 2.4.121), libexpat1 (>= 2.0.1), libx11-6 (>= 2:1.4.99.1), libx11-xcb1, libxcb-dri3-0, libxcb-glx0 (>= 1.8), libxcb-present0, libxcb-shm0, libxcb-xfixes0, libxcb1, libxext6, libxxf86vm1, mesa-libgallium (= 25.0.7-2+deb13u1), libgl1-mesa-dri",
+      "Recommends": null
+    },
+    "libllvm19": {
+      "Status": "install ok installed",
+      "Version": "1:19.1.7-3+b1",
+      "Architecture": "amd64",
+      "Depends": "libc6 (>= 2.38), libedit2 (>= 2.11-20080614-0), libffi8 (>= 3.4), libgcc-s1 (>= 4.3), libstdc++6 (>= 12), libxml2 (>= 2.7.4), libz3-4 (>= 4.13.3), libzstd1 (>= 1.5.5), zlib1g (>= 1:1.2.0)",
+      "Recommends": null
+    },
+    "libvulkan1": {
+      "Status": "install ok installed",
+      "Version": "1.4.309.0-1",
+      "Architecture": "amd64",
+      "Depends": "libc6 (>= 2.38)",
+      "Recommends": "mesa-vulkan-drivers | vulkan-icd"
+    },
+    "mesa-libgallium": {
+      "Status": "install ok installed",
+      "Version": "25.0.7-2+deb13u1",
+      "Architecture": "amd64",
+      "Depends": "libc6 (>= 2.38), libdrm-amdgpu1 (>= 2.4.121), libdrm-intel1 (>= 2.4.121), libdrm2 (>= 2.4.121), libelf1t64 (>= 0.142), libexpat1 (>= 2.0.1), libgcc-s1 (>= 3.4), libllvm19 (>= 1:19.1.0), libsensors5 (>= 1:3.5.0), libstdc++6 (>= 11), libx11-xcb1, libxcb-dri3-0 (>= 1.13), libxcb-present0, libxcb-randr0, libxcb-sync1, libxcb-xfixes0, libxcb1 (>= 1.9.2), libxshmfence1, libzstd1 (>= 1.5.5), zlib1g (>= 1:1.1.4)",
+      "Recommends": null
+    }
+  },
+  "symlinkMetadata": {
+    "/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so": {
+      "link": "libdril_dri.so",
+      "resolved": "/usr/lib/x86_64-linux-gnu/dri/libdril_dri.so",
+      "exists": true
+    },
+    "/usr/lib/x86_64-linux-gnu/dri/kms_swrast_dri.so": {
+      "link": "libdril_dri.so",
+      "resolved": "/usr/lib/x86_64-linux-gnu/dri/libdril_dri.so",
+      "exists": true
+    },
+    "/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0": {
+      "link": "libEGL_mesa.so.0.0.0",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0.0.0",
+      "exists": true
+    },
+    "/usr/lib/x86_64-linux-gnu/libvulkan.so.1": {
+      "link": "libvulkan.so.1.4.309",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libvulkan.so.1.4.309",
+      "exists": true
+    }
+  },
+  "hardwareDriPresent": false,
+  "systemVulkanIcdDirectoryPresent": false,
+  "mesaVulkanDriversInstalled": false,
+  "browserLaunchApproved": false,
+  "installationApproved": false,
+  "providerIdentityProven": false,
+  "performanceGainProven": false,
+  "acceptanceBudgetsChanged": false
+}

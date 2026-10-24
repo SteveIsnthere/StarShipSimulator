@@ -1,0 +1,16 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/core/scenario-mission-contract.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/matrix/contract-final.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |unit| tests/core/scenario-mission-contract.test.ts (4 tests) 15ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  07:42:42
+   Duration  539ms (transform 310ms, setup 0ms, import 386ms, tests 15ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/matrix/contract-final.json

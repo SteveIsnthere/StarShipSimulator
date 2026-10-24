@@ -1,0 +1,29 @@
+{
+  "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/run-functional-single-blocklist-override.mjs.txt",
+  "originalSha256": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd",
+  "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/run-functional-event-loop-fence.mjs.txt",
+  "candidateSha256": "a3e99eed2791dc44619f505f941510eb29bbe36806395a4b84398c3c57d31f56",
+  "textReplacements": [
+    {
+      "old": "result=await page.evaluate(()=>{",
+      "new": "result=await page.evaluate(async overallDeadline=>{"
+    },
+    {
+      "old": "const timer=gl.getExtension('EXT_disjoint_timer_query_webgl2');const fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);if(!fence)throw Error('Fence unavailable');gl.flush();gl.finish();const fenceStatus=gl.clientWaitSync(fence,0,0);if(![gl.ALREADY_SIGNALED,gl.CONDITION_SATISFIED].includes(fenceStatus))throw Error(`Fence unsignaled:${fenceStatus}`);gl.deleteSync(fence);clean('fence');",
+      "new": "const timer=gl.getExtension('EXT_disjoint_timer_query_webgl2');const fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);if(!fence)throw Error('Fence unavailable');gl.flush();gl.finish();const fenceDeadline=Math.min(overallDeadline,Date.now()+5000);let fenceStatus=null,fencePolls=0;while(true){await new Promise(resolve=>setTimeout(resolve,0));if(Date.now()>=fenceDeadline)throw Error(`Fence task-yield deadline:${fenceStatus}:${fencePolls}`);fenceStatus=gl.clientWaitSync(fence,0,0);fencePolls++;clean(`fence-poll:${fencePolls}`);if([gl.ALREADY_SIGNALED,gl.CONDITION_SATISFIED].includes(fenceStatus))break;if(fenceStatus!==gl.TIMEOUT_EXPIRED)throw Error(`Fence wait failed:${fenceStatus}`);}gl.deleteSync(fence);clean('fence');"
+    },
+    {
+      "old": "timerExtension:!!timer,fenceStatus,performanceAcceptance:false",
+      "new": "timerExtension:!!timer,fenceStatus,fencePolls,performanceAcceptance:false"
+    },
+    {
+      "old": " });\n }catch(primary)",
+      "new": " },deadline);\n }catch(primary)"
+    }
+  ],
+  "reversingOnlyTheseFourReplacementsRestoresOriginalBytes": true,
+  "backendArgsAndEnvUnchanged": true,
+  "twentyReadbackLoopUnchanged": true,
+  "absoluteDeadlineAndCleanupUnchanged": true,
+  "executed": false
+}

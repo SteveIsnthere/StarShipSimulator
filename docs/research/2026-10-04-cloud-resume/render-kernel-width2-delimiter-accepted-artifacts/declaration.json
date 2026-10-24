@@ -1,0 +1,22 @@
+{
+  "kind": "focused-delimiter-owner-v1",
+  "setup": "/tmp/starship-width2-delimiter.Vd8rEw",
+  "childDeadlineMs": 5000,
+  "externalOwnerDeadlineMs": 30000,
+  "sharedCheckpointDeadlineMs": 25000,
+  "cleanupMs": 8000,
+  "outputCapPerStream": 8388608,
+  "command": [
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "/tmp/starship-width2-delimiter.Vd8rEw/controls.mjs",
+    "/tmp/starship-width2-delimiter.Vd8rEw/entry.ts.txt",
+    "/tmp/starship-width2-delimiter.Vd8rEw/proof-result.json"
+  ],
+  "materialized": {
+    "controls.mjs": "f25e3a1e55690e6aed428df35b1a08b8a99af665d87390829bc2fab0ec643717",
+    "entry.ts.txt": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8"
+  },
+  "sdkImports": 0,
+  "browserLaunches": 0,
+  "physicsImports": 0
+}

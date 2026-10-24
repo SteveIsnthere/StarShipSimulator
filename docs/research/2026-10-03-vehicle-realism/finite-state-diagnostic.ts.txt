@@ -1,0 +1,8 @@
+import { createScenarioState } from '../../../src/core/scenarios';
+import { step } from '../../../src/core/step';
+let s = createScenarioState({id:'custom',name:'Custom',description:'generated',altitude:0,xPosition:0,speedX:286.0712560432027,speedY:0,pitch:0,propellant:0,wind:0});
+for (let i=0;i<120;i++) {
+ s=step(s,1/120,{throttle:0,pitchControl:0});
+ if(i<5 || !Number.isFinite(s.kinematics.pitchRateOfChange)) console.log(JSON.stringify({i,k:s.kinematics,f:s.forces,mass:s.vehicle.vehicleMass,I:s.vehicle.vehicleMomentOfInertia,terminal:s.damage?.terminal.active,fail:s.failures}));
+ if(!Number.isFinite(s.kinematics.pitchRateOfChange)) break;
+}

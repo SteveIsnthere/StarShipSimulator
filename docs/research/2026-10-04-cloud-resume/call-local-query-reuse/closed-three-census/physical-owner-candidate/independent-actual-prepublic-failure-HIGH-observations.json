@@ -1,0 +1,41 @@
+{
+  "kind": "independent-closed-three-physical-actual-failure-HIGH-v1",
+  "status": "FAILED",
+  "rootCallerCode": 1,
+  "ownerCode": 70,
+  "nativeBuildCode": 1,
+  "inertBoundaryControlsCode": 0,
+  "ownedCommands": [
+    "boundary-controls",
+    "native-build"
+  ],
+  "publicEpisodeStarted": false,
+  "physicsExecuted": false,
+  "artifactCertificatePresent": false,
+  "artifactAdmissionSupported": false,
+  "actualCompilerIdCount": 57,
+  "exactAuthoredCompilerIdCount": 56,
+  "sourceBodyCount": 55,
+  "extraExactGeneratedId": "\u0000rolldown/runtime.js",
+  "generatedHelperProjection": {
+    "chunk": "/workspace/StarShipSimulator/node_modules/.cache/starship-closed-three-census-a425f27fac8b48ea9bc5708c63bd163d/native/simulation-4PxEPYPV.js",
+    "chunkSha256": "3ec0e4a99258decab7e3223c29a492f5c545dac1f1b58e1c386571518430b6d2",
+    "bytes": 162549,
+    "helperStart": 0,
+    "helperEndExclusive": 233,
+    "helperSha256": "dcd70d8c1ca2bde8df169667352e3ad8626bf34938ea34c898ba835c0f8d5f44",
+    "helperText": "//#region \\0rolldown/runtime.js\nvar e = Object.defineProperty, t = (t, n) => {\n\tlet r = {};\n\tfor (var i in t) e(r, i, {\n\t\tget: t[i],\n\t\tenumerable: !0\n\t});\n\treturn n || e(r, Symbol.toStringTag, { value: \"Module\" }), r;\n};\n//#endregion",
+    "scope": "Root bounded generated-helper projection only; no artifact acceptance or native imports."
+  },
+  "staticParsedMappedSourceCount": 56,
+  "mappedClosureGuardReached": false,
+  "allFourActualIdentitiesAbsent": true,
+  "allThreeOwnedGroupsClear": true,
+  "sourceRetainedBeforeAfterAuthorityEqual": true,
+  "sourceCount": 770,
+  "toolCount": 20355,
+  "independentlySelectedHashesVerified": 280,
+  "originalPrivatePreserved": "/workspace/StarShipSimulator/node_modules/.cache/starship-closed-three-census-a425f27fac8b48ea9bc5708c63bd163d",
+  "rootReceipt": "/tmp/starship-query-census-closed-three-root.zpn_zws7",
+  "nextSupportedAction": "Distinct source-only exactly-one generated producer/class certificate repair; builder and admission validate generated class separately from exact55+entry authored/mapped source closure. No old private reuse or runtime/build/public grant."
+}

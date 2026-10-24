@@ -1,0 +1,49 @@
+// Private closed-three census admission. No production/public dispatcher.
+import assert from 'node:assert/strict';
+import {readFileSync,realpathSync} from 'node:fs';
+import {resolve,relative,isAbsolute,dirname} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+const sha=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
+const parse=path=>JSON.parse(readFileSync(path,'utf8'));
+function pin(row){assert.equal(typeof row.path,'string');assert.ok(isAbsolute(row.path));assert.match(row.sha256,/^[a-f0-9]{64}$/);assert.equal(sha(row.path),row.sha256);return parse(row.path);}
+export async function admitSource(path,expected){
+ assert.equal(sha(path),expected);const m=parse(path);assert.equal(m.kind,'closed-three-census-source-input-v1');
+ assert.equal(process.version,'v22.23.3');assert.equal(process.platform,'linux');assert.equal(process.arch,'x64');assert.equal(sha(process.execPath),m.nodeSha256);
+ assert.equal(process.env.NODE_OPTIONS??'','');assert.equal(process.env.NODE_PATH??'','');assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-census-closed-three');
+ assert.equal(m.root,realpathSync(m.root));assert.match(relative(m.root,m.setup),/^node_modules\/\.cache\/starship-closed-three-census-[a-f0-9]{32}$/);assert.equal(realpathSync(m.setup),m.setup);
+ for(const [file,digest]of Object.entries(m.selected)){assert.ok(isAbsolute(file));assert.equal(sha(file),digest,file);}
+ const approval=pin(m.bodyApproval);assert.equal(approval.kind,'closed-three-native-body-approval-v1');assert.equal(approval.status,'approved');assert.equal(approval.publicDispatcher,false);
+ assert.equal(approval.sourceInputsSha256,m.sourceInputs.sha256);assert.equal(sha(m.sourceInputs.path),m.sourceInputs.sha256);
+ assert.equal(approval.authoritySha256,m.authority.sha256);assert.equal(approval.censusSourceControlsSha256,m.censusControls.sha256);assert.equal(approval.reportingControlsSha256,m.reportingControls.sha256);
+ const numerical=pin(m.censusControls);assert.equal(numerical.kind,'independent-inert-census-actual-proof-observations');assert.equal(numerical.acceptedFiniteNumericalProof,true);assert.equal(numerical.canonical,146);assert.equal(numerical.targeted,31);assert.equal(numerical.keyWitnesses,11);assert.equal(numerical.allFourActualIdentitiesAbsent,true);
+ const reporting=pin(m.reportingControls);assert.equal(reporting.kind,'query-census-inert-reporting-controls-v1');assert.equal(reporting.names.length,12);assert.equal(new Set(reporting.names).size,12);assert.equal(reporting.physicalImports,false);assert.equal(reporting.publicVitestLifecycleExercised,false);assert.equal(reporting.sourceCoupledInertCallbacks,true);assert.equal(reporting.acceptance,false);
+ const reportingOwner=pin(m.reportingOwner);assert.equal(reportingOwner.kind,'query-census-reporting-result-v1');assert.equal(reportingOwner.completed,true);assert.equal(reportingOwner.status,0);assert.equal(reportingOwner.primary,null);assert.deepEqual(reportingOwner.postErrors,[]);assert.equal(reportingOwner.processes.length,1);assert.equal(reportingOwner.processes[0].code,0);assert.equal(reportingOwner.processes[0].receipt.exit.code,0);assert.equal(reportingOwner.processes[0].receipt.exit.signal,null);assert.equal(reportingOwner.processes[0].receipt.failure,null);assert.deepEqual(reportingOwner.processes[0].receipt.cleanup.executing,[]);
+ assert.equal(approval.reportingOwnerSha256,m.reportingOwner.sha256);pin(m.authority);
+ assert.equal(m.entry.path,resolve(m.setup,'entry.ts'));assert.deepEqual(Object.keys(m.virtualSources).sort(),['src/core/physics/damage-controls.ts','src/core/physics/damage-thermal.ts']);for(const [file,row]of Object.entries(m.virtualSources)){assert.equal(row.path,resolve(m.setup,file.endsWith('damage-controls.ts')?'damage-controls.census.ts.txt':'damage-thermal.census.ts.txt'));assert.equal(sha(row.path),row.sha256);}
+ assert.deepEqual(approval.virtualSourceHashes,Object.fromEntries(Object.entries(m.virtualSources).map(([file,row])=>[file,row.sha256])));assert.equal(approval.entrySha256,m.entry.sha256);
+ assert.deepEqual(approval.graph,m.graph);assert.equal(Object.keys(m.graph).length,55);assert.deepEqual(approval.originalSources,m.originalSources);
+ assert.deepEqual(approval.workerConditions,m.workerConditions);assert.equal(new Set(m.workerConditions).size,m.workerConditions.length);for(const condition of m.workerConditions)assert.ok(['module','node','development','production'].includes(condition));assert.ok(!(m.workerConditions.includes('development')&&m.workerConditions.includes('production')));assert.deepEqual(approval.prototypeAndIntrinsicDomain,['closed-source-owned-data','no-foreign-callbacks','no-spies-mocks-preload-or-intrinsic-mutation']);
+ assert.equal(sha(m.utility.path),m.utility.sha256);const loader=await import(pathToFileURL(m.utility.path).href);
+ process.env.npm_execpath=m.npmCli;const authority=parse(m.authority.path);
+ assert.deepEqual(loader.sourceSnapshot(m.root),authority.source);assert.deepEqual(loader.installedToolSnapshot(m.root),authority.tools);
+ assert.equal(m.testTimeout,30000);assert.equal(m.originalCaseNames.length,3);assert.equal(m.originalSources['tests/golden/booster-replay.test.ts'],sha(resolve(m.root,'tests/golden/booster-replay.test.ts')));
+ return {m,loader};
+}
+export async function admitArtifacts(path,expected){
+ assert.equal(sha(path),expected);const artifact=parse(path);assert.equal(artifact.kind,'closed-three-original-query-census-artifact-v1');assert.equal(artifact.freshBuildCompleted,true);
+ const {m,loader}=await admitSource(artifact.sourceInput.path,artifact.sourceInput.sha256);
+ assert.equal(artifact.directory,resolve(m.setup,'native'));assert.equal(artifact.receipt,m.setup);
+ const actual=loader.filesUnder(artifact.directory).map(file=>relative(artifact.directory,file)).sort();assert.deepEqual(actual,Object.keys(artifact.files).sort());
+ for(const [file,digest]of Object.entries(artifact.files))assert.equal(sha(resolve(artifact.directory,file)),digest);
+ assert.deepEqual(artifact.graph,m.graph);assert.deepEqual(artifact.virtualSources,m.virtualSources);assert.equal(artifact.entrySha256,m.entry.sha256);
+ assert.equal(artifact.sourceInputsSha256,m.sourceInputs.sha256);assert.equal(artifact.bodyApprovalSha256,m.bodyApproval.sha256);
+ assert.ok(artifact.edges.length>0&&artifact.edges.length<=16);const owned=new Set(artifact.edges.map(row=>row.fileName));assert.equal(owned.size,artifact.edges.length);
+ const ids=new Set();for(const edge of artifact.edges){assert.equal(artifact.files[edge.fileName],edge.sha256);assert.deepEqual(edge.dynamicImports,[]);for(const imported of edge.imports)assert.ok(owned.has(imported));for(const id of edge.moduleIds)ids.add(id);}
+ assert.deepEqual([...ids].sort(),[...Object.keys(m.graph).map(file=>resolve(m.root,file)),m.entry.path].sort());
+ const entry=artifact.edges.find(row=>row.fileName==='entry.mjs');assert.equal(entry.isEntry,true);assert.equal(entry.facadeModuleId,m.entry.path);
+ const mapped={};for(const file of actual.filter(file=>file.endsWith('.map'))){const map=parse(resolve(artifact.directory,file));assert.equal(map.sources.length,map.sourcesContent.length);
+  for(let i=0;i<map.sources.length;i++){const source=resolve(dirname(resolve(artifact.directory,file)),map.sourceRoot??'',map.sources[i]);const relativeName=relative(m.root,source);const virtual=m.virtualSources[relativeName];const expectedText=virtual?readFileSync(virtual.path,'utf8'):readFileSync(source,'utf8');assert.equal(map.sourcesContent[i],expectedText);mapped[source]=sha(virtual?.path??source);}}
+ const expectedMapped={...Object.fromEntries(Object.entries(m.graph).map(([file,h])=>[resolve(m.root,file),m.virtualSources[file]?.sha256??h])),[m.entry.path]:m.entry.sha256};
+ assert.deepEqual(mapped,expectedMapped);return{m,artifact};
+}

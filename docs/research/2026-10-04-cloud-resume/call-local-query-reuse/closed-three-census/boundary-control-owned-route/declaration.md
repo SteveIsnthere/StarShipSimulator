@@ -1,0 +1,9 @@
+# Fourteen inert callback controls only
+
+Unexecuted research source. ONE5s child is the byte-exact integrated5365 driver and current779d loader source. The thirty-second captured-group root has22s work+8s cleanup; the owner can invoke only boundary-controls, never the267 physical owner, compiler, Vitest, fixture replay or profile. CPU grant literal is query-census-closed-three across root/owner/unchanged driver; root mode and explicit ownerScope distinguish this inert-only route. Preparation uses query-census-boundary-controls-preparation.
+
+Maker separately materializes only boundary driver/loader source and inert owner, with selected authored/accepted review pins and three exact source-role records. Input uses the driver-required schema but lacks physical source/artifact authority, declares physical/tool/public-worker qualification false and cannot admit a real native graph. No bodyApproval is fabricated and no intrinsic/public-worker assertion is made.
+
+Exact fourteen ordered names, raw actual0/null signal/finished/closed/failure-null, input/driver/loader/extracted callback digests, allPassed and false actualGlobalHooksInstalled/physicalImports/publicWorkerLifecycleApproved fields are mandatory. Raw child receipt/status is retained before assertions. Unknown stderr denies. Finally rechecks selected inputs/materialized source bytes and actual owned cleanup; the root separately records and reconciles all tracked PID/start/groups/outer ownership and actual OS status. Actual-input HIGH precedes one root grant; independent actual-result/ALL-owned HIGH is prerequisite to any physical grant.
+
+Stand-in certificates/recognizer/policy/digest do not establish actual public worker flags, cache token recognition, disk source/load identity, pristine intrinsics or physical equality. Those require the separate physical source/input/actual episode review. All current physical267 sources and accepted historical failures/proofs are unchanged.

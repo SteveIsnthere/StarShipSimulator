@@ -1,0 +1,68 @@
+--- failed52-ea1c
++++ public-assert-anchors52
+@@ -132,13 +132,22 @@
+  return {name:field('name'),message:field('message'),code:field('code'),operator:field('operator'),
+   actual:field('actual'),expected:field('expected'),ownKeys:keys,descriptors:Object.fromEntries(entries)};
+ }
++// These independent public-API anchors use explicit source-derived operands,
++// never comparator output or a candidate-derived message. Capture the full error.
++function canonicalAssertAnchor(method,actual,expected,message){
++ let error;try{assert[method](actual,expected,message);}catch(caught){error=caught;}
++ assert(error instanceof assert.AssertionError,'Canonical anchor must throw AssertionError');
++ return{snapshot:errorSnapshot(error),constructor:error.constructor};
++}
+ function parityCase(name,recipe,expectedMessage){
+  test(name,()=>{
+   const execute=make=>{const log=[],fixture=recipe(log);let o,error;
+    try{o=make(...(fixture.api??apis()));fixture.run(o);}catch(caught){error=caught;}
+    assert(error instanceof Error,'Negative must throw');
+-   if(expectedMessage!==undefined)assert.equal(error.message,expectedMessage);
+-   return{snapshot:errorSnapshot(error),constructor:error.constructor,counts:o?.counts()??null,log};};
++   const snapshot=errorSnapshot(error),constructor=error.constructor;
++   if(typeof expectedMessage==='string')assert.equal(snapshot.message,expectedMessage);
++   else if(expectedMessage!==undefined){assert.equal(constructor,expectedMessage.constructor);assert.deepEqual(snapshot,expectedMessage.snapshot);}
++   return{snapshot,constructor,counts:o?.counts()??null,log};};
+   const before=execute(beforeOracle),after=execute(graphOracle);
+   assert.equal(after.constructor,before.constructor);assert.deepEqual(after.snapshot,before.snapshot);
+   assert.deepEqual(after.counts,before.counts);assert.deepEqual(after.log,before.log);
+@@ -148,32 +157,32 @@
+ parityCase('full error parity signed-zero scalar',()=>({run:o=>o.compare({n:-0},{n:0})}),'root.n: -0 !== 0');
+ parityCase('full error parity NaN inequality',()=>({run:o=>o.compare({n:NaN},{n:0})}),'root.n: NaN !== 0');
+ parityCase('full error parity primitive-vs-object string formatter throws',log=>({run:o=>o.compare(0,{toString(){log.push('string');throw new Error('formatter sentinel');}})}),'formatter sentinel');
+-parityCase('full error parity mapped-function initialization',()=>({api:[{...apis()[0],f:()=>0},{...apis()[1],f:0}],run:()=>{}}),'f');
++parityCase('full error parity mapped-function initialization',()=>({api:[{...apis()[0],f:()=>0},{...apis()[1],f:0}],run:()=>{}}),canonicalAssertAnchor('equal','number','function','f'));
+ parityCase('full error parity unmapped callback',()=>({run:o=>o.compare({f:()=>0},{f:()=>0})}),'unmapped function root.f');
+ parityCase('full error parity forward alias',()=>({run:o=>{const a={},b={};o.compare(a,b);o.compare(a,{});}}),'forward alias mismatch root');
+ parityCase('full error parity reverse alias',()=>({run:o=>{const a={},b={};o.compare(a,b);o.compare({},b);}}),'reverse alias mismatch root');
+-parityCase('full error parity array classification',()=>({run:o=>o.compare([],{})}),'root array');
++parityCase('full error parity array classification',()=>({run:o=>o.compare([],{})}),canonicalAssertAnchor('equal',true,false,'root array'));
+ parityCase('full error parity null prototype',()=>({run:o=>o.compare(Object.create(null),{})}),'root null prototype');
+ parityCase('full error parity unsupported left prototype',()=>({run:o=>o.compare(Object.create({}),{})}),'root unsupported prototype');
+ parityCase('full error parity unsupported right prototype',()=>({run:o=>o.compare({},Object.create({}))}),'root unsupported prototype');
+-parityCase('full error parity deep keys unchanged',()=>({run:o=>o.compare({a:0},{b:0})}),'root own keys');
+-parityCase('full error parity frozen classification',()=>({run:o=>o.compare(Object.freeze({a:0}),{a:0})}),'root frozen');
++parityCase('full error parity deep keys unchanged',()=>({run:o=>o.compare({a:0},{b:0})}),canonicalAssertAnchor('deepEqual',['a'],['b'],'root own keys'));
++parityCase('full error parity frozen classification',()=>({run:o=>o.compare(Object.freeze({a:0}),{a:0})}),canonicalAssertAnchor('equal',true,false,'root frozen'));
+ parityCase('full error parity enumerable-first descriptor',()=>({run:o=>{
+  const a={},b={};Object.defineProperty(a,'n',{value:0,enumerable:false,writable:false,configurable:false});
+  Object.defineProperty(b,'n',{value:0,enumerable:true,writable:true,configurable:true});o.compare(a,b);
+-}}),'root.n.enumerable');
++}}),canonicalAssertAnchor('equal',false,true,'root.n.enumerable'));
+ parityCase('full error parity configurable-before-writable descriptor',()=>({run:o=>{
+  const a={},b={};Object.defineProperty(a,'n',{value:0,enumerable:true,writable:false,configurable:false});
+  Object.defineProperty(b,'n',{value:0,enumerable:true,writable:true,configurable:true});o.compare(a,b);
+-}}),'root.n.configurable');
++}}),canonicalAssertAnchor('equal',false,true,'root.n.configurable'));
+ parityCase('full error parity writable descriptor',()=>({run:o=>{
+  const a={},b={};Object.defineProperty(a,'n',{value:0,enumerable:true,writable:false,configurable:true});
+  Object.defineProperty(b,'n',{value:0,enumerable:true,writable:true,configurable:true});o.compare(a,b);
+-}}),'root.n.writable');
++}}),canonicalAssertAnchor('equal',false,true,'root.n.writable'));
+ parityCase('full error parity accessor denial no getter payment',log=>({run:o=>{
+  const a={};Object.defineProperty(a,'n',{get(){log.push('getter must not run');throw Error('getter sentinel');},enumerable:true});o.compare(a,{n:0});
+ }}),'root.n accessor unsupported');
+-parityCase('full error parity unsupported symbol',()=>({run:o=>{const s=Symbol('shared');o.compare({[s]:0},{[s]:0});}}),'root unsupported symbol');
++parityCase('full error parity unsupported symbol',()=>({run:o=>{const s=Symbol('shared');o.compare({[s]:0},{[s]:0});}}),canonicalAssertAnchor('equal','symbol','string','root unsupported symbol'));
+ parityCase('full error parity proxy trap failure order',log=>({run:o=>{
+  const a=new Proxy({n:0},{getPrototypeOf(t){log.push('prototype');return Reflect.getPrototypeOf(t);},
+   isExtensible(t){log.push('extensible');return Reflect.isExtensible(t);},

@@ -1,0 +1,20 @@
+# Finite private materialization only; no application, profile, tooling or source inventory.
+import json,hashlib,uuid,os
+from pathlib import Path
+r=Path('/workspace/StarShipSimulator');b=r/'docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/pure20-owned-route';sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();pins=b/'input-pins.json';rows=json.loads(pins.read_text())['files'];assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='view-clock-codec-preparation'
+for p,h in rows.items():assert sha(p)==h,p
+s=r/'node_modules/.cache'/('starship-view-clock-codec-'+uuid.uuid4().hex);s.mkdir(mode=0o700)
+for source,name in [(b/'owner.mjs.txt','owner.mjs'),(b.parent/'pure-controls.mjs.txt','driver.mjs'),(b.parent/'codec-diagnostic.mjs.txt','codec-diagnostic.mjs'),(b.parent/'prototype-witness.mjs.txt','prototype-witness.mjs')]:
+ with(s/name).open('xb')as f:f.write(source.read_bytes())
+ os.chmod(s/name,0o600)
+ rows[str(s/name)]=sha(s/name)
+node={'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'};helper={'path':str(r/'scripts/bench/owned-command.mjs'),'sha':'0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db'}
+m={'kind':'view-clock-codec-input-v1','root':str(r),'setup':str(s),'files':rows,'node':node,'helper':helper,'driver':{'path':str(s/'driver.mjs'),'sha':sha(s/'driver.mjs')},'expectedCases':['exact nested unknown path and original assertion shape', 'first own-key traversal order retained', 'array custom prototype reports exact path and remains strict', 'constructor name lookalike cannot admit', 'approved exact constructor references distinguished', 'approved prototype encoding never invokes denial callback', 'ordinary array object and null object whitelist unchanged', 'own constructor accessor never runs', 'own toJSON and data-field accessors never run', 'function name accessor never runs', 'function custom own keys are not enumerated', 'provider proxy rejects before any reflection trap', 'proxy prototype witness rejects without reflection traps', 'function proxy descriptor tagged with zero traps', 'signed zero NaN undefined and descriptor flags exact', 'symbol metadata uses explicit ordinal without getter calls', 'unknown object ownkeys256 cap denies overflow', 'path64KiB cap denies overflow', 'string aggregate128KiB cap denies overflow', 'shared identity and cycles remain denied']}
+with(s/'input.json').open('x')as f:json.dump(m,f,indent=2);f.write('\n')
+rows={**rows,str(pins):sha(pins),str(s/'input.json'):sha(s/'input.json')}
+with(s/'root-inventory.json').open('x')as f:json.dump({'kind':'view-clock-codec-root-inventory-v1','files':rows},f,indent=2);f.write('\n')
+root={'kind':'view-clock-codec-root-input-v1','mode':'view-clock-codec','outerMs':30000,'root':str(r),'setup':str(s),'steps':['codec'],'node':node,'helper':helper,'pureInput':{'path':str(s/'input.json'),'sha':sha(s/'input.json')},'pins':{'path':str(s/'root-inventory.json'),'sha':sha(s/'root-inventory.json')},'stage':{'path':str(s/'owner.mjs'),'sha':sha(s/'owner.mjs')},'observer':{'path':str(b/'root-observer.py.txt'),'sha':sha(b/'root-observer.py.txt')},'python':{'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'}}
+with(s/'root-input.json').open('x')as f:json.dump(root,f,indent=2);f.write('\n')
+for name in ('input.json','root-inventory.json','root-input.json'):os.chmod(s/name,0o600)
+for p,h in rows.items():assert sha(p)==h,p
+print(json.dumps({'setup':str(s),'input':str(s/'input.json'),'inputSha':sha(s/'input.json'),'rootInput':str(s/'root-input.json'),'rootInputSha':sha(s/'root-input.json'),'argv':[root['python']['path'],root['observer']['path'],str(s/'root-input.json'),sha(s/'root-input.json')]}))

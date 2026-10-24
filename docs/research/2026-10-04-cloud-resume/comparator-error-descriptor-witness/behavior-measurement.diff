@@ -1,0 +1,60 @@
+--- unexecuted/assert-stack-behavior.mjs
++++ measure-stack-behavior.mjs
+@@ -10,10 +10,10 @@
+ assert.equal(source.split(snippet).length,2,'Exact original first negative recipe');
+ const start=source.indexOf('function errorSnapshot(error){'),end=source.indexOf('\nfunction parityCase',start);assert(start>=0&&end>start);
+ const helperSource=source.slice(start,end);
+-const helper=new Function('assert','return ('+helperSource+');')(assert);
++const helper=new Function('assert','"use strict"; return ('+helperSource+');')(assert);
+ const apis=()=>[{SHIP:0,SUPER_HEAVY:0,CATCH:0},{SHIP:0,SUPER_HEAVY:0,CATCH:0}];
+ let original;try{beforeOracle(...apis()).compare({n:-0},{n:0});}catch(error){original=error;}
+-assert(original instanceof assert.AssertionError);assert.equal(original.message,'root.n: -0 !== 0');
++assert(original instanceof assert.AssertionError);
+ const canonical=new assert.AssertionError({message:'canonical sentinel',actual:false,expected:true,operator:'=='});
+ const ordinary=new Error('ordinary sentinel');
+ // This capture reads descriptor data only: no Error.stack/property getter invocation.
+@@ -34,6 +34,8 @@
+    {kind:'accessor',enumerable:d.enumerable,configurable:d.configurable,get:functionMetadata(d.get),set:functionMetadata(d.set)}];}))}};
+ }
+ const primary=capture(original),freshAssertion=capture(canonical),freshError=capture(ordinary);
++assert(primary.descriptors.message&&'value'in primary.descriptors.message,'Original message must be descriptor data, never invoke getter');
++assert.equal(primary.descriptors.message.value,'root.n: -0 !== 0');
+ const stackIdentity={};for(const[name,entry]of [['assertion',freshAssertion],['ordinary',freshError]]){
+  const a=primary.descriptors.stack,b=entry.descriptors.stack;
+  stackIdentity[name]={bothOwn:Boolean(a&&b),sameKind:a&&b?('value'in a)===('value'in b):false,
+@@ -58,11 +60,32 @@
+  stackIdentity,originalClass:{isPublicAssertionError:original instanceof assert.AssertionError,samePublicPrototype:Object.getPrototypeOf(original)===assert.AssertionError.prototype},rejectingKey,descriptorOrder,helperSourceDigest:sha(helperSource),recipeDigest:sha(snippet),
+  originalControlSourceDigest:sha(source),unknown:unknown.encoded,unknownIdentity,unknownGetterCalls};
+ writeFileSync(resolve(receipt,'descriptor-before-stack-read.json'),JSON.stringify(before,null,2)+'\n',{flag:'wx'});
++function dataField(object,key){
++ if(!object||(typeof object!=='object'&&typeof object!=='function'))return{status:'non-object'};
++ let current=object;for(let depth=0;current&&depth<8;depth++){
++  const d=Object.getOwnPropertyDescriptor(current,key);if(d)return'value'in d?{status:'data',value:d.value}:{status:'accessor-not-read'};
++  current=Object.getPrototypeOf(current);
++ }return{status:'not-found-in-bounded-prototype-walk'};
++}
++function encodedField(field){
++ if(field.status!=='data')return field;
++ const type=typeof field.value;
++ if(type==='function')return{status:'data',type,metadata:functionMetadata(field.value)};
++ if(type==='string'||type==='number'||type==='boolean'||field.value===null)return{status:'data',type,value:field.value};
++ return{status:'data',type};
++}
++function operation(action){
++ try{const value=action();return{status:'returned',valueType:typeof value,
++  ...(typeof value==='string'?{value,header:value.split('\n')[0]}:{})};}
++ catch(error){return{status:'threw',thrownType:typeof error,constructor:encodedField(dataField(error,'constructor')),
++  name:encodedField(dataField(error,'name')),message:encodedField(dataField(error,'message'))};}
++}
+ const behavior=[];
+ for(const[name,error]of [['original',original],['canonicalAssertion',canonical],['ordinaryError',ordinary]]){
+- const first=error.stack;assert.equal(typeof first,'string');const afterRead=capture(error);
+- const assigned='public assigned stack '+name;error.stack=assigned;assert.equal(error.stack,assigned);const afterSet=capture(error);
+- behavior.push({name,readType:typeof first,readStartsWith:first.split('\n')[0],afterRead:afterRead.encoded,assigned,afterSet:afterSet.encoded});
++ const read=operation(()=>error.stack),afterRead=capture(error);
++ const assigned='public assigned stack '+name;
++ const set=operation(()=>{error.stack=assigned;});const readAfterSet=operation(()=>error.stack),afterSet=capture(error);
++ behavior.push({name,read,afterRead:afterRead.encoded,assigned,set,readAfterSet,afterSet:afterSet.encoded});
+ }
+ writeFileSync(resolve(receipt,'descriptor-after-public-stack.json'),JSON.stringify(behavior,null,2)+'\n',{flag:'wx'});
+ writeFileSync(resolve(receipt,'witness-finalized.json'),JSON.stringify({finalized:true,status:'pass',rejectingKey,

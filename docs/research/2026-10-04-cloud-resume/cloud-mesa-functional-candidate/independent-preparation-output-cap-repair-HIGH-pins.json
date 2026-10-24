@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "decision": "supported-scopes-and-separate-preparation-spec-review",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-preparation-output-cap-repair-HIGH-review.md",
+    "sha256": "5d08587282564378e997d3fd220e0f29b80b56b9bb7ecc393fffd5b8d43eb4ae"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha256": "2bd17fbe29f3df40ac7df8eb9f34e7aea02a3463e6517d875389823cc23a2fd4"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-proposal.md",
+      "sha256": "97f5135c034b1aeb38780fc41c9f29ecae46c4c3f7daadab4637f80562215745"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-source-pins.json",
+      "sha256": "df27de75c02259ffa2fd2e85f0de96cbeb63b32298f3a70338b33db15b7e0571"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-preparation-output-cap-repair/prepare-inputs.py.txt",
+      "sha256": "e8672f67d3063e0403f573c3cc7c85f824493ca7c8c77cd49ee0de5af410fc9a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-preparation-output-cap-repair/preparation-proposal.md",
+      "sha256": "4fac3b365ae5c39bc864ce71cda1afb30fa3965ad46b950e3df59108af0e3b44"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/before-preparation-output-cap-repair/preparation-source-pins.json",
+      "sha256": "c0d8f6d04820645cc89f265e8dd31a29fa98dfeeac5149ecdaf71ae954fcfc7e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-preparation-source-HOLD-review.md",
+      "sha256": "429fc9c13c5b0ee65948998617f1b3556e80c6381bc16f812f64e61da94986dc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-preparation-source-HOLD-pins.json",
+      "sha256": "d26026311246a8a6f760b413391e18be83f64589d286bba50aaa42956fa19912"
+    }
+  ],
+  "executionPerformed": false
+}

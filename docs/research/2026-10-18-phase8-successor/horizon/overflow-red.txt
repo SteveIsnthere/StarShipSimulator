@@ -1,0 +1,35 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/core/scenario-horizon.test.ts -t rejects invalid orbit --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/horizon/overflow-red.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ |unit| tests/core/scenario-horizon.test.ts (4 tests | 1 failed | 3 skipped) 6ms
+     ↓ retains all eighteen ID/model rows with only four orbital extensions
+     ↓ derives the cap from a ground revisit, Kepler transfer allowance and terminal time
+     ↓ recomputes opportunity time under rotation instead of silently reusing two Kepler periods
+     × rejects invalid orbit geometry and a non-prograde ground revisit 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/scenario-horizon.test.ts > the approved scenario mission failure deadlines > rejects invalid orbit geometry and a non-prograde ground revisit
+AssertionError: expected function to throw an error, but it didn't
+ ❯ tests/core/scenario-horizon.test.ts:59:63
+     57|       expect(() => orbitalMissionHorizon(altitude)).toThrow(RangeError…
+     58|     }
+     59|     expect(() => orbitalMissionHorizon(Number.MAX_VALUE, -1)).toThrow(…
+       |                                                               ^
+     60|     expect(() => orbitalMissionHorizon(1e15)).toThrow(RangeError);
+     61|     for (const rotation of [NaN, Infinity, -Infinity, 1]) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  07:32:25
+   Duration  638ms (transform 407ms, setup 0ms, import 502ms, tests 6ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/horizon/overflow-red.json

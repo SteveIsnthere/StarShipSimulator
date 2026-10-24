@@ -1,0 +1,22 @@
+[
+  {
+    "path": "docs/plans/modernization/modernization-GOAL.md",
+    "beforeSha": "a1464800d6582d2c7887f95bbea8e422c2f1764ca280806ce0c96c4044fcb4e4",
+    "afterSha": "8ed25bca8de3992a0d4b7e5b195c52ea3eef2bacac324037a8bb7a226419b05a"
+  },
+  {
+    "path": "docs/plans/modernization/modernization-handover.md",
+    "beforeSha": "073f6018b747e58e07fe2568177c930857efb985e85f428ed0da1d987e48fe04",
+    "afterSha": "ad32e0c0c5f5dc4effecb7461eeb545d1759e9c57150469ab473f3961a65ffde"
+  },
+  {
+    "path": "docs/plans/modernization/modernization-phase-8.md",
+    "beforeSha": "4788eb252043c0abdea3b385bc36002939ce55463569d263c54a359b435fb4cd",
+    "afterSha": "1dba3f0dc0fc9013dbd09f24e751bf853e90f6a22faddfd520f35abf4edf52f3"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/README.md",
+    "beforeSha": "964b9e8b79aae304a775a117f0436e8a84d4a600c8f4ca30e93932b76ebc135b",
+    "afterSha": "48c3817d8fbdf4ffc9a1ae287c1c14f0317d5f239805e7a18919ac40bd35bfe7"
+  }
+]

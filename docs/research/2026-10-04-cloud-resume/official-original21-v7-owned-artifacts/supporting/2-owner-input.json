@@ -1,0 +1,38 @@
+{
+  "kind": "official-original21-owner-input-v1",
+  "mode": "original21",
+  "root": "/workspace/StarShipSimulator",
+  "outerMs": 338000,
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "npmCli": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+    "sha": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7"
+  },
+  "qualification": {
+    "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+    "sha": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/inventory.json",
+    "sha": "546d8b1030fcbcdc8e25248cbaa830f6958d1ee806139d5065642d5af857ad6b"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/business-stage.mjs.txt",
+    "sha": "47bcf04afe36ef68a1f8eae390e9ab4e476b29f1f4141f9ee25d92209b086cd0"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+    "sha": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5"
+  }
+}

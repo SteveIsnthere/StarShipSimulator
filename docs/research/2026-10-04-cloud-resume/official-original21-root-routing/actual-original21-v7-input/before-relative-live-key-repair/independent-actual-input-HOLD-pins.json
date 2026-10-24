@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "decision": "HOLD-contradictory-stale-relative-executable-source-pins",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/independent-actual-input-HOLD-review.md",
+  "reviewSha256": "2a22bdf3e165dab69bd79db8f3db080a15206bac3de83475f85777d49a45c555",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/owner-input.json": "0b2727072090985e8454f41f9d2d46216005b21567669f0c7a1e97449aa830fd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/inventory.json": "66a5e2e52a7b27439811a05348ac1482b8035e356aa819de1d29f37bdc1e82b9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/declaration.md": "65002bc034aaf334cb7e904053487bab759538eeb59dbb41cbcb99e8d5113925",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/business-stage.mjs.txt": "47bcf04afe36ef68a1f8eae390e9ab4e476b29f1f4141f9ee25d92209b086cd0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5",
+    "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+    "/workspace/StarShipSimulator/scripts/test/loader.mjs": "f906a14461a462ec8b965e641ddf27d5be589380d4bfc8208c9e7a6f5bce1d16",
+    "/workspace/StarShipSimulator/scripts/test/run.mjs": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1"
+  },
+  "badRelativeKeys": [
+    "scripts/test/loader.mjs",
+    "scripts/test/run.mjs"
+  ],
+  "sourcePathsCurrentVerified": 769,
+  "matchingAdditionalEvidence": 152,
+  "original21ExecutionApproved": false,
+  "sourceEdited": false,
+  "workloadExecuted": false
+}

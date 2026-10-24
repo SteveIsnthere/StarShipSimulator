@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "decision": "supported-logging-only-scopes-and-input-preparation",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-logging-source-HIGH-review.md",
+    "sha": "bcf4ce666801ff52db00e65d156382710c98ea6c366276746c764aba6f8ebe07"
+  },
+  "inputManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/source-pins.json",
+    "sha": "dafd7388aa291ab248501671f5ac69e10ca60fd64aefd041bb38be4420f9867d"
+  },
+  "qualifiedInputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/Browser.pdl.txt",
+      "sha256": "1fd00cce8209d25818c598bb8f4cc7cdef91e02dfeb69771a094bf99c2e8ae48",
+      "bytes": 11817
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/SystemInfo.pdl.txt",
+      "sha256": "2ad6a7fada51621fa84885dd922a03c740aac83b1b460af331dd2dd4e8f76ed3",
+      "bytes": 4766
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/business-stage.mjs.txt",
+      "sha256": "c09f4c1d19a69f367f4f79d0018976680c60620374f89d3e99fdf2cd4656d590",
+      "bytes": 3587
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/contract.md",
+      "sha256": "7a9955de25cddd2dee4472f8708b39003fe4b09956eeb6bbcc0710a208421012",
+      "bytes": 4501
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/protocol-source-pins.json",
+      "sha256": "f1ae32ed6d1b8f51bb9b9b81b1b951192cd5536210a21c93f804fdacc557789c",
+      "bytes": 868
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/run-functional-diagnostic.mjs.txt",
+      "sha256": "adb7c21e136f1a4a57d738b544943f574e3142da01cba7c4ddb3996555493b7e",
+      "bytes": 13744
+    }
+  ],
+  "pageEvaluateBodyByteExact": true,
+  "executionPerformed": false,
+  "probeExecutionApproved": false
+}

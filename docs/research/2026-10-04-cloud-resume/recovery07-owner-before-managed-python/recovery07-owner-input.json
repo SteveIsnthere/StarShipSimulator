@@ -1,0 +1,51 @@
+{
+  "kind": "recovery07-concrete-owner-input-v1",
+  "purpose": "recovery07-capture",
+  "root": "/workspace/StarShipSimulator",
+  "outerMs": 120000,
+  "childMs": 90000,
+  "pinKeys": [
+    "node",
+    "helper",
+    "capture",
+    "captureInput",
+    "stage",
+    "observer",
+    "python"
+  ],
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "capture": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-capture.py.txt",
+    "sha": "2b947e07bfa8afc14dd9889538c99279e9b83995df287e0e778db07c1716d49b"
+  },
+  "captureInput": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-capture-input.json",
+    "sha": "eacb4ccf6f73b653a7d1992a763851932792dc73a54bbcbff0ceb8489458ad07"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-owner-stage.mjs.txt",
+    "sha": "c1e3c4bb82d3113ccc72d30a38dc56d538b16079a97d0e537a8367d46ed54119"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/recovery07-root-parent.py.txt",
+    "sha": "7da93aca30ad367faa9514c1334fdbd68c13790866f3f578266947402e73ac1a"
+  },
+  "python": {
+    "path": "/usr/bin/python3.13",
+    "sha": "17b78e0a93175e86f9ac03141924fd7a7f0c0c52e66b34bfa0de20ffef989df1"
+  },
+  "canonicalObserver": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/browser-root-parent.py.txt",
+    "sha": "d7eda9c372acad61f379a2c6df77737ce80d7612d8213b5896b5e836d58c35ba"
+  },
+  "sourceReviewPending": true,
+  "executed": false,
+  "route": "Source activation first; copy observer byte-exact privately, then /usr/bin/python3 actualObserver input.json inputSHA. Root observer materializes stage, owns isolated outerNode; generic reviewed owner registers detached Node child, inline spawnSync Python inherited group,80s Python/90s helper/112s root work+8cleanup/120 whole. No unregistered killpg. Owner receipts reconcile actual cleanup.tracked; incomplete hardkill/finalizer is failure. Capture/source/input unchanged; snapshot only, no application/build/tests/GPU acceptance."
+}

@@ -1,0 +1,37 @@
+--- /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/capture-reporter.mjs.txt
++++ /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/serialization-v2/capture-reporter-v2.mjs.txt
+@@ -3,18 +3,10 @@
+ import { createHash } from 'node:crypto';
+ import { resolve } from 'node:path';
+ const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+-// Retain live Infinity/-0 rather than silently treating JSON null/zero as source locations.
+-function lossless(value) {
+-  if (typeof value === 'number') {
+-    if (Object.is(value, -0)) return { $number: '-0' };
+-    if (!Number.isFinite(value)) return { $number: String(value) };
+-    return value;
+-  }
+-  if (Array.isArray(value)) return value.map(lossless);
+-  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, lossless(item)]));
+-  assert(value !== undefined, 'Unexpected undefined in provider map');
+-  return value;
+-}
++import {createRequire} from 'node:module';
++import {encodeCoverageOwnData} from './codec.mjs';
++const require=createRequire(import.meta.url),libCoverage=require('istanbul-lib-coverage');
++const approvedFileCoveragePrototype=Object.getPrototypeOf(libCoverage.createFileCoverage('/inert.ts'));
+ export default class CaptureReporter {
+   onInit(ctx) {
+     const path = process.env.STARSHIP_MIXED_COVERAGE_RECEIPT;
+@@ -65,9 +57,9 @@
+       }
+       assert.deepEqual(readdirSync(rawDirectory).sort(), names);
+       const map = coverage.toJSON();
+-      const reports = [this.save('provider-map.json', map), this.save('provider-map-lossless.json', lossless(map))];
++      const reports = [this.save('provider-map.json', map), this.save('provider-map-tagged-v2.json', encodeCoverageOwnData(map,approvedFileCoveragePrototype))];
+       this.save('capture-completed.json', { completed: true, raw, rawBytes: total, reports,
+-        originalRangeJSONRetained: true, sourceSchemaNormalized: false, projectAssociationInvented: false,
++        originalRangeJSONRetained: true, losslessEncoding: 'coverage-own-data-v2', sourceSchemaNormalized: false, projectAssociationInvented: false,
+         providerThresholdDecisionPending: true, productionAcceptance: false });
+     } catch (error) {
+       this.save('capture-failure.json', { completed: false, error: String(error.stack ?? error), productionAcceptance: false });

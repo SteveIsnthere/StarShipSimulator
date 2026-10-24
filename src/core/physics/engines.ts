@@ -12,10 +12,12 @@
  * just written in a way that hid it behind a measured frame rate.
  */
 import * as C from '../constants';
+import { engineThrust, engineMassFlow } from './propulsion';
 import { SHIP, type VehicleDefinition } from '../vehicle';
 import { draw } from '../rng';
 import type { RaptorIndex, SimState } from '../state';
 import { rad, type Rad } from '../units';
+import { enforceEngineSupport, writeFlightMass } from './damage-flight';
 
 // --- thrust ----------------------------------------------------------------
 
@@ -61,8 +63,8 @@ export function getHealthySeaLevelCount(failed: readonly boolean[], model: Vehic
  */
 export function getTotalMaxThrust(running: readonly boolean[], ambientPressureKPa: number, model: VehicleDefinition = SHIP): number {
   return (
-    countOfKind(running, 'sea-level', true, model) * C.thrustPerRaptorAt(ambientPressureKPa) +
-    countOfKind(running, 'vacuum', true, model) * C.thrustPerRVacAt(ambientPressureKPa)
+    countOfKind(running, 'sea-level', true, model) * engineThrust(model.propulsion, 'sea-level', ambientPressureKPa) +
+    countOfKind(running, 'vacuum', true, model) * engineThrust(model.propulsion, 'vacuum', ambientPressureKPa)
   );
 }
 
@@ -99,7 +101,7 @@ export function gimballedShare(running: readonly boolean[], ambientPressureKPa: 
   }
   if (countOfKind(running, 'vacuum', true, model) === 0) return 1;
   const total = getTotalMaxThrust(running, ambientPressureKPa, model);
-  return total > 0 ? (countOfKind(running, 'sea-level', true, model) * C.thrustPerRaptorAt(ambientPressureKPa)) / total : 0;
+  return total > 0 ? (countOfKind(running, 'sea-level', true, model) * engineThrust(model.propulsion, 'sea-level', ambientPressureKPa)) / total : 0;
 }
 
 /** physics.js:283 — the lateral component produced by gimbal deflection. @returns N */
@@ -131,8 +133,8 @@ export function getOffAxisThrustDifference(
     else vacuum += term;
   }
   return (
-    seaLevel * throttleCurrent * 0.01 * C.thrustPerRaptorAt(ambientPressureKPa) +
-    vacuum * throttleCurrent * 0.01 * C.thrustPerRVacAt(ambientPressureKPa)
+    seaLevel * throttleCurrent * 0.01 * engineThrust(model.propulsion, 'sea-level', ambientPressureKPa) +
+    vacuum * throttleCurrent * 0.01 * engineThrust(model.propulsion, 'vacuum', ambientPressureKPa)
   );
 }
 
@@ -160,8 +162,8 @@ export function getGimbalPointingDirection(pitch: Rad, gimbalPosition: number): 
  */
 export function getFuelFlowRate(running: readonly boolean[], throttleCurrent: number, model: VehicleDefinition = SHIP): number {
   return (
-    countOfKind(running, 'sea-level', true, model) * throttleCurrent * 0.01 * C.maxFuelFlowPerRaptor +
-    countOfKind(running, 'vacuum', true, model) * throttleCurrent * 0.01 * C.RVAC_MASS_FLOW
+    countOfKind(running, 'sea-level', true, model) * throttleCurrent * 0.01 * engineMassFlow(model.propulsion, 'sea-level') +
+    countOfKind(running, 'vacuum', true, model) * throttleCurrent * 0.01 * engineMassFlow(model.propulsion, 'vacuum')
   );
 }
 
@@ -176,6 +178,7 @@ export function getFuelFlowRate(running: readonly boolean[], throttleCurrent: nu
  * Bug fix: the emptying step used to thrust in full on its last kilograms).
  */
 export function updatePropellant(state: SimState, dt: number, model: VehicleDefinition = SHIP): number {
+  enforceEngineSupport(state, model);
   const { vehicle, engines, status } = state;
   let burned = 1;
 
@@ -197,7 +200,7 @@ export function updatePropellant(state: SimState, dt: number, model: VehicleDefi
     }
   }
 
-  vehicle.vehicleMass = model.dryMass + vehicle.propellantMass;
+  writeFlightMass(state, model);
   return burned;
 }
 
@@ -307,8 +310,8 @@ export function getOffAxisThrustTorque(running:readonly boolean[],throttle:numbe
   let torque=0;
   for(let i=0;i<model.engines.length;i++) if(running[i]) {
     const mount=model.engines[i]!;
-    const thrust=mount.kind==='sea-level'?C.thrustPerRaptorAt(pressure):C.thrustPerRVacAt(pressure);
-    torque-=mount.offAxis*thrust*throttle*.01*Math.cos(mount.gimballed?gimbalAngle:0);
+    const thrust=engineThrust(model.propulsion,mount.kind,pressure);
+    torque-=mount.offAxis*thrust*throttle*.01*Math.cos((mount.gimballed ?? mount.kind === 'sea-level') ? gimbalAngle : 0);
   }
   return torque;
 }

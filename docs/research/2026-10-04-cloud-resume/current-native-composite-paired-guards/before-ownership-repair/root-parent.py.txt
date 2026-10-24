@@ -1,0 +1,237 @@
+"""ONE reviewed paired episode; durable ownership survives receipt/assertion errors."""
+import hashlib
+import json
+import os
+import pathlib
+import re
+import signal
+import subprocess
+import tempfile
+import time
+
+draft = pathlib.Path('docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards').resolve()
+parent = pathlib.Path(tempfile.mkdtemp(prefix='parent-', dir=draft))
+print(str(parent), flush=True)
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+source_path = pathlib.Path(__file__).resolve()
+source_sha = None
+owned = {}
+failures = []
+child = None
+raw_exit = None
+receipt = None
+prefix = None
+before_receipts = set()
+output_bytes = 0
+output_retained = 0
+pipe_eof = False
+start = time.monotonic()
+output_cap = 2 * 1024 * 1024
+external_bound = 930
+
+
+def save(name, value):
+    path = parent / name
+    with path.open('x') as stream:
+        stream.write(json.dumps(value, indent=2) + '\n')
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def failure(error):
+    failures.append(str(error)[:32768])
+
+
+def identity(pid):
+    try:
+        raw = pathlib.Path(f'/proc/{pid}/stat').read_text()
+        fields = raw[raw.rfind(')') + 2:].split()
+        return {'pid': pid, 'start': fields[19], 'parent': int(fields[1]),
+                'group': int(fields[2]), 'session': int(fields[3]), 'state': fields[0]}
+    except (FileNotFoundError, ProcessLookupError):
+        return None
+
+
+def live(row):
+    now = identity(row['pid'])
+    return bool(now and now['start'] == row['start'] and now['state'] not in ['Z', 'X'])
+
+
+def remember(row, origin):
+    key = (row['pid'], row['start'])
+    if key not in owned:
+        assert row['pid'] != os.getpid()
+        assert len(owned) < 4096, 'Owned identity storage bound'
+        owned[key] = row
+        with (parent / 'observed-identities.jsonl').open('a') as stream:
+            stream.write(json.dumps({'origin': origin, 'identity': row}) + '\n')
+            stream.flush()
+            os.fsync(stream.fileno())
+
+
+def observe():
+    rows = [identity(int(path.name)) for path in pathlib.Path('/proc').iterdir() if path.name.isdigit()]
+    rows = [row for row in rows if row]
+    parents = {row['pid'] for row in owned.values() if live(row)}
+    groups = {row['group'] for row in owned.values() if live(row)}
+    sessions = {row['session'] for row in owned.values() if live(row)}
+    changed = True
+    while changed:
+        changed = False
+        for row in rows:
+            if row['pid'] == os.getpid():
+                continue
+            if row['parent'] in parents or row['group'] in groups or row['session'] in sessions:
+                key = (row['pid'], row['start'])
+                if key not in owned:
+                    remember(row, 'outer-poll')
+                    parents.add(row['pid'])
+                    groups.add(row['group'])
+                    sessions.add(row['session'])
+                    changed = True
+
+
+def drain(output):
+    global output_bytes, output_retained, pipe_eof
+    if child is None or pipe_eof:
+        return
+    while True:
+        try:
+            block = os.read(child.stdout.fileno(), 65536)
+        except BlockingIOError:
+            return
+        if not block:
+            pipe_eof = True
+            return
+        output_bytes += len(block)
+        keep = block[:max(0, output_cap - output_retained)]
+        output.write(keep)
+        output_retained += len(keep)
+        output.flush()
+        if output_bytes > output_cap:
+            raise RuntimeError('Outer combined output bound2MiB')
+
+
+def terminate_owned():
+    # Identity validation precedes every signal; never signal this observer.
+    for sig, seconds in [(signal.SIGTERM, 5), (signal.SIGKILL, 2)]:
+        for row in list(owned.values()):
+            if live(row):
+                try:
+                    os.kill(row['pid'], sig)
+                except ProcessLookupError:
+                    pass
+        deadline = time.monotonic() + seconds
+        while time.monotonic() < deadline:
+            observe()
+            if not any(live(row) for row in owned.values()):
+                return
+            time.sleep(.05)
+
+
+try:
+    source_sha = sha(source_path)
+    save('observer-identity.json', identity(os.getpid()))
+    assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED') == 'current-native-composite-paired-guards'
+    review = os.environ['STARSHIP_CURRENT_NATIVE_REVIEW_SHA']
+    review_pins = os.environ['STARSHIP_CURRENT_NATIVE_REVIEW_PINS_SHA']
+    assert sha(draft / 'independent-review.md') == review
+    assert sha(draft / 'independent-review-pins.json') == review_pins
+    pins = json.loads((draft / 'independent-review-pins.json').read_text())
+    assert pins['review'] == review and pins['inputManifest'] == sha(draft / 'input-pins.json')
+    assert sha(draft / 'root-parent.py.txt') == source_sha
+    # Derive the exact supported receipt prefix from the pinned launcher rather
+    # than maintaining a second guessed literal spelling.
+    match = re.search(r'const receipt=resolve\(draft,`([^`]+)-\$\{randomUUID\(\)\}`\)', (draft / 'launcher.mjs.txt').read_text())
+    assert match, 'Pinned launcher receipt declaration required'
+    prefix = match.group(1) + '-'
+    before_receipts = set(draft.glob(prefix + '*'))
+    command = ['bash', str(draft / 'run.sh.txt')]
+    save('declaration.json', {'command': command, 'review': review, 'reviewPins': review_pins,
+         'inputManifest': pins['inputManifest'], 'parentSourceSha256': source_sha,
+         'receiptPrefixFromLauncher': prefix, 'childBoundSeconds': 900,
+         'externalBoundSeconds': external_bound, 'outputCapBytes': output_cap,
+         'observationIntervalSeconds': .1, 'identityCap': 4096, 'cpuExclusive': True})
+    with (parent / 'output.txt').open('xb') as output:
+        try:
+            child = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                     env=os.environ.copy(), start_new_session=True)
+            row = identity(child.pid)
+            assert row, 'Immediate outer command identity required'
+            remember(row, 'immediate-outer-command')
+            save('command-identity.json', row)
+            os.set_blocking(child.stdout.fileno(), False)
+            while child.poll() is None:
+                observe()
+                drain(output)
+                if time.monotonic() - start > external_bound:
+                    raise RuntimeError('Outer supervision bound930s')
+                time.sleep(.1)
+        except BaseException as error:
+            failure(error)
+        finally:
+            # Always reap/persist raw outcome BEFORE receipt assertions.
+            try:
+                observe()
+                if child is not None:
+                    if child.poll() is None:
+                        terminate_owned()
+                    raw_exit = child.wait(timeout=2)
+                    save('child-raw-status.json', {'code': raw_exit, 'elapsedSeconds': time.monotonic() - start})
+                    deadline = time.monotonic() + 1
+                    while not pipe_eof and time.monotonic() < deadline:
+                        try:
+                            drain(output)
+                        except BaseException as error:
+                            failure(error)
+                        if not pipe_eof:
+                            time.sleep(.05)
+                    if not pipe_eof:
+                        failure('Outer output pipe did not close within1s drain')
+                    child.stdout.close()
+            except BaseException as error:
+                failure(error)
+    assert not failures, 'Owned command or pipe finalization failure'
+    assert raw_exit == 0, f'Raw child exit {raw_exit}'
+    receipts = set(draft.glob(prefix + '*')) - before_receipts
+    assert len(receipts) == 1, 'Exactly one newly created supported receipt required'
+    receipt = receipts.pop()
+    save('actual-receipt.json', {'receipt': str(receipt)})
+    result = json.loads((receipt / 'finalized.json').read_text())
+    assert result['finalized'] and result['status'] == 'pass' and result['stage'] == 'paired-flight'
+except BaseException as error:
+    failure(error)
+finally:
+    # Even failed receipt discovery cannot prevent owned cleanup/postexit truth.
+    try:
+        observe()
+        if receipt is None and prefix is not None:
+            receipts = set(draft.glob(prefix + '*')) - before_receipts
+            if len(receipts) == 1:
+                receipt = receipts.pop()
+                save('actual-receipt.json', {'receipt': str(receipt)})
+            else:
+                failure('Receipt discovery unavailable or nonunique in finalizer')
+        for path in draft.glob('receipt-*/*.process.json'):
+            record = json.loads(path.read_text())
+            for row in record.get('cleanup', {}).get('tracked', []):
+                remember(row, 'actual-child-owner-finalizer')
+        for path in draft.glob('receipt-*/launcher-identity.json'):
+            remember(json.loads(path.read_text()), 'actual-launcher-identity')
+        if any(live(row) for row in owned.values()):
+            failure('Owned process survived command exit')
+            terminate_owned()
+        post = [{**row, 'executing': live(row)} for row in owned.values()]
+        save('independent-all-owned-postexit.json', post)
+        assert not any(row['executing'] for row in post), 'Executing owned process after cleanup'
+        assert sha(source_path) == source_sha, 'Executing observer source changed'
+    except BaseException as error:
+        failure(error)
+    result = {'rawChildExit': raw_exit, 'elapsedSeconds': time.monotonic() - start,
+              'receipt': str(receipt) if receipt else None, 'firstFailure': failures[0] if failures else None,
+              'failures': failures, 'outputBytes': output_bytes, 'outputRetainedBytes': output_retained,
+              'outputPipeEOF': pipe_eof, 'ownedCount': len(owned), 'parentSourceSha256': source_sha}
+    save('result.json', result)
+    print(json.dumps(result, indent=2), flush=True)
+    if failures:
+        raise SystemExit(1)

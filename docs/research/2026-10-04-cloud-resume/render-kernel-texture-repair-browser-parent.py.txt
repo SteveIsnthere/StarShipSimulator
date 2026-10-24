@@ -1,0 +1,40 @@
+import pathlib,json,hashlib,os,subprocess,time,signal
+base=pathlib.Path('docs/research/2026-10-04-cloud-resume').resolve()
+parent=base/'render-kernel-texture-repair-browser-parent';parent.mkdir()
+approvalPath=base/'cloud-render-kernel-texture-repair-actual-build-browser-approval.json'
+approval=json.loads(approvalPath.read_text());setup=pathlib.Path(approval['setup'])
+sha=lambda b:hashlib.sha256(b).hexdigest()
+files=dict(approval['candidateFiles']);files['kernel-program-attribution-hook.mjs']=approval['unchangedHookSha256']
+before={name:sha((base/name).read_bytes()) for name in files};assert before==files
+for name in files:(parent/(name+'.txt')).write_bytes((base/name).read_bytes())
+compiled=approval['compiledManifestSha256'];assert sha((setup/'kernel-compiled-manifest.json').read_bytes())==compiled
+node=subprocess.check_output(['which','node'],text=True).strip()
+command=[node,str(base/'run-render-kernel-texture-repair.mjs'),str(setup)]
+env={**os.environ,'RUN_RENDER_KERNEL':'1','RENDER_KERNEL_COMPILED_MANIFEST_SHA256':compiled}
+(parent/'declaration.json').write_text(json.dumps({'approvalSha256':sha(approvalPath.read_bytes()),'setup':str(setup),'compiledManifest':compiled,'sourcePins':before,'parentSourceSha256':sha(pathlib.Path(__file__).read_bytes()),'command':command,'externalTimeoutSeconds':120,'harnessWorkSeconds':90,'harnessCleanupSeconds':5,'cpuExclusive':True},indent=2)+'\n')
+started=time.monotonic();expired=False
+with (parent/'browser.output.txt').open('xb') as output:
+ child=subprocess.Popen(command,stdout=output,stderr=subprocess.STDOUT,env=env,start_new_session=True)
+ raw=pathlib.Path(f'/proc/{child.pid}/stat').read_text();root={'pid':child.pid,'starttime':raw[raw.rfind(')')+2:].split()[19]}
+ try:code=child.wait(timeout=120)
+ except subprocess.TimeoutExpired:
+  expired=True;os.killpg(child.pid,signal.SIGTERM)
+  try:code=child.wait(timeout=6)
+  except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);code=child.wait(timeout=2)
+post=[]
+identities=[root]
+cleanupPath=setup/'owned-cleanup.json'
+if cleanupPath.exists():
+ cleanup=json.loads(cleanupPath.read_text())
+ identities+=cleanup.get('owned',cleanup.get('identities',[]))
+for identity in identities:
+ path=pathlib.Path(f"/proc/{identity['pid']}/stat");executing=False
+ if path.exists():
+  raw=path.read_text();fields=raw[raw.rfind(')')+2:].split();executing=fields[19]==str(identity['starttime']) and fields[0] not in ['Z','X']
+ post.append({**identity,'executing':executing})
+(parent/'independent-postexit.json').write_text(json.dumps(post,indent=2)+'\n')
+after={name:sha((base/name).read_bytes()) for name in files}
+result={'childExit':code,'timeout':expired,'elapsedSeconds':time.monotonic()-started,'before':before,'after':after,'sourceExact':before==after,'root':root,'setup':str(setup),'ownedNonexecuting':not any(row['executing'] for row in post)}
+(parent/'parent-result.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2))
+if code or expired or before!=after or not result['ownedNonexecuting']:raise SystemExit(1)

@@ -1,0 +1,12 @@
+import { writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+export default class AdmissionLifecycleReporter {
+  onTestRunEnd(modules, unhandledErrors, reason) {
+    const inventory = modules.flatMap(module => [...module.children.allTests()].map(test => ({
+      file: module.moduleId, project: module.project.name,
+      fullName: test.fullName, state: test.result().state,
+    })));
+    writeFileSync(fileURLToPath(new URL('./control-lifecycle.json', import.meta.url)),
+      JSON.stringify({ reason, unhandledErrors, inventory }) + '\n', { flag: 'wx' });
+  }
+}

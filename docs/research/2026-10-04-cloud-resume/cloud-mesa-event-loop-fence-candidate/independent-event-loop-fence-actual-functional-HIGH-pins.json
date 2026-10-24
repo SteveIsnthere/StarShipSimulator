@@ -1,0 +1,77 @@
+{
+  "decision": "ACCEPTED toy4x4 software WebGL2 functionality only",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-actual-functional-HIGH-review.md",
+      "sha256": "04fe501dd6fbaaae9b106bdbf27c3910a3647fbea28a36948942978e62a80719"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-actual-functional-launch.json",
+      "sha256": "aedf5926d4513babaa269662b9323db2f317eeef5e231d51127e4688386f0010"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-observer-registration.json",
+      "sha256": "cecb5f99b6c9a6437c29d6c51a580958e7d28409f5c440abb61132d194b47e35"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-structural-before.json",
+      "sha256": "55c9565a2318e9f3b86221228256d3b112689475efaef2e2fd4d8f21d4b6a986"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-structural-after.json",
+      "sha256": "c6d2179cb2a68cd9a99e7d9aa0571be9855a29b287a2dae26769d933717a6e69"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/fence-input-freeze.json",
+      "sha256": "a1ac55d34cc0b56cf7e5809cbcb32dea6ea4250d3af62294ac810ac0e5f53725"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d7f9a0837ecf49e692860251218b4a7f/functional.json",
+      "sha256": "b15e453fd27f429834021a5faa0a62a2b4ad501d5c91ca58e3da90e8aafe0dcd"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d7f9a0837ecf49e692860251218b4a7f/provider.json",
+      "sha256": "4f10a1b6df8137a1c1ba13abb59bd7c3cb9e2c56bc84dc4b2813a9571e1e8cde"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d7f9a0837ecf49e692860251218b4a7f/outcome.json",
+      "sha256": "45f17ea184e599c0ef8936042c18cbf7b52356b55c64ac52ee6a2ecba0f198d2"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d7f9a0837ecf49e692860251218b4a7f/before.json",
+      "sha256": "f35d26d2d87214e919b092b8851d757b38faa8ef29ba7529728f0745dfa7372a"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d7f9a0837ecf49e692860251218b4a7f/after.json",
+      "sha256": "f35d26d2d87214e919b092b8851d757b38faa8ef29ba7529728f0745dfa7372a"
+    },
+    {
+      "path": "/tmp/starship-mesa-functional.d7f9a0837ecf49e692860251218b4a7f/cleanup.json",
+      "sha256": "8a87ad100a8120a7936916b16cd3755ff067db221a54d5373e82186f256adc16"
+    },
+    {
+      "path": "/tmp/starship-width2-root.sv1qxb6x/root-outcome.json",
+      "sha256": "b11810896107001c0b70927b6adb8d9bc851677fbade1c6e9cb6cb527def9a12"
+    },
+    {
+      "path": "/tmp/starship-width2-root.sv1qxb6x/root-independent-postexit.json",
+      "sha256": "2ab06140a590059c7287f5c4e2c1023d3259ce5b91f0935eecc9945ff2776615"
+    },
+    {
+      "path": "/tmp/starship-width2-root.sv1qxb6x/actual-outer-exit.json",
+      "sha256": "6f88db2b0b3641e81eeb66e4ef452d1c12e1cc4e9fb81d9d50dbc947d6ee2b44"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.kBiTdN/stage-result.json",
+      "sha256": "36d8ca18ac707f6df4ec85c8a04ca3c3664193deeefd65d2bc9960e1c74d26a8"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.kBiTdN/actual-child-exit.json",
+      "sha256": "6d3dd98c0cf33f4a67b3201b360480d5d0004fea6626a12d819e11d7eb22d3f4"
+    },
+    {
+      "path": "/tmp/starship-width2-stage.kBiTdN/preparation.process.json",
+      "sha256": "12bf0d4545ff61521b32ad980354325db1924ed9af1a31f9c7c529f91936c72e"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-mission.test.ts (2 tests | 1 failed) 27ms
+     × combines both retained bodies in two dimensions about their shared mass centre 18ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-mission.test.ts > damaged mission mass and reference > combines both retained bodies in two dimensions about their shared mass centre
+AssertionError: expected 2020000 to be 2019551.266768 // Object.is equality
+
+- Expected
++ Received
+
+- 2019551.266768
++ 2020000
+
+ ❯ tests/core/damage-mission.test.ts:28:25
+     26|       + b.totalMass * ((b.centreOfMassX - x) ** 2 + (b.centreOfMass - …
+     27|       + s.totalMass * ((s.centreOfMassX - x) ** 2 + (SUPER_HEAVY.heigh…
+     28|     expect(actual.mass).toBe(mass);
+       |                         ^
+     29|     expect(actual.centreX).toBeCloseTo(x, 12);
+     30|     expect(actual.centreStation).toBeCloseTo(z, 12);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  15:03:37
+   Duration  579ms (transform 219ms, setup 0ms, import 267ms, tests 27ms, environment 0ms)
+

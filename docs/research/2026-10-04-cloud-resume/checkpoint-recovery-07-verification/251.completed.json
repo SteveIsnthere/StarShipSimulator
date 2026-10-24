@@ -1,0 +1,1 @@
+{"applyCount": 1, "args": ["ls-files", "--stage", "-z"], "code": 0, "number": 251, "optionalLocks": "0", "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stdinSha256": null, "stdoutSha256": "dfc868b62d080302c8a6e64af01a2ee54120b95ce4234faa58b8586ad0a4d10d", "temporaryIndex": "/tmp/starship-recovery07.u9ln8edh/capture-index"}

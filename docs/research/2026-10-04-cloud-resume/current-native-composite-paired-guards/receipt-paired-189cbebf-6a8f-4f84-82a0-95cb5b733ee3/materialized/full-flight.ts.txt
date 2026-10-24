@@ -1,0 +1,80 @@
+import assert from 'node:assert/strict';
+import {writeFileSync,readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {Script,constants} from 'node:vm';
+import {createHash} from 'node:crypto';
+import {graphOracle} from './graph-oracle.ts';
+import * as ssr from './entry.ts';
+const [mode,entry,receipt]=process.argv.slice(2);assert(['paired','cost'].includes(mode));
+const nativeImport=new Script('url => import(url)',{importModuleDynamically:constants.USE_MAIN_CONTEXT_DEFAULT_LOADER}).runInThisContext();
+const native=await nativeImport(pathToFileURL(entry).href);const DT=1/120,cap=108000;
+const supervision=mode==='paired'?900000:120000;
+const started=performance.now(),cpu=process.cpuUsage();
+const oracle=mode==='paired'?graphOracle(ssr as never,native):null;
+const snapshotCgroup=()=>Object.fromEntries(['cpu.stat','cpu.max'].map(name=>{try{return [name,readFileSync(`/sys/fs/cgroup/${name}`,'utf8')];}catch{return [name,'unavailable'];}}));
+const beforeCgroup=snapshotCgroup();
+function initial(api:typeof ssr){
+ const preset=api.PRESETS.find(p=>p.id==='booster-sep')!;assert(preset);
+ const guide=api.createScenarioVehicle(preset);const scenario=api.createScenarioVehicle(preset);
+ assert.equal(guide.vehicle,api.SUPER_HEAVY);assert.equal(scenario.vehicle,api.SUPER_HEAVY);
+ guide.state.autopilot.autoLandOn=true;api.toggleAutoLand(scenario.state);
+ assert.deepEqual(guide.state,scenario.state,'both original900s named recipes initial data');
+ return guide.state;
+}
+function finite(value:unknown,seen=new WeakSet<object>()):void{
+ if(typeof value==='number'){assert(Number.isFinite(value));return;}
+ if(value&&typeof value==='object'&&!seen.has(value)){seen.add(value);for(const item of Object.values(value))finite(item,seen);}
+}
+function finalAssertions(api:typeof ssr,state:ReturnType<typeof initial>,previous:ReturnType<typeof initial>){
+ assert(state.status.landed);assert.equal(state.status.onTheGround,false);for(const value of Object.values(state.failures))assert.equal(value,false);
+ assert(state.vehicle.propellantMass>0);const pose=api.createCatchPose();api.writeCatchPose(state,api.SUPER_HEAVY,pose);
+ assert.equal(pose.altitude,120);assert(Math.abs(pose.x-api.starBaseXPos)<=2.25);
+ assert.equal(state.kinematics.speedX,0);assert.equal(state.kinematics.speedY,0);assert(Math.abs(state.kinematics.pitch)<=api.CATCH.maxPitch);
+ assert.equal(previous.status.landed,false);finite(state);
+ const held=api.step(api.cloneState(state),DT,{},api.SUPER_HEAVY);assert(held.status.landed);assert.equal(held.kinematics.altitude,state.kinematics.altitude);
+ return held;
+}
+function fingerprint(value:unknown,api:typeof ssr){
+ const hash=createHash('sha256'),seen=new WeakMap<object,number>();let next=0;
+ const roles=new WeakMap<object,string>();for(const key of Object.keys(api).sort())if(typeof api[key as keyof typeof api]==='function')roles.set(api[key as keyof typeof api] as object,key);
+ function walk(node:unknown){
+  if(typeof node==='function'){const role=roles.get(node);assert(role,'unmapped fingerprint function');hash.update(`function:${role};`);return;}
+  if(!node||typeof node!=='object'){hash.update(`${typeof node}:${Object.is(node,-0)?'-0':String(node)};`);return;}
+  if(seen.has(node)){hash.update(`ref:${seen.get(node)};`);return;}seen.set(node,next++);hash.update(`object:${Array.isArray(node)}:${Object.isFrozen(node)};`);
+  for(const key of Reflect.ownKeys(node)){assert.equal(typeof key,'string');const d=Object.getOwnPropertyDescriptor(node,key)!;assert('value'in d);
+   hash.update(JSON.stringify([key,d.enumerable,d.configurable,d.writable]));walk(d.value);}
+ }
+ walk(value);return hash.digest('hex');
+}
+let left=mode==='paired'?initial(ssr):null,right=initial(native),previousLeft=left,previousRight=right,ticks=0;
+try{
+ if(oracle)oracle.compare(left,right,'initial');
+ const loopStarted=performance.now(),loopCpu=process.cpuUsage();
+ for(;ticks<cap;){
+  if(performance.now()-started>supervision)throw new Error('research flight supervision bound');
+  previousLeft=left;previousRight=right;
+  if(left)left=ssr.step(left,DT,{},ssr.SUPER_HEAVY);
+  right=native.step(right,DT,{},native.SUPER_HEAVY);ticks++;
+  if(oracle){oracle.compare(previousLeft,previousRight,`previous:${ticks}`);oracle.compare(left,right,`returned:${ticks}`);}
+  if(right.status.landed||right.failures.crashed||right.failures.inFlightBreakUp)break;
+ }
+ const loopWallMs=performance.now()-loopStarted,loopCpuUsage=process.cpuUsage(loopCpu);
+ const trajectoryTiming=mode==='cost'?{nativeLoopWallMs:loopWallMs,nativeLoopCpu:loopCpuUsage,scope:'one native original trajectory loop plus stop/supervision checks; excludes imports, constructors, initial comparison, cgroup reads, hold, fingerprint and receipt'}:{pairedExecutionAndComparisonWallMs:loopWallMs,pairedExecutionAndComparisonCpu:loopCpuUsage,scope:'SSR plus native original trajectory loops and every-tick comparison; not native physical cost'};
+ assert(right.status.landed||right.failures.crashed||right.failures.inFlightBreakUp,'original900s horizon exhausted without terminal outcome');
+ const heldRight=finalAssertions(native,right,previousRight);
+ let heldLeft:ReturnType<typeof ssr.step>|null=null;
+ if(oracle){heldLeft=finalAssertions(ssr,left!,previousLeft!);oracle.compare(heldLeft,heldRight,'held continuation');}
+ // JSON receipt is storage only; all equality above uses Object.is and mapped provenance.
+ const semanticDigest=fingerprint({previous:previousRight,returned:right,held:heldRight},native);
+ if(oracle)assert.equal(semanticDigest,fingerprint({previous:previousLeft,returned:left,held:heldLeft},ssr));
+ if(mode==='cost'){const witness=JSON.parse(readFileSync(resolve(receipt,'paired-flight.json'),'utf8'));assert.equal(witness.status,'pass');assert.equal(witness.semanticDigest,semanticDigest);assert.equal(witness.ticks,ticks);}
+ const output={semanticDigest,status:'pass',mode,ticks,scenarioReturnedSeconds:(ticks-1)*DT,worldTime:right.world.environmentTime,
+  endpoint:{kinematics:right.kinematics,vehicle:right.vehicle,status:right.status,failures:right.failures,phase:right.autopilot.boosterPhase},
+  proofCounts:oracle?.counts(),trajectoryTiming,totalHarnessBodyWallMs:performance.now()-started,totalHarnessBodyCpu:process.cpuUsage(cpu),beforeCgroup,afterCgroup:snapshotCgroup(),
+  acceptance:'research only; no Vitest30s, mocks, coverage or gate claim'};
+ writeFileSync(resolve(receipt,`${mode}-flight.json`),JSON.stringify(output,null,2)+'\n');
+}catch(error){
+ const text=String((error as Error).stack??error).slice(0,32768);
+ writeFileSync(resolve(receipt,`${mode}-first-failure.json`),JSON.stringify({status:'failed',ticks,text,counts:oracle?.counts()},null,2)+'\n');throw error;
+}

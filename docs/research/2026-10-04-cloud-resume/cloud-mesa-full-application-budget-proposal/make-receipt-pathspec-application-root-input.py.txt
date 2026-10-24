@@ -1,0 +1,50 @@
+"""Root-run finite owned-application input maker; no live edits, tree scan or child launch."""
+import hashlib,json,os,pathlib,sys,uuid
+BASE=pathlib.Path('/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal')
+ROLES=('node','utility','npmCli','authority','candidate','application','metadataProof','metadataReview','sourceReview','observer','python','maker','sourcePins')
+def require(ok,message):
+    if not ok:raise RuntimeError(message)
+def sha(path):
+    p=pathlib.Path(path);require(p.is_file() and not p.is_symlink() and p.stat().st_size<=8*1024*1024,'Finite regular input/source metadata')
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+seed_path,seed_sha=sys.argv[1:];require(sha(seed_path)==seed_sha,'Root source-reviewed seed digest')
+seed=json.loads(pathlib.Path(seed_path).read_text());require(seed['kind']=='mesa-receipt-pathspec-application-root-seed-v1','Wrong concrete root seed')
+require(set(seed['roles'])==set(ROLES),'Exact application/root roles');r=seed['roles']
+for key,row in r.items():
+    require(set(row)=={'path','sha'} and pathlib.Path(row['path']).is_absolute(),'Exact absolute role')
+    if key not in ('node','python'):require(sha(row['path'])==row['sha'],'Selected metadata/source drift:'+key)
+require(pathlib.Path(__file__).resolve()==pathlib.Path(r['maker']['path']).resolve(),'Executed maker identity')
+require(r['node']=={'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'},'Exact managed Node; root verifies124827920bytes/hash')
+require(r['python']=={'path':'/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12','sha':'fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7'},'Exact managed Python; root verifies30894944bytes/hash')
+require(r['authority']['sha']=='2dd9b0924df3a61c9ac42dcfecc6f7722c657de5291c3a4fc585f40dd4fab31c','Only old complete authority')
+require(r['candidate']['sha']=='57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e','Only reviewed receipt helper candidate')
+require(r['application']['sha']=='45a22b1e1c13ca76310e628d0119ff004bd3f09e1826c9be714a89a4e1ccc602','Only lint-neutral successor applier')
+require(r['observer']['sha']=='2649861bf49e4aa1d887361033480ad0866401ea6b99107505ea7a5baf9424db','Only captured-group root adapter')
+require(r['utility']=={'path':'/workspace/StarShipSimulator/scripts/bench/native-loader.mjs','sha':'2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb'},'Only pure reviewed snapshot utility')
+authority=json.loads(pathlib.Path(r['authority']['path']).read_text());require(len(authority['source'])==770 and len(authority['tools'])==20355,'Historical authority cardinalities')
+require(authority['source']['tests/e2e/visual-runtime-receipt.ts']=='8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e','Old helper recorded')
+proof=json.loads(pathlib.Path(r['metadataProof']['path']).read_text());require(proof['completed'] is True and proof['errors']==[] and proof['proof']['arraysExactlyEqual'] is True,'Accepted concrete metadata equality')
+directory=pathlib.Path('/tmp/starship-receipt-pathspec-application-input.'+uuid.uuid4().hex);directory.mkdir(mode=0o700)
+receipt=pathlib.Path('/tmp/starship-receipt-pathspec-application.'+uuid.uuid4().hex);receipt.mkdir(mode=0o700)
+files={row['path']:row['sha'] for row in r.values()};files[seed_path]=seed_sha
+require(len(files)==len(r)+1,'No duplicate selected role path or seed alias')
+def emit(name,value):
+    p=directory/name
+    with p.open('x') as output:json.dump(value,output,indent=2);output.write('\n')
+    os.chmod(p,0o600);return {'path':str(p),'sha':sha(p)}
+application={key:r[key] for key in ('node','utility','npmCli','authority','candidate','application','metadataProof','metadataReview','sourceReview')}
+application.update(kind='mesa-receipt-pathspec-exact-once-application-input-v1',files=files,receipt=str(receipt))
+app_input=emit('application-input.json',application)
+owner_files={**files,app_input['path']:app_input['sha']}
+owner={'kind':'receipt-pathspec-application-root-input-v1','mode':'receipt-pathspec-application','outerMs':60000,
+       'root':'/workspace/StarShipSimulator','applicationInput':app_input,'application':r['application'],
+       'observer':r['observer'],'python':r['python'],'node':r['node'],'files':owner_files}
+owner_input=emit('owner-input.json',owner)
+emit('assembly-origin.json',{'seed':{'path':seed_path,'sha':seed_sha},'selectedRoles':r,'freshEmptyApplicationReceipt':str(receipt),
+     'outerMs':60000,'workMs':52000,'rootCleanupMs':8000,'noApplicationOrScanOrChildByMaker':True,
+     'nodeAndPythonBytesHashMustBeIndependentlyVerifiedByRoot':True,'actualInputOtherHIGHRequired':True,
+     'applicationGranted':False,'oldSourcesInputsUnmodified':True})
+for key,row in r.items():
+    if key not in ('node','python'):require(sha(row['path'])==row['sha'],'Final selected metadata/source drift:'+key)
+require(sha(seed_path)==seed_sha and not list(receipt.iterdir()),'Frozen seed and unexecuted empty application receipt')
+print(json.dumps({'applicationInput':app_input,'ownerInput':owner_input,'applicationReceipt':str(receipt)}))

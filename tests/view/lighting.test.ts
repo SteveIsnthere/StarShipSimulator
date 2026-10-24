@@ -1,5 +1,5 @@
 /**
- * M11.4 — the hull's lighting texture, derived from a sprite by geometry.
+ * Historical M11.4 photo lighting reference; the active V3 material is analytic.
  *
  * Synthetic sprites, so every number is known: a rectangle is a cylinder, a
  * triangle on top of it is a nose cone, and a left-to-right brightness ramp
@@ -15,7 +15,7 @@ import {
   NIGHT_HULL,
   flatLighting,
   writeHullLighting,
-} from '$view/lighting';
+} from './fixtures/legacy-hull-lighting';
 
 /** A W×H sprite: hull columns [left, right] per row, painted by `shade(t)`. */
 function sprite(

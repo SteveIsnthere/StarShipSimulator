@@ -1,0 +1,1 @@
+{"applyCount": 1, "args": ["cat-file", "blob", "a8d11b6e2e95ef7fc8be44d21e3bb2a19695b12d"], "code": 0, "number": 664, "optionalLocks": "0", "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stdinSha256": null, "stdoutSha256": "c9174966b0fcf2f493276cfe67e2e48398219834e3a5a47fd75049874c8dafb5", "temporaryIndex": null}

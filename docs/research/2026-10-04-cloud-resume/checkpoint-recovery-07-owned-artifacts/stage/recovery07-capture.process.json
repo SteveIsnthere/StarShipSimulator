@@ -1,0 +1,103 @@
+{
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "failure": null,
+  "bytes": {
+    "stdout": 0,
+    "stderr": 87
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 74838,
+    "start": "4881696",
+    "group": 74838,
+    "session": 74838,
+    "tracked": [
+      {
+        "pid": 74838,
+        "state": "S",
+        "parent": 74831,
+        "group": 74838,
+        "session": 74838,
+        "start": "4881696"
+      },
+      {
+        "pid": 74845,
+        "state": "R",
+        "parent": 74838,
+        "group": 74838,
+        "session": 74838,
+        "start": "4881699"
+      },
+      {
+        "pid": 74849,
+        "state": "R",
+        "parent": 74845,
+        "group": 74838,
+        "session": 74838,
+        "start": "4881726"
+      },
+      {
+        "pid": 74914,
+        "state": "R",
+        "parent": 74845,
+        "group": 74838,
+        "session": 74838,
+        "start": "4881766"
+      },
+      {
+        "pid": 75013,
+        "state": "R",
+        "parent": 74845,
+        "group": 74838,
+        "session": 74838,
+        "start": "4881836"
+      },
+      {
+        "pid": 75198,
+        "state": "Z",
+        "parent": 74845,
+        "group": 74838,
+        "session": 74838,
+        "start": "4881977"
+      },
+      {
+        "pid": 75284,
+        "state": "Z",
+        "parent": 74845,
+        "group": 74838,
+        "session": 74838,
+        "start": "4882037"
+      },
+      {
+        "pid": 75339,
+        "state": "R",
+        "parent": 74845,
+        "group": 74838,
+        "session": 74838,
+        "start": "4882077"
+      },
+      {
+        "pid": 75474,
+        "state": "R",
+        "parent": 74845,
+        "group": 74838,
+        "session": 74838,
+        "start": "4882177"
+      },
+      {
+        "pid": 75516,
+        "state": "R",
+        "parent": 74845,
+        "group": 74838,
+        "session": 74838,
+        "start": "4882207"
+      }
+    ],
+    "executing": []
+  }
+}

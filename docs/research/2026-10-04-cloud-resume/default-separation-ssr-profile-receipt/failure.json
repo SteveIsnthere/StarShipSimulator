@@ -1,0 +1,4 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    aerodynamicDrag: 103.01550622702973,\n    aerodynamicDragAcceleration: 0.0003530776054822715,\n    aerodynamicLift: 57.23319252858259,\n    aerodynamicLiftAcceleration: 0.00019616229936843778,\n+   aftFinDrag: -0,\n-   aftFinDrag: 0,\n    aftFinDragAngularAcceleration: 0,\n    aftFinEffectiveAreaFraction: 0,\n    angularDragAcceleration: -1.4741325093557237e-9,\n    crossSectionalArea: 54.89552042198447,\n    dynamicPressure: 0.0016266427370898841,\n",
+  "ticks": 40550
+}

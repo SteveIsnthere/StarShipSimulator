@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/camera-follow.test.ts (3 tests | 2 failed) 7ms
+     × keeps the complete airborne caught booster and ground in the first 844x47 frame 4ms
+     × keeps the complete airborne caught booster and ground in the first 864x71.66666666666667 frame 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/camera-follow.test.ts > selected physical vehicle framing > keeps the complete airborne caught booster and ground in the first 844x47 frame
+AssertionError: expected 47.13055555555556 to be less than or equal to 47
+ ❯ tests/ui/camera-follow.test.ts:30:24
+     28|       expect(top.y).toBeGreaterThan(height * 0.1);
+     29|       expect(bottom.y).toBeLessThan(height * 0.9);
+     30|       expect(ground.y).toBeLessThanOrEqual(height);
+       |                        ^
+     31|       expect(view.camera.sticky).toBe(true);
+     32|       expect(state.status.landed).toBe(true); expect(state.status.onTh…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/ui/camera-follow.test.ts > selected physical vehicle framing > keeps the complete airborne caught booster and ground in the first 864x71.66666666666667 frame
+AssertionError: expected 71.86574074074075 to be less than or equal to 71.66666666666667
+ ❯ tests/ui/camera-follow.test.ts:30:24
+     28|       expect(top.y).toBeGreaterThan(height * 0.1);
+     29|       expect(bottom.y).toBeLessThan(height * 0.9);
+     30|       expect(ground.y).toBeLessThanOrEqual(height);
+       |                        ^
+     31|       expect(view.camera.sticky).toBe(true);
+     32|       expect(state.status.landed).toBe(true); expect(state.status.onTh…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 31 passed (32)
+      Tests  2 failed | 475 passed (477)
+   Start at  09:59:09
+   Duration  13.62s (transform 1.53s, setup 0ms, import 11.03s, tests 38.64s, environment 4ms)
+

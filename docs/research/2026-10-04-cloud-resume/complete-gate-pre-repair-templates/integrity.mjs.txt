@@ -1,0 +1,38 @@
+import {resolve,relative} from 'node:path';
+import {readFileSync,realpathSync,lstatSync} from 'node:fs';
+import assert from 'node:assert/strict';
+import {globSync} from 'tinyglobby';
+import {configDefaults} from 'vitest/config';
+import {sourceSnapshot,installedToolSnapshot,digestFile,filesUnder} from '../bench/native-loader.mjs';
+export {digestFile};
+export function pins(root){
+ const source=sourceSnapshot(root);
+ for(const path of filesUnder(resolve(root,'public')))source[relative(root,path)]=digestFile(path);
+ return {source,tools:installedToolSnapshot(root),node:{version:process.version,platform:process.platform,arch:process.arch,binary:digestFile(process.execPath)}};
+}
+export function buildPins(root){return Object.fromEntries(filesUnder(resolve(root,'dist')).map(path=>[relative(root,path),digestFile(path)]));}
+export function expectedFiles(root){
+ const groups=[['unit',['tests/**/*.test.ts','tests/**/*.test.tsx','src/**/*.test.ts'],[...configDefaults.exclude,'tests/**/*.timing.test.ts','src/ui/kit/**']],
+ ['kit',['src/ui/kit/**/*.test.ts','src/ui/kit/**/*.test.tsx'],configDefaults.exclude]];
+ return groups.flatMap(([project,include,ignore])=>globSync(include,{cwd:root,ignore,onlyFiles:true}).map(file=>`${project}\0${file}`)).sort();
+}
+export function readSealed(path,digest){assert(lstatSync(path).isFile()&&!lstatSync(path).isSymbolicLink(),'Sealed input must be regular file');assert.equal(digestFile(path),digest,'Sealed report substituted');return JSON.parse(readFileSync(path,'utf8'));}
+export function validateBoundary(root,envelope){
+ assert.equal(realpathSync(root),envelope.root);assert.deepEqual(pins(root),envelope.pins);assert.deepEqual(buildPins(root),envelope.build);
+ for(const [path,hash] of Object.entries(envelope.reports))readSealed(path,hash);
+ assert.deepEqual(expectedFiles(root),envelope.files);
+}
+export function validateMap(root,data,exclude=[...configDefaults.include,...configDefaults.coverage.exclude]){
+ const wanted=globSync('src/core/**',{cwd:root,onlyFiles:true,ignore:exclude}).map(file=>realpathSync(resolve(root,file))).sort();
+ const actual=Object.keys(data).map(path=>{assert.equal(realpathSync(path),path,'Coverage source alias/symlink');assert.equal(data[path].path,path,'Coverage key/path mismatch');assert(path.startsWith(resolve(root,'src/core')+'/'),'Coverage outside protected source');return path;}).sort();
+ assert.deepEqual(actual,wanted,'Coverage include completeness including unimported modules');
+ for(const path of actual){const row=data[path];assert(row.statementMap&&row.fnMap&&row.branchMap&&row.s&&row.f&&row.b,'Partial coverage file');
+  for(const [map,hits] of [[row.statementMap,row.s],[row.fnMap,row.f],[row.branchMap,row.b]])assert.deepEqual(Object.keys(map).sort(),Object.keys(hits).sort(),'Coverage counter/map mismatch');
+  for(const value of [...Object.values(row.s),...Object.values(row.f),...Object.values(row.b).flat()])assert(Number.isFinite(value)&&value>=0,'Invalid coverage counter');
+ }
+}
+
+export const preservedFloors={branches:99,lines:99,functions:98,statements:99,
+ 'src/core/physics/**':{branches:100,lines:100,functions:100,statements:98},
+ 'src/core/control/**':{branches:95,lines:95,functions:95,statements:95},
+ 'src/core/autopilot/**':{branches:95,lines:99,functions:100,statements:99}};

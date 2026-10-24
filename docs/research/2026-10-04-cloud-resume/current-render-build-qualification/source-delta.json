@@ -1,0 +1,22 @@
+{
+  "historicalReceiptSha256": "9a0d1d12414b0c251db98ef5bca3fd996b2a5c327600f2abfcef847be5a37e1f",
+  "historicalHead": "6eff85137570af0ebbb958e2dac3c5c526d37462",
+  "appDelta": [
+    {
+      "path": "src/core/control/guidance-physics.ts",
+      "before": "5698a8f7ad0da8927613a8cdd6efc2cfde88efd79563cc9d8f7bfd5c28f7ab77",
+      "after": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1"
+    },
+    {
+      "path": "src/core/physics/aero.ts",
+      "before": "07542ac5bc81c74a6b8888fa272f0e4e3baac036adc9c8a27f5b52fcb7cabc6e",
+      "after": "535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713"
+    },
+    {
+      "path": "src/core/physics/propulsion.ts",
+      "before": "96d9c56eebcb8bb3950c8d5891b8ea8a5fc88fffb676fa7bb6bda190efa3b0cd",
+      "after": "972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a"
+    }
+  ],
+  "unchangedRendererAppAssetCount": 271
+}

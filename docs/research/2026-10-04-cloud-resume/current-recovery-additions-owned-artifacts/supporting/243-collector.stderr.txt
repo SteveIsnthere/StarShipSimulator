@@ -1,0 +1,17 @@
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: Unsupported provider prototype
+
+simple
+
+ ❯ visit node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7/codec.mjs:8:221
+ ❯ node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7/codec.mjs:9:211
+ ❯ visit node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7/codec.mjs:9:36
+ ❯ node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7/codec.mjs:9:211
+ ❯ visit node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7/codec.mjs:9:36
+ ❯ node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7/codec.mjs:9:211
+ ❯ visit node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7/codec.mjs:9:36
+
+
+
+

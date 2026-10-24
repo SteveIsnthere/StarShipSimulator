@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/usr/local/bin/git",
+    "ls-files",
+    "-z",
+    "--cached",
+    "--others",
+    "--exclude-standard"
+  ],
+  "cwd": "/workspace/StarShipSimulator"
+}

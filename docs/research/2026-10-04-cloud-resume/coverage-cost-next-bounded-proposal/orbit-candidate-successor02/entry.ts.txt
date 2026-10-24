@@ -1,0 +1,17 @@
+export { PRESETS, ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle } from '$core/scenarios';
+export { cloneState } from '$core/state';
+export { step } from '$core/step';
+export { SHIP } from '$core/vehicle';
+export { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
+export { createCatchPose, writeCatchPose } from '$core/physics/tower-catch';
+export { runBoosterAutopilot } from '$core/autopilot/booster';
+export { toggleAutoLand } from '$core/control/commands';
+export { starBaseXPos, heatLimit } from '$core/constants';
+export { DT } from '$app/loop';
+
+export {createInitialState} from '$core/state';
+export {circularOrbitalSpeed,gravityAt,MU,specificAngularMomentum,specificOrbitalEnergy,verticalGravityAcceleration,groundTangentialSpeed,inertialTangentialSpeed} from '$core/physics/gravity';
+export * as orbitConstants from '$core/constants';
+export {legacyOrbitRelief} from 'ORIGINAL_LEGACY_PLACEHOLDER';
+export {advanceMechanics} from '$core/step';
+export {runBoosterPolicy} from '$core/autopilot/booster';

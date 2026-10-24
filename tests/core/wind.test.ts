@@ -103,13 +103,14 @@ describe('airspeed is the speed through the air, not over the ground', () => {
   });
 
   it('is q, drag and heating from the same one airspeed', () => {
-    // The three read the same incoming airspeed, so their ratios across two
-    // runs that differ only in wind are v^2, v^2 and v^3 of the same v.
+    // The three read the same incoming airspeed. Divide out the contemporaneous
+    // projected area: changing wind also changes the cylinder's incidence.
     const a = step(gliding(200, -100, 0), DT);
     const b = step(gliding(200, -100, -60), DT);
     const v = relativeAirspeed(200, -100, meanWindAt(-60, 2_000), 0) / relativeAirspeed(200, -100, 0, 0);
     expect(b.forces.dynamicPressure / a.forces.dynamicPressure).toBeCloseTo(v ** 2, 9);
-    expect(b.forces.aerodynamicDrag / a.forces.aerodynamicDrag).toBeCloseTo(v ** 2, 9);
+    expect((b.forces.aerodynamicDrag / b.forces.crossSectionalArea)
+      / (a.forces.aerodynamicDrag / a.forces.crossSectionalArea)).toBeCloseTo(v ** 2, 9);
     // Heating also reads the attitude to the air (Phase 6: a cylinder's
     // stagnation line takes 1/sqrt(2) of a sphere's flux), and the wind turns
     // that; divided out, the flux is the cube of the same airspeed.
@@ -124,12 +125,13 @@ describe('airspeed is the speed through the air, not over the ground', () => {
     // speeds rather than a number assumed from the inputs.
     const still = step(gliding(300, 0), DT);
     const head = step(gliding(300, 0, -100), DT);
-    const vs = relativeAirspeed(still.kinematics.speedX, still.kinematics.speedY, 0, 0);
+    const vs = relativeAirspeed(still.kinematics.speedX, still.kinematics.speedY,
+      still.world.gust, still.world.gustVertical);
     const vh = relativeAirspeed(
       head.kinematics.speedX,
       head.kinematics.speedY,
-      meanWindAt(-100, head.kinematics.altitude),
-      0,
+      meanWindAt(-100, head.kinematics.altitude) + head.world.gust,
+      head.world.gustVertical,
     );
     expect(head.kinematics.machSpeed).toBeGreaterThan(still.kinematics.machSpeed);
     expect(head.kinematics.machSpeed / still.kinematics.machSpeed).toBeCloseTo(vh / vs, 9);

@@ -1,0 +1,57 @@
+{
+  "receiptPins": {
+    "/tmp/starship-official-native.0eAlnB/external-build-input.json": "02420ef966ce52cfbe849afb64cf6f778b9dc9bdb52c99a96b1193ec1d4517fb",
+    "/tmp/starship-official-native.0eAlnB/build-boundary.json": "0ec3d9e4d487ab1acf67cbbb63948e5e5f49b1fc171d3bd29b05e16b72999eeb",
+    "/tmp/starship-official-native.0eAlnB/build-owner-result.json": "30d8afc2e78621eb5eeb7a92024166c97a8abb9f90afd600e62c22ffd8784826",
+    "/tmp/starship-official-native.0eAlnB/native-flight-build.process.json": "aa501543f1f58bb909539e71445f7b7ad6e890fbf63af1352129c9a9e3837782",
+    "/tmp/starship-official-native.0eAlnB/native-flight-build.stdout.txt": "c9ecbe7896aa635a8d29c8ab44c04bffb1ac6768af78f2c73658c81fb8090a53",
+    "/tmp/starship-official-native.0eAlnB/native-flight-build.stderr.txt": "1fdf3df5a4ed0bbd677f9a9da02c2d6ce63a4ab619a068cd03289c0b4b46b482",
+    "/tmp/starship-official-native-build-root.34jgmu6z/root-outcome.json": "213cca7bb776e9e06f083c88dff14ba494a2d13008b6c7ab20a871cece2b64f0",
+    "/tmp/starship-official-native-build-root.34jgmu6z/actual-outer-exit.json": "8caa5f628c104297f859093c03ff36d46074fc083b58cbbf73c9c68af75934ff",
+    "/tmp/starship-official-native-build-root.34jgmu6z/actual-outer-exit-final.json": "e37d1c7ce9801a10f6e104fa28ffc3a03bb8cc49f3a575f80440aec8dd23519f",
+    "/tmp/starship-official-native-build-root.34jgmu6z/identities.jsonl": "605de5ade776b579a747de59886c2bd96dc0603fc26f281877afecdfe381cbfb",
+    "/tmp/starship-official-native-build-stage.G30isv/stage-result.json": "c4b75a34e31e3a43e7b733892afc35d1d0d4ba234c7ec728196215dfbce7fc87",
+    "/tmp/starship-official-native-build-stage.G30isv/actual-child-exit.json": "5e180d8b843622657ac5ea4956b3bc93958ef945149348bc567d1a2c3ef6436f",
+    "/tmp/starship-official-native-build-stage.G30isv/owned-build.process.json": "bf7f0668917d32b024c6bd875cc1b9aff3990e75fa998e6083867381b9364646",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-build-parent/frozen-owner-input.json": "ffc70967d15d170ae0f55ace71d216d2e61d91d911af8dee73219ce9b63ef012",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-build-parent/observer-os-exit.json": "f362e65ff81ad795c60c80d126f313aaeef767a9722c4301e1f224c145e56936"
+  },
+  "actualCompiledFiles": {
+    "assets/Starship.webp": "c9d25bc1b496b4d27ee26ff039d0ff7bfa68d6a5936e199c7af2308c4c4adf8d",
+    "assets/lunchpad_Light1.webp": "2b979fadd6ea8076f9c6340989efe723e5c02e7ffe8ae6a0e84b8f67da3a9286",
+    "assets/lunchpad_Light2.webp": "0ecfcb920be8e0eb3ce7ce82345b8f707d8ab93a4f2442aa3303042eb5c8cf18",
+    "assets/pig.webp": "932ef01e3241c1ddcb0eaa27b21ea9ffda034c8185cdc271f335559d46a7ec7a",
+    "assets/sn15.webp": "0dca7f7a4300aacc726e67bbd8df84ec44e87b7f894786d779fda657b70b52a8",
+    "assets/starBaseBackGround.webp": "a6ba3be4e9886ecddc8fcb87b63ee8790b30f4260339dd9379e46e43604dbd75",
+    "assets/starBaseBackGround2.webp": "de17f7cd0c339e33012f6bb9cf09831b0772989f4933ed8528b94da91cd30094",
+    "assets/starhopper.webp": "18d787ffa3c8a335496a716e10dd1e3b1928216eeb949d67b20f70030069cf73",
+    "assets/tree1.webp": "a619ac2b77ce81c18c3df23141ecf2197b91fcfb2ea17129b8e336746a88663a",
+    "assets/tree2.webp": "a363d125f4e2d5bce0d67bee389e051cc84bcfbba7aef75d86f10f9a69b80ce3",
+    "entry.mjs": "5ca80a74e48343232f0c43583f213bb4c52cbc0464675bee91199f750a80cb15",
+    "icon.svg": "8fca8bf870cbaac0c5a22ce6c61891f04536f59d8955b8b1e62fd57992e39493",
+    "manifest.webmanifest": "967f4db3dab163c63f9ff81b9f842a82bebabb10ef20f12578bfc4773781f50c",
+    "serviceworker.js": "e521d81cb94d9af2a740fbc73bb5574e0d065dbd3e6fbe776d8d13a54269c9a9",
+    "simulation-CN0-W409.js": "cc9a18ebeaf3c83df8527cfc97cdeaa2c0ebee63053ba0a850cc9b06c944901f",
+    "simulation-CN0-W409.js.map": "f13c37f1b69ed8a4694e4ac06e18f67e9071ce35cb5bd5eb2ec2a333f42a51f5"
+  },
+  "compiledFileCount": 16,
+  "independentOwnedAbsence": [
+    {
+      "pid": 61610,
+      "start": "3738705",
+      "absent": true
+    },
+    {
+      "pid": 61617,
+      "start": "3738733",
+      "absent": true
+    },
+    {
+      "pid": 61624,
+      "start": "3738757",
+      "absent": true
+    }
+  ],
+  "reviewSha256": "c13f9614cb82b0b41bfd0c4d850e7346398032057dac810dcd3252aeecc7b414",
+  "workloadExecutedByReviewer": false
+}

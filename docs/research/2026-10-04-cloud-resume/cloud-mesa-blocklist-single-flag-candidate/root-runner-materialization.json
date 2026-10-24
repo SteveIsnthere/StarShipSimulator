@@ -1,0 +1,13 @@
+{
+  "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-blocklist-single-flag-candidate/run-functional-single-blocklist-override.mjs.txt",
+  "destination": "/tmp/starship-mesa-singleflag-source.yfgskvsr/run-functional-single-blocklist-override.mjs",
+  "sha256": "a6d2508a922f7664f01e361cbeda408858b34cae3bd2d191811fcda146af8ebd",
+  "bytes": 13857,
+  "mode": 384,
+  "directoryMode": 448,
+  "freshEmptyReceipt": "/tmp/starship-mesa-functional.d0e3407a1a544824aae0babb58032889",
+  "receiptMode": 448,
+  "executed": false,
+  "originalUnexecutedReceipt": "/tmp/starship-mesa-functional.39bdi6sf",
+  "receiptNameGuardMatched": true
+}

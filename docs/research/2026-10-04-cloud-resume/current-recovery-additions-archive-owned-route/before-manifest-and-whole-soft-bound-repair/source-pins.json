@@ -1,0 +1,54 @@
+{
+  "kind": "current-recovery-additions-archive-owned-route-source-pins-v1",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/archive.py.txt",
+      "sha256": "725c23938cdc8c5921f34129deed9fa65716c0a27a30f901734db0e5eed2c1fb"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/authoring-notes.md",
+      "sha256": "4884aa13d9d873d3de6537540edeaefbe6630f2ea892b7458f0c8090ae04bb50"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/declaration.md",
+      "sha256": "fbfe6cf640e89c761c9362bdce8ae8a3dda552a829384dc645b45cfc266a00fd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/finite-authority-selection.json",
+      "sha256": "897ca14749df15f47db8218c494d5032574373705ea6bc2d7f71c598535ac583"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/make-input.py.txt",
+      "sha256": "a78d916e222668422cccfd31febe681a8febc9275221c7437e5b67d17df3aa1c"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/proposal.json",
+      "sha256": "c24086e38d6dc554b68417322847d303c6e321ade9ee89b286ddd184715b39c5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-owned-route/root-observer.py.txt",
+      "sha256": "c5b76a98d1848a7d2355b14da83e424d7e553fb7caca406437113014ddcfa6b8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/root-observer.py.txt",
+      "sha256": "13e17df21d82ac80ac94fc6e8116941f8a54a128eef852bf79fd582db16261d5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/make-input.py.txt",
+      "sha256": "e431722dfd5172704d095bd86ae6067615298186165f2f4ef59bb6133c4b143b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/archive-original21-v7.py.txt",
+      "sha256": "f8710754750276bdb89c7fda4a4a07b7f41adf77667c253a4cee7abb1fabddf8"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-recovery-additions-archive-plan/selected-existing-authority.json",
+      "sha256": "65d0fac1c3e993325ed98a4433f21cc6005e224658bcdab873be92863d4978c5"
+    }
+  ],
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "scope": "Unexecuted source only. Selected artifact hashes supplied by existing HIGH, not scanned."
+}

@@ -1,0 +1,118 @@
+{
+  "passed": true,
+  "identities": [
+    {
+      "pid": 74831,
+      "expectedStart": "4881671",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 74838,
+      "expectedStart": "4881696",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 74845,
+      "expectedStart": "4881699",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 74866,
+      "expectedStart": "4881727",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75108,
+      "expectedStart": "4881903",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75110,
+      "expectedStart": "4881910",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75585,
+      "expectedStart": "4882258",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75587,
+      "expectedStart": "4882291",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 74849,
+      "expectedStart": "4881726",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 74914,
+      "expectedStart": "4881766",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75013,
+      "expectedStart": "4881836",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75198,
+      "expectedStart": "4881977",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75284,
+      "expectedStart": "4882037",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75339,
+      "expectedStart": "4882077",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75474,
+      "expectedStart": "4882177",
+      "absent": true,
+      "executingSameIdentity": false
+    },
+    {
+      "pid": 75516,
+      "expectedStart": "4882207",
+      "absent": true,
+      "executingSameIdentity": false
+    }
+  ],
+  "rawReturncode": 0,
+  "groups": [
+    {
+      "group": 74831,
+      "session": 74831,
+      "start": "4881671",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 74838,
+      "session": 74838,
+      "start": "4881696",
+      "cleared": true,
+      "uncertain": false
+    }
+  ]
+}

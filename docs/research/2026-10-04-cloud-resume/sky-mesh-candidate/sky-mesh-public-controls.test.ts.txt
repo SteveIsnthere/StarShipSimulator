@@ -1,0 +1,158 @@
+/** Unexecuted research controls. Resolve $candidate/sky to the candidate copy only.
+ * These are actual public SDK construction/packing/adapter/lifetime controls,
+ * NOT a GL compiler, GPU arithmetic, framebuffer or performance qualification. */
+import { describe, expect, it, vi } from 'vitest';
+import { Container, DefaultBatcher, Geometry, GlMeshAdaptor, Matrix, Mesh,
+  Sprite, Texture, TextureSource, color32BitToUniform } from 'pixi.js';
+import { createSkyGradientMesh, skyTint, skyTintLit } from '$candidate/sky';
+import { skyTint as originalSkyTint, skyTintLit as originalSkyTintLit } from '$view/sky';
+
+function pair() {
+  const source = new TextureSource({ width: 1, height: 256 });
+  const texture = new Texture({ source });
+  const sprite = new Sprite(texture); sprite.anchor.set(0, 0);
+  const mesh = createSkyGradientMesh(texture);
+  return { source, texture, sprite, mesh,
+    close() { sprite.destroy(); mesh.destroy(); texture.destroy(true); } };
+}
+const bytes = (data: ArrayBufferView) => Array.from(new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
+const expectedPositions = new Float32Array([0, 0, 1, 0, 1, 256, 0, 256]);
+const expectedUvs = new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]);
+const expectedIndices = new Uint16Array([0, 1, 2, 0, 2, 3]);
+function verifyCanonicalPair(p: ReturnType<typeof pair>) {
+  expect(p.mesh.texture).toBe(p.sprite.texture);
+  expect(p.mesh.geometry.topology).toBe('triangle-list');
+  expect(p.mesh.geometry.getIndex().data).toBeInstanceOf(Uint16Array);
+  expect(bytes(p.mesh.geometry.getIndex().data)).toEqual(bytes(expectedIndices));
+  expect(bytes(p.mesh.geometry.getBuffer('aUV').data)).toEqual(bytes(expectedUvs));
+  const old = p.sprite.getGlobalTransform(new Matrix());
+  const current = p.mesh.getGlobalTransform(new Matrix());
+  expect(current).toEqual(old);
+}
+
+
+describe('owned sky Mesh public path, proof-only candidate', () => {
+  it('uses exact explicit Sprite local quad/UV/index bytes and uint16 topology', () => {
+    const p = pair(); try {
+      verifyCanonicalPair(p);
+      expect(p.mesh).toBeInstanceOf(Mesh); expect(p.mesh.geometry).toBeInstanceOf(Geometry);
+      expect(p.mesh.batched).toBe(false); expect(p.mesh.shader).toBeNull();
+      const geometry = p.mesh.geometry;
+      expect(Object.keys(geometry.attributes)).toEqual(['aPosition', 'aUV']);
+      for (const name of ['aPosition', 'aUV']) {
+        expect(geometry.getAttribute(name).format).toBe('float32x2');
+        expect(geometry.getAttribute(name).stride).toBe(8); expect(geometry.getAttribute(name).offset).toBe(0);
+      }
+      expect(bytes(geometry.getBuffer('aPosition').data)).toEqual(bytes(expectedPositions));
+      expect(bytes(geometry.getBuffer('aUV').data)).toEqual(bytes(expectedUvs));
+      expect(geometry.getIndex().data).toBeInstanceOf(Uint16Array);
+      expect(bytes(geometry.getIndex().data)).toEqual(bytes(expectedIndices));
+      expect(geometry.topology).toBe('triangle-list'); expect(geometry.instanceCount).toBe(1);
+      expect(p.mesh.texture).toBe(p.sprite.texture); expect(p.mesh.texture.source).toBe(p.source);
+    } finally { p.close(); }
+  });
+
+  it('retains startup state, parent slot, draw order, mask/blend/visibility and zero pivot', () => {
+    const p = pair(); const parent = new Container(); const before = new Container(); const after = new Container();
+    try {
+      parent.addChild(before, p.mesh, after);
+      expect(parent.children).toEqual([before, p.mesh, after]); expect(p.mesh.parent).toBe(parent);
+      for (const key of ['label', 'alpha', 'visible', 'renderable', 'blendMode', 'tint', 'rotation', 'roundPixels', 'mask']) {
+        expect(p.mesh[key as keyof Mesh]).toEqual(p.sprite[key as keyof Sprite]);
+      }
+      for (const key of ['position', 'scale', 'pivot', 'skew']) {
+        expect(p.mesh[key as 'position'].x).toBe(p.sprite[key as 'position'].x);
+        expect(p.mesh[key as 'position'].y).toBe(p.sprite[key as 'position'].y);
+      }
+      expect(p.sprite.anchor.x).toBe(0); expect(p.sprite.anchor.y).toBe(0);
+      // The deliberate class delta is recorded, not erased from the full witness.
+      expect(p.sprite).toBeInstanceOf(Sprite); expect(p.mesh).not.toBeInstanceOf(Sprite);
+    } finally { parent.removeChild(p.mesh); parent.destroy({ children: true }); p.close(); }
+  });
+
+  it('matches real original Sprite CPU packed corners/UV across bounded resize cases', () => {
+    const p = pair(); try {
+      for (const [width, height] of [[1, 1], [1280, 720], [1365, 767], [390, 844], [1920, 1080]]) {
+        p.sprite.width = width; p.sprite.height = height; p.mesh.width = width; p.mesh.height = height;
+        const transform = p.sprite.getGlobalTransform(new Matrix());
+        const packed = new Float32Array(24);
+        Reflect.apply(DefaultBatcher.prototype.packQuadAttributes, null, [{ texture: p.texture, transform,
+          bounds: p.sprite.visualBounds, color: 0xffffffff, roundPixels: 0 }, packed,
+          new Uint32Array(packed.buffer), 0, 0]);
+        const meshTransform = p.mesh.getGlobalTransform(new Matrix());
+        expect(meshTransform).toEqual(transform);
+        const local = p.mesh.geometry.getBuffer('aPosition').data;
+        for (let i = 0; i < 4; i++) {
+          const x = local[i * 2], y = local[i * 2 + 1];
+          expect(Math.fround(meshTransform.a*x + meshTransform.c*y + meshTransform.tx)).toBe(packed[i * 6]);
+          expect(Math.fround(meshTransform.d*y + meshTransform.b*x + meshTransform.ty)).toBe(packed[i * 6 + 1]);
+          expect(expectedUvs[i * 2]).toBe(packed[i * 6 + 2]); expect(expectedUvs[i * 2 + 1]).toBe(packed[i * 6 + 3]);
+        }
+        // CPU algebra only. This is NOT proof of GPU matrix/FMA/interpolation order.
+      }
+    } finally { p.close(); }
+  });
+
+  it('checks actual locked quad winding and canonical opaque RGB8 packing/uniform decoding', () => {
+    const index = new Uint16Array(6);
+    Reflect.apply(DefaultBatcher.prototype.packQuadIndex, null, [index, 0, 0]);
+    expect(bytes(index)).toEqual(bytes(expectedIndices));
+    for (const rgb of [0, 1, 0x010203, 0x4f7ec2, 0xa1bddb, 0xc3d3e2, 0xffffff]) {
+      const abgr = (0xff000000 | ((rgb & 255)<<16) | (rgb & 0xff00) | ((rgb>>>16)&255))>>>0;
+      const uniform = new Float32Array(4); color32BitToUniform(abgr, uniform, 0);
+      expect(Array.from(uniform)).toEqual([Math.fround(((rgb>>>16)&255)/255), Math.fround(((rgb>>>8)&255)/255), Math.fround((rgb&255)/255), 1]);
+    }
+    // Parent/gradient alpha !=1 changes CPU/GPU premultiplication rounding domain;
+    // its actual framebuffer equivalence remains a separate declared GPU gate.
+  });
+
+  it('uses the SAME source/style/texture matrix through actual default adaptor logic', () => {
+    const p = pair(); try {
+      const encoded: unknown[] = [];
+      const shader = { resources: { textureUniforms: { uniforms: { uTextureMatrix: null } } }, groups: {} };
+      const global = {}, local = {};
+      const meshPipe = { renderer: { globalUniforms: { bindGroup: global }, encoder: { draw(value: unknown) { encoded.push(value); } } }, localUniformsBindGroup: local };
+      // Paid original method, owned encoder stub; no GPU/compiler qualification.
+      Reflect.apply(GlMeshAdaptor.prototype.execute, { _shader: shader }, [meshPipe, p.mesh]);
+      expect(shader.resources).toMatchObject({ uTexture: p.texture.source, uSampler: p.texture.source.style });
+      expect(shader.resources.textureUniforms.uniforms.uTextureMatrix).toBe(p.texture.textureMatrix.mapCoord);
+      expect(encoded).toHaveLength(1); expect(encoded[0]).toMatchObject({ geometry: p.mesh.geometry, shader, state: p.mesh.state });
+    } finally { p.close(); }
+  });
+
+  it('destroys uniquely owned geometry/buffers once while preserving default texture ownership', () => {
+    const p = pair(); const geometry = p.mesh.geometry; const buffers = [...geometry.buffers];
+    const gd = vi.spyOn(geometry, 'destroy'); const bd = buffers.map(buffer => vi.spyOn(buffer, 'destroy'));
+    const td = vi.spyOn(p.texture, 'destroy'); const sd = vi.spyOn(p.source, 'destroy');
+    try {
+      p.mesh.destroy(); p.mesh.destroy(); expect(gd).toHaveBeenCalledExactlyOnceWith(true);
+      for (const spy of bd) expect(spy).toHaveBeenCalledTimes(1);
+      expect(td).not.toHaveBeenCalled(); expect(sd).not.toHaveBeenCalled();
+    } finally { p.sprite.destroy(); p.texture.destroy(true); }
+  });
+
+  it('retains the original hour/altitude tint bytes without a palette substitution', () => {
+    for (const altitude of [0, 20000, 50000, 80000, 400000]) {
+      expect(skyTint(altitude)).toBe(originalSkyTint(altitude));
+      for (const rgb of [[1, 1, 1], [0.95, 0.62, 0.42], [0.1, 0.12, 0.2]]) {
+        expect(skyTintLit(altitude, ...rgb as [number, number, number])).toBe(originalSkyTintLit(altitude, ...rgb as [number, number, number]));
+      }
+    }
+  });
+
+  it('the same canonical verifier rejects actual UV/index/matrix/texture mutations', () => {
+    const p = pair(); try {
+      verifyCanonicalPair(p);
+      const index = p.mesh.geometry.getIndex(); const oldIndex = index.data;
+      index.data = new Uint16Array([0, 2, 1, 0, 3, 2]);
+      expect(() => verifyCanonicalPair(p)).toThrow(); index.data = oldIndex;
+      const uv = p.mesh.geometry.getBuffer('aUV'); const oldUv = uv.data;
+      uv.data = new Float32Array([0.5, 0, 1, 0, 1, 1, 0, 1]);
+      expect(() => verifyCanonicalPair(p)).toThrow(); uv.data = oldUv;
+      p.mesh.position.x = 0.5; expect(() => verifyCanonicalPair(p)).toThrow(); p.mesh.position.x = 0;
+      const other = new Texture({ source: new TextureSource({ width: 1, height: 256 }) });
+      p.mesh.texture = other; expect(() => verifyCanonicalPair(p)).toThrow(); p.mesh.texture = p.texture; other.destroy(true);
+      verifyCanonicalPair(p);
+    } finally { p.close(); }
+  });
+});

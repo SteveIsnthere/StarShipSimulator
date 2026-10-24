@@ -1,0 +1,21 @@
+{
+  "manifestSha256": "a99bb8994d54cce9b41551e050cffd1353e13515b666141b70cd9caae8d5afdb",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/admission.mjs.txt": "c42f48179968a33217c2cd74bbe9b1d904dc4a0e7c026b1940290bd212edd3e8",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/capability.mjs.txt": "35bd80769169a2b146874f4bca147c4d3245ea6ab8574bc370dbe4f1beadbb08",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/complete-reporter.mjs.txt": "918a40d5cdcc312a826ad66acb1b88b267d91c1613e05a75d97f622261d68a71",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/controls-child.mjs.txt": "f5767121df053db8e0c595900b2d51a30595b548e829d8690b3b83de4542b2ba",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/controls-fixture.test.mjs.txt": "f33169fdab3f96daa92dd4051cb7eeeae7d7fbede8d86588b267451f06f8199e",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/controls.mjs.txt": "8012f27a33dad101653d4061fd1b1ef87e952cf9225cb6428167715dce630c51",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/coverage.mjs.txt": "44a1753ea97a327bd2acb5b1162a558342fd0629440eca663a5fa81558e6e54b",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/decision.mjs.txt": "a5723bbabbdcfd0a954f8cb09c06d67b979ef5aef96d2a9ca50c0d4841d835bc",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/gate.mjs.txt": "05a87f0934265d6b3a6f49cdd9eea663668ad6eff31cc924acd8b25e548ef962",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/implementation-plan.md": "cf94bf826a8da57730ed9d73d6791d014184e32901c7591ecdee0726a05c3e56",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/integrity.mjs.txt": "ba7aac3a9a85366e5004471f9871c8cb8b6ec78a2ebb9b5dd82e2662f67e414a",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/owner.mjs.txt": "9b026d65c572420df07d78d6700ae38bd25239513b83652cd74ba5404d886c1e",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/server-decision.mjs.txt": "5b99d570604a44a8e7157646e6e39b7da1c5bc1ba56cc21f3e27e62c1984ab79",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/validate-coverage.mjs.txt": "3b268ae3580c5e7641d86d9b1cbfea2d2628c3b35cc5ff3adf6a8870e4c43953",
+    "docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/vitest.complete-gate.config.ts.txt": "1d5f15e4599326b0f7b1399faf12cb99d4094aaf9fbd96c47623e86a37324ff2"
+  },
+  "scope": "Static independent review; no template execution or product application"
+}

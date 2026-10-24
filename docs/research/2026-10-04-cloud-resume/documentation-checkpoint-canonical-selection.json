@@ -1,0 +1,14 @@
+{
+  "kind": "doc-only-checkpoint-canonical-selection-v1",
+  "manifest": "docs/research/2026-10-04-cloud-resume/documentation-checkpoint-canonical-evidence-2026-10-04/origin-manifest.json",
+  "manifestSha256": "878c927ce2c0ac9107b5ff2f18cb04a5b01213cf836fe6d41ee508a761fa29a0",
+  "counts": {
+    "files": 209,
+    "expandedBytes": 27024481,
+    "canonicalBytes": 10003562,
+    "gzipFiles": 10
+  },
+  "originalsUnchanged": true,
+  "gitMutation": false,
+  "pendingReviewNote": "Offline label remains pending until separate independent review disposition; immutable manifest not rewritten."
+}

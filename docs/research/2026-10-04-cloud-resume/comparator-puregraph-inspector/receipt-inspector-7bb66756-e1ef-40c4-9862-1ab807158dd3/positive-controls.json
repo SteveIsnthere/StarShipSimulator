@@ -1,0 +1,11 @@
+{
+  "controlIterations": 16,
+  "counts": {
+    "totalNodes": 1104,
+    "totalEdges": 17509,
+    "immutableProbeVisits": 115,
+    "immutableTrueHits": 32,
+    "immutableFalseHits": 0
+  },
+  "negativeSignedZeroDenied": true
+}

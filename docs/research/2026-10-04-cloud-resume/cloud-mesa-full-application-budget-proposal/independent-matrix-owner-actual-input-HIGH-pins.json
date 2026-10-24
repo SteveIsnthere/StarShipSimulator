@@ -1,0 +1,45 @@
+{
+  "decision": "SUPPORTED final outer input review next; no matrix grant",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-matrix-owner-actual-input-HIGH-review.md",
+      "sha256": "bf4b81fd222e3e89ea82e8ca6e6cf7ed4235bfae73aeb7adaf7bbdc7162163f0"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-matrix-input.61916f34eaf647ac9d45e4a4b5ee3c67/owner-input.json",
+      "sha256": "940906a22246646f4048c4f52497a1406d856bd4f2ab43add430d5fe0b833047"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-matrix-input.61916f34eaf647ac9d45e4a4b5ee3c67/external-inventory.json",
+      "sha256": "79b19bfe9432dd23889f59933460624b3a077155c465efcfc6af228373b101c1"
+    },
+    {
+      "path": "/tmp/starship-mesa-app-matrix-input.61916f34eaf647ac9d45e4a4b5ee3c67/assembly-origin.json",
+      "sha256": "c39037e08130a20a495df0e5297c37db46dd65e359b11d889979305995f1eeb2"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-matrix-sdk-entry-seed.json",
+      "sha256": "7ee0e85d96c5362b7fb0812e3af4e7ebb3dd44954f616b49e6dcc00589b59558"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-maker-process.json",
+      "sha256": "444fd095420c483c104a11fee0a204b557752b3199a5677d9e62218277fe1d13"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-matrix-maker-scoped-checks.json",
+      "sha256": "db0293aeb8117f92125a8fa71d8c467b043effd71219273dfb3cf64596609825"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-candidate-source-pins.json",
+      "sha256": "c563b5a02e710cf27681f46e727a06ff48d10604e7beab7dd1e0a9dc1d908035"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-matrix-sdk-entry-repair-source-HIGH-review.md",
+      "sha256": "e9645e8463c84a3a95edfcfd289e3c0fb3c8f51e7a88565f76829c02927ec037"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-fresh-dist-approval.json",
+      "sha256": "3f2442caba85a782d132bcd6378a4931871210caf3e95181208ab758d620ecd9"
+    }
+  ]
+}

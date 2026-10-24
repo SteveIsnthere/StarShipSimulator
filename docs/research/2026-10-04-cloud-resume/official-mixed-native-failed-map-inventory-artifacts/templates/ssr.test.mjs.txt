@@ -1,0 +1,30 @@
+import { it, expect } from 'vitest';
+import { writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { PRESETS, ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle } from '$core/scenarios';
+import { cloneState } from '$core/state';
+import { step } from '$core/step';
+import { SHIP } from '$core/vehicle';
+import { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
+import { createCatchPose, writeCatchPose } from '$core/physics/tower-catch';
+import { runBoosterAutopilot } from '$core/autopilot/booster';
+import { toggleAutoLand } from '$core/control/commands';
+import { starBaseXPos, heatLimit } from '$core/constants';
+import { DT } from '$app/loop';
+import { exercise } from './fixture.mjs';
+const g = { PRESETS, ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle,
+  cloneState, step, SHIP, SUPER_HEAVY, CATCH, createCatchPose, writeCatchPose,
+  runBoosterAutopilot, toggleAutoLand, starBaseXPos, heatLimit, DT };
+import { vi } from 'vitest';
+import * as aero from '$core/physics/aero';
+it('SSR graph recipe and original-source replacement remain available', () => {
+  const value = exercise(g);
+  const original = aero.getCrossSectionalArea;
+  // Spies remain SSR-only and are restored before the recipe is reused.
+  const spy = vi.spyOn(aero, 'getCrossSectionalArea').mockImplementation((...args) => original(...args) * 1.01);
+  expect(aero.getCrossSectionalArea).not.toBe(original);
+  expect(aero.getCrossSectionalArea(0, 100)).toBe(original(0, 100) * 1.01);
+  expect(spy).toHaveBeenCalledTimes(1);
+  spy.mockRestore(); expect(aero.getCrossSectionalArea).toBe(original);
+  writeFileSync(fileURLToPath(new URL('./ssr-result.json', import.meta.url)), JSON.stringify({ pid: process.pid, value }) + '\n', { flag: 'wx' });
+});

@@ -151,7 +151,15 @@ export function rcsControl(state: SimState, goalPercentage: number, dt: number, 
   if (forces.rcsThrust !== 0) {
     const rti = 1 / dt;
     const fraction = Math.abs(forces.rcsThrust) / C.rcsMaxThrust;
-    vehicle.rcsRunTimeRemaining = (vehicle.rcsRunTimeRemaining * rti - fraction) / rti;
+    const availableFraction = vehicle.rcsRunTimeRemaining * rti;
+    if (fraction >= availableFraction) {
+      // The final partial interval can spend only the impulse still aboard.
+      // Keep the original drain expression for every fully paid interval.
+      forces.rcsThrust = Math.sign(forces.rcsThrust) * C.rcsMaxThrust * availableFraction;
+      vehicle.rcsRunTimeRemaining = 0;
+    } else {
+      vehicle.rcsRunTimeRemaining = (availableFraction - fraction) / rti;
+    }
   }
 }
 

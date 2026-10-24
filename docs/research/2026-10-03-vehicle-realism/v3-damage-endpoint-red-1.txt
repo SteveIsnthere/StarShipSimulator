@@ -1,0 +1,39 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-endpoint.test.ts (2 tests | 2 failed) 5ms
+     × uses the updated root temperature for proof and permanently transfers only failing hardware 4ms
+     × uses a distinct domain disposition and never fabricates strength from last-valid temperature 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-endpoint.test.ts > atomic endpoint damage ownership > uses the updated root temperature for proof and permanently transfers only failing hardware
+TypeError: advanceFlightDamage is not a function
+ ❯ tests/core/damage-endpoint.test.ts:36:18
+     34|     component.root.energy = model.partition.components[index]!.rootMas…
+     35|     const incoming = cloneState(s);
+     36|     const mask = advanceFlightDamage(s, 1 / 120, SUPER_HEAVY, 'hull');
+       |                  ^
+     37|     expect(mask).toBe(1 << index);
+     38|     expect(component.permanentFailure).toBe(ComponentFailure.ProofExce…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/damage-endpoint.test.ts > atomic endpoint damage ownership > uses a distinct domain disposition and never fabricates strength from last-valid temperature
+TypeError: advanceFlightDamage is not a function
+ ❯ tests/core/damage-endpoint.test.ts:58:12
+     56|     s.damage!.components[index]!.root.valid = false;
+     57|     s.damage!.components[index]!.root.energy = 1e12;
+     58|     expect(advanceFlightDamage(s, 1 / 120, SUPER_HEAVY, 'hull')).toBe(…
+       |            ^
+     59|     expect(s.damage!.components[index]!.permanentFailure).toBe(Compone…
+     60|     expect(s.damage!.components[index]!.root.energy).toBe(1e12);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  14:58:22
+   Duration  274ms (transform 101ms, setup 0ms, import 127ms, tests 5ms, environment 0ms)
+

@@ -1,0 +1,17 @@
+--- docs/research/2026-10-04-cloud-resume/current-original12-owned-proof/before-current-source-and-targeted-denial-repair/owner.mjs.txt
++++ docs/research/2026-10-04-cloud-resume/current-original12-owned-proof/owner.mjs.txt
+@@ -23,7 +23,13 @@
+ try{
+  const selectedBefore=selected();save('selected-before.json',selectedBefore);
+  owned=await import(pathToFileURL(m.helper.path).href);loader=await import(pathToFileURL(resolve(m.setup,'native-loader.mjs')).href);
+- before=loader.sourceSnapshot(m.root);toolsBefore=loader.installedToolSnapshot(m.root);save('source-before.json',before);save('installed-before.json',toolsBefore);
++ const transfer=JSON.parse(readFileSync(m.sourceTransfer.path,'utf8'));assert.equal(digest(m.sourceTransfer.path),m.sourceTransfer.sha256);assert.equal(transfer.kind,'current-original12-proof-finite-data-authority-v1');
++ const authority=JSON.parse(readFileSync(transfer.current.path,'utf8')),base=JSON.parse(readFileSync(transfer.base.path,'utf8'));assert.equal(digest(transfer.current.path),transfer.current.sha256);assert.equal(digest(transfer.base.path),transfer.base.sha256);
++ const expected={...base.source};for(const [path,row] of Object.entries(base.integrationBridge)){assert.equal(expected[path]??null,row.before);expected[path]=row.after;}
++ assert.deepEqual(transfer.rows.map(row=>row.path),["tests/golden/fixtures/before-flip-autoland.json","tests/golden/fixtures/booster-sep-boostback.json","tests/golden/fixtures/booster/booster-sep-catch.json","tests/golden/fixtures/booster/rtls-catch.json","tests/golden/fixtures/intro-demo.json","tests/golden/fixtures/landing-burn-autoland.json","tests/golden/fixtures/landing-burn-headwind.json","tests/golden/fixtures/launch-pad-takeoff.json","tests/golden/fixtures/reentry-autoland.json","tests/golden/fixtures/rtls-boostback.json","tests/golden/unification.test.ts","tests/golden/booster-replay.test.ts"]);assert.equal(transfer.rows.length,12);assert.equal(new Set(transfer.rows.map(row=>row.path)).size,12);
++ for(const row of transfer.rows){assert.equal(expected[row.path],row.before);assert.match(row.before,/^[a-f0-9]{64}$/);assert.match(row.after,/^[a-f0-9]{64}$/);expected[row.path]=row.after;}
++ assert.deepEqual(expected,authority.source,'Unreviewed metadata source transition');
++ before=loader.sourceSnapshot(m.root);toolsBefore=loader.installedToolSnapshot(m.root);save('source-before.json',before);save('installed-before.json',toolsBefore);assert.deepEqual(before,authority.source,'Actual current source differs from explicit finite authority');assert.deepEqual(toolsBefore,authority.tools,'Installed tools differ from current root authority');
+  const q=JSON.parse(readFileSync(m.qualification,'utf8'));loader.verifyQualification(m.root,q);
+  // Pure comparator first; all fields/prototypes/aliases/descriptors remain paid.
+  const viteNode=JSON.parse(readFileSync(resolve(m.root,'node_modules/vite-node/package.json'),'utf8'));assert.equal(viteNode.exports['./cli'],'./dist/cli.mjs');const cli=resolve(m.root,'node_modules/vite-node/dist/cli.mjs');assert(existsSync(cli));

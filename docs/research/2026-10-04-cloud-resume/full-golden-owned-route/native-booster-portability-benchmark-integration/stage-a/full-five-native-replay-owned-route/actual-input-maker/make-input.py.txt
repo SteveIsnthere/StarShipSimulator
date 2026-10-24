@@ -1,0 +1,44 @@
+# Root-only metadata maker; no tests, imports, tree/tool/fixture scan or source application.
+import json,hashlib,sys
+from pathlib import Path
+root=Path('/workspace/StarShipSimulator')
+route=root/'docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/full-five-native-replay-owned-route'
+maker=route/'actual-input-maker';manifest=maker/'input-pins.json'
+digest=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+pins=json.loads(manifest.read_text())
+for p,sha in pins.items():assert digest(p)==sha,p
+review_path,review_sha=sys.argv[1:]
+assert digest(review_path)==review_sha
+old=root/'docs/research/2026-10-04-cloud-resume/full-golden-owned-route/five-file-replay-route/actual-input'
+stagea=route.parent
+snapshot=stagea/'root-exact-once-application/after-snapshot.json'
+after=json.loads(snapshot.read_text());assert len(after['source'])==770 and len(after['tools'])==20355
+inventory=json.loads((old/'inventory.json').read_text());owner=json.loads((old/'owner-input.json').read_text())
+assert inventory['kind']=='official-original21-external-inventory-v1'
+files=dict(inventory['files']);overrides={}
+for name,sha in after['source'].items():
+ path=str(root/name)
+ if files.get(path)!=sha:overrides[path]={'before':files.get(path),'after':sha}
+ files[path]=sha
+assert sorted(overrides)==sorted(str(root/n)for n in ['scripts/test/admission.mjs','scripts/test/loader.mjs','scripts/test/run.mjs','scripts/test/golden-support-policy.mjs','vitest.config.ts'])
+files.update(pins);files[str(manifest)]=digest(manifest);files[review_path]=review_sha
+qualification=stagea/'native-flight-and-golden-composite.stage-a.json'
+assert digest(qualification)=='e600e058b9cfaf11a0b72989e3319017a650ee260ab48e648f01954fdcef4bf7'
+qual_review=stagea/'public-qualification-owned-route/actual-input-root-route/independent-actual-stage-a-qualification-HIGH-review.md'
+owner['mode']='golden-replay-native';owner['qualification']={'path':str(qualification),'sha':digest(qualification)}
+owner['stage']={'path':str(route/'business-stage.mjs.txt'),'sha':digest(route/'business-stage.mjs.txt')}
+owner['observer']={'path':str(route/'root-observer.py.txt'),'sha':digest(route/'root-observer.py.txt')}
+owner['qualificationReview']={'path':str(qual_review),'sha':digest(qual_review)}
+files[str(qual_review)]=digest(qual_review)
+files[str(qualification)]=digest(qualification)
+assert len(owner['fixturePaths'])==10 and owner['outerMs']==338000
+output=route/'actual-input';output.mkdir(mode=0o700,exist_ok=False)
+inventory['files']=dict(sorted(files.items()));inventory['qualificationSha']=owner['qualification']['sha']
+inventory['expectedCurrentSourceSnapshot']=after['source'];inventory['expectedInstalledToolSnapshot']=after['tools']
+inventory['finiteNativeFiveLiveOverrides']=overrides
+inventory['explicitNewCompositeRequired']=True;inventory['oldSSRReplayRemainsFailed']=True
+with(output/'inventory.json').open('x')as out:json.dump(inventory,out,indent=2);out.write('\n')
+owner['pins']={'path':str(output/'inventory.json'),'sha':digest(output/'inventory.json')}
+with(output/'owner-input.json').open('x')as out:json.dump(owner,out,indent=2);out.write('\n')
+for p,sha in pins.items():assert digest(p)==sha,p
+print(json.dumps({'ownerInput':str(output/'owner-input.json'),'ownerSha256':digest(output/'owner-input.json'),'inventory':str(output/'inventory.json'),'inventorySha256':digest(output/'inventory.json'),'rawPaths':len(files),'explicitCompositeSha256':owner['qualification']['sha'],'argv':[owner['python']['path'],owner['observer']['path'],str(output/'owner-input.json'),digest(output/'owner-input.json')]}))

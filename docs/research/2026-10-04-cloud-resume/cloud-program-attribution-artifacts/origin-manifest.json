@@ -1,0 +1,310 @@
+[
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/GO",
+    "preserved": "receipt/GO",
+    "sha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df",
+    "bytes": 24,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/STOP",
+    "preserved": "receipt/STOP",
+    "sha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3",
+    "bytes": 5,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/actual-program-operations.json",
+    "preserved": "receipt/actual-program-operations.json",
+    "sha256": "44b316503ba48df2777a2eb021bb071f9f9ace9337d160cd276f0532928b958d",
+    "bytes": 3115348,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/after-bundle-identity.json",
+    "preserved": "receipt/after-bundle-identity.json",
+    "sha256": "20f24b1845d4710a44abcd0c0552aa4d0578227f538ae4cbe9db1abede4432d7",
+    "bytes": 488,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/after-identity.json",
+    "preserved": "receipt/after-identity.json",
+    "sha256": "f01cf3191616c5b670b89fc4c0a0a3a6c3134ba74ee4a2d5869bac36b6e18748",
+    "bytes": 107639,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/before-bundle-identity.json",
+    "preserved": "receipt/before-bundle-identity.json",
+    "sha256": "20f24b1845d4710a44abcd0c0552aa4d0578227f538ae4cbe9db1abede4432d7",
+    "bytes": 488,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/before-identity.json",
+    "preserved": "receipt/before-identity.json",
+    "sha256": "f01cf3191616c5b670b89fc4c0a0a3a6c3134ba74ee4a2d5869bac36b6e18748",
+    "bytes": 107639,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/browser-identity.json",
+    "preserved": "receipt/browser-identity.json",
+    "sha256": "a8f30f68c1bebc9840f92aee5ac6c20b59d70ab39fd4faecb1c3ede0d466b363",
+    "bytes": 3542,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/browser-wrapper.sh",
+    "preserved": "receipt/browser-wrapper.sh",
+    "sha256": "7209d5fdced1e7c5d4eafac0576d2772e8773fe0fc56665fd19ce182d45430d1",
+    "bytes": 765,
+    "mode": 448
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/bundle-copy-manifest.json",
+    "preserved": "receipt/bundle-copy-manifest.json",
+    "sha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff",
+    "bytes": 54403,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/cleanup.json",
+    "preserved": "receipt/cleanup.json",
+    "sha256": "b5d3e20ad36345c453d51cae9cf25ff4641f9e9813a1bcec0f30450c840924ca",
+    "bytes": 2008,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/collection-status.json",
+    "preserved": "receipt/collection-status.json",
+    "sha256": "4c9373c8367a395bafbd2e9596c2ec310abb30b238da9b45d612dd425f7a220a",
+    "bytes": 167,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/conditioning.json",
+    "preserved": "receipt/conditioning.json",
+    "sha256": "4f19adcacce49efa3d23f894c730070914e8e8dba12ddd045f23515e6e9cbfc1",
+    "bytes": 30564,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/console.json",
+    "preserved": "receipt/console.json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "bytes": 3,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/current-build-qualification.json",
+    "preserved": "receipt/current-build-qualification.json",
+    "sha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2",
+    "bytes": 114295,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/final-integrity.json",
+    "preserved": "receipt/final-integrity.json",
+    "sha256": "ac9d64fb75e888a05214a626e6d0f04fd3fc50d1d4baa6a4bd199ee39e8e73d7",
+    "bytes": 97,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/functional-outcome.json",
+    "preserved": "receipt/functional-outcome.json",
+    "sha256": "e48573c93a71c3384064f9133be36a1fd9eded9b83d3060ad6e53b40b8da2e05",
+    "bytes": 283,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/initial-topology.json",
+    "preserved": "receipt/initial-topology.json",
+    "sha256": "51263f5b965ef7d33766115f075bb9da2dd6f2c5e48ddcf05326f326d9138063",
+    "bytes": 28334,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/positive-after-state.json",
+    "preserved": "receipt/positive-after-state.json",
+    "sha256": "017c91abed65a5a25376731264ebc7fbd92ad8dfd5c6c00071048574604675d4",
+    "bytes": 28584,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/positive-after.png",
+    "preserved": "receipt/positive-after.png",
+    "sha256": "d71ab9c83a4ee80d40437e72b6d4a92f38f2b721adb7edb70637dec5154e2068",
+    "bytes": 231516,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/positive-before-state.json",
+    "preserved": "receipt/positive-before-state.json",
+    "sha256": "017c91abed65a5a25376731264ebc7fbd92ad8dfd5c6c00071048574604675d4",
+    "bytes": 28584,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/positive-before.png",
+    "preserved": "receipt/positive-before.png",
+    "sha256": "d71ab9c83a4ee80d40437e72b6d4a92f38f2b721adb7edb70637dec5154e2068",
+    "bytes": 231516,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/positive-control-pixels.json",
+    "preserved": "receipt/positive-control-pixels.json",
+    "sha256": "0c41b7fa91eaf10c053fad39f3c45325868ed5997f3c020f11c5a3246c236a93",
+    "bytes": 125,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/preparation-created.json",
+    "preserved": "receipt/preparation-created.json",
+    "sha256": "eaff7e70c31bf970cf6033d2c4efeee7b72176aa8f672f274d1294e9c0b7de55",
+    "bytes": 216,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/program-after-topology.json",
+    "preserved": "receipt/program-after-topology.json",
+    "sha256": "128abe2aa079c4fe6ccb5ff8f2e0618bfb913d2093d1456f0d274c90afda7296",
+    "bytes": 28345,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/program-attribution-summary.json",
+    "preserved": "receipt/program-attribution-summary.json",
+    "sha256": "3ab1d358e0244ecc14491b8cba1388d7e201589fbe57b42d75ba8642109fb160",
+    "bytes": 297719,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/program-before-topology.json",
+    "preserved": "receipt/program-before-topology.json",
+    "sha256": "a7c9e5855f6d3ce687b9d01ff4bfa610118ad55877135bf2f090ddfaa86d3e3d",
+    "bytes": 28341,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/program-draws.json",
+    "preserved": "receipt/program-draws.json",
+    "sha256": "061fe84de19d48f14db05ae77856d8f1dfa97b49064f7fae713ee977e4665046",
+    "bytes": 33836,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/qualification-outcome.json",
+    "preserved": "receipt/qualification-outcome.json",
+    "sha256": "0072e71a3797835255409996838ea9d9a53ddf4c95cf92b189bb318255c419ab",
+    "bytes": 149,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/qualified-browser-receipt.json",
+    "preserved": "receipt/qualified-browser-receipt.json",
+    "sha256": "9a0d1d12414b0c251db98ef5bca3fd996b2a5c327600f2abfcef847be5a37e1f",
+    "bytes": 104714,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/setup-receipt.json",
+    "preserved": "receipt/setup-receipt.json",
+    "sha256": "ee06e1015ba2eb42270560c9c5ce557f12744fedcbde718c07960134b0dda0cd",
+    "bytes": 111320,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/timer-capability.json",
+    "preserved": "receipt/timer-capability.json",
+    "sha256": "9fbad83b34f4c00f929b607eb264deea55b10929eca3073a5f9ec8006b4d8490",
+    "bytes": 1344,
+    "mode": 384
+  },
+  {
+    "original": "/tmp/starship-fullchrome-program.ropefwz6/wrapper-owner.json",
+    "preserved": "receipt/wrapper-owner.json",
+    "sha256": "55897b90c4357d21ec5937ef2ca27c7b81a51df5ab4330a718f6e8ec918248a6",
+    "bytes": 68,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-parent/independent-postexit.json",
+    "preserved": "parent-checks/independent-postexit.json",
+    "sha256": "63ee85af8c66c6b03c5fbe6bdfe17bf4bc1918ee46c6fcdfc6c054628b4b9aa8",
+    "bytes": 1331,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-parent/launch-declaration.json",
+    "preserved": "parent-checks/launch-declaration.json",
+    "sha256": "734dfeb35bbc640478a1affefd4e1751b771d9b0aed5f2d755f4403d9b6a7f64",
+    "bytes": 291,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-parent/launch-output.txt",
+    "preserved": "parent-checks/launch-output.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-parent/launch-result.json",
+    "preserved": "parent-checks/launch-result.json",
+    "sha256": "5c1abe638eb8be844cebcecfda5d7a1b3e57ec04a7e597a5217dd5870c8deff3",
+    "bytes": 98,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-parent/preparation-output.txt",
+    "preserved": "parent-checks/preparation-output.txt",
+    "sha256": "f5a71f70f3900a0649d9e19acc639e7cc9e4bd4f82ce0193fba4307af3493958",
+    "bytes": 67,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-attribution-parent/preparation-result.json",
+    "preserved": "parent-checks/preparation-result.json",
+    "sha256": "1d13ef8746091b74be6da1a1464d07ace91e641a0feae3e5b5185c27bd64d023",
+    "bytes": 167,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/run-fullchrome-program-attribution.mjs",
+    "preserved": "run-fullchrome-program-attribution.mjs.txt",
+    "sha256": "4ff5aaa8ea6dbebafc49070377481fef6a5118a109ddaab3d84f7adabcc1e998",
+    "bytes": 44029,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/program-attribution-hook.mjs",
+    "preserved": "program-attribution-hook.mjs.txt",
+    "sha256": "f2e0934fa3c9fdb20bdf246b06c72c08fc2844ba8695249d5e103389a2ff4752",
+    "bytes": 13467,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-fullchrome-program-attribution.py",
+    "preserved": "prepare-fullchrome-program-attribution.py.txt",
+    "sha256": "cfc54b831f1b29be15625422c2640dcbb3f2cb1478c95952a14a0572065dd9d4",
+    "bytes": 4674,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-fullchrome-program-attribution-declaration.md",
+    "preserved": "cloud-fullchrome-program-attribution-declaration.md.txt",
+    "sha256": "c9befe6e9a09cc34eb55006d2dd537ad418621a4ef4b568907b07b51e3b47c84",
+    "bytes": 9164,
+    "mode": 384
+  },
+  {
+    "original": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-program-current-qualification-independent-approval.md",
+    "preserved": "cloud-program-current-qualification-independent-approval.md.txt",
+    "sha256": "b5e73f99fed396afa0783a4d4e6deb67b427d05e3ba503bed9c10ab1878cb3e2",
+    "bytes": 4892,
+    "mode": 384
+  }
+]

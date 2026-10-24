@@ -1,0 +1,25 @@
+{
+  "decision": "Required exact relocation verified; no execution",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-structural-check.py",
+      "sha256": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/parent-closure.json",
+      "sha256": "90ea0e1e4c117fb6856ba9045e694c6e730260f5174ec1841dcf9d381287dfde"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/root-structural-check-relocation.json",
+      "sha256": "39e70ca725a2cc5529bf846193e90cca2c8dc9edbd58dc129b2238d2babba4a1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-actual-input-HIGH-review.md",
+      "sha256": "734b8aa8fb7b223372bbbc0bb89e2fce995efb18cc1fb142f36d177a29d870c9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-event-loop-fence-candidate/independent-event-loop-fence-actual-input-HIGH-pins.json",
+      "sha256": "d0bf89130e56ade281cb8aea7291aa08901d4c9ac2f241c466ee70d1d2446042"
+    }
+  ]
+}

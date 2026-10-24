@@ -1,0 +1,130 @@
+{
+  "generatedInputPath": "/tmp/starship-width2-stage-input.hwvzp4gl/owner-input.json",
+  "sha256": "9c42c346f7a72e60ec82f8359b9b633faf034794be1614416d2d41b7b18ce455",
+  "receipt": "/tmp/starship-width2-qualified.8j_a4631",
+  "receiptMode": 448,
+  "receiptEmpty": true,
+  "ownerLaunched": false,
+  "reason": "mkdtemp underscore fails unchanged strict alphanumeric namespace",
+  "sourceArchives": [
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/qualify-exact-facade-width2.mjs.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/qualify-exact-facade-width2.mjs.txt",
+      "sha256": "6ab522f5283f6aa89defbe243236da55dbaa857b152d6edd369a7df0e3d3ce29",
+      "bytes": 17682,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/consumer.diff.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/consumer.diff.txt",
+      "sha256": "cbded7a1781d64ce1a3e4d41ca42303c9cc33bac3d2d0d1df9990d5d061fe98c",
+      "bytes": 13049,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/business-stage.mjs.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/business-stage.mjs.txt",
+      "sha256": "8802bea7ae25383a7cbae50c8691324a69698c95c3acd307340cc2c84e0d6604",
+      "bytes": 5405,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/prepare-stage-input.py.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/prepare-stage-input.py.txt",
+      "sha256": "fa36cf5b4d088436a179b64d7786ae6a5753499d4c3d9af6a9b097d96dfd537e",
+      "bytes": 1903,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/declaration.md",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/declaration.md",
+      "sha256": "b0972b110b29b948f0ba203726493a0252da082b6f29ef1d67e22120b2f6f9d5",
+      "bytes": 3033,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/lineage-bridge.json",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/lineage-bridge.json",
+      "sha256": "29b33bc127e3487b301d171134eb7bf92628a5c4253b37475e09eef198c07dd7",
+      "bytes": 14096,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/original-second-consumer.mjs.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/original-second-consumer.mjs.txt",
+      "sha256": "a0b68dacc9b60a5ddfc4b562547efb71eb460a74ea6f5dcba700b7059c5c646c",
+      "bytes": 14279,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/original-second-failure.json",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/original-second-failure.json",
+      "sha256": "9d4775a3c14903456c7b02627f146b3f88995064ee76ab8c78c476128d4c87a5",
+      "bytes": 184604,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/width2-root-observer.py.txt",
+      "sha256": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+      "bytes": 14163,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/width2-python-preparation-bridge.mjs.txt",
+      "sha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+      "bytes": 975,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/compile-input-pins.json",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/compile-input-pins.json",
+      "sha256": "66b5ec87f1c4b25411a4bbc0643beea31706b44a969635e0930e01ce7b23119e",
+      "bytes": 3849,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/qualify-width2.mjs.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/qualify-width2.mjs.txt",
+      "sha256": "a6bfec721e7b6243e159ad891d4f1aad1b90a5f0cd52d0320c6518c7320ef7eb",
+      "bytes": 12453,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/qualify-retained-width2.mjs.txt",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/qualify-retained-width2.mjs.txt",
+      "sha256": "a0b68dacc9b60a5ddfc4b562547efb71eb460a74ea6f5dcba700b7059c5c646c",
+      "bytes": 14279,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/lineage-bridge.json",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/original-lineage-bridge.json",
+      "sha256": "611084e6955c2757546357ea3cdacace20264d2acb748a5b457ab6aac04b7e5c",
+      "bytes": 11684,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/input-pins.json",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/input-pins.json",
+      "sha256": "da23178fdb3a2881b82cb563dc0fcd7e1e282a1231e2b849ff388d5e7a000ee7",
+      "bytes": 3554,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/owned-command.mjs",
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+      "bytes": 7424,
+      "mode": 384
+    },
+    {
+      "originalPath": "/workspace/StarShipSimulator/node_modules/es-module-lexer/types/lexer.d.ts",
+      "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/lexer.d.ts",
+      "sha256": "a4bc676f3e73a1119af7c40dc94bc596fb9545748bba193670207e2d7f6cfa70",
+      "bytes": 6466,
+      "mode": 384
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+// Research proof owner. Existing helper owns every child. No benchmark or product application.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,existsSync,readdirSync,rmSync} from 'node:fs';
+import {resolve,relative} from 'node:path';
+import {createHash} from 'node:crypto';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+const started=performance.now(),[input,expectedInput]=process.argv.slice(2),digest=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+assert.equal(digest(input),expectedInput);const m=JSON.parse(readFileSync(input,'utf8'));
+assert.equal(m.kind,'current-original12-owned-proof-input-v1');assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'original12-owned-proof');
+assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);assert.equal(process.version,'v22.23.3');assert.equal(digest(process.execPath),m.node.sha256);
+assert.equal(fileURLToPath(import.meta.url),resolve(m.setup,'owner.mjs'));assert.match(relative(m.root,m.setup),/^node_modules\/\.cache\/starship-original12-proof-[a-f0-9]{32}$/);
+process.chdir(m.root);process.env.npm_execpath=m.npmCli;process.env.STARSHIP_NATIVE_BENCH_QUALIFICATION=m.qualification;
+const save=(name,v)=>writeFileSync(resolve(m.setup,name),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
+let primary=null,status=1,stage='preflight',owned=null,loader=null,before=null,toolsBefore=null,native=null;const processes=[],postErrors=[];
+function selected(){const rows={[input]:digest(input),[process.execPath]:digest(process.execPath)};assert.equal(rows[input],expectedInput);assert.equal(rows[process.execPath],m.node.sha256);
+ assert.equal(digest(m.inputPins.path),m.inputPins.sha256);
+ for(const [p,h] of Object.entries(m.inputs)){rows[p]=digest(p);assert.equal(rows[p],h,p);}
+ for(const [p,r] of Object.entries(m.materialized)){rows[p]=digest(p);assert.equal(rows[p],r.sha256,p);assert.equal(digest(r.source),r.sourceSha256,r.source);}
+ assert.equal(digest(m.helper.path),m.helper.sha256);return rows;}
+async function command(name,args,deadlineMs,env={}){stage=name;const code=await owned.runOwnedCommand({name,args,deadlineMs,root:m.root,receipt:m.setup,env:{...process.env,...env,NODE_OPTIONS:''}});
+ const p=JSON.parse(readFileSync(resolve(m.setup,`${name}.process.json`),'utf8'));processes.push({name,code,receipt:p});
+ assert.equal(code,0,name);assert.equal(p.exit.code,0);assert.equal(p.exit.signal,null);assert.equal(p.failure,null);assert.equal(p.closed,true);assert.equal(p.finished,true);assert.deepEqual(p.cleanup.executing,[]);return p;}
+try{
+ const selectedBefore=selected();save('selected-before.json',selectedBefore);
+ owned=await import(pathToFileURL(m.helper.path).href);loader=await import(pathToFileURL(resolve(m.setup,'native-loader.mjs')).href);
+ before=loader.sourceSnapshot(m.root);toolsBefore=loader.installedToolSnapshot(m.root);save('source-before.json',before);save('installed-before.json',toolsBefore);
+ const q=JSON.parse(readFileSync(m.qualification,'utf8'));loader.verifyQualification(m.root,q);
+ // Pure comparator first; all fields/prototypes/aliases/descriptors remain paid.
+ const viteNode=JSON.parse(readFileSync(resolve(m.root,'node_modules/vite-node/package.json'),'utf8'));assert.equal(viteNode.exports['./cli'],'./dist/cli.mjs');const cli=resolve(m.root,'node_modules/vite-node/dist/cli.mjs');assert(existsSync(cli));
+ await command('realm-controls',[cli,'--script',resolve(m.setup,'realm-controls.ts')],5000);
+ const pure=JSON.parse(readFileSync(resolve(m.setup,'realm-controls.stdout.txt'),'utf8'));
+ assert.equal(pure.kind,'adapted-realm-comparator-controls-v1');assert.equal(pure.passed,17);assert.equal(pure.failed,0);assert.equal(pure.skipped,0);assert.equal(new Set(pure.cases).size,17);assert.deepEqual(pure.cases,m.expectedRealmNames);assert.equal(pure.solverCalls,0);assert.equal(pure.physicalImports,0);save('realm-result.json',pure);
+ await command('app-build',[m.npmCli,'run','build'],90000);
+ await command('native-build',[resolve(m.setup,'build-native-guidance.mjs'),m.root,m.setup,'original12-public-consumer-proof'],30000);
+ native=JSON.parse(readFileSync(resolve(m.setup,'native-build-result.json'),'utf8'));loader.verifyArtifact(native.manifestPath,native.digest,'original12-public-consumer-proof');
+ // Retain original four before-import bad-authority controls, never import red artifact.
+ await assert.rejects(()=>loader.loadNativeGuidance(native.manifestPath,'0'.repeat(64),'original12-public-consumer-proof'),/Missing\/wrong\/stale manifest digest/);
+ const original=JSON.parse(readFileSync(native.manifestPath,'utf8'));
+ for(const [name,changed,pattern] of [
+  ['wrong-source',{...original,source:{...original.source,'src/core/control/guidance-physics.ts':'0'.repeat(64)}},/Current source inventory\/digests changed/],
+  ['wrong-artifact',{...original,files:{...original.files,'entry.mjs':'0'.repeat(64)}},/Artifact inventory\/digests changed/],
+  ['missing-artifact',{...original,directory:resolve(m.setup,'absent-artifact')},/ENOENT/]]){
+  save(`${name}.json`,changed);const p=resolve(m.setup,`${name}.json`);await assert.rejects(()=>loader.loadNativeGuidance(p,digest(p),'original12-public-consumer-proof'),pattern);
+ }
+ save('bad-authority-result.json',{cases:4,allRejectedBeforeImport:true});
+ const env={STARSHIP_NATIVE_BENCH_MANIFEST:native.manifestPath,STARSHIP_NATIVE_BENCH_DIGEST:native.digest,STARSHIP_NATIVE_BENCH_INVOCATION:'original12-public-consumer-proof',STARSHIP_NATIVE_BENCH_RECEIPT:m.setup,STARSHIP_NATIVE_BENCH_STAGE:'public-consumer'};
+ const report=resolve(m.setup,'consumer-report.json');await command('consumer',[resolve(m.root,'node_modules/vitest/vitest.mjs'),'run','--config',resolve(m.setup,'consumer.config.mts'),'--reporter=json',`--outputFile.json=${report}`],30000,env);
+ const result=JSON.parse(readFileSync(report,'utf8'));assert.equal(result.success,true);assert.equal(result.numTotalTests,1);assert.equal(result.numPassedTests,1);assert.equal(result.numFailedTests,0);assert.equal(result.numPendingTests,0);
+ const rows=result.testResults.flatMap(f=>f.assertionResults);assert.equal(rows.length,1);assert.equal(rows[0].status,'passed');assert.equal(rows[0].fullName,'source-identical native guidance/scenario consumer: two original recipes per backend');
+ const provenance={};for(const prefix of ['bridge-public-consumer-','scenario-public-consumer-']){const names=readdirSync(m.setup).filter(n=>n.startsWith(prefix));assert.equal(names.length,1);const p=JSON.parse(readFileSync(resolve(m.setup,names[0]),'utf8'));assert.equal(p.invocation,env.STARSHIP_NATIVE_BENCH_INVOCATION);assert.equal(p.digest,native.digest);assert.equal(p.manifest,native.manifestPath);assert(Object.values(p.referenceIdentity).every(v=>v===true));provenance[prefix]=p;}
+ assert.equal(provenance['bridge-public-consumer-'].pid,provenance['scenario-public-consumer-'].pid);save('consumer-result.json',{passed:1,solverCallsPerBackend:2,totalSolverCalls:4,provenance,fullScratchStateDescriptorAliasComparison:true,timed:false});status=0;
+}catch(error){primary=String(error.stack??error);}
+finally{
+ for(const [name,fn] of [['selected-after',selected],['source-after',()=>{assert(before);const x=loader.sourceSnapshot(m.root);save('source-after-observed.json',x);assert.deepEqual(x,before);return x;}],['installed-after',()=>{assert(toolsBefore);const x=loader.installedToolSnapshot(m.root);save('installed-after-observed.json',x);assert.deepEqual(x,toolsBefore);return x;}],['owned-final',()=>owned.verifyNoOwnedProcesses()]]){
+  try{save(`${name}.json`,fn());}catch(e){postErrors.push({name,message:String(e.stack??e)});}
+ }
+ if(native)try{loader.verifyArtifact(native.manifestPath,native.digest,'original12-public-consumer-proof');}catch(e){postErrors.push({name:'artifact-final',message:String(e.stack??e)});}
+ // Only generated native entry is removed; original materializations/source and raw evidence are preserved.
+ try{rmSync(resolve(m.setup,'native-entry.ts'),{force:true});}catch(e){postErrors.push({name:'generated-entry-cleanup',message:String(e.stack??e)});}
+ if(postErrors.length)status=70;if(performance.now()-started>292000){status=70;postErrors.push({name:'whole-owner',message:'Owner292s work bound exceeded'});}
+ save('owner-result.json',{kind:'current-original12-owned-proof-result-v1',completed:status===0&&primary===null&&postErrors.length===0,status,stage,primary,postErrors,processes,elapsedMs:performance.now()-started,application:false,timing:false,original12Passed:false,parentAllActualTrackedAbsenceRequired:true});process.exitCode=status;
+}

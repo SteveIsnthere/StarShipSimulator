@@ -1,0 +1,56 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "source": "admission",
+      "check": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.027416137003456242
+    },
+    {
+      "source": "admission",
+      "check": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9144206130004022
+    },
+    {
+      "source": "run",
+      "check": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.0240144359995611
+    },
+    {
+      "source": "run",
+      "check": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9031148590001976
+    },
+    {
+      "source": "build",
+      "check": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.024702068003534805
+    },
+    {
+      "source": "build",
+      "check": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8822923339976114
+    },
+    {
+      "source": "portable-fixture-controls",
+      "check": "node-syntax",
+      "code": 0,
+      "elapsedSeconds": 0.025413704999664333
+    },
+    {
+      "source": "portable-fixture-controls",
+      "check": "eslint",
+      "code": 1,
+      "elapsedSeconds": 0.9470599179985584
+    }
+  ],
+  "all36InputPinsBeforeAfterMatched": true,
+  "fixturesExecuted": false,
+  "runtimeApplied": false
+}

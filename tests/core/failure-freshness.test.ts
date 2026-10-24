@@ -4,8 +4,11 @@ import * as C from '$core/constants';
 import { createScenarioState, getScenario } from '$core/scenarios';
 import { step } from '$core/step';
 import { gravityAt } from '$core/physics/gravity';
-import { createMassProperties, writeMassProperties } from '$core/physics/mass';
 import { rad } from '$core/units';
+import { SHIP } from '$core/vehicle';
+import { engineThrust } from '$core/physics/propulsion';
+import { isaAtmosphere } from '$core/physics/isa';
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
 
 describe('breakup reads current forces', () => {
   it('breaks up on the first overpressure step even when the incoming pressure was safe', () => {
@@ -44,10 +47,10 @@ describe('breakup reads current forces', () => {
     expect(next.engines.running.every((running) => !running)).toBe(true);
     expect(next.engines.ignitionCountdown.every((remaining) => remaining === null)).toBe(true);
     expect(next.vehicle.propellantMass).toBe(0);
-    expect(next.vehicle.vehicleMass).toBe(C.vehicleDryMass);
-    const dry = createMassProperties();
-    writeMassProperties(0, dry);
-    expect(next.vehicle.vehicleMomentOfInertia).toBe(dry.momentOfInertia);
+    expect(next.vehicle.vehicleMass).toBe(0);
+    expect(next.vehicle.vehicleMomentOfInertia).toBe(0);
+    expect(next.damage!.terminal.retainedDryMass).toBe(C.vehicleDryMass);
+    expect(next.damage!.components.every(c => !c.attached)).toBe(true);
     expect(next.kinematics.angularVelocity).toBe(0);
     expect(step(next, 1 / 120).forces.thrust).toBe(0);
   });
@@ -63,7 +66,8 @@ describe('ground contact reads current thrust', () => {
     expect(next.failures.crashed).toBe(true);
     expect(next.forces.thrust).toBe(0);
     expect(next.vehicle.propellantMass).toBe(0);
-    expect(next.vehicle.vehicleMass).toBe(C.vehicleDryMass);
+    expect(next.vehicle.vehicleMass).toBe(0);
+    expect(next.damage!.terminal.retainedDryMass).toBe(C.vehicleDryMass);
     expect(next.engines.ignitionCountdown.every((remaining) => remaining === null)).toBe(true);
     expect(next.kinematics.altitude).toBe(s.kinematics.altitude);
     expect(next.kinematics.speedY).toBe(0);
@@ -105,7 +109,11 @@ describe('felt g reads current forces', () => {
     // of specific force; gravity keeps the net acceleration below 13 g.
     s.vehicle.propellantMass = 1_000;
     s.vehicle.vehicleMass = C.vehicleDryMass + 1_000;
-    s.vehicle.throttle = s.vehicle.throttleCurrent = 100;
+    const pressure = isaAtmosphere(20_000).airPressure;
+    const thrust = (model: typeof SHIP) => model.engines.reduce((sum, mount) =>
+      sum + engineThrust(model.propulsion, mount.kind, pressure), 0);
+    // Preserve the original discriminating force, using real V3 throttle.
+    s.vehicle.throttle = s.vehicle.throttleCurrent = 100 * thrust(HISTORICAL_SHIP) / thrust(SHIP);
     s.engines.running.fill(true);
     s.autopilot.autoLandOn = false;
     s.kinematics.speedY = -850;

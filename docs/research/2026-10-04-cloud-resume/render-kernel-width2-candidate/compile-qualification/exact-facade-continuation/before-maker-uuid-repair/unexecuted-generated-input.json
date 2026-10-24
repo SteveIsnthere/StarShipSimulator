@@ -1,0 +1,52 @@
+{
+  "kind": "width2-concrete-stage-owner-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "mode": "qualify",
+  "outerMs": 30000,
+  "setup": "/tmp/starship-render-kernel.2co6w1rl",
+  "continuationReceipt": "/tmp/starship-width2-qualified.8j_a4631",
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "preparer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2.py.txt",
+    "sha": "4bd0c3fcf2ebb6bc4f464c1418f8ec9930f4da83ac8104e6fb4503cfb436d89f"
+  },
+  "builder": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/build-width2.mjs.txt",
+    "sha": "70c78b850a93d843ffead5b1bc6704e01f61d03953cc87d8e2807e7d1ab33180"
+  },
+  "qualifier": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/qualify-exact-facade-width2.mjs.txt",
+    "sha": "6ab522f5283f6aa89defbe243236da55dbaa857b152d6edd369a7df0e3d3ce29"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/input-pins.json",
+    "sha": "8b5a7b379ceccf484171d52492e3723dc44789864a13606dbc301a9b15e253f5"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/business-stage.mjs.txt",
+    "sha": "8802bea7ae25383a7cbae50c8691324a69698c95c3acd307340cc2c84e0d6604"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt",
+    "sha": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86"
+  },
+  "bridge": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt",
+    "sha": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de"
+  },
+  "lineageBridge": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/lineage-bridge.json",
+    "sha": "29b33bc127e3487b301d171134eb7bf92628a5c4253b37475e09eef198c07dd7"
+  }
+}

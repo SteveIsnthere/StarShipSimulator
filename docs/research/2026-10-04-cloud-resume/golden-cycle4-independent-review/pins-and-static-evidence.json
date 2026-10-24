@@ -1,0 +1,137 @@
+{
+  "scope": "static finite selected reads and hashes only; no executions of simulation/test/build/profile/validator/browser; no source edits",
+  "evidence": {
+    "/tmp/starship-official-flight.Bsmx5P/native.json": "3ff1829db5605364e74c6f2da34659a35bdbc3cd50c8954c041051446b0d202c",
+    "/tmp/starship-official-tests-owner.O7l16n/result.json": "83ed8bece4db9ecf944bf110059dc6e7fc53ac204ff312cc90ceb86cfad79a4f"
+  },
+  "selectedSource": {
+    "tests/golden/booster-replay.test.ts": {
+      "sha256": "cce053083240b7af301fdcb1cd84ecfaa4810815f906141f861c561d4c38d3b4",
+      "matchesNativeSource": true
+    },
+    "tests/golden/booster-record.ts": {
+      "sha256": "dbb1f874135dbd0da06cf2e682e91c0cdfd7f059d4074f649760f41a1671b265",
+      "matchesNativeSource": true
+    },
+    "tests/golden/record.ts": {
+      "sha256": "a5d1d85d26d31f889656aacf5109b7a1d142886106d3bfa61e83e43188bfbb9e",
+      "matchesNativeSource": true
+    },
+    "tests/golden/compare.ts": {
+      "sha256": "84273766eb445751392bc888dd31596b9008089bc974b80421efc8d92ce2deaf",
+      "matchesNativeSource": true
+    },
+    "src/core/step.ts": {
+      "sha256": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986",
+      "matchesNativeSource": true
+    },
+    "src/core/state.ts": {
+      "sha256": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d",
+      "matchesNativeSource": true
+    },
+    "src/core/mission-free-flight.ts": {
+      "sha256": "63bf8d648e1210e3c33e6f11c957ed397bc7a1520ad038739a6d6fd47dbc1cc0",
+      "matchesNativeSource": true
+    },
+    "src/core/damage-state.ts": {
+      "sha256": "2bddfc853d43eda68761f3be23a99bcaae8bf04567eac80648fa134afe9a3a87",
+      "matchesNativeSource": true
+    },
+    "src/core/autopilot/booster.ts": {
+      "sha256": "c5a7a17e93999173ca160dc83d26e6f390010332c1b56cd57999bfde4395597d",
+      "matchesNativeSource": true
+    },
+    "src/core/physics/damage-flight.ts": {
+      "sha256": "727d66df66399eb182f82f1d80a7a4a8c88e62ebc0c934ad52bfe6293303f300",
+      "matchesNativeSource": true
+    },
+    "src/core/physics/damage-controls.ts": {
+      "sha256": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e",
+      "matchesNativeSource": true
+    },
+    "src/core/physics/damage-root.ts": {
+      "sha256": "9ee949e1bc1c6c0f277a1258763c01a6a7149d570da5fac57b903484e601649e",
+      "matchesNativeSource": true
+    },
+    "src/core/physics/damage-material.ts": {
+      "sha256": "b13040799017fc0bf59fd0309f3ec08766a135d128798f5246a92f342f32de84",
+      "matchesNativeSource": true
+    },
+    "src/core/physics/damage-thermal.ts": {
+      "sha256": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0",
+      "matchesNativeSource": true
+    },
+    "src/core/physics/vehicle-components.ts": {
+      "sha256": "a23086f8c4aacd101d0df155f4e90f6bbfbd44c580bdc99cc498725609f7c320",
+      "matchesNativeSource": true
+    },
+    "src/core/vehicles/super-heavy.ts": {
+      "sha256": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0",
+      "matchesNativeSource": true
+    },
+    "tests/golden/fixtures/booster/booster-sep-catch.json": {
+      "sha256": "845da274d0e59758fabebf57e734c28ce1f8276ccc33fa33452f59bc3e912e33",
+      "matchesNativeSource": true
+    },
+    "tests/golden/fixtures/booster/rtls-catch.json": {
+      "sha256": "a20123bb78d3fdf77affd26e2140e142247d07d13319786f2673e1a5a62d9bb9",
+      "matchesNativeSource": true
+    }
+  },
+  "sourceInventoryDeclaredCount": 770,
+  "freshBuildCompletedDeclared": true,
+  "replayResult": {
+    "completed": false,
+    "rawCode": 1,
+    "reason": "failed",
+    "count": 38,
+    "passed": 37,
+    "failures": [
+      {
+        "name": "actual booster capture golden regressions > 'booster-sep-catch' replays all physical state/control leaves through an airborne catch",
+        "durationMs": 31509.657011,
+        "timeoutMs": 30000,
+        "retry": 0,
+        "errors": [
+          "Test timed out in 30000ms.\nIf this is a long-running test, pass a timeout value as the last argument or configure it globally with \"testTimeout\"."
+        ]
+      }
+    ]
+  },
+  "sampledSymmetry": [
+    {
+      "scenario": "booster-sep-catch",
+      "steps": 108000,
+      "rows": 1801,
+      "fields": 454,
+      "gridIndices": [
+        2,
+        3,
+        4
+      ],
+      "identicalRows": {
+        "root.temperature": 1801,
+        "root.energy": 1801,
+        "attached": 1801,
+        "permanentFailure": 1801
+      }
+    },
+    {
+      "scenario": "rtls-catch",
+      "steps": 108000,
+      "rows": 1801,
+      "fields": 454,
+      "gridIndices": [
+        2,
+        3,
+        4
+      ],
+      "identicalRows": {
+        "root.temperature": 1801,
+        "root.energy": 1801,
+        "attached": 1801,
+        "permanentFailure": 1801
+      }
+    }
+  ]
+}

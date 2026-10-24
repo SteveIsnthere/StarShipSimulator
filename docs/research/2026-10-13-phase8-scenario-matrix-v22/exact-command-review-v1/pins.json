@@ -1,0 +1,294 @@
+{
+  "candidateSource": {
+    "bytes": 13541,
+    "path": "tests/flies-every-scenario.test.ts",
+    "sha256": "ecb37ed056299d07a5edc05b4e9d3fed9345ca8fbb1510849dc3604f731b3959"
+  },
+  "checkout": {
+    "branch": "claude/visuals",
+    "head": "8b8a8e30ec692cc16f91e6bfdec1db2c93456671"
+  },
+  "command": "npm run test -- --maxWorkers=1 tests/flies-every-scenario.test.ts",
+  "disposition": "HOLD_READINESS_ONLY",
+  "exactBoundary": {
+    "environmentValuesRead": false,
+    "observedShell": {
+      "aliasExpansion": "off",
+      "aliases": 0,
+      "flags": "hBc",
+      "functions": 0,
+      "traps": 0
+    },
+    "proposed": "functions.exec_command(login=false, tty=false), source /workspace/cloud-bootstrap/starship-v1/activate.sh, cd /workspace/StarShipSimulator, then run exact npm command directly",
+    "runtimeControlNamesPresent": [
+      "NODE_PATH",
+      "NPM_CONFIG_AUDIT",
+      "NPM_CONFIG_FUND",
+      "NPM_CONFIG_PREFIX"
+    ]
+  },
+  "executionAuthorized": false,
+  "inputs": [
+    {
+      "bytes": 1889,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v22/README.md",
+      "sha256": "ad8c25b8424a54510847254e4dbc0405ee6c6b305f2bb571bacb118625cbde1f",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 3922,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v22/independent-source-review-v1/review.md",
+      "sha256": "48798d29b214669d22aabcb5ca6fcb02636e6ecd92658ef58b94a751d532658c",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 5995,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v22/independent-source-review-v1/pins.json",
+      "sha256": "3f6a1f481fc060cd21596f8847d80cf81e8f0419412dcde1f2d835221662f016",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 2930,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v22/provenance-recheck-v1/review.md",
+      "sha256": "8a8e0f91cb95ded55ff3699d48c72bad7fb96bec74e1337b4bd4aa7e2fccb096",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 6743,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v22/provenance-recheck-v1/pins.json",
+      "sha256": "5463bd6e9e3da0f4a093fd6dd4c2a692f36d6de789dfebca60dcfe7e2e6b93c0",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 5213,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/independent-command-review-v1/review.md",
+      "sha256": "7330178ed16bf72675d0788b1334cb504d1bff5dd8a34d12b9d8e984e6eb8c67",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 32038,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/independent-command-review-v1/pins.json",
+      "sha256": "54ab70a7a6b306a3af28fa4f8ee5b3331922f209d3c31d8b01996bcf63161192",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 1036,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/README.md",
+      "sha256": "1795e7440142b228a8ae354db22cbb5471c8393549776f7242329b82465fc3b4",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 228,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/command.txt",
+      "sha256": "d31ef84f03f01a93ed20a47f69bdef46263d55f898d4b4cca8f4e31668b879b6",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 4010,
+      "mode": "0755",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/run-once.sh",
+      "sha256": "d4987b633c60df5d5fc0914d566d97f0cfbaffa8efab9de50906f7f1497e1aa9",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 4567,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/packet-pins.sha256",
+      "sha256": "fe0c638c86767841cfddf6a5d9b4fcc0a615c4a643f3771f4f7d80ee83c1c1d1",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 79896,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/source-pins.sha256",
+      "sha256": "da0cbcb501e076a5639dd86a58d104b1154387c737d4b52bfd9bf525ff953eb6",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 7959409,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/runtime-tree-manifest.jsonl",
+      "sha256": "ca409f53de83fc5ca21a0dd441704fea38533ae247e4d56a5d9096f9f4b98e29",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 5957444,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/runtime-pins.sha256",
+      "sha256": "00c93044e61a7a099b9fa7f4042564c8416ef53a82a1828eceb8bf66d8060374",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 717,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/route-preflight-v21.txt",
+      "sha256": "65fd1e32a84dae284bc7a0c3704c73122b219e8a0ea33e0d6ad391984bc5592f",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 348,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v21/flight-audit-packet/shell-preflight-v21.txt",
+      "sha256": "b52dbaf3cdde43a6b2ff031f86322491ab593d1ec654729a98942343cea15570",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 13541,
+      "mode": "0600",
+      "path": "tests/flies-every-scenario.test.ts",
+      "sha256": "ecb37ed056299d07a5edc05b4e9d3fed9345ca8fbb1510849dc3604f731b3959",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 2632,
+      "mode": "0600",
+      "path": "package.json",
+      "sha256": "aa229cabc6463b50e25fc0a9b7c7a9e39ddbcb39b4ce4dde93cd8f52afc3ccb3",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 12300,
+      "mode": "0600",
+      "path": "scripts/test/run.mjs",
+      "sha256": "eb60e23f3adc318367b33729e85bb2de9d3adf46a27efd526c32b5a47cee1f60",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 21230,
+      "mode": "0600",
+      "path": "scripts/test/admission.mjs",
+      "sha256": "127ccf2290348f7b815090235624b3ac56ae6ebe6ac8d53e962bf8a7a3ff4a25",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 927,
+      "mode": "0600",
+      "path": "scripts/test/projects.mjs",
+      "sha256": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 9953,
+      "mode": "0600",
+      "path": "scripts/bench/owned-command.mjs",
+      "sha256": "3e0af12a86b6d8c5da1219d69c47b4f09fb3683906af0175b4d971aac75e0763",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 7951,
+      "mode": "0600",
+      "path": "vitest.config.ts",
+      "sha256": "4b3ee81bb15c73ef95ee1ac97a50c6dd05c3693f2e4fdaf03f211d719f23f501",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 2924436,
+      "mode": "0600",
+      "path": "docs/verification/native-flight-qualification.json",
+      "sha256": "9920693d4d9c3c7e94880b50d508bce12facaa9b5f1f20242ca1fa5f2bb2c83e",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 65,
+      "mode": "0600",
+      "path": "docs/verification/native-flight-qualification.sha256",
+      "sha256": "17b4f3c6c68198637d215556264d22769d7621a6b026ffa300132eabf9f06aef",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 688,
+      "mode": "0600",
+      "path": "/workspace/cloud-bootstrap/starship-v1/activate.sh",
+      "sha256": "fb3d7cb2a9b366a53fa3570b0db9589373e988ad5a7e7dd54ebd966a5188eb45",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 124827920,
+      "mode": "0700",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "sha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+      "type": "regular-file"
+    },
+    {
+      "linkTarget": "../lib/node_modules/npm/bin/npm-cli.js",
+      "linkTextSha256": "073c15c135959de3e43dbea2b38d6e9b6d657fe9d4fc8ca2d3203e7793278bba",
+      "mode": "0777",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/npm",
+      "resolvedPath": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+      "type": "symlink"
+    },
+    {
+      "bytes": 54,
+      "mode": "0700",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+      "sha256": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 6706,
+      "mode": "0600",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/package.json",
+      "sha256": "7c04bf69824d17a1db64defd3a9a86d538781bf2d6ca2764e3f1143fa5b71166",
+      "type": "regular-file"
+    },
+    {
+      "bytes": 43,
+      "mode": "0700",
+      "path": "node_modules/vitest/vitest.mjs",
+      "sha256": "39db22f579acf5639bbb17a261408debbde03f4692c0c439e77e7f13aeba74d6",
+      "type": "regular-file"
+    }
+  ],
+  "kind": "phase8-scenario-matrix-v22-exact-command-readiness-pins-v1",
+  "limits": {
+    "claimedOwnerDeadlineMs": 300000,
+    "coverage": false,
+    "enforcedOnObservedDefaultFallback": false,
+    "maxWorkers": 1,
+    "retries": 0,
+    "scenarioHorizonSeconds": 900,
+    "scenarioStepLimit": 108000,
+    "testTimeoutMs": 30000
+  },
+  "nativeQualification": {
+    "defaultNativeVarsPresent": false,
+    "matchesV22": false,
+    "sha256": "9920693d4d9c3c7e94880b50d508bce12facaa9b5f1f20242ca1fa5f2bb2c83e",
+    "sidecarText": "9920693d4d9c3c7e94880b50d508bce12facaa9b5f1f20242ca1fa5f2bb2c83e",
+    "staticRoute": "default admission mismatch => original SSR fallback; no owner timeout in fallback",
+    "testSourceExpectedSha256": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9"
+  },
+  "outputs": [
+    {
+      "bytes": 4933,
+      "mode": "0600",
+      "path": "docs/research/2026-10-13-phase8-scenario-matrix-v22/exact-command-review-v1/review.md",
+      "sha256": "22ff1b43a86761e11a34f5fe186c850b31eab24afc00d41fa62a67ee8cfbcace"
+    }
+  ],
+  "priorV21SourcePin": {
+    "matchesV22": false,
+    "sha256": "13e5f271b8d7c068792fcf1932a6d5534202e12ded8d17302f5cc2551c981934",
+    "v21PacketSidecarSha256": "fe0c638c86767841cfddf6a5d9b4fcc0a615c4a643f3771f4f7d80ee83c1c1d1"
+  },
+  "runtime": {
+    "nodePath": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "nodeSha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+    "nodeVersion": "v22.23.3",
+    "npmCliSha256": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7",
+    "npmPath": "/workspace/cloud-bootstrap/starship-v1/node/bin/npm",
+    "npmResolvedPath": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+    "npmSymlinkTarget": "../lib/node_modules/npm/bin/npm-cli.js",
+    "npmVersionFromPinnedPackageJson": "10.9.9"
+  },
+  "v22OutputRootsAbsent": true
+}

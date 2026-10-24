@@ -1,0 +1,21 @@
+export { PRESETS, ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle } from '$core/scenarios';
+export { cloneState } from '$core/state';
+import { step as originalStep, NO_INPUT, type StepInput } from '$core/step';
+import { SHIP as defaultShip, type VehicleDefinition } from '$core/vehicle';
+import type { SimState } from '$core/state';
+let __originalStepCalls = 0;
+export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = defaultShip): SimState {
+  __originalStepCalls++;
+  return originalStep(previous, dt, input, model);
+}
+export function resetOriginalStepCensus(): void { __originalStepCalls = 0; }
+export function readOriginalStepCensus(): number { return __originalStepCalls; }
+export { SHIP } from '$core/vehicle';
+export { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
+export { createCatchPose, writeCatchPose } from '$core/physics/tower-catch';
+export { runBoosterAutopilot } from '$core/autopilot/booster';
+export { toggleAutoLand } from '$core/control/commands';
+export { starBaseXPos, heatLimit } from '$core/constants';
+export { DT } from '$app/loop';
+export { resetRootOpportunityCensus, readRootOpportunityCensus } from '$core/physics/damage-controls';
+export { resetSteelOpportunityCensus, readSteelOpportunityCensus } from '$core/physics/damage-thermal';

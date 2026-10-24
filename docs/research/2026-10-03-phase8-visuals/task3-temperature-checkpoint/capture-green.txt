@@ -1,0 +1,272 @@
+[WebServer] (node:92861) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 3 workers
+
+(node:92862) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:92863) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:92864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 39.218593888892755,
+      lumaSpread: 23.225465331438556,
+      toneBuckets: 2,
+      brightFraction: 0.014320987654320988,
+      darkFraction: 0.955,
+      warmFraction: 0.01074074074074074,
+      greyFraction: 0.12385802469135802,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 535122,
+      meanLuma: 36.101838704041946,
+      lumaSpread: 19.44509441558443,
+      toneBuckets: 3,
+      brightFraction: 0.0019247947197087766,
+      darkFraction: 0.9614667309510728,
+      warmFraction: 0.0004802643135584035,
+      greyFraction: 0.35965630267490406,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 39.969295524694765,
+      lumaSpread: 25.124311731432623,
+      toneBuckets: 3,
+      brightFraction: 0.016049382716049384,
+      darkFraction: 0.9490432098765432,
+      warmFraction: 0.015123456790123457,
+      greyFraction: 0.10432098765432099,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 535122,
+      meanLuma: 36.13763498227377,
+      lumaSpread: 19.581924238940356,
+      toneBuckets: 3,
+      brightFraction: 0.0019976752964744487,
+      darkFraction: 0.9612686452808892,
+      warmFraction: 0.0020967181315662596,
+      greyFraction: 0.3589536591655735,
+      topColours: [Array]
+    }
+  }
+}
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 21316,
+      meanLuma: 38.975482454497566,
+      lumaSpread: 23.241466348659813,
+      toneBuckets: 2,
+      brightFraction: 0.013980108838431225,
+      darkFraction: 0.9569337586789266,
+      warmFraction: 0.01022705948583224,
+      greyFraction: 0.11343591668230438,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 221184,
+      meanLuma: 37.41146366372338,
+      lumaSpread: 19.257167712125522,
+      toneBuckets: 3,
+      brightFraction: 0.0010172526041666667,
+      darkFraction: 0.9631392867476852,
+      warmFraction: 0.00013563368055555556,
+      greyFraction: 0.36922652633101855,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 21316,
+      meanLuma: 39.699851426161715,
+      lumaSpread: 25.089265461179988,
+      toneBuckets: 2,
+      brightFraction: 0.01566898104710077,
+      darkFraction: 0.9525708388065303,
+      warmFraction: 0.014496153124413587,
+      greyFraction: 0.09893976355789079,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 221184,
+      meanLuma: 37.4400303005507,
+      lumaSpread: 19.352632966652248,
+      toneBuckets: 3,
+      brightFraction: 0.001094111689814815,
+      darkFraction: 0.9629765263310185,
+      warmFraction: 0.0003707320601851852,
+      greyFraction: 0.3687879774305556,
+      topColours: [Array]
+    }
+  }
+}
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 39.22179990741135,
+      lumaSpread: 23.236360745810195,
+      toneBuckets: 2,
+      brightFraction: 0.014320987654320988,
+      darkFraction: 0.9549382716049383,
+      warmFraction: 0.010802469135802469,
+      greyFraction: 0.12401234567901234,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 514269,
+      meanLuma: 37.24161430878601,
+      lumaSpread: 19.296102551515236,
+      toneBuckets: 3,
+      brightFraction: 0.0016431089565966449,
+      darkFraction: 0.9587861605502179,
+      warmFraction: 0.0008011371480684234,
+      greyFraction: 0.3732657422477342,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 39.97204490741082,
+      lumaSpread: 25.133183414069318,
+      toneBuckets: 3,
+      brightFraction: 0.01574074074074074,
+      darkFraction: 0.9493518518518519,
+      warmFraction: 0.015154320987654322,
+      greyFraction: 0.10459876543209877,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 514269,
+      meanLuma: 37.2988149800303,
+      lumaSpread: 19.49072809316647,
+      toneBuckets: 3,
+      brightFraction: 0.001773390968539811,
+      darkFraction: 0.9583817029609017,
+      warmFraction: 0.0015711621738817624,
+      greyFraction: 0.3718306956087184,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  1 [pixel-portrait] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (2.7s)
+  ✓  3 [chromium] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (2.8s)
+  ✓  2 [pixel-landscape] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (3.0s)
+(node:92882) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:92881) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 39.31061478758606,
+      lumaSpread: 23.31053026373769,
+      toneBuckets: 2,
+      brightFraction: 0.014369473279507881,
+      darkFraction: 0.953743752402922,
+      warmFraction: 0.01124567474048443,
+      greyFraction: 0.12483179546328335,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 512928,
+      meanLuma: 35.828064124012215,
+      lumaSpread: 18.70134727900702,
+      toneBuckets: 3,
+      brightFraction: 0.0013569155904922328,
+      darkFraction: 0.9611777871358164,
+      warmFraction: 0.000397716638592551,
+      greyFraction: 0.361545869985651,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 40.07360784314109,
+      lumaSpread: 25.246226053792938,
+      toneBuckets: 3,
+      brightFraction: 0.01629181084198385,
+      darkFraction: 0.9478806228373703,
+      warmFraction: 0.01588331410995771,
+      greyFraction: 0.1056805074971165,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 512928,
+      meanLuma: 35.85760953194471,
+      lumaSpread: 18.804352707912177,
+      toneBuckets: 3,
+      brightFraction: 0.0014310000623869237,
+      darkFraction: 0.9609925759560796,
+      warmFraction: 0.0006024237319857757,
+      greyFraction: 0.3608128236321667,
+      topColours: [Array]
+    }
+  }
+}
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 39.311028618804684,
+      lumaSpread: 23.31503214593809,
+      toneBuckets: 2,
+      brightFraction: 0.014369473279507881,
+      darkFraction: 0.953719723183391,
+      warmFraction: 0.011221645520953479,
+      greyFraction: 0.12507208765859285,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 550800,
+      meanLuma: 37.414807392820734,
+      lumaSpread: 19.463902341133224,
+      toneBuckets: 4,
+      brightFraction: 0.002013435003631082,
+      darkFraction: 0.9559985475671751,
+      warmFraction: 0.0009894698620188816,
+      greyFraction: 0.37784495279593316,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 40.073686803156356,
+      lumaSpread: 25.249244245460215,
+      toneBuckets: 3,
+      brightFraction: 0.016219723183391002,
+      darkFraction: 0.9478806228373703,
+      warmFraction: 0.015859284890426758,
+      greyFraction: 0.10596885813148789,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 550800,
+      meanLuma: 37.48501313900916,
+      lumaSpread: 19.69969412220624,
+      toneBuckets: 4,
+      brightFraction: 0.0021895424836601307,
+      darkFraction: 0.9554665940450254,
+      warmFraction: 0.001971677559912854,
+      greyFraction: 0.37607843137254904,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  4 [iphone-portrait] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.9s)
+  ✓  5 [iphone-landscape] › tests/e2e/reentry.spec.ts:54:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.9s)
+
+  5 passed (7.3s)

@@ -1,0 +1,133 @@
+// Research-only exact hook controls: no application import or installed hook.
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { Script } from 'node:vm';
+const [template] = process.argv.slice(2);
+const source = readFileSync(template, 'utf8');
+const marker = 'const parents = new Map(originalTests.map(file => [pathToFileURL(resolve(q.root, file)).href, runtimeAliases[file]]));';
+assert.equal(source.split(marker).length, 2);
+const suffix = marker + source.split(marker)[1];
+const names = ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts'];
+const aliasLists = [
+  ['$core/scenarios', '$core/state', '$core/autopilot/booster', '$core/step', '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants'],
+  ['$core/scenarios', '$core/step', '$app/loop', '$core/control/commands', '$core/vehicle', '$core/vehicles/super-heavy', '$core/physics/tower-catch', '$core/constants'],
+];
+const sha = source => createHash('sha256').update(source).digest('hex');
+function fixture() {
+  const root = '/tmp/inert-native-parent-control';
+  const urls = names.map(file => pathToFileURL(resolve(root, file)).href);
+  const contents = ['export const inert = 1;\n', 'export const inert = 2;\n'];
+  const originalTests = [...names]; const runtimeAliases = Object.fromEntries(names.map((file, i) => [file, [...aliasLists[i]]]));
+  const q = { root, mappedCode: 'inert.js', aliases: [...new Set(aliasLists.flat())], originalTests: Object.fromEntries(names.map((file, i) => [file, sha(contents[i])])) };
+  const events = []; let hooks = null; let registrations = 0; let diskMismatch = false;
+  const entryURL = 'file:///tmp/inert-native-parent-control/entry.mjs';
+  const chunkURL = 'file:///tmp/inert-native-parent-control/inert.js';
+  const constantsURL = 'file:///tmp/inert-native-parent-control/constants.mjs';
+  const sandbox = { assert, originalTests, runtimeAliases, q, m: { files: {} },
+    pathToFileURL, resolve, entryURL, chunkURL, constantsURL, Buffer, ArrayBuffer, createHash,
+    digest: url => { const i = urls.indexOf(String(url)); assert(i !== -1); return diskMismatch ? '0'.repeat(64) : sha(contents[i]); },
+    record: row => events.push(JSON.parse(JSON.stringify(row))),
+    registerHooks: value => { registrations++; assert.equal(registrations, 1); hooks = value; },
+  };
+  new Script(suffix, { filename: template + ':exact-hook-suffix' }).runInNewContext(sandbox, { timeout: 1000 });
+  assert(hooks && typeof hooks.resolve === 'function' && typeof hooks.load === 'function');
+  return { urls, contents, events, hooks, entryURL, constantsURL,
+    setDiskMismatch: () => { diskMismatch = true; },
+    load: (i, url = urls[i], format = 'module-typescript', body = contents[i]) => hooks.load(url, {}, () => ({ format, source: body })),
+    alias: (i, url = urls[i], specifier = aliasLists[i][0]) => hooks.resolve(specifier, { parentURL: url }, () => { throw Error('Unexpected alias nextResolve'); }),
+  };
+}
+const cases = [];
+function test(name, body) { body(); cases.push(name); }
+const rejection = (f, invoke, reason) => {
+  const before = f.events.length;
+  assert.throws(invoke, error => error.name === 'AssertionError' && error.message === reason);
+  assert.equal(f.events.length, before + 1);
+  const row = f.events.at(-1); assert.equal(row.kind, 'rejected-original-alias'); assert.equal(row.reason, reason);
+  return row;
+};
+const absent = 'Native application alias requested by foreign or uncertified parent';
+test('exact parent before load denies and records', () => {
+  const f = fixture(); const row = rejection(f, () => f.alias(0), absent);
+  assert.equal(row.parentURL, f.urls[0]); assert.equal(row.specifier, aliasLists[0][0]);
+});
+test('foreign parent denies and records', () => {
+  const f = fixture(); f.load(0); const foreign = 'file:///tmp/foreign.ts';
+  const row = rejection(f, () => f.alias(0, foreign), absent); assert.equal(row.parentURL, foreign);
+});
+test('malformed decorated parent denies and records', () => {
+  const f = fixture(); f.load(0); const malformed = f.urls[0] + '?vitest=' + Date.now() + '&x=1';
+  const row = rejection(f, () => f.alias(0, malformed), absent); assert.equal(row.parentURL, malformed);
+});
+test('undefined parent denies and records null', () => {
+  const f = fixture(); const row = rejection(f, () => f.hooks.resolve(aliasLists[0][0], {}, () => { throw Error('nextResolve forbidden'); }), absent);
+  assert.equal(row.parentURL, null);
+});
+test('raw loaded source mismatch cannot certify', () => {
+  const f = fixture(); assert.throws(() => f.load(0, f.urls[0], 'module-typescript', 'export const changed = true;'), { code: 'ERR_ASSERTION' });
+  assert.deepEqual(f.events, []); rejection(f, () => f.alias(0), absent);
+});
+test('canonical disk hash mismatch cannot certify', () => {
+  const f = fixture(); f.setDiskMismatch(); assert.throws(() => f.load(0), { code: 'ERR_ASSERTION' });
+  assert.deepEqual(f.events, []); rejection(f, () => f.alias(0), absent);
+});
+test('commonjs original format cannot certify', () => {
+  const f = fixture(); assert.throws(() => f.load(0, f.urls[0], 'commonjs'), { message: 'Unexpected original ESM module format' });
+  assert.deepEqual(f.events, []); rejection(f, () => f.alias(0), absent);
+});
+test('source beyond16MiB cannot certify', () => {
+  const f = fixture(); assert.throws(() => f.load(0, f.urls[0], 'module-typescript', Buffer.alloc(16 * 1024 * 1024 + 1)), { code: 'ERR_ASSERTION' });
+  assert.deepEqual(f.events, []); rejection(f, () => f.alias(0), absent);
+});
+test('unsupported source object cannot certify', () => {
+  const f = fixture(); assert.throws(() => f.load(0, f.urls[0], 'module-typescript', {}), { code: 'ERR_ASSERTION' });
+  assert.deepEqual(f.events, []); rejection(f, () => f.alias(0), absent);
+});
+test('duplicate original load rejects', () => {
+  const f = fixture(); f.load(0); assert.throws(() => f.load(0), { message: 'Duplicate original parent load' });
+  assert.equal(f.events.length, 1); assert.equal(f.events[0].kind, 'original-load');
+});
+test('second original in same worker rejects', () => {
+  const f = fixture(); f.load(0); assert.throws(() => f.load(1), { message: 'Multiple original parent URLs in one isolated worker' });
+  assert.equal(f.events.length, 1); rejection(f, () => f.alias(1), absent);
+});
+test('second raw URL of same original rejects', () => {
+  const f = fixture(); f.load(0); const url = f.urls[0] + '?vitest=' + Date.now();
+  assert.throws(() => f.load(0, url), { message: 'Multiple original parent URLs in one isolated worker' });
+  assert.equal(f.events.length, 1); rejection(f, () => f.alias(0, url), absent);
+});
+for (const i of [0, 1]) test('valid exact source then full' + aliasLists[i].length + ' alias inventory', () => {
+  const f = fixture(); const raw = i === 0 ? f.urls[i] : f.urls[i] + '?vitest=' + Date.now();
+  f.load(i, raw, i === 0 ? 'module' : 'module-typescript');
+  const load = f.events[0]; assert.equal(load.kind, 'original-load'); assert.equal(load.url, raw);
+  assert.equal(load.canonicalParentURL, f.urls[i]); assert.equal(load.sourceSha, sha(f.contents[i]));
+  assert.equal(load.file, names[i]); assert.equal(load.sourceBytes, Buffer.byteLength(f.contents[i]));
+  for (const specifier of aliasLists[i]) {
+    const resolved = f.alias(i, raw, specifier); assert.equal(resolved.shortCircuit, true);
+    assert.equal(resolved.url, specifier === '$core/constants' ? f.constantsURL : f.entryURL);
+    const row = f.events.at(-1); assert.equal(row.kind, 'original-alias'); assert.equal(row.parentURL, raw);
+    assert.equal(row.canonicalParentURL, f.urls[i]); assert.equal(row.parentSourceSha, load.sourceSha); assert.equal(row.cacheToken, load.cacheToken);
+  }
+  assert.deepEqual(f.events.slice(1).map(row => row.specifier), aliasLists[i]);
+});
+for (const i of [0, 1]) test('loaded original' + i + ' denies out of inventory', () => {
+  const f = fixture(); f.load(i); const specifier = i === 0 ? '$app/loop' : '$core/state';
+  const row = rejection(f, () => f.alias(i, f.urls[i], specifier), 'Alias outside exact original runtime import inventory');
+  assert.equal(row.specifier, specifier); assert.equal(row.parentURL, f.urls[i]);
+});
+test('unknown application alias records before denial', () => {
+  const f = fixture(); f.load(0); const specifier = '$audio/unknown';
+  rejection(f, () => f.alias(0, f.urls[0], specifier), 'Unknown native application alias: ' + specifier);
+});
+for (const kind of ['buffer', 'view', 'arraybuffer']) test('exact original source byte representation ' + kind, () => {
+  const f = fixture(); const bytes = Buffer.from(f.contents[0]);
+  const body = kind === 'buffer' ? bytes : kind === 'view' ? new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+    : bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+  f.load(0, f.urls[0], 'module-typescript', body);
+  assert.equal(f.events[0].sourceSha, sha(f.contents[0])); f.alias(0);
+});
+process.stdout.write(JSON.stringify({ kind: 'exact-candidate-hook-certificate-controls', cases,
+  applicationImports: 0, hooksInstalled: 0, syntheticRegisterHooksOnly: true, physicalCalls: 0 }) + '\n');

@@ -1,0 +1,5 @@
+# Minimal inherited owned offline route, unexecuted
+
+The exact06 captured-group root and slot-binding module are retained. The new shared compile-mode steps are ONLY artifact-controls5s and retained-qualification5s. No compilation, original14/16repeat or850s physical histories. Root60whole/owner52work/cleanup8 retains original ownership/raw child exit/complete typed source770+installed20355 snapshot before/after and selected file audits. The existing utility includes native addon bytes and symlink identity; metadata authority must be exacta073, never resealed.
+
+Maker writes five exact private0600 sources plus isolated0700 input/evidence directories; retained compiler graph/files stay at original immutable paths. Result status keeps compilerFAILED. A new distinct provenance output is not an accepted-history envelope. Root scopes, maker seed, actual materialization/input HIGH and one exclusive grant remain prerequisites. All recorded/observedPIDstarts and groups require independent postexit audit. No implicit execution or product acceptance is granted.

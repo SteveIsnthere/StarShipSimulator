@@ -1,0 +1,1 @@
+{"applyCount": 1, "args": ["diff", "--cached", "--no-renames", "--name-only", "-z"], "code": 0, "number": 764, "optionalLocks": "0", "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stdinSha256": null, "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "temporaryIndex": null}

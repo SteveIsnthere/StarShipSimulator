@@ -1,0 +1,73 @@
+{
+  "before": {
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/cohort.mjs.txt": "9c201970c29ca43fec9c25460609e122137c3959cd2516a94bc04d587774942d",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/compile-origin.json": "4d7590a1c2f9929a21f874dbeea2f32d480f8da187a8301063f61dc0e23a77f3",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/config.mjs.txt": "3f5853bb06fb5e98ede18c4dc2deec3d8d3a5ed55eac77db3f78ad91a4f85eb3",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/coverage-control.ts.txt": "00012cd0b25ee89ab7a704ad9597f8b8cc6a5f0bf6fbf8bfd6714f9fdca87787",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/declaration.md": "1e9ef43b9c2dfbbb8134684b5b826b24632c37d46fa6b550811f79b1ce58a554",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/entry.ts.txt": "d61a668ea5fe72d90ad1e6cbad66c8c766672dd54363b5524e2588a7dcbe6d49",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/external-map-route.mjs": "8a575a9dc444c93628daf0e264b762b0604304c687bf0ecf39489c2b2123898b",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/finalize.mjs.txt": "183542f6c3a3bf4a3f2f7ba2691ced2154e0b84839a5910d7ac3e2fc52e4e6c0",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/native.test.mjs.txt": "4d488631d28b0e963677bdbbdc86f640c2227750c12f6b37980aee874e9821ed",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/outside-control.ts.txt": "ce895c8167b1c13321c7d659ef98bbea80ba26b23c0f009ad2c8e4ac756bbc92",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/raw-reporter.mjs.txt": "0df391783e9ff8309289a106439f8d2aab4ad50bb941396fed44b6cf4a45af2a",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/route-control-proof.mjs": "796a8f1d1e71f131e7877f0f5e8a074087efa65445d2895a2ccb1fcc1210aa11",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/run-owned.mjs": "8e6e81e1607fec8db79a03b8ebd3cd55081bf6918c9f4621b2d2139da7fcfb26",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/ssr.test.mjs.txt": "2b1f4228c18ad31dfbe56435f60c50a88de9779150a9c51be80c7907afaef40a",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/unimported-control.ts.txt": "0441cd13b7f5547d07656899f59d27e2cbd9c2f4a55cd2c071e64dfc77ced72c"
+  },
+  "after": {
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/cohort.mjs.txt": "9c201970c29ca43fec9c25460609e122137c3959cd2516a94bc04d587774942d",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/compile-origin.json": "4d7590a1c2f9929a21f874dbeea2f32d480f8da187a8301063f61dc0e23a77f3",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/config.mjs.txt": "3f5853bb06fb5e98ede18c4dc2deec3d8d3a5ed55eac77db3f78ad91a4f85eb3",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/coverage-control.ts.txt": "00012cd0b25ee89ab7a704ad9597f8b8cc6a5f0bf6fbf8bfd6714f9fdca87787",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/declaration.md": "1e9ef43b9c2dfbbb8134684b5b826b24632c37d46fa6b550811f79b1ce58a554",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/entry.ts.txt": "d61a668ea5fe72d90ad1e6cbad66c8c766672dd54363b5524e2588a7dcbe6d49",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/external-map-route.mjs": "8a575a9dc444c93628daf0e264b762b0604304c687bf0ecf39489c2b2123898b",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/finalize.mjs.txt": "183542f6c3a3bf4a3f2f7ba2691ced2154e0b84839a5910d7ac3e2fc52e4e6c0",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/native.test.mjs.txt": "4d488631d28b0e963677bdbbdc86f640c2227750c12f6b37980aee874e9821ed",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/outside-control.ts.txt": "ce895c8167b1c13321c7d659ef98bbea80ba26b23c0f009ad2c8e4ac756bbc92",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/raw-reporter.mjs.txt": "0df391783e9ff8309289a106439f8d2aab4ad50bb941396fed44b6cf4a45af2a",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/route-control-proof.mjs": "796a8f1d1e71f131e7877f0f5e8a074087efa65445d2895a2ccb1fcc1210aa11",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/run-owned.mjs": "8e6e81e1607fec8db79a03b8ebd3cd55081bf6918c9f4621b2d2139da7fcfb26",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/ssr.test.mjs.txt": "2b1f4228c18ad31dfbe56435f60c50a88de9779150a9c51be80c7907afaef40a",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-map-route-repair/unimported-control.ts.txt": "0441cd13b7f5547d07656899f59d27e2cbd9c2f4a55cd2c071e64dfc77ced72c"
+  },
+  "sourceExact": true,
+  "proof": {
+    "passed": true,
+    "noBuildOrProvider": true,
+    "positiveEndings": [
+      "none",
+      "LF",
+      "CRLF"
+    ],
+    "negatives": [
+      "trailing code",
+      "extra blank line",
+      "wrong filename",
+      "inline map",
+      "duplicate route"
+    ],
+    "helperSha256": "8a575a9dc444c93628daf0e264b762b0604304c687bf0ecf39489c2b2123898b",
+    "originSha256": "4d7590a1c2f9929a21f874dbeea2f32d480f8da187a8301063f61dc0e23a77f3",
+    "actualArtifactSha256": "e3c19a4455bff2a3c0f75ae345f795c376dc8c80694eb3fbe7e6e64af0c78254",
+    "actualMapSha256": "296533ec2ced913db26632a724ffdbdca49b495f77b11bbd8035a8c5de28a908",
+    "sourcePins": [
+      [
+        "src/core/coverage-control.ts",
+        "00012cd0b25ee89ab7a704ad9597f8b8cc6a5f0bf6fbf8bfd6714f9fdca87787"
+      ],
+      [
+        "src/outside-control.ts",
+        "ce895c8167b1c13321c7d659ef98bbea80ba26b23c0f009ad2c8e4ac756bbc92"
+      ]
+    ],
+    "originalOutcome": "FAILED before any provider run, preserved without reinterpretation"
+  },
+  "childExit": 0,
+  "timeout": false,
+  "elapsedSeconds": 0.10360516299988376,
+  "receipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-remap-route-pure-parent",
+  "allOwnedNonexecuting": true
+}

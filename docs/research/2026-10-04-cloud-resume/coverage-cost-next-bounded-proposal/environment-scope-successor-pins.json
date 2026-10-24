@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "SOURCE DESIGN SUCCESSOR; original d046 preserved",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/proposal.md": "7c9a35679b6b35d86b8e3593c498dad5d2b1b5e462a1a8223ce6b056719fee41",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/current-orbit-original-case-inventory.json": "c923e3965f40d7dee49fe1bd16e06c1fd52682ca74a7a02fe7647194259b552d",
+    "/workspace/StarShipSimulator/tests/core/orbit.test.ts": "5cafbcc23ad568f53e0ad2766b31b6f7490b80cc327bd0a4e2fca57f1a0085f4",
+    "/workspace/StarShipSimulator/tests/core/legacy-models.ts": "214bb1fc6c5d5ab67b791bce74b798bda395a214bebca006a335903f475dbd03",
+    "/workspace/StarShipSimulator/scripts/test/entry.ts": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8",
+    "/workspace/StarShipSimulator/src/core/physics/gravity.ts": "2eee855b40527750bbc3706c2c538ef79fa2ee442598c8be32c9b20ef98cf60d",
+    "/workspace/StarShipSimulator/src/core/constants.ts": "ffb3c5074d24fd847ed9da84e0e54c026f9aef72c0253e0cbabee05201b4bdb6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/gate-coverage-cost-feasibility-review/independent-gate-and-coverage-cost-feasibility-HIGH-review.md": "af94b4c84292933550261033418151acf30370ca75bf37e1d32eb421fc0a8481",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/map-successor-candidate/collector-integration/independent-map-collector-actual-result-HIGH-review.md": "704d1e6022174d398cdaf36c85435aaf3ca8ab666f3cf873d58e451136316323",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/proposal.environment-scope-successor.md": "30495b97420f455092eedfdf47e9a34207fe39394b0b6118fd52a7d765949737"
+  }
+}

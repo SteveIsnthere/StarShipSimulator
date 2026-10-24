@@ -1,0 +1,63 @@
+{
+  "kind": "guarded-current-graphics-data-truth-three-doc-packet-v1",
+  "sourceOnly": true,
+  "targetsMutated": false,
+  "currentWIPAsSupplied": "d089",
+  "currentSourceAuthority": "443a8252ba47f3c5c0e78dead4efa5e42eef987aaf7639458376cc253ebc5641",
+  "sourcePaths": 778,
+  "toolPaths": 20355,
+  "mainLive": "e8a06ffe3e0fc5b28f6aad0ad733e6be25917428",
+  "completionPercent": 80,
+  "phase8Open": true,
+  "phase9Open": true,
+  "refs": [
+    {
+      "path": "/tmp/starship-one-definition-excerpt-corrected-caller-root.mt13p0i5/independent-single-definition-excerpt-data-actual-HIGH-v1.md",
+      "sha256": "8b5f7f36cd926dee462e68950c759904f208a558fe661c8f03d56f007885e139"
+    },
+    {
+      "path": "/tmp/starship-one-rules-flags-one-actual-root.pfg1r230/independent-rules-only-data-actual-disposition-HIGH-v1.md",
+      "sha256": "a67d5c24bcb54c19e3283db1a153498a71d20ddf2ecb58b7d0d6c6785f60a5cd"
+    }
+  ],
+  "rulesSharedPinsAsSupplied": "fa14e139acc650d3f0f41e3eced98d2f217e178fe7e33db23767c687fafd93d9",
+  "rows": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "beforeSHA256": "379c5cfb9307438b94a8f581b174dfc2483d1ac9dc43df7f41d67cce6ae0fe60",
+      "projectedSHA256": "69fee60d92f94e284e40a4643fb16c256188ecf74480e55a64203a772c4fca46",
+      "beforeMode": 384,
+      "before": "Cloud graphics prerequisites have advanced beyond the earlier failed source inventories. The lossless byte-based complete signed DSC/TAR/diff inventory, selected eleven-file copy, and separate signed-diff rules/series reconstruction each received independent scoped acceptance. The complete inventory accounts for 1,820 TAR members, 148 diff targets, all ancestors and the exact eleven selected regular files. The signed reader reconstructed `debian/rules` and `debian/patches/series`, resolving all 33 ordered active patch descriptors in the complete diff inventory; no patch was applied. Twenty-nine separate patch-framing synthetic controls passed with independent actual review. Active patch effects and `rules.flags` still require their separate signed-diff read. These results establish no X server defaults, help/server execution, headed application, photographs or frame-budget acceptance; all earlier failures remain retained.",
+      "after": "Cloud graphics source prerequisites retain independently accepted complete signed DSC/TAR/diff inventory, selected eleven-file copy and rules/series reconstruction: 1,820 TAR members, 148 diff targets and 33 ordered active patch descriptors. The separately accepted single-definition excerpt covers two selected modify files and four hunks; this is data fidelity, not patch application or file reconstruction. The rules-only observation now has independent HIGH acceptance for its exact 4,504-byte, 159-line LF reconstruction. Its external caller postcondition remains **FAILED**; the corrected semantic reassembly is accepted separately, with no reader rerun. Both observations retain current443a custody and recorded process closure in their scoped reviews. The declarations have not been evaluated, and signed build-recipe/installed-default qualification remains open. No help/server execution, headed application, photographs, frame budget, physics, full gate or phase acceptance follows; all prior failures remain preserved.",
+      "occurrences": 1,
+      "beforeBackup": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/0-before.md",
+      "projection": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/0-projection.md",
+      "rule": "Only top current graphics paragraph changes; all other bytes identical."
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-handover.md",
+      "beforeSHA256": "72078bb8f43f7ae8e537c04fb72f8fc786d7a7923c5fe92f4be0248b3377a065",
+      "projectedSHA256": "567600c61614c57a325e1fb3f3fe0da1a6ac54753e4591420991515a4acea474",
+      "beforeMode": 384,
+      "before": "Cloud graphics prerequisites have advanced beyond the earlier failed source inventories. The lossless byte-based complete signed DSC/TAR/diff inventory, selected eleven-file copy, and separate signed-diff rules/series reconstruction each received independent scoped acceptance. The complete inventory accounts for 1,820 TAR members, 148 diff targets, all ancestors and the exact eleven selected regular files. The signed reader reconstructed `debian/rules` and `debian/patches/series`, resolving all 33 ordered active patch descriptors in the complete diff inventory; no patch was applied. Twenty-nine separate patch-framing synthetic controls passed with independent actual review. Active patch effects and `rules.flags` still require their separate signed-diff read. These results establish no X server defaults, help/server execution, headed application, photographs or frame-budget acceptance; all earlier failures remain retained.",
+      "after": "Cloud graphics source prerequisites retain independently accepted complete signed DSC/TAR/diff inventory, selected eleven-file copy and rules/series reconstruction: 1,820 TAR members, 148 diff targets and 33 ordered active patch descriptors. The separately accepted single-definition excerpt covers two selected modify files and four hunks; this is data fidelity, not patch application or file reconstruction. The rules-only observation now has independent HIGH acceptance for its exact 4,504-byte, 159-line LF reconstruction. Its external caller postcondition remains **FAILED**; the corrected semantic reassembly is accepted separately, with no reader rerun. Both observations retain current443a custody and recorded process closure in their scoped reviews. The declarations have not been evaluated, and signed build-recipe/installed-default qualification remains open. No help/server execution, headed application, photographs, frame budget, physics, full gate or phase acceptance follows; all prior failures remain preserved.",
+      "occurrences": 1,
+      "beforeBackup": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/1-before.md",
+      "projection": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/1-projection.md",
+      "rule": "Only top current graphics paragraph changes; all other bytes identical."
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/README.md",
+      "beforeSHA256": "a27831207e69f20f7bd6dd823e47ba7856a0619922ad965e215cb0a6f1d246ae",
+      "projectedSHA256": "b07ab8ed95b4e6b13c93af1c41abf9c562a8f13412dca1609899eb5b2c56fbe2",
+      "beforeMode": 384,
+      "before": "Cloud graphics prerequisites have advanced beyond the earlier failed source inventories. The lossless byte-based complete signed DSC/TAR/diff inventory, selected eleven-file copy, and separate signed-diff rules/series reconstruction each received independent scoped acceptance. The complete inventory accounts for 1,820 TAR members, 148 diff targets, all ancestors and the exact eleven selected regular files. The signed reader reconstructed `debian/rules` and `debian/patches/series`, resolving all 33 ordered active patch descriptors in the complete diff inventory; no patch was applied. Twenty-nine separate patch-framing synthetic controls passed with independent actual review. Active patch effects and `rules.flags` still require their separate signed-diff read. These results establish no X server defaults, help/server execution, headed application, photographs or frame-budget acceptance; all earlier failures remain retained.",
+      "after": "Cloud graphics source prerequisites retain independently accepted complete signed DSC/TAR/diff inventory, selected eleven-file copy and rules/series reconstruction: 1,820 TAR members, 148 diff targets and 33 ordered active patch descriptors. The separately accepted single-definition excerpt covers two selected modify files and four hunks; this is data fidelity, not patch application or file reconstruction. The rules-only observation now has independent HIGH acceptance for its exact 4,504-byte, 159-line LF reconstruction. Its external caller postcondition remains **FAILED**; the corrected semantic reassembly is accepted separately, with no reader rerun. Both observations retain current443a custody and recorded process closure in their scoped reviews. The declarations have not been evaluated, and signed build-recipe/installed-default qualification remains open. No help/server execution, headed application, photographs, frame budget, physics, full gate or phase acceptance follows; all prior failures remain preserved.",
+      "occurrences": 1,
+      "beforeBackup": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/2-before.md",
+      "projection": "/workspace/StarShipSimulator/docs/research/2026-10-06-native-unit-cost-renewal-source-plan/current-graphics-data-truth-doc-packet/2-projection.md",
+      "rule": "Only top current graphics paragraph changes; all other bytes identical."
+    }
+  ],
+  "executionApplicationGranted": false
+}

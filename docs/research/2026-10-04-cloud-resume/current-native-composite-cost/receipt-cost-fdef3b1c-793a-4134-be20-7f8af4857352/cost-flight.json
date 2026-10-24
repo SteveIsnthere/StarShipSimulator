@@ -1,0 +1,93 @@
+{
+  "semanticDigest": "16d52260ea68b8fd3b2dc1e679e05beb432287a7ecabba3e7187d9435548e22b",
+  "status": "pass",
+  "mode": "cost",
+  "ticks": 40550,
+  "scenarioReturnedSeconds": 337.9083333333333,
+  "worldTime": 337.91666666652367,
+  "endpoint": {
+    "kinematics": {
+      "altitude": 90.08450704346667,
+      "downRangeDistance": 20015086.78837278,
+      "downRangeDistanceNextFrame": 20015086.78837278,
+      "distanceToPlanetCenter": 6371090.0845070435,
+      "orbitalVelocityAtCurrentAltitude": 7909.7364853659665,
+      "trueSpeed": 0,
+      "speedX": 0,
+      "speedY": 0,
+      "machSpeed": 0.005055154331504817,
+      "accelerationX": 0,
+      "accelerationY": 0,
+      "totalAcceleration": 0,
+      "pitch": 0.000009005852329355937,
+      "pitchRateOfChange": 0.00014480572279173084,
+      "pitchRecord": [
+        0.00000709983611081373,
+        0.000008306550467411487
+      ],
+      "angularVelocity": 0,
+      "angularAcceleration": 0,
+      "angleOfMotion": -3.1035760135721047,
+      "angleOfAttack": 3.103584320122572,
+      "angleInToTheWind": 0.03800833346722099
+    },
+    "vehicle": {
+      "vehicleMass": 291764.4864117622,
+      "propellantMass": 91764.48641176216,
+      "vehicleMomentOfInertia": 148072567.44327906,
+      "vehicleInFlightMaxArea": 648,
+      "throttle": 100,
+      "throttleCurrent": 100,
+      "gimbalPosition": 0,
+      "gimbalPointingDirection": 0.000008306550467411487,
+      "frontFinExtension": 95.9969482421875,
+      "aftFinExtension": 50,
+      "rcsRunTimeRemaining": 8.816619660431337
+    },
+    "status": {
+      "onTheGround": false,
+      "landed": true,
+      "rcsActive": true,
+      "finActive": true,
+      "finLocked": false,
+      "gearDown": false,
+      "dumpingFuel": false,
+      "forceDump": false,
+      "translationModeOn": true
+    },
+    "failures": {
+      "crashed": false,
+      "inFlightBreakUp": false,
+      "coldGasRunOut": false,
+      "fuelRunOut": false,
+      "heatDamaged": false,
+      "overPressure": false,
+      "overGLoad": false,
+      "flippedOver": false,
+      "randomFailure": false
+    },
+    "phase": "terminal"
+  },
+  "trajectoryTiming": {
+    "nativeLoopWallMs": 20869.129611999997,
+    "nativeLoopCpu": {
+      "user": 21758940,
+      "system": 86235
+    },
+    "scope": "one native original trajectory loop plus stop/supervision checks; excludes imports, constructors, initial comparison, cgroup reads, hold, fingerprint and receipt"
+  },
+  "totalHarnessBodyWallMs": 20897.674548,
+  "totalHarnessBodyCpu": {
+    "user": 21794415,
+    "system": 90303
+  },
+  "beforeCgroup": {
+    "cpu.stat": "usage_usec 8904615233\nuser_usec 8480490654\nsystem_usec 424124579\nnice_usec 0\nnr_periods 109749\nnr_throttled 3841\nthrottled_usec 241472568\nnr_bursts 0\nburst_usec 0\n",
+    "cpu.max": "400000 100000\n"
+  },
+  "afterCgroup": {
+    "cpu.stat": "usage_usec 8927561122\nuser_usec 8502954033\nsystem_usec 424607089\nnice_usec 0\nnr_periods 109958\nnr_throttled 3841\nthrottled_usec 241472568\nnr_bursts 0\nburst_usec 0\n",
+    "cpu.max": "400000 100000\n"
+  },
+  "acceptance": "research only; no Vitest30s, mocks, coverage or gate claim"
+}

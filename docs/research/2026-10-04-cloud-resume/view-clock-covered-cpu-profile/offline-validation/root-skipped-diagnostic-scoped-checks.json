@@ -1,0 +1,27 @@
+{
+  "pinsChecked": 108,
+  "checks": [
+    {
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/view-clock-offline.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

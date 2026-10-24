@@ -1,0 +1,27 @@
+{
+  "kind": "closed-three-inert-loader-boundary-controls-v1",
+  "names": [
+    "foreign alias denies before delegation",
+    "unknown application alias denies",
+    "foreign absolute entry",
+    "artifact query",
+    "artifact fragment",
+    "nonexecuting artifact",
+    "certified alias resolves only owned entry",
+    "certified observer bootstrap admits entry",
+    "observer cannot bootstrap chunk",
+    "compiler local edge admits exact chunk",
+    "compiler local edge denies foreign target",
+    "unresolved artifact load denies before delegation",
+    "authorized native bytes retained without transform",
+    "authorized native wrong bytes deny"
+  ],
+  "allPassed": true,
+  "inputSha256": "341c2d01cd3ffcee1600278f99b6c978e32c98c5de2720b2e3a5eec2c7027159",
+  "driverSha256": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7",
+  "sourceSha256": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb",
+  "callbackSha256": "7c7937b257f0b438b9649b3b7ad07a29be33cf1c4b49bf5e67d9a27428157831",
+  "actualGlobalHooksInstalled": false,
+  "physicalImports": false,
+  "publicWorkerLifecycleApproved": false
+}

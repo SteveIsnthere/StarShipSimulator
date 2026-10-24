@@ -1,0 +1,47 @@
+{
+  "scope": "Actualsoleofflineclassification; no provider repeat; original four-run FAILED",
+  "records": [
+    {
+      "original": "/tmp/starship-provider-offline.HfIUtW/mixed-only-evidence-classification.json",
+      "retained": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-accepted-classification-artifacts/mixed-only-evidence-classification.json",
+      "bytes": 23007,
+      "sha256": "c9d73f9e5a9e76f916b4c7d62e1c98c9b01382065237b4565ed95229a81a8481"
+    },
+    {
+      "original": "/tmp/starship-provider-offline.HfIUtW/offline-classifier.process.json",
+      "retained": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-accepted-classification-artifacts/offline-classifier.process.json",
+      "bytes": 490,
+      "sha256": "350378a148bd1a4a9d8c6bb88181d32d87aa42f57d181662836e40d6056869e6"
+    },
+    {
+      "original": "/tmp/starship-provider-offline.HfIUtW/offline-classifier.stderr.txt",
+      "retained": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-accepted-classification-artifacts/offline-classifier.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-provider-offline.HfIUtW/offline-classifier.stdout.txt",
+      "retained": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-accepted-classification-artifacts/offline-classifier.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/tmp/starship-provider-offline.HfIUtW/origin.json",
+      "retained": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-accepted-classification-artifacts/origin.json",
+      "bytes": 354,
+      "sha256": "11ee0eee16e732dcf3f019f738cd764cead9b0953185e0c92afafcf450bef7bc"
+    },
+    {
+      "original": "/tmp/starship-provider-offline.HfIUtW/owner-outcome.json",
+      "retained": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-accepted-classification-artifacts/owner-outcome.json",
+      "bytes": 215,
+      "sha256": "f6faf2ca77c675167eecdfe45f212c717f02b30b686f864ef671717dd5dff90e"
+    },
+    {
+      "original": "/tmp/starship-provider-offline.HfIUtW/pure-controls.json",
+      "retained": "docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-accepted-classification-artifacts/pure-controls.json",
+      "bytes": 1404,
+      "sha256": "2af7bc41b70e6feb0ebc2bbcf04b66d921b27f537afbe3448bbff58fa20d0979"
+    }
+  ]
+}

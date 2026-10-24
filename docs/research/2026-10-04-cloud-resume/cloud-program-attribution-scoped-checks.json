@@ -1,0 +1,23 @@
+{
+  "purpose": "Scoped research harness syntax/lint only; no application qualification or browser execution",
+  "checkedFiles": {
+    "run-fullchrome-program-attribution.mjs": "4ff5aaa8ea6dbebafc49070377481fef6a5118a109ddaab3d84f7adabcc1e998",
+    "program-attribution-hook.mjs": "f2e0934fa3c9fdb20bdf246b06c72c08fc2844ba8695249d5e103389a2ff4752",
+    "prepare-fullchrome-program-attribution.py": "cfc54b831f1b29be15625422c2640dcbb3f2cb1478c95952a14a0572065dd9d4",
+    "cloud-fullchrome-program-attribution-declaration.md": "c9befe6e9a09cc34eb55006d2dd537ad418621a4ef4b568907b07b51e3b47c84"
+  },
+  "checks": [
+    {"command": "node --check docs/research/2026-10-04-cloud-resume/run-fullchrome-program-attribution.mjs", "exit": 0},
+    {"command": "node --check docs/research/2026-10-04-cloud-resume/program-attribution-hook.mjs", "exit": 0},
+    {"command": "Python ast.parse of prepare-fullchrome-program-attribution.py without executing preparation", "exit": 0, "stdout": "Preparation Python AST syntax passed"},
+    {"command": "npx eslint docs/research/2026-10-04-cloud-resume/run-fullchrome-program-attribution.mjs docs/research/2026-10-04-cloud-resume/program-attribution-hook.mjs", "exit": 0}
+  ],
+  "combinedCommandExit": 0,
+  "combinedCommandSeconds": 1.351915863,
+  "lintRepairsRequired": false,
+  "browserExecuted": false,
+  "applicationBuildQualified": false,
+  "currentApplicationUnitCohort": "Parent reports two unchanged 30-second timeout failures; not passed",
+  "currentSourceBuildMapsPhysicsQualification": "Pending independently reviewed parent handoff",
+  "freshConcreteReview": "Pending final repaired-code read"
+}

@@ -1,0 +1,3 @@
+# Current complete non-golden unit cohort
+
+One ordered current-source cohort after the reviewed terminal-grid source change and its sole physical catch. Build-before-tests already passed for this exact source in the prototype proof receipt (298.9kB); source hash matches recovery02. 244 explicit files include source-kit project tests and all external non-golden/non-timing files, with no other excludes or assertion changes. Record real exit status, JSON results and before/after source hashes. This is CPU regression acceptance, not whole gate, coverage, timing or golden acceptance. No concurrent heavy work; any failure needs diagnosis, not rerun for luck.

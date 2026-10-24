@@ -1,0 +1,38 @@
+[
+  {
+    "name": "the 2 ms budget > an update costs a small fraction of 2 ms, even when every readout changes",
+    "file": "/workspace/StarShipSimulator/tests/hud/binder.timing.test.ts"
+  },
+  {
+    "name": "the 2 ms budget > all FOUR binders together still fit it, on the finished overlay",
+    "file": "/workspace/StarShipSimulator/tests/hud/binder.timing.test.ts"
+  },
+  {
+    "name": "simulation step budget > a step costs well under 1 ms, the 240 Hz budget",
+    "file": "/workspace/StarShipSimulator/tests/view/perf.timing.test.ts"
+  },
+  {
+    "name": "simulation step budget > 240 Hz of simulation fits in well under a second of wall clock",
+    "file": "/workspace/StarShipSimulator/tests/view/perf.timing.test.ts"
+  },
+  {
+    "name": "simulation step budget > the autopilot does not dominate the step",
+    "file": "/workspace/StarShipSimulator/tests/view/perf.timing.test.ts"
+  },
+  {
+    "name": "time warp stays affordable > warp 16 costs about sixteen steps, not more",
+    "file": "/workspace/StarShipSimulator/tests/view/perf.timing.test.ts"
+  },
+  {
+    "name": "M9 emitters and textures, timed > costs a measurable and small fraction of the frame, banded or not",
+    "file": "/workspace/StarShipSimulator/tests/view/perf.timing.test.ts"
+  },
+  {
+    "name": "M9 emitters and textures, timed > generating every texture M9 added is a mount cost, not a frame cost",
+    "file": "/workspace/StarShipSimulator/tests/view/perf.timing.test.ts"
+  },
+  {
+    "name": "the recorder stays out of the simulation, timed > a long recording does not slow the step down",
+    "file": "/workspace/StarShipSimulator/tests/app/recorder.timing.test.ts"
+  }
+]

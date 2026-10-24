@@ -1,0 +1,7 @@
+{
+  "completed": false,
+  "code": 1,
+  "error": "SyntaxError: Unexpected end of JSON input\n    at JSON.parse (<anonymous>)\n    at file:///tmp/starship-width2-root.ht3_ou6r/stage.mjs:21:122\n    at Array.map (<anonymous>)\n    at file:///tmp/starship-width2-root.ht3_ou6r/stage.mjs:21:107\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)",
+  "actualReceipt": null,
+  "acceptance": "Preparation only; ALL readelf and observed/root/helper PID-start absence plus fresh actual input HIGH required"
+}

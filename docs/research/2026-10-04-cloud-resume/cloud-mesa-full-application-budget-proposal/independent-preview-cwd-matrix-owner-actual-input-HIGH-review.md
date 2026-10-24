@@ -1,0 +1,11 @@
+# Independent distinct preview-cwd matrix owner actual-input HIGH
+
+Disposition: SUPPORTED for fresh final structural outer-input preparation/review. No matrix run is granted by this owner review, and no browser/frame/performance result is claimed. Historical first matrix ENOENT254 remains failed.
+
+Actual owner703036bfb3da1ec148ce996eed67b2a39034ae7ddc0d3efdb371edb325b4cd41 differs from historical9409 only in fresh namespace/materialization/inventory paths and the reviewed config64c56f22 digest. Kind/mode/bounds/root/runtime/original spec/probe/accepted build/dist roles and actual quota400000100000/cpuset0-4 remain unchanged. Seed ef8e13de binds new makerb267 and source386a199f while retaining actual buildc1f79, distapproval3f244 and independent buildpins809f54. All337 accepted inherited rows are preserved exactly; new inventory359 adds22 finite roles. Every added hash and every38 source row matches actual bytes.
+
+Fresh UUIDhex32 input/material/matrix namespaces are nonsymlink0700. Material contains exactly four regular0600 reviewed files. Config differs from prior explicit-SDK-entry config only by canonical webServer spread and exact repository cwd; spec/hooks/reporter are unchanged. Matrix receipt is empty. Original accepted61-file/18-map public dist, approval and build review are bound without rebuild or substituted old certificate. Maker actual0 in0.114251572 seconds, PID104987/start6815867 reaped, stdout/stderr retained.
+
+Fresh outer must bind this actual owner HIGH and its pins, exact0901 repaired wrapper/e067 checker/90ea closure and all inherited metadata. Root scopes were reported zero; root must perform full live source770/tools20355/browser304/12dirs/dist checks plus structural before/finally-after, actual raw exit and independent all observed PID/start cleanup. All21 original bodies, project viewports,60warm/300 samples and numerical bounds, same Mesa flags and338whole/300child remain unchanged. Incomplete or failed actual matrix remains failed; no retry or prefix acceptance.
+
+Method: finite selected metadata-map comparison,22 added role hashes, source38/material hashes and namespace modes/emptiness only; no import, scope execution, workload, native/browser/tool scans, copies or product edits.

@@ -1,0 +1,8 @@
+{"id":"launch-pad-takeoff","peakKPa":30.532999531851587,"samples":10800,"fractionAtLeast30KPa":0.09898148148148148,"fractionAtLeast50KPa":0}
+{"id":"booster-sep-boostback","peakKPa":0.10576366241526906,"samples":14400,"fractionAtLeast30KPa":0,"fractionAtLeast50KPa":0}
+{"id":"rtls-boostback","peakKPa":28.609508250474434,"samples":14400,"fractionAtLeast30KPa":0,"fractionAtLeast50KPa":0}
+{"id":"reentry-autoland","peakKPa":8.034219589593707,"samples":72000,"fractionAtLeast30KPa":0,"fractionAtLeast50KPa":0}
+{"id":"before-flip-autoland","peakKPa":2.745348080947774,"samples":7200,"fractionAtLeast30KPa":0,"fractionAtLeast50KPa":0}
+{"id":"landing-burn-autoland","peakKPa":0.8706128394901806,"samples":5400,"fractionAtLeast30KPa":0,"fractionAtLeast50KPa":0}
+{"id":"landing-burn-headwind","peakKPa":0.9518797857106162,"samples":5400,"fractionAtLeast30KPa":0,"fractionAtLeast50KPa":0}
+{"id":"intro-demo","peakKPa":1.6787834888162663,"samples":5400,"fractionAtLeast30KPa":0,"fractionAtLeast50KPa":0}

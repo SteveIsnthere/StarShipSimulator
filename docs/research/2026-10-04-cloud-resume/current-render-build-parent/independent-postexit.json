@@ -1,0 +1,45 @@
+{
+  "allExecutingAbsent": true,
+  "observations": [
+    {
+      "pid": 39984,
+      "savedStart": "1769639",
+      "status": "absent"
+    },
+    {
+      "pid": 39995,
+      "savedStart": "1769649",
+      "status": "absent"
+    },
+    {
+      "pid": 39996,
+      "savedStart": "1769650",
+      "status": "absent"
+    },
+    {
+      "pid": 40003,
+      "savedStart": "1769657",
+      "status": "absent"
+    },
+    {
+      "pid": 40026,
+      "savedStart": "1770513",
+      "status": "absent"
+    },
+    {
+      "pid": 40040,
+      "savedStart": "1770521",
+      "status": "absent"
+    },
+    {
+      "pid": 40072,
+      "savedStart": "1770992",
+      "status": "absent"
+    },
+    {
+      "pid": 40094,
+      "savedStart": "1771005",
+      "status": "absent"
+    }
+  ]
+}

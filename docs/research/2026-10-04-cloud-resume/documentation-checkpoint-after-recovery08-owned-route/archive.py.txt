@@ -1,0 +1,101 @@
+"""ROOT-only finite canonicalization. No Git, imports of application, or tree discovery."""
+from pathlib import Path
+import gzip, hashlib, json, os, stat, sys, time, traceback
+sha = lambda b: hashlib.sha256(b).hexdigest()
+proposal_path = Path(sys.argv[1])
+assert sha(proposal_path.read_bytes()) == sys.argv[2]
+spec = json.loads(proposal_path.read_text())
+assert spec['kind'] == 'docs-after08-finite-canonicalization-v1'
+assert sha(Path(__file__).read_bytes()) == spec['scriptSha256']
+assert os.environ.get('STARSHIP_DOCUMENTATION_AFTER08_ARCHIVE_APPROVED') == sys.argv[2]
+root = Path('/workspace/StarShipSimulator')
+output = root / 'docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-owned-artifacts'
+assert str(output) == spec['output'] and not os.path.lexists(output)
+assert len(spec['references']) <= 5000
+started = time.monotonic()
+rows = []; primary = None; audits = []; total = 0; completed = False
+
+def bound():
+    assert time.monotonic() - started < 45, 'Canonicalization plus audits/publication soft bound'
+
+def read(row):
+    bound()
+    p = Path(row['path'])
+    assert p.is_absolute() and str(p) == os.path.normpath(str(p))
+    # Reject symlinks in every ancestor as well as the selected final file.
+    for ancestor in [p, *p.parents]:
+        assert not ancestor.is_symlink(), 'Selected source symlink'
+    st = p.lstat(); assert stat.S_ISREG(st.st_mode)
+    cap = 16777216
+    if str(p) == spec['exactLargeInput']['path']:
+        assert row['sha256'] == spec['exactLargeInput']['sha256']
+        assert row['encoding'] == 'gzip' and st.st_size == 18837675
+        cap = 18837675
+    assert st.st_size <= cap
+    assert p.name != 'browser.launch.env'
+    b = p.read_bytes(); assert len(b) == st.st_size and sha(b) == row['sha256']
+    return b, stat.S_IMODE(st.st_mode)
+
+def durable(p, b):
+    bound(); p.parent.mkdir(parents=True, exist_ok=True)
+    with p.open('xb') as f:
+        f.write(b); f.flush(); os.fsync(f.fileno())
+    p.chmod(0o600)
+    fd = os.open(p.parent, os.O_RDONLY | os.O_DIRECTORY)
+    try: os.fsync(fd)
+    finally: os.close(fd)
+
+try:
+    output.mkdir(mode=0o700)
+    for n, row in enumerate(spec['references']):
+        b, mode = read(row); total += len(b)
+        assert total <= 268435456
+        target = output / ('%04d-' % n + Path(row['path']).name)
+        if row['encoding'] == 'gzip':
+            encoded = gzip.compress(b, compresslevel=9, mtime=0)
+            assert gzip.decompress(encoded) == b
+            target = target.with_name(target.name + '.gz')
+        else:
+            assert row['encoding'] == 'identity'; encoded = b
+            if Path(row['path']).suffix in ['.ts', '.tsx', '.js', '.mjs', '.py']:
+                target = target.with_name(target.name + '.txt')
+        assert len(encoded) <= 16777216
+        durable(target, encoded)
+        rows.append({**row, 'originalBytes':len(b), 'originalMode':mode,
+                     'canonical':str(target.relative_to(root)), 'canonicalBytes':len(encoded),
+                     'canonicalSha256':sha(encoded), 'canonicalMode':384})
+except BaseException:
+    primary = traceback.format_exc()
+finally:
+    for row in rows:
+        try:
+            b, mode = read(row); assert mode == row['originalMode'] and len(b) == row['originalBytes']
+            p = root / row['canonical']; encoded = p.read_bytes()
+            assert len(encoded) == row['canonicalBytes'] and sha(encoded) == row['canonicalSha256']
+            assert stat.S_IMODE(p.lstat().st_mode) == 384
+            assert (gzip.decompress(encoded) if row['encoding']=='gzip' else encoded) == b
+        except BaseException:
+            audits.append({'path':row['path'], 'error':traceback.format_exc()})
+    try:
+        assert sha(proposal_path.read_bytes()) == sys.argv[2]
+        assert sha(Path(__file__).read_bytes()) == spec['scriptSha256']
+        assert len(rows) == len(spec['references']); bound()
+        if primary is None and not audits:
+            durable(output/'origin-manifest.json', (json.dumps({'kind':spec['kind'], 'rows':rows,
+                'originalsUntouched':True, 'scope':spec['scope'], 'privacy':spec['privacy'],
+                'proposalSha256':sys.argv[2]}, indent=2)+'\n').encode())
+            bound(); completed = True
+    except BaseException:
+        audits.append({'stage':'publication', 'error':traceback.format_exc()})
+    # Partial failure result stays durable even after the soft deadline.
+    result = output/'copy-result.json'
+    with result.open('x') as f:
+        json.dump({'completed':completed, 'primaryFailure':primary, 'posterrors':audits,
+                   'files':len(rows), 'expandedBytes':total, 'elapsedSeconds':time.monotonic()-started,
+                   'proposalSha256':sys.argv[2], 'executedScriptSha256':spec['scriptSha256']}, f, indent=2)
+        f.write('\n'); f.flush(); os.fsync(f.fileno())
+    result.chmod(0o600)
+    fd=os.open(output,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(fd)
+    finally:os.close(fd)
+sys.exit(0 if completed else 1)

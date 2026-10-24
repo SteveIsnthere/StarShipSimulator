@@ -1,0 +1,106 @@
+{
+  "kind": "closed-three-census-source-input-v1",
+  "ownerScope": "inert-boundary-controls-only",
+  "root": "/workspace/StarShipSimulator",
+  "setup": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/declaration.md": "9e8c3b3a58842dcc4043b94b4bf8236a6df6c399622211b3aebab318be92ec32",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/make-input.py.txt": "5a7ea5d242491dbd01272bc27a87661a812610f916a474669343c9c6136c9cf3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/owner.mjs.txt": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/owner.mjs.txt.transfer.diff": "410ebfcdb28d483f0f7f1778373e2aa098997c2e3abbe5c034e97e8fb6e503eb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-observer.py.txt": "ed671e7fd55095af38c0056e0ea48dba05a23a5f7953206ae2a865e8500db6cb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-observer.py.txt.transfer.diff": "3f1c9c6707e3049b6010bddda3cb36692a042ee335c4f406a7a5da9d63a0caeb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/input-pins.json": "691ef7a115a71911bf3b208fc9c64362b97b4c5bf91229f765ea0f99c7d36dd9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/loader.mjs.txt": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls-preparation/independent-boundary-controls-source-HIGH-v1-pins.json": "6d2360f0c56541faa9af2a3dfb298a37f686e2a318bb5775deb8553b793dc79c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls-preparation/independent-boundary-controls-source-HIGH-v1.md": "0bbcde2318ff2c0b8642e4c5be889ca97841c7465daa9cc83568eedaeea4ad1d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls.mjs.txt": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-integrated-boundary-source-HIGH-v2-pins.json": "bf65f1e1c5c890d761fa6fd7357d1f696e7a8e5a069893be75ca27dc31c5c09e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-integrated-boundary-source-HIGH-v2.md": "dc03cb43b994102329d474230ecaaae9403b6b4fa76674e086d7f6914e518b3e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-owned-route-source-HIGH-v1-pins.json": "1ad10bb1a4c98521ab2553b79130e02f742c6beb3fb894b4670155d120f56ae7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-owned-route-source-HIGH-v1.md": "8fbabf7637695197637def5fb27ac2e87298aad2e9bdd28f1b3e1e8956496142",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/input-pins.json": "55412da282106581964e169db1a00e7156e5badcbbddbb7ef2c415022455c760",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/owner.mjs.txt": "2fea06d23b5376ade11cd832f06ea9c12be85a48037c69b210fcac488befd5a0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/root-observer.py.txt": "0189429d8f09dd2b5d5fd152c218049fbee979815bdd10917b4efd3de7a844ca",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/input-pins.json": "da0c68dc79934e65fe3139e1188abd478d60df3b4ddc74fd53bab8ab3f377d16",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls.mjs": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/loader.mjs": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/owner.mjs": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4"
+  },
+  "selected": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/declaration.md": "9e8c3b3a58842dcc4043b94b4bf8236a6df6c399622211b3aebab318be92ec32",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/make-input.py.txt": "5a7ea5d242491dbd01272bc27a87661a812610f916a474669343c9c6136c9cf3",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/owner.mjs.txt": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/owner.mjs.txt.transfer.diff": "410ebfcdb28d483f0f7f1778373e2aa098997c2e3abbe5c034e97e8fb6e503eb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-observer.py.txt": "ed671e7fd55095af38c0056e0ea48dba05a23a5f7953206ae2a865e8500db6cb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-observer.py.txt.transfer.diff": "3f1c9c6707e3049b6010bddda3cb36692a042ee335c4f406a7a5da9d63a0caeb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/input-pins.json": "691ef7a115a71911bf3b208fc9c64362b97b4c5bf91229f765ea0f99c7d36dd9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/loader.mjs.txt": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls-preparation/independent-boundary-controls-source-HIGH-v1-pins.json": "6d2360f0c56541faa9af2a3dfb298a37f686e2a318bb5775deb8553b793dc79c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls-preparation/independent-boundary-controls-source-HIGH-v1.md": "0bbcde2318ff2c0b8642e4c5be889ca97841c7465daa9cc83568eedaeea4ad1d",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls.mjs.txt": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-integrated-boundary-source-HIGH-v2-pins.json": "bf65f1e1c5c890d761fa6fd7357d1f696e7a8e5a069893be75ca27dc31c5c09e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-integrated-boundary-source-HIGH-v2.md": "dc03cb43b994102329d474230ecaaae9403b6b4fa76674e086d7f6914e518b3e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-owned-route-source-HIGH-v1-pins.json": "1ad10bb1a4c98521ab2553b79130e02f742c6beb3fb894b4670155d120f56ae7",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/independent-owned-route-source-HIGH-v1.md": "8fbabf7637695197637def5fb27ac2e87298aad2e9bdd28f1b3e1e8956496142",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/input-pins.json": "55412da282106581964e169db1a00e7156e5badcbbddbb7ef2c415022455c760",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/owner.mjs.txt": "2fea06d23b5376ade11cd832f06ea9c12be85a48037c69b210fcac488befd5a0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/root-observer.py.txt": "0189429d8f09dd2b5d5fd152c218049fbee979815bdd10917b4efd3de7a844ca",
+    "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/input-pins.json": "da0c68dc79934e65fe3139e1188abd478d60df3b4ddc74fd53bab8ab3f377d16",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls.mjs": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/loader.mjs": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb",
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/owner.mjs": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4"
+  },
+  "materialized": {
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls.mjs": {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/physical-owner-candidate/boundary-controls.mjs.txt",
+      "sourceSha256": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7",
+      "sha256": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7"
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/loader.mjs": {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/closed-worker-candidate/loader.mjs.txt",
+      "sourceSha256": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb",
+      "sha256": "779da19452206b6ab5088972539f28f177e0dbdebfb5118d4397dfa5b599c9fb"
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/owner.mjs": {
+      "source": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/owner.mjs.txt",
+      "sourceSha256": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4",
+      "sha256": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4"
+    }
+  },
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+    "sha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "driver": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls.mjs",
+    "sha": "5365ce16e18e94a5a16dc69f9a6cb42a6c4e1804c1b13789749ae8d31fd418e7"
+  },
+  "output": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/boundary-controls-result.json",
+  "expectedCases": [
+    "foreign alias denies before delegation",
+    "unknown application alias denies",
+    "foreign absolute entry",
+    "artifact query",
+    "artifact fragment",
+    "nonexecuting artifact",
+    "certified alias resolves only owned entry",
+    "certified observer bootstrap admits entry",
+    "observer cannot bootstrap chunk",
+    "compiler local edge admits exact chunk",
+    "compiler local edge denies foreign target",
+    "unresolved artifact load denies before delegation",
+    "authorized native bytes retained without transform",
+    "authorized native wrong bytes deny"
+  ],
+  "physicalSourceQualification": false,
+  "installedToolQualification": false,
+  "publicWorkerLifecycleQualification": false
+}

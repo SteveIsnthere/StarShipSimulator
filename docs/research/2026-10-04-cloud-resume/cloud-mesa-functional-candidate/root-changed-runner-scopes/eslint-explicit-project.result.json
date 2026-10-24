@@ -1,0 +1,15 @@
+{
+  "code": 1,
+  "elapsedSeconds": 0.979340530000627,
+  "args": [
+    "node",
+    "node_modules/eslint/bin/eslint.js",
+    "--config",
+    "/workspace/StarShipSimulator/eslint.config.js",
+    "--stdin",
+    "--stdin-filename",
+    "scripts/bench/cloud-mesa-functional.mjs"
+  ],
+  "sourceSha256": "7bced15ccaee04f578476f09606aedc64205bc7d1350ae59f1f2aab6e4c42113",
+  "browserExecuted": false
+}

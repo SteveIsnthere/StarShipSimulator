@@ -1,0 +1,748 @@
+{
+  "label": "normal-warm",
+  "phase": "warm",
+  "runs": 20,
+  "diagnosticOnly": true,
+  "wallMs": 64.238749,
+  "perCallWallMs": 3.2119374499999997,
+  "processCpuUs": {
+    "user": 85211,
+    "system": 7850
+  },
+  "cgroupBefore": {
+    "usage_usec": 3917642342,
+    "user_usec": 3759285706,
+    "system_usec": 158356635,
+    "nice_usec": 0,
+    "nr_periods": 25931,
+    "nr_throttled": 3537,
+    "throttled_usec": 234906371,
+    "nr_bursts": 0,
+    "burst_usec": 0
+  },
+  "cgroupAfter": {
+    "usage_usec": 3917735669,
+    "user_usec": 3759371155,
+    "system_usec": 158364514,
+    "nice_usec": 0,
+    "nr_periods": 25932,
+    "nr_throttled": 3537,
+    "throttled_usec": 234906371,
+    "nr_bursts": 0,
+    "burst_usec": 0
+  },
+  "cgroupDelta": {
+    "usage_usec": 93327,
+    "user_usec": 85449,
+    "system_usec": 7879,
+    "nice_usec": 0,
+    "nr_periods": 1,
+    "nr_throttled": 0,
+    "throttled_usec": 0,
+    "nr_bursts": 0,
+    "burst_usec": 0
+  },
+  "processCensusBefore": [
+    {
+      "pid": 1,
+      "name": "tail",
+      "state": "S",
+      "ppid": 0,
+      "userTicks": 12,
+      "systemTicks": 18,
+      "startTicks": 27
+    },
+    {
+      "pid": 2,
+      "name": "caas-prefix-tra",
+      "state": "S",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 33
+    },
+    {
+      "pid": 198,
+      "name": "dockerd",
+      "state": "S",
+      "ppid": 1,
+      "userTicks": 71,
+      "systemTicks": 19,
+      "startTicks": 721
+    },
+    {
+      "pid": 249,
+      "name": "containerd",
+      "state": "S",
+      "ppid": 198,
+      "userTicks": 283,
+      "systemTicks": 159,
+      "startTicks": 736
+    },
+    {
+      "pid": 517,
+      "name": "codex",
+      "state": "S",
+      "ppid": 0,
+      "userTicks": 385,
+      "systemTicks": 246,
+      "startTicks": 850
+    },
+    {
+      "pid": 704,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 2533
+    },
+    {
+      "pid": 705,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 2533
+    },
+    {
+      "pid": 913,
+      "name": "git",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 12779
+    },
+    {
+      "pid": 1713,
+      "name": "esbuild",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 6,
+      "systemTicks": 4,
+      "startTicks": 41014
+    },
+    {
+      "pid": 1914,
+      "name": "esbuild",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 9,
+      "systemTicks": 3,
+      "startTicks": 49976
+    },
+    {
+      "pid": 3245,
+      "name": "git",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 97620
+    },
+    {
+      "pid": 5357,
+      "name": "esbuild",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 5,
+      "systemTicks": 3,
+      "startTicks": 203665
+    },
+    {
+      "pid": 6267,
+      "name": "git",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 222135
+    },
+    {
+      "pid": 10911,
+      "name": "npm run preview",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 12,
+      "systemTicks": 2,
+      "startTicks": 307798
+    },
+    {
+      "pid": 10923,
+      "name": "sh",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 307809
+    },
+    {
+      "pid": 10924,
+      "name": "node",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 91,
+      "systemTicks": 17,
+      "startTicks": 307809
+    },
+    {
+      "pid": 10963,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 1,
+      "startTicks": 307960
+    },
+    {
+      "pid": 10964,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 0,
+      "startTicks": 307960
+    },
+    {
+      "pid": 11188,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 0,
+      "startTicks": 315060
+    },
+    {
+      "pid": 11189,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 315060
+    },
+    {
+      "pid": 11558,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 321832
+    },
+    {
+      "pid": 11559,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 321832
+    },
+    {
+      "pid": 11722,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 327492
+    },
+    {
+      "pid": 11723,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 2,
+      "startTicks": 327492
+    },
+    {
+      "pid": 11941,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 1,
+      "startTicks": 334394
+    },
+    {
+      "pid": 11942,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 334394
+    },
+    {
+      "pid": 12059,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 0,
+      "startTicks": 337044
+    },
+    {
+      "pid": 12060,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 0,
+      "startTicks": 337044
+    },
+    {
+      "pid": 14112,
+      "name": "npm run preview",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 13,
+      "systemTicks": 1,
+      "startTicks": 472201
+    },
+    {
+      "pid": 14123,
+      "name": "sh",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 472211
+    },
+    {
+      "pid": 14124,
+      "name": "node",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 53,
+      "systemTicks": 6,
+      "startTicks": 472211
+    },
+    {
+      "pid": 14163,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 1,
+      "startTicks": 472354
+    },
+    {
+      "pid": 14164,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 2,
+      "startTicks": 472354
+    },
+    {
+      "pid": 16093,
+      "name": "esbuild",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 7,
+      "systemTicks": 3,
+      "startTicks": 583535
+    },
+    {
+      "pid": 16817,
+      "name": "git",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 603721
+    },
+    {
+      "pid": 20166,
+      "name": "bash",
+      "state": "S",
+      "ppid": 517,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 690389
+    },
+    {
+      "pid": 20228,
+      "name": "timeout",
+      "state": "S",
+      "ppid": 20166,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 690418
+    },
+    {
+      "pid": 20229,
+      "name": "node",
+      "state": "R",
+      "ppid": 20228,
+      "userTicks": 112,
+      "systemTicks": 12,
+      "startTicks": 690418
+    }
+  ],
+  "processCensusAfter": [
+    {
+      "pid": 1,
+      "name": "tail",
+      "state": "S",
+      "ppid": 0,
+      "userTicks": 12,
+      "systemTicks": 18,
+      "startTicks": 27
+    },
+    {
+      "pid": 2,
+      "name": "caas-prefix-tra",
+      "state": "S",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 33
+    },
+    {
+      "pid": 198,
+      "name": "dockerd",
+      "state": "S",
+      "ppid": 1,
+      "userTicks": 71,
+      "systemTicks": 19,
+      "startTicks": 721
+    },
+    {
+      "pid": 249,
+      "name": "containerd",
+      "state": "S",
+      "ppid": 198,
+      "userTicks": 283,
+      "systemTicks": 159,
+      "startTicks": 736
+    },
+    {
+      "pid": 517,
+      "name": "codex",
+      "state": "S",
+      "ppid": 0,
+      "userTicks": 385,
+      "systemTicks": 246,
+      "startTicks": 850
+    },
+    {
+      "pid": 704,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 2533
+    },
+    {
+      "pid": 705,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 2533
+    },
+    {
+      "pid": 913,
+      "name": "git",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 12779
+    },
+    {
+      "pid": 1713,
+      "name": "esbuild",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 6,
+      "systemTicks": 4,
+      "startTicks": 41014
+    },
+    {
+      "pid": 1914,
+      "name": "esbuild",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 9,
+      "systemTicks": 3,
+      "startTicks": 49976
+    },
+    {
+      "pid": 3245,
+      "name": "git",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 97620
+    },
+    {
+      "pid": 5357,
+      "name": "esbuild",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 5,
+      "systemTicks": 3,
+      "startTicks": 203665
+    },
+    {
+      "pid": 6267,
+      "name": "git",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 222135
+    },
+    {
+      "pid": 10911,
+      "name": "npm run preview",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 12,
+      "systemTicks": 2,
+      "startTicks": 307798
+    },
+    {
+      "pid": 10923,
+      "name": "sh",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 307809
+    },
+    {
+      "pid": 10924,
+      "name": "node",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 91,
+      "systemTicks": 17,
+      "startTicks": 307809
+    },
+    {
+      "pid": 10963,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 1,
+      "startTicks": 307960
+    },
+    {
+      "pid": 10964,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 0,
+      "startTicks": 307960
+    },
+    {
+      "pid": 11188,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 0,
+      "startTicks": 315060
+    },
+    {
+      "pid": 11189,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 315060
+    },
+    {
+      "pid": 11558,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 321832
+    },
+    {
+      "pid": 11559,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 321832
+    },
+    {
+      "pid": 11722,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 327492
+    },
+    {
+      "pid": 11723,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 2,
+      "startTicks": 327492
+    },
+    {
+      "pid": 11941,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 1,
+      "startTicks": 334394
+    },
+    {
+      "pid": 11942,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 334394
+    },
+    {
+      "pid": 12059,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 0,
+      "startTicks": 337044
+    },
+    {
+      "pid": 12060,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 0,
+      "startTicks": 337044
+    },
+    {
+      "pid": 14112,
+      "name": "npm run preview",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 13,
+      "systemTicks": 1,
+      "startTicks": 472201
+    },
+    {
+      "pid": 14123,
+      "name": "sh",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 472211
+    },
+    {
+      "pid": 14124,
+      "name": "node",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 53,
+      "systemTicks": 6,
+      "startTicks": 472211
+    },
+    {
+      "pid": 14163,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 1,
+      "systemTicks": 1,
+      "startTicks": 472354
+    },
+    {
+      "pid": 14164,
+      "name": "chrome-headless",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 2,
+      "startTicks": 472354
+    },
+    {
+      "pid": 16093,
+      "name": "esbuild",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 7,
+      "systemTicks": 3,
+      "startTicks": 583535
+    },
+    {
+      "pid": 16817,
+      "name": "git",
+      "state": "Z",
+      "ppid": 1,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 603721
+    },
+    {
+      "pid": 20166,
+      "name": "bash",
+      "state": "S",
+      "ppid": 517,
+      "userTicks": 0,
+      "systemTicks": 1,
+      "startTicks": 690389
+    },
+    {
+      "pid": 20228,
+      "name": "timeout",
+      "state": "S",
+      "ppid": 20166,
+      "userTicks": 0,
+      "systemTicks": 0,
+      "startTicks": 690418
+    },
+    {
+      "pid": 20229,
+      "name": "node",
+      "state": "R",
+      "ppid": 20228,
+      "userTicks": 127,
+      "systemTicks": 13,
+      "startTicks": 690418
+    }
+  ],
+  "accounting": "Wall/process CPU exclude Inspector start/stop and process census; profile includes nearby cgroup reads. No acceptance.",
+  "endpoint": {
+    "out": {
+      "reached": true,
+      "time": 227.276593764986,
+      "downRange": 207713.16688728545
+    },
+    "pitch": 0.5235987755982988,
+    "stepsPerCall": 910,
+    "totalSteps": 18200,
+    "forceQueriesPerStep": 2,
+    "forceQueriesPerCall": 1820,
+    "totalForceQueries": 36400,
+    "queryCountBasis": "derived from exact retained two-query midpoint topology, already witnessed by original/prototype proofs; no instrumentation wrapper"
+  }
+}

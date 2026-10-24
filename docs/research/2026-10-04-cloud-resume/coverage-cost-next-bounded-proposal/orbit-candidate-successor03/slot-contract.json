@@ -1,0 +1,25 @@
+{
+  "kind": "original-orbit18-shared-slot-contract-v1",
+  "executionSlot": "original-orbit18-qualification",
+  "preparationSlot": "original-orbit18-preparation",
+  "innerKind": "original-orbit18-qualification-input-v1",
+  "outerKind": "orbit18-qualification-root-input-v1",
+  "modes": {
+    "compile": {
+      "outerMode": "orbit18-compile",
+      "outerMs": 60000,
+      "steps": [
+        "slot-controls",
+        "loader-controls",
+        "native-build"
+      ]
+    },
+    "histories": {
+      "outerMode": "orbit18-histories",
+      "outerMs": 900000,
+      "steps": [
+        "orbit-histories"
+      ]
+    }
+  }
+}

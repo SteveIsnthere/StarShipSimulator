@@ -1,0 +1,5 @@
+{
+  "status": "metadata-assembly-failed-before-owner-and-inventory-write",
+  "error": "TypeError string indices from dictionary-form evidence inputs; no fixture read/import/workload",
+  "declarationOnlyWritten": true
+}

@@ -1,0 +1,45 @@
+{
+  "kind": "orbit18-qualification-root-input-v1",
+  "mode": "orbit18-compile",
+  "resultKind": "original-orbit18-qualification-result-v1",
+  "executionSlot": "original-orbit18-qualification",
+  "slotContract": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-artifact-qualifier/owned-route/slot-contract.json",
+    "sha": "15947a9f681fb9bde3f0f22bef66adbfeee227882cdb97e85bbf7f43f13c4ebc"
+  },
+  "outerMs": 60000,
+  "root": "/workspace/StarShipSimulator",
+  "setup": "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-517cfec6f83b46028ec25ec4dcd817e4",
+  "steps": [
+    "artifact-controls",
+    "retained-qualification"
+  ],
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "pureInput": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-517cfec6f83b46028ec25ec4dcd817e4/input.json",
+    "sha": "0a01cdac9c16103db7383a772ccd0b9b2e3228c2efacc36a1d9d506c926632d3"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-517cfec6f83b46028ec25ec4dcd817e4/root-inventory.json",
+    "sha": "e97049f356a416eccf7b981c48c556b74edafc6b119c2e509d0a783da1afb0df"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-orbit18-qualification-517cfec6f83b46028ec25ec4dcd817e4/owner.mjs",
+    "sha": "a46ff8a090e7c03ffe847d441c928c6f13ba17d05ce0989ae3734f3a8f733066"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/coverage-cost-next-bounded-proposal/orbit-retained06-artifact-qualifier/owned-route/root-observer.py.txt",
+    "sha": "93474438b677a39ed3163373c236a77aedee5f5ba4cf02ec2af0df9cd59c39dc"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  }
+}

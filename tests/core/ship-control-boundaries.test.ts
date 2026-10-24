@@ -14,15 +14,19 @@ describe('Ship physical control boundaries', () => {
   it('clears a stale fin command at zero attitude error, with both correction signs as controls', () => {
     const s = createInitialState(123);
     s.status.finActive = true; s.status.rcsActive = false;
-    s.kinematics.speedY = -100; s.kinematics.pitch = rad(0); s.kinematics.angularVelocity = 0;
+    s.kinematics.speedY = -100; s.kinematics.pitch = rad(Math.PI / 2); s.kinematics.angularVelocity = 0;
+    // Broadside descent has finite plate authority; nose-on flow has none.
+    s.atmosphere.airDensity = 1.225;
+    s.kinematics.angleInToTheWind = rad(Math.PI / 2);
+    s.kinematics.angleOfAttack = rad(Math.PI / 2);
     s.forces.thrust = 0; s.forces.offAxisThrustDifferenceAcceleration = 0;
     s.autopilot.pitchControl = 25;
     const before = cloneState(s);
-    precisionAlignment(s, rad(0), 3);
+    precisionAlignment(s, rad(Math.PI / 2), 3);
     expect(s.autopilot.pitchControl).toBe(0);
     expect(s.vehicle).toEqual(before.vehicle); expect(s.engines).toEqual(before.engines);
     const positive = cloneState(before), negative = cloneState(before);
-    precisionAlignment(positive, rad(.2), 3); precisionAlignment(negative, rad(-.2), 3);
+    precisionAlignment(positive, rad(Math.PI / 2 + .2), 3); precisionAlignment(negative, rad(Math.PI / 2 - .2), 3);
     expect(positive.autopilot.pitchControl).toBeGreaterThan(0);
     expect(negative.autopilot.pitchControl).toBeLessThan(0);
   });

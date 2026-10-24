@@ -1,0 +1,17 @@
+# Third-witness timestep refinement — declared before execution, 2026-10-03
+
+This is required numerical refinement of the positive third exposure witness, not a fourth tuned scenario. Preserve `hold-live-diagnostic.ts.txt/jsonl`, the third declaration/outcome and both earlier negative attempts. Run120,240,480Hz serially with identical constructor seed/editor inputs,1073.15K ignition trigger, existing burn-only hold,4000m/s cutoff, real33engine ignition/payment,45°entry command, original phase/overall caps and all1533K/50kPa/13g guards. Current shared0.90H grid station and partial-interval RCS payment are included and hashed; the historical120Hz endpoint is not the new baseline. No production edits or alternate starts.
+
+Approximately0.55million steps through three~650s flights plus bounded30s post-loss continuation; expected3–10minutes wall time serially, to be updated after the first rate. Record allcore source hashes before each run and require them unchanged at completion/across rates. A lost positive witness is RED and ends without tuning.
+
+## Predeclared interpretation
+
+The plan requires dt refinement but specifies no whole-flight numerical acceptance bands. Do not invent physical tolerance bands after outputs. Report raw signed/absolute adjacent120→240 and240→480 errors and empirical order log2(|coarse-medium|/|medium-fine|), with finest-only Richardson estimate explicitly conditional on a common event and asymptotic regime. A shrinking adjacent error is necessary evidence of convergence, not standalone release acceptance. Noncontracting or sign-changing errors remain unresolved; do not force a convergence-order label.
+
+Each threshold is inspected at a discrete endpoint:1073.15K trigger,4000m/s cutoff and first ownership loss each have a one-dt detection interval. The sum3dt bounds detection quantization alone, not the subsequent dynamic amplification of ignition/control phase errors. Preserve endpoint brackets and report timing differences against this quantization scale; do not use3dt as a bound on flight-trajectory error. Retain common-time400/550/600s source samples to distinguish thermal trajectory refinement from different loss-event phases.
+
+At every rate require actual pre-loss command thermal angle/force reduction at identical live flow versus unchanged cold clone, positive proof loss with hot utilization>1/cold<1 within the source domain, terminal inactive at event and all original global guards below bounds. RCS reserve must never be negative; per-step delivered impulse/reserve payment errors are reported directly. Mass and momentum use a same-endpoint reconstruction of parent plus original departing pieces, not an invalid comparison across a finite forced flight interval.
+
+After first loss, continue the actual canonical state30s under neutral manual command/throttle0 without pose/temperature edits, observing no reattachment (record any later terminal). A separate clone receives30s zero heat/flow through the standalone thermal/control writers: this is supplemental unloading only, not another flight. Detached pieces have no modeled cooling; unchanged detached temperatures must not be presented as cooling/permanence-after-cooling validation.
+
+Outputs: `hold-refinement.ts.txt`, separate `hold-refinement-{120,240,480}.jsonl` and corresponding console logs; final analysis separate from original traces. No full gate/natural nominal mission/real V3 fracture acceptance claim.

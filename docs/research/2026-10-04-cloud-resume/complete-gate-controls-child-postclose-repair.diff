@@ -1,0 +1,48 @@
+--- docs/research/2026-10-04-cloud-resume/complete-gate-controls-child-pre-postclose-repair.mjs.txt	2026-10-04 10:09:32.806838856 +0000
++++ docs/research/2026-10-04-cloud-resume/complete-gate-implementation-templates/controls-child.mjs.txt	2026-10-04 10:10:12.064515936 +0000
+@@ -3,16 +3,40 @@
+ import {resolve} from 'node:path';
+ import assert from 'node:assert/strict';
+ import {assertTaskOptions,assertFinalTask,assertRunClean} from './admission.mjs';
+-const [directory,kind]=process.argv.slice(2),collected=[],modules=[];let run=null,ctx=null;
++const [directory,kind]=process.argv.slice(2),collected=[];let run=null,ctx=null,endSnapshot=null;
+ const reporter={onTestModuleCollected(module){for(const test of module.children.allTests())collected.push({id:test.id,name:test.fullName,options:test.options});},
+- onTestRunEnd(values,errors,reason){run={reason,unhandledErrors:errors,modules:values.map(module=>({file:module.moduleId,ok:module.ok(),tasks:[...module.children.allTests()].map(test=>({key:test.fullName,id:test.id,options:test.options,state:test.result().state,errors:test.result().errors??[],diagnostic:test.diagnostic()??null}))}))};}};
++ onTestRunEnd(values,errors,reason){run={reason,unhandledErrors:errors,modules:values.map(module=>({file:module.moduleId,ok:module.ok(),tasks:[...module.children.allTests()].map(test=>({key:test.fullName,id:test.id,options:test.options,state:test.result().state,errors:test.result().errors??[],diagnostic:test.diagnostic()??null}))}))};endSnapshot=summarize(run);}};
+ let decision='admitted',denial=null;
+ try{
+  ctx=await startVitest('test',[],{root:process.cwd(),config:resolve(directory,'controls.config.mjs'),watch:false,run:true,reporters:[reporter]});assert(ctx&&run,'Missing actual runner result');assert.equal(ctx.config.testTimeout,30000);
+  for(const row of collected)assertTaskOptions(row.options);assertRunClean(run);for(const module of run.modules)for(const task of module.tasks)assertFinalTask(task,null);
+ }catch(error){decision='denied';denial=error.message;}
+-// Actual framework result may be red; close/error is a separate proof failure, never expected admission denial.
+-try{if(ctx)await ctx.close();assert(run&&collected.length===1,'Actual fixture was not collected exactly once');
++function errorKey(error){return {name:error.name,message:error.message,actual:error.actual,expected:error.expected};}
++function summarize(value){return {reason:value.reason,unhandledErrors:value.unhandledErrors.map(errorKey),modules:value.modules.map(module=>({file:module.file,ok:module.ok,tasks:module.tasks.map(task=>({id:task.id,key:task.key,options:{...task.options},state:task.state,errors:task.errors.map(errorKey),diagnostic:task.diagnostic?{retryCount:task.diagnostic.retryCount,repeatCount:task.diagnostic.repeatCount,flaky:task.diagnostic.flaky}:null}))}))};}
++function assertExpectedPostClose(post){
++ const kinds=['clean','retry','repeat','fails','only','skip','todo','dynamic-skip','before-hook','after-hook','timeout','unhandled'];assert(kinds.includes(kind),'Unknown declared fixture');
++ assert.equal(post.modules.length,1);const module=post.modules[0];assert.equal(module.file,resolve(directory,'controls.test.mjs'));assert.equal(module.tasks.length,1);
++ const task=module.tasks[0];assert.equal(task.key,'control');assert.equal(task.id,collected[0].id);
++ const fault=['before-hook','after-hook','timeout'].includes(kind);assert.equal(module.ok,!fault);assert.equal(post.reason,fault?'failed':'passed');
++ assert.equal(task.state,fault?'failed':['skip','todo','dynamic-skip'].includes(kind)?'skipped':'passed');
++ if(kind==='unhandled'){assert.equal(post.unhandledErrors.length,1);assert.equal(post.unhandledErrors[0].name,'Error');assert.equal(post.unhandledErrors[0].message,'expected unhandled fault');}
++ else assert.equal(post.unhandledErrors.length,0,'Unexpected late/unhandled/load fault');
++ if(fault){assert.equal(task.errors.length,1);assert.equal(task.errors[0].name,'Error');const message=kind==='before-hook'?'expected beforeEach fault':kind==='after-hook'?'expected afterEach fault':'Test timed out in 20ms.\nIf this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".';assert.equal(task.errors[0].message,message);}
++ else if(kind==='retry'){
++  assert(task.errors.length<=1,'Unexpected extra retry/late error');for(const error of task.errors){assert.equal(error.name,'AssertionError');assert.equal(error.actual,'0');assert.equal(error.expected,'1');}
++ }else assert.equal(task.errors.length,0,'Unexpected task/closure fault');
++ if(!['skip','todo','dynamic-skip'].includes(kind)){assert(task.diagnostic);assert.equal(task.diagnostic.retryCount,kind==='retry'?1:0);assert.equal(task.diagnostic.repeatCount,kind==='repeat'?1:0);assert.equal(task.diagnostic.flaky,kind==='retry');}
++ assert.equal(collected[0].options.mode,kind==='only'?'only':kind==='skip'?'skip':kind==='todo'?'todo':'run');
++ assert.equal(task.options.retry??0,kind==='retry'?1:0);assert.equal(task.options.repeats??0,kind==='repeat'?1:0);assert.equal(task.options.fails??false,kind==='fails');
++}
++// Expected admission denial is not proof success until actual closure and all state checks finish.
++try{
++ assert(ctx&&run&&endSnapshot,'No finalized actual runner result');await ctx.close();assert.equal(collected.length,1,'Actual fixture was not collected exactly once');
++ const files=ctx.state.getFiles();assert.equal(files.length,1);assert.equal(files[0].filepath,resolve(directory,'controls.test.mjs'));
++ const checkContainer=task=>{if(task.type!=='test'){assert.equal(task.result?.errors?.length??0,0,'Unexpected file/suite load or closure error');for(const child of task.tasks??[])checkContainer(child);}};checkContainer(files[0]);
++ const post=summarize({reason:run.reason,unhandledErrors:ctx.state.getUnhandledErrors(),modules:ctx.state.getTestModules().map(module=>({file:module.moduleId,ok:module.ok(),tasks:[...module.children.allTests()].map(test=>({id:test.id,key:test.fullName,options:test.options,state:test.result().state,errors:test.result().errors??[],diagnostic:test.diagnostic()??null}))}))});
++ assertExpectedPostClose(post);assert.deepEqual(post,endSnapshot,'Actual runner errors/outcomes changed during close');
+  const expected=kind==='clean'?'admitted':'denied';assert.equal(decision,expected,kind);
+- writeFileSync(resolve(directory,`${kind}.finalized.json`),JSON.stringify({kind,decision,denial,collected,run,closed:true,actualRunnerExit:process.exitCode??0},null,2),{flag:'wx'});process.exitCode=0;
++ const actualRunnerExit=process.exitCode??0;assert.equal(actualRunnerExit,['before-hook','after-hook','timeout','unhandled'].includes(kind)?1:0,'Unexpected late framework exit');
++ writeFileSync(resolve(directory,`${kind}.finalized.json`),JSON.stringify({kind,decision,denial,collected,run,postClose:post,closed:true,actualRunnerExit},null,2),{flag:'wx'});process.exitCode=0;
+ }catch(error){console.error(error);process.exitCode=2;}

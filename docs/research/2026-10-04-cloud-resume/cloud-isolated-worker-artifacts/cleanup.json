@@ -1,0 +1,85 @@
+{
+  "actions": [
+    {
+      "pid": 22988,
+      "killed": true
+    },
+    {
+      "pid": 23009,
+      "killed": true
+    },
+    {
+      "pid": 22992,
+      "killed": true
+    },
+    {
+      "pid": 22993,
+      "killed": true
+    },
+    {
+      "pid": 23016,
+      "killed": true
+    },
+    {
+      "pid": 23048,
+      "killed": true
+    }
+  ],
+  "ownedIdentities": [
+    {
+      "pid": 22988,
+      "starttime": "902303",
+      "ppid": 22962,
+      "pgrp": 22988,
+      "state": "Z"
+    },
+    {
+      "pid": 23009,
+      "starttime": "902314",
+      "ppid": 1,
+      "pgrp": 22988,
+      "state": "Z"
+    },
+    {
+      "pid": 22992,
+      "starttime": "902312",
+      "ppid": 1,
+      "pgrp": 22988,
+      "state": "Z"
+    },
+    {
+      "pid": 22993,
+      "starttime": "902312",
+      "ppid": 1,
+      "pgrp": 22988,
+      "state": "Z"
+    },
+    {
+      "pid": 23016,
+      "starttime": "902315",
+      "ppid": 1,
+      "pgrp": 22988,
+      "state": "Z"
+    },
+    {
+      "pid": 23033,
+      "starttime": "902318",
+      "ppid": 1,
+      "pgrp": 22988,
+      "state": "Z"
+    },
+    {
+      "pid": 23048,
+      "starttime": "902493",
+      "ppid": 1,
+      "pgrp": 22988,
+      "state": "Z"
+    }
+  ],
+  "remaining": [],
+  "inaccessibleOwned": [],
+  "verifiedDescendantAbsence": true,
+  "cleanupMs": 2038,
+  "launchSettled": true,
+  "elapsedMs": 12192
+}

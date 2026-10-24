@@ -1,0 +1,53 @@
+{
+  "manifestSha256": "16b1c7e59d6701b9a452236bcf90c92034959da3456f44bc7d0d648ce5736b53",
+  "compiledFiles": 21,
+  "maps": 10,
+  "sourceContentEntries": 491,
+  "uniqueMappedFiles": 491,
+  "requiredMappedPaths": [
+    "src/view/app.ts",
+    "src/ui/session/scene.ts",
+    "src/ui/session/mission-controller.ts",
+    "src/ui/session/camera-follow.ts",
+    "src/core/step.ts",
+    "src/view/particles.ts",
+    "src/view/effects.ts",
+    "src/view/emission-blending.ts",
+    "src/view/post.ts",
+    "src/view/clouds.ts",
+    "src/view/sky.ts",
+    "src/app/loop.ts",
+    "docs/research/2026-10-04-cloud-resume/render-kernel-entry.ts"
+  ],
+  "sourcePins": 779,
+  "applicationFiles": 61,
+  "ciFiles": 3,
+  "installedEntries": 20167,
+  "dependencyBytes": 431548000,
+  "currentPinsAllExact": true,
+  "currentQualificationSha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2",
+  "supervisedReceiptHashesExact": true,
+  "sourceBeforeAfterEqual": true,
+  "unresolvedSources": [],
+  "buildActualArgv": [
+    "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "/workspace/StarShipSimulator/node_modules/vite/bin/vite.js",
+    "build",
+    "--config",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-build.config.mjs",
+    "--configLoader",
+    "native"
+  ],
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "version": "v22.23.3",
+    "sha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "vite": {
+    "packagePath": "/workspace/StarShipSimulator/node_modules/vite/package.json",
+    "packageSha256": "4e41dd20c7a12e7e70915b235c0bf5b5158ec6709c1390804128af0867d6d6d9",
+    "cli": "/workspace/StarShipSimulator/node_modules/vite/bin/vite.js",
+    "cliSha256": "fa03478846d229651a3c6aa64833ba2c6cbf580a798b92bd8f47c7480bafb5d8"
+  },
+  "researchBuildOnly": true
+}

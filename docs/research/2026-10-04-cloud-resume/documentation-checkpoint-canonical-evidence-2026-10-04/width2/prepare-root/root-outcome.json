@@ -1,0 +1,60 @@
+{
+  "completed": true,
+  "failures": [],
+  "actualReturncode": 0,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 62112,
+      "state": "R",
+      "parent": 62111,
+      "group": 62112,
+      "session": 62112,
+      "start": "3817593"
+    },
+    {
+      "pid": 62119,
+      "state": "R",
+      "parent": 62112,
+      "group": 62119,
+      "session": 62119,
+      "start": "3817622"
+    },
+    {
+      "pid": 62126,
+      "state": "R",
+      "parent": 62119,
+      "group": 62119,
+      "session": 62119,
+      "start": "3817630"
+    },
+    {
+      "pid": 62127,
+      "state": "R",
+      "parent": 62126,
+      "group": 62119,
+      "session": 62119,
+      "start": "3817650"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 62112,
+      "session": 62112,
+      "start": "3817593",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 62119,
+      "session": 62119,
+      "start": "3817622",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-width2-stage.5l4HdQ",
+  "manifestSha": "fee57b70ecbcfe1543e4d3d9f31bed28a776d0faf0e546612dac3ba5c1e55652",
+  "elapsedSeconds": 3.752523422241211,
+  "acceptance": "This single width2 stage only; source/process/actual result HIGH required before next stage; no browser/app/physics acceptance"
+}

@@ -1,0 +1,45 @@
+/** One original desktop launch case with supplemental diagnostic overhead; never acceptance. */
+import { defineConfig } from '/workspace/StarShipSimulator/node_modules/@playwright/test/index.js';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { join } from 'node:path';
+import canonical from '/workspace/StarShipSimulator/playwright.visual-budget.config';
+
+const path = process.env['STARSHIP_MESA_APP_INPUT'];
+const expected = process.env['STARSHIP_MESA_APP_INPUT_SHA'];
+if (!path || !expected) throw new Error('Externally frozen matrix input required');
+const bytes = readFileSync(path);
+if (createHash('sha256').update(bytes).digest('hex') !== expected) throw new Error('Input changed');
+const m = JSON.parse(bytes.toString('utf8'));
+const bound = Number(process.env['STARSHIP_MESA_MATRIX_BOUND_MS']);
+if (m.diagnostic !== 'single-original-launch-60warm300' || m.mode !== 'mesa-budget' || m.outerMs !== 338000 || process.env['E2E_SKIP_BUILD'] !== '1' ||
+    process.env['RUN_VISUAL_BUDGET'] !== '1' || process.env['E2E_GPU_POLICY'] !== 'default' ||
+    process.env['RUN_VISUAL_DIAGNOSTIC'] || process.env['EGL_PLATFORM'] !== 'surfaceless' ||
+    !Number.isFinite(bound) || bound <= 0 || bound > 300000) {
+  throw new Error('Exact reviewed application budget route required');
+}
+const spec = join(m.materializationRoot, 'mesa-budget.spec.ts');
+const metacharacters = new Set(['.', '*', '+', '?', '^', '$', '{', '}', '(', ')', '|', '[', ']', String.fromCharCode(92)]);
+const escaped = [...spec].map(character => metacharacters.has(character) ? String.fromCharCode(92) + character : character).join('');
+const browserEnv = { ...process.env };
+delete browserEnv['DEBUG']; delete browserEnv['NODE_OPTIONS'];
+export default defineConfig({
+  ...canonical,
+  webServer: { ...canonical.webServer, cwd: '/workspace/StarShipSimulator' },
+  testDir: m.materializationRoot,
+  testMatch: new RegExp('^' + escaped + '$'),
+  grep: /launch: CPU \+ GPU completion and actual cadence @mobile @visual-budget$/,
+  fullyParallel: false,
+  workers: 1,
+  retries: 0,
+  maxFailures: 0,
+  repeatEach: 1,
+  globalTimeout: bound,
+  projects: canonical.projects.filter(project => project.name === 'chromium'),
+  use: { ...canonical.use, launchOptions: { executablePath: m.browser, env: browserEnv,
+    args: ['--no-sandbox', '--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist'] },
+    trace: 'off', video: 'off' },
+  outputDir: join(m.matrixReceipt, 'test-results'),
+  reporter: [['list'], ['json', { outputFile: join(m.matrixReceipt, 'report.json') }],
+    [join(m.materializationRoot, 'mesa-reporter.mjs')]],
+});

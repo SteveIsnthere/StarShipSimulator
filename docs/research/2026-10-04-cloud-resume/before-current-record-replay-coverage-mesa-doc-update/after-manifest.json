@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "path": "docs/plans/modernization/modernization-GOAL.md",
+      "sha": "14e6a735a106dfe47416281c1895d42a4a2244123d17bbbbb8c42a9cdb837515",
+      "bytes": 28720
+    },
+    {
+      "path": "docs/plans/modernization/modernization-handover.md",
+      "sha": "2b109530bed7284899bc188b445aa9cbbbe833e158b9a8429989d16235474c0b",
+      "bytes": 42226
+    },
+    {
+      "path": "docs/plans/modernization/modernization-phase-8.md",
+      "sha": "a374cb8467bae6778bdd8d2431688f37ca3e43eadda8b6e938218bf3db8cfe43",
+      "bytes": 56226
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/README.md",
+      "sha": "085b137fde23d12c5d5b52e27e97fe97ad6964bb86f52cfcc9589bf36745ee9b",
+      "bytes": 47620
+    }
+  ],
+  "sourceProductEdited": false,
+  "acceptanceBoxesChanged": false,
+  "phaseCountChanged": false,
+  "reviewPending": true
+}

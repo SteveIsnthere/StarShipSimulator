@@ -1,0 +1,21 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ |unit| tests/proofs/burn-preparation.test.ts (13 tests) 622ms
+ ✓ |unit| tests/core/domain-edges.test.ts (28 tests) 941ms
+     ✓ and getAttackAngles really does wrap into [-pi, pi]  463ms
+ ✓ |unit| tests/core/speed-of-sound.test.ts (13 tests) 127ms
+ ✓ |unit| tests/core/v3.test.ts (6 tests) 9ms
+ ✓ |unit| tests/proofs/burn-preparation-module-mock.test.ts (4 tests) 1513ms
+   ✓ aero missing-certificate preserves independent old outputs, scratches and original helper queries  689ms
+   ✓ aero partial-helper preserves independent old outputs, scratches and original helper queries  621ms
+ ✓ |unit| tests/core/guidance-physics.test.ts (28 tests) 2998ms
+     ✓ belly-down from 10 km  427ms
+     ✓ re-entering from 70 km  941ms
+
+ Test Files  6 passed (6)
+      Tests  92 passed (92)
+   Start at  09:36:50
+   Duration  3.69s (transform 1.16s, setup 0ms, import 1.60s, tests 6.21s, environment 1ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/burn-preparation-initial-checks/test-results.json

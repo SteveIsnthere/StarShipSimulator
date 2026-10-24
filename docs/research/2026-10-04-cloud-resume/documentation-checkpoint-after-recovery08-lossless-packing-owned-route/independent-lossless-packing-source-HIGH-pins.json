@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "decision": "supported-root-scopes-and-maker-preparation-only",
+  "files": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/pack.py.txt": "42de019980ce4c285e004e886eb24ff6c88e739cc5e5625b95c2cc4fb89efc09",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/root-observer.py.txt": "7e6e24af50190ca1a5f2d26242129079b0b21f106737b989f70e41d7b966b9c9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/make-input.py.txt": "f3ec53add9dac3d788777aa8b52e1454f06fd760bc89785d3f38790fa4466df5",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/proposal.json": "85dc6bea2a4ab1c53758256a0bf0e9ad38209c57745e8497865ff81f826359c6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/PLAN.md": "b1d819d759d70f77207a6cb6b7139a9d19fa5d0502da27891ab09b379977d6e9",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-selection-owned-route/root-failed-maker-selected-size-inventory.json": "ffe491fc5bb71f5acfd9906c2b16e74b8bfc9a2bd31343ad13f1bf349df82d68",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/source-pins.json": "262ed9c7dd9324a9f0465c5aecf77834013bcc9f7a4a6c6295ae9b466341d3e2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packing-owned-route/independent-lossless-packing-source-HIGH-review.md": "dab9b48384286e1851d447ac596fdc1bf3bbdb0cd2f8fb34fd69312e9bb8115c"
+  },
+  "packingExecuted": false,
+  "actualInputApproved": false,
+  "captureOrStagingApproved": false
+}

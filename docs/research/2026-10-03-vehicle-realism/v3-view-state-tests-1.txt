@@ -1,0 +1,150 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/booster.test.ts (4 tests | 2 failed) 35ms
+     × draws its 71m hull and four real upper fins at the physical pose 10ms
+     × attaches exhaust to the booster engine plane, with no thrust for failed engines 9ms
+ ❯ |unit| tests/view/vehicle-detail.test.ts (5 tests | 3 failed) 50ms
+   × lights detail through the shared sun and all four actual booster grids still articulate 13ms
+   × keeps the two Ship fin pairs independently articulated at finite zoom while detail dims at night 4ms
+   × places Ship fin pairs at their existing physical stations above the engine plane 2ms
+ ❯ |unit| tests/view/catch-tower.test.ts (2 tests | 1 failed) 21ms
+   × draws the physical120m target and only shows secured after actual capture, never a nearby missed lug 18ms
+ ❯ |unit| tests/view/dynamic-pressure.test.ts (20 tests | 2 failed) 27ms
+     × is not saturated for most of any flight 12ms
+     × and the subject it replaced does not, which is why it was replaced 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/booster.test.ts > the actual booster body and engine plane > draws its 71m hull and four real upper fins at the physical pose
+ReferenceError: document is not defined
+ ❯ Object.createCanvas node_modules/pixi.js/src/environment-browser/BrowserAdapter.ts:24:23
+ ❯ getTestContext node_modules/pixi.js/src/rendering/renderers/gl/shader/program/getTestContext.ts:16:40
+ ❯ getMaxFragmentPrecision node_modules/pixi.js/src/rendering/renderers/gl/shader/program/getMaxFragmentPrecision.ts:13:19
+ ❯ new _GlProgram node_modules/pixi.js/src/rendering/renderers/gl/shader/GlProgram.ts:157:47
+ ❯ _GlProgram.from node_modules/pixi.js/src/rendering/renderers/gl/shader/GlProgram.ts:213:32
+ ❯ createComponentMaterial src/view/vehicle-material.ts:165:25
+    163| export function createComponentMaterial(polygon: ComponentPolygon, hei…
+    164|   faceNormal: readonly [number, number, number] = [0, 0, 1]): Componen…
+    165|   program ??= GlProgram.from({ vertex: VERTEX, fragment: FRAGMENT, nam…
+       |                         ^
+    166|   let minX = Infinity, minS = Infinity, maxX = -Infinity, maxS = -Infi…
+    167|   for (const p of polygon.points) {
+ ❯ createComponentVehicle src/view/component-vehicle.ts:52:24
+ ❯ createBoosterVehicle src/view/booster.ts:10:22
+ ❯ tests/view/booster.test.ts:31:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  |unit| tests/view/booster.test.ts > the actual booster body and engine plane > attaches exhaust to the booster engine plane, with no thrust for failed engines
+AssertionError: expected 408 to be close to 406.5, received difference is 1.5, but expected 0.005
+ ❯ tests/view/booster.test.ts:90:29
+     88|     driver.update(particles, camera, viewport, state, state, 1 / 60);
+     89|     expect(driver.nozzle.x).toBeCloseTo(400);
+     90|     expect(driver.nozzle.y).toBeCloseTo(300 + 35.5 * viewport.scale);
+       |                             ^
+     91|     expect(particles.inspect().filter(row => row.effect === 'raptorPlu…
+     92|     state.engines.failed[0] = false;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  |unit| tests/view/catch-tower.test.ts > draws the physical120m target and only shows secured after actual capture, never a nearby missed lug
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/view/catch-tower.test.ts:28:29
+     26|   state.kinematics.downRangeDistance -= 3;
+     27|   tower.update(camera, viewport, step(state, 1 / 120, {}, SUPER_HEAVY)…
+     28|   expect(indicator.visible).toBe(true);
+       |                             ^
+     29|   tower.update(camera, viewport, undefined);
+     30|   expect(tower.container.visible).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  |unit| tests/view/dynamic-pressure.test.ts > the fin vortices carry information again > is not saturated for most of any flight
+AssertionError: launch-pad-takeoff       saturated 88% before, 10% after
+booster-sep-boostback    saturated 0% before, 0% after
+rtls-boostback           saturated 81% before, 0% after
+reentry-autoland         saturated 57% before, 0% after
+before-flip-autoland     saturated 12% before, 0% after
+landing-burn-autoland    saturated 0% before, 0% after
+landing-burn-headwind    saturated 0% before, 0% after
+intro-demo               saturated 0% before, 0% after: expected 0.09898148148148148 to be less than 0.05
+ ❯ tests/view/dynamic-pressure.test.ts:224:40
+    222|     for (const profile of PROFILES) {
+    223|       const after = profile.samples.filter((q) => finIntensity(q) >= 1…
+    224|       expect(after, report.join('\n')).toBeLessThan(0.05);
+       |                                        ^
+    225|     }
+    226|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  |unit| tests/view/dynamic-pressure.test.ts > the state the shake spec flies > and the subject it replaced does not, which is why it was replaced
+AssertionError: up to 55.3 deg/s: expected 55.31478632038335 to be greater than 100
+ ❯ tests/view/dynamic-pressure.test.ts:371:58
+    369|     // on its own (10 px) than the lens ever moved it (2 to 3).
+    370|     expect(turned, `turns ${turned.toFixed(1)} degrees`).toBeGreaterTh…
+    371|     expect(fastest, `up to ${fastest.toFixed(1)} deg/s`).toBeGreaterTh…
+       |                                                          ^
+    372|   });
+    373| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  |unit| tests/view/vehicle-detail.test.ts > lights detail through the shared sun and all four actual booster grids still articulate
+ReferenceError: document is not defined
+ ❯ Object.createCanvas node_modules/pixi.js/src/environment-browser/BrowserAdapter.ts:24:23
+ ❯ getTestContext node_modules/pixi.js/src/rendering/renderers/gl/shader/program/getTestContext.ts:16:40
+ ❯ getMaxFragmentPrecision node_modules/pixi.js/src/rendering/renderers/gl/shader/program/getMaxFragmentPrecision.ts:13:19
+ ❯ new _GlProgram node_modules/pixi.js/src/rendering/renderers/gl/shader/GlProgram.ts:157:47
+ ❯ _GlProgram.from node_modules/pixi.js/src/rendering/renderers/gl/shader/GlProgram.ts:213:32
+ ❯ createComponentMaterial src/view/vehicle-material.ts:165:25
+    163| export function createComponentMaterial(polygon: ComponentPolygon, hei…
+    164|   faceNormal: readonly [number, number, number] = [0, 0, 1]): Componen…
+    165|   program ??= GlProgram.from({ vertex: VERTEX, fragment: FRAGMENT, nam…
+       |                         ^
+    166|   let minX = Infinity, minS = Infinity, maxX = -Infinity, maxS = -Infi…
+    167|   for (const p of polygon.points) {
+ ❯ createComponentVehicle src/view/component-vehicle.ts:52:24
+ ❯ createBoosterVehicle src/view/booster.ts:10:22
+ ❯ tests/view/vehicle-detail.test.ts:31:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  |unit| tests/view/vehicle-detail.test.ts > keeps the two Ship fin pairs independently articulated at finite zoom while detail dims at night
+TypeError: Cannot read properties of null (reading 'getChildByLabel')
+ ❯ tests/view/vehicle-detail.test.ts:55:22
+     53|   const detail = body.container.getChildByLabel('ship-detail')!;
+     54|   const fins = body.container.getChildByLabel('ship-fins')!;
+     55|   const front = fins.getChildByLabel('fin-front-left')!, aft = fins.ge…
+       |                      ^
+     56|   const frontWidth = front.width, aftWidth = aft.width, day = detail.t…
+     57|   pose.frontFinExtension = 100; body.update(camera, viewport, pose, su…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  |unit| tests/view/vehicle-detail.test.ts > places Ship fin pairs at their existing physical stations above the engine plane
+TypeError: Cannot read properties of null (reading 'getChildByLabel')
+ ❯ tests/view/vehicle-detail.test.ts:75:22
+     73|   const fins = body.container.getChildByLabel('ship-fins')!;
+     74|   for (const [id, station] of [['fin-front-left', SHIP.frontFinStation…
+     75|     const box = fins.getChildByLabel(id)!.getBounds();
+       |                      ^
+     76|     expect((box.minY + box.maxY) / 2).toBeCloseTo(body.container.y + (…
+     77|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  4 failed | 30 passed (34)
+      Tests  8 failed | 387 passed (395)
+   Start at  14:11:54
+   Duration  19.61s (transform 2.89s, setup 0ms, import 19.47s, tests 47.69s, environment 3ms)
+

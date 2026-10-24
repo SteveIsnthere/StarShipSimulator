@@ -1,0 +1,23 @@
+{
+  "kind": "width2-browser-provenance-path-migration-v1",
+  "scope": "METADATA ONLY; no product, observer, stage, maker or runtime-facts change",
+  "oldManifestSha256": "230484c3b6a04004ac8cdf1159a73879bb00d180ff17ef1493e50884c6b21ef3",
+  "newManifestSha256": "45aca13aeca8ef1df4e5715b07fca81453a125c2be09b1869f3244bb95f2e762",
+  "oldTransferSha256": "fffa004b2f7b840cc21ab0555c2f407d583745d0032f609be3dffe61cf35cdd0",
+  "newTransferSha256": "f353bda1c99474563e09e298c14148f2ccf679dd295b28f2c3786600588c6fdb",
+  "fallbackArchive": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/before-final-whole-bound/root-observer.py.txt",
+  "fallbackArchiveSha256": "80a60579ac88d360f8739af5823d25fcfb9fd8beb1189e4d856912d7188dc892",
+  "oldInputPath": "/tmp/starship-width2-browser-owner-input.0a9edd3c237543209ea692fbbeea373f/owner-input.json",
+  "oldInputSha256": "fd348d69a9de49242c8771fffcd09c2d69478d34fda4b6bb9e966b34039b0858",
+  "oldInputExecutionStatus": "UNEXECUTED: root caught source-reference sequencing conflict before any browser owner launch",
+  "historicalInputReviewRetained": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/browser-runtime/before-fallback-path-repair/independent-input-review.json",
+  "unchangedProtectedBytes": {
+    "browser-root-parent.py.txt": "d7eda9c372acad61f379a2c6df77737ce80d7612d8213b5896b5e836d58c35ba",
+    "business-stage.mjs.txt": "1104b29a61e30761769e3cdcdfd3768cc38b8151df88d2aa708f96cffffaf0a4",
+    "prepare-runtime-owner-input.py.txt": "11ae599ee9b8cc09b9c9bb3ae63ebc85c3b5430d3ea45a4501f54aed4fa2e67e",
+    "browser-input.json": "191bc0516c3f1b96687d125a2091b96ab7175fc9634bc4e7bfb3363f3a72b854"
+  },
+  "previousLiveSourceNotRestored": true,
+  "newMakerReason": "actual independently reviewed reference/pin migration, not retrying a browser or namespace lottery",
+  "requiresFreshMetadataHighAndActualNewInputReview": true
+}

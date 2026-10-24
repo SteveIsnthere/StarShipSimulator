@@ -1,0 +1,46 @@
+// Actual original public Vitest episode; no test body or timeout transformation.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+import {admitArtifacts} from './admission.mjs';
+const[input,inputSha]=process.argv.slice(2),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');assert.equal(sha(input),inputSha);
+const source=JSON.parse(readFileSync(input,'utf8'));assert.deepEqual(process.execArgv,[]);assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-census-closed-three');
+const artifactPath=resolve(source.setup,'native-artifact.json'),artifactSha=sha(artifactPath);process.env.QUERY_CENSUS_NATIVE_MANIFEST=artifactPath;process.env.QUERY_CENSUS_NATIVE_MANIFEST_SHA=artifactSha;
+const{m}=await admitArtifacts(artifactPath,artifactSha);const save=(name,value)=>writeFileSync(resolve(m.setup,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const{startVitest}=await import(pathToFileURL(resolve(m.root,'node_modules/vitest/dist/node.js')).href);
+let ctx=null,primary=null,closed=false,runReason=null;const postErrors=[],moduleRefs=[],caseRefs=[],caseEvents=[];
+const errorText=errors=>(errors??[]).map(error=>String(error?.stack??error?.message??error));
+const reporter={
+ onInit(context){
+  const projects=context.projects;assert.equal(projects.length,1);const project=projects[0];assert.equal(project.config.name,'closed-three-census');
+  const config=project.config;assert.equal(config.testTimeout,30000);assert.equal(config.retry,0);assert.equal(config.pool,'forks');assert.equal(config.isolate,true);assert.equal(config.experimental.viteModuleRunner,false);
+  assert.deepEqual(config.include,['tests/golden/booster-replay.test.ts']);assert.deepEqual(config.setupFiles,[resolve(m.setup,'observer.mjs')]);assert.deepEqual(config.execArgv,['--import',resolve(m.setup,'loader.mjs')]);
+  // Exact public Vitest6 resolveConditions mapping, source-pinned separately.
+  const conditions=[...new Set(project.vite.config.ssr.resolve.conditions)].filter(condition=>condition!=='production'||project.vite.config.isProduction).filter(condition=>condition!=='development'||!project.vite.config.isProduction).map(condition=>condition==='development|production'?(project.vite.config.isProduction?'production':'development'):condition);
+  assert.deepEqual(conditions,m.workerConditions);save('public-resolved-configuration.json',{name:config.name,testTimeout:config.testTimeout,retry:config.retry,pool:config.pool,isolate:config.isolate,include:config.include,setupFiles:config.setupFiles,execArgv:config.execArgv,workerConditions:conditions,coverage:context.config.coverage.enabled});assert.equal(context.config.coverage.enabled,false);
+ },
+ onTestModuleCollected(module){moduleRefs.push(module);},
+ onTestCaseReady(test){caseRefs.push(test);},
+ onTestCaseResult(test){caseEvents.push({name:test.fullName,result:test.result(),diagnostic:test.diagnostic()});},
+ onTestRunEnd(_modules,_errors,reason){runReason=reason;}
+};
+try{ctx=await startVitest('test',['tests/golden/booster-replay.test.ts'],{root:m.root,config:resolve(m.setup,'config.ts'),run:true,watch:false,coverage:{enabled:false},reporters:[reporter,'json'],outputFile:{json:resolve(m.setup,'original-results.json')}});assert.ok(ctx,'Public context missing');}
+catch(error){primary=String(error.stack??error);}
+finally{if(ctx)try{await ctx.close();closed=true;}catch(error){postErrors.push({stage:'close',error:String(error.stack??error)});}}
+// Preserve every known public outcome AFTER close, before any acceptance assertion.
+const publicNativeExitCode=process.exitCode??0;
+const cases=caseRefs.map(test=>({name:test.fullName,options:{retry:test.options.retry,repeats:test.options.repeats,fails:test.options.fails,mode:test.options.mode,timeout:test.options.timeout},result:test.result(),diagnostic:test.diagnostic()}));
+const modules=moduleRefs.map(module=>({moduleId:module.moduleId,state:module.state(),errors:errorText(module.task.result?.errors),diagnostic:module.diagnostic()}));
+const unhandled=ctx?errorText(ctx.state.getUnhandledErrors()):['No context'];const fileErrors=ctx?ctx.state.getFiles().flatMap(file=>errorText(file.result?.errors)):['No context'];
+save('public-final-outcomes.json',{publicNativeExitCode,closed,primary,postErrors,runReason,cases,caseEvents,modules,unhandled,fileErrors,physicalAcceptance:false,timingAcceptance:false});
+let status=1;
+try{
+ assert.equal(publicNativeExitCode,0);assert.equal(primary,null);assert.deepEqual(postErrors,[]);assert.equal(closed,true);assert.equal(runReason,'passed');assert.deepEqual(unhandled,[]);assert.deepEqual(fileErrors,[]);
+ assert.equal(modules.length,1);assert.equal(modules[0].moduleId,resolve(m.root,'tests/golden/booster-replay.test.ts'));assert.equal(modules[0].state,'passed');assert.deepEqual(modules[0].errors,[]);
+ assert.deepEqual(cases.map(row=>row.name),m.originalCaseNames);assert.deepEqual(caseEvents.map(row=>row.name),m.originalCaseNames);assert.equal(new Set(cases.map(row=>row.name)).size,3);
+ for(const row of cases){assert.equal(row.result.state,'passed');assert.deepEqual(row.result.errors??[],[]);assert.ok(row.diagnostic&&typeof row.diagnostic==='object');assert.equal(row.diagnostic.retryCount,0);assert.equal(row.diagnostic.repeatCount,0);assert.equal(row.diagnostic.flaky,false);assert.ok(Number.isFinite(row.diagnostic.duration)&&row.diagnostic.duration<=30000);assert.equal(row.options.timeout,30000);assert.ok(row.options.retry===0||row.options.retry===undefined);assert.ok(row.options.repeats===0||row.options.repeats===undefined);assert.ok(row.options.fails===false||row.options.fails===undefined);assert.ok(row.options.mode===undefined||row.options.mode==='run');}
+ const json=JSON.parse(readFileSync(resolve(m.setup,'original-results.json'),'utf8'));assert.equal(json.numTotalTests,3);assert.equal(json.numPassedTests,3);assert.equal(json.numFailedTests,0);assert.equal(json.numPendingTests,0);assert.equal(json.success,true);status=0;
+}catch(error){primary??=String(error.stack??error);}
+save('public-run-result.json',{kind:'closed-three-public-original-census-result-v1',status,primary,postErrors,closed,originalCases:cases.length,originalAssertionsUnchanged:true,coverageAcceptance:false,timingAcceptance:false,physicsOptimizationSelected:false});process.exitCode=status;

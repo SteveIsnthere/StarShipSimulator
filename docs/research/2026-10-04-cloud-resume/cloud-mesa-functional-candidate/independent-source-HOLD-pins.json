@@ -1,0 +1,29 @@
+{
+  "disposition": "HOLD cleanup key and inner clock boundary",
+  "files": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-source-HOLD-review.md",
+      "sha256": "abc230b413e8ae94adf5a57ffce70d292ed4fb60ba2920d3519a3a26635a4abb"
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/source-pins.json",
+      "sha256": "8feb73373a5a3e06590d0a4a41f50312a9c21d18bf24b05de99746ae02b029ff"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/business-stage.mjs.txt",
+      "sha256": "4c97dbde7a2a5683cf7dc4b67ac8ab3799d9ae86a49a5060d13d2452c6a22f11"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/contract.md",
+      "sha256": "ba4988f0d347ae0c48f76842408ce3f7a3ecf53b5074b168e38c5d2308e7a106"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/root-observer.py.txt",
+      "sha256": "afb996f9d879b9b77a173f2cb980772e5dd34d3a425050f84fe9df7905a24cfa"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/run-functional.mjs.txt",
+      "sha256": "f74dd03aa016a259b0b82d7f2c63f25518183c4f185b7a7214d2df7430492e32"
+    }
+  ]
+}

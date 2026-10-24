@@ -21,6 +21,9 @@
 import * as C from './constants';
 import { SHIP, type VehicleDefinition } from './vehicle';
 import { momentOfInertia } from './physics/mass';
+import { createDamageState } from './damage-state';
+import { damageModelFor } from './physics/damage-model';
+import { radiativeSinkKelvin } from './physics/thermal';
 import { SUPER_HEAVY } from './vehicles/super-heavy';
 import { toggleAllRaptors } from './control/commands';
 import { createInitialState, type SimState } from './state';
@@ -153,7 +156,7 @@ export const LAUNCH_PAD: ScenarioPreset = {
   id: 'launch-pad',
   name: 'Launch Pad',
   description: 'On the pad at StarBase, full tanks.',
-  altitude: C.vehicleHeight / 2,
+  altitude: SHIP.height / 2,
   xPosition: 0,
   speedX: 0,
   speedY: 0,
@@ -292,8 +295,8 @@ export function getScenario(id: string): ScenarioPreset | undefined {
  * cannot spawn inside the ground, X-position is relative to StarBase, pitch is
  * degrees, and propellant is tonnes capped at 1200 t.
  */
-export function createScenarioState(preset: ScenarioPreset, seed?: number): SimState {
-  return createStateForVehicle(preset, seed, SHIP);
+export function createScenarioState(preset: ScenarioPreset, seed?: number, model: VehicleDefinition = SHIP): SimState {
+  return createStateForVehicle(preset, seed, model);
 }
 
 /** Preset identity selects the physical vehicle; custom flights inherit their base. */
@@ -345,6 +348,9 @@ function createStateForVehicle(preset: ScenarioPreset, seed: number | undefined,
   s.kinematics.machSpeed =
     relativeAirspeed(s.kinematics.speedX, s.kinematics.speedY, airVelocityX(s.world, s.kinematics.altitude), s.world.gustVertical) /
     speedOfSoundAt(isaAtmosphere(altitude).airTemperature);
+
+  s.damage = createDamageState(damageModelFor(model).partition,
+    radiativeSinkKelvin(altitude, isaAtmosphere(altitude).airTemperature));
 
   return s;
 }

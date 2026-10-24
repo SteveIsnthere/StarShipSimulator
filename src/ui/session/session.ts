@@ -12,7 +12,7 @@
  * black box, guide) pauses the flight.
  */
 import { DT, type LoopState, type AdvanceResult } from '$app/loop';
-import { installSimDebug } from '$app/debug';
+import { wantsSimDebug } from '$app/debug-request';
 import { type ControlEvent } from '$app/controls';
 import { toLoopOptions, type EditorFields, type TimeSetting } from '$app/menu';
 import { vehicleHeight } from '$core/constants';
@@ -51,7 +51,7 @@ import {
   createAudioEngine,
   type AudioEngine,
 } from '$audio/engine';
-import { createScene } from './scene';
+import { createSceneRuntime } from './scene-runtime';
 import { createCameraFollow } from './camera-follow';
 import { createPresentationProbe } from './debug-presentation';
 import { wireDocument } from './document-wiring';
@@ -161,6 +161,9 @@ export function createSession(): Session {
   let mapSurface: MapSurface | null = null;
   let mapOptions: MapRendererOptions | undefined;
   const presentationProbe = createPresentationProbe();
+  // Keep an installed witness adapter across remounts; ordinary first mounts
+  // never load it, while an existing debug surface retains its old contract.
+  let attachWitness: typeof import('./scene-witness').attachSceneWitness | undefined;
 
   const camera = createCameraFollow();
 
@@ -172,7 +175,7 @@ export function createSession(): Session {
   const onStep = (state: SimState) => {
     histories.observe(state);
     if (!view) return;
-    camera.step(view, state, controller.mission);
+    camera.step(view, state, controller.mission, controller.model);
   };
 
   // Rebuilt only when the time setting or the pause changes, never per frame.
@@ -201,7 +204,7 @@ export function createSession(): Session {
     histories.reset();
     const fresh = loop.state;
     fresh.failures.randomFailure = get().randomFailure;
-    if (view) camera.reset(view, fresh, controller.mission);
+    if (view) camera.reset(view, fresh, controller.mission, controller.model);
     audio.resetFlight();
     if (mapSurface) mapSurface.dirty = true;
     set({ preset, selectedVehicle: controller.model.id, flightOver: false, debrief: null });
@@ -272,6 +275,7 @@ export function createSession(): Session {
       if (!surface) return; // a refused 2D context: everything else still flies
       mapOptions = {
         context: surface.context,
+        get selectedVehicle() { return controller.model; },
         trail: { downRange: histories.selected.recorder.series['downRange']!, altitude: histories.selected.recorder.series['altitude']! },
         scale: surface.scale,
         status: surface.status,
@@ -289,7 +293,7 @@ export function createSession(): Session {
     selectVehicle(id) {
       if (!controller.mission || id === controller.model.id) return;
       controller.selectVehicle(id);
-      if (view) camera.select(view, loop.state);
+      if (view) camera.select(view, loop.state, controller.model);
       set({ selectedVehicle: controller.model.id });
       timelineBinder?.follow(histories.selected.timeline);
       timelineBinder?.update();
@@ -345,21 +349,28 @@ export function createSession(): Session {
       let frame = 0;
       const live = loop;
       const initial = live.state;
-      const debugLoopOptions = { onStep };
-      installSimDebug(window, import.meta.env.DEV, {
-        loop: () => loop,
-        startScenario: (id, overrides) => {
-          if (id === 'hot-stage') { startHotStage(); return; }
-          const preset = getScenario(id);
-          if (!preset) throw new Error(`no scenario '${id}'`);
-          startFlight({ ...preset, ...overrides });
-        },
-        setPaused: (debugPaused) => set({ debugPaused }),
-        onStep,
-        advanceStep: () => { controller.advance(DT, debugLoopOptions); syncMission(); },
-        presentation: presentationProbe.presentation,
-        setParticlesVisible: presentationProbe.setParticlesVisible,
-      });
+      if (wantsSimDebug(import.meta.env.DEV, window.location.search)) {
+        const { installSimDebug, attachSceneWitness } = await import('$app/debug');
+        attachWitness = attachSceneWitness;
+        const debugLoopOptions = { onStep };
+        installSimDebug(window, import.meta.env.DEV, {
+          loop: () => loop,
+          startScenario: (id, overrides) => {
+            if (id === 'hot-stage') { startHotStage(); return; }
+            const preset = getScenario(id);
+            if (!preset) throw new Error(`no scenario '${id}'`);
+            startFlight({ ...preset, ...overrides });
+          },
+          setPaused: (debugPaused) => set({ debugPaused }),
+          onStep,
+          advanceStep: () => { controller.advance(DT, debugLoopOptions); syncMission(); },
+          presentation: presentationProbe.presentation,
+          setParticlesVisible: presentationProbe.setParticlesVisible,
+          setVehiclesVisible: presentationProbe.setVehiclesVisible,
+          setComponentVisible: presentationProbe.setComponentVisible,
+          setRenderQuality: presentationProbe.setRenderQuality,
+        });
+      }
 
       const v = await createView({
         canvas,
@@ -369,13 +380,15 @@ export function createSession(): Session {
       });
       view = v;
       applyCameraMode();
-      const scene = await createScene(v, () => disposed);
-      if (!scene || disposed) {
+      const runtime = await createSceneRuntime(v, () => disposed);
+      if (!runtime || disposed) {
         v.destroy();
         return () => {};
       }
+      const witnessed = attachWitness?.(runtime);
+      const scene = witnessed ?? runtime;
       resetSceneForFlight = scene.resetFlight;
-      presentationProbe.bind(scene);
+      if (witnessed) presentationProbe.bind(witnessed);
 
       // The canvas's parent owns its box (the shell insets it above the phone's
       // bottom chrome); Pixi pins the canvas's own inline size, so the parent is
@@ -387,7 +400,7 @@ export function createSession(): Session {
       if (observer && box) observer.observe(box);
       else window.addEventListener('resize', onResize);
       onResize();
-      if (controller.mission) camera.reset(v, live.state, controller.mission);
+      if (controller.mission) camera.reset(v, live.state, controller.mission, controller.model);
 
       const room = window.matchMedia(HINT_FITS);
       const onRoomChange = () => set({ hintFits: room.matches });
@@ -449,7 +462,7 @@ export function createSession(): Session {
         room.removeEventListener('change', onRoomChange);
         unwire();
         if (resetSceneForFlight === scene.resetFlight) resetSceneForFlight = undefined;
-        presentationProbe.unbind(scene);
+        if (witnessed) presentationProbe.unbind(witnessed);
         scene.destroy();
         hud?.destroy();
         metrics?.destroy();

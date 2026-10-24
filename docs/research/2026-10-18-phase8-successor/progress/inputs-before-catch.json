@@ -1,0 +1,66 @@
+{
+  "head": "6ab76a011353ac1ed582c0514a36add8565107b3",
+  "scope": "Existing C1 dirty delta plus reviewed progress/fixture/test changes; no code changes permitted during capture",
+  "inputs": [
+    {
+      "path": "src/app/debug.ts",
+      "bytes": 10233,
+      "sha256": "873cd1048b79a607e59b63e9c7e4f4a0fc7681b0460e41353444893fe7bcad1f"
+    },
+    {
+      "path": "tests/app/debug-progress.test.ts",
+      "bytes": 7342,
+      "sha256": "77ac481dced50a00a5cc95d72cc23772de6a14507fe75d091112c13387633d70"
+    },
+    {
+      "path": "tests/e2e/visual-scene-setup.ts",
+      "bytes": 3214,
+      "sha256": "010b8ba3fc220a9fa76e45af74f7f3de97c32c06219eec8947c04058d7dbc130"
+    },
+    {
+      "path": "tests/e2e/visual-evidence-fixture.ts",
+      "bytes": 2202,
+      "sha256": "c256143588f351d5b9ad64e5361b0f81cde4c9261ab627926de68bd6461e487a"
+    },
+    {
+      "path": "tests/ui/session-debug-loading.test.ts",
+      "bytes": 1305,
+      "sha256": "eb7eb6f182cdc577635e58e5a45773522fb575963f0fd5cbc102c69bc6443e1e"
+    },
+    {
+      "path": "src/ui/session/mission-controller.ts",
+      "bytes": 4828,
+      "sha256": "61426efaeabdade189e6169938fb04cf1d86452d34ca99e598c109e5a346897a"
+    },
+    {
+      "path": "src/ui/session/session.ts",
+      "bytes": 18927,
+      "sha256": "bbe84ba318100e1b9a71803a524b653b472fff46592b79d4a180d61796503628"
+    },
+    {
+      "path": "src/core/autopilot/booster.ts",
+      "bytes": 18602,
+      "sha256": "dc3f9f9fc7b1cda213aa07362698ac4d7645b42dc71056e737d6250bdc720d67"
+    },
+    {
+      "path": "tests/e2e/visual-scenes.spec.ts",
+      "bytes": 4129,
+      "sha256": "fe2eb05fdf38b9db0f3df145cd7501aa70563d1657a168225440e593440f7598"
+    },
+    {
+      "path": "tests/e2e/visual-runtime-receipt.ts",
+      "bytes": 4182,
+      "sha256": "57d3c6812beed7c6415dc74fadbae5d9987dbbbeb67357157235310d0f1e781e"
+    },
+    {
+      "path": "playwright.config.ts",
+      "bytes": 6230,
+      "sha256": "754bfd106fb9e711e744b85aa95e5411b213f286c9ec2d4dcc9533f425e5994b"
+    },
+    {
+      "path": "src/core/scenarios.ts",
+      "bytes": 14724,
+      "sha256": "6d946ae9f78ee26a7e28818f5657f62c96a4102ddd17cba17d1506954570bf89"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+--- completed49a-paired-observer
++++ single-native-cost-observer
+@@ -1,4 +1,4 @@
+-"""ONE reviewed paired episode; durable ownership survives receipt/assertion errors."""
++"""ONE reviewed native cost episode; durable ownership survives receipt/assertion errors."""
+ import hashlib
+ import json
+ import os
+@@ -9,7 +9,7 @@
+ import tempfile
+ import time
+ 
+-draft = pathlib.Path('docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards').resolve()
++draft = pathlib.Path('docs/research/2026-10-04-cloud-resume/current-native-composite-cost').resolve()
+ parent = pathlib.Path(tempfile.mkdtemp(prefix='parent-', dir=draft))
+ print(str(parent), flush=True)
+ sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+@@ -29,7 +29,7 @@
+ interrupt_signal = None
+ start = time.monotonic()
+ output_cap = 2 * 1024 * 1024
+-external_bound = 930
++external_bound = 150
+ 
+ 
+ def save(name, value):
+@@ -163,7 +163,7 @@
+ try:
+     source_sha = sha(source_path)
+     save('observer-identity.json', identity(os.getpid()))
+-    assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED') == 'current-native-composite-paired-guards'
++    assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED') == 'current-native-composite-cost'
+     review = os.environ['STARSHIP_CURRENT_NATIVE_REVIEW_SHA']
+     review_pins = os.environ['STARSHIP_CURRENT_NATIVE_REVIEW_PINS_SHA']
+     assert sha(draft / 'independent-review.md') == review
+@@ -180,7 +180,7 @@
+     command = ['bash', str(draft / 'run.sh.txt')]
+     save('declaration.json', {'command': command, 'review': review, 'reviewPins': review_pins,
+          'inputManifest': pins['inputManifest'], 'parentSourceSha256': source_sha,
+-         'receiptPrefixFromLauncher': prefix, 'childBoundSeconds': 900,
++         'receiptPrefixFromLauncher': prefix, 'childBoundSeconds': 120,
+          'externalBoundSeconds': external_bound, 'outputCapBytes': output_cap,
+          'observationIntervalSeconds': .1, 'identityCap': 4096, 'cpuExclusive': True})
+     assert interrupt_signal is None, 'Observer interrupted before launch'
+@@ -199,7 +199,7 @@
+                 observe()
+                 drain(output)
+                 if time.monotonic() - start > external_bound:
+-                    raise RuntimeError('Outer supervision bound930s')
++                    raise RuntimeError('Outer supervision bound150s')
+                 time.sleep(.1)
+         except BaseException as error:
+             failure(error)
+@@ -252,7 +252,7 @@
+     receipt = receipts.pop()
+     save('actual-receipt.json', {'receipt': str(receipt)})
+     result = json.loads((receipt / 'finalized.json').read_text())
+-    assert result['finalized'] and result['status'] == 'pass' and result['stage'] == 'paired-flight'
++    assert result['finalized'] and result['status'] == 'pass' and result['stage'] == 'cost-flight'
+ except BaseException as error:
+     failure(error)
+ finally:

@@ -1,0 +1,423 @@
+{
+  "outcome": "FUNCTIONAL QUALIFICATION ONLY passed; performance acceptance not established",
+  "reportedPreparationSession": 44977,
+  "reportedFunctionalSession": 80626,
+  "reportedExitCode": 0,
+  "privateBundleRetainedOutsideGit": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser",
+  "fullChromeImplementation": true,
+  "browserIdentity": {
+    "version": "151.0.7922.34",
+    "browserPid": 29160,
+    "originalManagedBrowser": "/workspace/cloud-bootstrap/starship-v1/browsers/chromium-1234/chrome-linux64/chrome",
+    "actualCopiedBrowser": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+    "actualArgv": [
+      "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome",
+      "--disable-field-trial-config",
+      "--disable-background-networking",
+      "--disable-background-timer-throttling",
+      "--disable-backgrounding-occluded-windows",
+      "--disable-back-forward-cache",
+      "--disable-breakpad",
+      "--disable-client-side-phishing-detection",
+      "--disable-component-extensions-with-background-pages",
+      "--disable-component-update",
+      "--no-default-browser-check",
+      "--disable-default-apps",
+      "--disable-dev-shm-usage",
+      "--disable-edgeupdater",
+      "--disable-extensions",
+      "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion",
+      "--enable-features=CDPScreenshotNewSurface",
+      "--allow-pre-commit-input",
+      "--disable-hang-monitor",
+      "--disable-ipc-flooding-protection",
+      "--disable-popup-blocking",
+      "--disable-prompt-on-repost",
+      "--disable-renderer-backgrounding",
+      "--disable-updater-scheduler",
+      "--force-color-profile=srgb",
+      "--metrics-recording-only",
+      "--no-first-run",
+      "--password-store=basic",
+      "--use-mock-keychain",
+      "--no-service-autorun",
+      "--export-tagged-pdf",
+      "--disable-search-engine-choice-screen",
+      "--unsafely-disable-devtools-self-xss-warnings",
+      "--edge-skip-compat-layer-relaunch",
+      "--disable-infobars",
+      "--disable-search-engine-choice-screen",
+      "--disable-sync",
+      "--enable-unsafe-swiftshader",
+      "--headless",
+      "--hide-scrollbars",
+      "--mute-audio",
+      "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+      "--no-sandbox",
+      "--no-sandbox",
+      "--use-gl=angle",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader",
+      "--user-data-dir=/tmp/playwright_chromiumdev_profile-pE3NX2",
+      "--remote-debugging-pipe",
+      "--no-startup-window"
+    ],
+    "wrapper": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser-wrapper.sh",
+    "flags": [
+      "--no-sandbox",
+      "--use-gl=angle",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader"
+    ],
+    "renderer": {
+      "backend": "webgl",
+      "backendType": 1,
+      "resolution": 1,
+      "screen": {
+        "width": 1280,
+        "height": 720
+      },
+      "backing": {
+        "width": 1280,
+        "height": 720
+      },
+      "antialias": true,
+      "webgl": {
+        "drawingBufferWidth": 1280,
+        "drawingBufferHeight": 720,
+        "antialias": true,
+        "contextLost": false
+      },
+      "filters": [
+        {
+          "id": "bloom",
+          "attached": false,
+          "enabled": true,
+          "compatible": true,
+          "resolution": "inherit",
+          "antialias": "inherit",
+          "inputResolution": null,
+          "inputAntialias": null
+        },
+        {
+          "id": "heat",
+          "attached": false,
+          "enabled": true,
+          "compatible": true,
+          "resolution": 1,
+          "antialias": "off",
+          "inputResolution": null,
+          "inputAntialias": null
+        }
+      ]
+    }
+  },
+  "bundle": {
+    "files": 303,
+    "directories": 12,
+    "bytes": 406847046,
+    "manifestSha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff",
+    "originalBrowserSha256": "0b20b130e7edd9dd51873be867761295fe0cfad490c2b9a64f95bd3cfc08fa71",
+    "copiedBrowserSha256": "0b20b130e7edd9dd51873be867761295fe0cfad490c2b9a64f95bd3cfc08fa71",
+    "loadedDriverSha256": "4d39038dd6d448a3a6b5cf6aefb583d50346fd75ea8879e2563d67844f460dd0"
+  },
+  "sourceBuildStable": true,
+  "identityBefore": {
+    "sourceSha256": "7f3e6dd84a1ce3595acd996e51127c308e6f8b0d296b78fe46ebb70abcf36dfd",
+    "buildSha256": "574f3787dc6e0f281f6c30beae9e5a4715e6ffd80e81be6993c945041448d765",
+    "head": "6eff85137570af0ebbb958e2dac3c5c526d37462",
+    "runnerSha256": "c164ecd77f62b3aa437ab00b775beca64e230d4399373d7723ace2eda4ab9eb0"
+  },
+  "identityAfter": {
+    "sourceSha256": "7f3e6dd84a1ce3595acd996e51127c308e6f8b0d296b78fe46ebb70abcf36dfd",
+    "buildSha256": "574f3787dc6e0f281f6c30beae9e5a4715e6ffd80e81be6993c945041448d765",
+    "head": "6eff85137570af0ebbb958e2dac3c5c526d37462",
+    "runnerSha256": "c164ecd77f62b3aa437ab00b775beca64e230d4399373d7723ace2eda4ab9eb0"
+  },
+  "finalIntegrity": {
+    "sourceVerified": true,
+    "buildVerified": true,
+    "bundleVerified": true,
+    "error": null
+  },
+  "draws": 20,
+  "worldTimestampCount": 21,
+  "worldDrawCalls": 1765,
+  "probeErrors": [],
+  "failureFlags": {
+    "failures.crashed": false,
+    "failures.inFlightBreakUp": false,
+    "failures.coldGasRunOut": false,
+    "failures.fuelRunOut": false,
+    "failures.heatDamaged": false,
+    "failures.overPressure": false,
+    "failures.overGLoad": false,
+    "failures.flippedOver": false,
+    "failures.randomFailure": false
+  },
+  "altitude": 113.82462624014478,
+  "diagnosticCadence": {
+    "count": 20,
+    "cadenceFps": 5.700228009120365,
+    "acceptance": false,
+    "requiresFreshReview": true,
+    "aroundPriorSlowRange": false,
+    "noAutomatic300Trial": true
+  },
+  "intervalsMs": [
+    383.2999999999997,
+    16.700000000000273,
+    66.59999999999991,
+    166.69999999999982,
+    133.30000000000018,
+    133.29999999999973,
+    150.0,
+    133.4000000000001,
+    150.0,
+    166.70000000000027,
+    149.89999999999964,
+    183.30000000000018,
+    166.69999999999982,
+    200.0,
+    200.0,
+    216.60000000000036,
+    233.39999999999964,
+    233.30000000000018,
+    250
+  ],
+  "cpuMs": [
+    379.8999999985099,
+    7.299999998882413,
+    5.099999999627471,
+    5,
+    9.599999999627471,
+    6,
+    9,
+    5.5,
+    11.599999999627471,
+    7.299999998882413,
+    9.100000001490116,
+    6,
+    4.500000001862645,
+    6.099999999627471,
+    6.799999998882413,
+    7.200000001117587,
+    8.699999999254942,
+    8.300000000745058,
+    3.899999998509884,
+    5.000000001862645
+  ],
+  "gpuCompletionWaitMs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0.09999999962747097,
+    0,
+    0.09999999962747097,
+    0,
+    0,
+    0,
+    0.10000000149011612,
+    0,
+    1.5,
+    0,
+    0.10000000149011612,
+    0.599999999627471
+  ],
+  "gpuBeforeAfter": {
+    "samePid": true,
+    "pid": 29192,
+    "beforeWorkerTids": [
+      29195,
+      29196,
+      29197
+    ],
+    "afterWorkers": [
+      {
+        "tid": 29195,
+        "comm": "Thread<00>",
+        "affinity": "0-4"
+      },
+      {
+        "tid": 29196,
+        "comm": "Thread<01>",
+        "affinity": "0-4"
+      },
+      {
+        "tid": 29197,
+        "comm": "Thread<02>",
+        "affinity": "0-4"
+      }
+    ]
+  },
+  "cleanup": {
+    "actions": [],
+    "ownedIdentities": [
+      {
+        "pid": 29160,
+        "starttime": "1264618",
+        "ppid": 29134,
+        "pgrp": 29160,
+        "state": "Z"
+      },
+      {
+        "pid": 29192,
+        "starttime": "1264632",
+        "ppid": 29169,
+        "pgrp": 29160,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      {
+        "pid": 29164,
+        "starttime": "1264628",
+        "ppid": 1,
+        "pgrp": 29163,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+      },
+      {
+        "pid": 29166,
+        "starttime": "1264628",
+        "ppid": 1,
+        "pgrp": 29165,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome_crashpad_handler"
+      },
+      {
+        "pid": 29169,
+        "starttime": "1264628",
+        "ppid": 1,
+        "pgrp": 29160,
+        "state": "Z"
+      },
+      {
+        "pid": 29170,
+        "starttime": "1264628",
+        "ppid": 1,
+        "pgrp": 29160,
+        "state": "Z"
+      },
+      {
+        "pid": 29199,
+        "starttime": "1264633",
+        "ppid": 29160,
+        "pgrp": 29160,
+        "state": "Z"
+      },
+      {
+        "pid": 29215,
+        "starttime": "1264637",
+        "ppid": 29170,
+        "pgrp": 29160,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      {
+        "pid": 29230,
+        "starttime": "1264645",
+        "ppid": 29170,
+        "pgrp": 29160,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      },
+      {
+        "pid": 29232,
+        "starttime": "1264645",
+        "ppid": 1,
+        "pgrp": 29160,
+        "state": "Z"
+      },
+      {
+        "pid": 29255,
+        "starttime": "1264892",
+        "ppid": 29160,
+        "pgrp": 29160,
+        "state": "S",
+        "exe": "/tmp/starship-fullchrome-worker.VB1uzYO9/browser/chrome"
+      }
+    ],
+    "remaining": [],
+    "inaccessibleOwned": [],
+    "verifiedDescendantAbsence": true,
+    "cleanupMs": 1291,
+    "launchSettled": true,
+    "elapsedMs": 14164
+  },
+  "independentParentPostExit": {
+    "rows": [
+      {
+        "pid": 29160,
+        "absent": true
+      },
+      {
+        "pid": 29192,
+        "absent": true
+      },
+      {
+        "pid": 29164,
+        "sameStarttime": true,
+        "state": "Z"
+      },
+      {
+        "pid": 29166,
+        "sameStarttime": true,
+        "state": "Z"
+      },
+      {
+        "pid": 29169,
+        "sameStarttime": true,
+        "state": "Z"
+      },
+      {
+        "pid": 29170,
+        "sameStarttime": true,
+        "state": "Z"
+      },
+      {
+        "pid": 29199,
+        "absent": true
+      },
+      {
+        "pid": 29215,
+        "absent": true
+      },
+      {
+        "pid": 29230,
+        "absent": true
+      },
+      {
+        "pid": 29232,
+        "sameStarttime": true,
+        "state": "Z"
+      },
+      {
+        "pid": 29255,
+        "absent": true
+      }
+    ],
+    "verifiedNoExecutingOwned": true,
+    "zombieIsNotReaped": true
+  },
+  "collectionStatus": {
+    "exportedCapBytes": 33554432,
+    "artifactCapBytes": 16777216,
+    "consoleCapBytes": 524288,
+    "exportedBytes": 304421,
+    "consoleBytes": 0,
+    "truncated": false
+  },
+  "qualification": {
+    "qualified": true,
+    "error": null,
+    "performanceAcceptance": false,
+    "requiresFreshActualResultReview": true,
+    "noAutomatic300Trial": true
+  },
+  "limits": "20 unwarmed draws are no300sample/59fps/p95/photographic/nativeGPU acceptance. No automatic300trial. Different browser implementation prevents isolated causal worker/performance comparison. Source helper remains unapplied; fresh actual-result review required."
+}

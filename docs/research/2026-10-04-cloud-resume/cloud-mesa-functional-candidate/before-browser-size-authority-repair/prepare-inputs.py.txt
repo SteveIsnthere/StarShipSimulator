@@ -1,0 +1,125 @@
+"""Research-only bounded root-side pin preparation; never loads a driver/browser."""
+import hashlib, json, os, pathlib, re, shutil, stat, subprocess, sys, time, uuid, selectors
+started = time.monotonic()
+spec_path, spec_sha = sys.argv[1:]
+def require(ok, message):
+    if not ok: raise RuntimeError(message)
+def digest(path):
+    require(time.monotonic()-started < 60, 'Preparation whole deadline')
+    p=pathlib.Path(path); require(p.stat().st_size<=256*1024*1024,'Individual pin cap')
+    h=hashlib.sha256()
+    with p.open('rb') as stream:
+        for block in iter(lambda:stream.read(1024*1024),b''): h.update(block)
+    return h.hexdigest()
+require(digest(spec_path)==spec_sha,'External preparation spec mismatch')
+m=json.loads(pathlib.Path(spec_path).read_text())
+require(m['kind']=='mesa-functional-preparation-spec-v1','Wrong preparation scope')
+require(pathlib.Path.cwd()==pathlib.Path('/workspace/StarShipSimulator'),'Wrong project')
+require(pathlib.Path(sys.executable).resolve()==pathlib.Path(m['python']['path']).resolve(),'Wrong Python')
+for path,pin in m['expectedPins'].items(): require(digest(path)==pin,path)
+require(digest(__file__)==m['preparer']['sha'],'Executed preparer mismatch')
+require(m['node']['sha']=='fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48','Wrong approved Node')
+require(m['readelf']['path']=='/usr/bin/readelf' and digest(m['readelf']['path'])==m['readelf']['sha'],'Static ELF tool mismatch')
+for role in ('node','helper','runner','stage','observer','sourcePins','contract','python','preparer'):
+    require(m[role]['path'] in m['expectedPins'] and m['expectedPins'][m[role]['path']]==m[role]['sha'],'Role lacks independent expected pin:'+role)
+receipt=json.loads(pathlib.Path(m['browserReceipt']).read_text())
+bundle=json.loads(pathlib.Path(m['browserManifest']).read_text())
+require(m['browserReceipt'] in m['expectedPins'] and m['browserManifest'] in m['expectedPins'],'Browser provenance missing')
+browser_root=pathlib.Path('/tmp/starship-fullchrome-worker.VB1uzYO9/browser')
+require(bundle['copiedRoot']==str(browser_root) and receipt['actualBrowser']==str(browser_root/'chrome'),'Wrong qualified browser')
+require(receipt['actualBrowserSha256']=='0b20b130e7edd9dd51873be867761295fe0cfad490c2b9a64f95bd3cfc08fa71','Wrong full Chrome bytes')
+require(receipt['registryVersion']=='151.0.7922.34' and receipt['registryRevision']=='1234','Browser registry mismatch')
+expected_files={r['path']:(r['sha256'],r['mode']) for r in bundle['files']}
+expected_dirs={('' if r['path']=='.' else r['path']):r['mode'] for r in bundle['directories']}
+require(len(expected_dirs)==len(bundle['directories']),'Duplicate canonical browser directory')
+require(len(expected_files)==303 and len(expected_dirs)==12 and 'SwiftShader.ini' not in expected_files,'Wrong original bundle inventory')
+require(receipt['config']==str(browser_root/'SwiftShader.ini'),'Wrong qualified INI path')
+expected_files['SwiftShader.ini']=(receipt['configSha256'],0o600)
+actual_files={};actual_dirs={}
+def walk(directory):
+    s=directory.lstat();require(stat.S_ISDIR(s.st_mode) and not directory.is_symlink(),'Browser directory special entry')
+    rel=str(directory.relative_to(browser_root));rel='' if rel=='.' else rel;actual_dirs[rel]=stat.S_IMODE(s.st_mode)
+    for p in sorted(directory.iterdir()):
+        s=p.lstat();require(not p.is_symlink(),'Browser symlink')
+        if p.is_dir(): walk(p)
+        else:
+            require(stat.S_ISREG(s.st_mode),'Browser special file');actual_files[str(p.relative_to(browser_root))]=(digest(p),stat.S_IMODE(s.st_mode))
+walk(browser_root)
+require(actual_files==expected_files and actual_dirs==expected_dirs,'Actual browser complete inventory differs')
+seed_paths=['/usr/lib/x86_64-linux-gnu/libEGL.so.1','/usr/lib/x86_64-linux-gnu/libGLdispatch.so.0','/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0','/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so','/usr/lib/x86_64-linux-gnu/dri/kms_swrast_dri.so','/usr/lib/x86_64-linux-gnu/libgallium-25.0.7-2+deb13u1.so','/usr/lib/x86_64-linux-gnu/libLLVM-19.so']
+links={};pins={**m['expectedPins'],spec_path:spec_sha};libraries={};total_bytes=0
+def canonical(path):
+    p=pathlib.Path(path)
+    for parent in p.parents:
+        if parent.is_symlink(): links[str(parent)]={'target':os.readlink(parent),'mode':stat.S_IMODE(parent.lstat().st_mode)}
+    for unused in range(16):
+        s=p.lstat()
+        if not stat.S_ISLNK(s.st_mode): break
+        target=os.readlink(p);links[str(p)]={'target':target,'mode':stat.S_IMODE(s.st_mode)}
+        p=(p.parent/target) if not os.path.isabs(target) else pathlib.Path(target)
+    else: raise RuntimeError('Symlink chain bound')
+    p=p.resolve(strict=True);require(p.is_file(),'Native dependency not regular');return p
+readelf_identities=[]
+def bounded_readelf(cmd):
+    until=min(started+60,time.monotonic()+3)
+    child=subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env={**os.environ,'LC_ALL':'C'})
+    selector=selectors.DefaultSelector();buffers={'stdout':bytearray(),'stderr':bytearray()};total=0
+    try:
+        raw=pathlib.Path('/proc',str(child.pid),'stat').read_text();fields=raw[raw.rfind(')')+2:].split()
+        readelf_identities.append({'pid':child.pid,'start':fields[19],'parent':int(fields[1]),'group':int(fields[2]),'session':int(fields[3])})
+        for name,stream in [('stdout',child.stdout),('stderr',child.stderr)]:
+            os.set_blocking(stream.fileno(),False);selector.register(stream,selectors.EVENT_READ,name)
+        while selector.get_map():
+            require(time.monotonic()<until,'Static ELF inspection deadline')
+            for key,event in selector.select(min(.025,max(0,until-time.monotonic()))):
+                block=os.read(key.fileobj.fileno(),min(65536,256*1024-total+1))
+                if not block: selector.unregister(key.fileobj);continue
+                total+=len(block);require(total<=256*1024,'Static ELF combined output cap');buffers[key.data].extend(block)
+        code=child.wait(timeout=max(.001,until-time.monotonic()))
+        require(code==0 and not buffers['stderr'],'Static ELF inspection failed')
+        return bytes(buffers['stdout'])
+    finally:
+        # Popen retains its unreaped direct child PID; no foreign process/group signal.
+        if child.poll() is None: child.kill()
+        child.wait(timeout=1);selector.close();child.stdout.close();child.stderr.close()
+queue=[canonical(p) for p in seed_paths]
+search=[pathlib.Path('/usr/lib/x86_64-linux-gnu'),pathlib.Path('/lib/x86_64-linux-gnu'),pathlib.Path('/usr/lib'),pathlib.Path('/lib')]
+while queue:
+    p=queue.pop(0)
+    if str(p) in libraries: continue
+    require(len(libraries)<96,'Native library closure cap');total_bytes+=p.stat().st_size;require(total_bytes<=512*1024*1024,'Native closure byte cap')
+    pin=digest(p);pins[str(p)]=pin
+    cmd=[m['readelf']['path'],'--wide','--dynamic','--program-headers',str(p)]
+    output=bounded_readelf(cmd)
+    text=output.decode();require('(RPATH)' not in text and '(RUNPATH)' not in text,'Unqualified ELF search-path override')
+    needed=re.findall(r'\(NEEDED\).*Shared library: \[([^\]]+)\]',text)
+    deps=[]
+    for name in needed:
+        require('/' not in name,'Absolute/relative DT_NEEDED unsupported')
+        candidates=[canonical(d/name) for d in search if (d/name).exists()]
+        require(candidates and len({str(c) for c in candidates})==1,'Missing/ambiguous system dependency:'+name)
+        deps.append(str(candidates[0]));queue.append(candidates[0])
+    interp=re.search(r'Requesting program interpreter: ([^\]]+)\]',text)
+    if interp: queue.append(canonical(interp.group(1)))
+    libraries[str(p)]={'sha256':pin,'needed':needed,'resolvedDependencies':deps,'elfOutputSha256':hashlib.sha256(output).hexdigest()}
+for p in seed_paths: pins[p]=digest(p)
+for p,old in links.items(): require(os.readlink(p)==old['target'] and stat.S_IMODE(pathlib.Path(p).lstat().st_mode)==old['mode'],'Symlink changed')
+for path,pin in pins.items(): require(digest(path)==pin,'Preparation after pin drift:'+path)
+private=pathlib.Path('/tmp/starship-mesa-input.'+uuid.uuid4().hex);private.mkdir(mode=0o700)
+copy_roles={}
+for role,name in [('runner','run-functional.mjs'),('stage','stage.mjs'),('observer','root-observer.py')]:
+    dst=private/name;shutil.copyfile(m[role]['path'],dst);os.chmod(dst,0o600);require(digest(dst)==m[role]['sha'],'Materialized role changed');copy_roles[role]={'path':str(dst),'sha':m[role]['sha']};pins[str(dst)]=m[role]['sha']
+functional=pathlib.Path('/tmp/starship-mesa-functional.'+uuid.uuid4().hex);functional.mkdir(mode=0o700)
+# These paths are ASCII. localeCompare ordering is not Python lexical ordering;
+# root supplies exact independently reviewed Node-sorted arrays in the spec.
+require({r[0]:(r[1],r[2]) for r in m['browserFiles']}==expected_files,'Spec file inventory mismatch')
+require({r[0]:r[1] for r in m['browserDirectories']}==expected_dirs,'Spec directory inventory mismatch')
+inner={'kind':'mesa-functional-webgl2-input-v1','root':str(pathlib.Path.cwd()),'receipt':str(functional),'nodeSha':m['node']['sha'],'expectedVersion':'151.0.7922.34','browser':str(browser_root/'chrome'),'browserRoot':str(browser_root),'browserSha':receipt['actualBrowserSha256'],'browserFiles':m['browserFiles'],'browserDirectories':m['browserDirectories'],'filePins':pins,'providerLibraries':{'eglMesa':[str(canonical(seed_paths[2]))],'gallium':[str(canonical(seed_paths[5]))],'llvm':[str(canonical(seed_paths[6]))]}}
+inner_path=private/'functional-input.json';inner_path.write_text(json.dumps(inner,indent=2)+'\n')
+outer={'kind':'mesa-functional-stage-owner-input-v1','purpose':'mesa-functional-webgl2','mode':'build','outerMs':120000,'root':str(pathlib.Path.cwd()),'setup':str(functional),'node':m['node'],'helper':m['helper'],'preparer':m['preparer'],'builder':copy_roles['runner'],'qualifier':{'path':str(inner_path),'sha':digest(inner_path)},'pins':m['sourcePins'],'stage':copy_roles['stage'],'observer':copy_roles['observer'],'python':m['python'],'bridge':m['contract']}
+outer_path=private/'owner-input.json';outer_path.write_text(json.dumps(outer,indent=2)+'\n')
+for path,pin in pins.items(): require(digest(path)==pin,'Final materialization pin drift:'+path)
+for path,row in links.items(): require(os.readlink(path)==row['target'] and stat.S_IMODE(pathlib.Path(path).lstat().st_mode)==row['mode'],'Final symlink drift')
+audit={'preparedOnly':True,'browserFiles':304,'browserDirectories':12,'nativeLibraries':libraries,'readelfIdentities':readelf_identities,'symlinks':links,'totalNativeBytes':total_bytes,'specSha':spec_sha,'inner':{'path':str(inner_path),'sha':digest(inner_path)},'outer':{'path':str(outer_path),'sha':digest(outer_path)},'acceptance':'Preparation only; independent actual input HIGH and explicit root launch grant required'}
+(private/'preparation-audit.json').write_text(json.dumps(audit,indent=2)+'\n')
+require(time.monotonic()-started<60,'Preparation final whole bound');print(json.dumps(audit))

@@ -1,0 +1,38 @@
+{
+  "kind": "query-census-reporting-root-input-v1",
+  "mode": "query-census-reporting",
+  "outerMs": 30000,
+  "root": "/workspace/StarShipSimulator",
+  "setup": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-reporting-2e4e3287b3014e7382317a96a035611a",
+  "steps": [
+    "reporting"
+  ],
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "pureInput": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-reporting-2e4e3287b3014e7382317a96a035611a/input.json",
+    "sha": "e577e3014d0685ef984eee51b34a781273b0e5e1e719644b0d29b64f557c8771"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-reporting-2e4e3287b3014e7382317a96a035611a/root-inventory.json",
+    "sha": "d6833661bad1ef122298b6866b7f45b1f83e81113c3a352efeeeb6ce33140c85"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-reporting-2e4e3287b3014e7382317a96a035611a/owner.mjs",
+    "sha": "2fea06d23b5376ade11cd832f06ea9c12be85a48037c69b210fcac488befd5a0"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/reporting-controls/root-observer.py.txt",
+    "sha": "0189429d8f09dd2b5d5fd152c218049fbee979815bdd10917b4efd3de7a844ca"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  }
+}

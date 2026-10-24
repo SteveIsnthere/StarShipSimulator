@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  09:07:14
+   Duration  178ms (transform 30ms, setup 0ms, import 43ms, tests 8ms, environment 0ms)
+

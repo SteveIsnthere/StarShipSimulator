@@ -1,0 +1,42 @@
+{
+  "classification": "UNAPPLIED six-target benchmark tooling transfer, five replacements and one new scenario facade; no core/timing/test/config/package edits",
+  "targets": [
+    {
+      "target": "scripts/bench.mjs",
+      "before": "21fdc2ab89e36de730e0bd3f72c4afc4cfd7cb41726e162cfd817a13706c53e3",
+      "template": "docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/bench.mjs.txt",
+      "after": "5731a2a7b768bc750deadd80de53739595a045a534f0839d67713a49149aee86"
+    },
+    {
+      "target": "scripts/bench/build-native-guidance.mjs",
+      "before": "5f2b66b655615473f358c08cd9a95af26bbedd6621d05107072d93b5c1d3aac7",
+      "template": "docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/build-native-guidance.mjs.txt",
+      "after": "6f9ddea56eb5c0caa3222cce8e0d9145dc1cf2a8e15a3b4699627f959156c9b8"
+    },
+    {
+      "target": "scripts/bench/native-loader.mjs",
+      "before": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb",
+      "template": "docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/native-loader.mjs.txt",
+      "after": "ec9c8433bf352fe0d4744857c52bc4ae50f291846772a65d18ff4c0c45c9be5e"
+    },
+    {
+      "target": "scripts/bench/native-guidance-entry.ts",
+      "before": "b725fe1cbedc14aefe9c18d98f34662dd2ce9a856c33ca8c473d2ef5655234cc",
+      "template": "docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/native-guidance-entry.ts.txt",
+      "after": "3248a9f1674e0eb1aac6379b3b25db28e2113e37150286061c59ba9b5b1425cb"
+    },
+    {
+      "target": "scripts/bench/native-scenarios-benchmark.ts",
+      "before": null,
+      "template": "docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/native-scenarios-benchmark.ts.txt",
+      "after": "4dd2339e144bc98ecae562fc40007e3945f52badb59f2968a571f8f900c59c01"
+    },
+    {
+      "target": "scripts/bench/qualification.json",
+      "before": "09ac0f90d87e60a7c235040bf92136d21ef2be0db68f129e04535c46ee56ccab",
+      "template": "docs/research/2026-10-04-cloud-resume/current-original12-benchmark-candidate/qualification.json.txt",
+      "after": "6e1482d2de3bc528324d0849e95eef2a8b18daa9af0467bccf6ce03b9b101c79"
+    }
+  ],
+  "ordinaryQualification": "Explicit separate finite tooling bridge/portable-anchor advancement required before ordinary test/gate; candidate does not refresh that anchor"
+}

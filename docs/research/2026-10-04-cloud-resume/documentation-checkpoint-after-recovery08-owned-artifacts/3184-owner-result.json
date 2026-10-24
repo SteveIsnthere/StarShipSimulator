@@ -1,0 +1,85 @@
+{
+  "kind": "original-orbit18-qualification-result-v1",
+  "mode": "compile",
+  "paidHistoriesExecuted": false,
+  "completed": true,
+  "status": 0,
+  "primary": null,
+  "postErrors": [],
+  "processes": [
+    {
+      "name": "artifact-controls",
+      "code": 0,
+      "receipt": {
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "failure": null,
+        "bytes": {
+          "stdout": 571,
+          "stderr": 0
+        },
+        "cap": 8388608,
+        "finished": true,
+        "closed": true,
+        "cleanup": {
+          "pid": 125699,
+          "start": "7868897",
+          "group": 125699,
+          "session": 125699,
+          "tracked": [
+            {
+              "pid": 125699,
+              "state": "R",
+              "parent": 125692,
+              "group": 125699,
+              "session": 125699,
+              "start": "7868897"
+            }
+          ],
+          "executing": []
+        }
+      }
+    },
+    {
+      "name": "retained-qualification",
+      "code": 0,
+      "receipt": {
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "failure": null,
+        "bytes": {
+          "stdout": 335,
+          "stderr": 0
+        },
+        "cap": 8388608,
+        "finished": true,
+        "closed": true,
+        "cleanup": {
+          "pid": 125706,
+          "start": "7868902",
+          "group": 125706,
+          "session": 125706,
+          "tracked": [
+            {
+              "pid": 125706,
+              "state": "Z",
+              "parent": 125692,
+              "group": 125706,
+              "session": 125706,
+              "start": "7868902"
+            }
+          ],
+          "executing": []
+        }
+      }
+    }
+  ],
+  "elapsedMs": 3169.137939453125,
+  "application": false,
+  "coverageAcceptance": false,
+  "performanceAcceptance": false
+}

@@ -1,0 +1,111 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle.ts.txt",
+      "sourceSha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.6n_18mgs/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle.ts.txt",
+      "sourceSha256": "700bc1c0c165d3506df97ed54d7576b211394615c803a6e561483f58fb45d46c",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before.ts.txt",
+      "sourceSha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.9zat35g1/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before.ts.txt",
+      "sourceSha256": "34fd9cf3959764b7273d5fa367ec96181b7bf9918aee7514bc23f77b66c3619e",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-scaled.ts.txt",
+      "sourceSha256": "3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.vtg8jhdw/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-scaled.ts.txt",
+      "sourceSha256": "3ecbe5d17a076dcfde28e466402ad3597374f293c7968aae600142ea3e4c81f3",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-scaled.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before-scaled.ts.txt",
+      "sourceSha256": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-guards-syntax.nhj6gvlf/check.ts"
+      ]
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before-scaled.ts.txt",
+      "sourceSha256": "d293477ccc933530a9a0960847543632380b02f616afd2dbb54ab3041c511023",
+      "status": 0,
+      "stdout": "",
+      "stderr": "",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/comparator-primitive-success-guards/graph-oracle-before-scaled.ts"
+      ]
+    }
+  ],
+  "elapsedSeconds": 3.8297264109969547,
+  "runtimeExecuted": false
+}

@@ -1,0 +1,9 @@
+# Independent HIGH: actual failure preserved; invocation-only correction ready
+
+Actual initial run FAILED: caller126528/start7962060 returned1 in0.665541648s; root xm3mv9ap records completed:false, actual outer return1 and Outer stage failed. Owner126529/start7962080 threw before its try/command at the explicit NODE_PATH-empty guard: inherited /opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules was present. Root raw stderr preserves the assertion. This is a real failed invocation, not a passed root or failed control case.
+
+No controls, hooks, build or physical command executed. Private setup16412f78 remains exactly its six original regular input/material files with every23 selected hash matching, input341c/root e98d unchanged and outputs/process/results absent. Executed owner bytes equal the reviewed private owner. Root tracked one outer/group with no uncertainty and cleared group; independent parent postexit receipts mark owner126529 and caller126528 ABSENT/allAbsent:true. No reviewer process scan or workload was run.
+
+The distinct node-path-empty-retry-invocation.json makes the authorized narrow correction concrete: identical pinned Python/root observer/root-input argv and30/22+8/ONE5s bounds, explicit NODE_PATH='' and NODE_OPTIONS='' in the caller environment, other managed proxy/CA/activation environment inherited. Source/input bytes and controls remain unchanged. Keep the prior root, failed caller and private source bytes immutable; use fresh root/caller receipts for the retry. This meets the existing guard rather than weakening it.
+
+Ready for ONE root-owned invocation retry under that exact environment correction. Fresh actual14/result/all-owned HIGH is required afterward and before physical authorization. No actual global hooks, pristine intrinsics, worker lifecycle, physics or performance acceptance is claimed.

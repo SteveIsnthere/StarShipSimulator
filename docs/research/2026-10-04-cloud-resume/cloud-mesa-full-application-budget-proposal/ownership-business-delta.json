@@ -1,0 +1,33 @@
+{
+  "reference": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt",
+  "candidate": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-observer.py.txt",
+  "literalReplacements": [
+    {
+      "old": "'official-original21-owner-input-v1'",
+      "new": "'mesa-app-budget-owner-input-v1'"
+    },
+    {
+      "old": "('app-build','original21')",
+      "new": "('app-build','mesa-budget')"
+    },
+    {
+      "old": "{'app-build':90000,'original21':338000}[m['mode']]",
+      "new": "338000"
+    },
+    {
+      "old": "'official-original21-external-inventory-v1'",
+      "new": "'mesa-app-budget-external-inventory-v1'"
+    },
+    {
+      "old": "This single app-build or original21 invocation only; independent actual-result/source/ownership review required; no whole gate or local acceptance",
+      "new": "This distinct public app-build qualification or Mesa application matrix only; incomplete matrix fails; independent actual-result/source/ownership review required; no whole gate or hardware acceptance"
+    }
+  ],
+  "oldNestedNativeReconciliation": "    if stage_receipt is not None and m['mode'] == 'original21':\n        baseline_path = stage_receipt / 'tmp-baseline.json'\n        if baseline_path.exists():\n            baseline = json.loads(baseline_path.read_text())\n            require(isinstance(baseline, list) and all(isinstance(x, str) for x in baseline), 'Bad fresh receipt baseline')\n            for directory in pathlib.Path('/tmp').glob('starship-official-flight.*'):\n                if str(directory) in baseline: continue\n                require(directory.resolve() == directory and directory.is_dir(), 'Foreign fresh flight directory')\n                for name in ('native-build.process.json', 'official-tests.process.json'):\n                    actual = directory / 'native.receipts' / name\n                    if not actual.exists(): continue\n                    try:\n                        receipt = json.loads(actual.read_text())\n                        cleanup = receipt.get('cleanup')\n                        require(isinstance(cleanup, dict), 'Nested cleanup missing')\n                        anchor = known.get((cleanup['pid'], cleanup['start']))\n                        require(anchor is not None and anchor['group'] == cleanup['group'] and anchor['session'] == cleanup['session'], 'Fresh receipt leader not independently observed')\n                        for row in cleanup.get('tracked', []):\n                            for key in ('pid', 'start', 'group', 'session'): require(key in row, 'Malformed nested product identity')\n                            admit(row)\n                        save('nested-' + directory.name + '-' + name, {'path': str(actual), 'sha256': digest(actual), 'cleanup': cleanup})\n                    except BaseException as error:\n                        failures.append('Nested product receipt reconciliation: ' + str(error))\n",
+  "newProviderReconciliation": "    if stage_receipt is not None and m['mode'] == 'mesa-budget':\n        matrix = pathlib.Path(m['matrixReceipt'])\n        require(matrix.resolve() == matrix and matrix.is_dir(), 'Foreign matrix output root')\n        paths = list(matrix.glob('test-results/**/mesa-*-provider.json'))\n        require(len(paths) <= 42, 'Provider artifact inventory bound')\n        scan()\n        for path in paths:\n            require(path.resolve().is_relative_to(matrix) and path.is_file() and not path.is_symlink(), 'Foreign provider artifact')\n            metadata = path.stat()\n            require(metadata.st_size <= 1024*1024, 'Provider artifact cap')\n            key = str(path)\n            signature = (metadata.st_dev, metadata.st_ino, metadata.st_size, metadata.st_mtime_ns)\n            if key in provider_files:\n                require(provider_files[key]['signature'] == signature, 'Immutable provider artifact changed')\n                continue\n            text = path.read_text()\n            value = json.loads(text)\n            for record in value.get('records', []):\n                row = record['identity']\n                for field in ('pid', 'start', 'group', 'session'): require(field in row, 'Malformed provider identity')\n                require(record['executable'] == m['browser'], 'Foreign provider executable')\n                anchor = known.get((row['pid'], row['start']))\n                require(anchor is not None and anchor['group'] == row['group'] and anchor['session'] == row['session'], 'Provider identity not independently observed')\n            provider_files[key] = {'signature': signature, 'sha256': digest(path)}\n            save('provider-artifact-' + str(len(provider_files)) + '.json', {'path': key, 'sha256': provider_files[key]['sha256'], 'records': value.get('records', [])})\n",
+  "additionalProviderState": "; provider_files = {}",
+  "finalProviderHashCheck": "    for path, captured in provider_files.items():\n        try: require(digest(path) == captured['sha256'], 'Final provider artifact drift: ' + path)\n        except BaseException as error: failures.append(str(error))\n",
+  "ownershipClockPIDStartGroupWitnessStickyUncertaintySignalAndCleanupCoreUnchanged": true,
+  "execution": false,
+  "sourceChecksAndHashesPendingRootExclusiveLaneRelease": true
+}

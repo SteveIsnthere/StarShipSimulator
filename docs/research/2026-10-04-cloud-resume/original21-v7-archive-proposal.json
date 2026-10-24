@@ -1,0 +1,72 @@
+{
+  "kind": "original21-v7-lossless-archive-proposal-v1",
+  "scriptSha256": "f8710754750276bdb89c7fda4a4a07b7f41adf77667c253a4cee7abb1fabddf8",
+  "rootReceipt": "/tmp/starship-original21-root.63kv625r",
+  "references": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/independent-actual-result-HIGH-review.md",
+      "sha256": "c5029f34d04084ef83ab3b858bdd84bffd2b1ea89865cd410aa2bb8ab95c9eeb"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/independent-actual-result-HIGH-pins.json",
+      "sha256": "19748a2be9af37d455359ad78e3da799bf5142832f13712b1476d00c577619ca"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/owner-input.json",
+      "sha256": "fee605df6e0efaee3ef7ca8b93cd96d65fa225665e7e2ea43787f5cde438a6ed"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/inventory.json",
+      "sha256": "546d8b1030fcbcdc8e25248cbaa830f6958d1ee806139d5065642d5af857ad6b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json",
+      "sha256": "d1b400dbddf2ca6e22df8b7b7eb550c7f58324bf8a45d24f360743bbf107c033",
+      "role": "historical-default-d1b400-not-current-invocation"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+      "sha256": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+      "hashSource": "Accepted original21 V7 independent actual-result44pins; not rescanned during preparation"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/root-before-full-admission.json",
+      "sha256": "97c6692c2914a09ad9fb4fcf4b6321abbfacd5962e0bc098c7fcd0d96bbc8502",
+      "hashSource": "Accepted original21 V7 independent actual-result44pins; not rescanned during preparation"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/root-after-full-admission.json",
+      "sha256": "e5a9d7430d631266bb01486274dfb1b0dca683c7b6610357318b72fa8e47b646",
+      "hashSource": "Accepted original21 V7 independent actual-result44pins; not rescanned during preparation"
+    },
+    {
+      "path": "/tmp/starship-original21-root.63kv625r/root-independent-postexit.json",
+      "sha256": "989723f975122bb83e50c2c6321604525f483ae1868e17f1c71f10d84e2da1e3",
+      "hashSource": "Accepted original21 V7 independent actual-result44pins; not rescanned during preparation"
+    },
+    {
+      "path": "/tmp/starship-original21-root.63kv625r/root-original-load-observation.json",
+      "sha256": "2ed2026589ffc8967e9e8cf3b6f13b7e2d3c29ea443120f6ad0d3f952dee21a7",
+      "hashSource": "Accepted original21 V7 independent actual-result44pins; not rescanned during preparation"
+    }
+  ],
+  "discoveredRoleDirectories": {
+    "root": "/tmp/starship-original21-root.63kv625r",
+    "stage": "/tmp/starship-original21-stage.BAkByZ",
+    "official-owner": "/tmp/starship-official-tests-owner.5qAIAj",
+    "native": "/tmp/starship-official-flight.sxypD4"
+  },
+  "discovery": "root-outcome.stageReceipt -> stage-result.officialResultPath -> result.manifestPath. Four complete actual trees include all boundaries/lifecycle/receipts/compiled bytes/maps and active executing sources; original executables stay active, canonical archives append.txt. Supporting refs explicitly include historical defaultd1, ACTUALversioned qualifier73, accepted c5029/19748, original input/inventory, full admission before+after, independent root postexit and real load observations. Existing accepted44pins supply exact hashes; no new workload/source/tool scan.",
+  "caps": {
+    "files": 5000,
+    "fileBytes": 16777216,
+    "totalBytes": 268435456,
+    "mainSoftSeconds": 45,
+    "recommendedRootWholeSeconds": 60
+  },
+  "inventoryCountsAndHashes": "Deferred to separately authorized copy; no artifact inventory/hash campaign or archival execution performed",
+  "copyExecuted": false,
+  "requiresFreshStaticReviewBeforeCopy": true,
+  "documentationTruth": "V7 original21 pass is two-file scope only;07 historical after2file source change; full247/coverage/gate/frame/main/live open",
+  "supersededDraft": "Prior proposal4a3b89 archived unchanged before repair; its qualifier reference was historical d1 despite prose claiming current73. That claim is corrected here, with explicit actual versioned qualifier and immutable prior draft. No copy was executed."
+}

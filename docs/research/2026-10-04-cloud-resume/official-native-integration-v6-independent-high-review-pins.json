@@ -1,0 +1,79 @@
+{
+  "kind": "independent-high-native-v6-code-review-v1",
+  "decision": "SUPPORTED-external-composite-preparation-review-only",
+  "inputManifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-integration-candidate-pins.json",
+    "sha256": "cf3317ffdc1db0574795b233f5a3e9c327806a6aa0d0ef41938e3872402ff990"
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-native-integration-v6-independent-high-review.md",
+    "sha256": "5458ca01f0238baead6bd0341cbf9c3e115e8562facc392cf48f0e3442b616af"
+  },
+  "verifiedInputs": [
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/admission.mjs.txt",
+      "sha256": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+      "bytes": 6008
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/build.mjs.txt",
+      "sha256": "ad1fade84731714978d1378ad21b3dc6e7aad7184760727b346b66351d186a06",
+      "bytes": 3726
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/constants.mjs.txt",
+      "sha256": "08cc84cdeb98fe9b9108d998af2dad468b5d3f6f176bc8005161b9c45c4712e6",
+      "bytes": 55
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/contract.md",
+      "sha256": "a0d67023fb9148de293e5ccf327d73a9fa32b45d017cf4b8eb4218dd4a3b141b",
+      "bytes": 7810
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/entry.ts.txt",
+      "sha256": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8",
+      "bytes": 588
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/integrity.mjs.txt",
+      "sha256": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220",
+      "bytes": 2798
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/lifecycle-reporter.mjs.txt",
+      "sha256": "5b05f504211f4571bee7452996c6613632e6f06384e9386bb9b555ab0417a2ae",
+      "bytes": 950
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/loader.mjs.txt",
+      "sha256": "958291c07f1a3ffa909067dce53c4f3f7dd4f4a7f43e39e2444c06d6364de496",
+      "bytes": 3620
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/package-script-diff.json",
+      "sha256": "25ae7e9c23ed44743927917b442c48452854d45b3b1946dc911658cbda91732e",
+      "bytes": 522
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/prepare-run.mjs.txt",
+      "sha256": "972de609021190bf236825ccfa2554a012078ef22191a5ee86e9df8c1a722b1c",
+      "bytes": 1229
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/projects.mjs.txt",
+      "sha256": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da",
+      "bytes": 927
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/run.mjs.txt",
+      "sha256": "7d02863cb6cab28a27afbdd7ed41c9f66ccd548052753efa03ac8bdb5582b3c0",
+      "bytes": 9121
+    },
+    {
+      "path": "docs/research/2026-10-04-cloud-resume/official-native-integration-candidate/vitest.config.ts.txt",
+      "sha256": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029",
+      "bytes": 7441
+    }
+  ]
+}

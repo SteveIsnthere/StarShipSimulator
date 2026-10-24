@@ -1,0 +1,798 @@
+{
+  "cache": {
+    "activeBaselinePinManifest": {
+      "bytes": 438,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-pins.sha256",
+      "sha256": "6850238b96aece44b5ee61b63db4807dfcb19b06b54b47776932dd3354eadb1c",
+      "type": "file",
+      "uid": 1000
+    },
+    "liveAndSavedPostBuildTreesMatch": [
+      {
+        "metadata": {
+          "bytes": 1484,
+          "gid": 1000,
+          "mode": "0600",
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-vite-metadata.jsonl",
+          "sha256": "52a578541d8207752f5f3e5b8a74b2fca8fb70a366a935ff93ac1c2f782d5e5c",
+          "type": "file",
+          "uid": 1000
+        },
+        "name": ".vite",
+        "rows": 8
+      },
+      {
+        "metadata": {
+          "bytes": 119,
+          "gid": 1000,
+          "mode": "0600",
+          "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-vite-temp-metadata.jsonl",
+          "sha256": "7f01d8268b5d567a4e7dffa5c4daf82d9a8ab9400de47ae4cd565281440d6a40",
+          "type": "file",
+          "uid": 1000
+        },
+        "name": ".vite-temp",
+        "rows": 1
+      }
+    ],
+    "previousPreBuildBaselineRetained": true
+  },
+  "candidateRoot": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22",
+  "coverage": {
+    "contentPins": {
+      "bytes": 285,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/coverage-before.sha256",
+      "sha256": "f2c65ad2fd34870680840ac915b18390cb61df85b2d13e4bfcd4c41034dd13af",
+      "type": "file",
+      "uid": 1000
+    },
+    "contentRows": 3,
+    "contentTotalBytes": 1822244,
+    "liveMatchesBaseline": true,
+    "metadata": {
+      "bytes": 749,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/coverage-before-metadata.jsonl",
+      "sha256": "e335bee5b23a6d4606b25bdc9b6f944756de0baf9e34931f57efc756417e4aa4",
+      "type": "file",
+      "uid": 1000
+    },
+    "metadataRows": 4
+  },
+  "directReviewInputs": [
+    {
+      "bytes": 1378,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/README.md",
+      "sha256": "c43431e946bded47bd6f05694336e1fc70dca86b23d49b801edefb1aec89aeaa",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 228,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/command.txt",
+      "sha256": "3accc0f159b029c4edf206bdf004ebee9683a03b66281a310b5b62a8a7422359",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 4825,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/packet-pins.sha256",
+      "sha256": "a2b2cabbc843790223b8843ffdf157adf1930eb42d389ae4c24f750d40457b3c",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 4010,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/run-once.sh",
+      "sha256": "7e91d20355559b5e74b4c81606e1629ee422668478e419e0715dbe55dd2c0bfe",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 29551,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/owned-runner.mjs",
+      "sha256": "d7fb374afefa57973b24f8d919b24b749a37873769ce375884b6fb8cf663619e",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 79896,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/source-pins.sha256",
+      "sha256": "9136dec22e1a143fe51d93ff820ecefcf7f6310613ab51ed31f834721e2cfc15",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 26898,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/source-files.txt",
+      "sha256": "304751825b1d8b23d11b714062f600f8746d25dd184f80751ddf39a37723693e",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 6914966,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/runtime-pins.sha256",
+      "sha256": "a1e9d404db05e450ac47726de7471b74f5712806a1435567b8a45e231442938f",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 7959409,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/runtime-tree-manifest.jsonl",
+      "sha256": "ca409f53de83fc5ca21a0dd441704fea38533ae247e4d56a5d9096f9f4b98e29",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 4424,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/runtime-tree-manifest.mjs",
+      "sha256": "54264120888e24e49a374124281627f9e2b995adc98e8e0395e29852aec42753",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 438,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-pins.sha256",
+      "sha256": "6850238b96aece44b5ee61b63db4807dfcb19b06b54b47776932dd3354eadb1c",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 1484,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-vite-metadata.jsonl",
+      "sha256": "52a578541d8207752f5f3e5b8a74b2fca8fb70a366a935ff93ac1c2f782d5e5c",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 119,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-vite-temp-metadata.jsonl",
+      "sha256": "7f01d8268b5d567a4e7dffa5c4daf82d9a8ab9400de47ae4cd565281440d6a40",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 285,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/coverage-before.sha256",
+      "sha256": "f2c65ad2fd34870680840ac915b18390cb61df85b2d13e4bfcd4c41034dd13af",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 749,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/coverage-before-metadata.jsonl",
+      "sha256": "e335bee5b23a6d4606b25bdc9b6f944756de0baf9e34931f57efc756417e4aa4",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 602,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/static-preflight-v22.txt",
+      "sha256": "81182fd8b4c120e720047a04d20a44bf450174103c86a1f31184b4f7b6ddd2bd",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 2761,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/preflight-v22.txt",
+      "sha256": "e1c821d75b2ad2e5d8c6d9b7de353dbb4f77e8f8d51cf92566375fe48a5241a7",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 717,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/route-preflight-v22.txt",
+      "sha256": "704d494ecbeae6a046f6ffdbd1f54b079ecad1e402f28ba35e35d68096d1ac36",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 348,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/shell-preflight-v22.txt",
+      "sha256": "b52dbaf3cdde43a6b2ff031f86322491ab593d1ec654729a98942343cea15570",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 2288,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/route-preflight.mjs",
+      "sha256": "4b4f07cf7d2eb47cc4ea34c8806b72492786e55fa2d3186fc26b2b5ccb1406bb",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 4507,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/static-preflight.mjs",
+      "sha256": "53ec90b36b2a85e3d0d63a3b58dfc6f74dc801a53ed634e95e28c27b88594412",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 1889,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/README.md",
+      "sha256": "ad8c25b8424a54510847254e4dbc0405ee6c6b305f2bb571bacb118625cbde1f",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 3922,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/independent-source-review-v1/review.md",
+      "sha256": "48798d29b214669d22aabcb5ca6fcb02636e6ecd92658ef58b94a751d532658c",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 5995,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/independent-source-review-v1/pins.json",
+      "sha256": "3f6a1f481fc060cd21596f8847d80cf81e8f0419412dcde1f2d835221662f016",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 2930,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/provenance-recheck-v1/review.md",
+      "sha256": "8a8e0f91cb95ded55ff3699d48c72bad7fb96bec74e1337b4bd4aa7e2fccb096",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 6743,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/provenance-recheck-v1/pins.json",
+      "sha256": "5463bd6e9e3da0f4a093fd6dd4c2a692f36d6de789dfebca60dcfe7e2e6b93c0",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 4933,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/exact-command-review-v1/review.md",
+      "sha256": "22ff1b43a86761e11a34f5fe186c850b31eab24afc00d41fa62a67ee8cfbcace",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 10870,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/exact-command-review-v1/pins.json",
+      "sha256": "9c8b9d8d456811899f6c5f4b67739968a2786e3cdd68f64f76bd94ec13fd08d1",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 9685,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/exact-command-review-v2/review.md",
+      "sha256": "f38d39270b88bf1b808ce1ba2061bc25d1b59de575546de8eb5727ee6ddef297",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 187468,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/exact-command-review-v2/pins.json",
+      "sha256": "a53ac38aa09c080471a161588410fae1d2804df60de3e4d1955953aa3e872eb9",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 13541,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "sha256": "ecb37ed056299d07a5edc05b4e9d3fed9345ca8fbb1510849dc3604f731b3959",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 14733,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/src/core/scenarios.ts",
+      "sha256": "bcd5fb6ca8070dfc9751485de6fce22ccfd8841ad6c2f4db6908117aafc94e7b",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 2632,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/package.json",
+      "sha256": "aa229cabc6463b50e25fc0a9b7c7a9e39ddbcb39b4ce4dde93cd8f52afc3ccb3",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 7951,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/vitest.config.ts",
+      "sha256": "4b3ee81bb15c73ef95ee1ac97a50c6dd05c3693f2e4fdaf03f211d719f23f501",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 3,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/.nvmrc",
+      "sha256": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 2924436,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json",
+      "sha256": "9920693d4d9c3c7e94880b50d508bce12facaa9b5f1f20242ca1fa5f2bb2c83e",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 65,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.sha256",
+      "sha256": "17b4f3c6c68198637d215556264d22769d7621a6b026ffa300132eabf9f06aef",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 124827920,
+      "gid": 1000,
+      "mode": "0700",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "sha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 54,
+      "gid": 1000,
+      "mode": "0700",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+      "sha256": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 6706,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/package.json",
+      "sha256": "7c04bf69824d17a1db64defd3a9a86d538781bf2d6ca2764e3f1143fa5b71166",
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "bytes": 149960,
+      "gid": 0,
+      "mode": "0755",
+      "path": "/usr/bin/cp",
+      "sha256": "5a3a8808bab81a67c6ac578670f5608595f1569948d4dc7d7d604c1d08d596d9",
+      "type": "file",
+      "uid": 0
+    },
+    {
+      "bytes": 688,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/cloud-bootstrap/starship-v1/activate.sh",
+      "sha256": "fb3d7cb2a9b366a53fa3570b0db9589373e988ad5a7e7dd54ebd966a5188eb45",
+      "type": "file",
+      "uid": 1000
+    }
+  ],
+  "disposition": "HIGH_READINESS_ONLY",
+  "environment": {
+    "branch": "claude/visuals",
+    "cleanShellBoundaryRecord": {
+      "bytes": 348,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/shell-preflight-v22.txt",
+      "sha256": "b52dbaf3cdde43a6b2ff031f86322491ab593d1ec654729a98942343cea15570",
+      "type": "file",
+      "uid": 1000
+    },
+    "cpBinary": {
+      "bytes": 149960,
+      "gid": 0,
+      "mode": "0755",
+      "path": "/usr/bin/cp",
+      "sha256": "5a3a8808bab81a67c6ac578670f5608595f1569948d4dc7d7d604c1d08d596d9",
+      "type": "file",
+      "uid": 0
+    },
+    "environmentHandling": "Allowlisted proxy/CA only; other exported variables and loader, Node, npm, Vitest, and native-route controls cleared; managed paths fixed.",
+    "head": "8b8a8e30ec692cc16f91e6bfdec1db2c93456671",
+    "nodeBinary": {
+      "bytes": 124827920,
+      "gid": 1000,
+      "mode": "0700",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "sha256": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+      "type": "file",
+      "uid": 1000
+    },
+    "nodeVersion": "v22.23.3",
+    "npmCli": {
+      "bytes": 54,
+      "gid": 1000,
+      "mode": "0700",
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+      "sha256": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7",
+      "type": "file",
+      "uid": 1000
+    },
+    "npmVersion": "10.9.9",
+    "projectNpmrcAbsent": true
+  },
+  "lineage": {
+    "currentSourceAndProvenanceReviewsPinned": true,
+    "priorReadinessV2": {
+      "bytes": 9685,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/exact-command-review-v2/review.md",
+      "sha256": "f38d39270b88bf1b808ce1ba2061bc25d1b59de575546de8eb5727ee6ddef297",
+      "type": "file",
+      "uid": 1000
+    },
+    "priorReadinessV2Pins": {
+      "bytes": 187468,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/exact-command-review-v2/pins.json",
+      "sha256": "a53ac38aa09c080471a161588410fae1d2804df60de3e4d1955953aa3e872eb9",
+      "type": "file",
+      "uid": 1000
+    },
+    "priorV2READMEIssue": "Closed by corrected current packet README and rebound sidecar/wrapper."
+  },
+  "outputs": {
+    "actualRoot": {
+      "absent": true,
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/actual-v1"
+    },
+    "oneShotMarker": {
+      "absent": true,
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/.one-shot-claimed"
+    },
+    "reviewDestinationWasAbsentBeforeWrite": true
+  },
+  "packet": {
+    "allSidecarRowsMatch": true,
+    "command": {
+      "bytes": 228,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/command.txt",
+      "sha256": "3accc0f159b029c4edf206bdf004ebee9683a03b66281a310b5b62a8a7422359",
+      "type": "file",
+      "uid": 1000
+    },
+    "noSidecarTargetAncestorSymlinks": true,
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet",
+    "readme": {
+      "bytes": 1378,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/README.md",
+      "sha256": "c43431e946bded47bd6f05694336e1fc70dca86b23d49b801edefb1aec89aeaa",
+      "type": "file",
+      "uid": 1000
+    },
+    "readmeClaims": "30 total test cases, including all 18 required scenario \u00d7 vehicle rows",
+    "rows": [
+      {
+        "bytes": 1378,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/README.md",
+        "sha256": "c43431e946bded47bd6f05694336e1fc70dca86b23d49b801edefb1aec89aeaa"
+      },
+      {
+        "bytes": 216,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-baseline-before-build-v1/node_modules/.vite/vitest/0040b7b85cd6bd9c3185d00dc2a484f868f52a5e/results.json",
+        "sha256": "19cf399decfb986271139a0b3269f1e3a50e9bd3bd3f7b8783dfa2a5cf0c561f"
+      },
+      {
+        "bytes": 353,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-baseline-before-build-v1/node_modules/.vite/vitest/a3114c242f1c23660411cdebe2fc61c7bdd5e29f/results.json",
+        "sha256": "ad6db99bbc063dab4e0f5b63724dbcda08668e128f1741b565d9e7cac3f047a7"
+      },
+      {
+        "bytes": 26209,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-baseline-before-build-v1/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json",
+        "sha256": "fcbbfb7bc99baeef49064203ad5c174ea592e3a586c2497382fa0a8b4c8b3e27"
+      },
+      {
+        "bytes": 1006,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-baseline-refresh-v22.md",
+        "sha256": "aea1578d359883b18c5c5ebf13ce5bd6fee7ac2e174b77c255882169d831af52"
+      },
+      {
+        "bytes": 438,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-pins.sha256",
+        "sha256": "6850238b96aece44b5ee61b63db4807dfcb19b06b54b47776932dd3354eadb1c"
+      },
+      {
+        "bytes": 1484,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-vite-metadata.jsonl",
+        "sha256": "52a578541d8207752f5f3e5b8a74b2fca8fb70a366a935ff93ac1c2f782d5e5c"
+      },
+      {
+        "bytes": 119,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before-vite-temp-metadata.jsonl",
+        "sha256": "7f01d8268b5d567a4e7dffa5c4daf82d9a8ab9400de47ae4cd565281440d6a40"
+      },
+      {
+        "bytes": 216,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before/node_modules/.vite/vitest/0040b7b85cd6bd9c3185d00dc2a484f868f52a5e/results.json",
+        "sha256": "19cf399decfb986271139a0b3269f1e3a50e9bd3bd3f7b8783dfa2a5cf0c561f"
+      },
+      {
+        "bytes": 353,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before/node_modules/.vite/vitest/a3114c242f1c23660411cdebe2fc61c7bdd5e29f/results.json",
+        "sha256": "ad6db99bbc063dab4e0f5b63724dbcda08668e128f1741b565d9e7cac3f047a7"
+      },
+      {
+        "bytes": 26209,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/cache-before/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json",
+        "sha256": "fcbbfb7bc99baeef49064203ad5c174ea592e3a586c2497382fa0a8b4c8b3e27"
+      },
+      {
+        "bytes": 228,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/command.txt",
+        "sha256": "3accc0f159b029c4edf206bdf004ebee9683a03b66281a310b5b62a8a7422359"
+      },
+      {
+        "bytes": 749,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/coverage-before-metadata.jsonl",
+        "sha256": "e335bee5b23a6d4606b25bdc9b6f944756de0baf9e34931f57efc756417e4aa4"
+      },
+      {
+        "bytes": 285,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/coverage-before.sha256",
+        "sha256": "f2c65ad2fd34870680840ac915b18390cb61df85b2d13e4bfcd4c41034dd13af"
+      },
+      {
+        "bytes": 360,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/default-qualification.txt",
+        "sha256": "3e173011e6566b61483c7081406b9e2f7e0dbbd5a3dd1d68a84d974597876056"
+      },
+      {
+        "bytes": 29551,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/owned-runner.mjs",
+        "sha256": "d7fb374afefa57973b24f8d919b24b749a37873769ce375884b6fb8cf663619e"
+      },
+      {
+        "bytes": 2761,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/preflight-v22.txt",
+        "sha256": "e1c821d75b2ad2e5d8c6d9b7de353dbb4f77e8f8d51cf92566375fe48a5241a7"
+      },
+      {
+        "bytes": 717,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/route-preflight-v22.txt",
+        "sha256": "704d494ecbeae6a046f6ffdbd1f54b079ecad1e402f28ba35e35d68096d1ac36"
+      },
+      {
+        "bytes": 2288,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/route-preflight.mjs",
+        "sha256": "4b4f07cf7d2eb47cc4ea34c8806b72492786e55fa2d3186fc26b2b5ccb1406bb"
+      },
+      {
+        "bytes": 6914966,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/runtime-pins.sha256",
+        "sha256": "a1e9d404db05e450ac47726de7471b74f5712806a1435567b8a45e231442938f"
+      },
+      {
+        "bytes": 7959409,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/runtime-tree-manifest.jsonl",
+        "sha256": "ca409f53de83fc5ca21a0dd441704fea38533ae247e4d56a5d9096f9f4b98e29"
+      },
+      {
+        "bytes": 4424,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/runtime-tree-manifest.mjs",
+        "sha256": "54264120888e24e49a374124281627f9e2b995adc98e8e0395e29852aec42753"
+      },
+      {
+        "bytes": 348,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/shell-preflight-v22.txt",
+        "sha256": "b52dbaf3cdde43a6b2ff031f86322491ab593d1ec654729a98942343cea15570"
+      },
+      {
+        "bytes": 26898,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/source-files.txt",
+        "sha256": "304751825b1d8b23d11b714062f600f8746d25dd184f80751ddf39a37723693e"
+      },
+      {
+        "bytes": 79896,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/source-pins.sha256",
+        "sha256": "9136dec22e1a143fe51d93ff820ecefcf7f6310613ab51ed31f834721e2cfc15"
+      },
+      {
+        "bytes": 602,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/static-preflight-v22.txt",
+        "sha256": "81182fd8b4c120e720047a04d20a44bf450174103c86a1f31184b4f7b6ddd2bd"
+      },
+      {
+        "bytes": 4507,
+        "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/static-preflight.mjs",
+        "sha256": "53ec90b36b2a85e3d0d63a3b58dfc6f74dc801a53ed634e95e28c27b88594412"
+      }
+    ],
+    "sidecar": {
+      "bytes": 4825,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/packet-pins.sha256",
+      "sha256": "a2b2cabbc843790223b8843ffdf157adf1930eb42d389ae4c24f750d40457b3c",
+      "type": "file",
+      "uid": 1000
+    },
+    "sidecarAndWrapperMatch": true,
+    "sidecarRows": 27,
+    "wrapper": {
+      "bytes": 4010,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/run-once.sh",
+      "sha256": "7e91d20355559b5e74b4c81606e1629ee422668478e419e0715dbe55dd2c0bfe",
+      "type": "file",
+      "uid": 1000
+    },
+    "wrapperEmbeddedSidecarSha256": "a2b2cabbc843790223b8843ffdf157adf1930eb42d389ae4c24f750d40457b3c"
+  },
+  "qualification": {
+    "file": {
+      "bytes": 2924436,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json",
+      "sha256": "9920693d4d9c3c7e94880b50d508bce12facaa9b5f1f20242ca1fa5f2bb2c83e",
+      "type": "file",
+      "uid": 1000
+    },
+    "productionAcceptance": false,
+    "route": "Stale default native qualification rejected; SSR fallback only.",
+    "sidecar": {
+      "bytes": 65,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.sha256",
+      "sha256": "17b4f3c6c68198637d215556264d22769d7621a6b026ffa300132eabf9f06aef",
+      "type": "file",
+      "uid": 1000
+    }
+  },
+  "review": {
+    "bytes": 5931,
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/exact-command-review-v3/review.md",
+    "sha256": "0f7042101b1c2b75ae899d1050e01570fb2cd4d8535ad2de0eb8e446e013a992"
+  },
+  "runtime": {
+    "contentManifest": {
+      "bytes": 6914966,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/runtime-pins.sha256",
+      "sha256": "a1e9d404db05e450ac47726de7471b74f5712806a1435567b8a45e231442938f",
+      "type": "file",
+      "uid": 1000
+    },
+    "contentRows": 34983,
+    "contentTotalBytes": 1953878291,
+    "reconstructedTreeMatches": true,
+    "symlinksContainedAndAvoidGeneratedCaches": true,
+    "treeManifest": {
+      "bytes": 7959409,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/runtime-tree-manifest.jsonl",
+      "sha256": "ca409f53de83fc5ca21a0dd441704fea38533ae247e4d56a5d9096f9f4b98e29",
+      "type": "file",
+      "uid": 1000
+    },
+    "treeRows": 38096
+  },
+  "scope": "Static exact-command readiness recheck only; execution remains on HOLD pending the separate scenario-start/mission contract decision.",
+  "source": {
+    "liveRowsMatch": true,
+    "manifest": {
+      "bytes": 79896,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/source-pins.sha256",
+      "sha256": "9136dec22e1a143fe51d93ff820ecefcf7f6310613ab51ed31f834721e2cfc15",
+      "type": "file",
+      "uid": 1000
+    },
+    "pathsManifest": {
+      "bytes": 26898,
+      "gid": 1000,
+      "mode": "0600",
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-13-phase8-scenario-matrix-v22/flight-audit-packet/source-files.txt",
+      "sha256": "304751825b1d8b23d11b714062f600f8746d25dd184f80751ddf39a37723693e",
+      "type": "file",
+      "uid": 1000
+    },
+    "rows": 803,
+    "totalBytes": 18375495
+  },
+  "workload": {
+    "browserOrFlightWorkload": false,
+    "coverage": false,
+    "matrixRows": 18,
+    "noWorkloadInvoked": true,
+    "ownerDeadlineMs": 300000,
+    "retries": 0,
+    "scenarioHorizonSeconds": 900,
+    "scenarioHorizonSteps": 108000,
+    "scenarioIds": 9,
+    "selectedCommand": "npm run test -- --maxWorkers=1 tests/flies-every-scenario.test.ts",
+    "testFileCases": 30,
+    "testTimeoutMs": 30000,
+    "workers": 1
+  }
+}

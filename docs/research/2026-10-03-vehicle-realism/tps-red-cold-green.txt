@@ -1,0 +1,24 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/tps-material.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/tps-material.test.ts [ tests/core/tps-material.test.ts ]
+Error: Cannot find module '$core/physics/tps-material' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/tps-material.test.ts
+ ❯ tests/core/tps-material.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import {
+       | ^
+      3|   TPS_DENSITY, TPS_CP_MIN_K, TPS_CP_MAX_K, TPS_K_MIN_K, TPS_K_MAX_K,
+      4|   TPS_PRESSURE_MAX_PA, tpsSpecificHeat, tpsSpecificEnthalpy,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  23 passed (23)
+   Start at  13:57:15
+   Duration  256ms (transform 112ms, setup 0ms, import 79ms, tests 29ms, environment 0ms)
+

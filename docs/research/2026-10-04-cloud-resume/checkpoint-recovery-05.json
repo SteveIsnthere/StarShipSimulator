@@ -1,0 +1,923 @@
+{
+  "base": "32e5bb386cadee9098d703c67ebdfc9444eb46a6",
+  "branch": "claude/visuals",
+  "documentationHead": "1ba606d68e325775dae7b4c00607c52fcc03dece",
+  "node": "22.23.3",
+  "patch": "checkpoint-recovery-05.patch",
+  "patchSha256": "9a0607c5e01a197ffdc7f90c51d8ce20ad1a5329f552d9808d04c570b30a6130",
+  "bytes": 1185862,
+  "scope": "Complete dirty non-doc implementation; replacement snapshot, never an incremental patch",
+  "verified": {
+    "cleanBaseTemporaryIndex": true,
+    "forwardCheck": true,
+    "appliedOnceInTemporaryIndex": true,
+    "appliedTreeMatches": true,
+    "everyDiskPathHashMatches": true
+  },
+  "files": [
+    {
+      "path": "eslint.config.js",
+      "sha256": "1a5508bc2ef2ad5e6f437708de64f0f88101cfb01f8eff21aa1ea0ac490d9f99"
+    },
+    {
+      "path": "package.json",
+      "sha256": "67f1e817568094c60b2453190c4633d13aafe501a3cee51d0e43e14b5fc28be6"
+    },
+    {
+      "path": "playwright.visual-budget.config.ts",
+      "sha256": "06412d9b7ca7e0a2365bdf8ae21235aeab3a5bfec53e3f2283e33aed5c003c02"
+    },
+    {
+      "path": "playwright.visual-diagnostic.config.ts",
+      "sha256": "d45b2e06c316c8092bfe2d294bf00a84c42eec3e21538dfcf15affb65c4e0bda"
+    },
+    {
+      "path": "playwright.visual-motion.config.ts",
+      "sha256": "6b1b1e2318901e39920eb95e89972aae568281a9296001f4f87d5021422a405c"
+    },
+    {
+      "path": "scripts/bench.mjs",
+      "sha256": "21fdc2ab89e36de730e0bd3f72c4afc4cfd7cb41726e162cfd817a13706c53e3"
+    },
+    {
+      "path": "scripts/bench/build-native-guidance.mjs",
+      "sha256": "5f2b66b655615473f358c08cd9a95af26bbedd6621d05107072d93b5c1d3aac7"
+    },
+    {
+      "path": "scripts/bench/native-guidance-entry.ts",
+      "sha256": "b725fe1cbedc14aefe9c18d98f34662dd2ce9a856c33ca8c473d2ef5655234cc"
+    },
+    {
+      "path": "scripts/bench/native-loader.mjs",
+      "sha256": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+    },
+    {
+      "path": "scripts/bench/owned-command-controls.mjs",
+      "sha256": "1c4141b6bfac219c11ab51b945ac03227d34ea025745cc6ec89c22bbcc8b04b1"
+    },
+    {
+      "path": "scripts/bench/owned-command.mjs",
+      "sha256": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+    },
+    {
+      "path": "scripts/bench/qualification.json",
+      "sha256": "09ac0f90d87e60a7c235040bf92136d21ef2be0db68f129e04535c46ee56ccab"
+    },
+    {
+      "path": "src/app/debug-request.ts",
+      "sha256": "2539f7bc3b9a69f77c5e48394fcdcd564e9a93e31ee28b6d117e06b71680e8b7"
+    },
+    {
+      "path": "src/app/debug.ts",
+      "sha256": "9212e92d17bb252fade51bd636d30f4ec09946f0c01c877d9612589a65b329a9"
+    },
+    {
+      "path": "src/audio/params.ts",
+      "sha256": "1703843f2825a18f22d7b8c4d81d69f6ce5977a667b1547daa54a1ab3ede0c5d"
+    },
+    {
+      "path": "src/core/autopilot/booster.ts",
+      "sha256": "c5a7a17e93999173ca160dc83d26e6f390010332c1b56cd57999bfde4395597d"
+    },
+    {
+      "path": "src/core/autopilot/index.ts",
+      "sha256": "22c67138557dd204b77081b1753d65084bbd4dcfb43a36edc883095c496ace69"
+    },
+    {
+      "path": "src/core/autopilot/landing-burn.ts",
+      "sha256": "6999067395a72d49d014f6f55dd0287f1abd6ce4578dcd92dd97ab8749e11eca"
+    },
+    {
+      "path": "src/core/control/actuation.ts",
+      "sha256": "50c22bb6cbfed3ce61b3eb14b8393afa32782c102891fe18fa93371cbf78a2c8"
+    },
+    {
+      "path": "src/core/control/booster-arrival.ts",
+      "sha256": "5dccec0dec9b21b68a8a4bae346d27182e14e5b440de1f11314a321ff99d5023"
+    },
+    {
+      "path": "src/core/control/booster-cutoff-hint.ts",
+      "sha256": "04308df7710c17595cef00fcefeca2ea10f37a90c41037c6dbe8f68dd11d8302"
+    },
+    {
+      "path": "src/core/control/booster-forecast.ts",
+      "sha256": "5b1d9e6b1bfd549eda94f4ec445b21b23cc28a698b62348b04e81d51875a03be"
+    },
+    {
+      "path": "src/core/control/booster-prediction.ts",
+      "sha256": "d959ed6ff3d7fc2fbb54a3927ecc497ace98148c2c0514a30037e2cde038eb2b"
+    },
+    {
+      "path": "src/core/control/booster-receipts.ts",
+      "sha256": "d51af933744125797c5e7f3106af728e64ba00c111fc4e8574c2cdd77289a9bf"
+    },
+    {
+      "path": "src/core/control/booster-return-plan.ts",
+      "sha256": "1ca778f31a41344c74d3915e3df6f2a712bcc04f0d1b85fb551d663ca54b7eae"
+    },
+    {
+      "path": "src/core/control/booster-source.ts",
+      "sha256": "1e78f56f61c68023e25444d86b13b997b4a7fe196b146b290662d1905184fe93"
+    },
+    {
+      "path": "src/core/control/guidance-physics.ts",
+      "sha256": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1"
+    },
+    {
+      "path": "src/core/control/mechanical.ts",
+      "sha256": "2b3351540043f038af5a184a88c9cc193b64681f891c4ae1bcb113bfefb09a5f"
+    },
+    {
+      "path": "src/core/control/primitives.ts",
+      "sha256": "858bb32724b6c83b9426f817914ecee00eccf4c77b8ca834e382642cc9db6800"
+    },
+    {
+      "path": "src/core/damage-state.ts",
+      "sha256": "2bddfc853d43eda68761f3be23a99bcaae8bf04567eac80648fa134afe9a3a87"
+    },
+    {
+      "path": "src/core/mission-free-flight.ts",
+      "sha256": "63bf8d648e1210e3c33e6f11c957ed397bc7a1520ad038739a6d6fd47dbc1cc0"
+    },
+    {
+      "path": "src/core/mission.ts",
+      "sha256": "e261b687ea9c15c25bfdd4d1b38180866b4c2e9ac08957438ea46f490cf3ad63"
+    },
+    {
+      "path": "src/core/physics/aero.ts",
+      "sha256": "535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713"
+    },
+    {
+      "path": "src/core/physics/body-reference.ts",
+      "sha256": "37fd59a93f226270b3eb663e2345ba26c39de5db683487fe515b7502f24aef63"
+    },
+    {
+      "path": "src/core/physics/components.ts",
+      "sha256": "8e2b3351beb67380842bd7d7b28a6b97b4ba0ad2847c134c002a62397991ffc4"
+    },
+    {
+      "path": "src/core/physics/damage-controls.ts",
+      "sha256": "a623039b9844dc5325aa5d9dd786a096306c79e02d60ad56c9ba58e898248e5e"
+    },
+    {
+      "path": "src/core/physics/damage-debris.ts",
+      "sha256": "980368dd3ecbf4d96723a41b2cad85e133b1570a2d255b71907fc57052e17bd8"
+    },
+    {
+      "path": "src/core/physics/damage-detachment.ts",
+      "sha256": "331812e54ff912c70c908a4e2ebe796cce40d8e5523db78d7e6c061f689504fd"
+    },
+    {
+      "path": "src/core/physics/damage-flight.ts",
+      "sha256": "727d66df66399eb182f82f1d80a7a4a8c88e62ebc0c934ad52bfe6293303f300"
+    },
+    {
+      "path": "src/core/physics/damage-mass.ts",
+      "sha256": "26e5e56b01b6e412bdc0592818b3746b4c7ea2b1e38674c54f2895c20ae9c065"
+    },
+    {
+      "path": "src/core/physics/damage-material.ts",
+      "sha256": "b13040799017fc0bf59fd0309f3ec08766a135d128798f5246a92f342f32de84"
+    },
+    {
+      "path": "src/core/physics/damage-model.ts",
+      "sha256": "7e0e8d6c12bf72c28d8080f56155fb418f74cfb1ecc18b86eb86602cd17eab39"
+    },
+    {
+      "path": "src/core/physics/damage-root.ts",
+      "sha256": "9ee949e1bc1c6c0f277a1258763c01a6a7149d570da5fac57b903484e601649e"
+    },
+    {
+      "path": "src/core/physics/damage-terminal.ts",
+      "sha256": "a0ee5083eaf2fc285a987ad680e13b9e79c90b8db40d318e016de42cc50e5d89"
+    },
+    {
+      "path": "src/core/physics/damage-thermal.ts",
+      "sha256": "cf5bc06d5e59a4c983ff6fd88a2bbf4c01316e826f9acc9358b09ac17b4f9fc0"
+    },
+    {
+      "path": "src/core/physics/engines.ts",
+      "sha256": "4dc7a1dfbf1a5f67f1218f8315a6a6525c6dee394fc7d1fa4e2422c6a4bc7718"
+    },
+    {
+      "path": "src/core/physics/flight-mass-query.ts",
+      "sha256": "86537858393a04efea04ea2c451fbe1522ad089d48f4daf215fbc7f58261022f"
+    },
+    {
+      "path": "src/core/physics/heat-transfer.ts",
+      "sha256": "0f6f03616001587884d64cf9d02abbbe3727a71233786361650f136a7bb523b3"
+    },
+    {
+      "path": "src/core/physics/mass.ts",
+      "sha256": "db86b01b6d305a56b9c20fbf677c4d6cac8febb5a094ed85e93dae014aa5d652"
+    },
+    {
+      "path": "src/core/physics/propulsion.ts",
+      "sha256": "972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a"
+    },
+    {
+      "path": "src/core/physics/step-dynamics.ts",
+      "sha256": "936a5183df249b6e3b1921b51b4d5a1d2ff29fe2d27988c00a753e25f61cd0e0"
+    },
+    {
+      "path": "src/core/physics/tps-material.ts",
+      "sha256": "379e1e78e638efd2bd80a1c3aec658289bcbb95a7d1474b9530798ff22c2c138"
+    },
+    {
+      "path": "src/core/physics/vehicle-components.ts",
+      "sha256": "a23086f8c4aacd101d0df155f4e90f6bbfbd44c580bdc99cc498725609f7c320"
+    },
+    {
+      "path": "src/core/scenarios.ts",
+      "sha256": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e"
+    },
+    {
+      "path": "src/core/state.ts",
+      "sha256": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d"
+    },
+    {
+      "path": "src/core/step.ts",
+      "sha256": "d5fb9bb02df532df7afcb2c63219613a363af4999287111863abdee4df789986"
+    },
+    {
+      "path": "src/core/vehicle.ts",
+      "sha256": "570eb84ce57ad1baa434760ce0c609832add9ae2844ae6dd3caf09a1a1e48717"
+    },
+    {
+      "path": "src/core/vehicles/super-heavy.ts",
+      "sha256": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0"
+    },
+    {
+      "path": "src/core/vehicles/v3.ts",
+      "sha256": "785468bd3e6dba95ec0c11ba56d4d6540ffd348e92c41bee6d216d8e63cb29ad"
+    },
+    {
+      "path": "src/hud/debrief.ts",
+      "sha256": "f6a127d2e1538a9c7b9677d9387cc67c02e7e916a060b9447e5d609f12ef7fb3"
+    },
+    {
+      "path": "src/hud/prediction.ts",
+      "sha256": "3952e8628312f045cf6b2ba15f001884af7ecc6e23702fcefa02e8ac64148f20"
+    },
+    {
+      "path": "src/hud/trajectory-draw.ts",
+      "sha256": "6651c0c72620aab6db00b0bc6c82e6bc5a7cad5762bde56250b48147960ef26a"
+    },
+    {
+      "path": "src/ui/session/camera-follow.ts",
+      "sha256": "1b93f606f1014e748c2bd52678f6f1bff1e4bfdcf2baaa42f4927ae374c691d5"
+    },
+    {
+      "path": "src/ui/session/debug-presentation.ts",
+      "sha256": "0fb3166827d045e085a0587fc4a3cf7a1b4e16743fcf8af9a5b36e35893b935f"
+    },
+    {
+      "path": "src/ui/session/scene-vehicles.ts",
+      "sha256": "1d4edad88bd196572c1ecb67d0d8d702026a6125b2e788a2b0b9eb1b8518afd0"
+    },
+    {
+      "path": "src/ui/session/scene.ts",
+      "sha256": "f174d32f047f52c82269df7b111d15be5fff98c4b37f7994bfb42d207f452dc0"
+    },
+    {
+      "path": "src/ui/session/session.ts",
+      "sha256": "8f924e5c4f5bf0b071223deb04c1048ff27278e2ba41591c377732bdf0c4b164"
+    },
+    {
+      "path": "src/ui/shell/BoosterEngineGroups.tsx",
+      "sha256": "431274f4d8b5fe79dc126eca52675f16e164699ea6ad5b05ec07cc8c090e7b87"
+    },
+    {
+      "path": "src/ui/shell/Controls/ControlGroup.tsx",
+      "sha256": "4b0b1a2b4195b5126a0d92fd53c2486883b7a517a00be3d27f69b4369bc4e77b"
+    },
+    {
+      "path": "src/ui/shell/Controls/Controls.tsx",
+      "sha256": "19c9d1eb86b55a4dda51bb837505aeb4859dcf0802e006904dbdaf4e469c7990"
+    },
+    {
+      "path": "src/ui/shell/Hud/EngineDots.tsx",
+      "sha256": "d89b7d4e41da8e886cd2fdc926a4fa56637d1ba382a3f13d65554dcd1c0d0f66"
+    },
+    {
+      "path": "src/ui/shell/Hud/Hud.tsx",
+      "sha256": "31dfeab54f8c1099a215e00044b51da224678254e0cfcf729faf07a2fd82bda0"
+    },
+    {
+      "path": "src/view/assets.ts",
+      "sha256": "b3fbe0ae7bafb4ebce9c8e537c3af9cfe2cf3ecd2afe74b4158106b008781564"
+    },
+    {
+      "path": "src/view/booster.ts",
+      "sha256": "94ca0b9c0a1f9b724ef15bb4c5ab46541d26cdaf8e48184a2b6f8b5a89476b86"
+    },
+    {
+      "path": "src/view/component-vehicle.ts",
+      "sha256": "9e02f8b764173f087370d4d81dc94b3c5a7e6d727c148519eb06d4bdd33ae1d1"
+    },
+    {
+      "path": "src/view/effects.ts",
+      "sha256": "5a4cd1168651ea63ff2bd839e2e921931651979d08cd9eeecfb824457b4ddb34"
+    },
+    {
+      "path": "src/view/heat-shield.ts",
+      "sha256": null
+    },
+    {
+      "path": "src/view/lighting.ts",
+      "sha256": null
+    },
+    {
+      "path": "src/view/post.ts",
+      "sha256": "3869d0edab64fdc29642d4d250c57e783e8fcce4320c2a2ffd8c2140bc1c4016"
+    },
+    {
+      "path": "src/view/reentry.ts",
+      "sha256": "8edfac9737f0729c6dc48d96b4f18b707fbedb86090fa2dfa7394743efdf9ef9"
+    },
+    {
+      "path": "src/view/vehicle-detail.ts",
+      "sha256": null
+    },
+    {
+      "path": "src/view/vehicle-geometry.ts",
+      "sha256": "3b100e16f1ec538b3bdee1c9a00bf9f0990d29c5481e3b5ec5542f8f277ae69a"
+    },
+    {
+      "path": "src/view/vehicle-material.ts",
+      "sha256": "b66b901f2e5b638fda6c922c03deef05a9c26313919638df3633ab40134e3aca"
+    },
+    {
+      "path": "src/view/vehicle.ts",
+      "sha256": "500bb393b4539002635eb52eb1887be19c9ded594d3a346851713bb611056c02"
+    },
+    {
+      "path": "src/view/world.ts",
+      "sha256": "aab1eb141c38a9ad5ceaa6b1e72c5d43b1e376964809fde783f36df91187f874"
+    },
+    {
+      "path": "tests/core/angular-momentum.test.ts",
+      "sha256": "60d85f3f95089dcbbb16910d2b47b6155b9e61a918bae155630c38f19b03b0e7"
+    },
+    {
+      "path": "tests/core/autopilot-stages.test.ts",
+      "sha256": "970dc93ec2c59f8192ebb8175de4d89f8670390713d6361afd962a7d27fa487a"
+    },
+    {
+      "path": "tests/core/autopilot.test.ts",
+      "sha256": "9ea7711b68463125991f3bdd0822793e1c3cdb42aafee88c92475ef40b0e82b5"
+    },
+    {
+      "path": "tests/core/body-reference.test.ts",
+      "sha256": "b208d08c6c2b892b16ee7a50cf4b9dc7de22e18a676ab7cc154a15b248c5f129"
+    },
+    {
+      "path": "tests/core/booster-bracket-priority.test.ts",
+      "sha256": "c58395f0c2537087aae31b8a52adffffd0e89496cca1521f06e878eccb140b3e"
+    },
+    {
+      "path": "tests/core/booster-burn-bound.test.ts",
+      "sha256": "643f0d80c55d24a991d327ad125a1dbb834b0768201600aabe6e0b503ed9be7a"
+    },
+    {
+      "path": "tests/core/booster-command.test.ts",
+      "sha256": "b61c560be3e3996e3f835b3ad251ba4fc8a9a9a02c831e7a4d745e284f4cf9a6"
+    },
+    {
+      "path": "tests/core/booster-cutoff-hint.test.ts",
+      "sha256": "19a3632f34298b74249dab827402ed8197b16edcff9d09560781f38cb8f8868a"
+    },
+    {
+      "path": "tests/core/booster-forecast.test.ts",
+      "sha256": "1b92fc37b3a03607ef02482a111c19056378b43d473d20992b0acc5c4faafccc"
+    },
+    {
+      "path": "tests/core/booster-negative-probe.test.ts",
+      "sha256": "aade657fa4d8ff3b2d3cce873e52d5d7a0c3bb3b9e7186edfac15acf384e5b2e"
+    },
+    {
+      "path": "tests/core/booster-paid-receipts.test.ts",
+      "sha256": "e6264d7bf9b26ccfc97dba2540d83f97766061a89e9d557dbc0301a3b4012079"
+    },
+    {
+      "path": "tests/core/booster-planning-latency.test.ts",
+      "sha256": "11b988d4dbf33eb676e6e8f434af779dbb9b0b3cf06e729537d1edff879dd101"
+    },
+    {
+      "path": "tests/core/booster-policy-boundaries.test.ts",
+      "sha256": "e4b662c8ee482582a7192238201947d51de1ff6b5498188ec75538c5a72b0966"
+    },
+    {
+      "path": "tests/core/booster-prediction.test.ts",
+      "sha256": "934e597c3e5dcaf65f2fcb74601f14fb3ae5b3487fd23eaf8fd958a012ce51f2"
+    },
+    {
+      "path": "tests/core/booster-scheduling-boundaries.test.ts",
+      "sha256": "5770ba1a09c78a6209f52e7fb03368e5dc001519a78bf64be4a469cb4f0a2d47"
+    },
+    {
+      "path": "tests/core/booster-source.test.ts",
+      "sha256": "dbe20f96a393527125e1c59d2209ed5c9a3a740ecbf7b6a55a93af2ee17223d8"
+    },
+    {
+      "path": "tests/core/booster-terminal-allocation.test.ts",
+      "sha256": "c05b67feb826a82faff130cf27de1927ff5c9431c75d8971e97172f787013c6e"
+    },
+    {
+      "path": "tests/core/booster-terminal-envelope.test.ts",
+      "sha256": "c2ba118228d905c714617563709b83e0a82db734b18138dd690430df7ee4d82e"
+    },
+    {
+      "path": "tests/core/collapsed-trig.test.ts",
+      "sha256": "1c836f40f310afa97a45687cc87b6c795746801773377c91d6b73ec5cf590462"
+    },
+    {
+      "path": "tests/core/control-contracts.test.ts",
+      "sha256": "518a4cd9a73a1abd74b86ebb5525d30a51fd683b43370141712b6c719d1212d7"
+    },
+    {
+      "path": "tests/core/damage-controls.test.ts",
+      "sha256": "a16f6e93aad23f957ce6f4316c1ffdba7307ede7b9d20c082ad9b1706330d04b"
+    },
+    {
+      "path": "tests/core/damage-debris.test.ts",
+      "sha256": "8b46d45e33a37b5ad82d4edcbe49ae2550887778dbc654601a79310de21c01d1"
+    },
+    {
+      "path": "tests/core/damage-detachment.test.ts",
+      "sha256": "8a0d488adf3544f64269cd46bb9dee06bf2f7e156ecfc4c7a1808ab3ea38d97e"
+    },
+    {
+      "path": "tests/core/damage-endpoint.test.ts",
+      "sha256": "e852c4a9a8b91a6834468811233ed9a105079ad4df223b1ea1e33d3c232c8cd0"
+    },
+    {
+      "path": "tests/core/damage-exposure.test.ts",
+      "sha256": "7b2d272f3273124c46fcfcd27c78f1fac491ed6c35ccd9801aaba74a671bcb28"
+    },
+    {
+      "path": "tests/core/damage-flight.test.ts",
+      "sha256": "2cc2d928e21ef27dfa674c0750a5b8e0a666f184cbfbb265cad7d21859dacda8"
+    },
+    {
+      "path": "tests/core/damage-forecast.test.ts",
+      "sha256": "e4cdf6afbf0b3f753936c8a9cb2029055c70faa513c2997345da24ccb1fbad94"
+    },
+    {
+      "path": "tests/core/damage-guidance.test.ts",
+      "sha256": "99fff36240a010b5c371f6fbf0513a2ca64a74313ae24721ee48a3325c2a85ba"
+    },
+    {
+      "path": "tests/core/damage-lifecycle.test.ts",
+      "sha256": "185a3b8932b301e8ea3d4847ae797ba74b208166fa1c9fecba0e8115ddeecdea"
+    },
+    {
+      "path": "tests/core/damage-mass.test.ts",
+      "sha256": "6843fec36b5d6164e5a2c7acf6b627a67939b3bc48a5519ed4e81b89df11ab2e"
+    },
+    {
+      "path": "tests/core/damage-material-inversion.test.ts",
+      "sha256": "2e8a86b5e66efa3f955a44ada1b254034dd97130a9126f1ffc207a1921decfb4"
+    },
+    {
+      "path": "tests/core/damage-material.test.ts",
+      "sha256": "06346a4c70cedc01ef2baa7bd6eac991a0aa3c025855277b5d778ed3753e2f7d"
+    },
+    {
+      "path": "tests/core/damage-mission.test.ts",
+      "sha256": "3b462255c9ab65618c4a3ed9480019fd9a84a49871055f25c4b0beb1989f50ae"
+    },
+    {
+      "path": "tests/core/damage-natural-flight.test.ts",
+      "sha256": "339036fcf6dc5ba4baec4f32bf404d84a24d22a83fdb822bbb4c55d652e476ec"
+    },
+    {
+      "path": "tests/core/damage-root-solver.test.ts",
+      "sha256": "1e01e51b263ef25492a36b54a121a950b973a6ce992e1e4c8b22288348c3f5ae"
+    },
+    {
+      "path": "tests/core/damage-root.test.ts",
+      "sha256": "940420255abd9cbf35e904210b21f8d12593acdaea240f572914946a20c4aa11"
+    },
+    {
+      "path": "tests/core/damage-state.test.ts",
+      "sha256": "4faab20f64f7e27068d696656ab27b3141703c59b5723f0024c82d110831f6b7"
+    },
+    {
+      "path": "tests/core/damage-terminal.test.ts",
+      "sha256": "92e7a806bcf2605054f3b46a9dcfb342cc5fe352de042f71ca9ccf53f4e4fe80"
+    },
+    {
+      "path": "tests/core/damage-thermal.test.ts",
+      "sha256": "4cdaaa598ccc7a86d500fb4feeb549329b2e1fa349fe63c8565e8d8ae834789e"
+    },
+    {
+      "path": "tests/core/domain-edges.test.ts",
+      "sha256": "0f6a48bf5fc2c58a15aa8d3be34f43edbc581c35c074bbed6998296b0ea02468"
+    },
+    {
+      "path": "tests/core/failure-freshness.test.ts",
+      "sha256": "507da78688faa3db8b08e6c0d4043ac3a33fb17b1e7d2590c4e804b9f20db0f5"
+    },
+    {
+      "path": "tests/core/fall-continuation.test.ts",
+      "sha256": "7abe889a174075a5fbc6a50b406e7089f18f7ef8886a4aa9446ecefa28d35058"
+    },
+    {
+      "path": "tests/core/felt-g.test.ts",
+      "sha256": "19808cd54d0fd50d917eb25b4ff346fd3eba2a8a73db8695b4a108d1e9b83446"
+    },
+    {
+      "path": "tests/core/final-descent-profile.test.ts",
+      "sha256": "33a50b64b65ff0da85c5575f6fd1190db416d65797c138fc47b2e5f8658cead8"
+    },
+    {
+      "path": "tests/core/grid-fins.test.ts",
+      "sha256": "51ac9aa6d0a320dd2955f9013b05dd488d2b902880c6bb4ecbd00b3deedc3698"
+    },
+    {
+      "path": "tests/core/guidance-physics.test.ts",
+      "sha256": "09839225630db231454f179a623534ecbf7736b0befe087c704221c1c2cd9f15"
+    },
+    {
+      "path": "tests/core/guidance-retained-hardware.test.ts",
+      "sha256": "60e4843e9ae54b5b18992dde98b9bf86ee28f3cbe122f226eb02bde312230ed1"
+    },
+    {
+      "path": "tests/core/guidance-truth.test.ts",
+      "sha256": "cdaaffc9902c77f88ac95c4b30b31b8245517de775deedefd9708d82af9f3c39"
+    },
+    {
+      "path": "tests/core/heat-transfer.test.ts",
+      "sha256": "b15e777da208199be7fd713dcc6caa64d980083e78700a92b686f45d60ba7928"
+    },
+    {
+      "path": "tests/core/hot-staging.test.ts",
+      "sha256": "d078d8b23ee35cdf3a8ca7a3642f8aa78b2fd4e3b49741926e90a9bd9e1d0bca"
+    },
+    {
+      "path": "tests/core/invariants.test.ts",
+      "sha256": "b064afd44f4084a790f83b1c5061cba2d3fd95b3133e3470ff18f2ffb9aaabb9"
+    },
+    {
+      "path": "tests/core/landing-burn.test.ts",
+      "sha256": "56c114357cc33381975cea1f780af84767a7b05997e6a647d55f1cbacf34a094"
+    },
+    {
+      "path": "tests/core/mass.test.ts",
+      "sha256": "7b7bd31057ed7487f11ba6b94464b2040d7fbfaf8c5df6c72bd77ba687a41929"
+    },
+    {
+      "path": "tests/core/mission-continuation.test.ts",
+      "sha256": "7d25c313dfe54565ec274b2b8b824bd598b7675d139341114e05427dd801c294"
+    },
+    {
+      "path": "tests/core/orbit-demo.test.ts",
+      "sha256": "e7faa9b8207dc22bac8d5ccc7ff900513a9a952cb2ddfc18f6e8d5c8c644ccf0"
+    },
+    {
+      "path": "tests/core/orbit.test.ts",
+      "sha256": "5cafbcc23ad568f53e0ad2766b31b6f7490b80cc327bd0a4e2fca57f1a0085f4"
+    },
+    {
+      "path": "tests/core/paid-force-epoch.test.ts",
+      "sha256": "f2841c98c538faa3ab6d8683b06abfc91bae6278a00ae9d1c8b3256698c05273"
+    },
+    {
+      "path": "tests/core/rcs-dead-zone.test.ts",
+      "sha256": "c9174966b0fcf2f493276cfe67e2e48398219834e3a5a47fd75049874c8dafb5"
+    },
+    {
+      "path": "tests/core/rcs-payment.test.ts",
+      "sha256": "5340eccb7873beb3f4ebbc0cdf95286a7caf09fd36903ece8999c2aae08b94df"
+    },
+    {
+      "path": "tests/core/rvac.test.ts",
+      "sha256": "6367550480cc8e5763877c4ebcd1c4b7c41d53ace5599a81015662eaa018afc8"
+    },
+    {
+      "path": "tests/core/scenarios.test.ts",
+      "sha256": "61fb7b8fe0905936489f9e9cce70b4623b6ba8541a28f57b48bd5a57e6731449"
+    },
+    {
+      "path": "tests/core/ship-control-boundaries.test.ts",
+      "sha256": "119d80cd8448fd0ed20130a010a1495895c25a49023b7857a74a4993f1bfa154"
+    },
+    {
+      "path": "tests/core/step.test.ts",
+      "sha256": "ec8f9aa90157b7a0a5930716bb9064c8925975e99d1269032a9ff6d02a74032a"
+    },
+    {
+      "path": "tests/core/super-heavy.test.ts",
+      "sha256": "7b09220800186449de2d2b5d88a53c1b51556e5a5a59ee76e0a269c35ef6df62"
+    },
+    {
+      "path": "tests/core/thrust-altitude.test.ts",
+      "sha256": "875651da68d8039255fc80d9fa3327ceb75df5882edfdb2e66cbb8c1b0a61847"
+    },
+    {
+      "path": "tests/core/tower-catch.test.ts",
+      "sha256": "a0a5aadc4a04df2634bbce9465aa84257ae35d9066969257db1808924a784610"
+    },
+    {
+      "path": "tests/core/tps-material.test.ts",
+      "sha256": "8f38b22e48e70b32c06bdc04c171f16c4d0a2468d3abf6c20edd5577a178217d"
+    },
+    {
+      "path": "tests/core/v3-flight.test.ts",
+      "sha256": "86d5500d8c754c92d456660f972d31c3e8f87968856b20040d3c0553ee2d7872"
+    },
+    {
+      "path": "tests/core/v3.test.ts",
+      "sha256": "b7d8a8651f9f1ab26463bbef62de8762588f3208805b2d5df70b0358f259b378"
+    },
+    {
+      "path": "tests/core/vehicle-components.test.ts",
+      "sha256": "0e90a53e37f4f16612356ee8cef9f74301132adf2f46fd7238bfd1e38e73dedf"
+    },
+    {
+      "path": "tests/core/wind.test.ts",
+      "sha256": "b71058d51260c2a7f2367eff1c349b99d0341c0e7558e3633e977ccb493055af"
+    },
+    {
+      "path": "tests/e2e/chromium.ts",
+      "sha256": "e32107c386cfd11dd8f01c9cc5384adf7222b1f48a24ab7de9687e6dbb3f601b"
+    },
+    {
+      "path": "tests/e2e/post-compositing.spec.ts",
+      "sha256": "490a361b13d2b9463eb97bb48616100a3e8e7d72bd1b621a779c85f539ae5faa"
+    },
+    {
+      "path": "tests/e2e/renderer/heat-shield-witness.ts",
+      "sha256": "c126a94f681444d66bba3b9224949bcb4bf838e0eb668b09d0ffa3341ca1e76f"
+    },
+    {
+      "path": "tests/e2e/shake.spec.ts",
+      "sha256": "9c10aeb4f4062b47276bcdb752d86c37b419b95787b15085a74162d976d0bde8"
+    },
+    {
+      "path": "tests/e2e/short-landscape-hud.spec.ts",
+      "sha256": "94e545576a9b88fcead56dc9d4ab52f1131825d2f6285d2eb623bc1d2cd5baa8"
+    },
+    {
+      "path": "tests/e2e/staging.spec.ts",
+      "sha256": "2f99d76ffd6bfda6e8b668bd8d895c81e300bc0ee0893309bcd24278c3a37b04"
+    },
+    {
+      "path": "tests/e2e/vehicle-damage.spec.ts",
+      "sha256": "d2f33e1d5cc6040a785ef2f704031450c924c78f9d2244be04fd2734979fec3f"
+    },
+    {
+      "path": "tests/e2e/visual-browser-trace.ts",
+      "sha256": "3bc5d775cea6b0e5844622e2a0810c595abdbb90584f389d2766616ee671d6de"
+    },
+    {
+      "path": "tests/e2e/visual-budget-probe.ts",
+      "sha256": "d450cc4671149cb42bb7e1c6a34259b2d1ac06152f22a2302a7d4c3679c44f99"
+    },
+    {
+      "path": "tests/e2e/visual-budget-receipts.ts",
+      "sha256": "2c1fe0d2aacee3acdd808b8a057f5b8f44d4f4e81a5d64be79776c3d92220c1b"
+    },
+    {
+      "path": "tests/e2e/visual-budget.spec.ts",
+      "sha256": "98504af61fb46edf0f2555e7f1fec419308cfcbd6363fe3f9b5b104fdea4ce79"
+    },
+    {
+      "path": "tests/e2e/visual-evidence-fixture.ts",
+      "sha256": "ff992ee87d63a565301e35a320bed838f211390b4e8cd39f5779d579bbc48dc9"
+    },
+    {
+      "path": "tests/e2e/visual-runtime-receipt.ts",
+      "sha256": "8089f2608677c5113888faad3245676a2829256a2f55293db286ea67fce5fc0e"
+    },
+    {
+      "path": "tests/e2e/visual-scenes.spec.ts",
+      "sha256": "fe2eb05fdf38b9db0f3df145cd7501aa70563d1657a168225440e593440f7598"
+    },
+    {
+      "path": "tests/fixtures/booster-terminal-allocation.json",
+      "sha256": "d0ecdfc97575eb0cbebdf4288134d3c27fb85f1aa86e2e76955fcfe4db8f331c"
+    },
+    {
+      "path": "tests/golden/booster-record.test.ts",
+      "sha256": "6d7b9755311f6aa618be439750e174a3810b76fc6c00b354e4c68a597e1842c8"
+    },
+    {
+      "path": "tests/golden/booster-record.ts",
+      "sha256": "dbb1f874135dbd0da06cf2e682e91c0cdfd7f059d4074f649760f41a1671b265"
+    },
+    {
+      "path": "tests/hud/booster-presentation.test.ts",
+      "sha256": "c85c312fd5ec7a82c229b0c7de5c7a4fb55addd4623c7d1e47454f08cbe6d155"
+    },
+    {
+      "path": "tests/hud/debrief.test.ts",
+      "sha256": "d26b03387d56e787bdb7d62ebbde5583a4816c8dba4f9b62a24d5082ce0ea322"
+    },
+    {
+      "path": "tests/hud/engine-groups.test.ts",
+      "sha256": "f47791656c09e5f90439265fbed83425aa25f86306dc8fbe7152e9934d0f20ce"
+    },
+    {
+      "path": "tests/hud/prediction.test.ts",
+      "sha256": "45226651526f854b04d314f8725a3f80892529cdcaf5fbd7091adccf70471acd"
+    },
+    {
+      "path": "tests/hud/v3-prediction.test.ts",
+      "sha256": "96fb5d4cc9eb240bb8e3e4d6699e7478b7936114eb256b1e114d9be3a4e86520"
+    },
+    {
+      "path": "tests/proofs/acceleration-components.test.ts",
+      "sha256": "ffeea3dd9483cdf834d27318ddb1ec47f45f2187f13983132daa69a360044257"
+    },
+    {
+      "path": "tests/proofs/burn-preparation-module-mock.test.ts",
+      "sha256": "b53c63b5d2b21ba9d504ceaa0ed67681136365519426b8365bec1ce9a66d5007"
+    },
+    {
+      "path": "tests/proofs/burn-preparation.test.ts",
+      "sha256": "c77ac2f8ae41bb7c48d61e07647d144ecddb0df3bf7b0a2a90f3cefd7f567bca"
+    },
+    {
+      "path": "tests/proofs/fixtures/booster-alignment-before-terminal-grid.ts",
+      "sha256": "747e2580d623e031f35f9e42766111795c109933208adb898db1ebcfe764be00"
+    },
+    {
+      "path": "tests/proofs/fixtures/burn-before-preparation/aero.ts",
+      "sha256": "633ace6ce04b842b6a02272bbbadbeefc5d34b57355052820857d63aa00aa543"
+    },
+    {
+      "path": "tests/proofs/fixtures/burn-before-preparation/guidance-physics.ts",
+      "sha256": "1390d31bf04456f4885af5fd71c61de2647ff8013e9077d70bf29ecfb26985bd"
+    },
+    {
+      "path": "tests/proofs/fixtures/burn-before-preparation/propulsion.ts",
+      "sha256": "14d242fdcbbd8507152fdd5bac868597e120afb4d9434ab3445815f25bb7f694"
+    },
+    {
+      "path": "tests/proofs/fixtures/historical-runtime.ts",
+      "sha256": "f3312945b954d34e7456b6c39261d43f38c8af5912cf9206a28fede75dc08375"
+    },
+    {
+      "path": "tests/proofs/fixtures/legacy-ladders.ts",
+      "sha256": "565521f6e6408b79f90974b239c0a251f44b3587b3ccfea11b090c8c4555ca89"
+    },
+    {
+      "path": "tests/proofs/fixtures/ship-guidance.ts",
+      "sha256": "89c847e6506cc43ec8c2d7d9e6e633f614fe7f67e2ab6d83445254a17f12552c"
+    },
+    {
+      "path": "tests/proofs/fixtures/ship-initial.ts",
+      "sha256": "b1c3ff53254cd3855a3c46457b75bb2e08a6c577cdd11e6fe7997b7ca18a1a52"
+    },
+    {
+      "path": "tests/proofs/fixtures/ship-primitives.ts",
+      "sha256": "409538d0887c8a8f6eccbd93049cb2cf15cf34ddae75ebfba6dc784686c28ed9"
+    },
+    {
+      "path": "tests/proofs/fixtures/ship-step.ts",
+      "sha256": "d3a42ea6fa97fce2c0d923c12adf2dc457f850be3902c60cee9744517f27fba1"
+    },
+    {
+      "path": "tests/proofs/fixtures/unpowered-fall-before-preparation.json",
+      "sha256": "3054b8e28cdfabc9450ea40de27337c989c599aef30078ff3b25a19d66c1099b"
+    },
+    {
+      "path": "tests/proofs/fixtures/unpowered-fall-original.ts",
+      "sha256": "28166badb87c6f5eed3ddab75a02e738e19035ec3557557a21c3328279b1cdf8"
+    },
+    {
+      "path": "tests/proofs/ship-engines.test.ts",
+      "sha256": "48f8dbd05810b1d1f1c2c3372600f3c48f5de9c00b8931d3b817305b53389450"
+    },
+    {
+      "path": "tests/proofs/ship-geometry.test.ts",
+      "sha256": "0c62a5506a739f953fc3d74d943667d75f5443417f9a7d1f2e5ca5cc10bdd275"
+    },
+    {
+      "path": "tests/proofs/ship-guidance.test.ts",
+      "sha256": "989651c0b6e17e8ad6f7cd441586450cec774b19e30aaea53ea81c398cf8f081"
+    },
+    {
+      "path": "tests/proofs/ship-step.test.ts",
+      "sha256": "0226c1ee409f2d4db20f599ff97f8389ab97c8a6d9bd41fd5f82aa86713f4552"
+    },
+    {
+      "path": "tests/proofs/ship-vehicle.test.ts",
+      "sha256": "eb6f4c332f081495ec3f9b55331737d127f1a3afc8199176435949336fcd9c72"
+    },
+    {
+      "path": "tests/proofs/step-dynamics.test.ts",
+      "sha256": "f0518e4ad07fb53cf875da12265b3cc79ab7fe58fec2fae3dcf2f02d5b681dac"
+    },
+    {
+      "path": "tests/proofs/unpowered-fall-preparation.test.ts",
+      "sha256": "b191804ba6975bedcb0bb4ef481a0b66bae517d39b26d1bbc544145dd0abac8b"
+    },
+    {
+      "path": "tests/proofs/v3-default-dispatch.test.ts",
+      "sha256": "fb5844b7c300087be484008495c2676a1314394d914cd2f147878733824a7c4d"
+    },
+    {
+      "path": "tests/reference/anchors.ts",
+      "sha256": "021e02e89b9e38d7442759b674cda39c22bcaf4da66098b22f2d0c52eed54fa4"
+    },
+    {
+      "path": "tests/reference/historical-vehicles.ts",
+      "sha256": "8089cf926a6c890a1647f5ef4ea1cd8342d39b122563db92312731dcedae68a4"
+    },
+    {
+      "path": "tests/reference/in-band.json",
+      "sha256": "17bb49d433f8cf28af8a4a04c6c7afd6499be3d75733591ffc3a26b9c193de94"
+    },
+    {
+      "path": "tests/support/chromium-layout.test.ts",
+      "sha256": "cc8dc25ad5fc068eef117cd6cacb9f3e7cffbfacd6b9f0ac97b747be405bd695"
+    },
+    {
+      "path": "tests/support/native-guidance-benchmark.ts",
+      "sha256": "a9de71bb3b45929bc0ec6d057102c5766298919802a052ec6788868af6d6d422"
+    },
+    {
+      "path": "tests/ui/camera-follow.test.ts",
+      "sha256": "5d62889d7b89265fc28c9650e25f4652e1d86977f5c245ca419f6ed3b93ec88e"
+    },
+    {
+      "path": "tests/ui/damage-scene.test.ts",
+      "sha256": "ae72ac0410142655acffa800d1129d816542829df47776aa5dcf5186298e8f2f"
+    },
+    {
+      "path": "tests/ui/menu.test.ts",
+      "sha256": "d43ff6f638bf2f4ddf57132f8bf3627597c0502f9182582e5d0f412824e04c43"
+    },
+    {
+      "path": "tests/ui/session-debug-loading.test.ts",
+      "sha256": "5a74a8b80c3ba1938487f6251135340aa8ef86335928c1b5cd8a1e0106160c9c"
+    },
+    {
+      "path": "tests/ui/shell/Debrief.test.tsx",
+      "sha256": "b432fe7bd3f180f0031911d1e4d8d95f3f13d131ca4016865eb1b36a53e56c5c"
+    },
+    {
+      "path": "tests/ui/shell/fields-presets.test.ts",
+      "sha256": "fd17816b3b13ea8a9f6821982434fdb966a9593b920dc0363fcdbb0d5c4d9980"
+    },
+    {
+      "path": "tests/view/assets.test.ts",
+      "sha256": "7bae2cc5be8958c3968d7b17e8135acd1665d2f04bae3f3371ceb49c44f5bd68"
+    },
+    {
+      "path": "tests/view/booster.test.ts",
+      "sha256": "c097d4fccf2cfb2e8082f7e3562d1bec0a6379e2b45f98e5c9897ab875b07eef"
+    },
+    {
+      "path": "tests/view/catch-tower.test.ts",
+      "sha256": "2e9cfa1ddfa95c03b63fba41d652e932de2ecd68adbc1c8593171643993967f0"
+    },
+    {
+      "path": "tests/view/component-vehicle.test.ts",
+      "sha256": "7ca4f3957ad29962fadd3aa5031d3770006d5babcf9d1d72a8ccc7f043504269"
+    },
+    {
+      "path": "tests/view/dynamic-pressure.test.ts",
+      "sha256": "6cdb2b87248380fe10f910329fd4a7480b310b21591b76054b335e066b4be985"
+    },
+    {
+      "path": "tests/view/fixtures/legacy-heat-shield.ts",
+      "sha256": "0861b6d31bc888f6269783591377bd6c5e6c8de22dd76aff4a5262bc6fa345dc"
+    },
+    {
+      "path": "tests/view/fixtures/legacy-hull-lighting.ts",
+      "sha256": "08506cc53d4f824b266e735dc9821eac4693f3e5cb8b9802b5d9d37d6d4a4e78"
+    },
+    {
+      "path": "tests/view/heat-shield.test.ts",
+      "sha256": "4fbac5c2c4f6b2a953f1bbdc8a11895eea623fbf250f9dcb47d65649100dd625"
+    },
+    {
+      "path": "tests/view/lighting.test.ts",
+      "sha256": "cda2a8c511be5978d282e6104093087670452a65ed8405b82076195875113e44"
+    },
+    {
+      "path": "tests/view/post-metadata.test.ts",
+      "sha256": "24aa5d709d05dc1be73aecd1d86d19cbffa693d68e56346a70a92519391d95f1"
+    },
+    {
+      "path": "tests/view/vehicle-detail.test.ts",
+      "sha256": "0ac03fb91a041ccbc2bff11d3119e6295fe351605ce2625dd87bad92cfda794f"
+    },
+    {
+      "path": "tests/view/vehicle-geometry.test.ts",
+      "sha256": "72c5e6c7e17e8b630241c0cb80f494f31a508370b22f72f76829f88ad88633c6"
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "9d34f33caed74433e608fc036bf086e96f81836913f690bb596382331113a46e"
+    },
+    {
+      "path": "vitest.timing.config.ts",
+      "sha256": "25eb9dcfdee94a5329b32e11186d262b034af2c0d085d80f470c655207653c6d"
+    }
+  ]
+}

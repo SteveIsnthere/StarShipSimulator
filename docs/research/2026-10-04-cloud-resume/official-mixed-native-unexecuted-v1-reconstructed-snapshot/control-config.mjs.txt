@@ -1,0 +1,15 @@
+import { defineConfig } from 'vitest/config';
+import { fileURLToPath } from 'node:url';
+import { resolve, dirname } from 'node:path';
+const receipt = dirname(fileURLToPath(import.meta.url));
+const root = process.cwd();
+export default defineConfig({ resolve: { alias: {
+  $core: resolve(root, 'src/core'), $app: resolve(root, 'src/app'),
+} }, test: { environment: 'node', testTimeout: 30000, retries: 0, maxWorkers: 2,
+  reporters: ['default', 'json'], outputFile: { json: resolve(receipt, 'control-tests.json') },
+  projects: [{ extends: true, test: { name: 'native-admission', pool: 'forks', isolate: true,
+    include: [resolve(receipt, 'native-a.test.mjs'), resolve(receipt, 'native-b.test.mjs')],
+    experimental: { viteModuleRunner: false }, execArgv: ['--import', resolve(receipt, 'loader.mjs')] } },
+  { extends: true, test: { name: 'ssr-admission', pool: 'forks', isolate: true,
+    include: [resolve(receipt, 'ssr.test.mjs')] } }],
+} });

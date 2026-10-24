@@ -1,0 +1,30 @@
+{
+  "setup": "/tmp/starship-render-kernel.m9xok0x9",
+  "compiledManifestSha256": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+  "compiledFiles": 21,
+  "maps": 10,
+  "sourcesContentEntries": 492,
+  "unresolvedSources": [],
+  "ownedResearchSources": 9,
+  "currentSourcePins": 779,
+  "applicationFiles": 61,
+  "ciPins": 3,
+  "helperActuallyMapped": true,
+  "allMappedCurrentBytesExact": true,
+  "sourceToolBeforeAfterExact": true,
+  "installedEntryCount": 20167,
+  "installedBoundaryIdenticalToIndependentlyVerifiedOriginalBuild": true,
+  "bulkDependencyRehashThisReview": false,
+  "pureProofReceiptsExact": true,
+  "oldEightSourceBytesUnchanged": true,
+  "ownedBuildRootNonexecuting": true,
+  "currentApplicationQualificationSha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2",
+  "completeUnitAcceptance": "FAILED: two original 30-second separation timeouts; never waived",
+  "receiptPins": {
+    "/tmp/starship-render-kernel.m9xok0x9/kernel-compiled-manifest.json": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+    "/tmp/starship-render-kernel.m9xok0x9/setup-receipt.json": "0ccc71df3a1cbef94d310cb34707a47ffb82a5c010b3c589127d7c68115602d2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-library-parent2/parent-result.json": "e2f293d74855a1cac35fe0f780f3b8d4f0156c620010fb3d0ca07a26888000bb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-library-parent2/independent-postexit.json": "6acebd2caa29eb034edb6aa05419d367db1ed96582b08822babc6d3686a26f8c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-library-parent/precheck-failure.json": "ecac7dc86517b43996483a7ca3bd74b5b7cbaac0821110f50697eac05dec0766"
+  }
+}

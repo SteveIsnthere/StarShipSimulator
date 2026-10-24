@@ -1,0 +1,24 @@
+/** Timing only, not another flight/candidate search: exact two prior stencil
+ * cutoff states, existing shared fall implementation, unchanged source. */
+import {performance} from 'node:perf_hooks';import {writeFileSync} from 'node:fs';
+import {createScenarioVehicle,PRESETS} from '../../../src/core/scenarios';
+import {step,advanceMechanics} from '../../../src/core/step';
+import {createBoosterCutoffWork,advanceBoosterForecast} from '../../../src/core/control/booster-forecast';
+import {runBoosterPolicy} from '../../../src/core/autopilot/booster';
+import {createBurnScratch,createFallResult,unpoweredFallInto} from '../../../src/core/control/guidance-physics';
+import {SUPER_HEAVY,CATCH} from '../../../src/core/vehicles/super-heavy';
+import {rad} from '../../../src/core/units';import * as C from '../../../src/core/constants';
+let s=createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!,123).state;s.autopilot.autoLandOn=true;
+s=step(s,1/120,{},SUPER_HEAVY);const origin=s.autopilot.boosterPrediction!.origin;const rows=[];
+for(const duration of [2901/120,2913/120]){
+ const work=createBoosterCutoffWork(origin,rad(0),duration);advanceBoosterForecast(work,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
+ const scratch=createBurnScratch(),out=createFallResult();
+ for(let i=0;i<20;i++)unpoweredFallInto(work.state,CATCH.bodyCentreAltitude,scratch,out,SUPER_HEAVY,rad(0));
+ const runs=200,t0=performance.now();
+ for(let i=0;i<runs;i++)unpoweredFallInto(work.state,CATCH.bodyCentreAltitude,scratch,out,SUPER_HEAVY,rad(0));
+ rows.push({duration,runs,perCallMs:(performance.now()-t0)/runs,reached:out.reached,fallTime:out.time,
+  range:work.state.kinematics.downRangeDistance-C.starBaseXPos+out.downRange,
+  midpointStepsUpper:out.reached?Math.ceil(out.time/.25):4000,cutoffAt:work.shutdownAt,
+  note:'Exact already evaluated cutoff; existing fall numerical assumptions unchanged; no new flight/root/capture claim.'});
+}
+writeFileSync('docs/research/2026-10-03-vehicle-realism/booster-hint-isolated-cost.json',JSON.stringify(rows,null,2)+'\n');console.log(JSON.stringify(rows,null,2));

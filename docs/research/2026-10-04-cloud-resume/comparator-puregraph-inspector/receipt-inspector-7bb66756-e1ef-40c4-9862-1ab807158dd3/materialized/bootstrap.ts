@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+const [receipt,driver,result,oraclePath]=process.argv.slice(2);assert(receipt&&driver&&result&&oraclePath);
+const stat=readFileSync(`/proc/${process.pid}/stat`,'utf8');const fields=stat.slice(stat.lastIndexOf(')')+2).trim().split(/\s+/);
+const identity={pid:process.pid,start:fields[19],group:Number(fields[2]),session:Number(fields[3])};
+const until=Date.now()+30000;let acknowledged=false;
+while(Date.now()<until){
+ try{const owner=JSON.parse(readFileSync(resolve(receipt,'diagnostic.owner-ready.json'),'utf8'));assert.deepEqual(owner,identity);acknowledged=true;break;}
+ catch(error){if(error.code!=='ENOENT')throw error;}
+ await new Promise(done=>setTimeout(done,10));
+}
+assert(acknowledged,'Owner did not establish PID/start/group before controls');
+process.argv=[process.execPath,driver,result,oraclePath];await import(driver);

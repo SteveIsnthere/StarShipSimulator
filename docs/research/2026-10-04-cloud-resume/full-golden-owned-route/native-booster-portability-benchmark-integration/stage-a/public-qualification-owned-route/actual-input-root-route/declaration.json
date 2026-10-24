@@ -1,0 +1,12 @@
+{
+  "scope": "ONE read-only public admitComposite against explicit e600 and actual applied770/full20355; NO tests/compiler/replay/sourceapplication",
+  "makerReceipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/public-qualification-owned-route/root-maker-actual.json",
+  "materializationReceipt": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/native-booster-portability-benchmark-integration/stage-a/public-qualification-owned-route/root-observer-materialization.json",
+  "sourceApplicationAlreadyDoneNotRepeated": true,
+  "childMs": 12000,
+  "rootWorkMs": 22000,
+  "rootWholeMs": 30000,
+  "cleanupMs": 8000,
+  "allActualObservedAndTrackedPidStartsMustBeIndependentlyAbsent": true,
+  "noAPIInvokedByAuthor": true
+}

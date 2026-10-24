@@ -9,10 +9,10 @@ import { fieldErrors, fieldsFor } from '$ui/shell/Menu/fields';
 
 describe('the flight setup ranges', () => {
   it('accepts the actual booster tank capacity and keeps the Ship limit', () => {
-    const booster = { ...fieldsFromPreset(getScenario('rtls')!), propellant: '3400' };
+    const booster = { ...fieldsFromPreset(getScenario('rtls')!), propellant: '3650' };
     expect(fieldErrors(booster)).toEqual({});
-    expect(fieldsFor(booster).find(field => field.key === 'propellant')!.max).toBe(3400);
-    expect(fieldErrors({ ...booster, propellant: '3400.001' }).propellant).toBeTruthy();
+    expect(fieldsFor(booster).find(field => field.key === 'propellant')!.max).toBe(3650);
+    expect(fieldErrors({ ...booster, propellant: '3650.001' }).propellant).toBeTruthy();
     expect(fieldErrors({ ...booster, basedOn: 'launch-pad', propellant: '3000' }, 'super-heavy').propellant).toBeTruthy();
     expect(fieldErrors({ ...booster, basedOn: '', propellant: '3000' }, 'super-heavy')).toEqual({});
   });

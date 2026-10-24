@@ -1,0 +1,31 @@
+{
+  "completed": false,
+  "failures": [
+    "Prefix child five-second whole bound"
+  ],
+  "actualReturncode": -15,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 127160,
+      "state": "R",
+      "parent": 127159,
+      "group": 127160,
+      "session": 127160,
+      "start": "7991075"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 127160,
+      "session": 127160,
+      "start": "7991075",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/tmp/starship-trace-prefix.395ea7a3e50c43dda226501bd4c8e44a",
+  "manifestSha": "7f71d7130c3370288711501156a3b5a7216546799adf2b44ee3e49e0018d0657",
+  "elapsedSeconds": 5.299611330032349,
+  "acceptance": "Read-only retained trace prefix statistics only; original trace/diagnostic FAILED; no whole trace, critical path, renderer change, test or frame acceptance"
+}

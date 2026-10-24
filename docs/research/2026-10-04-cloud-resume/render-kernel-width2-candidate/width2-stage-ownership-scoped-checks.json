@@ -1,0 +1,71 @@
+{
+  "status": "failed",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-root-observer.py.txt",
+      "sha256": "c1f2da67f9bfcfb8c145a3da017af59c43348029d0ec5ca2c960383684131f86",
+      "kind": "Python AST syntax",
+      "status": 0
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/prepare-width2-stage-input.py.txt",
+      "sha256": "723fc54e6143ead338eb9bff6219be10a9be5eb8ed032cbdaa7055c677ff876e",
+      "kind": "Python AST syntax",
+      "status": 0
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt",
+      "sha256": "eac451540ff04c0219bb7237e2f9c270a98db209dd3ace7247543a4220171936",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-owner-scope.83caduj_/width2-business-stage.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs.txt",
+      "sha256": "eac451540ff04c0219bb7237e2f9c270a98db209dd3ace7247543a4220171936",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs"
+      ],
+      "status": 1,
+      "stdout": "\n/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-business-stage.mjs\n  12:10  error  'env' is never reassigned. Use 'const' instead  prefer-const\n\n\u2716 1 problem (1 error, 0 warnings)\n\n",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt",
+      "sha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-owner-scope.83caduj_/width2-python-preparation-bridge.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs.txt",
+      "sha256": "47bebb2a481c8269387674185ee591c5c00041cc45bb8de37df74476287ea1de",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/width2-python-preparation-bridge.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 1.8372293559950776,
+  "runtimeExecuted": false
+}

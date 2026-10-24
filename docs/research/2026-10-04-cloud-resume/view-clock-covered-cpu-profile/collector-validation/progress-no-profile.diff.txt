@@ -1,0 +1,13 @@
+--- /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/progress-reporter.mjs.txt
++++ /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/collector-validation/progress-reporter.mjs.txt
+@@ -45,8 +45,8 @@
+     assert.equal(ctx.config.testTimeout, 120000);
+     this.fd = openSync(resolve(directory, 'progress.jsonl'), 'wx', 0o600);
+     this.started = process.hrtime.bigint(); this.bytes = 0; this.sequence = 0;
+-    this.emit('project-profile-options',{projects:ctx.projects.map(project=>({name:project.name,pool:project.config.pool,execArgv:project.config.execArgv}))});
+-    assert.equal(ctx.projects.find(project=>project.name==='unit')?.config.pool,'forks','Profile requires actual supported forks worker');
++    this.emit('project-collector-options',{projects:ctx.projects.map(project=>({name:project.name,pool:project.config.pool,execArgv:project.config.execArgv}))});
++    const unit=ctx.projects.find(project=>project.name==='unit');assert.equal(unit?.config.pool,'forks','Canonical supported forks worker');for(const arg of unit.config.execArgv??[])assert(!arg.startsWith('--cpu-prof')&&!arg.includes('worker-source-recorder'),'Collector route must not recollect CPU profile');
+     this.emit('init', { reporterPid: process.pid, nodeVersion: process.version,
+       clock: 'reporter-receipt time; not worker CPU or simulation time',
+       coverage: tagged(ctx.config.coverage), testTimeout: ctx.config.testTimeout,

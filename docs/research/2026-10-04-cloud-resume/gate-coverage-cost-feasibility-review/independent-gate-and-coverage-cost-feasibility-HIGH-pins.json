@@ -1,0 +1,20 @@
+{
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/gate-coverage-cost-feasibility-review/independent-gate-and-coverage-cost-feasibility-HIGH-review.md",
+  "reviewSha256": "af94b4c84292933550261033418151acf30370ca75bf37e1d32eb421fc0a8481",
+  "inputs": {
+    "/workspace/StarShipSimulator/package.json": "6c07c3f0935753725cdfbb6d7b39285210c7dd47cfc36d940dbab913df0ebbe5",
+    "/workspace/StarShipSimulator/vitest.config.ts": "3a681308e98c2632c3bc53fc3f31603cf8cc34de9a5988a89fcbb00cb2b52bb7",
+    "/workspace/StarShipSimulator/scripts/test/run.mjs": "bdc6d3a1f91d33b17e87b3fc3e483e53c55d8599d8fd67002630966bd9a9f60d",
+    "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md": "8ed25bca8de3992a0d4b7e5b195c52ea3eef2bacac324037a8bb7a226419b05a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/independent-actual-result-HIGH-review.md": "a76ab6f52df07e7e02674ba7c726d370c8aaf6d245a305354f272bab96758129",
+    "/tmp/starship-original21-stage.l71aaL/actual-official-wrapper-result.json": "f64fd22229aa637eff92db5cd6645c271901d9f0b1e66d34ae00368b4e935993",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/actual-input/independent-actual-mixed247-failure-HIGH-review.md": "60b9c0a2b5afa7e5a20ae87243bd084d022df625fb9a7cfac497c5813fd3e388",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/progress-diagnosis/actual-diagnostic-failure/independent-actual-failure-HIGH-review.md": "79e707313056f60176794f33d7913d63df906ee0fc7513603a98f112f1fec25e",
+    "/workspace/StarShipSimulator/tests/core/orbit.test.ts": "5cafbcc23ad568f53e0ad2766b31b6f7490b80cc327bd0a4e2fca57f1a0085f4",
+    "/workspace/StarShipSimulator/tests/core/orbit-demo.test.ts": "e7faa9b8207dc22bac8d5ccc7ff900513a9a952cb2ddfc18f6e8d5c8c644ccf0",
+    "/workspace/StarShipSimulator/tests/app/view-clock.test.ts": "7026d3779d51783c5d2e0f69a6f2e7dd58e26293d53562332d7648e123cad895",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/independent-material-prefix-and-full-golden-cost-design-HIGH-review.md": "6ecf812d934354bcf54b51ab0c404f0d8f42ad7a9a5ced920780d9d7f85ad88e",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/gate-coverage-cost-feasibility-review/retained-framework-wall-observation.json": "3247f71527b9290a6176dc0f5ebb5a970e58014b7b7e2a8c47023c415a704591"
+  },
+  "scope": "read-only feasibility; no source/application/execution grant"
+}

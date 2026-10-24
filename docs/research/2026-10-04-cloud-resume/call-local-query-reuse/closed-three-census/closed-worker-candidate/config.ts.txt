@@ -1,0 +1,11 @@
+// Private one-root project; ordinary project files never change.
+import assert from 'node:assert/strict';
+import {resolve} from 'node:path';
+// @ts-expect-error research-only private materialized module
+import {admitArtifacts} from './admission.mjs';
+assert.equal(process.env.NATIVE_FLIGHT_RUN??'','');assert.equal(process.env.NATIVE_FLIGHT_RUN_SHA??'','');assert.equal(process.env.NATIVE_FLIGHT_MAPPED_CODE??'','');
+assert(!process.argv.includes('--coverage'));const{m}=await admitArtifacts(process.env.QUERY_CENSUS_NATIVE_MANIFEST,process.env.QUERY_CENSUS_NATIVE_MANIFEST_SHA);
+const base=(await import('/workspace/StarShipSimulator/vitest.config.ts')).default;
+export default {...base,root:m.root,test:{...base.test,coverage:{...base.test?.coverage,enabled:false},testTimeout:30000,retry:0,maxWorkers:1,fileParallelism:false,
+ projects:[{extends:true,test:{name:'closed-three-census',environment:'node',include:['tests/golden/booster-replay.test.ts'],exclude:[],pool:'forks',isolate:true,retry:0,testTimeout:30000,
+ setupFiles:[resolve(m.setup,'observer.mjs')],experimental:{viteModuleRunner:false},execArgv:['--import',resolve(m.setup,'loader.mjs')]}}]}};

@@ -1,0 +1,11 @@
+--- beforeowner
++++ afterowner
+@@ -8,7 +8,7 @@
+ assert.equal(digest(input),expected);const m=JSON.parse(readFileSync(input,'utf8'));
+ assert.equal(m.kind,'covered-view-clock-profile-input-v1');assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'view-clock-profile');assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);assert.equal(process.version,'v22.23.3');assert.equal(digest(process.execPath),m.node.sha);
+ assert.equal(fileURLToPath(import.meta.url),resolve(m.setup,'owner.mjs'));assert.match(relative(m.root,m.setup),/^node_modules\/\.cache\/starship-view-clock-profile-[a-f0-9]{32}$/);
+-process.chdir(m.root);const save=(n,v)=>writeFileSync(resolve(m.setup,n),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
++process.chdir(m.root);process.env.npm_execpath=m.npmCli;const save=(n,v)=>writeFileSync(resolve(m.setup,n),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
+ let primary=null,status=1,owned=null,loader=null,before=null,tools=null;const processes=[],postErrors=[];
+ function selected(){assert.equal(digest(input),expected);assert.equal(digest(m.inputPins.path),m.inputPins.sha);assert.equal(digest(process.execPath),m.node.sha);assert.equal(digest(m.helper.path),m.helper.sha);const rows={};for(const[p,h]of Object.entries(m.inputs)){rows[p]=digest(p);assert.equal(rows[p],h,p);}for(const[p,r]of Object.entries(m.materials)){rows[p]=digest(p);assert.equal(rows[p],r.sha256,p);}return rows;}
+ function decode(v){const[t,x]=v;if(t==='undefined')return undefined;if(t==='null')return null;if(t==='object')return Object.fromEntries(x.map(([k,a])=>[k,decode(a)]));if(t==='array')return x.map(decode);return x;}

@@ -1,0 +1,57 @@
+import assert from 'node:assert/strict';
+import { lstatSync, readdirSync, readFileSync, mkdtempSync, mkdirSync, writeFileSync, symlinkSync, rmSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { createHash } from 'node:crypto';
+export function assertOutputInventory(actual, expected) { assert.deepEqual(actual, expected); }
+export function assertCopiedPublic(actualSha, originalSha) { assert.equal(actualSha, originalSha); }
+export function assertMapSource(actualContent, sourceContent) { assert.equal(actualContent, sourceContent); }
+export function artifactNegativeControls() {
+  const outcomes = [];
+  const deny = (name, run) => { assert.throws(run, { code: 'ERR_ASSERTION' }); outcomes.push({ name, rejected: true }); };
+  const inventory = { 'entry.mjs': 'a', 'simulation.js': 'b', 'simulation.js.map': 'c', 'serviceworker.js': 'd' };
+  assertOutputInventory({ ...inventory }, inventory); outcomes.push({ name: 'exact-complete-inventory', accepted: true });
+  deny('added-unknown-unmapped-runtime', () => assertOutputInventory({ ...inventory, 'unknown.js': 'e' }, inventory));
+  deny('missing-map', () => { const copy = { ...inventory }; delete copy['simulation.js.map']; assertOutputInventory(copy, inventory); });
+  deny('changed-runtime-byte', () => assertOutputInventory({ ...inventory, 'simulation.js': 'changed' }, inventory));
+  deny('changed-copied-public-byte', () => assertCopiedPublic('changed', 'original'));
+  deny('map-source-content-drift', () => assertMapSource('changed', 'original'));
+  return outcomes;
+}
+
+export function strictOutputInventory(directory) {
+  const files = {}; let count = 0, total = 0;
+  function walk(path, depth) {
+    assert(depth <= 16, 'Output directory depth cap');
+    const stat = lstatSync(path);
+    assert(!stat.isSymbolicLink(), 'Symlink output is not part of the reviewed bundle');
+    if (stat.isDirectory()) {
+      assert(++count <= 2048, 'Output inventory entry cap');
+      for (const name of readdirSync(path).sort()) walk(resolve(path, name), depth + 1);
+    } else {
+      assert(stat.isFile(), 'Special output entry is unsupported');
+      assert(++count <= 2048, 'Output inventory entry cap');
+      total += stat.size; assert(total <= 16 * 1024 * 1024, 'Output inventory byte cap');
+      files[relative(directory, path)] = createHash('sha256').update(readFileSync(path)).digest('hex');
+    }
+  }
+  walk(directory, 0); return files;
+}
+export function collectorControls(output) {
+  const sandbox = mkdtempSync(resolve(output, 'collector-control.'));
+  const root = resolve(sandbox, 'bundle'); mkdirSync(root);
+  writeFileSync(resolve(root, 'known.js'), 'export {};');
+  const outcomes = [];
+  try {
+    assert.deepEqual(Object.keys(strictOutputInventory(root)), ['known.js']);
+    outcomes.push({ name: 'actual-collector-regular-file', accepted: true });
+    symlinkSync(resolve(root, 'known.js'), resolve(root, 'unknown.js'));
+    assert.throws(() => strictOutputInventory(root), { code: 'ERR_ASSERTION' });
+    outcomes.push({ name: 'actual-collector-added-symlink-file', rejected: true });
+    rmSync(resolve(root, 'unknown.js'));
+    const other = resolve(sandbox, 'other'); mkdirSync(other); writeFileSync(resolve(other, 'hidden.js'), 'export {};');
+    symlinkSync(other, resolve(root, 'linked-directory'));
+    assert.throws(() => strictOutputInventory(root), { code: 'ERR_ASSERTION' });
+    outcomes.push({ name: 'actual-collector-added-symlink-directory', rejected: true });
+  } finally { rmSync(sandbox, { recursive: true }); }
+  return outcomes;
+}

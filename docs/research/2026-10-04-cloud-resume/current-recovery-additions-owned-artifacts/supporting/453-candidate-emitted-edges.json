@@ -1,0 +1,66 @@
+{
+  "kind": "query-reuse-role-emitted-edge-certificate-v1",
+  "role": "candidate",
+  "expectedSources": [
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-inert-proof-4b8fed6b6cc44de49d9d3222d9a88b5c/entry-census.ts",
+    "/workspace/StarShipSimulator/src/core/constants.ts",
+    "/workspace/StarShipSimulator/src/core/damage-state.ts",
+    "/workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+    "/workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+    "/workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+    "/workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+    "/workspace/StarShipSimulator/src/core/physics/tps-material.ts",
+    "/workspace/StarShipSimulator/src/core/physics/vehicle-components.ts",
+    "/workspace/StarShipSimulator/src/core/units.ts",
+    "/workspace/StarShipSimulator/src/core/vehicle.ts",
+    "/workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+    "/workspace/StarShipSimulator/src/core/vehicles/v3.ts"
+  ],
+  "entryAuthority": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-inert-proof-4b8fed6b6cc44de49d9d3222d9a88b5c/entry-census.ts",
+    "sha256": "d232d6c7fe5285ddf8721f2be84901691a007d1179e05e04b7f8b933fef24f81",
+    "plainPath": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-inert-proof-4b8fed6b6cc44de49d9d3222d9a88b5c/entry-census.ts",
+    "plainSha256": "d232d6c7fe5285ddf8721f2be84901691a007d1179e05e04b7f8b933fef24f81",
+    "counted": false,
+    "witnessSuffix": ""
+  },
+  "edges": [
+    {
+      "fileName": "entry.mjs",
+      "isEntry": true,
+      "facadeModuleId": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-inert-proof-4b8fed6b6cc44de49d9d3222d9a88b5c/entry-census.ts",
+      "moduleIds": [
+        "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-inert-proof-4b8fed6b6cc44de49d9d3222d9a88b5c/entry-census.ts"
+      ],
+      "imports": [
+        "simulation-Bmp3wPlr.js"
+      ],
+      "dynamicImports": [],
+      "returnedCodeSha256": "b5cd98dc7b85e1ccce8ef8176690f2300720e3088bdf3e4a0f50b7ab826fbce6",
+      "artifactSha256": "b5cd98dc7b85e1ccce8ef8176690f2300720e3088bdf3e4a0f50b7ab826fbce6"
+    },
+    {
+      "fileName": "simulation-Bmp3wPlr.js",
+      "isEntry": false,
+      "facadeModuleId": null,
+      "moduleIds": [
+        "/workspace/StarShipSimulator/src/core/units.ts",
+        "/workspace/StarShipSimulator/src/core/constants.ts",
+        "/workspace/StarShipSimulator/src/core/vehicles/v3.ts",
+        "/workspace/StarShipSimulator/src/core/vehicle.ts",
+        "/workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+        "/workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+        "/workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+        "/workspace/StarShipSimulator/src/core/physics/vehicle-components.ts",
+        "/workspace/StarShipSimulator/src/core/physics/tps-material.ts",
+        "/workspace/StarShipSimulator/src/core/damage-state.ts",
+        "/workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+        "/workspace/StarShipSimulator/src/core/physics/damage-thermal.ts"
+      ],
+      "imports": [],
+      "dynamicImports": [],
+      "returnedCodeSha256": "85b5265ea5503d75a43442395c2577ab09fc0e320a246816bf22ed78dffd3aac",
+      "artifactSha256": "85b5265ea5503d75a43442395c2577ab09fc0e320a246816bf22ed78dffd3aac"
+    }
+  ]
+}

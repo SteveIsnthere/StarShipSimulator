@@ -32,7 +32,7 @@ describe('bounded deterministic booster prediction',()=>{
     const j=s.autopilot.boosterPrediction!;
     const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=1;
     f.handoff={x:1,height:100,vx:0,vy:-20,time:10,lateralFeasible:false};
-    j.low={originTime:0,burnDuration:5,shutdownAt:5,coastPitch:rad(0),forecast:f};
+    j.low={...(j.origin.damage?{damageRevision:j.origin.damage.revision}:{}),originTime:0,burnDuration:5,shutdownAt:5,coastPitch:rad(0),forecast:f};
     j.high={...j.low,burnDuration:5+1/120,shutdownAt:6,forecast:{...f,rangeError:-1}};
     j.stage='validate';j.selected=j.low;j.rollout.done=true;j.rollout.state.failures.crashed=true;
     const count=j.iterations;
@@ -65,7 +65,7 @@ describe('bounded deterministic booster prediction',()=>{
     ready.autopilot.boosterPhase='terminal';ready.autopilot.boosterCoastPitch=rad(0);
     const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=3;
     f.handoff={x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true};
-    j.low={originTime:0,burnDuration:5,shutdownAt:20,coastPitch:rad(0),forecast:f};
+    j.low={...(j.origin.damage?{damageRevision:j.origin.damage.revision}:{}),originTime:0,burnDuration:5,shutdownAt:20,coastPitch:rad(0),forecast:f};
     j.high={...j.low,burnDuration:5+1/120,forecast:{...f,rangeError:-4}};
     j.lowReady=ready;j.highReady=cloneState(ready);
     j.stage='validate';j.selected={...j.low,burnDuration:4};
@@ -74,7 +74,13 @@ describe('bounded deterministic booster prediction',()=>{
     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
     const next=s.autopilot.boosterPrediction!;
     expect(next.done).toBe(false);expect(next.stage).toBe('validate');
-    expect(next.selected).toEqual(j.low);expect(next.rollout.state).toEqual(ready);
+    expect(next.selected).toEqual(j.low);expect(next.terminalOrigin).toEqual(ready);
+    let paidReady=cloneState(ready);
+    for(let i=0;i<4;i++) {
+      paidReady.autopilot.boosterFallTime=Math.max(2,(ready.autopilot.boosterFallTime ?? 900)-i/120);
+      paidReady=advanceMechanics(paidReady,1/120,runBoosterPolicy,SUPER_HEAVY);
+    }
+    expect(next.rollout.result.steps).toBe(4);expect(next.rollout.state).toEqual(paidReady);
     expect(next.rollout.state).not.toBe(ready);expect(next.iterations).toBe(count);
     expect(JSON.stringify(ready)).toBe(before);expect(s.autopilot.boosterReturnPlan).toBeUndefined();
   });
@@ -153,7 +159,7 @@ describe('bounded deterministic booster prediction',()=>{
     const j=s.autopilot.boosterPrediction!;
     const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=1000;
     f.handoff={x:1000,height:2000,vx:0,vy:-200,time:20,lateralFeasible:false};
-    j.low={originTime:j.origin.world.environmentTime,burnDuration:0,shutdownAt:0,coastPitch:rad(0),forecast:f};
+    j.low={...(j.origin.damage?{damageRevision:j.origin.damage.revision}:{}),originTime:j.origin.world.environmentTime,burnDuration:0,shutdownAt:0,coastPitch:rad(0),forecast:f};
     j.stage='upper';j.duration=4;j.firstDuration=4;j.upperDuration=12;
     j.rollout.done=true;j.rollout.result={...f,rangeError:200};j.rollout.shutdownAt=4;
     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
@@ -173,7 +179,13 @@ describe('bounded deterministic booster prediction',()=>{
     advanceBoosterPrediction(s,1/120,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
     const next=s.autopilot.boosterPrediction!;
     expect(next.stage).toBe('validate');expect(next.rollout.step).toBe(1/120);
-    expect(next.rollout.state).toEqual(ready);
+    expect(next.terminalOrigin).toEqual(ready);
+    let paidReady=cloneState(ready);
+    for(let i=0;i<4;i++) {
+      paidReady.autopilot.boosterFallTime=Math.max(2,(ready.autopilot.boosterFallTime ?? 900)-i/120);
+      paidReady=advanceMechanics(paidReady,1/120,runBoosterPolicy,SUPER_HEAVY);
+    }
+    expect(next.rollout.result.steps).toBe(4);expect(next.rollout.state).toEqual(paidReady);
     expect(next.rollout.state).not.toBe(ready);
     expect(next.rollout.state.status.landed).toBe(false);
     expect(s.autopilot.boosterReturnPlan).toBeUndefined();
@@ -197,7 +209,7 @@ describe('bounded deterministic booster prediction',()=>{
     const j=s.autopilot.boosterPrediction!;
     const f=createBoosterForecast();f.reached=true;f.fuel=100000;f.rangeError=141;
     f.handoff={x:0,height:100,vx:0,vy:-20,time:10,lateralFeasible:true};
-    const low={originTime:0,burnDuration:5,shutdownAt:5,coastPitch:rad(0),forecast:f};
+    const low={...(j.origin.damage?{damageRevision:j.origin.damage.revision}:{}),originTime:0,burnDuration:5,shutdownAt:5,coastPitch:rad(0),forecast:f};
     const high={...low,burnDuration:6,shutdownAt:6,forecast:{...f,rangeError:-600}};
     j.stage='validate';j.low=low;j.high=high;j.selected=low;
     j.rollout.done=true;j.rollout.state.failures.crashed=true;

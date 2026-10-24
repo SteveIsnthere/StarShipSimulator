@@ -1,0 +1,22 @@
+--- failed52launcher962
++++ public-anchor52launcher
+@@ -4,8 +4,8 @@
+ import {createHash,randomUUID} from 'node:crypto';
+ import {runOwnedCommand,verifyNoOwnedProcesses} from './owned-command.mjs';
+ import {installedToolSnapshot} from '/workspace/StarShipSimulator/scripts/bench/native-loader.mjs';
+-const root=process.cwd(),draft=resolve(root,'docs/research/2026-10-04-cloud-resume/comparator-canonical-stack-snapshot');
+-const receipt=resolve(draft,'receipt-canonical-stack-'+randomUUID());mkdirSync(receipt);
++const root=process.cwd(),draft=resolve(root,'docs/research/2026-10-04-cloud-resume/comparator-public-assert-anchors');
++const receipt=resolve(draft,'receipt-public-assert-'+randomUUID());mkdirSync(receipt);
+ const digest=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+ const save=(name,value)=>writeFileSync(resolve(receipt,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+ const outer=resolve(process.argv[1]),owner=resolve(dirname(outer),'owned-command.mjs');
+@@ -24,7 +24,7 @@
+  const qualifiedNode=JSON.parse(readFileSync(acceptedRuntime,'utf8')).node;
+  assert.equal(qualifiedNode,'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48');
+  assert.equal(digest(process.execPath),qualifiedNode,'Exact previously accepted managed Node binary');
+- assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'canonical-stack-controls');
++ assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'public-assert-anchor-controls');
+  assert.equal(digest(resolve(draft,'launch-input-pins.json')),process.env.STARSHIP_CONTROL_LAUNCH_INPUT_SHA);
+  assert.equal(digest(resolve(draft,'launcher-independent-review.md')),process.env.STARSHIP_CONTROL_LAUNCH_REVIEW_SHA);
+  assert.equal(digest(resolve(draft,'launcher-independent-review-pins.json')),process.env.STARSHIP_CONTROL_LAUNCH_REVIEW_PINS_SHA);

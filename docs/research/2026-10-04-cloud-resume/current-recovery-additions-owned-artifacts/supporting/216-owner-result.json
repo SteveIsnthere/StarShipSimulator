@@ -1,0 +1,55 @@
+{
+  "kind": "query-reuse-pure-proof-owner-result-v1",
+  "completed": false,
+  "status": 70,
+  "stage": "native-build",
+  "primary": "AssertionError [ERR_ASSERTION]: native-build\n\n1 !== 0\n\n    at command (file:///workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/owner.mjs:25:130)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async file:///workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/owner.mjs:31:2",
+  "postErrors": [
+    {
+      "name": "artifact-after",
+      "message": "AssertionError [ERR_ASSERTION]: Graph verification unavailable\n    at artifacts (file:///workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/owner.mjs:19:29)\n    at file:///workspace/StarShipSimulator/node_modules/.cache/starship-query-reuse-proof-2098d94be23b4a699b0e4cfc98003f69/owner.mjs:39:25\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)"
+    }
+  ],
+  "processes": [
+    {
+      "name": "native-build",
+      "code": 1,
+      "receipt": {
+        "exit": {
+          "code": 1,
+          "signal": null
+        },
+        "failure": null,
+        "bytes": {
+          "stdout": 463,
+          "stderr": 2615
+        },
+        "cap": 8388608,
+        "finished": true,
+        "closed": true,
+        "cleanup": {
+          "pid": 112052,
+          "start": "7087974",
+          "group": 112052,
+          "session": 112052,
+          "tracked": [
+            {
+              "pid": 112052,
+              "state": "S",
+              "parent": 112045,
+              "group": 112052,
+              "session": 112052,
+              "start": "7087974"
+            }
+          ],
+          "executing": []
+        }
+      }
+    }
+  ],
+  "elapsedMs": 3437.886907,
+  "application": false,
+  "timing": false,
+  "goldenReplayPassed": false,
+  "parentAllActualTrackedAbsenceRequired": true
+}

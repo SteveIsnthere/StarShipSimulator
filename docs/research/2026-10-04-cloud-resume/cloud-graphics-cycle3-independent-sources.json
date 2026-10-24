@@ -1,0 +1,70 @@
+{
+  "scope": "Read-only fresh independent review; selected small source/evidence hashes, no current bulk browser rehash or execution",
+  "pins": [
+    {
+      "path": "/workspace/StarShipSimulator/tests/e2e/chromium.ts",
+      "bytes": 2391,
+      "sha256": "b65e613f21fbc9e5d4b95d6e314609dd4a484463db1b99f3cfcc2685723cab14"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/playwright-core/browsers.json",
+      "bytes": 1780,
+      "sha256": "f306eed529599b1eaf2f8a85db9de2b23e1a3fe36c2b66434b7c9434fb627a99"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-phase-8.md",
+      "bytes": 50987,
+      "sha256": "a0a59bd5e4cb625d7c634f24de9c6120cc089449d512ca8884311ebc3f1e89fd"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/plans/modernization/modernization-GOAL.md",
+      "bytes": 24901,
+      "sha256": "267f8a5797c49046a4eaab256eda5e89036c891ee705fbe20bc6da3d38a64e26"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/src/view/post.ts",
+      "bytes": 9384,
+      "sha256": "3869d0edab64fdc29642d4d250c57e783e8fcce4320c2a2ffd8c2140bc1c4016"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-frame-diagnostic-outcome.md",
+      "bytes": 4448,
+      "sha256": "1cec5ea3e5fbf4f7ceeadc09e961cc3311ecbe24f4747148e71b0b62ecd5cf98"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-frame-diagnostic-artifacts/critical-path-summary.json",
+      "bytes": 13053,
+      "sha256": "f4c37d1997a3d995ee67ba24f195409c57fd764fc88c8c463d990ca72617d035"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-graphics-cycle2-independent-high-review.md",
+      "bytes": 9316,
+      "sha256": "71796e766580ee7f85987f3245a00cbfd9c7d1147b6307cf1bac45702121c7c5"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-worker-outcome.md",
+      "bytes": 3068,
+      "sha256": "6ca767f4f8c14d67fd8c58323861b3c67b895e944d428d3e85a27c423580fbf7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-startup-open-diagnostic-artifacts/startup-open.log",
+      "bytes": 1923280,
+      "sha256": "72da7f1dc606a36259582ee044c4effa0f8b0608edb9a0173a95db724f5fd3e2"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-startup-open-diagnostic-artifacts/startup-open.filtered.log",
+      "bytes": 330,
+      "sha256": "cfc8e75458b9c4cd9e0fb3d9c191cfbd9b2a25c59d6c6e5ca5253ba3f034857d"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-artifacts/outcome-summary.json",
+      "bytes": 14726,
+      "sha256": "1713479d6537f4a2743ec3c19bf00de47ffc6609e9f7107fc1f63c397983b6fe"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-artifacts/artifact-manifest.json",
+      "bytes": 10190,
+      "sha256": "8b4e00d71b756af66ca7d903575eda6dd6730606843bc01f4b5f43c4e66175e5"
+    }
+  ]
+}

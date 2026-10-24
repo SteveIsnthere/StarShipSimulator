@@ -1,0 +1,17 @@
+{
+  "src/core/control/guidance-physics.ts": "5698a8f7ad0da8927613a8cdd6efc2cfde88efd79563cc9d8f7bfd5c28f7ab77",
+  "src/core/physics/propulsion.ts": "96d9c56eebcb8bb3950c8d5891b8ea8a5fc88fffb676fa7bb6bda190efa3b0cd",
+  "src/core/physics/aero.ts": "07542ac5bc81c74a6b8888fa272f0e4e3baac036adc9c8a27f5b52fcb7cabc6e",
+  "src/core/physics/isa.ts": "bd83423a16ae1362073dc9f2a3e733a16125bfdb51cb03ca081c079da52a804e",
+  "src/core/physics/gravity.ts": "2eee855b40527750bbc3706c2c538ef79fa2ee442598c8be32c9b20ef98cf60d",
+  "src/core/physics/atmosphere.ts": "803413066381e746f50183061cf26307c81a983991f0f4b51cffb8794ff52c70",
+  "src/core/vehicle.ts": "570eb84ce57ad1baa434760ce0c609832add9ae2844ae6dd3caf09a1a1e48717",
+  "src/core/vehicles/v3.ts": "785468bd3e6dba95ec0c11ba56d4d6540ffd348e92c41bee6d216d8e63cb29ad",
+  "src/core/vehicles/super-heavy.ts": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0",
+  "src/core/constants.ts": "ffb3c5074d24fd847ed9da84e0e54c026f9aef72c0253e0cbabee05201b4bdb6",
+  "oracleCopies": {
+    "tests/proofs/fixtures/burn-before-preparation/guidance-physics.ts": "1390d31bf04456f4885af5fd71c61de2647ff8013e9077d70bf29ecfb26985bd",
+    "tests/proofs/fixtures/burn-before-preparation/aero.ts": "633ace6ce04b842b6a02272bbbadbeefc5d34b57355052820857d63aa00aa543",
+    "tests/proofs/fixtures/burn-before-preparation/propulsion.ts": "14d242fdcbbd8507152fdd5bac868597e120afb4d9434ab3445815f25bb7f694"
+  }
+}

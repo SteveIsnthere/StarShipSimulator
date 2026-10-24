@@ -1,0 +1,552 @@
+{
+  "scope": "offline existing failed standalone SSR diagnostic only; no flight/profile/test execution and no timing acceptance",
+  "originalDiagnosticExitStatus": 1,
+  "storageComparison": {
+    "label": "JSON-storage comparison; signed-zero identity unrecoverable",
+    "selectedTrees": [
+      "kinematics",
+      "vehicle",
+      "forces",
+      "atmosphere",
+      "engines",
+      "status",
+      "failures"
+    ],
+    "currentAndPrevious": true,
+    "ticksAndTime": true,
+    "differences": [],
+    "bitExactWitnessClaim": false,
+    "preservedRawFailure": {
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    aerodynamicDrag: 103.01550622702973,\n    aerodynamicDragAcceleration: 0.0003530776054822715,\n    aerodynamicLift: 57.23319252858259,\n    aerodynamicLiftAcceleration: 0.00019616229936843778,\n+   aftFinDrag: -0,\n-   aftFinDrag: 0,\n    aftFinDragAngularAcceleration: 0,\n    aftFinEffectiveAreaFraction: 0,\n    angularDragAcceleration: -1.4741325093557237e-9,\n    crossSectionalArea: 54.89552042198447,\n    dynamicPressure: 0.0016266427370898841,\n",
+      "ticks": 40550
+    }
+  },
+  "profile": {
+    "startTime": 11134704860,
+    "endTime": 11170303015,
+    "samples": 31437,
+    "nativeSignedDeltaUs": 35597717,
+    "negativeNativeDeltas": [
+      {
+        "sampleIndex": 22346,
+        "nativeDeltaUs": -3
+      }
+    ],
+    "timingCaution": "native sample counts primary; signed clock deltas are a diagnostic weighting proxy, not exact CPU time; no normalization or profile retry",
+    "phaseClockCompatible": true,
+    "samplingIsNotCallCounting": true,
+    "phaseAttribution": "sample endpoint in recorded consecutive pre-step phase span; boundary/intra-step work not separately resolved",
+    "phaseNativeSignedDeltaUs": {
+      "outside-declared-step-spans": 70339,
+      "unset": 37720,
+      "align-boost": 2528016,
+      "boostback": 3365388,
+      "coast": 19288252,
+      "entry": 9459588,
+      "terminal": 848414
+    },
+    "phaseSampleCounts": {
+      "outside-declared-step-spans": 1,
+      "unset": 34,
+      "align-boost": 2251,
+      "boostback": 2933,
+      "coast": 17129,
+      "entry": 8310,
+      "terminal": 779
+    },
+    "phaseInclusiveNativeSignedDeltaUs": {
+      "unset": {
+        "writeDamageControls": 10918,
+        "writeFlightGridForces": 2171,
+        "loadedRootAngle": 4415,
+        "isaAtmosphereInto": 2163,
+        "commandGridTorque": 1088
+      },
+      "align-boost": {
+        "commandGridTorque": 197401,
+        "writeFlightGridForces": 270121,
+        "writeDamageControls": 280339,
+        "loadedRootAngle": 158658,
+        "terminalBurnDue": 1002217,
+        "landingBurnStartAltitude": 995015,
+        "pressureInLayer": 293409,
+        "isaAtmosphereInto": 349245
+      },
+      "boostback": {
+        "terminalBurnDue": 1728708,
+        "landingBurnStartAltitude": 1719747,
+        "commandGridTorque": 150642,
+        "writeFlightGridForces": 290160,
+        "pressureInLayer": 325527,
+        "isaAtmosphereInto": 423496,
+        "writeDamageControls": 312710,
+        "loadedRootAngle": 133552
+      },
+      "coast": {
+        "commandGridTorque": 1774887,
+        "writeFlightGridForces": 2063416,
+        "writeDamageControls": 1960285,
+        "loadedRootAngle": 1252342,
+        "terminalBurnDue": 11357127,
+        "isaAtmosphereInto": 3799685,
+        "landingBurnStartAltitude": 11186705,
+        "pressureInLayer": 3056431
+      },
+      "entry": {
+        "terminalBurnDue": 6921733,
+        "landingBurnStartAltitude": 6863958,
+        "pressureInLayer": 1604778,
+        "isaAtmosphereInto": 2010112,
+        "writeDamageControls": 464995,
+        "loadedRootAngle": 67315,
+        "writeFlightGridForces": 344443,
+        "commandGridTorque": 2225
+      },
+      "terminal": {
+        "commandGridTorque": 225470,
+        "writeFlightGridForces": 264685,
+        "writeDamageControls": 246120,
+        "loadedRootAngle": 171661
+      }
+    },
+    "phaseInclusiveSampleCounts": {
+      "unset": {
+        "writeDamageControls": 10,
+        "writeFlightGridForces": 2,
+        "loadedRootAngle": 4,
+        "isaAtmosphereInto": 2,
+        "commandGridTorque": 1
+      },
+      "align-boost": {
+        "commandGridTorque": 170,
+        "writeFlightGridForces": 235,
+        "writeDamageControls": 240,
+        "loadedRootAngle": 137,
+        "terminalBurnDue": 888,
+        "landingBurnStartAltitude": 881,
+        "pressureInLayer": 264,
+        "isaAtmosphereInto": 315
+      },
+      "boostback": {
+        "terminalBurnDue": 1506,
+        "landingBurnStartAltitude": 1499,
+        "commandGridTorque": 131,
+        "writeFlightGridForces": 254,
+        "pressureInLayer": 286,
+        "isaAtmosphereInto": 372,
+        "writeDamageControls": 274,
+        "loadedRootAngle": 118
+      },
+      "coast": {
+        "commandGridTorque": 1581,
+        "writeFlightGridForces": 1838,
+        "writeDamageControls": 1744,
+        "loadedRootAngle": 1117,
+        "terminalBurnDue": 10054,
+        "isaAtmosphereInto": 3369,
+        "landingBurnStartAltitude": 9908,
+        "pressureInLayer": 2717
+      },
+      "entry": {
+        "terminalBurnDue": 6077,
+        "landingBurnStartAltitude": 6026,
+        "pressureInLayer": 1420,
+        "isaAtmosphereInto": 1778,
+        "writeDamageControls": 401,
+        "loadedRootAngle": 59,
+        "writeFlightGridForces": 302,
+        "commandGridTorque": 2
+      },
+      "terminal": {
+        "commandGridTorque": 206,
+        "writeFlightGridForces": 242,
+        "writeDamageControls": 225,
+        "loadedRootAngle": 157
+      }
+    },
+    "gridDisjointAncestryNativeSignedDeltaUs": {
+      "other-live-fall-query": 608177,
+      "commandGridTorque-query": 2262209,
+      "other-align-delivered-query": 191703,
+      "forecast-rollout-query": 172907
+    },
+    "gridDisjointAncestrySampleCounts": {
+      "other-live-fall-query": 541,
+      "commandGridTorque-query": 2012,
+      "other-align-delivered-query": 168,
+      "forecast-rollout-query": 152
+    },
+    "identifiableSsrModuleLeafNativeSignedDeltaUs": 0,
+    "identifiableSsrModuleLeafSamples": 0,
+    "ssrCaution": "zero/low module leaf cost cannot prove zero transformed import-binding overhead or reproduce Vitest worker contention",
+    "topSelf": [
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts::pressureInLayer",
+        "nativeSignedDeltaUs": 5260169,
+        "samples": 4671
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::burnDeceleration",
+        "nativeSignedDeltaUs": 4411260,
+        "samples": 3869
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::tailFirstDragDeceleration",
+        "nativeSignedDeltaUs": 3768305,
+        "samples": 3314
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts::equalBoosterTree",
+        "nativeSignedDeltaUs": 1931641,
+        "samples": 1706
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/state.ts::cloneState",
+        "nativeSignedDeltaUs": 1506633,
+        "samples": 1349
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts::isaAtmosphereInto",
+        "nativeSignedDeltaUs": 1320163,
+        "samples": 1161
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/damage-state.ts::",
+        "nativeSignedDeltaUs": 1158655,
+        "samples": 1035
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts::loadedRootAngle",
+        "nativeSignedDeltaUs": 1118101,
+        "samples": 1001
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts::writeDamageControls",
+        "nativeSignedDeltaUs": 1128586,
+        "samples": 988
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::backwardPass",
+        "nativeSignedDeltaUs": 1000483,
+        "samples": 890
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::thrustFor",
+        "nativeSignedDeltaUs": 939220,
+        "samples": 828
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts::rootLoadCoefficient",
+        "nativeSignedDeltaUs": 853510,
+        "samples": 753
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/constants.ts::",
+        "nativeSignedDeltaUs": 835951,
+        "samples": 728
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::landingBurnStartAltitude",
+        "nativeSignedDeltaUs": 791571,
+        "samples": 709
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts::",
+        "nativeSignedDeltaUs": 757487,
+        "samples": 661
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts::cloneBoosterMechanics",
+        "nativeSignedDeltaUs": 588551,
+        "samples": 528
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts::verticalWeight",
+        "nativeSignedDeltaUs": 587843,
+        "samples": 514
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/units.ts::",
+        "nativeSignedDeltaUs": 434321,
+        "samples": 380
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts::writeFlightGridForces",
+        "nativeSignedDeltaUs": 421762,
+        "samples": 377
+      },
+      {
+        "function": "::(garbage collector)",
+        "nativeSignedDeltaUs": 378473,
+        "samples": 329
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts::",
+        "nativeSignedDeltaUs": 365835,
+        "samples": 322
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/damage-state.ts::cloneDamageState",
+        "nativeSignedDeltaUs": 357845,
+        "samples": 318
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts::",
+        "nativeSignedDeltaUs": 336734,
+        "samples": 298
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-mass.ts::writeDamageMass",
+        "nativeSignedDeltaUs": 308924,
+        "samples": 273
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts::prepareDynamics",
+        "nativeSignedDeltaUs": 285655,
+        "samples": 254
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts::advanceFreeBody",
+        "nativeSignedDeltaUs": 248359,
+        "samples": 223
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::fallAcceleration",
+        "nativeSignedDeltaUs": 214021,
+        "samples": 186
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts::gimballedShare",
+        "nativeSignedDeltaUs": 192284,
+        "samples": 172
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::runBoosterPolicy",
+        "nativeSignedDeltaUs": 158718,
+        "samples": 146
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts::cloneBoosterPlan",
+        "nativeSignedDeltaUs": 156667,
+        "samples": 141
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/atmosphere.ts::",
+        "nativeSignedDeltaUs": 160255,
+        "samples": 140
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts::evaluateControls",
+        "nativeSignedDeltaUs": 145085,
+        "samples": 132
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts::countOfKind",
+        "nativeSignedDeltaUs": 122723,
+        "samples": 110
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts::finishMechanicalStep",
+        "nativeSignedDeltaUs": 106355,
+        "samples": 98
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::terminalBurnDue",
+        "nativeSignedDeltaUs": 105286,
+        "samples": 91
+      }
+    ],
+    "topInclusive": [
+      {
+        "function": "::(root)",
+        "nativeSignedDeltaUs": 35597717,
+        "samples": 31437
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/default-separation-ssr-profile.9pd2t0RW.ts::",
+        "nativeSignedDeltaUs": 35188485,
+        "samples": 31081
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/step.ts::step",
+        "nativeSignedDeltaUs": 35037963,
+        "samples": 31007
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/step.ts::advance",
+        "nativeSignedDeltaUs": 32793180,
+        "samples": 28993
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts::advanceFreeBody",
+        "nativeSignedDeltaUs": 32730351,
+        "samples": 28936
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts::finishMechanicalStep",
+        "nativeSignedDeltaUs": 28859321,
+        "samples": 25464
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::runBoosterPolicy",
+        "nativeSignedDeltaUs": 25777309,
+        "samples": 22728
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::terminalBurnDue",
+        "nativeSignedDeltaUs": 21009785,
+        "samples": 18525
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::landingBurnStartAltitude",
+        "nativeSignedDeltaUs": 20765425,
+        "samples": 18314
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::backwardPass",
+        "nativeSignedDeltaUs": 19953967,
+        "samples": 17587
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::runBoosterPostStep",
+        "nativeSignedDeltaUs": 19617250,
+        "samples": 17370
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::burnDeceleration",
+        "nativeSignedDeltaUs": 18951348,
+        "samples": 16693
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/step.ts::advanceMechanics",
+        "nativeSignedDeltaUs": 17391927,
+        "samples": 15373
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts::advanceBoosterSource",
+        "nativeSignedDeltaUs": 14256945,
+        "samples": 12630
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/step.ts::flightControls",
+        "nativeSignedDeltaUs": 13035087,
+        "samples": 11498
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/index.ts::runAutopilot",
+        "nativeSignedDeltaUs": 13006081,
+        "samples": 11470
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::runBoosterAutopilot",
+        "nativeSignedDeltaUs": 12998986,
+        "samples": 11463
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts::tailFirstDragDeceleration",
+        "nativeSignedDeltaUs": 11841593,
+        "samples": 10457
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts::",
+        "nativeSignedDeltaUs": 11581864,
+        "samples": 10235
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts::isaAtmosphereInto",
+        "nativeSignedDeltaUs": 6584701,
+        "samples": 5836
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts::tableStateInto",
+        "nativeSignedDeltaUs": 5282308,
+        "samples": 4689
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts::pressureInLayer",
+        "nativeSignedDeltaUs": 5280145,
+        "samples": 4687
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::predictReturn",
+        "nativeSignedDeltaUs": 4513402,
+        "samples": 3978
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts::advanceBoosterPrediction",
+        "nativeSignedDeltaUs": 4474946,
+        "samples": 3942
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts::advanceBoosterForecast",
+        "nativeSignedDeltaUs": 4410439,
+        "samples": 3884
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts::writeDamageControls",
+        "nativeSignedDeltaUs": 3275367,
+        "samples": 2894
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts::writeFlightGridForces",
+        "nativeSignedDeltaUs": 3234996,
+        "samples": 2873
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts::evaluateControls",
+        "nativeSignedDeltaUs": 3178634,
+        "samples": 2816
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/state.ts::cloneState",
+        "nativeSignedDeltaUs": 3135394,
+        "samples": 2802
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::align",
+        "nativeSignedDeltaUs": 2799781,
+        "samples": 2488
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts::commandGridTorque",
+        "nativeSignedDeltaUs": 2351713,
+        "samples": 2091
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts::cloneBoosterMechanics",
+        "nativeSignedDeltaUs": 2184097,
+        "samples": 1944
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts::equalBoosterTree",
+        "nativeSignedDeltaUs": 1931641,
+        "samples": 1706
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts::verifyBoosterSource",
+        "nativeSignedDeltaUs": 1836143,
+        "samples": 1624
+      },
+      {
+        "function": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts::loadedRootAngle",
+        "nativeSignedDeltaUs": 1787943,
+        "samples": 1592
+      }
+    ]
+  },
+  "inputPins": {
+    "default-separation-ssr-profile-receipt/flight.cpuprofile": "9694884c47f0553c31aab23748c223a90f2327b2f2cb773444c68e3dbebd2765",
+    "default-separation-ssr-profile-receipt/phases.json": "100e932f293c57f3c74c66647ca7b61a8c6cd55ea1edddfcf743c216a8f77c6b",
+    "default-separation-ssr-profile-receipt/endpoint.json": "0c3e564e7946be15f1b355504920c60f960908d4471c42fa350a11b671c73a55",
+    "default-separation-ssr-profile-receipt/failure.json": "03423ec944acfad3a9fd261afb1ed7ca1cf3a27f4987ef6532918f70e0f56903",
+    "default-separation-ssr-profile-receipt/exit-status.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "default-separation-ssr-profile-receipt/before-pins.json": "778c36f2319b0315914ebe540672dc6f84585005211ced9abd27ba82edec0656",
+    "default-separation-ssr-profile-receipt/after-pins.json": "778c36f2319b0315914ebe540672dc6f84585005211ced9abd27ba82edec0656",
+    "default-separation-ssr-profile-receipt/source-unchanged.json": "7b1091156e395cfd14143e1422db96bdd4af83edae5ef286f4f90f2a49480c8f",
+    "terminal-grid-separation-receipt.jsonl": "f73f320b287ce960437eb44cece0967ee732e50316f6f163d7eeba0bee7c8314",
+    "ssr-profile-retained-analysis-v2.py": "90548832b9f6523f536352b1c7aa23010d4b52bcc2c123bde04753a9f1032973",
+    "ssr-profile-retained-analysis-v1.py": "20d1ceebab6f14b70093d0272cba33671cef35d7fa98778ac61e64df3be4c760",
+    "ssr-profile-retained-analysis-v1-failure.md": "137283192211eec05c137edc1e0e4659bb03fdac93ddab0991ef49e641b79892",
+    "ssr-profile-retained-analysis-v2-declaration.md": "c3c67b7b022dde2123a38b718e03956ccdcde320548abba78083ad270627d8fe"
+  }
+}

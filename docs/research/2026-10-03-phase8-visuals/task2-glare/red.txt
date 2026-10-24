@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/engine-glare.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/engine-glare.test.ts [ tests/view/engine-glare.test.ts ]
+Error: Cannot find module '$view/engine-glare' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/view/engine-glare.test.ts
+ ❯ tests/view/engine-glare.test.ts:5:1
+      3| import { createScenarioState, getScenario } from '$core/scenarios';
+      4| import { rad } from '$core/units';
+      5| import { createEngineGlare } from '$view/engine-glare';
+       | ^
+      6|
+      7| describe('state-driven engine and ground glare', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  08:14:59
+   Duration  387ms (transform 55ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

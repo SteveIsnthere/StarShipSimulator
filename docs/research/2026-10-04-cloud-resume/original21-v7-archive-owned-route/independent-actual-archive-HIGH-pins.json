@@ -1,0 +1,44 @@
+{
+  "decision": "ACCEPTED lossless historical evidence archive only",
+  "rows": 47,
+  "rowBytes": 12825128,
+  "distinctPayloadDigests": 42,
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/independent-actual-archive-HIGH-review.md",
+      "sha256": "065f3f520328392c15823c239b77e7f0b56182370c1faf481028fa5ecde861af"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/input-pins.json",
+      "sha256": "75c6a8335384706b36a6e319514b96dd4dceb8db27925a1cfb07af2bf415eecc"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/root-actual-archive-launch.json",
+      "sha256": "33f9cdf1aeee84c939f4793a8e513be00fbbd40cd250dcdd755914c6cd10224a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/original21-v7-archive-owned-route/root-observer-registration.json",
+      "sha256": "550808a241f8a116a5f23ad936e586b2494dfa26af87ba0a474c770deff14f55"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/origin-manifest.json",
+      "sha256": "a76987611b03beaa6c7cd49d54f67345d198e5175d85ab77cd7f5d5759369ab0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-v7-owned-artifacts/copy-result.json",
+      "sha256": "ca1bd3d06486b73a71c87a9d3a3bed5d287de17d36442df16a4d7aea94cc6b81"
+    },
+    {
+      "path": "/tmp/starship-original21-archive-root.nw6fuqhf/root-outcome.json",
+      "sha256": "c1708811908f827102daadb13b3133f8d8f7706652d1d6cb8e99bc03303c8e43"
+    },
+    {
+      "path": "/tmp/starship-original21-archive-root.nw6fuqhf/actual-outer-exit.json",
+      "sha256": "90676f4bf13534073417e1683513b0faa6631933e17a217c214f4d9819c656e7"
+    },
+    {
+      "path": "/tmp/starship-original21-archive-root.nw6fuqhf/root-independent-postexit.json",
+      "sha256": "2a924a890240d8f5a3be2955a8a37fc1770aecdb289b10f9d5c1b2ad08662666"
+    }
+  ]
+}

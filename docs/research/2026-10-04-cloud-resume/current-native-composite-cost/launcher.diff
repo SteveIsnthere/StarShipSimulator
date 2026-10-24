@@ -1,0 +1,105 @@
+--- completed-a97-paired-consumer
++++ single-native-cost-consumer
+@@ -6,11 +6,11 @@
+ import {sourceSnapshot,installedToolSnapshot,digestFile} from 'NATIVE_LOADER_PLACEHOLDER';
+ import {runOwnedCommand,verifyNoOwnedProcesses} from 'OWNED_COMMAND_PLACEHOLDER';
+ import {auditCompletedFall} from 'LABEL_AUDIT_PLACEHOLDER';
+-const root=process.cwd(),draft=resolve('docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards');
++const root=process.cwd(),draft=resolve('docs/research/2026-10-04-cloud-resume/current-native-composite-cost');
+ const continuationDraft=resolve('docs/research/2026-10-04-cloud-resume/current-native-burn-continuation');
+ const originalDraft=resolve('docs/research/2026-10-04-cloud-resume/current-native-qualification-harness');
+ const original=resolve(originalDraft,'receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e');
+-const receipt=resolve(draft,`receipt-paired-${randomUUID()}`);mkdirSync(receipt);const task=resolve(receipt,'materialized');
++const receipt=resolve(draft,`receipt-cost-${randomUUID()}`);mkdirSync(receipt);const task=resolve(receipt,'materialized');
+ let status=1,stage='receipt-created',failure=null,before=null,inputs=null,prior=null,artifactPins={};
+ let acceptedReceipt;
+ let previousPins={};const ownPins={};const storageCap=512*1024*1024;
+@@ -48,7 +48,7 @@
+  const stat=readFileSync(`/proc/${process.pid}/stat`,'utf8');const identityFields=stat.slice(stat.lastIndexOf(')')+2).trim().split(/\s+/);
+ writeFileSync(resolve(receipt,'launcher-identity.json'),JSON.stringify({pid:process.pid,start:identityFields[19],parent:Number(identityFields[1]),group:Number(identityFields[2]),session:Number(identityFields[3]),state:identityFields[0]},null,2)+'\n',{flag:'wx'});
+  mkdirSync(task);assert.equal(process.version,'v22.23.3');assert.equal(process.platform,'linux');
+- assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'current-native-composite-paired-guards');
++ assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'current-native-composite-cost');
+  const review=resolve(draft,'independent-review.md'),reviewPinsPath=resolve(draft,'independent-review-pins.json');
+  assert.equal(digestFile(review),process.env.STARSHIP_CURRENT_NATIVE_REVIEW_SHA);assert.equal(digestFile(reviewPinsPath),process.env.STARSHIP_CURRENT_NATIVE_REVIEW_PINS_SHA);
+  const reviewPins=JSON.parse(readFileSync(reviewPinsPath,'utf8'));assert.equal(reviewPins.review,digestFile(review));assert.equal(reviewPins.inputManifest,digestFile(resolve(draft,'input-pins.json')));
+@@ -177,21 +177,71 @@
+   guardRootElapsedSeconds:null,guardOuterStartRetained:false,guardCompleteObservedOuterIdentityLineage:false,
+   secondFailedPair,secondFailedPairStatus:'failed',oracleDigest:guard.candidateDigest};
+  writeFileSync(resolve(receipt,'guard-predecessors-and-limitation.json'),JSON.stringify(prior,null,2)+'\n');
+- stage='materialize-paired';
++ stage='accepted-complete-paired-semantic-lineage';
++ const pairedDraft=resolve(root,'docs/research/2026-10-04-cloud-resume/current-native-composite-paired-guards');
++ const pairedAcceptancePath=resolve(pairedDraft,'actual-result-independent-pins.json');
++ assert.equal(digestFile(pairedAcceptancePath),'77edce5dfd5c4289ea6b3ab3c47f1d258e66ce6a89970839433a65a4d90cf50a');
++ const paired=JSON.parse(readFileSync(pairedAcceptancePath,'utf8'));
++ assert.equal(paired.schema,1);assert.equal(paired.decision,'accepted-complete-paired-semantic-research');
++ assert.equal(paired.inputManifest,digestFile(resolve(pairedDraft,'input-pins.json')));
++ assert.equal(paired.review,digestFile(resolve(pairedDraft,'actual-result-independent-review.md')));
++ assert.equal(paired.nativeCostAccepted,false);assert.equal(paired.costExecutionApproved,false);assert.equal(paired.productOrGateAcceptance,false);
++ assert.deepEqual(paired.reportedReviewerCpuOverlapSecondsApproximate,[30,35]);
++ assert.equal(paired.public52ParentLimitationPreserved,true);assert.equal(paired.parentExit,0);assert.deepEqual(paired.childExit,{code:0,signal:null});
++ assert.equal(paired.allRecordedOwnedIdentitiesNonexecuting,true);
++ assert.equal(paired.receipt,resolve(pairedDraft,'receipt-paired-189cbebf-6a8f-4f84-82a0-95cb5b733ee3'));
++ assert.equal(paired.rootParent,resolve(pairedDraft,'parent-jt6sq3gr'));
++ assert(!pairedAcceptancePath.startsWith(paired.receipt+'/'));
++ for(const[p,h]of Object.entries(paired.inputs)){assert(isAbsolute(p));assert.equal(digestFile(p),h,p);previousPins[p]=h;}
++ const pairedFinal=JSON.parse(readFileSync(resolve(paired.receipt,'finalized.json'),'utf8'));
++ assert(pairedFinal.finalized&&pairedFinal.status==='pass'&&pairedFinal.mode==='composite-paired'&&pairedFinal.stage==='paired-flight'&&pairedFinal.failure===null);
++ const pairedProcess=JSON.parse(readFileSync(resolve(paired.receipt,'paired-flight.process.json'),'utf8'));
++ assert.deepEqual(pairedProcess.exit,{code:0,signal:null});assert.equal(pairedProcess.failure,null);assert(pairedProcess.finished&&pairedProcess.closed);assert.deepEqual(pairedProcess.cleanup.executing,[]);
++ const pairedParent=JSON.parse(readFileSync(resolve(paired.rootParent,'result.json'),'utf8'));
++ assert.equal(pairedParent.rawChildExit,0);assert.equal(pairedParent.firstFailure,null);assert.deepEqual(pairedParent.failures,[]);assert.equal(pairedParent.interruptSignal,null);assert.equal(pairedParent.outputPipeEOF,true);
++ assert.equal(JSON.parse(readFileSync(resolve(paired.rootParent,'child-raw-status.json'),'utf8')).code,0);
++ assert.equal(JSON.parse(readFileSync(resolve(paired.rootParent,'actual-receipt.json'),'utf8')).receipt,paired.receipt);
++ const pairedObserved=readFileSync(resolve(paired.rootParent,'observed-identities.jsonl'),'utf8').trim().split('\n').map(line=>JSON.parse(line).identity);
++ const pairedPost=JSON.parse(readFileSync(resolve(paired.rootParent,'independent-all-owned-postexit.json'),'utf8'));
++ assert.equal(pairedObserved.length,pairedPost.length);assert.equal(pairedParent.ownedCount,pairedPost.length);assert.equal(pairedPost.length,4);
++ assert(pairedPost.every(row=>row.verified===true&&row.executing===false));
++ const identityKey=row=>`${row.pid}:${row.start}`;
++ assert.deepEqual(pairedObserved.map(identityKey).sort(),pairedPost.map(identityKey).sort());
++ const pairedOuter=JSON.parse(readFileSync(resolve(paired.rootParent,'command-identity.json'),'utf8'));
++ const pairedLauncher=JSON.parse(readFileSync(resolve(paired.receipt,'launcher-identity.json'),'utf8'));
++ for(const row of [pairedOuter,pairedLauncher,...pairedProcess.cleanup.tracked])assert(pairedPost.some(post=>identityKey(post)===identityKey(row)));
++ const pairedFlight=JSON.parse(readFileSync(resolve(paired.receipt,'paired-flight.json'),'utf8'));
++ assert(pairedFlight.status==='pass'&&pairedFlight.mode==='paired');assert.equal(pairedFlight.ticks,40550);assert.equal(pairedFlight.ticks,paired.ticks);
++ assert.equal(pairedFlight.semanticDigest,paired.semanticDigest);assert.equal(paired.semanticDigest,'16d52260ea68b8fd3b2dc1e679e05beb432287a7ecabba3e7187d9435548e22b');
++ assert.deepEqual(pairedFlight.proofCounts,paired.proofCounts);
++ assert.equal(digestFile(resolve(draft,'full-flight.ts.txt')),digestFile(resolve(pairedDraft,'full-flight.ts.txt')));
++ assert.equal(digestFile(resolve(draft,'graph-oracle.ts.txt')),digestFile(resolve(pairedDraft,'graph-oracle.ts.txt')));
++ assert.equal(digestFile(resolve(paired.receipt,'artifact-pins.json')),digestFile(resolve(original,'artifact-pins.json')));
++ verifyCoreLineage(paired.receipt);
++ previousPins={...previousPins,...evidence(paired.receipt,paired.inputs[resolve(paired.receipt,'evidence-manifest.json')]),[pairedAcceptancePath]:digestFile(pairedAcceptancePath)};
++ const pairedWitness=resolve(receipt,'paired-flight.json');writeFileSync(pairedWitness,readFileSync(resolve(paired.receipt,'paired-flight.json')),{flag:'wx'});register(pairedWitness);
++ assert.equal(digestFile(pairedWitness),paired.inputs[resolve(paired.receipt,'paired-flight.json')]);
++ prior={...prior,pairedAcceptance:pairedAcceptancePath,pairedAcceptanceDigest:digestFile(pairedAcceptancePath),
++  completedPairedReceipt:paired.receipt,completedPairedRootParent:paired.rootParent,
++  pairedTicks:pairedFlight.ticks,pairedSemanticDigest:pairedFlight.semanticDigest,
++  pairedReportedReviewerCpuOverlapSecondsApproximate:[30,35],pairedCostAccepted:false};
++ writeFileSync(resolve(receipt,'accepted-paired-lineage.json'),JSON.stringify(prior,null,2)+'\n');
++ stage='materialize-cost';
+  const entry=render('entry.ts',{ORIGINAL_ORACLE_PLACEHOLDER:resolve('tests/proofs/fixtures/unpowered-fall-original.ts')});
+  const helper=render('graph-oracle.ts');const driver=render('full-flight.ts',{GRAPH_ORACLE_PLACEHOLDER:relative(task,helper),SSR_ENTRY_PLACEHOLDER:relative(task,entry)});
++ for(const[name,path]of [['entry.ts',entry],['graph-oracle.ts',helper],['full-flight.ts',driver]])assert.equal(digestFile(path),paired.inputs[resolve(paired.receipt,'materialized',name)],'Exact previously executed paired driver/entry/comparer bytes');
+  writeFileSync(resolve(receipt,'materialized-before.json'),JSON.stringify(ownPins,null,2)+'\n');verify();verifyGraph();
+- stage='paired-flight';const commandStarted=performance.now();
+- const code=await runOwnedCommand({name:'paired-flight',args:[resolve('node_modules/vite-node/dist/cli.mjs'),'--script',driver,'paired',resolve(original,'plain/entry.mjs'),receipt],root,receipt,env:{...process.env},deadlineMs:900000});
+- writeFileSync(resolve(receipt,'paired-flight.exit.json'),JSON.stringify({code,wholeOwnedCommandWallMs:performance.now()-commandStarted})+'\n');assert.equal(code,0);verify();verifyGraph();storage();
+- const result=JSON.parse(readFileSync(resolve(receipt,'paired-flight.json'),'utf8'));assert(result.status==='pass'&&result.mode==='paired');assert(result.ticks>0&&result.ticks<=108000);assert(/^[a-f0-9]{64}$/.test(result.semanticDigest));
++ stage='cost-flight';const commandStarted=performance.now();
++ const code=await runOwnedCommand({name:'cost-flight',args:[resolve('node_modules/vite-node/dist/cli.mjs'),'--script',driver,'cost',resolve(original,'plain/entry.mjs'),receipt],root,receipt,env:{...process.env},deadlineMs:120000});
++ writeFileSync(resolve(receipt,'cost-flight.exit.json'),JSON.stringify({code,wholeOwnedCommandWallMs:performance.now()-commandStarted})+'\n');assert.equal(code,0);verify();verifyGraph();storage();
++ const result=JSON.parse(readFileSync(resolve(receipt,'cost-flight.json'),'utf8'));assert(result.status==='pass'&&result.mode==='cost');assert.equal(result.ticks,pairedFlight.ticks);assert.equal(result.semanticDigest,pairedFlight.semanticDigest);
+  assert.deepEqual(snapshot(),before);status=0;
+ }catch(error){failure=String(error.stack??error).slice(0,32768);}
+ finally{
+  let cleanup;try{cleanup=verifyNoOwnedProcesses();}catch(error){status=1;failure??=String(error.stack??error).slice(0,32768);}
+  try{assert(before&&inputs,'source verification unavailable after incomplete preflight');const after=snapshot();writeFileSync(resolve(receipt,'source-after.json'),JSON.stringify(after,null,2)+'\n');assert.deepEqual(after,before);verify();if(prior)verifyGraph();storage();}catch(error){status=1;failure??=String(error.stack??error).slice(0,32768);writeFileSync(resolve(receipt,'source-verification.json'),JSON.stringify({status:'failed-or-unavailable',beforeAvailable:Boolean(before),message:String(error.message).slice(0,8192)})+'\n');}
+  writeFileSync(resolve(receipt,'owned-cleanup.json'),JSON.stringify(cleanup??{unverified:true},null,2)+'\n');
+- writeFileSync(resolve(receipt,'finalized.json'),JSON.stringify({finalized:true,status:status===0?'pass':'failed',mode:'composite-paired',receipt,stage,failure,prior,acceptance:'semantic research only; no mocks/coverage/time/gate claim'},null,2)+'\n');
++ writeFileSync(resolve(receipt,'finalized.json'),JSON.stringify({finalized:true,status:status===0?'pass':'failed',mode:'composite-cost',receipt,stage,failure,prior,acceptance:'semantic research only; no mocks/coverage/time/gate claim'},null,2)+'\n');
+  const evidenceFiles={...previousPins,...ownPins,...Object.fromEntries(files(receipt).map(p=>[p,digestFile(p)]))};
+- writeFileSync(resolve(receipt,'evidence-manifest.json'),JSON.stringify({receipt,mode:'composite-paired',files:evidenceFiles},null,2)+'\n');console.log(receipt);process.exitCode=status;
+-}
++ writeFileSync(resolve(receipt,'evidence-manifest.json'),JSON.stringify({receipt,mode:'composite-cost',files:evidenceFiles},null,2)+'\n');console.log(receipt);process.exitCode=status;
++}

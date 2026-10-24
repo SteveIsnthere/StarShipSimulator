@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/view/particle-emitters.test.ts (4 tests | 1 failed | 3 skipped) 8ms
+     × does not lose integer birth boundaries when the per-engine rate is fractional per frame 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/particle-emitters.test.ts > independent pooled engine emitters > does not lose integer birth boundaries when the per-engine rate is fractional per frame
+AssertionError: expected 19 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 19
+
+ ❯ tests/view/particle-emitters.test.ts:19:29
+     17|     }
+     18|     //80 births/s for0.25s =20; every core life exceeds this window.
+     19|     expect(particles.alive).toBe(20);
+       |                             ^
+     20|     particles.destroy();
+     21|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  07:55:53
+   Duration  358ms (transform 30ms, setup 0ms, import 251ms, tests 8ms, environment 0ms)
+

@@ -1,0 +1,22 @@
+[WebServer] (node:90953) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:90956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.8s)
+(node:90962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [pixel-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.5s)
+(node:90969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [pixel-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.6s)
+(node:90975) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [iphone-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.5s)
+(node:90981) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [iphone-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.5s)
+
+  5 passed (10.8s)

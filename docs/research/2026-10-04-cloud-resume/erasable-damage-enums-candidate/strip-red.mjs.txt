@@ -1,0 +1,34 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { stripTypeScriptTypes } from 'node:module';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+
+// Materialize only after exact source/tool/declaration review and exclusive grant.
+// This introduction control never imports/evaluates any production module.
+const [project, research, output] = process.argv.slice(2);
+assert(project && research && output, 'Three explicit absolute paths required');
+assert(path.isAbsolute(project) && path.isAbsolute(research) && path.isAbsolute(output));
+assert.equal(process.version, 'v22.23.3');
+const pins = JSON.parse(readFileSync(path.join(research, 'original-source-pins.json'), 'utf8'));
+const cases = ['src/core/damage-state.ts', 'src/core/physics/damage-terminal.ts'];
+assert.deepEqual(Object.keys(pins), cases);
+const results = [];
+for (const file of cases) {
+  const source = readFileSync(path.join(project, file), 'utf8');
+  const digest = createHash('sha256').update(source).digest('hex');
+  assert.equal(digest, pins[file]);
+  assert.equal(source, readFileSync(path.join(research, path.basename(file) + '.before.txt'), 'utf8'));
+  let failure;
+  try { stripTypeScriptTypes(source, { mode: 'strip', sourceUrl: path.join(project, file) }); }
+  catch (error) { failure = error; }
+  assert(failure instanceof Error, 'Original enum unexpectedly strips: stop, do not apply');
+  assert.equal(failure.code, 'ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX');
+  assert.match(failure.message, /enum/i);
+  results.push({ file, digest, syntaxStatus: 'expected-red', code: failure.code,
+    name: failure.name, message: failure.message });
+}
+// A native expected-red aggregate status is distinct from two failed syntax cases.
+writeFileSync(output, JSON.stringify({ kind: 'two-original-enum-strip-red-v1',
+  finalized: true, node: process.version, failedSyntaxCases: 2, cases: results,
+  expectedRedControlPassed: true, productImports: 0 }, null, 2) + '\n', { flag: 'wx' });

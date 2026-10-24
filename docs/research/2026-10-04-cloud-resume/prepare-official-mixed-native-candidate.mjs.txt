@@ -1,0 +1,73 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, mkdtempSync, copyFileSync, chmodSync, realpathSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve, relative } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const digest = file => createHash('sha256').update(readFileSync(file)).digest('hex');
+const [rootArg, pinsPath, pinsSha, utilitySha, ownedSha, nodeSha, npmCliArg] = process.argv.slice(2);
+for (const sha of [pinsSha, utilitySha, ownedSha, nodeSha]) assert.match(sha, /^[a-f0-9]{64}$/);
+const root = realpathSync(rootArg), npmCli = realpathSync(npmCliArg);
+assert.equal(process.cwd(), root); assert.equal(process.version, 'v22.23.3');
+assert.equal(digest(process.execPath), nodeSha); assert.equal(digest(pinsPath), pinsSha);
+const pins = JSON.parse(readFileSync(pinsPath, 'utf8'));
+const candidate = 'docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/';
+assert.equal(Object.keys(pins.files).length, 17);
+const expected = ['admission.mjs', 'build.mjs', 'constants.mjs', 'control-config.mjs', 'declaration.md',
+  'entry.ts', 'fixture.mjs', 'foreign-parent.mjs', 'input-contract.json', 'integrity.mjs',
+  'lifecycle-reporter.mjs', 'loader.mjs', 'native-a.test.mjs', 'native-b.test.mjs',
+  'run-build.mjs', 'run-controls.mjs', 'ssr.test.mjs'];
+const targets = Object.keys(pins.files).map(file => {
+  assert(file.startsWith(candidate)); assert.equal(relative(resolve(root, candidate), resolve(root, file)), file.slice(candidate.length));
+  assert(!file.slice(candidate.length).includes('/'));
+  assert.equal(digest(resolve(root, file)), pins.files[file]);
+  return file.slice(candidate.length).replace(/\.txt$/, '');
+});
+assert.deepEqual([...targets].sort(), [...expected].sort());
+const utilityFile = resolve(root, 'scripts/bench/native-loader.mjs');
+const ownedFile = resolve(root, 'scripts/bench/owned-command.mjs');
+assert.equal(digest(utilityFile), utilitySha); assert.equal(digest(ownedFile), ownedSha);
+const u = await import(pathToFileURL(utilityFile).href);
+const source = u.sourceSnapshot(root), installedTools = u.installedToolSnapshot(root, npmCli);
+const receipt = mkdtempSync('/tmp/starship-official-native.'); chmodSync(receipt, 0o700);
+// Publish only the private path/stage before any copy/options work, including failure.
+process.stdout.write(JSON.stringify({ receipt, stage: 'private-directory-created' }) + '\n');
+let failure;
+try {
+  const origins = [], materializedInputs = {};
+  for (const [i, original] of Object.keys(pins.files).entries()) {
+    const destination = resolve(receipt, targets[i]);
+    copyFileSync(resolve(root, original), destination); chmodSync(destination, 0o600);
+    assert.equal(digest(destination), pins.files[original]);
+    materializedInputs[destination] = digest(destination);
+    origins.push({ original: resolve(root, original), materialized: destination, sha: digest(destination) });
+  }
+  for (const file of ['tests/core/booster-guidance.test.ts', 'tests/flies-every-scenario.test.ts']) {
+    const original = resolve(root, file); materializedInputs[original] = digest(original);
+  }
+  const { resolveConfig } = await import(pathToFileURL(resolve(root, 'node_modules/vite/dist/node/index.js')).href);
+  const config = await resolveConfig({ configFile: resolve(root, 'vite.config.ts') }, 'build', 'production');
+  const options = { target: config.build.target, minify: config.build.minify,
+    sourcemap: config.build.sourcemap, cssMinify: config.build.cssMinify, mode: config.mode, base: config.base,
+    adaptation: 'ESM library; production plugins/aliases/manualChunks retained; Vite library whitespace/annotation policy' };
+  assert.equal(options.sourcemap, true);
+  assert.deepEqual(u.sourceSnapshot(root), source);
+  assert.deepEqual(u.installedToolSnapshot(root, npmCli), installedTools);
+  assert.equal(digest(process.execPath), nodeSha); assert.equal(digest(pinsPath), pinsSha);
+  for (const [original, sha] of Object.entries(pins.files)) assert.equal(digest(resolve(root, original)), sha);
+  const inputPath = resolve(receipt, 'external-build-input.json');
+  const input = { kind: 'mixed-native-build-input-v1', nodeVersion: process.version, nodeBinary: nodeSha,
+    npmCli, source, installedTools, utilityDigest: utilitySha, ownedCommandDigest: ownedSha,
+    materializedInputs, options, preparationOrigin: { pinsPath, pinsSha, origins } };
+  writeFileSync(inputPath, JSON.stringify(input) + '\n', { flag: 'wx' });
+  writeFileSync(resolve(receipt, 'preparation-result.json'), JSON.stringify({
+    completed: true, candidateQualified: false, receipt, inputPath, inputSha: digest(inputPath),
+    nodeBinary: nodeSha, pinsSha, note: 'Parent must review/freeze actual input and owned preparation before build grant',
+  }) + '\n', { flag: 'wx' });
+  process.stdout.write(JSON.stringify({ receipt, inputPath, inputSha: digest(inputPath), options }) + '\n');
+} catch (error) { failure = error; }
+if (failure) {
+  writeFileSync(resolve(receipt, 'preparation-failure.json'), JSON.stringify({
+    completed: false, candidateQualified: false, receipt, error: String(failure.stack ?? failure), pinsSha,
+  }) + '\n', { flag: 'wx' });
+  throw failure;
+}

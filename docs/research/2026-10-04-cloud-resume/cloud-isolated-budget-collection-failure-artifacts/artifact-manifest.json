@@ -1,0 +1,67 @@
+[
+  {
+    "path": "cloud-isolated-full-budget-declaration.md",
+    "bytes": 4740,
+    "sha256": "db8a10ac5eea4551f276b8697257a502e54d05228ce157915b403242336d717d"
+  },
+  {
+    "path": "episode/episode-declaration.json",
+    "bytes": 1803,
+    "sha256": "f753e8192428475971a451e5546c21286a773271ef788b71ad21b8f990fa42bc"
+  },
+  {
+    "path": "episode/exit-code.txt",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+  },
+  {
+    "path": "episode/html-report/index.html",
+    "bytes": 515643,
+    "sha256": "9c008e8c325724c1c50c295dfb275620535fb24bb8d1be932c27aa08128ada01"
+  },
+  {
+    "path": "episode/owned-cleanup.json",
+    "bytes": 220,
+    "sha256": "284db37ac31e8de1c8ee957866e16f6169e41cc384c25f3ab55a444b907e9394"
+  },
+  {
+    "path": "episode/runner-output.txt",
+    "bytes": 675,
+    "sha256": "2973de9133f9c6ad55a0584c2d37ecec9d7dd774d05b854fccab99822fa66abb"
+  },
+  {
+    "path": "episode/test-results/.last-run.json",
+    "bytes": 45,
+    "sha256": "e22df5d0991eb28c09093b1e678b3fa8cd1fab48185d38e67cf79fb6e63ad5ea"
+  },
+  {
+    "path": "independent-cleanup-check.json",
+    "bytes": 3315,
+    "sha256": "7880753809a0273f1fe4de7a75d0edd8b99d896c723bd35344e6cd8cb7da3935"
+  },
+  {
+    "path": "isolated-budget-boundary.ts",
+    "bytes": 7726,
+    "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7"
+  },
+  {
+    "path": "isolated-budget-cleanup.ts",
+    "bytes": 3758,
+    "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+  },
+  {
+    "path": "isolated-launch-budget.config.ts",
+    "bytes": 1716,
+    "sha256": "00372b714e085e6184ab7ba6343a552d56fd8ab303f47b2ca5a2c2af5f2a5929"
+  },
+  {
+    "path": "isolated-launch-budget.spec.ts",
+    "bytes": 14682,
+    "sha256": "b3ee9e89567f0692d6abbd1bfae7779434917be3766eeec2ee037d135e11051b"
+  },
+  {
+    "path": "prepare-isolated-budget-episode.sh",
+    "bytes": 1973,
+    "sha256": "c95b3b268a58b7f172dfb4b933ff48fa2dcb16ac09b57c2ec53665376485dd49"
+  }
+]

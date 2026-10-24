@@ -1,0 +1,11 @@
+--- docs/research/2026-10-04-cloud-resume/current-original12-owned-proof/before-current-source-and-targeted-denial-repair/make-input.py.txt
++++ docs/research/2026-10-04-cloud-resume/current-original12-owned-proof/make-input.py.txt
+@@ -37,7 +37,7 @@
+ manifest={'kind':'current-original12-owned-proof-input-v1','root':str(root),'setup':str(setup),'inputs':pins['files'],'inputPins':{'path':str(pins_path),'sha256':sha(pins_path)},'materialized':materialized,'transforms':transforms,
+  'node':{'path':'/workspace/cloud-bootstrap/starship-v1/node/bin/node','sha256':'fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48'},'npmCli':qualification['npmCli'],'qualification':str(setup/'qualification.json'),
+  'helper':{'path':str(root/'scripts/bench/owned-command.mjs'),'sha256':'0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db'},'steps':['realm-controls','app-build','native-build','consumer'],
+- 'rootWholeMs':300000,'rootWorkMs':292000,'rootCleanupMs':8000,'application':False,'timing':False,'expectedRealmNames':json.loads((base/'expected-realm-names.json').read_text())}
++ 'rootWholeMs':300000,'rootWorkMs':292000,'rootCleanupMs':8000,'application':False,'timing':False,'sourceTransfer':{'path':str(base/'source-transfer.json'),'sha256':sha(base/'source-transfer.json')},'expectedRealmNames':json.loads((base/'expected-realm-names.json').read_text())}
+ for p,h in pins['files'].items():assert sha(p)==h,p
+ with(setup/'input.json').open('x')as stream:json.dump(manifest,stream,indent=2);stream.write('\n')
+ root_inventory=setup/'root-inventory.json'

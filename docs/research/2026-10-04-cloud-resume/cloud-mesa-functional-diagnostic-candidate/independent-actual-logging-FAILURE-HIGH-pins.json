@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "decision": "accepted-truthful-failed-logging-probe-with-runtime-blocklist-observation",
+  "inputs": {
+    "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e/outcome.json": "5e6920cce475706c218be63240f5b23adf99948e34c057a385402aa1fb941403",
+    "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e/cleanup.json": "f2f0fa7631e41264ac99b85eea5f654bbc2f6ce9dd0a459e4a06f6720d1da535",
+    "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e/after.json": "a1e89bda3fe4e8abe82ecf26920a3c2d6563e9aa001562a4db36d499907078f3",
+    "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e/diagnostic-after-context-failure.json": "853c0ad019282ed8c42c90a2ace27a69c8070587a7256cb02311ffa026da1448",
+    "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e/context-failure.json": "36314fbda659cd11e32765c5b43582ed60e2d9dbdf84498f7f9a5d89d4d27ae7",
+    "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e/diagnostic-before-context.json": "9bc0e2e3fedd7d526f704c814541540096c4edc4c507505ea7129fdae70ecdfb",
+    "/tmp/starship-mesa-functional.a366da752c424acfb8622a34e9d8343e/before.json": "a1e89bda3fe4e8abe82ecf26920a3c2d6563e9aa001562a4db36d499907078f3",
+    "/tmp/starship-width2-root.94cgrhz4/root-outcome.json": "ca7222184cd152810795bbd5a47207aff64816b7365e0fb88074b0c4dc5fd7bb",
+    "/tmp/starship-width2-root.94cgrhz4/root-independent-postexit.json": "d31d6730002ed350f1e348d0a45b86089a86b6fd5ad913036dbc3d114ba452dc",
+    "/tmp/starship-width2-root.94cgrhz4/outer-registration.json": "97f4cf23063fc26991b034a33a7de2cfdba3cd468873df96bb2568a94007b27f",
+    "/tmp/starship-width2-root.94cgrhz4/identities.jsonl": "1076765cdf0c1e98accba00d68c961a221bd5c4163dcbc223d7549ffaa7a3826",
+    "/tmp/starship-width2-root.94cgrhz4/actual-outer-exit.json": "d928565cfe4ed0bfc9d8f3e9d5405998b64ecfb827fec123f7696cd38d5454e6",
+    "/tmp/starship-width2-stage.pU8jQ0/stage-result.json": "346c1394585a12693e633f3fae1fe72656dcffca8f8b1ee40522c21f423ff081",
+    "/tmp/starship-width2-stage.pU8jQ0/actual-child-exit.json": "73f66370dfc33949b4331217379777a0bdbeca199ccc404d61645118c6df24d9",
+    "/tmp/starship-width2-stage.pU8jQ0/preparation.process.json": "63d0b22f778117c474f018094ecb79ef6999da916e012790277ab7808b5d6161",
+    "/tmp/starship-width2-stage.pU8jQ0/preparation.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-width2-stage.pU8jQ0/preparation.stderr.txt": "e6af1bccea87b24ed07496ee01f2d53c6f3240a7f50782f047eb69b416a63a4a",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-functional-input.json": "c05b727652dbea1761bab5bdebd22dbefa67fda2734edde75e37607821dd5841",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-owner-input.json": "0a28b7dfaa7ed66f1f5ddcaf36fda8cd7f241461e962002d9dd6e6a5946bbbc0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/diagnostic-parent-closure.json": "5fb5ad0ab3d4f02f87739cf1e650eb813339876936c0b0ca6960bcec5d4850ec",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/parent-closure.json": "5fb5ad0ab3d4f02f87739cf1e650eb813339876936c0b0ca6960bcec5d4850ec",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-structural-check.py.txt": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-structural-before.json": "129c28a2fc8466bab0eb3bcc3edfd1f13ff11fc65c5e21426d92e03152ae18ea",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-structural-after.json": "59aa5fe48b7b9a4e57b39801ae8fbffe512b9f44d6a7c25ff76157d6c218814b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-structural-check-relocation.json": "da1d068745e7aeccec3a34274590314f2fe3b312c14b07c846739fb359f0a394",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-structural-preflight-path-failure.json": "779e8b38e55e24663203ff3b158fc89a60aa57229caf5403362f20abc1bf25d2",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/root-actual-blocklist-observation.json": "61d449bcf4c2834c24fad4002f0ac79fa489ee906002939327631c26ddf76b08",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-actual-diagnostic-input-HIGH-review.md": "3101d8e4edae51e612c8e47d65696ae38f51627e3c935130e6c57070fa2b0040",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-actual-diagnostic-input-HIGH-pins.json": "cbd56dc23066fe78bc39cf19ae7f18f9c123790015e24d0ad54bf75164b33c28",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-diagnostic-candidate/independent-actual-logging-FAILURE-HIGH-review.md": "c59bf843e94bcacff25ee727c8c0848508d8eaaa84550dc9d81899120fcb6e95"
+  },
+  "identityObservations": [
+    {
+      "pid": 92211,
+      "start": "5902786",
+      "current": {
+        "start": "5902786",
+        "state": "Z"
+      }
+    },
+    {
+      "pid": 92240,
+      "start": "5902793",
+      "current": null
+    },
+    {
+      "pid": 92281,
+      "start": "5902800",
+      "current": null
+    },
+    {
+      "pid": 92208,
+      "start": "5902786",
+      "current": {
+        "start": "5902786",
+        "state": "Z"
+      }
+    },
+    {
+      "pid": 92283,
+      "start": "5902800",
+      "current": null
+    },
+    {
+      "pid": 92235,
+      "start": "5902790",
+      "current": null
+    },
+    {
+      "pid": 92184,
+      "start": "5902517",
+      "current": null
+    },
+    {
+      "pid": 92232,
+      "start": "5902790",
+      "current": null
+    },
+    {
+      "pid": 92203,
+      "start": "5902783",
+      "current": null
+    },
+    {
+      "pid": 92191,
+      "start": "5902558",
+      "current": null
+    }
+  ],
+  "rootExit": 1,
+  "functionalAccepted": false,
+  "runtimeBlocklistObserved": true,
+  "underlyingPolicyCauseProven": false,
+  "allRecordedIdentitiesNonexecuting": true,
+  "allAbsentAtRootAudit": false,
+  "allGroupsCleared": false,
+  "furtherExecutionApproved": false
+}

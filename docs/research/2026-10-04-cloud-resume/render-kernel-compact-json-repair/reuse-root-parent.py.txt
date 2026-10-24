@@ -1,0 +1,38 @@
+import pathlib,json,hashlib,subprocess,os,time,signal,tempfile
+base=pathlib.Path('docs/research/2026-10-04-cloud-resume').resolve();draft=base/'render-kernel-compact-json-repair';parent=draft/'reuse-parent';parent.mkdir()
+sha=lambda b:hashlib.sha256(b).hexdigest()
+a=base/'cloud-render-kernel-compact-reuse-process-pin-independent-approval.json';approval=json.loads(a.read_text())
+for file,pin in approval['sourcePins'].items():assert sha(pathlib.Path(file).read_bytes())==pin,file
+materialized=pathlib.Path(tempfile.mkdtemp(prefix='starship-compact-reuse-owner.',dir='/tmp'))/'prepare.py';materialized.write_bytes(pathlib.Path(approval['templatePath']).read_bytes())
+(parent/'executed-prepare.py.txt').write_bytes(materialized.read_bytes())
+env={**os.environ,'COMPACT_REUSE_INPUT_PINS_SHA256':approval['reuseInputPinsSha256']}
+command=['python3',str(materialized),approval['actualCodecApprovalPath'],approval['actualCodecApprovalSha256']]
+started=time.monotonic();seen={};expired=False
+def ident(pid):
+ try:
+  raw=pathlib.Path(f'/proc/{pid}/stat').read_text();f=raw[raw.rfind(')')+2:].split();return {'pid':pid,'start':f[19],'ppid':int(f[1]),'group':int(f[2]),'state':f[0]}
+ except (FileNotFoundError,ProcessLookupError):return None
+with (parent/'stdout.txt').open('xb') as out,(parent/'stderr.txt').open('xb') as err:
+ child=subprocess.Popen(command,stdout=out,stderr=err,env=env,start_new_session=True)
+ while child.poll() is None:
+  rows=[ident(int(p.name)) for p in pathlib.Path('/proc').iterdir() if p.name.isdigit()];rows=[r for r in rows if r];anc={child.pid};changed=True
+  while changed:
+   changed=False
+   for r in rows:
+    if r['ppid'] in anc and r['pid'] not in anc:anc.add(r['pid']);changed=True
+  for r in rows:
+   if r['pid'] in anc or r['group']==child.pid:seen[(r['pid'],r['start'])]=r
+  if time.monotonic()-started>60:
+   expired=True;os.killpg(child.pid,signal.SIGTERM)
+   try:child.wait(timeout=5)
+   except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=2)
+   break
+  time.sleep(.02)
+ code=child.wait()
+post=[]
+for r in seen.values():
+ current=ident(r['pid']);post.append({**r,'executing':bool(current and current['start']==str(r['start']) and current['state'] not in ['Z','X'])})
+result={'childExit':code,'timeout':expired,'elapsedSeconds':time.monotonic()-started,'setup':(parent/'stdout.txt').read_text().strip(),'sourceExact':sha(materialized.read_bytes())==approval['templateSha256'],'allOwnedNonexecuting':not any(r['executing'] for r in post),'approvalSha256':sha(a.read_bytes())}
+(parent/'independent-all-owned-postexit.json').write_text(json.dumps(post,indent=2)+'\n');(parent/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2));print((parent/'stderr.txt').read_text())
+if code or expired or not result['sourceExact'] or not result['allOwnedNonexecuting']:raise SystemExit(1)

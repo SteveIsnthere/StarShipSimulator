@@ -1,0 +1,239 @@
+[
+  {
+    "id": "all-protected-metrics-100-positive",
+    "expectedStatus": 0,
+    "failures": []
+  },
+  {
+    "id": "aggregate-branches-below-99",
+    "group": "global",
+    "metric": "branches",
+    "floor": 99,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "global",
+        "metric": "branches"
+      },
+      {
+        "group": "src/core/physics/**",
+        "metric": "branches"
+      }
+    ]
+  },
+  {
+    "id": "aggregate-lines-below-99",
+    "group": "global",
+    "metric": "lines",
+    "floor": 99,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "global",
+        "metric": "lines"
+      },
+      {
+        "group": "src/core/physics/**",
+        "metric": "lines"
+      },
+      {
+        "group": "src/core/autopilot/**",
+        "metric": "lines"
+      }
+    ]
+  },
+  {
+    "id": "aggregate-functions-below-98",
+    "group": "global",
+    "metric": "functions",
+    "floor": 98,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "global",
+        "metric": "functions"
+      },
+      {
+        "group": "src/core/physics/**",
+        "metric": "functions"
+      },
+      {
+        "group": "src/core/autopilot/**",
+        "metric": "functions"
+      }
+    ]
+  },
+  {
+    "id": "aggregate-statements-below-99",
+    "group": "global",
+    "metric": "statements",
+    "floor": 99,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "global",
+        "metric": "statements"
+      },
+      {
+        "group": "src/core/autopilot/**",
+        "metric": "statements"
+      }
+    ]
+  },
+  {
+    "id": "physics-branches-below-100",
+    "group": "src/core/physics/**",
+    "metric": "branches",
+    "floor": 100,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/physics/**",
+        "metric": "branches"
+      }
+    ]
+  },
+  {
+    "id": "physics-lines-below-100",
+    "group": "src/core/physics/**",
+    "metric": "lines",
+    "floor": 100,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/physics/**",
+        "metric": "lines"
+      }
+    ]
+  },
+  {
+    "id": "physics-functions-below-100",
+    "group": "src/core/physics/**",
+    "metric": "functions",
+    "floor": 100,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/physics/**",
+        "metric": "functions"
+      }
+    ]
+  },
+  {
+    "id": "physics-statements-below-98",
+    "group": "src/core/physics/**",
+    "metric": "statements",
+    "floor": 98,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/physics/**",
+        "metric": "statements"
+      }
+    ]
+  },
+  {
+    "id": "control-branches-below-95",
+    "group": "src/core/control/**",
+    "metric": "branches",
+    "floor": 95,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/control/**",
+        "metric": "branches"
+      }
+    ]
+  },
+  {
+    "id": "control-lines-below-95",
+    "group": "src/core/control/**",
+    "metric": "lines",
+    "floor": 95,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/control/**",
+        "metric": "lines"
+      }
+    ]
+  },
+  {
+    "id": "control-functions-below-95",
+    "group": "src/core/control/**",
+    "metric": "functions",
+    "floor": 95,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/control/**",
+        "metric": "functions"
+      }
+    ]
+  },
+  {
+    "id": "control-statements-below-95",
+    "group": "src/core/control/**",
+    "metric": "statements",
+    "floor": 95,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/control/**",
+        "metric": "statements"
+      }
+    ]
+  },
+  {
+    "id": "autopilot-branches-below-95",
+    "group": "src/core/autopilot/**",
+    "metric": "branches",
+    "floor": 95,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/autopilot/**",
+        "metric": "branches"
+      }
+    ]
+  },
+  {
+    "id": "autopilot-lines-below-99",
+    "group": "src/core/autopilot/**",
+    "metric": "lines",
+    "floor": 99,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/autopilot/**",
+        "metric": "lines"
+      }
+    ]
+  },
+  {
+    "id": "autopilot-functions-below-100",
+    "group": "src/core/autopilot/**",
+    "metric": "functions",
+    "floor": 100,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/autopilot/**",
+        "metric": "functions"
+      }
+    ]
+  },
+  {
+    "id": "autopilot-statements-below-99",
+    "group": "src/core/autopilot/**",
+    "metric": "statements",
+    "floor": 99,
+    "expectedStatus": 1,
+    "failures": [
+      {
+        "group": "src/core/autopilot/**",
+        "metric": "statements"
+      }
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "approval": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/root-fresh-dist-approval.json",
+    "sha": "3f2442caba85a782d132bcd6378a4931871210caf3e95181208ab758d620ecd9"
+  },
+  "build": {
+    "path": "/tmp/starship-original21-stage.znic3E/stage-result.json",
+    "sha": "040f3d7be584b2f7d6986ff0c95c5d937edaa7c6554ee4c4f77a765125d100fa"
+  },
+  "currentSourceBuild": true,
+  "noBuildRepeated": true
+}

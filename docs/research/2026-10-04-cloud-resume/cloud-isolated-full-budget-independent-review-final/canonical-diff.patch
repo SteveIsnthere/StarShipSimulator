@@ -1,0 +1,136 @@
+--- tests/e2e/visual-budget.spec.ts
++++ isolated-launch-budget.spec.ts
+@@ -1,13 +1,13 @@
+ /** Opt-in, serial idle-machine measurements; viewport emulation is not phone hardware. */
+ import { expect, test, type Page } from '@playwright/test';
+-import type { DebugRendererMetadata, SimDebug } from '../../src/app/debug';
+-import { byTestId } from '../../src/ui/testids';
+-import { ready, tap, isCompactLayout } from './helpers';
+-import { VISUAL_SCENES, visualScene, type VisualScene } from './visual-scene-setup';
+-import { installBudgetProbe, statistics, type BudgetProbe, type BudgetFrame } from './visual-budget-probe';
+-import { attachVisualRuntimeReceipt, visualRuntimeReceipt, writeVisualJSON } from './visual-runtime-receipt';
+-import { recordBudgetFailure, recordBudgetSnapshot } from './visual-budget-receipts';
+-import { startVisualBrowserTrace } from './visual-browser-trace';
++import type { DebugRendererMetadata, SimDebug } from '../../../src/app/debug';
++import { byTestId } from '../../../src/ui/testids';
++import { ready, tap, isCompactLayout } from '../../../tests/e2e/helpers';
++import { visualScene, type VisualScene } from '../../../tests/e2e/visual-scene-setup';
++import { installBudgetProbe, statistics, type BudgetProbe, type BudgetFrame } from '../../../tests/e2e/visual-budget-probe';
++import { attachVisualRuntimeReceipt, visualRuntimeReceipt, writeVisualJSON } from '../../../tests/e2e/visual-runtime-receipt';
++import { recordBudgetFailure, recordBudgetSnapshot } from '../../../tests/e2e/visual-budget-receipts';
++import { isolatedBudgetBoundary } from './isolated-budget-boundary';
+ 
+ type WindowDebug = { __simDebug: SimDebug; __visualBudget: BudgetProbe };
+ const state = (page: Page) => page.evaluate(() =>
+@@ -113,12 +113,13 @@
+   // --workers=1 enforces idle-machine serialization without skipping later
+   // scene measurements when an earlier scene legitimately exceeds its budget.
+   test.describe.configure({ mode: 'default', timeout: 600_000 });
+-  for (const scene of [...VISUAL_SCENES, 'simultaneous-failure'] as const) {
++  for (const scene of (['launch'] as (VisualScene | 'simultaneous-failure')[])) {
+     test(`${scene}: CPU + GPU completion and actual cadence @mobile @visual-budget`, async ({ page, browser }, info) => {
+       try {
+       expect(info.config.workers, 'run this opt-in measurement with --workers=1').toBe(1);
+       const runtimeBefore = await visualRuntimeReceipt(browser, info);
+       await attachVisualRuntimeReceipt(info, 'before', runtimeBefore);
++      await isolatedBudgetBoundary(browser,info,'pre-controls',false);
+       await page.addInitScript(installBudgetProbe);
+       await controlProbe(page);
+       const short = scene === 'landing' || scene === 'catch';
+@@ -160,6 +161,7 @@
+           await tap(page, 'select-ship'); await foldControls(page);
+         }
+         const rendererBefore = await rendererMetadata(page);
++        await isolatedBudgetBoundary(browser,info,'before-measured',true);
+         await page.evaluate(count => {
+           const w = window as unknown as WindowDebug;
+           w.__visualBudget.start(60, count); w.__simDebug.resume();
+@@ -194,6 +196,7 @@
+         }
+         segments.push({ frames: measured.frames, before: { ...before }, after: { ...after }, rendererBefore, rendererAfter });
+         await page.evaluate(() => (window as unknown as WindowDebug).__simDebug.pause());
++        await isolatedBudgetBoundary(browser,info,'after-measured',true);
+       }
+       const frames = segments.flatMap(segment => segment.frames);
+       const intervals = segments.flatMap(segment => segment.frames.slice(1).map((frame, i) =>
+@@ -228,79 +231,10 @@
+         'the single failure-onset spike cannot hide inside a percentile').toBeLessThanOrEqual(phone ? 33.33 : 16.67);
+       } catch (error) {
+         await recordBudgetFailure(page, browser, info, error);
++        try { await isolatedBudgetBoundary(browser,info,'failure',false); } catch(boundaryError){ info.annotations.push({type:'isolated-boundary-failure',description:String(boundaryError)}); }
+         throw error;
+       }
+     });
+   }
+ });
+ 
+-/** One separately opted-in diagnostic; never alters acceptance scene/sample counts. */
+-test('diagnostic launch: 60 warm + 30 measured with all-browser-thread trace @visual-diagnostic', async ({ page, browser }, info) => {
+-  test.skip(process.env['RUN_VISUAL_DIAGNOSTIC'] !== '1', 'separately declared diagnosis only');
+-  test.setTimeout(180_000);
+-  expect(info.config.workers).toBe(1);
+-  expect(info.project.name, 'one desktop launch diagnostic only').toBe('chromium');
+-  let stopTrace: (() => Promise<void>) | undefined;
+-  let diagnosticFailed = false;
+-  let diagnosticError: unknown;
+-  let cleanupFailed = false;
+-  let traceCleanupError: unknown;
+-  try {
+-    const runtimeBefore = await visualRuntimeReceipt(browser, info);
+-    await attachVisualRuntimeReceipt(info, 'before', runtimeBefore);
+-    await page.addInitScript(installBudgetProbe);
+-    await controlProbe(page);
+-    await visualScene(page, 'launch');
+-    await recordBudgetSnapshot(page, info, 'diagnostic-before.json', {
+-      purpose: 'diagnose cadence outside measured RAF/fence work; not acceptance',
+-      warmFrames: 60, measuredFrames: 30,
+-      sourceSha256: runtimeBefore.source.sha256, buildSha256: runtimeBefore.build.sha256,
+-    });
+-    const renderer = await rendererMetadata(page);
+-    expect(renderer.backend, 'the declared diagnostic uses the existing WebGL route').toBe('webgl');
+-    stopTrace = await startVisualBrowserTrace(browser, info);
+-    await page.evaluate(() => {
+-      const w = window as unknown as WindowDebug;
+-      w.__visualBudget.start(60, 30, true); w.__simDebug.resume();
+-    });
+-    await page.waitForFunction(() => {
+-      const result = (window as unknown as WindowDebug).__visualBudget.result();
+-      return result.done || result.errors.length > 0;
+-    }, undefined, { polling: 100, timeout: 60_000 });
+-    const result = await recordBudgetSnapshot(page, info, 'diagnostic-complete.json', {
+-      purpose: '30-frame diagnostic samples are not 300-frame acceptance',
+-    });
+-    await page.evaluate(() => (window as unknown as WindowDebug).__simDebug.pause());
+-    await stopTrace();
+-    expect(result.measured?.errors).toEqual([]);
+-    expect(result.measured?.frames).toHaveLength(30);
+-    const runtimeAfter = await visualRuntimeReceipt(browser, info);
+-    await attachVisualRuntimeReceipt(info, 'after', runtimeAfter);
+-    expect(runtimeAfter.source.sha256).toBe(runtimeBefore.source.sha256);
+-    expect(runtimeAfter.build.sha256).toBe(runtimeBefore.build.sha256);
+-  } catch (error) {
+-    diagnosticFailed = true;
+-    diagnosticError = error;
+-    try { await recordBudgetFailure(page, browser, info, error); }
+-    catch (receiptError) {
+-      info.annotations.push({ type: 'diagnostic-receipt-error', description: String(receiptError) });
+-    }
+-  } finally {
+-    try { await stopTrace?.(); }
+-    catch (error) {
+-      cleanupFailed = true;
+-      traceCleanupError = error;
+-      try {
+-        await writeVisualJSON(info, 'trace-cleanup-error.json', {
+-          error: String(error), originalDiagnosticFailurePreserved: diagnosticFailed,
+-        });
+-      } catch (receiptError) {
+-        info.annotations.push({ type: 'trace-receipt-error', description: String(receiptError) });
+-      }
+-    }
+-  }
+-  // Rethrow outside finally so cleanup cannot replace an earlier diagnosis
+-  // failure. A cleanup-only failure still makes the diagnostic fail.
+-  if (diagnosticFailed) throw diagnosticError;
+-  if (cleanupFailed) throw traceCleanupError;
+-});

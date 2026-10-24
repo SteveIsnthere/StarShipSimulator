@@ -1,7 +1,8 @@
 /** A forecast of the *commanded* return through the shared mechanical advance.
  * Forecasts own cloned state/RNG. No recursive guidance, second integrator,
  * separate force law, instantaneous attitude or borrowed engine impulse. */
-import { cloneState,type SimState } from '../state';
+import type { SimState } from '../state';
+import { cloneBoosterMechanics as cloneState } from './booster-source';
 import type { MechanicalAdvance,MechanicalControl } from './mechanical';
 import type { VehicleDefinition } from '../vehicle';
 import type { Rad } from '../units';
@@ -48,7 +49,7 @@ export function boosterRemainingAfterPrefix(duration:number,prefix:BoosterPrefix
 export interface BoosterForecastWork {
   origin?:SimState;prefix?:BoosterPrefix;startupPrefix?:BoosterPrefix;reusePrefix?:BoosterPrefix;boostSteps?:number;steadySteps?:number;
   state:SimState;initialTime:number;initialDraws:number;burnRemaining:number;burnTicks:number;cutoffClock:number;done:boolean;result:BoosterForecast;
-  stopAtHandoff?:boolean;readyHandoff?:boolean;step?:number;shutdownAt?:number;
+  checkpoints?:readonly BoosterPrefix[];rollingPrefixes?:readonly BoosterPrefix[];stopAtCutoff?:boolean;stopAtHandoff?:boolean;readyHandoff?:boolean;step?:number;shutdownAt?:number;
 }
 export function createBoosterForecastWork(initial:SimState,coastPitch:Rad,burnTime=0):BoosterForecastWork {
   const state=cloneState(initial);
@@ -67,7 +68,7 @@ export function createBoosterForecastWork(initial:SimState,coastPitch:Rad,burnTi
 
 /** Mutates an owned job. A scheduler must clone its previous job/state before
  * resuming it; the synchronous API below already owns its new job. */
-export function advanceBoosterForecast(work:BoosterForecastWork,budget:number,advance:MechanicalAdvance,policy:MechanicalControl,model:VehicleDefinition):number {
+export function advanceBoosterForecast(work:BoosterForecastWork,budget:number,advance:MechanicalAdvance,policy:MechanicalControl,model:VehicleDefinition,record?: {eligible:(input:SimState,dt:number)=>boolean;paid:(input:SimState,expected:SimState|undefined,returned:SimState,dt:number)=>void}):number {
   const out=work.result;let state=work.state,used=0;
   const prefix=work.reusePrefix;
   let remaining=work.burnRemaining;
@@ -104,7 +105,12 @@ export function advanceBoosterForecast(work:BoosterForecastWork,budget:number,ad
       ?(work.burnTicks<6?1/120:Math.min(nominal,.05)):nominal;
     if(work.burnRemaining>0)state.autopilot.boosterForecastBurn=true;
     state.autopilot.boosterFallTime=Math.max(2,work.initialTime-out.time);
-    state=advance(state,dt,policy,model);out.steps++;used++;
+    const capture=record?.eligible(state,dt);
+    const input=capture?cloneState(state):undefined;let expected:SimState|undefined;
+    state=advance(state,dt,capture?(endpoint,interval,vehicle)=>{
+      expected=cloneState(endpoint);policy(endpoint,interval,vehicle);
+    }:policy,model);out.steps++;used++;
+    if(input)record!.paid(input,expected,state,dt);
     if(starting)work.boostSteps=(work.boostSteps ?? 0)+1;
     if(phase==='boostback' && !starting && dt===.05)work.steadySteps=(work.steadySteps ?? 0)+1;
     if(phase==='align-boost' || boosting) {
@@ -124,12 +130,17 @@ export function advanceBoosterForecast(work:BoosterForecastWork,budget:number,ad
         advance,policy,model,coastPitch:state.autopilot.boosterCoastPitch!,initialTime:work.initialTime,
         boostSteps:work.boostSteps ?? 0,steadySteps:work.steadySteps ?? 0,cutoffClock:work.cutoffClock};
       if(starting)work.startupPrefix=work.prefix;
+      const n=work.prefix.steadySteps;
+      if(n>0)work.rollingPrefixes=mergeBoosterRollingPrefixes(work.rollingPrefixes,[work.prefix]);
+      if(n>0 && (n & (n-1))===0 && !(work.checkpoints ?? []).some(p=>p.steadySteps===n))
+        work.checkpoints=[...(work.checkpoints ?? []),work.prefix];
     }
     if((boosting || (work.stopAtHandoff && state.autopilot.boosterPhase==='boostback')) && work.burnRemaining===0) {
       delete state.autopilot.boosterForecastBurn;
       state.autopilot.boosterPhase='coast';
       for(let j=0;j<state.engines.running.length;j++)shutdownEngine(state,j);
       work.shutdownAt=work.cutoffClock;
+      if(work.stopAtCutoff)work.done=true;
     }
     writeCatchPose(state,model,after);
     const crossed=before.altitude>CATCH.planeAltitude && after.altitude<=CATCH.planeAltitude;
@@ -199,4 +210,24 @@ export function createBoosterReadyWork(initial:SimState,coastPitch:Rad,burnTime:
   work.readyHandoff=true;work.origin=initial;
   if(prefix)work.reusePrefix=prefix;
   return work;
+}
+
+/** Paid cutoff only: no entry/terminal score or arrival authority. */
+export function createBoosterCutoffWork(initial:SimState,coastPitch:Rad,burnTime:number,prefix?:BoosterPrefix):BoosterForecastWork {
+  const work=createBoosterReadyWork(initial,coastPitch,burnTime,undefined,prefix);
+  work.stopAtCutoff=true;return work;
+}
+
+/** Bounded exact common steady endpoints. Shorter trials never erase later
+ * compatible paid history; older arrays/snapshots stay immutable. */
+export function mergeBoosterRollingPrefixes(prior:readonly BoosterPrefix[]|undefined,incoming:readonly BoosterPrefix[]):readonly BoosterPrefix[] {
+  const result=[...(prior ?? [])],reference=result[0] ?? incoming[0];
+  for(const p of incoming) {
+    if(!reference || p.steadySteps<=0 || p.origin!==reference.origin || p.advance!==reference.advance
+      || p.policy!==reference.policy || p.model!==reference.model || p.coastPitch!==reference.coastPitch
+      || p.initialTime!==reference.initialTime || p.boostSteps!==reference.boostSteps
+      || result.some(q=>q.steadySteps===p.steadySteps))continue;
+    result.push(p);
+  }
+  return result.sort((a,b)=>a.steadySteps-b.steadySteps).slice(-8);
 }

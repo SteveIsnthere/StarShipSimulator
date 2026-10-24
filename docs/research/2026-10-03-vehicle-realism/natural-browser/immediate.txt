@@ -1,0 +1,126 @@
+[WebServer] (node:24137) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:24138) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+natural warm 495.3166666663805
+natural immediate loss pieces [
+  {
+    id: 'booster-grid-1',
+    vehicle: 'super-heavy',
+    detached: true,
+    visible: true,
+    meshes: 3,
+    x: 363.3540359806949,
+    y: 83.86753982544013,
+    left: 360.50829769738624,
+    top: 76.86864747485726,
+    width: 7.998369399528883,
+    height: 9.575015493626523
+  },
+  {
+    id: 'booster-grid-2',
+    vehicle: 'super-heavy',
+    detached: true,
+    visible: true,
+    meshes: 3,
+    x: 357.2333070155386,
+    y: 97.37712768224922,
+    left: 351.5975733578865,
+    top: 96.05314945326981,
+    width: 7.997177424949314,
+    height: 10.05814036782813
+  },
+  {
+    id: 'booster-grid-0',
+    vehicle: 'super-heavy',
+    detached: true,
+    visible: true,
+    meshes: 3,
+    x: 362.22297098483784,
+    y: 86.364010756966,
+    left: 359.2109390477961,
+    top: 81.17472561459142,
+    width: 7.041706305114701,
+    height: 8.170057285661187
+  }
+]
+natural piece pixels [
+  { id: 'booster-grid-1', changed: 0 },
+  { id: 'booster-grid-2', changed: 0 },
+  { id: 'booster-grid-0', changed: 0 }
+] {
+  grids: [
+    {
+      id: 'booster-grid-1',
+      vehicle: 'super-heavy',
+      detached: true,
+      visible: true,
+      meshes: 3,
+      x: -1011.3278612500526,
+      y: -282.11429638999886,
+      left: -1014.2027001433374,
+      top: -284.7550335709965,
+      width: 7.9683443763191235,
+      height: 10.116458509550569
+    },
+    {
+      id: 'booster-grid-2',
+      vehicle: 'super-heavy',
+      detached: true,
+      visible: true,
+      meshes: 3,
+      x: -1045.0858458942328,
+      y: -272.8283021903273,
+      left: -1051.0498454169845,
+      top: -281.4825745269606,
+      width: 8.21070242918563,
+      height: 10.113889336459977
+    },
+    {
+      id: 'booster-grid-0',
+      vehicle: 'super-heavy',
+      detached: true,
+      visible: true,
+      meshes: 3,
+      x: -1017.5657144858494,
+      y: -280.3967356293562,
+      left: -1020.7057375351502,
+      top: -283.39590090743206,
+      width: 7.325744845644408,
+      height: 8.191746165498785
+    }
+  ],
+  viewport: { width: 1280, height: 347 }
+}
+  ✘  1 [chromium] › tests/e2e/vehicle-damage.spec.ts:48:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile (7.8s)
+
+
+  1) [chromium] › tests/e2e/vehicle-damage.spec.ts:48:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 
+
+    Error: each physical grid mesh contributes pixels inside its actual rendered bounds
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      145 |     grids, viewport: { width: rendered.width, height: rendered.height } });
+      146 |   console.log('natural piece pixels', changedByPiece, { grids, viewport: { width: rendered.width, height: rendered.height } });
+    > 147 |   expect(changedByPiece.every(piece => piece.changed > 0), 'each physical grid mesh contributes pixels inside its actual rendered bounds').toBe(true);
+          |                                                                                                                                            ^
+      148 |   expect(absent.equals(restored), 'same-state visibility control must change real rendered pixels').toBe(false);
+      149 |   expect(await read(page)).toEqual(paused);
+      150 |   await page.evaluate(() => (window as unknown as { __simDebug: SimDebug }).__simDebug.setScenario('before-flip'));
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/vehicle-damage.spec.ts:147:140
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/vehicle-damage-cold-editor-f07aa-l-independent-pieces-mobile-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/vehicle-damage.spec.ts:48:1 › cold editor flight naturally loses grids and renders their real independent pieces @mobile 

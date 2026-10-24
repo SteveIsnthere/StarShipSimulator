@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-terminal.test.ts (4 tests | 1 failed) 15ms
+     × does not freeze an uninitialized pitch-rate infinity in a first-tick pressure failure 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-terminal.test.ts > terminal release before legacy shutdown > does not freeze an uninitialized pitch-rate infinity in a first-tick pressure failure
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/damage-terminal.test.ts:17:64
+     15|     const next = step(s, 1 / 120, {}, SHIP);
+     16|     expect(next.damage!.terminal.active).toBe(true);
+     17|     expect(Number.isFinite(next.kinematics.pitchRateOfChange)).toBe(tr…
+       |                                                                ^
+     18|     expect(next.kinematics.pitchRateOfChange).toBe(0);
+     19|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  15:36:49
+   Duration  474ms (transform 245ms, setup 0ms, import 302ms, tests 15ms, environment 0ms)
+

@@ -12,17 +12,14 @@
  */
 import { SHIP, type VehicleDefinition } from '$core/vehicle';
 import type { SimState } from '$core/state';
-import { worldToScreen, type CameraState, type Viewport } from './camera';
+import { writeWorldToScreen, type CameraState, type Viewport } from './camera';
 import { streakIntensity, streakLength } from './motion-cues';
 import { EFFECTS, type ParticleSystem } from './particles';
-import { engineDistanceFromCenterOfMass, heatLimit, vehicleHeight } from '$core/constants';
+import { heatLimit } from '$core/constants';
 import {
   plasmaIntensity,
-  plumeScaleFactor,
-  plumeSpreadFactor,
-  shockCellLength,
-  shockDiamondStrength,
 } from './atmosphere-look';
+import { enginePlumeLook } from './engine-look';
 
 /**
  * kPa — below this there is not enough air for the fins to shed anything.
@@ -38,14 +35,13 @@ export const AERO_TRAIL_MIN_Q = 0.2;
 /**
  * kPa — where the fin vortices reach full intensity.
  *
- * Thirty, the same number `view/camera.ts` shakes at full amplitude at and
- * `audio/params.ts` roars at full strength at, because all three are the same
- * physical claim: this is as hard as the air ever tears at this vehicle. The
- * seven goldens peak at 28.6 kPa on the RTLS and 23.6 on the launch.
- *
- * It was 2, which is 4% of the structural limit and 7% of this — see the ramp.
+ * Full intensity at the existing structural50kPa boundary. V3's higher
+ * thrust raises the measured launch peak to30.533kPa, saturating the old30kPa
+ * ramp for9.9% of that flight. Keeping headroom to the structural boundary
+ * preserves pressure information without tuning the cutoff to one trajectory.
+ * Audio uses the same scale; camera shake retains its separately chosen range.
  */
-export const AERO_TRAIL_FULL_Q = 30;
+export const AERO_TRAIL_FULL_Q = 50;
 
 /**
  * kPa — the air needed for a transonic shock cone to be visible at all.
@@ -101,10 +97,12 @@ export interface EffectDriver {
   reset(): void;
 }
 
-export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = model.id === 'ship' ? engineDistanceFromCenterOfMass : model.height / 2): EffectDriver {
+export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = model.height / 2): EffectDriver {
   // Edge detection state. Not in SimState: these are presentation facts, and
   // core/ must not know that a renderer exists.
   const nozzle = { x: 0, y: 0 };
+  const ground = { x: 0, y: 0 };
+  const looks = model.engines.map(() => ({ spread: 0, scale: 0, diamonds: 0, cellLength: 0 }));
   let showedCrash = false;
   let showedBreakUp = false;
   let previousScale = 0;
@@ -174,8 +172,6 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
       if (running > 0 && forces.thrust > 0) {
         const throttleFraction = vehicle.throttleCurrent / 100;
         const ambient = state.atmosphere.airPressure;
-        const spread = plumeSpreadFactor(ambient);
-        const size = plumeScaleFactor(ambient);
 
         /*
           DENSITY IS NOT POWER, and conflating them is why the intro landing —
@@ -194,7 +190,6 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
         */
         const power = (running / (model.id === 'ship' ? 3 : model.ignitionGroup.length)) * throttleFraction;
         const density = PLUME_DENSITY_FLOOR + (1 - PLUME_DENSITY_FLOOR) * power;
-        const reach = PLUME_REACH_FLOOR + (1 - PLUME_REACH_FLOOR) * power;
 
         /*
           THE PLUME IS THREE THINGS AT ONE POINT (M9.6), and the point is the
@@ -213,28 +208,24 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
           reason it is the core: it is the part the surrounding flow is still
           holding together.
         */
-        particles.emit(
-          'raptorPlumeCore',
-          nozzleX,
-          nozzleY,
-          downAxis,
-          density,
-          dt,
-          scale * 0.9 * size * reach,
-          1 + (spread - 1) * 0.55,
-          shockCellLength(ambient) * scale,
-          shockDiamondStrength(ambient) * SHOCK_BAND_DEPTH,
-        );
-        particles.emit(
-          'raptorPlume',
-          nozzleX,
-          nozzleY,
-          downAxis,
-          density,
-          dt,
-          scale * 0.9 * size * reach,
-          spread,
-        );
+        // Split the bounded aggregate rate across actual healthy mounts. Each
+        // slot keeps its own birth debt/RNG, so render batching and a neighbour
+        // switching off cannot borrow another engine's gas history.
+        for (let i = 0; i < model.engines.length; i++) {
+          if (!engines.running[i] || engines.failed[i]) continue;
+          const mount = model.engines[i]!;
+          const look = looks[i]!;
+          enginePlumeLook(ambient, vehicle.throttleCurrent, mount.kind === 'vacuum', look);
+          const x = nozzleX + Math.cos(pitch) * mount.offAxis * scale;
+          const y = nozzleY + Math.sin(pitch) * mount.offAxis * scale;
+          const steerable = mount.gimballed ?? mount.kind === 'sea-level';
+          const direction = (steerable ? vehicle.gimbalPointingDirection : pitch) + Math.PI / 2;
+          particles.emit('raptorPlumeCore', x, y, direction, density / running, dt,
+            scale * 0.9 * look.scale, 1 + (look.spread - 1) * 0.55,
+            look.cellLength * scale, look.diamonds * SHOCK_BAND_DEPTH, i + 1);
+          particles.emit('raptorPlume', x, y, direction, density / running, dt,
+            scale * 0.9 * look.scale, look.spread, 0, 0, i + 1);
+        }
       }
 
       // --- engine shutdown: the effect that used to leak -------------------
@@ -268,8 +259,8 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
       */
       if (forces.dynamicPressure > AERO_TRAIL_MIN_Q) {
         const intensity = Math.min(Math.sqrt(forces.dynamicPressure / AERO_TRAIL_FULL_Q), 1);
-        const finX = shipX - Math.cos(downAxis) * (model.id === 'ship' ? vehicleHeight * 0.25 : model.gridFins!.station - model.height / 2) * scale;
-        const finY = shipY - Math.sin(downAxis) * (model.id === 'ship' ? vehicleHeight * 0.25 : model.gridFins!.station - model.height / 2) * scale;
+        const finX = shipX - Math.cos(downAxis) * (model.id === 'ship' ? model.height * 0.25 : model.gridFins!.station - model.height / 2) * scale;
+        const finY = shipY - Math.sin(downAxis) * (model.id === 'ship' ? model.height * 0.25 : model.gridFins!.station - model.height / 2) * scale;
         particles.emit('aeroTrail', finX, finY, downAxis, intensity, dt, scale * 0.7);
       }
 
@@ -282,7 +273,7 @@ export function createEffectDriver(model: VehicleDefinition = SHIP, nozzleArm = 
         pitch < Math.PI * 0.15
       ) {
         const intensity = 1 - kinematics.altitude / 200;
-        const ground = worldToScreen(camera, viewport, kinematics.downRangeDistance, 0);
+        writeWorldToScreen(camera, viewport, kinematics.downRangeDistance, 0, ground);
         particles.emit('groundSmoke', ground.x, ground.y, -Math.PI / 2, intensity, dt, scale);
       }
 

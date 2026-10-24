@@ -2,6 +2,7 @@
  * M4.4: the menu in a browser.
  */
 import { expect, test } from '@playwright/test';
+import { SHIP } from '../../src/core/vehicle';
 import { ready, readout } from './helpers';
 
 async function openMenu(page: import('@playwright/test').Page) {
@@ -193,15 +194,15 @@ test('the Launch Pad preset flies the flight the game starts you on', async ({ p
 
   await page.locator('[data-testid="preset-launch-pad"]').click();
   /*
-    350 tonnes and 25 metres. Both numbers are the vehicle rather than anything
-    typed: the altitude is `vehicleHeight / 2`, which is a Starship standing on
+    350 tonnes and half the V3 ship height. Both numbers come from the current
+    vehicle: the altitude is `SHIP.height / 2`, which is a Starship standing on
     its own feet, and 350 t is `constants.propellantMass`, the load it spawns
     with and the one the propellant bar draws as a full tank. (It is not the
     1200 t the editor will accept — that is `PROPELLANT_CAPACITY`, the tanks'
     geometric volume from M11.8. Two different fulls, and this is the ship's.)
   */
   await expect(page.locator('[data-testid="field-propellant"]')).toHaveValue('350');
-  await expect(page.locator('[data-testid="field-altitude"]')).toHaveValue('25');
+  await expect(page.locator('[data-testid="field-altitude"]')).toHaveValue(String(SHIP.height / 2));
 
   await page.locator('[data-testid="menu-configure"]').click();
   await expect(page.locator('[data-testid="menu"]')).toHaveCount(0);

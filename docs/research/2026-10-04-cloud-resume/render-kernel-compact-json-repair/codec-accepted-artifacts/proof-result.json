@@ -1,0 +1,58 @@
+{
+  "kind": "render-kernel-compact-codec-v1",
+  "node": "v22.23.3",
+  "originalSha256": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+  "candidateSha256": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+  "helperSha256": "d138a85a5f46ec1bdfea7e7bf6a63645e1b516342783fa68cb244102cd2f25f4",
+  "results": [
+    {
+      "name": "numbers",
+      "passed": true,
+      "prettyBytes": 289,
+      "compactBytes": 192,
+      "wireSha256": "d520ca9b2168e7cdefe5b5aead49eb75167c7329f023ac0fa902e31a166c729b"
+    },
+    {
+      "name": "undefined",
+      "passed": true,
+      "prettyBytes": 87,
+      "compactBytes": 65,
+      "wireSha256": "6deadd4fa34dba78acec94ac0773def3964fa9273867c66b0e1ed04025263243"
+    },
+    {
+      "name": "hole",
+      "passed": true,
+      "prettyBytes": 121,
+      "compactBytes": 72,
+      "wireSha256": "c3695ef9834970c6d4b75f7070f07586269b3995ea23b7dec8fb700d6ec9cec1"
+    },
+    {
+      "name": "typed-arrays",
+      "passed": true,
+      "prettyBytes": 1064,
+      "compactBytes": 559,
+      "wireSha256": "37c29163a2234d124f701f1c6b884445b2605dd5c582270f9e9d2d5d13acc2cc"
+    },
+    {
+      "name": "bigint",
+      "passed": true,
+      "prettyBytes": 56,
+      "compactBytes": 51,
+      "wireSha256": "c46ec145b1702b192169153a6e2a963c31fc3fa88fd4a2fcf65f292fc58209e2"
+    },
+    {
+      "name": "nested-texture-state",
+      "passed": true,
+      "prettyBytes": 1512,
+      "compactBytes": 678,
+      "wireSha256": "5ca69f26f98a92acdf31d7d6dbc5ed669df0353644cadc47fc5d1fe5c829616e"
+    }
+  ],
+  "negativeControls": 4,
+  "collectionCapsChanged": false,
+  "productImports": 0,
+  "browserLaunches": 0,
+  "storedTagsUnchanged": true,
+  "inverseDomain": "ordinary acyclic enumerable public data without reserved tag keys; typed constructor+view elements, not backing-buffer offsets/aliases",
+  "finalized": true
+}

@@ -1,0 +1,11 @@
+--- before-style/prepare-width2-stage-input.py.txt
++++ after-style/prepare-width2-stage-input.py.txt
+@@ -18,7 +18,7 @@
+ if m['codec']['sha']!='2e9d1a2adaa78a11852234a24dfe31e3b969f22c77518f72172bd9abf26d5e58' or m['sdkReview']['sha']!='608b8d24741126580d68fbf4fe85fde34d894024736e54b1f4e3ff6030a5b165':raise RuntimeError('Accepted actual evidence drift')
+ if mode!='prepare':
+  setup=pathlib.Path(sys.argv[2]);import re
+- if not re.fullmatch('/tmp/starship-render-kernel\.[A-Za-z0-9]+',str(setup)) or setup.resolve()!=setup:raise RuntimeError('Wrong prepared setup')
++ if not re.fullmatch(r'/tmp/starship-render-kernel\.[A-Za-z0-9]+',str(setup)) or setup.resolve()!=setup:raise RuntimeError('Wrong prepared setup')
+  m['setup']=str(setup)
+ receipt=pathlib.Path(tempfile.mkdtemp(prefix='starship-width2-stage-input.',dir='/tmp'));os.chmod(receipt,0o700)
+ file=receipt/'owner-input.json'

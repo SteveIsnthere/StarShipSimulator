@@ -1,0 +1,54 @@
+{
+  "completed": false,
+  "failures": [
+    "Outer stage failed"
+  ],
+  "actualReturncode": 1,
+  "remaining": [],
+  "tracked": [
+    {
+      "pid": 104855,
+      "state": "R",
+      "parent": 104843,
+      "group": 104855,
+      "session": 104855,
+      "start": "6805536"
+    },
+    {
+      "pid": 104862,
+      "state": "R",
+      "parent": 104855,
+      "group": 104862,
+      "session": 104862,
+      "start": "6805667"
+    },
+    {
+      "pid": 104887,
+      "state": "R",
+      "parent": 104862,
+      "group": 104862,
+      "session": 104862,
+      "start": "6805720"
+    }
+  ],
+  "ownedGroups": [
+    {
+      "group": 104855,
+      "session": 104855,
+      "start": "6805536",
+      "cleared": true,
+      "uncertain": false
+    },
+    {
+      "group": 104862,
+      "session": 104862,
+      "start": "6805667",
+      "cleared": true,
+      "uncertain": false
+    }
+  ],
+  "stageReceipt": "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-collector-084eb314c4a343c7a0969ca729cfb4d7",
+  "manifestSha": "a8996cce7fe7f4d95cc8260c39ce836c1735ecb6cca4b5009a5d7ea3228931fb",
+  "elapsedSeconds": 40.99275040626526,
+  "acceptance": "This ONE unchanged covered case collector publicAPI validation only; native floor FAILED retained; no full coverage, performance, unit or gate acceptance"
+}

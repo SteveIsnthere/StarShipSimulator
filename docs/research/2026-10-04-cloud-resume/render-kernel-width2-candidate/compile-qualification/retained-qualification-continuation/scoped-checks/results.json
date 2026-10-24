@@ -1,0 +1,60 @@
+[
+  {
+    "name": "qualify-retained-width2.mjs.syntax",
+    "code": 0,
+    "elapsedSeconds": 0.02867492299992591,
+    "sourceSha256": "a0b68dacc9b60a5ddfc4b562547efb71eb460a74ea6f5dcba700b7059c5c646c",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "--check",
+      "--input-type=module"
+    ]
+  },
+  {
+    "name": "qualify-retained-width2.mjs.lint",
+    "code": 0,
+    "elapsedSeconds": 0.9652772230037954,
+    "sourceSha256": "a0b68dacc9b60a5ddfc4b562547efb71eb460a74ea6f5dcba700b7059c5c646c",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "--stdin",
+      "--stdin-filename",
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/qualify-retained-width2.mjs"
+    ]
+  },
+  {
+    "name": "business-stage.mjs.syntax",
+    "code": 0,
+    "elapsedSeconds": 0.027404406006098725,
+    "sourceSha256": "8802bea7ae25383a7cbae50c8691324a69698c95c3acd307340cc2c84e0d6604",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "--check",
+      "--input-type=module"
+    ]
+  },
+  {
+    "name": "business-stage.mjs.lint",
+    "code": 0,
+    "elapsedSeconds": 0.9310397139997804,
+    "sourceSha256": "8802bea7ae25383a7cbae50c8691324a69698c95c3acd307340cc2c84e0d6604",
+    "args": [
+      "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "node_modules/eslint/bin/eslint.js",
+      "--stdin",
+      "--stdin-filename",
+      "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/business-stage.mjs"
+    ]
+  },
+  {
+    "name": "maker-ast",
+    "code": 0,
+    "sourceSha256": "d72e7446d31832af87dbe6a0f580e8adfb3629680d490907e98d42785e8e2fbd",
+    "args": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-c",
+      "import ast,sys;ast.parse(sys.stdin.read())"
+    ]
+  }
+]

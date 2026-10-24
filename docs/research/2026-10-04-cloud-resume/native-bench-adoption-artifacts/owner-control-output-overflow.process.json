@@ -1,0 +1,34 @@
+{
+  "exit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "failure": {
+    "kind": "output-overflow",
+    "message": "stdout exceeded 8388608 bytes; raw prefix retained"
+  },
+  "bytes": {
+    "stdout": 8388608,
+    "stderr": 0
+  },
+  "cap": 8388608,
+  "finished": true,
+  "closed": true,
+  "cleanup": {
+    "pid": 31374,
+    "start": "1393415",
+    "group": 31374,
+    "session": 31374,
+    "tracked": [
+      {
+        "pid": 31374,
+        "state": "Z",
+        "parent": 31339,
+        "group": 31374,
+        "session": 31374,
+        "start": "1393415"
+      }
+    ],
+    "executing": []
+  }
+}

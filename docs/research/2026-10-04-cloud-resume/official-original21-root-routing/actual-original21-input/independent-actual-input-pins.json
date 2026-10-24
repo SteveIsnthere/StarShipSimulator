@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "decision": "supported-one-separate-original21-invocation",
+  "review": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-input/independent-actual-input-review.md",
+  "reviewSha256": "b9547bbca386bede52e2138d3f866a6490b4377903eddf0e621c70734c0e21e3",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-input/owner-input.json": "89616f3252e3107c75e3ebe14f785e7cf8d4a5ec2030c49e6ae44b7f792d7b09",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-input/inventory.json": "1e90b46fcc3580b489e4a96ee7a520b3bb02525f8b46f4e1dd214955d556403c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-input/declaration.md": "d2c08510765a91b6e08a069ce1e83a45b2a39952983c183267f81d2af989b610",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-app-build-input/independent-actual-app-result-review.md": "eb8a8e3df8057344df7583821f993ba6f4cf4e854b9f993813be11103656b7c6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-app-build-input/independent-actual-app-result-pins.json": "66cbf4e4ed772ca105e87f1d569f508c23ebe6bf1dd6671e5ab313db099606dc",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/independent-final-bound-review.md": "9366176f36c4b0a6ac11549f558b3ddf0eb4587da90e7c19dc30782f0db20262",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/independent-final-bound-pins.json": "231b555835b46224ba659b263255fc76f561d4b04769aa2ae8feabe48e49abdd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/business-stage.mjs.txt": "47bcf04afe36ef68a1f8eae390e9ab4e476b29f1f4141f9ee25d92209b086cd0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/root-observer.py.txt": "9ed6bfda288ced6456146475afeb605ee4f3396cf8e83f8e153e9aaf04650dd5",
+    "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json": "d1b400dbddf2ca6e22df8b7b7eb550c7f58324bf8a45d24f360743bbf107c033"
+  },
+  "ownerInputSha256": "89616f3252e3107c75e3ebe14f785e7cf8d4a5ec2030c49e6ae44b7f792d7b09",
+  "inventorySha256": "1e90b46fcc3580b489e4a96ee7a520b3bb02525f8b46f4e1dd214955d556403c",
+  "mode": "original21",
+  "outerMs": 338000,
+  "sourcePathsVerified": 769,
+  "toolMetadataPaths": 20355,
+  "priorAppAccepted": true,
+  "requiredFullPublicAdmissionBeforeAfter": true,
+  "requiredAllOwnedAbsence": true,
+  "original21ExecutionSupported": true,
+  "additionalExecutionSupported": false,
+  "actualTestsAccepted": false,
+  "coverageAccepted": false,
+  "wholeGateAccepted": false,
+  "performanceAccepted": false
+}

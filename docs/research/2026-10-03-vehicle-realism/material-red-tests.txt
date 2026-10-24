@@ -1,0 +1,24 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-material.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-material.test.ts [ tests/core/damage-material.test.ts ]
+Error: Cannot find module '$core/physics/damage-material' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/damage-material.test.ts
+ ❯ tests/core/damage-material.test.ts:2:1
+      1| import { describe, expect, it } from 'vitest';
+      2| import {
+       | ^
+      3|   STEEL_DENSITY, MATERIAL_REFERENCE_K, MATERIAL_MAX_K,
+      4|   steelSpecificHeat, steelConductivity, steelSpecificEnthalpy,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  13:13:15
+   Duration  131ms (transform 14ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

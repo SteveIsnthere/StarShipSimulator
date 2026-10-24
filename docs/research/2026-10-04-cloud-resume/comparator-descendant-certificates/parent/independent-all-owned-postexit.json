@@ -1,0 +1,25 @@
+{
+  "source": "supplemental actual controls.process.json cleanup.tracked plus root/parent; original parent guessed owned key and checked only2",
+  "owned": [
+    {
+      "pid": 48706,
+      "starttime": "2529099",
+      "executing": false
+    },
+    {
+      "pid": 48719,
+      "starttime": "2529103",
+      "executing": false
+    },
+    {
+      "pid": 48726,
+      "state": "R",
+      "parent": 48719,
+      "group": 48726,
+      "session": 48726,
+      "start": "2529149",
+      "executing": false
+    }
+  ],
+  "allNonexecuting": true
+}

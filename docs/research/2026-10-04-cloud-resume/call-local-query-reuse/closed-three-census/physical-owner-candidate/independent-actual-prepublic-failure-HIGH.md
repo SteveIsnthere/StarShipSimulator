@@ -1,0 +1,11 @@
+# Independent actual prepublic failure HIGH
+
+FAILED: root caller1/5.358829937s, owner70, native builder1. The exact compiler-ID guard rejected the additional null-prefixed rolldown/runtime.js module; the actual union is57 IDs: all55 closed source modules, the authored entry, and one generated runtime. The fourteen inert controls passed first. No qualified artifact certificate, admission, public episode or physics execution occurred. Missing final graph audit correctly contributes an owner posterror; it is not waived.
+
+Independently verified all280 selected hashes unchanged; retained source770/tool20355 before/after/observed maps exactly match current authority. Four exact identities are independently ABSENT; three owned groups clear with no uncertainty or remaining execution. Raw preliminary compiler metadata, maps, chunks, command receipts, owner/root failures and original private a425f remain preserved and unqualified.
+
+The bounded runtime projection is chunk3ec0e4a9,162549bytes, helper bytes[0,233), SHA dcd70d8c. It creates source-defined export getters using Object.defineProperty and Symbol.toStringTag. This is compiler-generated code, not an additional reviewed authored source module. Comparison with accepted Orbit helper is parent-reported lineage, not independent transfer acceptance here.
+
+Requested distinct source-only successor: exact one generated ID/producer/class, exact helper bytes and position/class occurrence, compiler metadata/disk identity and pinned producer provenance, with identical verification in builder and artifact admission. Keep exact55+entry authored module and mapped source closure, file/import/edge/facade qualification, no wildcard/null-ID allowance or source-credit substitution. Capture/check Symbol global binding and owner descriptors consistently alongside existing intrinsic owners; the guard remains consistency only, no pristine claim. Deny any different/additional generated helper. Archive source snapshots and produce fresh manifests/body envelope and private input after independent source HIGH. Original3cases30s and300/292+8,controls5/build60/public200 stay unchanged.
+
+No artifact or execution grant follows this failure review. Existing author was explicitly tasked with source-only candidate preparation; no rebuild/import/kernel/workload ran by reviewer.

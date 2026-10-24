@@ -1,0 +1,20 @@
+{
+  "scope": "Unexecuted old14 candidate; changed files reconstructed after neutral retry/lifecycle repairs and every old hash verified",
+  "originalManifest": "../official-mixed-native-template-candidate-v1-pins.json",
+  "files": {
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/admission.mjs.txt": "9374bcc656192b8b5ad83795a439add558eae3d8983837b95fd396c0d206a501",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/build.mjs.txt": "8972c5e011d25f57d3458a199e20ecdcf11d29ae00eef51650add8f984794036",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/constants.mjs.txt": "7492ed19d62c4313b2c84ba67d731f74d12d128dc9ec139b6372eec90a3625b3",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/control-config.mjs.txt": "5f0b001e0868db9455d2c910ae34c21c706b9c61902f380cafb4f8a6ae5fb4b1",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/declaration.md": "944894bf5b1728f38ff06a82027bfcf8aca35822d8a874bb5f47f0bb1ebde20a",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/entry.ts.txt": "9381256cf634eebc46b5f9079f1a7708ffb8a42f437baa19ef4122064d86f5d8",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/fixture.mjs.txt": "a240167f3ddac0113d34ddfbac289605e9a31cbf3f1e40e4759db48a2817df5f",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/foreign-parent.mjs.txt": "175858e4893ed38f563a45dc06e40140141f5653929fc3a65119196d9f1d8882",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/integrity.mjs.txt": "8544e7ba55aca24c8ef11815a40754dd05f1e0ac64492f3e1849085e6fc68220",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/loader.mjs.txt": "ed890ad1dd6f51b972517f516af6ea2cfdfe46df1cbb82dd00a89c5d5be51232",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-a.test.mjs.txt": "0c27656703c8d61d2eabf300f2fb222762790dcca2c373f41b0cfe46e110626b",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-b.test.mjs.txt": "d095950ac0a2180b29768d279dfc1165a113f60c99caad457f081534eac4b83e",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/run-controls.mjs.txt": "aad4788591b3b71e4b72707ece06c641b08548d95be4ad7c72eca86aca50beb2",
+    "docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/ssr.test.mjs.txt": "e16abdc2cd7a650927967a07a4fc4f85febae24095bde2d268b9e6b1e41b1966"
+  }
+}

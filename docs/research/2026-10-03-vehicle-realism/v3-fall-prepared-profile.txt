@@ -1,0 +1,2 @@
+{"node":"v25.8.1","h":79000,"vx":2000,"vy":-50,"runs":500,"perCallMs":0.5653169159999998,"out":{"reached":true,"time":227.276593764986,"downRange":207713.16688728545}}
+{"node":"v25.8.1","h":60000,"vx":0,"vy":7000,"runs":200,"perCallMs":2.25502396,"out":{"reached":false,"time":null,"downRange":3246.2139561608574}}

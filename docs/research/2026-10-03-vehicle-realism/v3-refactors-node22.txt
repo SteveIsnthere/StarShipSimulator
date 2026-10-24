@@ -1,0 +1,61 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/fall-continuation.test.ts (5 tests | 2 failed) 40ms
+     × preserves frozen synchronous result for h=79000 14ms
+     × preserves frozen synchronous result for h=1000 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/fall-continuation.test.ts > same midpoint fall continuation > preserves frozen synchronous result for h=79000
+AssertionError: expected { reached: true, …(2) } to deeply equal { reached: true, …(2) }
+
+- Expected
++ Received
+
+  {
+    "downRange": 207520.2960543016,
+    "reached": true,
+-   "time": 179.8792275806716,
++   "time": 179.87922758067162,
+  }
+
+ ❯ tests/core/fall-continuation.test.ts:9:20
+      7|  it.each([[79000,2000,-50,179.8792275806716,207520.2960543016],[1000,0…
+      8|   const s=source(h,vx,vy),before=cloneState(s),expected=createFallResu…
+      9|   expect(expected).toEqual({reached:true,time,downRange:x});
+       |                    ^
+     10|   for(const slice of [1,37,512,4000]){
+     11|    const work=createUnpoweredFallWork(s,SHIP.height/2,SHIP,rad(0)),scr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/core/fall-continuation.test.ts > same midpoint fall continuation > preserves frozen synchronous result for h=1000
+AssertionError: expected { reached: true, …(2) } to deeply equal { reached: true, …(2) }
+
+- Expected
++ Received
+
+  {
+-   "downRange": -4.687299164929876e-18,
++   "downRange": -4.6872991649299176e-18,
+    "reached": true,
+    "time": 13.386025464402081,
+  }
+
+ ❯ tests/core/fall-continuation.test.ts:9:20
+      7|  it.each([[79000,2000,-50,179.8792275806716,207520.2960543016],[1000,0…
+      8|   const s=source(h,vx,vy),before=cloneState(s),expected=createFallResu…
+      9|   expect(expected).toEqual({reached:true,time,downRange:x});
+       |                    ^
+     10|   for(const slice of [1,37,512,4000]){
+     11|    const work=createUnpoweredFallWork(s,SHIP.height/2,SHIP,rad(0)),scr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  2 failed | 28 passed | 1 skipped (31)
+   Start at  18:00:48
+   Duration  1.32s (transform 430ms, setup 0ms, import 631ms, tests 1.33s, environment 0ms)
+

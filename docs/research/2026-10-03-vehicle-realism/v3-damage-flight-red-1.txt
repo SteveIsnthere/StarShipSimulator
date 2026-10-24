@@ -1,0 +1,59 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-flight.test.ts (3 tests | 3 failed) 10ms
+     × does not restore a detached flap mass when propellant bookkeeping runs 6ms
+     × an absent support cannot burn propellant, ignite or produce thrust 2ms
+     × one detached grid removes its force contribution from the real step 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-flight.test.ts > actual flight respects remaining hardware > does not restore a detached flap mass when propellant bookkeeping runs
+AssertionError: expected 470000 to be close to 469551.266768, received difference is 448.7332320000278, but expected 5e-8
+ ❯ tests/core/damage-flight.test.ts:26:38
+     24|     s.damage!.components[i]!.attached = false;
+     25|     const next = step(s, 1 / 120, {}, model);
+     26|     expect(next.vehicle.vehicleMass).toBeCloseTo(model.dryMass + next.…
+       |                                      ^
+     27|     expect(next.forces.frontFinEffectiveAreaFraction).toBeLessThan(s.f…
+     28|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  |unit| tests/core/damage-flight.test.ts > actual flight respects remaining hardware > an absent support cannot burn propellant, ignite or produce thrust
+AssertionError: expected 349962.7947448898 to be 350000 // Object.is equality
+
+- Expected
++ Received
+
+- 350000
++ 349962.7947448898
+
+ ❯ tests/core/damage-flight.test.ts:37:41
+     35|     s.vehicle.throttleCurrent = 100;
+     36|     const next = step(s, 1 / 120, {}, model);
+     37|     expect(next.vehicle.propellantMass).toBe(s.vehicle.propellantMass);
+       |                                         ^
+     38|     expect(next.engines.running.every(v => !v)).toBe(true);
+     39|     expect(next.engines.ignitionCountdown.every(v => v === null)).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  |unit| tests/core/damage-flight.test.ts > actual flight respects remaining hardware > one detached grid removes its force contribution from the real step
+AssertionError: expected 1 to be close to 0.6666666666666666, received difference is 0.33333333333333337, but expected 0.000005
+ ❯ tests/core/damage-flight.test.ts:52:67
+     50|     const intact = step(s, 1 / 120, {}, model);
+     51|     const lost = step(damaged, 1 / 120, {}, model);
+     52|     expect(lost.forces.frontFinDrag / intact.forces.frontFinDrag).toBe…
+       |                                                                   ^
+     53|     expect(lost.vehicle.vehicleMass).toBeLessThan(intact.vehicle.vehic…
+     54|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  14:48:16
+   Duration  347ms (transform 169ms, setup 0ms, import 209ms, tests 10ms, environment 0ms)
+

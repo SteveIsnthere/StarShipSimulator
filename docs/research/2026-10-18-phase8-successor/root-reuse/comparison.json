@@ -1,0 +1,4583 @@
+{
+  "wholeTraceBytesIdentical": true,
+  "beforeTraceSha256": "1696b9f606de9e70fb979c402d643a7c532c5808bc9a02fad53975eda6060ae9",
+  "afterTraceSha256": "1696b9f606de9e70fb979c402d643a7c532c5808bc9a02fad53975eda6060ae9",
+  "sameOutcome": true,
+  "sameTerminalState": true,
+  "sampleCount": 392,
+  "sampleDiffs": [],
+  "profiles": {
+    "before": {
+      "path": "docs/research/2026-10-18-phase8-successor/descending-diagnosis/attempt-1/reentry.cpuprofile",
+      "sha256": "96e1ccf071c47d9d53910f81bb31f153513b059f8fb1e104a61ca1d94ba75f9c",
+      "profileElapsedMs": 23392.298,
+      "rows": [
+        {
+          "name": "loadedRootAngle",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 39,
+          "sampleIntervalWeightMs": 3940.914,
+          "samples": 3478
+        },
+        {
+          "name": "writeDamageControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "line": 66,
+          "sampleIntervalWeightMs": 2491.256,
+          "samples": 2214
+        },
+        {
+          "name": "rootLoadCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 29,
+          "sampleIntervalWeightMs": 2241.428,
+          "samples": 1916
+        },
+        {
+          "name": "equalBoosterTree",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 89,
+          "sampleIntervalWeightMs": 1835.218,
+          "samples": 1619
+        },
+        {
+          "name": "writeFlightGridForces",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 64,
+          "sampleIntervalWeightMs": 922.097,
+          "samples": 826
+        },
+        {
+          "name": "cloneState",
+          "url": "file:///workspace/StarShipSimulator/src/core/state.ts",
+          "line": 252,
+          "sampleIntervalWeightMs": 866.582,
+          "samples": 768
+        },
+        {
+          "name": "writeDamageMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-mass.ts",
+          "line": 40,
+          "sampleIntervalWeightMs": 612.573,
+          "samples": 545
+        },
+        {
+          "name": "fallAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 389,
+          "sampleIntervalWeightMs": 503.644,
+          "samples": 446
+        },
+        {
+          "name": "(garbage collector)",
+          "url": "",
+          "line": -1,
+          "sampleIntervalWeightMs": 496.026,
+          "samples": 411
+        },
+        {
+          "name": "evaluateForce",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 66,
+          "sampleIntervalWeightMs": 468.275,
+          "samples": 614
+        },
+        {
+          "name": "gimballedShare",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 98,
+          "sampleIntervalWeightMs": 380.243,
+          "samples": 338
+        },
+        {
+          "name": "writeBoosterForceRequest",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 82,
+          "sampleIntervalWeightMs": 347.924,
+          "samples": 307
+        },
+        {
+          "name": "cloneBoosterMechanics",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 38,
+          "sampleIntervalWeightMs": 322.991,
+          "samples": 283
+        },
+        {
+          "name": "rCubedIntegral",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 126,
+          "sampleIntervalWeightMs": 303.667,
+          "samples": 275
+        },
+        {
+          "name": "writeFlightMassQuery",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/flight-mass-query.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 290.558,
+          "samples": 257
+        },
+        {
+          "name": "evaluateControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 46,
+          "sampleIntervalWeightMs": 286.848,
+          "samples": 259
+        },
+        {
+          "name": "prepareDynamics",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 186,
+          "sampleIntervalWeightMs": 286.505,
+          "samples": 255
+        },
+        {
+          "name": "pressureInLayer",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 95,
+          "sampleIntervalWeightMs": 263.195,
+          "samples": 231
+        },
+        {
+          "name": "advanceFreeBody",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "line": 72,
+          "sampleIntervalWeightMs": 254.237,
+          "samples": 222
+        },
+        {
+          "name": "finishMechanicalStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts",
+          "line": 13,
+          "sampleIntervalWeightMs": 249.468,
+          "samples": 90
+        },
+        {
+          "name": "writeUnpoweredAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 439,
+          "sampleIntervalWeightMs": 238.713,
+          "samples": 207
+        },
+        {
+          "name": "runBoosterPolicy",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 220,
+          "sampleIntervalWeightMs": 219.518,
+          "samples": 194
+        },
+        {
+          "name": "advanceDamageHeat",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+          "line": 123,
+          "sampleIntervalWeightMs": 192.177,
+          "samples": 166
+        },
+        {
+          "name": "getTotalMaxThrust",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 81,
+          "sampleIntervalWeightMs": 177.958,
+          "samples": 158
+        },
+        {
+          "name": "writeRotationForces",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 397,
+          "sampleIntervalWeightMs": 161.106,
+          "samples": 139
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 94,
+          "sampleIntervalWeightMs": 153.771,
+          "samples": 140
+        },
+        {
+          "name": "countOfKind",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 53,
+          "sampleIntervalWeightMs": 153.492,
+          "samples": 134
+        },
+        {
+          "name": "steelTemperatureFromEnthalpy",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 213,
+          "sampleIntervalWeightMs": 135.308,
+          "samples": 118
+        },
+        {
+          "name": "terminalBurnDue",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 165,
+          "sampleIntervalWeightMs": 135.041,
+          "samples": 117
+        },
+        {
+          "name": "align",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 81,
+          "sampleIntervalWeightMs": 134.359,
+          "samples": 117
+        },
+        {
+          "name": "commandGridTorque",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 60,
+          "sampleIntervalWeightMs": 129.966,
+          "samples": 119
+        },
+        {
+          "name": "rootUtilization",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 82,
+          "sampleIntervalWeightMs": 124.812,
+          "samples": 95
+        },
+        {
+          "name": "temperatureHint",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 171,
+          "sampleIntervalWeightMs": 114.159,
+          "samples": 97
+        },
+        {
+          "name": "setEngines",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 51,
+          "sampleIntervalWeightMs": 113.006,
+          "samples": 99
+        },
+        {
+          "name": "updatePropellant",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 169,
+          "sampleIntervalWeightMs": 103.051,
+          "samples": 89
+        },
+        {
+          "name": "specificEnthalpyUnchecked",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 137,
+          "sampleIntervalWeightMs": 83.225,
+          "samples": 74
+        },
+        {
+          "name": "propellantCentreOfMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 74,
+          "sampleIntervalWeightMs": 80.363,
+          "samples": 70
+        },
+        {
+          "name": "applyEnergy",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+          "line": 99,
+          "sampleIntervalWeightMs": 77.966,
+          "samples": 70
+        },
+        {
+          "name": "advanceFlightDamage",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 107,
+          "sampleIntervalWeightMs": 77.26,
+          "samples": 73
+        },
+        {
+          "name": "writeReferenceShift",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/body-reference.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 72.236,
+          "samples": 64
+        },
+        {
+          "name": "advanceBoosterPrediction",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 319,
+          "sampleIntervalWeightMs": 70.757,
+          "samples": 62
+        },
+        {
+          "name": "diagnosticJSON",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 15,
+          "sampleIntervalWeightMs": 70.55,
+          "samples": 59
+        },
+        {
+          "name": "getOffAxisThrustDifference",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 125,
+          "sampleIntervalWeightMs": 69.609,
+          "samples": 63
+        },
+        {
+          "name": "isaAtmosphereInto",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 308,
+          "sampleIntervalWeightMs": 68.867,
+          "samples": 62
+        },
+        {
+          "name": "writeBoosterThrustRequest",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 36,
+          "sampleIntervalWeightMs": 64.571,
+          "samples": 57
+        },
+        {
+          "name": "advanceBoosterForecast",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 76,
+          "sampleIntervalWeightMs": 62.791,
+          "samples": 56
+        },
+        {
+          "name": "boosterDeliveredThrottle",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 113,
+          "sampleIntervalWeightMs": 58.023,
+          "samples": 52
+        },
+        {
+          "name": "momentOfInertia",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 90,
+          "sampleIntervalWeightMs": 56.484,
+          "samples": 51
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 52.887,
+          "samples": 49
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 99,
+          "sampleIntervalWeightMs": 51.727,
+          "samples": 39
+        },
+        {
+          "name": "observe",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 232,
+          "sampleIntervalWeightMs": 51.401,
+          "samples": 44
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 51.224,
+          "samples": 45
+        },
+        {
+          "name": "surfaceTemperature",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 53,
+          "sampleIntervalWeightMs": 47.772,
+          "samples": 44
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 44.419,
+          "samples": 36
+        },
+        {
+          "name": "hullFromMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "line": 49,
+          "sampleIntervalWeightMs": 43.026,
+          "samples": 34
+        },
+        {
+          "name": "damageModelFor",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-model.ts",
+          "line": 11,
+          "sampleIntervalWeightMs": 42.56,
+          "samples": 40
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 100,
+          "sampleIntervalWeightMs": 42.282,
+          "samples": 36
+        },
+        {
+          "name": "pressureSpeedCeiling",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 158,
+          "sampleIntervalWeightMs": 41.943,
+          "samples": 37
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 41.733,
+          "samples": 37
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 41.709,
+          "samples": 39
+        },
+        {
+          "name": "post",
+          "url": "node:inspector",
+          "line": 117,
+          "sampleIntervalWeightMs": 41.344,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 40.509,
+          "samples": 33
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 40.429,
+          "samples": 31
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/vehicle.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 40.419,
+          "samples": 32
+        },
+        {
+          "name": "retainForce",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 76,
+          "sampleIntervalWeightMs": 39.678,
+          "samples": 33
+        },
+        {
+          "name": "changed",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 189,
+          "sampleIntervalWeightMs": 39.574,
+          "samples": 34
+        },
+        {
+          "name": "preparedBurnDeceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 251,
+          "sampleIntervalWeightMs": 38.464,
+          "samples": 26
+        },
+        {
+          "name": "writeAccelerationComponents",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 84,
+          "sampleIntervalWeightMs": 38.099,
+          "samples": 36
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/flight-mass-query.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 35.849,
+          "samples": 33
+        },
+        {
+          "name": "runScenarioMission",
+          "url": "file:///workspace/StarShipSimulator/tests/support/scenario-mission.ts",
+          "line": 28,
+          "sampleIntervalWeightMs": 34.914,
+          "samples": 33
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 15,
+          "sampleIntervalWeightMs": 34.806,
+          "samples": 14
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 61,
+          "sampleIntervalWeightMs": 34.725,
+          "samples": 30
+        },
+        {
+          "name": "preparedBackwardPass",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 207,
+          "sampleIntervalWeightMs": 33.344,
+          "samples": 31
+        },
+        {
+          "name": "fillFraction",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 70,
+          "sampleIntervalWeightMs": 30.395,
+          "samples": 27
+        },
+        {
+          "name": "writeFlightFinAreas",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 51,
+          "sampleIntervalWeightMs": 30.004,
+          "samples": 25
+        },
+        {
+          "name": "enthalpyPrimitive",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 132,
+          "sampleIntervalWeightMs": 29.754,
+          "samples": 26
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-model.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 29.503,
+          "samples": 26
+        },
+        {
+          "name": "writeFlightMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 32,
+          "sampleIntervalWeightMs": 29.37,
+          "samples": 26
+        },
+        {
+          "name": "getThrust",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 89,
+          "sampleIntervalWeightMs": 29.306,
+          "samples": 25
+        },
+        {
+          "name": "logarithmicFit",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 69,
+          "sampleIntervalWeightMs": 28.638,
+          "samples": 27
+        },
+        {
+          "name": "cloneBoosterSourceEvent",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 25,
+          "sampleIntervalWeightMs": 28.58,
+          "samples": 26
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/atmosphere.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 27.198,
+          "samples": 17
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 26.089,
+          "samples": 20
+        },
+        {
+          "name": "getAngleOfMotion",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 108,
+          "sampleIntervalWeightMs": 26.075,
+          "samples": 23
+        },
+        {
+          "name": "findCrossing",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 39,
+          "sampleIntervalWeightMs": 25.966,
+          "samples": 20
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 17,
+          "sampleIntervalWeightMs": 25.462,
+          "samples": 23
+        },
+        {
+          "name": "preparedTailFirstDragDeceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 240,
+          "sampleIntervalWeightMs": 25.305,
+          "samples": 23
+        },
+        {
+          "name": "advance",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 87,
+          "sampleIntervalWeightMs": 24.961,
+          "samples": 22
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 24.378,
+          "samples": 22
+        },
+        {
+          "name": "runBoosterPostStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 207,
+          "sampleIntervalWeightMs": 24.334,
+          "samples": 23
+        },
+        {
+          "name": "canonicalBurnPropulsion",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 126,
+          "sampleIntervalWeightMs": 23.845,
+          "samples": 21
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 22.494,
+          "samples": 16
+        },
+        {
+          "name": "integrateTranslation",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 308,
+          "sampleIntervalWeightMs": 22.062,
+          "samples": 20
+        },
+        {
+          "name": "enforceEngineSupport",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 38,
+          "sampleIntervalWeightMs": 21.802,
+          "samples": 20
+        },
+        {
+          "name": "flightControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 79,
+          "sampleIntervalWeightMs": 21.647,
+          "samples": 21
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 180,
+          "sampleIntervalWeightMs": 21.173,
+          "samples": 16
+        },
+        {
+          "name": "suttonGravesFlux",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 29,
+          "sampleIntervalWeightMs": 21.084,
+          "samples": 18
+        },
+        {
+          "name": "writeCatchPose",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 20,
+          "sampleIntervalWeightMs": 20.314,
+          "samples": 19
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 17,
+          "sampleIntervalWeightMs": 18.537,
+          "samples": 17
+        },
+        {
+          "name": "engineThrust",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 18.453,
+          "samples": 17
+        },
+        {
+          "name": "predictReturn",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 115,
+          "sampleIntervalWeightMs": 18.32,
+          "samples": 17
+        },
+        {
+          "name": "cloneDamageState",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 92,
+          "sampleIntervalWeightMs": 18.147,
+          "samples": 17
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-mass.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 17.673,
+          "samples": 17
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 17.65,
+          "samples": 14
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+          "line": 122,
+          "sampleIntervalWeightMs": 17.339,
+          "samples": 15
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 16.925,
+          "samples": 13
+        },
+        {
+          "name": "advanceBoosterSource",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 154,
+          "sampleIntervalWeightMs": 16.785,
+          "samples": 17
+        },
+        {
+          "name": "getCrossSectionalArea",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 55,
+          "sampleIntervalWeightMs": 16.269,
+          "samples": 15
+        },
+        {
+          "name": "getFuelFlowRate",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 156,
+          "sampleIntervalWeightMs": 15.35,
+          "samples": 14
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 169,
+          "sampleIntervalWeightMs": 14.623,
+          "samples": 10
+        },
+        {
+          "name": "radiativeSinkKelvin",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 65,
+          "sampleIntervalWeightMs": 14.201,
+          "samples": 13
+        },
+        {
+          "name": "controlTranslation",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 163,
+          "sampleIntervalWeightMs": 13.88,
+          "samples": 14
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 12,
+          "sampleIntervalWeightMs": 13.427,
+          "samples": 10
+        },
+        {
+          "name": "eligible",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 340,
+          "sampleIntervalWeightMs": 13.034,
+          "samples": 12
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 13.009,
+          "samples": 12
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 30,
+          "sampleIntervalWeightMs": 12.999,
+          "samples": 12
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 12.438,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 12.428,
+          "samples": 8
+        },
+        {
+          "name": "getFrontFinDrag",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 193,
+          "sampleIntervalWeightMs": 12.213,
+          "samples": 11
+        },
+        {
+          "name": "tangentialAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 145,
+          "sampleIntervalWeightMs": 12.114,
+          "samples": 13
+        },
+        {
+          "name": "canonicalBurnAero",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 135,
+          "sampleIntervalWeightMs": 11.537,
+          "samples": 11
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 11.399,
+          "samples": 5
+        },
+        {
+          "name": "checkIfBreakUp",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 147,
+          "sampleIntervalWeightMs": 11.328,
+          "samples": 8
+        },
+        {
+          "name": "verticalWeight",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 85,
+          "sampleIntervalWeightMs": 11.201,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 11.128,
+          "samples": 11
+        },
+        {
+          "name": "step",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 74,
+          "sampleIntervalWeightMs": 11.038,
+          "samples": 11
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 40,
+          "sampleIntervalWeightMs": 11.022,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 10.984,
+          "samples": 7
+        },
+        {
+          "name": "tickIgnition",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 251,
+          "sampleIntervalWeightMs": 10.981,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 10.94,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 10.915,
+          "samples": 6
+        },
+        {
+          "name": "updateAtmosphere",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/atmosphere.ts",
+          "line": 31,
+          "sampleIntervalWeightMs": 10.834,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 10.628,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 10.524,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 10.396,
+          "samples": 10
+        },
+        {
+          "name": "updatePitchRateOfChange",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 54,
+          "sampleIntervalWeightMs": 10.28,
+          "samples": 10
+        },
+        {
+          "name": "airVelocityX",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 107,
+          "sampleIntervalWeightMs": 10.139,
+          "samples": 9
+        },
+        {
+          "name": "updateVehicleInFlightMaxArea",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 220,
+          "sampleIntervalWeightMs": 10.073,
+          "samples": 10
+        },
+        {
+          "name": "finishTranslation",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 360,
+          "sampleIntervalWeightMs": 9.894,
+          "samples": 8
+        },
+        {
+          "name": "sample",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 86,
+          "sampleIntervalWeightMs": 9.748,
+          "samples": 9
+        },
+        {
+          "name": "diagnosticCatchCrossing",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 43,
+          "sampleIntervalWeightMs": 8.912,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 13,
+          "sampleIntervalWeightMs": 8.783,
+          "samples": 8
+        },
+        {
+          "name": "landingBurnStartAltitude",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 300,
+          "sampleIntervalWeightMs": 8.686,
+          "samples": 8
+        },
+        {
+          "name": "replayEvent",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 60,
+          "sampleIntervalWeightMs": 8.628,
+          "samples": 9
+        },
+        {
+          "name": "verticalLiftCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 26,
+          "sampleIntervalWeightMs": 8.622,
+          "samples": 8
+        },
+        {
+          "name": "getLiftCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 73,
+          "sampleIntervalWeightMs": 8.615,
+          "samples": 8
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 8.404,
+          "samples": 8
+        },
+        {
+          "name": "runBoosterAutopilot",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 192,
+          "sampleIntervalWeightMs": 8.151,
+          "samples": 9
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 7.968,
+          "samples": 7
+        },
+        {
+          "name": "thrustVectorControl",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 150,
+          "sampleIntervalWeightMs": 7.961,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 7.878,
+          "samples": 3
+        },
+        {
+          "name": "writeFileSync",
+          "url": "node:fs",
+          "line": 2409,
+          "sampleIntervalWeightMs": 7.843,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 7.674,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/state.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 7.622,
+          "samples": 4
+        },
+        {
+          "name": "localGravity",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 88,
+          "sampleIntervalWeightMs": 7.605,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 16,
+          "sampleIntervalWeightMs": 7.596,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 58,
+          "sampleIntervalWeightMs": 7.577,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 7.575,
+          "samples": 3
+        },
+        {
+          "name": "coldGridTemperature",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 77,
+          "sampleIntervalWeightMs": 7.398,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/index.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 7.283,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 7.093,
+          "samples": 7
+        },
+        {
+          "name": "frontFinActuation",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 40,
+          "sampleIntervalWeightMs": 6.89,
+          "samples": 6
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-return-plan.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 6.667,
+          "samples": 5
+        },
+        {
+          "name": "getOffAxisThrustTorque",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 284,
+          "sampleIntervalWeightMs": 6.571,
+          "samples": 6
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 6.558,
+          "samples": 6
+        },
+        {
+          "name": "getAttackAngles",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 145,
+          "sampleIntervalWeightMs": 6.55,
+          "samples": 5
+        },
+        {
+          "name": "updatePerceivedG",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 177,
+          "sampleIntervalWeightMs": 6.505,
+          "samples": 6
+        },
+        {
+          "name": "updateRaptorStatus",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 275,
+          "sampleIntervalWeightMs": 6.499,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 6.49,
+          "samples": 6
+        },
+        {
+          "name": "getReentryHeatPower",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 37,
+          "sampleIntervalWeightMs": 6.477,
+          "samples": 6
+        },
+        {
+          "name": "lug",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 32,
+          "sampleIntervalWeightMs": 6.069,
+          "samples": 6
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 12,
+          "sampleIntervalWeightMs": 6.005,
+          "samples": 6
+        },
+        {
+          "name": "damageTerminalReason",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-terminal.ts",
+          "line": 93,
+          "sampleIntervalWeightMs": 6.0,
+          "samples": 6
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 5.997,
+          "samples": 5
+        },
+        {
+          "name": "writeFileUtf8",
+          "url": "",
+          "line": -1,
+          "sampleIntervalWeightMs": 5.908,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 5.71,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 5.706,
+          "samples": 6
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 5.611,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 173,
+          "sampleIntervalWeightMs": 5.539,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 5.534,
+          "samples": 5
+        },
+        {
+          "name": "thrustFor",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 93,
+          "sampleIntervalWeightMs": 5.46,
+          "samples": 5
+        },
+        {
+          "name": "verifyBoosterSource",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 106,
+          "sampleIntervalWeightMs": 5.45,
+          "samples": 6
+        },
+        {
+          "name": "verticalGravityAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 76,
+          "sampleIntervalWeightMs": 5.433,
+          "samples": 5
+        },
+        {
+          "name": "relativeAirspeed",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 134,
+          "sampleIntervalWeightMs": 5.391,
+          "samples": 5
+        },
+        {
+          "name": "canRecordBoosterSourceReceipt",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 232,
+          "sampleIntervalWeightMs": 5.273,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/primitives.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 5.04,
+          "samples": 1
+        },
+        {
+          "name": "getThrustVectorForce",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 113,
+          "sampleIntervalWeightMs": 4.948,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 16,
+          "sampleIntervalWeightMs": 4.898,
+          "samples": 4
+        },
+        {
+          "name": "advanceDamageDebris",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-debris.ts",
+          "line": 94,
+          "sampleIntervalWeightMs": 4.616,
+          "samples": 5
+        },
+        {
+          "name": "runAutopilot",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/index.ts",
+          "line": 638,
+          "sampleIntervalWeightMs": 4.436,
+          "samples": 4
+        },
+        {
+          "name": "horizontalDragCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 13,
+          "sampleIntervalWeightMs": 4.429,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 279,
+          "sampleIntervalWeightMs": 4.421,
+          "samples": 4
+        },
+        {
+          "name": "coldCellIndex",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 103,
+          "sampleIntervalWeightMs": 4.344,
+          "samples": 4
+        },
+        {
+          "name": "getGimbalPointingDirection",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 137,
+          "sampleIntervalWeightMs": 4.343,
+          "samples": 4
+        },
+        {
+          "name": "conservativeBurnStartAltitude",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 273,
+          "sampleIntervalWeightMs": 4.34,
+          "samples": 4
+        },
+        {
+          "name": "meanWindAt",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 101,
+          "sampleIntervalWeightMs": 4.269,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 3.727,
+          "samples": 3
+        },
+        {
+          "name": "invalidateStaleBoosterReturn",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-return-plan.ts",
+          "line": 14,
+          "sampleIntervalWeightMs": 3.626,
+          "samples": 5
+        },
+        {
+          "name": "mechanicalProperty",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 296,
+          "sampleIntervalWeightMs": 3.51,
+          "samples": 3
+        },
+        {
+          "name": "checkIncomingContact",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 97,
+          "sampleIntervalWeightMs": 3.49,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-debris.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 3.484,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 3.358,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 3.319,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 3.315,
+          "samples": 3
+        },
+        {
+          "name": "inertialTangentialSpeed",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 104,
+          "sampleIntervalWeightMs": 3.306,
+          "samples": 3
+        },
+        {
+          "name": "thrustAlong",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 46,
+          "sampleIntervalWeightMs": 3.305,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-terminal.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 3.304,
+          "samples": 3
+        },
+        {
+          "name": "updateTurbulence",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 141,
+          "sampleIntervalWeightMs": 3.302,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 3.289,
+          "samples": 3
+        },
+        {
+          "name": "prepareBoosterSourceCredit",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 197,
+          "sampleIntervalWeightMs": 3.282,
+          "samples": 4
+        },
+        {
+          "name": "getHorizontalAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 52,
+          "sampleIntervalWeightMs": 3.268,
+          "samples": 3
+        },
+        {
+          "name": "rcsControl",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 116,
+          "sampleIntervalWeightMs": 3.26,
+          "samples": 3
+        },
+        {
+          "name": "aftFinActuation",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 44,
+          "sampleIntervalWeightMs": 3.256,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 11,
+          "sampleIntervalWeightMs": 3.243,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 3.242,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 11,
+          "sampleIntervalWeightMs": 3.238,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 3.236,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 69,
+          "sampleIntervalWeightMs": 3.231,
+          "samples": 3
+        },
+        {
+          "name": "createBoosterHandoffWork",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 213,
+          "sampleIntervalWeightMs": 3.222,
+          "samples": 3
+        },
+        {
+          "name": "verticalThrustCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 35,
+          "sampleIntervalWeightMs": 3.22,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 3.203,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 3.171,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 2.993,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 16,
+          "sampleIntervalWeightMs": 2.974,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 2.97,
+          "samples": 2
+        },
+        {
+          "name": "receiptDomain",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-receipts.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 2.937,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 2.802,
+          "samples": 3
+        },
+        {
+          "name": "layerFor",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 123,
+          "sampleIntervalWeightMs": 2.776,
+          "samples": 1
+        },
+        {
+          "name": "updateOrbitalGeometry",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 91,
+          "sampleIntervalWeightMs": 2.725,
+          "samples": 2
+        },
+        {
+          "name": "wrapCallSite",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vite/dist/node/module-runner.js",
+          "line": 963,
+          "sampleIntervalWeightMs": 2.695,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 2.667,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 2.52,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 2.315,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 13,
+          "sampleIntervalWeightMs": 2.309,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 2.262,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 2.246,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 2.242,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 16,
+          "sampleIntervalWeightMs": 2.205,
+          "samples": 1
+        },
+        {
+          "name": "liftSignIsInverted",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 42,
+          "sampleIntervalWeightMs": 2.204,
+          "samples": 3
+        },
+        {
+          "name": "horizontalThrustCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 31,
+          "sampleIntervalWeightMs": 2.2,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 2.192,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 2.188,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 2.186,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 68,
+          "sampleIntervalWeightMs": 2.174,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 19,
+          "sampleIntervalWeightMs": 2.173,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/atmosphere.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 2.172,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 70,
+          "sampleIntervalWeightMs": 2.168,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 2.167,
+          "samples": 2
+        },
+        {
+          "name": "rad",
+          "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 2.167,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 62,
+          "sampleIntervalWeightMs": 2.166,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tps-material.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 2.164,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 17,
+          "sampleIntervalWeightMs": 2.164,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 2.161,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 2.16,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 81,
+          "sampleIntervalWeightMs": 2.159,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 2.159,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 171,
+          "sampleIntervalWeightMs": 2.159,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 2.157,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/body-reference.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 2.155,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 2.152,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 2.127,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 1.58,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 14,
+          "sampleIntervalWeightMs": 1.398,
+          "samples": 1
+        },
+        {
+          "name": "createStateForVehicle",
+          "url": "file:///workspace/StarShipSimulator/src/core/scenarios.ts",
+          "line": 262,
+          "sampleIntervalWeightMs": 1.25,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 1.235,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 1.16,
+          "samples": 2
+        },
+        {
+          "name": "getBodyDragCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 93,
+          "sampleIntervalWeightMs": 1.152,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 1.148,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 18,
+          "sampleIntervalWeightMs": 1.125,
+          "samples": 1
+        },
+        {
+          "name": "divide",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/utils/dist/diff.js",
+          "line": 969,
+          "sampleIntervalWeightMs": 1.122,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 1.116,
+          "samples": 1
+        },
+        {
+          "name": "next",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vite/dist/node/module-runner.js",
+          "line": 130,
+          "sampleIntervalWeightMs": 1.114,
+          "samples": 1
+        },
+        {
+          "name": "engineMassFlow",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 1.112,
+          "samples": 1
+        },
+        {
+          "name": "normalizeWindowsPath",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vite/dist/node/module-runner.js",
+          "line": 44,
+          "sampleIntervalWeightMs": 1.11,
+          "samples": 1
+        },
+        {
+          "name": "issueEvent",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 47,
+          "sampleIntervalWeightMs": 1.108,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 42,
+          "sampleIntervalWeightMs": 1.107,
+          "samples": 1
+        },
+        {
+          "name": "assert",
+          "url": "file:///workspace/StarShipSimulator/node_modules/chai/index.js",
+          "line": 1497,
+          "sampleIntervalWeightMs": 1.104,
+          "samples": 1
+        },
+        {
+          "name": "emitDestroyScript",
+          "url": "node:internal/async_hooks",
+          "line": 532,
+          "sampleIntervalWeightMs": 1.103,
+          "samples": 1
+        },
+        {
+          "name": "detachedCopy",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 31,
+          "sampleIntervalWeightMs": 1.098,
+          "samples": 1
+        },
+        {
+          "name": "equals",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/expect/dist/index.js",
+          "line": 210,
+          "sampleIntervalWeightMs": 1.095,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 18,
+          "sampleIntervalWeightMs": 1.09,
+          "samples": 1
+        },
+        {
+          "name": "draw",
+          "url": "file:///workspace/StarShipSimulator/src/core/rng.ts",
+          "line": 77,
+          "sampleIntervalWeightMs": 1.089,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 1.087,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 1.087,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 39,
+          "sampleIntervalWeightMs": 1.086,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 1.084,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 1.081,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 41,
+          "sampleIntervalWeightMs": 1.081,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 1.081,
+          "samples": 1
+        },
+        {
+          "name": "initializeFallWork",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 476,
+          "sampleIntervalWeightMs": 1.08,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 105,
+          "sampleIntervalWeightMs": 1.08,
+          "samples": 1
+        },
+        {
+          "name": "mix32",
+          "url": "file:///workspace/StarShipSimulator/src/core/rng.ts",
+          "line": 41,
+          "sampleIntervalWeightMs": 1.08,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 1.08,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 1.08,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 72,
+          "sampleIntervalWeightMs": 1.079,
+          "samples": 1
+        },
+        {
+          "name": "rollIgnitionFailure",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 237,
+          "sampleIntervalWeightMs": 1.079,
+          "samples": 1
+        },
+        {
+          "name": "completeCandidate",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 241,
+          "sampleIntervalWeightMs": 1.078,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 11,
+          "sampleIntervalWeightMs": 1.077,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-debris.ts",
+          "line": 23,
+          "sampleIntervalWeightMs": 1.075,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 73,
+          "sampleIntervalWeightMs": 1.075,
+          "samples": 1
+        },
+        {
+          "name": "createVehicleComponents",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/vehicle-components.ts",
+          "line": 60,
+          "sampleIntervalWeightMs": 1.073,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 31,
+          "sampleIntervalWeightMs": 1.071,
+          "samples": 1
+        },
+        {
+          "name": "throttleUpdate",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 154,
+          "sampleIntervalWeightMs": 1.071,
+          "samples": 1
+        },
+        {
+          "name": "continueSearch",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 216,
+          "sampleIntervalWeightMs": 1.066,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 1.04,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 0.998,
+          "samples": 1
+        },
+        {
+          "name": "walk",
+          "url": "file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+          "line": 81,
+          "sampleIntervalWeightMs": 0.783,
+          "samples": 1
+        },
+        {
+          "name": "wrappedAttackAngle",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 156,
+          "sampleIntervalWeightMs": 0.579,
+          "samples": 1
+        },
+        {
+          "name": "commandIgnition",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 223,
+          "sampleIntervalWeightMs": 0.532,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 0.334,
+          "samples": 1
+        },
+        {
+          "name": "dispatch",
+          "url": "",
+          "line": -1,
+          "sampleIntervalWeightMs": 0.315,
+          "samples": 1
+        },
+        {
+          "name": "cylinder",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 86,
+          "sampleIntervalWeightMs": 0.295,
+          "samples": 1
+        },
+        {
+          "name": "initialiseReturnPhase",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 188,
+          "sampleIntervalWeightMs": 0.287,
+          "samples": 1
+        },
+        {
+          "name": "(program)",
+          "url": "",
+          "line": -1,
+          "sampleIntervalWeightMs": 0.175,
+          "samples": 5
+        },
+        {
+          "name": "drag",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-debris.ts",
+          "line": 85,
+          "sampleIntervalWeightMs": 0.061,
+          "samples": 1
+        },
+        {
+          "name": "centreOfMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 81,
+          "sampleIntervalWeightMs": 0.056,
+          "samples": 1
+        },
+        {
+          "name": "validateDamageControlForcing",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "line": 59,
+          "sampleIntervalWeightMs": 0.032,
+          "samples": 1
+        },
+        {
+          "name": "foldedIntoWind",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 166,
+          "sampleIntervalWeightMs": 0.024,
+          "samples": 1
+        },
+        {
+          "name": "steelProofStrength",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 328,
+          "sampleIntervalWeightMs": 0.015,
+          "samples": 1
+        }
+      ]
+    },
+    "after": {
+      "path": "docs/research/2026-10-18-phase8-successor/root-reuse/attempt1/reentry.cpuprofile",
+      "sha256": "02b6352e9246b5acc0c519f932296fa4fa6ed7ac5a0d75312139370ed8fed7d8",
+      "profileElapsedMs": 22979.264,
+      "rows": [
+        {
+          "name": "writeDamageControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "line": 68,
+          "sampleIntervalWeightMs": 3112.247,
+          "samples": 2682
+        },
+        {
+          "name": "equalBoosterTree",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 89,
+          "sampleIntervalWeightMs": 2055.612,
+          "samples": 1796
+        },
+        {
+          "name": "rootMidpointSum",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 89,
+          "sampleIntervalWeightMs": 1611.92,
+          "samples": 1379
+        },
+        {
+          "name": "rootLoadCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 52,
+          "sampleIntervalWeightMs": 1224.12,
+          "samples": 1036
+        },
+        {
+          "name": "writeFlightGridForces",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 64,
+          "sampleIntervalWeightMs": 1041.965,
+          "samples": 921
+        },
+        {
+          "name": "cloneState",
+          "url": "file:///workspace/StarShipSimulator/src/core/state.ts",
+          "line": 252,
+          "sampleIntervalWeightMs": 999.347,
+          "samples": 884
+        },
+        {
+          "name": "loadedRootAngle",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 62,
+          "sampleIntervalWeightMs": 851.98,
+          "samples": 723
+        },
+        {
+          "name": "writeDamageMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-mass.ts",
+          "line": 40,
+          "sampleIntervalWeightMs": 704.119,
+          "samples": 589
+        },
+        {
+          "name": "fallAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 389,
+          "sampleIntervalWeightMs": 572.695,
+          "samples": 491
+        },
+        {
+          "name": "evaluateForce",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 66,
+          "sampleIntervalWeightMs": 542.348,
+          "samples": 639
+        },
+        {
+          "name": "(garbage collector)",
+          "url": "",
+          "line": -1,
+          "sampleIntervalWeightMs": 486.5,
+          "samples": 401
+        },
+        {
+          "name": "gimballedShare",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 98,
+          "sampleIntervalWeightMs": 414.68,
+          "samples": 363
+        },
+        {
+          "name": "evaluateControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 46,
+          "sampleIntervalWeightMs": 407.168,
+          "samples": 350
+        },
+        {
+          "name": "writeBoosterForceRequest",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 82,
+          "sampleIntervalWeightMs": 375.688,
+          "samples": 332
+        },
+        {
+          "name": "prepareDynamics",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 186,
+          "sampleIntervalWeightMs": 326.173,
+          "samples": 287
+        },
+        {
+          "name": "rCubedIntegral",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 126,
+          "sampleIntervalWeightMs": 302.538,
+          "samples": 263
+        },
+        {
+          "name": "cloneBoosterMechanics",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 38,
+          "sampleIntervalWeightMs": 301.122,
+          "samples": 265
+        },
+        {
+          "name": "writeUnpoweredAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 439,
+          "sampleIntervalWeightMs": 283.332,
+          "samples": 258
+        },
+        {
+          "name": "runBoosterPolicy",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 241,
+          "sampleIntervalWeightMs": 280.065,
+          "samples": 232
+        },
+        {
+          "name": "pressureInLayer",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 95,
+          "sampleIntervalWeightMs": 279.738,
+          "samples": 241
+        },
+        {
+          "name": "advanceFreeBody",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "line": 72,
+          "sampleIntervalWeightMs": 263.735,
+          "samples": 238
+        },
+        {
+          "name": "writeFlightMassQuery",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/flight-mass-query.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 255.848,
+          "samples": 228
+        },
+        {
+          "name": "getTotalMaxThrust",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 81,
+          "sampleIntervalWeightMs": 189.586,
+          "samples": 166
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 94,
+          "sampleIntervalWeightMs": 186.411,
+          "samples": 166
+        },
+        {
+          "name": "terminalBurnDue",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 186,
+          "sampleIntervalWeightMs": 184.839,
+          "samples": 123
+        },
+        {
+          "name": "countOfKind",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 53,
+          "sampleIntervalWeightMs": 182.469,
+          "samples": 159
+        },
+        {
+          "name": "advanceDamageHeat",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+          "line": 123,
+          "sampleIntervalWeightMs": 169.29,
+          "samples": 153
+        },
+        {
+          "name": "writeRotationForces",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 397,
+          "sampleIntervalWeightMs": 150.79,
+          "samples": 131
+        },
+        {
+          "name": "align",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 84,
+          "sampleIntervalWeightMs": 148.408,
+          "samples": 131
+        },
+        {
+          "name": "commandGridTorque",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 63,
+          "sampleIntervalWeightMs": 133.474,
+          "samples": 125
+        },
+        {
+          "name": "finishMechanicalStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts",
+          "line": 13,
+          "sampleIntervalWeightMs": 133.008,
+          "samples": 117
+        },
+        {
+          "name": "steelTemperatureFromEnthalpy",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 213,
+          "sampleIntervalWeightMs": 131.525,
+          "samples": 111
+        },
+        {
+          "name": "setEngines",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 54,
+          "sampleIntervalWeightMs": 111.199,
+          "samples": 102
+        },
+        {
+          "name": "updatePropellant",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 169,
+          "sampleIntervalWeightMs": 107.893,
+          "samples": 85
+        },
+        {
+          "name": "rootUtilization",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 123,
+          "sampleIntervalWeightMs": 98.301,
+          "samples": 87
+        },
+        {
+          "name": "temperatureHint",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 171,
+          "sampleIntervalWeightMs": 95.66,
+          "samples": 80
+        },
+        {
+          "name": "specificEnthalpyUnchecked",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 137,
+          "sampleIntervalWeightMs": 92.465,
+          "samples": 84
+        },
+        {
+          "name": "applyEnergy",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+          "line": 99,
+          "sampleIntervalWeightMs": 83.829,
+          "samples": 69
+        },
+        {
+          "name": "advanceFlightDamage",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 107,
+          "sampleIntervalWeightMs": 83.678,
+          "samples": 76
+        },
+        {
+          "name": "cloneBoosterSourceEvent",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 25,
+          "sampleIntervalWeightMs": 79.359,
+          "samples": 32
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 79.32,
+          "samples": 58
+        },
+        {
+          "name": "getOffAxisThrustDifference",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 125,
+          "sampleIntervalWeightMs": 78.204,
+          "samples": 73
+        },
+        {
+          "name": "propellantCentreOfMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 74,
+          "sampleIntervalWeightMs": 77.416,
+          "samples": 64
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 77.075,
+          "samples": 64
+        },
+        {
+          "name": "writeReferenceShift",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/body-reference.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 74.758,
+          "samples": 64
+        },
+        {
+          "name": "writeBoosterThrustRequest",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 36,
+          "sampleIntervalWeightMs": 74.382,
+          "samples": 67
+        },
+        {
+          "name": "advanceBoosterForecast",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 76,
+          "sampleIntervalWeightMs": 73.891,
+          "samples": 57
+        },
+        {
+          "name": "advanceBoosterPrediction",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 319,
+          "sampleIntervalWeightMs": 69.436,
+          "samples": 59
+        },
+        {
+          "name": "diagnosticJSON",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 15,
+          "sampleIntervalWeightMs": 63.785,
+          "samples": 59
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-model.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 63.705,
+          "samples": 52
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 60.148,
+          "samples": 52
+        },
+        {
+          "name": "momentOfInertia",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 90,
+          "sampleIntervalWeightMs": 57.672,
+          "samples": 51
+        },
+        {
+          "name": "pressureSpeedCeiling",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 179,
+          "sampleIntervalWeightMs": 57.081,
+          "samples": 37
+        },
+        {
+          "name": "surfaceTemperature",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 53,
+          "sampleIntervalWeightMs": 56.843,
+          "samples": 43
+        },
+        {
+          "name": "observe",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 232,
+          "sampleIntervalWeightMs": 56.075,
+          "samples": 53
+        },
+        {
+          "name": "isaAtmosphereInto",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 308,
+          "sampleIntervalWeightMs": 54.384,
+          "samples": 49
+        },
+        {
+          "name": "damageModelFor",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-model.ts",
+          "line": 11,
+          "sampleIntervalWeightMs": 54.375,
+          "samples": 43
+        },
+        {
+          "name": "hullFromMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "line": 49,
+          "sampleIntervalWeightMs": 54.357,
+          "samples": 49
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 52.759,
+          "samples": 44
+        },
+        {
+          "name": "validateDamageControlForcing",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "line": 61,
+          "sampleIntervalWeightMs": 51.352,
+          "samples": 49
+        },
+        {
+          "name": "boosterDeliveredThrottle",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 113,
+          "sampleIntervalWeightMs": 50.035,
+          "samples": 49
+        },
+        {
+          "name": "predictReturn",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 136,
+          "sampleIntervalWeightMs": 46.292,
+          "samples": 36
+        },
+        {
+          "name": "runScenarioMission",
+          "url": "file:///workspace/StarShipSimulator/tests/support/scenario-mission.ts",
+          "line": 28,
+          "sampleIntervalWeightMs": 45.992,
+          "samples": 41
+        },
+        {
+          "name": "retainForce",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 76,
+          "sampleIntervalWeightMs": 43.324,
+          "samples": 38
+        },
+        {
+          "name": "getThrust",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 89,
+          "sampleIntervalWeightMs": 42.611,
+          "samples": 35
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 100,
+          "sampleIntervalWeightMs": 42.169,
+          "samples": 39
+        },
+        {
+          "name": "preparedBurnDeceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 251,
+          "sampleIntervalWeightMs": 41.267,
+          "samples": 32
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 37.325,
+          "samples": 36
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 36.341,
+          "samples": 29
+        },
+        {
+          "name": "preparedBackwardPass",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 207,
+          "sampleIntervalWeightMs": 35.665,
+          "samples": 34
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/vehicle.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 35.642,
+          "samples": 26
+        },
+        {
+          "name": "changed",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 189,
+          "sampleIntervalWeightMs": 35.106,
+          "samples": 32
+        },
+        {
+          "name": "post",
+          "url": "node:inspector",
+          "line": 117,
+          "sampleIntervalWeightMs": 33.308,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/flight-mass-query.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 33.173,
+          "samples": 24
+        },
+        {
+          "name": "advance",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 87,
+          "sampleIntervalWeightMs": 32.891,
+          "samples": 28
+        },
+        {
+          "name": "fillFraction",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 70,
+          "sampleIntervalWeightMs": 32.827,
+          "samples": 29
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 15,
+          "sampleIntervalWeightMs": 32.091,
+          "samples": 26
+        },
+        {
+          "name": "logarithmicFit",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 69,
+          "sampleIntervalWeightMs": 32.082,
+          "samples": 26
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 31.769,
+          "samples": 12
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 99,
+          "sampleIntervalWeightMs": 31.619,
+          "samples": 26
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-mass.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 30.884,
+          "samples": 25
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 30.671,
+          "samples": 28
+        },
+        {
+          "name": "enthalpyPrimitive",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 132,
+          "sampleIntervalWeightMs": 30.383,
+          "samples": 28
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 30.214,
+          "samples": 22
+        },
+        {
+          "name": "writeFlightFinAreas",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 51,
+          "sampleIntervalWeightMs": 30.204,
+          "samples": 29
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 29.741,
+          "samples": 23
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 29.598,
+          "samples": 21
+        },
+        {
+          "name": "writeCatchPose",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 20,
+          "sampleIntervalWeightMs": 28.808,
+          "samples": 26
+        },
+        {
+          "name": "preparedTailFirstDragDeceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 240,
+          "sampleIntervalWeightMs": 28.536,
+          "samples": 26
+        },
+        {
+          "name": "flightControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 79,
+          "sampleIntervalWeightMs": 27.858,
+          "samples": 24
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 61,
+          "sampleIntervalWeightMs": 27.776,
+          "samples": 20
+        },
+        {
+          "name": "runBoosterPostStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 228,
+          "sampleIntervalWeightMs": 24.489,
+          "samples": 23
+        },
+        {
+          "name": "findCrossing",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 39,
+          "sampleIntervalWeightMs": 24.311,
+          "samples": 19
+        },
+        {
+          "name": "writeFlightMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 32,
+          "sampleIntervalWeightMs": 23.997,
+          "samples": 21
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 23.581,
+          "samples": 17
+        },
+        {
+          "name": "integrateTranslation",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 308,
+          "sampleIntervalWeightMs": 22.87,
+          "samples": 19
+        },
+        {
+          "name": "advanceBoosterSource",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 154,
+          "sampleIntervalWeightMs": 22.823,
+          "samples": 27
+        },
+        {
+          "name": "getAngleOfMotion",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 108,
+          "sampleIntervalWeightMs": 22.682,
+          "samples": 21
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 17,
+          "sampleIntervalWeightMs": 22.64,
+          "samples": 15
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 21.521,
+          "samples": 10
+        },
+        {
+          "name": "getCrossSectionalArea",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 55,
+          "sampleIntervalWeightMs": 21.35,
+          "samples": 19
+        },
+        {
+          "name": "runBoosterAutopilot",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 213,
+          "sampleIntervalWeightMs": 21.157,
+          "samples": 18
+        },
+        {
+          "name": "canonicalBurnPropulsion",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 126,
+          "sampleIntervalWeightMs": 20.768,
+          "samples": 21
+        },
+        {
+          "name": "suttonGravesFlux",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 29,
+          "sampleIntervalWeightMs": 20.167,
+          "samples": 19
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 19.934,
+          "samples": 12
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 19.611,
+          "samples": 14
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 180,
+          "sampleIntervalWeightMs": 19.602,
+          "samples": 15
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/atmosphere.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 19.185,
+          "samples": 17
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 18.647,
+          "samples": 15
+        },
+        {
+          "name": "writeAccelerationComponents",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 84,
+          "sampleIntervalWeightMs": 17.992,
+          "samples": 19
+        },
+        {
+          "name": "cloneDamageState",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 92,
+          "sampleIntervalWeightMs": 17.915,
+          "samples": 17
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 17.459,
+          "samples": 12
+        },
+        {
+          "name": "landingBurnStartAltitude",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 300,
+          "sampleIntervalWeightMs": 17.291,
+          "samples": 15
+        },
+        {
+          "name": "canonicalBurnAero",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 135,
+          "sampleIntervalWeightMs": 17.162,
+          "samples": 12
+        },
+        {
+          "name": "controlTranslation",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 163,
+          "sampleIntervalWeightMs": 16.945,
+          "samples": 18
+        },
+        {
+          "name": "liftSignIsInverted",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 42,
+          "sampleIntervalWeightMs": 16.571,
+          "samples": 14
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 16.563,
+          "samples": 12
+        },
+        {
+          "name": "engineThrust",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 16.31,
+          "samples": 16
+        },
+        {
+          "name": "getFuelFlowRate",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 156,
+          "sampleIntervalWeightMs": 15.784,
+          "samples": 14
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 18,
+          "sampleIntervalWeightMs": 15.734,
+          "samples": 8
+        },
+        {
+          "name": "conservativeBurnStartAltitude",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 273,
+          "sampleIntervalWeightMs": 15.582,
+          "samples": 15
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 15.489,
+          "samples": 13
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 15.335,
+          "samples": 13
+        },
+        {
+          "name": "enforceEngineSupport",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 38,
+          "sampleIntervalWeightMs": 15.091,
+          "samples": 14
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 12,
+          "sampleIntervalWeightMs": 14.686,
+          "samples": 8
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 30,
+          "sampleIntervalWeightMs": 14.283,
+          "samples": 13
+        },
+        {
+          "name": "getDrag",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 62,
+          "sampleIntervalWeightMs": 14.28,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 14.241,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 14.216,
+          "samples": 13
+        },
+        {
+          "name": "horizontalDragCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 13,
+          "sampleIntervalWeightMs": 14.169,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 14.112,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 13.4,
+          "samples": 9
+        },
+        {
+          "name": "updateVehicleInFlightMaxArea",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 220,
+          "sampleIntervalWeightMs": 13.11,
+          "samples": 12
+        },
+        {
+          "name": "getAttackAngles",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 145,
+          "sampleIntervalWeightMs": 13.06,
+          "samples": 11
+        },
+        {
+          "name": "lug",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 32,
+          "sampleIntervalWeightMs": 13.005,
+          "samples": 12
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 17,
+          "sampleIntervalWeightMs": 12.853,
+          "samples": 12
+        },
+        {
+          "name": "isaAtmosphere",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 262,
+          "sampleIntervalWeightMs": 12.746,
+          "samples": 11
+        },
+        {
+          "name": "getOffAxisThrustTorque",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 284,
+          "sampleIntervalWeightMs": 12.507,
+          "samples": 12
+        },
+        {
+          "name": "radiativeSinkKelvin",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 65,
+          "sampleIntervalWeightMs": 12.439,
+          "samples": 12
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 190,
+          "sampleIntervalWeightMs": 12.264,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 40,
+          "sampleIntervalWeightMs": 11.858,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 11.36,
+          "samples": 11
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 11.205,
+          "samples": 5
+        },
+        {
+          "name": "runAutopilot",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/index.ts",
+          "line": 638,
+          "sampleIntervalWeightMs": 11.116,
+          "samples": 10
+        },
+        {
+          "name": "getGimbalPointingDirection",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 137,
+          "sampleIntervalWeightMs": 10.843,
+          "samples": 9
+        },
+        {
+          "name": "step",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 74,
+          "sampleIntervalWeightMs": 10.775,
+          "samples": 11
+        },
+        {
+          "name": "updatePitchRateOfChange",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 54,
+          "sampleIntervalWeightMs": 10.73,
+          "samples": 10
+        },
+        {
+          "name": "eligible",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 340,
+          "sampleIntervalWeightMs": 10.721,
+          "samples": 11
+        },
+        {
+          "name": "diagnosticCatchCrossing",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 43,
+          "sampleIntervalWeightMs": 10.681,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 10.374,
+          "samples": 10
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 105,
+          "sampleIntervalWeightMs": 10.068,
+          "samples": 6
+        },
+        {
+          "name": "verticalGravityAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 76,
+          "sampleIntervalWeightMs": 10.036,
+          "samples": 9
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 9.76,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+          "line": 122,
+          "sampleIntervalWeightMs": 9.394,
+          "samples": 10
+        },
+        {
+          "name": "coldGridTemperature",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 77,
+          "sampleIntervalWeightMs": 9.391,
+          "samples": 8
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/state.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 9.374,
+          "samples": 9
+        },
+        {
+          "name": "finishTranslation",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 360,
+          "sampleIntervalWeightMs": 8.764,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 12,
+          "sampleIntervalWeightMs": 8.759,
+          "samples": 8
+        },
+        {
+          "name": "getLiftCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 73,
+          "sampleIntervalWeightMs": 8.756,
+          "samples": 8
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 8.711,
+          "samples": 8
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 16,
+          "sampleIntervalWeightMs": 8.669,
+          "samples": 8
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 13,
+          "sampleIntervalWeightMs": 8.59,
+          "samples": 8
+        },
+        {
+          "name": "meanWindAt",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 101,
+          "sampleIntervalWeightMs": 7.859,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 7.752,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 7.681,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/body-reference.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 7.62,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 7.56,
+          "samples": 7
+        },
+        {
+          "name": "frontFinActuation",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 40,
+          "sampleIntervalWeightMs": 7.382,
+          "samples": 6
+        },
+        {
+          "name": "tickIgnition",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 251,
+          "sampleIntervalWeightMs": 7.291,
+          "samples": 7
+        },
+        {
+          "name": "replayEvent",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 60,
+          "sampleIntervalWeightMs": 7.035,
+          "samples": 8
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 6.89,
+          "samples": 6
+        },
+        {
+          "name": "damageTerminalReason",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-terminal.ts",
+          "line": 93,
+          "sampleIntervalWeightMs": 6.77,
+          "samples": 6
+        },
+        {
+          "name": "getLift",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 85,
+          "sampleIntervalWeightMs": 6.593,
+          "samples": 6
+        },
+        {
+          "name": "updateOrbitalGeometry",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 91,
+          "sampleIntervalWeightMs": 6.578,
+          "samples": 6
+        },
+        {
+          "name": "advanceDamageDebris",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-debris.ts",
+          "line": 94,
+          "sampleIntervalWeightMs": 6.551,
+          "samples": 7
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 6.544,
+          "samples": 6
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 6.502,
+          "samples": 6
+        },
+        {
+          "name": "horizontalLiftCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 22,
+          "sampleIntervalWeightMs": 6.454,
+          "samples": 4
+        },
+        {
+          "name": "writeFileSync",
+          "url": "node:fs",
+          "line": 2409,
+          "sampleIntervalWeightMs": 6.333,
+          "samples": 6
+        },
+        {
+          "name": "secureTowerCatch",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 65,
+          "sampleIntervalWeightMs": 6.118,
+          "samples": 5
+        },
+        {
+          "name": "canRecordBoosterSourceReceipt",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 232,
+          "sampleIntervalWeightMs": 5.776,
+          "samples": 6
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 5.764,
+          "samples": 5
+        },
+        {
+          "name": "localGravity",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 88,
+          "sampleIntervalWeightMs": 5.7,
+          "samples": 6
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 5.584,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 58,
+          "sampleIntervalWeightMs": 5.566,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/primitives.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 5.457,
+          "samples": 5
+        },
+        {
+          "name": "updatePerceivedG",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 177,
+          "sampleIntervalWeightMs": 5.414,
+          "samples": 5
+        },
+        {
+          "name": "coldCellIndex",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 103,
+          "sampleIntervalWeightMs": 5.362,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 5.273,
+          "samples": 4
+        },
+        {
+          "name": "getFrontFinDrag",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 193,
+          "sampleIntervalWeightMs": 5.206,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 5.093,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 4,
+          "sampleIntervalWeightMs": 5.015,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 5.005,
+          "samples": 5
+        },
+        {
+          "name": "schedule",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 74,
+          "sampleIntervalWeightMs": 4.886,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 4.849,
+          "samples": 3
+        },
+        {
+          "name": "checkIfBreakUp",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 147,
+          "sampleIntervalWeightMs": 4.678,
+          "samples": 4
+        },
+        {
+          "name": "rcsControl",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 116,
+          "sampleIntervalWeightMs": 4.574,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 4.567,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 4.469,
+          "samples": 5
+        },
+        {
+          "name": "verifyBoosterSource",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 106,
+          "sampleIntervalWeightMs": 4.447,
+          "samples": 4
+        },
+        {
+          "name": "writeFileUtf8",
+          "url": "",
+          "line": -1,
+          "sampleIntervalWeightMs": 4.423,
+          "samples": 3
+        },
+        {
+          "name": "updateAtmosphere",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/atmosphere.ts",
+          "line": 31,
+          "sampleIntervalWeightMs": 4.414,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 62,
+          "sampleIntervalWeightMs": 4.404,
+          "samples": 4
+        },
+        {
+          "name": "checkIncomingContact",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 97,
+          "sampleIntervalWeightMs": 4.374,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-return-plan.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 4.372,
+          "samples": 4
+        },
+        {
+          "name": "airVelocityX",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 107,
+          "sampleIntervalWeightMs": 4.34,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 39,
+          "sampleIntervalWeightMs": 4.328,
+          "samples": 5
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/propulsion.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 4.31,
+          "samples": 4
+        },
+        {
+          "name": "thrustVectorControl",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 150,
+          "sampleIntervalWeightMs": 4.304,
+          "samples": 4
+        },
+        {
+          "name": "getAftFinDrag",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 202,
+          "sampleIntervalWeightMs": 4.292,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 11,
+          "sampleIntervalWeightMs": 4.289,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 4.277,
+          "samples": 4
+        },
+        {
+          "name": "receiptDomain",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-receipts.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 4.025,
+          "samples": 4
+        },
+        {
+          "name": "verticalWeight",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 85,
+          "sampleIntervalWeightMs": 3.907,
+          "samples": 4
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 3.825,
+          "samples": 3
+        },
+        {
+          "name": "slewToward",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 34,
+          "sampleIntervalWeightMs": 3.685,
+          "samples": 1
+        },
+        {
+          "name": "relativeAirspeed",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 134,
+          "sampleIntervalWeightMs": 3.49,
+          "samples": 4
+        },
+        {
+          "name": "verticalLiftCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 26,
+          "sampleIntervalWeightMs": 3.469,
+          "samples": 3
+        },
+        {
+          "name": "verticalThrustCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 35,
+          "sampleIntervalWeightMs": 3.368,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 3.301,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 81,
+          "sampleIntervalWeightMs": 3.281,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 17,
+          "sampleIntervalWeightMs": 3.276,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 3.262,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 300,
+          "sampleIntervalWeightMs": 3.262,
+          "samples": 3
+        },
+        {
+          "name": "sample",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 86,
+          "sampleIntervalWeightMs": 3.258,
+          "samples": 2
+        },
+        {
+          "name": "continueSearch",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 216,
+          "sampleIntervalWeightMs": 3.241,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 3.229,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 3.226,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 3.172,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tps-material.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 3.156,
+          "samples": 3
+        },
+        {
+          "name": "horizontalThrustCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 31,
+          "sampleIntervalWeightMs": 3.153,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-terminal.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 3.031,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 3.017,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 45,
+          "sampleIntervalWeightMs": 2.845,
+          "samples": 1
+        },
+        {
+          "name": "tangentialAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+          "line": 145,
+          "sampleIntervalWeightMs": 2.806,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 31,
+          "sampleIntervalWeightMs": 2.667,
+          "samples": 2
+        },
+        {
+          "name": "getReentryHeatPower",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 37,
+          "sampleIntervalWeightMs": 2.46,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 2.338,
+          "samples": 1
+        },
+        {
+          "name": "issueEvent",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 47,
+          "sampleIntervalWeightMs": 2.317,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 2.292,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 2.277,
+          "samples": 2
+        },
+        {
+          "name": "updateGroundContact",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 128,
+          "sampleIntervalWeightMs": 2.268,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 2.246,
+          "samples": 2
+        },
+        {
+          "name": "getBodyDragCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 93,
+          "sampleIntervalWeightMs": 2.232,
+          "samples": 2
+        },
+        {
+          "name": "updateRaptorStatus",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 275,
+          "sampleIntervalWeightMs": 2.227,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 71,
+          "sampleIntervalWeightMs": 2.217,
+          "samples": 2
+        },
+        {
+          "name": "setState",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/expect/dist/index.js",
+          "line": 751,
+          "sampleIntervalWeightMs": 2.202,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 2.178,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 2.175,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 74,
+          "sampleIntervalWeightMs": 2.173,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 11,
+          "sampleIntervalWeightMs": 2.162,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 2.161,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 5,
+          "sampleIntervalWeightMs": 2.159,
+          "samples": 2
+        },
+        {
+          "name": "checkIfOutOfFuel",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 166,
+          "sampleIntervalWeightMs": 2.157,
+          "samples": 2
+        },
+        {
+          "name": "rad",
+          "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+          "line": 6,
+          "sampleIntervalWeightMs": 2.157,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 70,
+          "sampleIntervalWeightMs": 2.155,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 19,
+          "sampleIntervalWeightMs": 2.151,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 194,
+          "sampleIntervalWeightMs": 2.145,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 177,
+          "sampleIntervalWeightMs": 2.091,
+          "samples": 1
+        },
+        {
+          "name": "thrustAlong",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 46,
+          "sampleIntervalWeightMs": 2.013,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 1.85,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 9,
+          "sampleIntervalWeightMs": 1.724,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 1.711,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 11,
+          "sampleIntervalWeightMs": 1.649,
+          "samples": 2
+        },
+        {
+          "name": "invalidateStaleBoosterReturn",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-return-plan.ts",
+          "line": 14,
+          "sampleIntervalWeightMs": 1.366,
+          "samples": 4
+        },
+        {
+          "name": "centreOfMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "line": 81,
+          "sampleIntervalWeightMs": 1.265,
+          "samples": 2
+        },
+        {
+          "name": "createStateForVehicle",
+          "url": "file:///workspace/StarShipSimulator/src/core/scenarios.ts",
+          "line": 262,
+          "sampleIntervalWeightMs": 1.214,
+          "samples": 1
+        },
+        {
+          "name": "wrappedAttackAngle",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 156,
+          "sampleIntervalWeightMs": 1.198,
+          "samples": 3
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 1.181,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/thermal.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 1.149,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 1.125,
+          "samples": 1
+        },
+        {
+          "name": "advanceMechanics",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 84,
+          "sampleIntervalWeightMs": 1.123,
+          "samples": 1
+        },
+        {
+          "name": "smoothEndpointValue",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 109,
+          "sampleIntervalWeightMs": 1.119,
+          "samples": 1
+        },
+        {
+          "name": "foldedIntoWind",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 166,
+          "sampleIntervalWeightMs": 1.115,
+          "samples": 2
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 1.115,
+          "samples": 1
+        },
+        {
+          "name": "throttleUpdate",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 154,
+          "sampleIntervalWeightMs": 1.115,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+          "line": 69,
+          "sampleIntervalWeightMs": 1.113,
+          "samples": 1
+        },
+        {
+          "name": "predictRotation",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "line": 376,
+          "sampleIntervalWeightMs": 1.112,
+          "samples": 1
+        },
+        {
+          "name": "relativeWindAngle",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 138,
+          "sampleIntervalWeightMs": 1.112,
+          "samples": 1
+        },
+        {
+          "name": "prepareBoosterSourceCredit",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 197,
+          "sampleIntervalWeightMs": 1.108,
+          "samples": 2
+        },
+        {
+          "name": "getVerticalAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+          "line": 73,
+          "sampleIntervalWeightMs": 1.107,
+          "samples": 1
+        },
+        {
+          "name": "aftFinActuation",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/actuation.ts",
+          "line": 44,
+          "sampleIntervalWeightMs": 1.106,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-receipts.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 1.106,
+          "samples": 1
+        },
+        {
+          "name": "advanceUnpoweredFall",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 506,
+          "sampleIntervalWeightMs": 1.105,
+          "samples": 1
+        },
+        {
+          "name": "thrustFor",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 93,
+          "sampleIntervalWeightMs": 1.105,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 15,
+          "sampleIntervalWeightMs": 1.104,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 7,
+          "sampleIntervalWeightMs": 1.104,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vite/dist/node/module-runner.js",
+          "line": 956,
+          "sampleIntervalWeightMs": 1.104,
+          "samples": 1
+        },
+        {
+          "name": "steelConductivity",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 124,
+          "sampleIntervalWeightMs": 1.103,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 1.103,
+          "samples": 1
+        },
+        {
+          "name": "clamp",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 53,
+          "sampleIntervalWeightMs": 1.092,
+          "samples": 1
+        },
+        {
+          "name": "getAngularAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 102,
+          "sampleIntervalWeightMs": 1.088,
+          "samples": 1
+        },
+        {
+          "name": "draw",
+          "url": "file:///workspace/StarShipSimulator/src/core/rng.ts",
+          "line": 77,
+          "sampleIntervalWeightMs": 1.087,
+          "samples": 1
+        },
+        {
+          "name": "decodedMappings",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vite/dist/node/module-runner.js",
+          "line": 201,
+          "sampleIntervalWeightMs": 1.087,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-debris.ts",
+          "line": 2,
+          "sampleIntervalWeightMs": 1.086,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 1.086,
+          "samples": 1
+        },
+        {
+          "name": "boosterBurnTicks",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 40,
+          "sampleIntervalWeightMs": 1.083,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 16,
+          "sampleIntervalWeightMs": 1.083,
+          "samples": 1
+        },
+        {
+          "name": "assert",
+          "url": "file:///workspace/StarShipSimulator/node_modules/chai/index.js",
+          "line": 1497,
+          "sampleIntervalWeightMs": 1.082,
+          "samples": 1
+        },
+        {
+          "name": "push",
+          "url": "node:internal/fixed_queue",
+          "line": 75,
+          "sampleIntervalWeightMs": 1.082,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-thermal.ts",
+          "line": 3,
+          "sampleIntervalWeightMs": 1.081,
+          "samples": 1
+        },
+        {
+          "name": "rollIgnitionFailure",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 237,
+          "sampleIntervalWeightMs": 1.081,
+          "samples": 1
+        },
+        {
+          "name": "next",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vite/dist/node/module-runner.js",
+          "line": 130,
+          "sampleIntervalWeightMs": 1.081,
+          "samples": 1
+        },
+        {
+          "name": "getThrustVectorForce",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 113,
+          "sampleIntervalWeightMs": 1.08,
+          "samples": 1
+        },
+        {
+          "name": "createBoosterForecastWork",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-forecast.ts",
+          "line": 53,
+          "sampleIntervalWeightMs": 1.079,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/tower-catch.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 1.079,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 1.079,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 18,
+          "sampleIntervalWeightMs": 1.078,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 1.078,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 1.077,
+          "samples": 1
+        },
+        {
+          "name": "test$1",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/pretty-format/dist/index.js",
+          "line": 709,
+          "sampleIntervalWeightMs": 1.077,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 1.076,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/index.ts",
+          "line": 10,
+          "sampleIntervalWeightMs": 1.075,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 1.075,
+          "samples": 1
+        },
+        {
+          "name": "node",
+          "url": "file:///workspace/StarShipSimulator/src/core/damage-state.ts",
+          "line": 19,
+          "sampleIntervalWeightMs": 1.072,
+          "samples": 1
+        },
+        {
+          "name": "unpoweredFallInto",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "line": 550,
+          "sampleIntervalWeightMs": 1.072,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/atmosphere.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 1.072,
+          "samples": 1
+        },
+        {
+          "name": "divide",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/utils/dist/diff.js",
+          "line": 969,
+          "sampleIntervalWeightMs": 1.069,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/app/loop.ts",
+          "line": 0,
+          "sampleIntervalWeightMs": 1.066,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+          "line": 13,
+          "sampleIntervalWeightMs": 1.063,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "line": 8,
+          "sampleIntervalWeightMs": 1.045,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 1.033,
+          "samples": 1
+        },
+        {
+          "name": "mechanicalProperty",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 296,
+          "sampleIntervalWeightMs": 1.03,
+          "samples": 1
+        },
+        {
+          "name": "detachedCopy",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "line": 31,
+          "sampleIntervalWeightMs": 1.004,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "file:///workspace/StarShipSimulator/src/core/vehicles/super-heavy.ts",
+          "line": 1,
+          "sampleIntervalWeightMs": 0.976,
+          "samples": 1
+        },
+        {
+          "name": "",
+          "url": "node:internal/util",
+          "line": 476,
+          "sampleIntervalWeightMs": 0.941,
+          "samples": 1
+        },
+        {
+          "name": "updateTurbulence",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/wind.ts",
+          "line": 141,
+          "sampleIntervalWeightMs": 0.927,
+          "samples": 1
+        },
+        {
+          "name": "(program)",
+          "url": "",
+          "line": -1,
+          "sampleIntervalWeightMs": 0.394,
+          "samples": 10
+        },
+        {
+          "name": "initialiseReturnPhase",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "line": 209,
+          "sampleIntervalWeightMs": 0.196,
+          "samples": 1
+        },
+        {
+          "name": "bisectedTemperature",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 160,
+          "sampleIntervalWeightMs": 0.167,
+          "samples": 1
+        },
+        {
+          "name": "steelProofStrength",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 328,
+          "sampleIntervalWeightMs": 0.017,
+          "samples": 1
+        },
+        {
+          "name": "steelElasticModulus",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "line": 320,
+          "sampleIntervalWeightMs": 0.013,
+          "samples": 1
+        }
+      ]
+    }
+  },
+  "interpretation": "Statistical sampled interval weights, not exact function CPU attribution or call counts. Different source epochs include terminal coallocation; no solely-attributed walltime claim. Physical failure remains red."
+}

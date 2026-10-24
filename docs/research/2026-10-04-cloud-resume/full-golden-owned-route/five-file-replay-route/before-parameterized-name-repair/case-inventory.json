@@ -1,0 +1,166 @@
+{
+  "kind": "original-five-golden-files-and-all-38-cases",
+  "rows": [
+    {
+      "file": "tests/golden/booster-record.test.ts",
+      "fullName": "actual booster golden contract > excludes only owned future work, retaining physical controls and optional selected decisions"
+    },
+    {
+      "file": "tests/golden/booster-record.test.ts",
+      "fullName": "actual booster golden contract > records the actual selected-model starts and preserves all live physical leaves"
+    },
+    {
+      "file": "tests/golden/booster-record.test.ts",
+      "fullName": "actual booster golden contract > retains provenance authority while omitting owned observer futures and paid queues"
+    },
+    {
+      "file": "tests/golden/booster-replay.test.ts",
+      "fullName": "actual booster capture golden regressions > booster-sep-catch replays all physical state/control leaves through an airborne catch"
+    },
+    {
+      "file": "tests/golden/booster-replay.test.ts",
+      "fullName": "actual booster capture golden regressions > has exactly the two declared recordings and discriminating immutable digests"
+    },
+    {
+      "file": "tests/golden/booster-replay.test.ts",
+      "fullName": "actual booster capture golden regressions > rtls-catch replays all physical state/control leaves through an airborne catch"
+    },
+    {
+      "file": "tests/golden/compare.test.ts",
+      "fullName": "the golden tolerance stays far below a real physics change > a 1e-6 change in propellant mass moves the trajectory past the tolerance"
+    },
+    {
+      "file": "tests/golden/compare.test.ts",
+      "fullName": "the golden tolerance stays far below a real physics change > a 1e-6 relative change in one value is outside it"
+    },
+    {
+      "file": "tests/golden/compare.test.ts",
+      "fullName": "the golden tolerance stays far below a real physics change > a sentinel never matches a number, and a flipped boolean never matches"
+    },
+    {
+      "file": "tests/golden/compare.test.ts",
+      "fullName": "the golden tolerance stays far below a real physics change > identical values and identical sentinels compare equal"
+    },
+    {
+      "file": "tests/golden/compare.test.ts",
+      "fullName": "the golden tolerance stays far below a real physics change > is exact on the recording platform and tolerant only elsewhere"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "before-flip-autoland > replays field for field, sample for sample"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "booster-sep-boostback > replays field for field, sample for sample"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "intro-demo > replays field for field, sample for sample"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "landing-burn-autoland > replays field for field, sample for sample"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "landing-burn-headwind > replays field for field, sample for sample"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "launch-pad-takeoff > replays field for field, sample for sample"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "one physics, one fixture set \u2014 M2.10 > and no spec declares one"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "one physics, one fixture set \u2014 M2.10 > every file in the directory belongs to a spec"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "one physics, one fixture set \u2014 M2.10 > no flag-suffixed fixture survives on disk"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "reentry-autoland > replays field for field, sample for sample"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "rtls-boostback > replays field for field, sample for sample"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > every scenario reaches a definite outcome, so the fixtures mean something"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > records Infinity rather than losing it to JSON"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > reentry-autoland now survives \u2014 M2.9(a) recalibrated the heat limit"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > round-trip through the serialiser preserves every value exactly"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > the three landing scenarios land without crashing"
+    },
+    {
+      "file": "tests/golden/replay.test.ts",
+      "fullName": "the fixtures themselves > there is one per spec, and no orphans"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > before-flip-autoland rows are as recorded"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > booster-sep-boostback rows are as recorded"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > covers every golden scenario, so none can be quietly exempted"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > intro-demo rows are as recorded"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > landing-burn-autoland rows are as recorded"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > landing-burn-headwind rows are as recorded"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > launch-pad-takeoff rows are as recorded"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > reentry-autoland rows are as recorded"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > rtls-boostback rows are as recorded"
+    },
+    {
+      "file": "tests/golden/unification.test.ts",
+      "fullName": "every fixture is where the declared tiers left it > the digest actually discriminates \u2014 a changed row changes the hash"
+    }
+  ],
+  "files": [
+    "tests/golden/booster-record.test.ts",
+    "tests/golden/booster-replay.test.ts",
+    "tests/golden/compare.test.ts",
+    "tests/golden/replay.test.ts",
+    "tests/golden/unification.test.ts"
+  ],
+  "namedTimeoutMs": 30000,
+  "configuredSkipCount": 0
+}

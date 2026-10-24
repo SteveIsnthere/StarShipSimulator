@@ -1,0 +1,71 @@
+{
+  "status": "reviewed templates applied once; build and proof execution pending parent",
+  "timestampUTC": "2026-10-04T09:34:20.070194+00:00",
+  "baseChecks": {
+    "src/core/control/guidance-physics.ts": "5698a8f7ad0da8927613a8cdd6efc2cfde88efd79563cc9d8f7bfd5c28f7ab77",
+    "src/core/physics/propulsion.ts": "96d9c56eebcb8bb3950c8d5891b8ea8a5fc88fffb676fa7bb6bda190efa3b0cd",
+    "src/core/physics/aero.ts": "07542ac5bc81c74a6b8888fa272f0e4e3baac036adc9c8a27f5b52fcb7cabc6e",
+    "src/core/physics/isa.ts": "bd83423a16ae1362073dc9f2a3e733a16125bfdb51cb03ca081c079da52a804e",
+    "src/core/physics/gravity.ts": "2eee855b40527750bbc3706c2c538ef79fa2ee442598c8be32c9b20ef98cf60d",
+    "src/core/physics/atmosphere.ts": "803413066381e746f50183061cf26307c81a983991f0f4b51cffb8794ff52c70",
+    "src/core/vehicle.ts": "570eb84ce57ad1baa434760ce0c609832add9ae2844ae6dd3caf09a1a1e48717",
+    "src/core/vehicles/v3.ts": "785468bd3e6dba95ec0c11ba56d4d6540ffd348e92c41bee6d216d8e63cb29ad",
+    "src/core/vehicles/super-heavy.ts": "ae3e63aac8abcf45418ba048cb2af14c805b3510522514c3aa21b63a6940f7b0",
+    "src/core/constants.ts": "ffb3c5074d24fd847ed9da84e0e54c026f9aef72c0253e0cbabee05201b4bdb6",
+    "tests/proofs/fixtures/burn-before-preparation/guidance-physics.ts": "1390d31bf04456f4885af5fd71c61de2647ff8013e9077d70bf29ecfb26985bd",
+    "tests/proofs/fixtures/burn-before-preparation/aero.ts": "633ace6ce04b842b6a02272bbbadbeefc5d34b57355052820857d63aa00aa543",
+    "tests/proofs/fixtures/burn-before-preparation/propulsion.ts": "14d242fdcbbd8507152fdd5bac868597e120afb4d9434ab3445815f25bb7f694",
+    "tests/proofs/burn-preparation.test.ts": "fc5bb4c8d265ac4f82a41d37781394e45d53b3056702a9ced48deb4f88624596"
+  },
+  "reviewedInputs": {
+    "docs/research/2026-10-04-cloud-resume/burn-candidate-guidance-physics.ts.txt": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1",
+    "docs/research/2026-10-04-cloud-resume/burn-candidate-propulsion.ts.txt": "972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a",
+    "docs/research/2026-10-04-cloud-resume/burn-candidate-aero.ts.txt": "535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713",
+    "docs/research/2026-10-04-cloud-resume/burn-preparation-mocked-domain-proofs.ts.txt": "7a00fa5e9666e57f5f68fbd6cb1cb58839c3795dcc4f77aec9a717e9283ff38a",
+    "docs/research/2026-10-04-cloud-resume/burn-preparation-module-mock-proofs.ts.txt": "9d9117a094d5a5fac0b290f31b4f0b04536dc9107cdfd96f01a02cc2c4d74018",
+    "docs/research/2026-10-04-cloud-resume/burn-preparation-predicate-pressure-proofs.ts.txt": "067926c59625b05a64fa2d4375f386cbc435a505e80cfd65e5b93e913863e322",
+    "docs/research/2026-10-04-cloud-resume/prepared-burn-preimplementation-pins.json": "b0c4e027fdcd3136d26f3e62f4d0998f76bb945c62e90526443ac1c769e09da9"
+  },
+  "review": {
+    "path": "docs/research/2026-10-04-cloud-resume/burn-candidate-independent-code-review.md",
+    "sha256": "fd37a634e7a520da6c2957792afedbd588f1f359471e9bfba1cc3c3d217aa5b0"
+  },
+  "outputHashes": {
+    "src/core/control/guidance-physics.ts": "40e6cf54f12442acd7c069ffc36bcdb94b6ed316b470e5e72edebf8c2fa423d1",
+    "src/core/physics/propulsion.ts": "972087e8c71b8a92694bcbc6e97da1a370027c34baf2a177e82da86d22d7e90a",
+    "src/core/physics/aero.ts": "535c23fa889c2014a58a89e196acf386b8ff4ea79ced32ee6555f195f3306713",
+    "tests/proofs/burn-preparation.test.ts": "c77ac2f8ae41bb7c48d61e07647d144ecddb0df3bf7b0a2a90f3cefd7f567bca",
+    "tests/proofs/burn-preparation-module-mock.test.ts": "b53c63b5d2b21ba9d504ceaa0ed67681136365519426b8365bec1ce9a66d5007"
+  },
+  "oracleCopiesUnchanged": {
+    "tests/proofs/fixtures/burn-before-preparation/guidance-physics.ts": "1390d31bf04456f4885af5fd71c61de2647ff8013e9077d70bf29ecfb26985bd",
+    "tests/proofs/fixtures/burn-before-preparation/aero.ts": "633ace6ce04b842b6a02272bbbadbeefc5d34b57355052820857d63aa00aa543",
+    "tests/proofs/fixtures/burn-before-preparation/propulsion.ts": "14d242fdcbbd8507152fdd5bac868597e120afb4d9434ab3445815f25bb7f694"
+  },
+  "testNames": {
+    "tests/proofs/burn-preparation.test.ts": [
+      "admits only genuine helper certificates and rejects a predicate or helper wrapper",
+      "the admitted booster is a frozen data graph; the ship ignition array is not admitted",
+      "retains every numerical leaf and scratch identity across boundaries, roots and cap failures",
+      "retains the exact ISA query sequence, count and full scratch after each call",
+      "retains custom getter reads, changing values, thrown error identity and scratch at throw",
+      "retains frozen accessors, early-return read order and distinct-scratch nested calls",
+      "observes helpers replaced during ISA scratch writes without restarting any paid query",
+      "public helpers keep IEEE pressure edges independently of the scalar candidate",
+      "before-call helper wrappers keep original call logs and source-oracle outputs",
+      "mid-call flow and thrust replacement stays at original dependency-read sites",
+      "density/area side effects retain getDrag callee-before-arguments order and throws",
+      "admitted SUPER_HEAVY keeps pressure-getter IEEE edges, every scratch leaf and exact paid ISA sequence",
+      "predicate wrappers before and during a call deny prepared admission and preserve full source semantics"
+    ],
+    "tests/proofs/burn-preparation-module-mock.test.ts": [
+      "propulsion missing-certificate preserves independent old outputs, scratches and original helper queries",
+      "propulsion partial-helper preserves independent old outputs, scratches and original helper queries",
+      "aero missing-certificate preserves independent old outputs, scratches and original helper queries",
+      "aero partial-helper preserves independent old outputs, scratches and original helper queries"
+    ]
+  },
+  "namedTestCount": 17,
+  "integrationChanges": "Removed uncollected draft headers; inserted two complete additions inside original describe; separate module collection retains reviewed imports and bodies. Runtime bytes identical to templates.",
+  "execution": "No build, test, flight or timing executed by application; parent owns qualifying checks. Native benchmark qualification must be renewed for changed runtime."
+}

@@ -1,0 +1,11 @@
+# Independent retained06 offline actual input HIGH
+
+Actual inner0a01cdac9c16103db7383a772ccd0b9b2e3228c2efacc36a1d9d506c926632d3/root2a5b8cf22421a97dff089b9363838ad5aa7a55e09b18a3817eda790331e4fa3c match private517cfec6f83b46028ec25ec4dcd817e4. Accepted seed7950 and all84 selected seed references remain exact and map into the actual owner selected metadata. Root sole maker0/0.465910491s PID125476/start7851269 reaped077 is retained. No maker rerun by reviewer.
+
+Five private source copies are exact reviewed owner/binding/policy/controls/qualify bytes, nonsymlink0600 and pinned in child/owner authority. Complete private set is those five copies, four JSONs and empty evidence directory; setup/evidence0700, JSON0600, no outputs. Root inventory exactly equals owner selected map plus owner input digest. Child map is a strict pinned subset and its digest is pinned by owner; no circular reseal. Child output is exactly new evidence/retained-artifact-provenance.json and absent, outside original failed21cd evidence.
+
+Actual canonical slot original-orbit18-qualification and resultKind original-orbit18-qualification-result-v1 agree across root/owner/contract. Actual stage inventory ONLY artifact-controls and retained-qualification, each reviewed5s, owner52/root60/8 cleanup. Literal15 expected names match accepted seed; no build,14/16 repeats, native import or histories selected. Exact Node/helper/Python/rootobserver/stage/input/inventory/contract digests match.
+
+Currenta073 source770/fulltypedtools20355 metadata remains exact, every source row occurs in owner selected map; native addon and link identities remain in complete typed tool audit performed by actual owner before/after. Original failed compiler receipt is preserved; future output is distinct provenance, not the histories envelope. Selected metadata comparisons are not a reviewer live770/20355 scan. Root actual byte/source/tool audits, raw child status, ALL observed owned process absence and actual15/control+artifact result require independent postexit HIGH.
+
+Supports ONE root-granted offline episode under60 whole only. No current qualification/history/coverage/performance/product/gate/release approval; originalunit30/coverage120/gate300/9000physicalseconds/floors unchanged. Reviewer ran no imports/scopes/controls/checker/compiler/physics/workloads/full scans or live edits.

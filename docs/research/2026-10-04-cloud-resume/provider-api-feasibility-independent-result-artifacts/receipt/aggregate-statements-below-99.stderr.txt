@@ -1,0 +1,2 @@
+ERROR: Coverage for statements (98.9%) does not meet global threshold (99%)
+ERROR: Coverage for statements (98.9%) does not meet "src/core/autopilot/**" threshold (99%)

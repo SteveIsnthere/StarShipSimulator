@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/sdk-repair/run-owned-sdk-controls.mjs.txt",
+      "sha256": "2ca9fe8deac9a1c0f49b8bdc493f7c2a1da176a73dea1bc5f84e32923dc3442a",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-sdk-repair-scope.jzuiu13q/owner.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/sdk-repair/run-owned-sdk-controls.mjs.txt",
+      "sha256": "2ca9fe8deac9a1c0f49b8bdc493f7c2a1da176a73dea1bc5f84e32923dc3442a",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/sdk-repair/run-owned-sdk-controls.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 0.9630461800043122,
+  "runtimeExecuted": false
+}

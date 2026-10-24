@@ -1,0 +1,171 @@
+"""Offline byte-identical runtime preparation only. No compiler/module/browser execution."""
+import hashlib,json,pathlib,os,stat,re,subprocess,sys,uuid
+repo=pathlib.Path('/workspace/StarShipSimulator');research=repo/'docs/research/2026-10-04-cloud-resume';directory=research/'render-kernel-width2-candidate/browser-bytecopy'
+origin=pathlib.Path('/tmp/starship-render-kernel.2co6w1rl');qualified=pathlib.Path('/tmp/starship-width2-qualified.9aaf62497cd6496794bcf975f0e8538f')
+sha=lambda b:hashlib.sha256(b).hexdigest();inputs={}
+def regular(file):
+ file=pathlib.Path(file)
+ if not stat.S_ISREG(file.lstat().st_mode):raise RuntimeError('Nonregular input '+str(file))
+ return file.read_bytes()
+def checked(file,pin):
+ file=pathlib.Path(file);data=regular(file)
+ if sha(data)!=pin:raise RuntimeError('Input digest drift '+str(file))
+ inputs[str(file)]=pin;return data
+def load(file):return json.loads(regular(file))
+def put(file,data):
+ with pathlib.Path(file).open('xb') as out:out.write(data)
+def dump(file,data):put(file,(json.dumps(data,indent=2)+'\n').encode())
+pin_file=directory/'input-pins.json';pin_bytes=regular(pin_file)
+if sha(pin_bytes)!=os.environ.get('WIDTH2_BROWSER_COPY_INPUT_PINS_SHA256'):raise RuntimeError('Externally frozen input-map digest required')
+for file,pin in json.loads(pin_bytes).items():checked(file,pin)
+checked(__file__,sha(regular(directory/'prepare-browser-bytecopy.py.txt')))
+review_file=research/'render-width2-exact-facade-independent-actual-result-review-pins.json'
+for file,pin in load(review_file).items():checked(file,pin)
+manifest_bytes=checked(qualified/'kernel-compiled-manifest.json','32a883259dda991218b24890e4ef1248f39084ac4836061b4ecc03b381819da8');manifest=json.loads(manifest_bytes)
+composite_bytes=checked(qualified/'width2-library-composite.json','eb8487968a3c93757afe7019488abd31f37b9de51a69643ef3a6e1d440c900dd');composite=json.loads(composite_bytes)
+outcome=load(qualified/'width2-qualification-outcome.json')
+if not outcome['passed'] or outcome['error'] is not None or len(outcome['sources'])!=492 or len(outcome['programs'])!=10 or len(outcome['unmappedFacades'])!=1 or len(outcome['facadeControls'])!=7 or not all(c['rejected'] for c in outcome['facadeControls']):raise RuntimeError('Incomplete accepted exact facade qualification')
+root=load('/tmp/starship-width2-root.kf05uycr/root-outcome.json');process=load('/tmp/starship-width2-stage.BLZyRB/preparation.process.json')
+if not root['completed'] or root['actualReturncode']!=0 or root['failures'] or root['remaining'] or process['exit']!={'code':0,'signal':None} or process['failure'] is not None or not process['closed'] or process['cleanup']['executing']:raise RuntimeError('Accepted root/actual process absence invalid')
+if composite['newCompiledManifestSha256']!=sha(manifest_bytes) or not composite['sourceRoleQualified'] or manifest['unresolvedSources']:raise RuntimeError('Actual accepted library binding invalid')
+receipt=load(origin/'setup-receipt.json');checked(origin/'setup-receipt.json',composite['setupReceiptSha256']);prep=load(origin/'width2-preparation.json');checked(origin/'width2-preparation.json',composite['preparationSha256'])
+for file,pin in prep['inputs'].items():checked(file,pin)
+for file,pin in prep['materializedRoles']:checked(file,pin)
+# Complete current source/CI/dist set; recorded null deletion requires absence.
+listed=subprocess.check_output(['git','ls-files','-z','--cached','--others','--exclude-standard'],cwd=repo,timeout=5).decode().split('\0')
+listed=sorted(p for p in listed if re.match(r'^(src/|tests/|scripts/|public/|\.agents/|\.nvmrc$|package[^/]*\.json$|[^/]*config\.[^/]+$)',p))
+if listed!=[name for name,pin in receipt['sourceManifest']]:raise RuntimeError('Source inventory drift')
+for name,pin in receipt['sourceManifest']:
+ file=repo/name
+ if pin is None:
+  if file.exists() or file.is_symlink():raise RuntimeError('Deleted source reappeared')
+ else:checked(file,pin)
+for name,pin in receipt.get('additionalGithubFiles',[]):checked(repo/name,pin)
+def tree_files(root):
+ files=[]
+ for item in sorted(os.scandir(root),key=lambda e:e.name):
+  file=pathlib.Path(item.path);info=file.lstat()
+  if stat.S_ISDIR(info.st_mode):files.extend(tree_files(file))
+  elif stat.S_ISREG(info.st_mode):files.append(file)
+  else:raise RuntimeError('Tree symlink/special '+str(file))
+ return files
+expected_dist=sorted(receipt['buildFiles']+receipt['mapFiles'])
+if sorted(str(f.relative_to(repo/'dist')) for f in tree_files(repo/'dist'))!=[name for name,pin in expected_dist]:raise RuntimeError('Current qualified dist set drift')
+for name,pin in expected_dist:checked(repo/'dist'/name,pin)
+for proof in receipt.get('physicsProofs',[]):checked(repo/proof['path'],proof['sha256'])
+for field,pin in [('nodeExecutable','nodeExecutableSha256'),('originalBrowser','originalBrowserSha256'),('actualBrowser','actualBrowserSha256'),('config','configSha256')]:checked(receipt[field],receipt[pin])
+bundle_bytes=checked(origin/'bundle-copy-manifest.json',receipt['bundleManifestSha256']);bundle=json.loads(bundle_bytes);browser_root=pathlib.Path(bundle['copiedRoot'])
+config_path=pathlib.Path(receipt['config'])
+if str(browser_root)!='/tmp/starship-fullchrome-worker.VB1uzYO9/browser' or config_path!=browser_root/'SwiftShader.ini' or (config_path.stat().st_mode&511)!=384:raise RuntimeError('Separately qualified configuration path/mode drift')
+expected_browser=sorted([row['path'] for row in bundle['files']]+['SwiftShader.ini'])
+if len(bundle['files'])!=303 or 'SwiftShader.ini' in [row['path'] for row in bundle['files']] or sorted(str(f.relative_to(browser_root)) for f in tree_files(browser_root))!=expected_browser:raise RuntimeError('Qualified browser bundle plus exact separate config set drift')
+for row in bundle['files']:
+ file=browser_root/row['path'];data=checked(file,row['sha256'])
+ if len(data)!=row['bytes'] or (file.stat().st_mode&511)!=row['mode']:raise RuntimeError('Qualified browser file byte/mode drift')
+# Runtime packages are checked against the actual accepted full installed Vite-build snapshot, no new qualification.
+build_before=load(origin/'kernel-build-before.json');installed=build_before['installed'];runtime_prefixes=('playwright/','playwright-core/','typescript/')
+for row in installed:
+ if row['path'] in ('playwright','playwright-core','typescript') or row['path'].startswith(runtime_prefixes):
+  file=repo/'node_modules'/row['path'];info=file.lstat()
+  if row['kind']=='file':
+   data=checked(file,row['sha256'])
+   if len(data)!=row['bytes'] or (info.st_mode&4095)!=row['mode']:raise RuntimeError('Runtime package byte/mode drift')
+  elif row['kind']=='directory':
+   if not stat.S_ISDIR(info.st_mode) or (info.st_mode&4095)!=row['mode']:raise RuntimeError('Runtime package directory drift')
+  else:raise RuntimeError('Unsupported runtime package symlink')
+for name in ('playwright','playwright-core','typescript'):
+ actual={str(f.relative_to(repo/'node_modules')) for f in tree_files(repo/'node_modules'/name)}
+ expected={row['path'] for row in installed if row['path'].startswith(name+'/') and row['kind']=='file'}
+ if actual!=expected:raise RuntimeError('Runtime package actual file-set drift '+name)
+# Current exact SDK package roots/file-set reuse the accepted full inventory; only bytes, no SDK import.
+sdk_review=json.loads(checked(composite['sdkActualReviewPath'],composite['sdkActualReviewSha256']));sdk_owner_path=pathlib.Path(sdk_review['receipt'])/'owner-result.json'
+if str(sdk_owner_path) not in inputs:raise RuntimeError('SDK actual owner must be independently pinned in input map')
+sdk_owner=json.loads(checked(sdk_owner_path,inputs[str(sdk_owner_path)]));sdk_actual=set()
+for package in sdk_owner['before']['packages']:
+ def enumerate_sdk(directory):
+  files=[]
+  for item in sorted(os.scandir(directory),key=lambda e:e.name):
+   if item.name=='node_modules':continue
+   file=pathlib.Path(item.path);info=file.lstat()
+   if stat.S_ISDIR(info.st_mode):files.extend(enumerate_sdk(file))
+   elif stat.S_ISREG(info.st_mode):files.append(file)
+   else:raise RuntimeError('SDK symlink/special')
+  return files
+ for file in enumerate_sdk(pathlib.Path(package['root'])):sdk_actual.add(str(file))
+sdk_expected={file for file in sdk_owner['before']['files'] if any(file.startswith(p['root']+'/') for p in sdk_owner['before']['packages'])}
+if sdk_actual!=sdk_expected or len(sdk_actual)!=3873:raise RuntimeError('Current complete SDK set differs')
+for file in sorted(sdk_actual):
+ row=sdk_owner['before']['files'][file];data=checked(file,row['sha256'])
+ if len(data)!=row['bytes'] or (pathlib.Path(file).stat().st_mode&511)!=row['mode']:raise RuntimeError('SDK byte/mode drift')
+# Single exclusive alphanumeric same-depth namespace, no luck retry and no map source rewriting.
+setup=pathlib.Path('/tmp')/('starship-render-kernel.'+uuid.uuid4().hex);setup.mkdir(mode=0o700,exist_ok=False);setup.chmod(0o700)
+print(str(setup),flush=True)
+try:
+ if len(setup.parts)!=len(origin.parts):raise RuntimeError('Compiled map route depth changed')
+ (setup/'compiled').mkdir(mode=0o700)
+ expected=sorted(manifest['files'])
+ if len(expected)!=21 or sorted(str(f.relative_to(origin/'compiled')) for f in tree_files(origin/'compiled'))!=[name for name,pin in expected]:raise RuntimeError('Original qualified compiled set differs')
+ for name,pin in expected:
+  rel=pathlib.PurePosixPath(name)
+  if rel.is_absolute() or '..' in rel.parts:raise RuntimeError('Unsafe output path')
+  destination=setup/'compiled'/name;destination.parent.mkdir(parents=True,exist_ok=True);put(destination,checked(origin/'compiled'/name,pin));checked(destination,pin)
+ maps=[];source_rows=[]
+ for name,pin in expected:
+  if name.endswith('.map'):
+   maps.append(name);file=setup/'compiled'/name;mapping=load(file)
+   if mapping.get('sourceRoot') not in (None,'') or len(mapping['sources'])!=len(mapping['sourcesContent']):raise RuntimeError('Unsupported map structure')
+   for source,content in zip(mapping['sources'],mapping['sourcesContent']):
+    if not isinstance(content,str) or '://' in source:raise RuntimeError('Unresolved map source')
+    actual=(file.parent/source).resolve();previous=(origin/'compiled'/pathlib.Path(name).parent/source).resolve()
+    if actual!=previous or not actual.is_relative_to(repo):raise RuntimeError('Copy map resolves elsewhere')
+    digest=sha(content.encode());checked(actual,digest);source_rows.append({'map':'compiled/'+name,'source':source,'repositoryPath':str(actual.relative_to(repo)),'sha256':digest})
+ if len(maps)!=10 or len(source_rows)!=492 or sorted(source_rows,key=lambda r:json.dumps(r,sort_keys=True))!=sorted(manifest['sourceContents'],key=lambda r:json.dumps(r,sort_keys=True)):raise RuntimeError('Full mapped source identity differs')
+ # The same32a manifest remains explicit prior-build qualification, never rewritten as new build output.
+ put(setup/'kernel-compiled-manifest.json',manifest_bytes)
+ for name,pin in manifest['supervisedBuildReceipts']:put(setup/name,checked(origin/name,pin))
+ for name in ['bundle-copy-manifest.json','qualified-browser-receipt.json','current-build-qualification.json']:
+  if str(origin/name) not in inputs:raise RuntimeError('Copied authority not pinned '+name)
+  put(setup/name,checked(origin/name,inputs[str(origin/name)]))
+ runner=checked(directory.parent/'run-render-kernel-width2.mjs.txt','086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c');put(setup/'run-render-kernel-width2.mjs',runner)
+ hook=checked(research/'kernel-program-attribution-hook.mjs',composite['hookSha256']);put(setup/'kernel-program-attribution-hook.mjs',hook)
+ old_wrapper=checked(origin/'browser-wrapper.sh',composite['wrapperSha256'])
+ if old_wrapper.count(str(origin).encode())!=1:raise RuntimeError('Wrapper exceeds exact setup-only substitution')
+ wrapper=old_wrapper.replace(str(origin).encode(),str(setup).encode());put(setup/'browser-wrapper.sh',wrapper);(setup/'browser-wrapper.sh').chmod(0o700)
+ receipt.update({'purpose':'ONE exact32/2 fixture, byte-identical qualified width2 library copy; no compiler/physics rerun',
+ 'wrapper':str(setup/'browser-wrapper.sh'),'wrapperSha256':sha(wrapper),'qualifiedCompiledManifestSha256':sha(manifest_bytes),
+ 'qualifiedLibraryCompositeSha256':sha(composite_bytes),'newRunnerSha256':sha(runner),'priorReadOnlyCompiledSetup':str(origin),'qualifiedResultReceipt':str(qualified)})
+ dump(setup/'setup-receipt.json',receipt)
+ # Re-enumerate complete boundaries after copying, then recheck every byte/mode.
+ after_listed=subprocess.check_output(['git','ls-files','-z','--cached','--others','--exclude-standard'],cwd=repo,timeout=5).decode().split('\0')
+ after_listed=sorted(p for p in after_listed if re.match(r'^(src/|tests/|scripts/|public/|\.agents/|\.nvmrc$|package[^/]*\.json$|[^/]*config\.[^/]+$)',p))
+ if after_listed!=listed:raise RuntimeError('Source set changed during copy')
+ if sorted(str(f.relative_to(repo/'dist')) for f in tree_files(repo/'dist'))!=[name for name,pin in expected_dist]:raise RuntimeError('Dist set changed during copy')
+ if sorted(str(f.relative_to(browser_root)) for f in tree_files(browser_root))!=expected_browser or (config_path.stat().st_mode&511)!=384:raise RuntimeError('Browser/config set or mode changed during copy')
+ for row in bundle['files']:
+  if ((browser_root/row['path']).stat().st_mode&511)!=row['mode']:raise RuntimeError('Browser mode changed during copy')
+ for name in ('playwright','playwright-core','typescript'):
+  actual={str(f.relative_to(repo/'node_modules')) for f in tree_files(repo/'node_modules'/name)}
+  expected_runtime={row['path'] for row in installed if row['path'].startswith(name+'/') and row['kind']=='file'}
+  if actual!=expected_runtime:raise RuntimeError('Runtime set changed during copy')
+ for row in installed:
+  if row['path'] in ('playwright','playwright-core','typescript') or row['path'].startswith(runtime_prefixes):
+   if ((repo/'node_modules'/row['path']).lstat().st_mode&4095)!=row['mode']:raise RuntimeError('Runtime mode changed during copy')
+ after_sdk={str(file) for package in sdk_owner['before']['packages'] for file in enumerate_sdk(pathlib.Path(package['root']))}
+ if after_sdk!=sdk_expected:raise RuntimeError('SDK set changed during copy')
+ for file in after_sdk:
+  if (pathlib.Path(file).stat().st_mode&511)!=sdk_owner['before']['files'][file]['mode']:raise RuntimeError('SDK mode changed during copy')
+ for file,pin in list(inputs.items()):checked(file,pin)
+ for name,pin in receipt['sourceManifest']:
+  if pin is None and ((repo/name).exists() or (repo/name).is_symlink()):raise RuntimeError('Recorded deleted source reappeared')
+ copied=sorted([str(f.relative_to(setup/'compiled')),sha(regular(f))] for f in tree_files(setup/'compiled'))
+ if copied!=expected:raise RuntimeError('New complete copied output-set/bytes differs')
+ result={'kind':'width2-browser-bytecopy-preparation-v1','setup':str(setup),'compiledOrigin':str(origin),'qualifiedReceipt':str(qualified),
+ 'qualifiedManifestSha256':sha(manifest_bytes),'qualifiedCompositeSha256':sha(composite_bytes),'copyFiles':copied,'mapSourceContents':source_rows,
+ 'oldQualificationFailuresPreserved':True,'byteIdenticalCopy':True,'compiledManifestCopiedNotRewritten':True,
+ 'inputBeforeAfterPins':inputs,'setupReceiptSha256':sha(regular(setup/'setup-receipt.json')),'wrapperSha256':sha(wrapper),
+ 'runnerSha256':sha(runner),'hookSha256':sha(hook),'buildExecuted':False,'physicsProofExecuted':False,'browserLaunched':False,
+ 'browserContract':{'baseline':32,'candidate':2,'framesPerPhase':20,'queryCap':4096,'positivePixelThreshold':6,'internalWorkMs':90000,'internalCleanupMs':5000,'externalMs':120000},
+ 'requiresFreshIndependentActualPreparationReview':True,'passed':True}
+ dump(setup/'width2-browser-bytecopy-composite.json',result)
+except BaseException as error:
+ dump(setup/'browser-bytecopy-preparation-failure.json',{'setup':str(setup),'error':str(error),'browserLaunched':False});raise

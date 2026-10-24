@@ -1,0 +1,1129 @@
+{
+  "interpretation": "Statistical sample interval weights, including diagnostic/assertion/GC/async overhead, not exact CPU-time attribution or acceptance timing. SSR call-frame paths/line offsets are raw profile metadata.",
+  "profiles": [
+    {
+      "file": "before-flip.cpuprofile",
+      "sampledSeconds": 0.875461,
+      "samples": 558,
+      "self": [
+        {
+          "function": "loadedRootAngle",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "lineZeroBased": 39,
+          "seconds": 0.10753499999999996
+        },
+        {
+          "function": "equalBoosterTree",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "lineZeroBased": 89,
+          "seconds": 0.07752300000000001
+        },
+        {
+          "function": "rootLoadCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "lineZeroBased": 29,
+          "seconds": 0.07731100000000003
+        },
+        {
+          "function": "writeDamageControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "lineZeroBased": 66,
+          "seconds": 0.07421000000000001
+        },
+        {
+          "function": "(garbage collector)",
+          "url": "",
+          "lineZeroBased": -1,
+          "seconds": 0.05567899999999999
+        },
+        {
+          "function": "cloneState",
+          "url": "file:///workspace/StarShipSimulator/src/core/state.ts",
+          "lineZeroBased": 252,
+          "seconds": 0.046647
+        },
+        {
+          "function": "runBoosterPolicy",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "lineZeroBased": 220,
+          "seconds": 0.043297999999999996
+        },
+        {
+          "function": "writeFlightGridForces",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "lineZeroBased": 64,
+          "seconds": 0.042045
+        },
+        {
+          "function": "post",
+          "url": "node:inspector",
+          "lineZeroBased": 117,
+          "seconds": 0.039717
+        },
+        {
+          "function": "specificEnthalpyUnchecked",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-material.ts",
+          "lineZeroBased": 137,
+          "seconds": 0.03476399999999999
+        },
+        {
+          "function": "observe",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "lineZeroBased": 232,
+          "seconds": 0.019751
+        },
+        {
+          "function": "evaluateControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "lineZeroBased": 46,
+          "seconds": 0.013695
+        },
+        {
+          "function": "prepareDynamics",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "lineZeroBased": 186,
+          "seconds": 0.012805
+        },
+        {
+          "function": "runBoosterAutopilot",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "lineZeroBased": 192,
+          "seconds": 0.012272
+        },
+        {
+          "function": "cloneBoosterMechanics",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "lineZeroBased": 38,
+          "seconds": 0.012080999999999998
+        },
+        {
+          "function": "advanceFreeBody",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "lineZeroBased": 72,
+          "seconds": 0.011589000000000002
+        },
+        {
+          "function": "getTotalMaxThrust",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "lineZeroBased": 81,
+          "seconds": 0.009654000000000001
+        },
+        {
+          "function": "diagnosticJSON",
+          "url": "file:///workspace/StarShipSimulator/tests/support/descent-diagnostic.ts",
+          "lineZeroBased": 15,
+          "seconds": 0.008815
+        },
+        {
+          "function": "replayEvent",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "lineZeroBased": 60,
+          "seconds": 0.0075959999999999995
+        },
+        {
+          "function": "writeRotationForces",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "lineZeroBased": 397,
+          "seconds": 0.006888999999999999
+        }
+      ],
+      "inclusive": [
+        {
+          "function": "(root)",
+          "url": "",
+          "lineZeroBased": -1,
+          "seconds": 0.8747800000000001
+        },
+        {
+          "function": "processTicksAndRejections",
+          "url": "node:internal/process/task_queues",
+          "lineZeroBased": 70,
+          "seconds": 0.8191009999999997
+        },
+        {
+          "function": "$",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vitest/dist/chunks/traces.DT5aQ62U.js",
+          "lineZeroBased": 139,
+          "seconds": 0.7793839999999997
+        },
+        {
+          "function": "trace",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vitest/dist/chunks/test.DNmyFkvJ.js",
+          "lineZeroBased": 4395,
+          "seconds": 0.7793839999999997
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2940,
+          "seconds": 0.7793839999999997
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 287,
+          "seconds": 0.7782609999999998
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2271,
+          "seconds": 0.7782609999999998
+        },
+        {
+          "function": "runWithTimeout",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2266,
+          "seconds": 0.7782609999999998
+        },
+        {
+          "function": "run",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 1147,
+          "seconds": 0.7782609999999998
+        },
+        {
+          "function": "limiterFn",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 1146,
+          "seconds": 0.7782609999999998
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+          "lineZeroBased": 122,
+          "seconds": 0.7738149999999998
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 1901,
+          "seconds": 0.7738149999999998
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2322,
+          "seconds": 0.7738149999999998
+        },
+        {
+          "function": "runWithCancel",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2321,
+          "seconds": 0.7738149999999998
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2955,
+          "seconds": 0.7738149999999998
+        },
+        {
+          "function": "runScenarioMission",
+          "url": "file:///workspace/StarShipSimulator/tests/support/scenario-mission.ts",
+          "lineZeroBased": 28,
+          "seconds": 0.7672849999999998
+        },
+        {
+          "function": "step",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "lineZeroBased": 74,
+          "seconds": 0.7385669999999999
+        },
+        {
+          "function": "advance",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "lineZeroBased": 87,
+          "seconds": 0.6919119999999996
+        },
+        {
+          "function": "advanceFreeBody",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "lineZeroBased": 72,
+          "seconds": 0.6886379999999996
+        },
+        {
+          "function": "finishMechanicalStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts",
+          "lineZeroBased": 13,
+          "seconds": 0.5084470000000001
+        },
+        {
+          "function": "runBoosterPostStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "lineZeroBased": 207,
+          "seconds": 0.47879599999999994
+        },
+        {
+          "function": "advanceMechanics",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "lineZeroBased": 84,
+          "seconds": 0.4340859999999998
+        },
+        {
+          "function": "runBoosterPolicy",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "lineZeroBased": 220,
+          "seconds": 0.3253269999999999
+        },
+        {
+          "function": "predictReturn",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "lineZeroBased": 115,
+          "seconds": 0.30855000000000005
+        },
+        {
+          "function": "advanceBoosterPrediction",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "lineZeroBased": 319,
+          "seconds": 0.306642
+        }
+      ],
+      "rootAncestry": [
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "commandGridTorque",
+            "align",
+            "runBoosterPolicy",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.048166
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "commandGridTorque",
+            "align",
+            "runBoosterPolicy",
+            "runBoosterAutopilot",
+            "runAutopilot",
+            "flightControls",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.042135
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "commandGridTorque",
+            "align",
+            "runBoosterPolicy",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterSource",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.027787
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "advanceFlightDamage",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.014071
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "align",
+            "runBoosterPolicy",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.007200999999999999
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "align",
+            "runBoosterPolicy",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterSource",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.0058119999999999995
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightFinAreas",
+            "prepareDynamics",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterSource",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.00458
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "writeRotationForces",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.00443
+        }
+      ]
+    },
+    {
+      "file": "reentry.cpuprofile",
+      "sampledSeconds": 23.392298,
+      "samples": 20568,
+      "self": [
+        {
+          "function": "loadedRootAngle",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "lineZeroBased": 39,
+          "seconds": 3.940913999999976
+        },
+        {
+          "function": "writeDamageControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+          "lineZeroBased": 66,
+          "seconds": 2.491255999999995
+        },
+        {
+          "function": "rootLoadCoefficient",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-root.ts",
+          "lineZeroBased": 29,
+          "seconds": 2.241428
+        },
+        {
+          "function": "equalBoosterTree",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "lineZeroBased": 89,
+          "seconds": 1.8352180000000056
+        },
+        {
+          "function": "writeFlightGridForces",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "lineZeroBased": 64,
+          "seconds": 0.9220969999999988
+        },
+        {
+          "function": "cloneState",
+          "url": "file:///workspace/StarShipSimulator/src/core/state.ts",
+          "lineZeroBased": 252,
+          "seconds": 0.8665820000000001
+        },
+        {
+          "function": "writeDamageMass",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-mass.ts",
+          "lineZeroBased": 40,
+          "seconds": 0.6125730000000007
+        },
+        {
+          "function": "fallAcceleration",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+          "lineZeroBased": 389,
+          "seconds": 0.5036440000000008
+        },
+        {
+          "function": "(garbage collector)",
+          "url": "",
+          "lineZeroBased": -1,
+          "seconds": 0.49602600000000013
+        },
+        {
+          "function": "evaluateForce",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "lineZeroBased": 66,
+          "seconds": 0.4682750000000001
+        },
+        {
+          "function": "gimballedShare",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/engines.ts",
+          "lineZeroBased": 98,
+          "seconds": 0.3802430000000001
+        },
+        {
+          "function": "writeBoosterForceRequest",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-arrival.ts",
+          "lineZeroBased": 82,
+          "seconds": 0.3479239999999999
+        },
+        {
+          "function": "cloneBoosterMechanics",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-source.ts",
+          "lineZeroBased": 38,
+          "seconds": 0.3229910000000002
+        },
+        {
+          "function": "rCubedIntegral",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/mass.ts",
+          "lineZeroBased": 126,
+          "seconds": 0.30366700000000013
+        },
+        {
+          "function": "writeFlightMassQuery",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/flight-mass-query.ts",
+          "lineZeroBased": 7,
+          "seconds": 0.290558
+        },
+        {
+          "function": "evaluateControls",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-flight.ts",
+          "lineZeroBased": 46,
+          "seconds": 0.28684800000000005
+        },
+        {
+          "function": "prepareDynamics",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/step-dynamics.ts",
+          "lineZeroBased": 186,
+          "seconds": 0.28650499999999984
+        },
+        {
+          "function": "pressureInLayer",
+          "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+          "lineZeroBased": 95,
+          "seconds": 0.2631949999999999
+        },
+        {
+          "function": "advanceFreeBody",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "lineZeroBased": 72,
+          "seconds": 0.2542369999999999
+        },
+        {
+          "function": "finishMechanicalStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts",
+          "lineZeroBased": 13,
+          "seconds": 0.24946799999999997
+        }
+      ],
+      "inclusive": [
+        {
+          "function": "(root)",
+          "url": "",
+          "lineZeroBased": -1,
+          "seconds": 23.392010000000457
+        },
+        {
+          "function": "processTicksAndRejections",
+          "url": "node:internal/process/task_queues",
+          "lineZeroBased": 70,
+          "seconds": 22.895809000000437
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2940,
+          "seconds": 22.85336200000045
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 287,
+          "seconds": 22.84732100000045
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2271,
+          "seconds": 22.84732100000045
+        },
+        {
+          "function": "runWithTimeout",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2266,
+          "seconds": 22.84732100000045
+        },
+        {
+          "function": "run",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 1147,
+          "seconds": 22.84732100000045
+        },
+        {
+          "function": "limiterFn",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 1146,
+          "seconds": 22.84732100000045
+        },
+        {
+          "function": "$",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vitest/dist/chunks/traces.DT5aQ62U.js",
+          "lineZeroBased": 139,
+          "seconds": 22.84732100000045
+        },
+        {
+          "function": "trace",
+          "url": "file:///workspace/StarShipSimulator/node_modules/vitest/dist/chunks/test.DNmyFkvJ.js",
+          "lineZeroBased": 4395,
+          "seconds": 22.84732100000045
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+          "lineZeroBased": 122,
+          "seconds": 22.805398000000444
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 1901,
+          "seconds": 22.805398000000444
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2322,
+          "seconds": 22.805398000000444
+        },
+        {
+          "function": "runWithCancel",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2321,
+          "seconds": 22.805398000000444
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/StarShipSimulator/node_modules/@vitest/runner/dist/chunk-artifact.js",
+          "lineZeroBased": 2955,
+          "seconds": 22.805398000000444
+        },
+        {
+          "function": "runScenarioMission",
+          "url": "file:///workspace/StarShipSimulator/tests/support/scenario-mission.ts",
+          "lineZeroBased": 28,
+          "seconds": 22.739126000000446
+        },
+        {
+          "function": "step",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "lineZeroBased": 74,
+          "seconds": 22.57454600000043
+        },
+        {
+          "function": "advance",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "lineZeroBased": 87,
+          "seconds": 21.694975000000362
+        },
+        {
+          "function": "advanceFreeBody",
+          "url": "file:///workspace/StarShipSimulator/src/core/mission-free-flight.ts",
+          "lineZeroBased": 72,
+          "seconds": 21.63908500000035
+        },
+        {
+          "function": "finishMechanicalStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/mechanical.ts",
+          "lineZeroBased": 13,
+          "seconds": 17.220466999999907
+        },
+        {
+          "function": "runBoosterPostStep",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "lineZeroBased": 207,
+          "seconds": 16.864002999999997
+        },
+        {
+          "function": "advanceMechanics",
+          "url": "file:///workspace/StarShipSimulator/src/core/step.ts",
+          "lineZeroBased": 84,
+          "seconds": 15.998788999999924
+        },
+        {
+          "function": "runBoosterPolicy",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "lineZeroBased": 220,
+          "seconds": 13.607273999999906
+        },
+        {
+          "function": "predictReturn",
+          "url": "file:///workspace/StarShipSimulator/src/core/autopilot/booster.ts",
+          "lineZeroBased": 115,
+          "seconds": 12.59404699999997
+        },
+        {
+          "function": "advanceBoosterPrediction",
+          "url": "file:///workspace/StarShipSimulator/src/core/control/booster-prediction.ts",
+          "lineZeroBased": 319,
+          "seconds": 12.549902999999969
+        }
+      ],
+      "rootAncestry": [
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "commandGridTorque",
+            "align",
+            "runBoosterPolicy",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 1.5654570000000045
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "commandGridTorque",
+            "align",
+            "runBoosterPolicy",
+            "",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterSource",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 1.0370220000000006
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "commandGridTorque",
+            "align",
+            "runBoosterPolicy",
+            "runBoosterAutopilot",
+            "runAutopilot",
+            "flightControls",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.9835659999999994
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "writeUnpoweredAcceleration",
+            "evaluateForce",
+            "writeBoosterForceRequest",
+            "runBoosterPolicy",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.44301900000000005
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "fallAcceleration",
+            "writeUnpoweredAcceleration",
+            "evaluateForce",
+            "writeBoosterForceRequest",
+            "runBoosterPolicy",
+            "finishMechanicalStep",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.4047080000000004
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightFinAreas",
+            "prepareDynamics",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.11268899999999997
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "writeRotationForces",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.10844099999999998
+        },
+        {
+          "chainLeafToRoot": [
+            "writeDamageControls",
+            "evaluateControls",
+            "writeFlightGridForces",
+            "prepareDynamics",
+            "advanceFreeBody",
+            "advance",
+            "advanceMechanics",
+            "advanceBoosterForecast",
+            "advanceBoosterPrediction",
+            "predictReturn",
+            "runBoosterPostStep",
+            "step",
+            "runScenarioMission",
+            "",
+            "",
+            "",
+            "",
+            "runWithCancel",
+            "",
+            "runWithTimeout",
+            "",
+            "run",
+            "limiterFn",
+            "",
+            "$",
+            "trace",
+            "",
+            "processTicksAndRejections",
+            "(root)"
+          ],
+          "seconds": 0.10820799999999998
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+import assert from 'node:assert/strict';
+import {readFileSync, readdirSync, lstatSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {resolve, dirname, isAbsolute} from 'node:path';
+import {verifyRetainedIdentity} from './retained-policy.mjs';
+const sha = p => createHash('sha256').update(readFileSync(p)).digest('hex');
+export function verifyCompiledArtifacts(m, accepted) {
+ assert.equal(accepted.kind,'independently-accepted-original-orbit18-retained-artifacts-v2');assert.equal(accepted.compiledArtifactsProvenanceAccepted,true);assert.equal(accepted.nativeSemanticsAccepted,false);assert.equal(accepted.historyExecutionAccepted,false);assert.equal(accepted.compilerStatus,'FAILED');assert.deepEqual(accepted.originalTest,m.originalTest);assert.deepEqual(accepted.sourceAuthority,m.authorityRole);assert.deepEqual(accepted.retainedEntry,m.entry);assert.equal(accepted.nativeDirectory,m.nativeDirectory);assert.equal(accepted.limits.rootMs,900000);assert.equal(accepted.limits.historyChildMs,850000);assert.equal(accepted.limits.physicalEllipseSteps,1080000);assert.equal(accepted.limits.physicalEllipseSeconds,9000);assert.equal(accepted.limits.unitTimeoutMs,30000);assert.equal(accepted.limits.coverageTimeoutMs,120000);assert.equal(accepted.limits.gateWholeMs,300000);
+ for(const key of ['result','certificate','productionOptions','completeBefore','completeAfter','offlineOwner','offlineHelper','offlineControls','independentReview','independentReviewPins','nativeAddon','cleanup']){const row=accepted[key];assert.equal(m.files[row.path],row.sha,'External artifact-role pin');assert.equal(sha(row.path),row.sha);}
+ for(const[p,d]of Object.entries(accepted.evidence)){assert.equal(m.files[p],d,'Complete externally reviewed evidence');assert.equal(sha(p),d,p);}
+ const actualReview=JSON.parse(readFileSync(accepted.independentReviewPins.path));assert.equal(actualReview.kind,'independent-retained06-offline-actual-result-review-v1');assert.equal(actualReview.acceptedScope,'inert15-and-retained-artifact-provenance-only');assert.equal(actualReview.nativeSemanticAcceptance,false);assert.equal(actualReview.historyGrant,false);assert.deepEqual(actualReview.files,accepted.evidence);
+ const completedBefore=JSON.parse(readFileSync(accepted.completeBefore.path)),completedAfter=JSON.parse(readFileSync(accepted.completeAfter.path));assert.deepEqual(completedBefore,completedAfter);assert.deepEqual(completedBefore,m.sourceAuthority);assert.equal(Object.keys(completedBefore.source).length,770);assert.equal(Object.keys(completedBefore.tools).length,20355);assert.equal(completedBefore.tools['node_modules/@rolldown/binding-linux-x64-gnu/rolldown-binding.linux-x64-gnu.node'],accepted.nativeAddon.sha);
+ const offlineOwner=JSON.parse(readFileSync(accepted.offlineOwner.path));assert.equal(offlineOwner.completed,true);assert.equal(offlineOwner.status,0);assert.equal(offlineOwner.primary,null);assert.deepEqual(offlineOwner.postErrors,[]);assert.deepEqual(offlineOwner.processes.map(p=>p.name),['artifact-controls','retained-qualification']);for(const role of ['offlineHelper','offlineControls']){const process=JSON.parse(readFileSync(accepted[role].path));assert.deepEqual(process.exit,{code:0,signal:null});assert.equal(process.failure,null);assert(process.closed&&process.finished);assert.deepEqual(process.cleanup.executing,[]);}
+ const cleanup=JSON.parse(readFileSync(accepted.cleanup.path));assert.equal(cleanup.identities.length,4);assert(cleanup.identities.every(row=>row.status==='ABSENT'));assert(cleanup.ownedGroups.every(row=>row.cleared&&!row.uncertain));
+ const result=JSON.parse(readFileSync(accepted.result.path));assert.equal(result.kind,'original-orbit18-offline-retained-artifact-provenance-result-v1');assert.equal(result.completed,true);assert.equal(result.originalCompilerStatus,'FAILED');assert.equal(result.nativeImports,0);assert.equal(result.paidHistories,0);assert.equal(result.physicalOrCoverageAcceptance,false);assert.deepEqual(result.runtime,accepted.generatedRuntime);assert.deepEqual(result.productionOptions,accepted.productionOptions);assert.deepEqual(result.originalTest,m.originalTest);assert.deepEqual(result.sourceAuthority,m.authorityRole);
+ const certificateRole=accepted.certificate;
+assert.equal(sha(certificateRole.path), certificateRole.sha); const c = JSON.parse(readFileSync(certificateRole.path));
+for (const row of [c.originalInput, c.rawGraph, c.productionOptions, c.runtime.producerIndex, c.runtime.package, c.runtime.binding, c.failureReview, c.failurePins]) assert.equal(sha(row.path), row.sha);
+const original = JSON.parse(readFileSync(c.originalInput.path)), raw = JSON.parse(readFileSync(c.rawGraph.path));
+assert.deepEqual(raw.entry, original.entry); assert.deepEqual(raw.originalTest, original.originalTest);
+assert.equal(JSON.parse(readFileSync(c.runtime.package.path)).version, '1.2.5');
+const producer = readFileSync(c.runtime.producerIndex.path, 'utf8');
+assert(producer.includes('const RUNTIME_MODULE_ID = "\\0rolldown/runtime.js";'), 'Exact installed public runtime constant');
+assert(producer.includes('export { RUNTIME_MODULE_ID,'), 'Public runtime export');
+const walk = (directory, depth = 0) => {assert(depth <= 8, 'Artifact depth'); const paths = []; for (const name of readdirSync(directory)) {const path = resolve(directory, name), item = lstatSync(path); assert(!item.isSymbolicLink(), 'Artifact symlink'); if (item.isDirectory()) paths.push(...walk(path, depth + 1)); else {assert(item.isFile() && item.size <= 64 * 1024 * 1024, 'Regular bounded artifact'); paths.push(path);} } assert(paths.length <= 128, 'Artifact count bound'); return paths.sort();};
+const before = walk(c.directory); assert.deepEqual(before, Object.keys(c.files).sort(), 'Full emitted artifact inventory');
+for (const [p, d] of Object.entries(c.files)) assert.equal(sha(p), d, p);
+const helper = readFileSync(resolve(c.directory, c.runtime.chunk)).subarray(0, c.runtime.helperBytes);
+assert.equal(createHash('sha256').update(helper).digest('hex'), c.runtime.helperSha);
+const identity = verifyRetainedIdentity(raw, c, helper.toString('utf8'));
+for (const [id, d] of Object.entries(c.originalIds)) {assert.equal(original.files[id], d); assert.equal(sha(id), d, id);}
+const mapped = new Set();
+for (const name of identity.executingChunks) {
+  const path = resolve(c.directory, name + '.map'); assert(Object.hasOwn(c.files, path), 'Executing source map pin'); const map = JSON.parse(readFileSync(path));
+  assert.equal(map.sources.length, map.sourcesContent.length);
+  for (let i = 0; i < map.sources.length; i++) {assert(!map.sources[i].includes('://')); const id = isAbsolute(map.sources[i]) ? map.sources[i] : resolve(dirname(path), map.sourceRoot ?? '', map.sources[i]); assert(Object.hasOwn(c.originalIds, id), 'Mapped source original-only'); assert.equal(map.sourcesContent[i], readFileSync(id, 'utf8')); assert.equal(sha(id), c.originalIds[id]); mapped.add(id);}
+}
+assert.equal(mapped.size, 56, '55 original core/app plus legacy mapped sources'); assert(!mapped.has(c.runtime.id), 'No generated runtime map/coverage credit');
+for (const id of ['src/core/state.ts', 'src/core/step.ts', 'src/core/physics/gravity.ts', 'src/core/constants.ts', 'tests/core/legacy-models.ts']) assert(mapped.has(resolve(original.root, id)));
+assert.deepEqual(c.directory,m.nativeDirectory);assert.deepEqual(c.runtime,accepted.generatedRuntime);assert.deepEqual(c.files,result.files);assert.deepEqual(identity,result.identity);assert.deepEqual([...mapped].sort(),result.mapped);assert.deepEqual(c.productionOptions,accepted.productionOptions);assert.deepEqual(c.originalInput,accepted.originalInput);
+ assert.deepEqual(walk(c.directory),before);for(const[p,d]of Object.entries(c.files))assert.equal(sha(p),d,p);for(const[p,d]of Object.entries(accepted.evidence))assert.equal(sha(p),d,p);
+ return{matched:true,nativeDirectory:m.nativeDirectory,files:Object.keys(c.files).length,originalModuleIds:identity.originalIds.length,mappedOriginals:mapped.size,generatedRuntimeCount:identity.generatedRuntimeCount,acceptedResult:accepted.result};
+}

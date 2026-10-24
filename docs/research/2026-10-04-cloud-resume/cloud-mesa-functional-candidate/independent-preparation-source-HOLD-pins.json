@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "decision": "HOLD-bounded-readelf-output-capture",
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/independent-preparation-source-HOLD-review.md",
+    "sha256": "429fc9c13c5b0ee65948998617f1b3556e80c6381bc16f812f64e61da94986dc"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/prepare-inputs.py.txt",
+      "sha256": "e8672f67d3063e0403f573c3cc7c85f824493ca7c8c77cd49ee0de5af410fc9a"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-proposal.md",
+      "sha256": "4fac3b365ae5c39bc864ce71cda1afb30fa3965ad46b950e3df59108af0e3b44"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/preparation-source-pins.json",
+      "sha256": "c0d8f6d04820645cc89f265e8dd31a29fa98dfeeac5149ecdaf71ae954fcfc7e"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/contract.md",
+      "sha256": "ba4988f0d347ae0c48f76842408ce3f7a3ecf53b5074b168e38c5d2308e7a106"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/source-pins.json",
+      "sha256": "04f17f436cca5252705236648cd6c82a2a7a40b03d39365aa4e2a9367498e160"
+    }
+  ],
+  "executionPerformed": false
+}

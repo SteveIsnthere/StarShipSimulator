@@ -1,0 +1,18 @@
+{
+  "kind": "archive-basename-collision-resolution-v1",
+  "originalSourceArchivesMetadataPreserved": true,
+  "cause": "Historical retained input-map basename was later overwritten by correctly preserved exact-facade old17 map; its sourceArchives row still points at the shared basename.",
+  "exactFacadeOriginalDirectArchive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/input-pins.json",
+  "exactFacadeOriginalDirectSHA256": "8b5a7b379ceccf484171d52492e3723dc44789864a13606dbc301a9b15e253f5",
+  "exactFacadeAdditionalReconstruction": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/original-exact-facade-input-pins.reconstructed.json",
+  "retainedMapCorrectDistinctArchive": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/retained-continuation-input-pins.json",
+  "retainedMapSHA256": "da23178fdb3a2881b82cb563dc0fcd7e1e282a1231e2b849ff388d5e7a000ee7",
+  "retainedMapOriginalPath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/input-pins.json",
+  "sourceArchivesCorrection": {
+    "originalPath": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/retained-qualification-continuation/input-pins.json",
+    "archivePath": "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification/exact-facade-continuation/before-maker-uuid-repair/retained-continuation-input-pins.json",
+    "sha256": "da23178fdb3a2881b82cb563dc0fcd7e1e282a1231e2b849ff388d5e7a000ee7",
+    "bytes": 3554
+  },
+  "allFrozenOriginalAndNewInputsUnchanged": true
+}

@@ -1,0 +1,137 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-owned-sdk-controls.mjs.txt",
+      "sourceSha256": "e0c430b62aae1c15368a831bc12f89e29add511b4c8c60564e745bc92d7e1bb6",
+      "status": 0,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-syntax.hvgwqq2o/check.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-owned-sdk-controls.mjs.txt",
+      "sourceSha256": "e0c430b62aae1c15368a831bc12f89e29add511b4c8c60564e745bc92d7e1bb6",
+      "status": 0,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-owned-sdk-controls.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/locked-batcher-controls.mjs.txt",
+      "sourceSha256": "6130fbcc6af22fa23c8a12443fae95f60a55e8a419a8e9347b609ca2b0a61022",
+      "status": 0,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-syntax.j_plxvz1/check.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/locked-batcher-controls.mjs.txt",
+      "sourceSha256": "6130fbcc6af22fa23c8a12443fae95f60a55e8a419a8e9347b609ca2b0a61022",
+      "status": 0,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/locked-batcher-controls.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-entry.ts.txt",
+      "sourceSha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8",
+      "status": 0,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-syntax.2hi523l4/check.ts"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-entry.ts.txt",
+      "sourceSha256": "58a3ae8215a554286cef02e2a8aff48b95b4b4f403c4f71fb6081280556939d8",
+      "status": 0,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-entry.ts"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-build.config.mjs.txt",
+      "sourceSha256": "546e0aa2b55ab0dd46f1f6a8480b8efd938e0edcd9d3e1d085357001fa26fc69",
+      "status": 0,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-syntax._7elvqqb/check.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-build.config.mjs.txt",
+      "sourceSha256": "546e0aa2b55ab0dd46f1f6a8480b8efd938e0edcd9d3e1d085357001fa26fc69",
+      "status": 0,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/render-kernel-width2-build.config.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-render-kernel-width2.mjs.txt",
+      "sourceSha256": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c",
+      "status": 0,
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-width2-syntax.o_mgvkin/check.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-render-kernel-width2.mjs.txt",
+      "sourceSha256": "086a33bca59b79d1ee744f3231c733467615f87fa2d944a00a0774a0593d521c",
+      "status": 0,
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-render-kernel-width2.mjs"
+      ],
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 4.872196570999222,
+  "runtimeExecuted": false
+}

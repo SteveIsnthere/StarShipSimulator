@@ -1,0 +1,11 @@
+{
+  "node": "v22.23.3",
+  "source": "existing historical mechanical-boundary snapshot; no mechanics replay",
+  "sampleSerializedBytes": 8560,
+  "sampleV8Bytes": 6638,
+  "ownedEntries": 1024,
+  "retainedHeapDelta": 9232792,
+  "constructionMs": 147.766714,
+  "constructionPerEntryMs": 0.144303431640625,
+  "scope": "cloud storage/clone characterization; not local performance acceptance"
+}

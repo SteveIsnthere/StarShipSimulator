@@ -1,0 +1,90 @@
+[
+  {
+    "path": "AGENTS.md",
+    "sha256": "a4085247f8abee64fd4a51eb9e3bf98aff37380ce3e5c6663cf1b42cd910f989"
+  },
+  {
+    "path": ".agents/skills/verification-and-gates/SKILL.md",
+    "sha256": "e9b367ceecd859d6dec71f8ba4b0999dd3a49d2693fc0cb5e3c5f78a347c80cd"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/redundant-work-removal-proposal.md",
+    "sha256": "21cce5865a1a42a0addff24d2a55a3a2cf5dd518099ce647875b1f6fdc3d6f39"
+  },
+  {
+    "path": "docs/research/2026-10-04-cloud-resume/unit-gate-cost-assessment.md",
+    "sha256": "8205dc687c49a49bd9da96c8f5ffd7e211e7077307b142e2fc13bf2501389c57"
+  },
+  {
+    "path": "tests/core/booster-guidance.test.ts",
+    "sha256": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7"
+  },
+  {
+    "path": "tests/flies-every-scenario.test.ts",
+    "sha256": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9"
+  },
+  {
+    "path": "vitest.config.ts",
+    "sha256": "4debcf42809334dfc4fefcc4f8d7274fbdcfdc429d7fc99b06310eea588061b0"
+  },
+  {
+    "path": "package.json",
+    "sha256": "a5eaca6986392da131d45c5c646204c2a58a2e9b1dc16af8a934175b9e2196f5"
+  },
+  {
+    "path": "scripts/coverage-exclusions.mjs",
+    "sha256": "e3cdb55da04d0a6b7cc68adb17d8de062093a1c71f165907ed199f646f40ebad"
+  },
+  {
+    "path": "scripts/mutation-check.mjs",
+    "sha256": "26950471459b2e0a1960dceae6f629d8b10a5c760f6696bbc81d39c18f553d67"
+  },
+  {
+    "path": "src/core/scenarios.ts",
+    "sha256": "d88f1d64122134491106fe540aee4152ab15e8c444a6731d0dc0f3adb0a7fd3e"
+  },
+  {
+    "path": "src/core/control/commands.ts",
+    "sha256": "9079a0297811e2fd3288ffe5515b0675ada126b467de68cf0538371c26603e40"
+  },
+  {
+    "path": "src/core/state.ts",
+    "sha256": "1759e4c7a6581d5fdd8a46409feaf15a4c42db184aaa08537e41ce47885b8f5d"
+  },
+  {
+    "path": "src/app/loop.ts",
+    "sha256": "51a362d3051620da175320041e782d313e4b6f1d965aaec600508cc77ae62c66"
+  },
+  {
+    "path": "node_modules/@vitest/runner/dist/chunk-artifact.js",
+    "sha256": "bf6af6d2f4469911879a67e83b8f9e7b20332cf42795032c53457b10ccc1c617"
+  },
+  {
+    "path": "node_modules/@vitest/runner/dist/tasks.d-DEYaIMIu.d.ts",
+    "sha256": "53cf4076f42b29b8d411259d168d51b3a0274c42c8814e5b44dfa8803a35d4fc"
+  },
+  {
+    "path": "node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js",
+    "sha256": "e509f3cc1bd81ae6426265253fa926cbde02be5cebfe35b1df422017bffdca31"
+  },
+  {
+    "path": "node_modules/vitest/dist/coverage.d.ts",
+    "sha256": "4e84289bce4a380eeb3870b712693d6acd3aa3977b8ed7ef1decbfad2d925a88"
+  },
+  {
+    "path": "node_modules/vitest/dist/chunks/cli-api.CnMVyzaz.js",
+    "sha256": "a236001d048380e2c67d05423fc9ea3f26b07ee019ba8d6e622082f29d49102e"
+  },
+  {
+    "path": "node_modules/@vitest/coverage-v8/dist/provider.js",
+    "sha256": "e8e1c964f317bfacd48d7e24275cdc7dd29e10e6ccab064194df27bfe48065f8"
+  },
+  {
+    "path": "node_modules/@vitest/coverage-v8/dist/index.js",
+    "sha256": "be14126e3dc6e83461555879c53945dd8adbce254d6ffba32e4e83ee04e270e7"
+  },
+  {
+    "path": "node_modules/@vitest/coverage-v8/dist/load-provider-CdgAx3rL.js",
+    "sha256": "abbdb4bd0d65b5c4d624d45c3e3cd4360bb4759948a3ec4f6935e777902eb571"
+  }
+]

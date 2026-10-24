@@ -1,0 +1,50 @@
+import pathlib,json,subprocess,os,time,signal,hashlib
+base=pathlib.Path('docs/research/2026-10-04-cloud-resume').resolve()
+parent=base/'render-kernel-compact-json-repair/browser-parent';parent.mkdir()
+approvalPath=base/'cloud-render-kernel-compact-reuse-actual-browser-independent-approval.json'
+approval=json.loads(approvalPath.read_text());setup=pathlib.Path(approval['setup'])
+sha=lambda b:hashlib.sha256(b).hexdigest()
+checks={'kernel-compiled-manifest.json':approval['compiledManifestSha256'],'library-reuse-composite.json':approval['compositeSha256'],'setup-receipt.json':approval['setupReceiptSha256'],'browser-wrapper.sh':approval['wrapperSha256'],'run-render-kernel-compact-json.mjs':approval['compactRunnerSha256']}
+composite=json.loads((setup/'library-reuse-composite.json').read_text());hook=base/'kernel-program-attribution-hook.mjs';checks['kernel-program-attribution-hook.mjs']=composite['inputBeforeAfterPins'][str(hook)]
+before={name:sha((setup/name).read_bytes()) for name in checks};assert before==checks
+(parent/'declaration.json').write_text(json.dumps({'approvalSha256':sha(approvalPath.read_bytes()),'setup':str(setup),'before':before,'workSeconds':90,'cleanupSeconds':5,'externalSeconds':120,'cpuExclusive':True},indent=2)+'\n')
+env={**os.environ,'RUN_RENDER_KERNEL':'1','RENDER_KERNEL_COMPILED_MANIFEST_SHA256':approval['compiledManifestSha256']}
+
+def identity(pid):
+ try:
+  raw=pathlib.Path(f'/proc/{pid}/stat').read_text();f=raw[raw.rfind(')')+2:].split();return {'pid':pid,'start':f[19],'ppid':int(f[1]),'group':int(f[2]),'state':f[0]}
+ except (FileNotFoundError,ProcessLookupError):return None
+seen={};started=time.monotonic();expired=False
+with (parent/'stdout.txt').open('xb') as out,(parent/'stderr.txt').open('xb') as err:
+ child=subprocess.Popen(['node',str(setup/'run-render-kernel-compact-json.mjs'),str(setup)],stdout=out,stderr=err,env=env,start_new_session=True)
+ while child.poll() is None:
+  rows=[identity(int(p.name)) for p in pathlib.Path('/proc').iterdir() if p.name.isdigit()];rows=[r for r in rows if r]
+  parents={child.pid};changed=True
+  while changed:
+   changed=False
+   for r in rows:
+    if r['ppid'] in parents and r['pid'] not in parents:parents.add(r['pid']);changed=True
+  for r in rows:
+   if r['pid'] in parents or r['group']==child.pid:seen[(r['pid'],r['start'])]=r
+  if time.monotonic()-started>120:
+   expired=True;os.killpg(child.pid,signal.SIGTERM)
+   try:child.wait(timeout=9)
+   except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=2)
+   break
+  time.sleep(.1)
+ code=child.wait()
+receipt=setup;rows=list(seen.values())
+cleanup=setup/'cleanup.json'
+if cleanup.exists():
+ for row in json.loads(cleanup.read_text())['ownedIdentities']:rows.append({**row,'start':row['starttime']})
+else:raise RuntimeError('Required actual cleanup.json absent; root observations retained in stdout and process state')
+post=[]
+for r in rows:
+ actual=identity(r['pid']);post.append({**r,'executing':bool(actual and actual['start']==str(r['start']) and actual['state'] not in ['Z','X'])})
+after={name:sha((setup/name).read_bytes()) for name in checks}
+result={'before':before,'after':after,'sourceExact':before==after,'childExit':code,'timeout':expired,'elapsedSeconds':time.monotonic()-started,'receipt':str(receipt),'allOwnedNonexecuting':not any(r['executing'] for r in post)}
+(parent/'observed-identities.json').write_text(json.dumps(list(seen.values()),indent=2)+'\n')
+(parent/'independent-all-owned-postexit.json').write_text(json.dumps(post,indent=2)+'\n')
+(parent/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2));print((parent/'stderr.txt').read_text())
+if code or expired or not result['sourceExact'] or not result['allOwnedNonexecuting']:raise SystemExit(1)

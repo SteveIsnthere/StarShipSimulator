@@ -1,0 +1,137 @@
+{
+  "status": "pass",
+  "results": [
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/build.mjs.txt",
+      "sha256": "45fd3900becdfdd9ff3bb324859f8c715058439ef4d7792ffdbd2ceedfae713c",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mixed-lint-repair-scope.pso99y38/build.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/build.mjs.txt",
+      "sha256": "45fd3900becdfdd9ff3bb324859f8c715058439ef4d7792ffdbd2ceedfae713c",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/build.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/ssr.test.mjs.txt",
+      "sha256": "b101d1c2a034c38f7f31703816815dbe985284fdd40ebf48f882f1167f1a94f2",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mixed-lint-repair-scope.pso99y38/ssr.test.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/ssr.test.mjs.txt",
+      "sha256": "b101d1c2a034c38f7f31703816815dbe985284fdd40ebf48f882f1167f1a94f2",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/ssr.test.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/fixture.mjs.txt",
+      "sha256": "03e1b5c8e79a92de8b8dee0c06a1f6f3b9045de7d07cbdcf3d4ed242e4112191",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mixed-lint-repair-scope.pso99y38/fixture.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/fixture.mjs.txt",
+      "sha256": "03e1b5c8e79a92de8b8dee0c06a1f6f3b9045de7d07cbdcf3d4ed242e4112191",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/fixture.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-a.test.mjs.txt",
+      "sha256": "5f2e4d2d37b09a94919a3039e2b91bbd6e127affa134b85e8ba2de6a07a3f799",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mixed-lint-repair-scope.pso99y38/native-a.test.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-a.test.mjs.txt",
+      "sha256": "5f2e4d2d37b09a94919a3039e2b91bbd6e127affa134b85e8ba2de6a07a3f799",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-a.test.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-b.test.mjs.txt",
+      "sha256": "1d4c9e727cff5506deb787270d50cb038f5dff6a7f28bb1640634b0922da6972",
+      "args": [
+        "node",
+        "--check",
+        "/tmp/starship-mixed-lint-repair-scope.pso99y38/native-b.test.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-b.test.mjs.txt",
+      "sha256": "1d4c9e727cff5506deb787270d50cb038f5dff6a7f28bb1640634b0922da6972",
+      "args": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-mixed-native-template-candidates/native-b.test.mjs"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "elapsedSeconds": 4.430445691003115,
+  "runtimeExecuted": false
+}

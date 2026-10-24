@@ -1,0 +1,45 @@
+{
+  "kind": "original21-v7-lossless-archive-proposal-v1",
+  "scriptSha256": "f8710754750276bdb89c7fda4a4a07b7f41adf77667c253a4cee7abb1fabddf8",
+  "rootReceipt": "/tmp/starship-original21-root.63kv625r",
+  "references": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/independent-actual-result-HIGH-review.md",
+      "sha256": "c5029f34d04084ef83ab3b858bdd84bffd2b1ea89865cd410aa2bb8ab95c9eeb"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/independent-actual-result-HIGH-pins.json",
+      "sha256": "19748a2be9af37d455359ad78e3da799bf5142832f13712b1476d00c577619ca"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/owner-input.json",
+      "sha256": "fee605df6e0efaee3ef7ca8b93cd96d65fa225665e7e2ea43787f5cde438a6ed"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/actual-original21-v7-input/inventory.json",
+      "sha256": "546d8b1030fcbcdc8e25248cbaa830f6958d1ee806139d5065642d5af857ad6b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification.json",
+      "sha256": "d1b400dbddf2ca6e22df8b7b7eb550c7f58324bf8a45d24f360743bbf107c033"
+    }
+  ],
+  "discoveredRoleDirectories": {
+    "root": "/tmp/starship-original21-root.63kv625r",
+    "stage": "/tmp/starship-original21-stage.BAkByZ",
+    "official-owner": "/tmp/starship-official-tests-owner.5qAIAj",
+    "native": "/tmp/starship-official-flight.sxypD4"
+  },
+  "discovery": "root-outcome.stageReceipt -> stage-result.officialResultPath -> result.manifestPath; verify manifest SHA/directory and retain native root recursively including boundary/lifecycle/receipts/code/maps. Canonical suffix .txt only; originals untouched. Include accepted resultreview/pins+owner/inventory+exact qualifier as supporting copies. root admission reports remain preserved as inputs referenced by accepted review/pins; add to refs only with externally supplied existing hashes if desired, no bulk scan at preparation.",
+  "caps": {
+    "files": 5000,
+    "fileBytes": 16777216,
+    "totalBytes": 268435456,
+    "mainSoftSeconds": 45,
+    "recommendedRootWholeSeconds": 60
+  },
+  "inventoryCountsAndHashes": "Deferred to separately authorized copy; no artifact inventory/hash campaign or archival execution performed",
+  "copyExecuted": false,
+  "requiresFreshStaticReviewBeforeCopy": true,
+  "documentationTruth": "V7 original21 pass is two-file scope only;07 historical after2file source change; full247/coverage/gate/frame/main/live open"
+}

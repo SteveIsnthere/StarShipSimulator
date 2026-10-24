@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-state.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-state.test.ts [ tests/core/damage-state.test.ts ]
+Error: Cannot find module '$core/damage-state' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/damage-state.test.ts
+ ❯ tests/core/damage-state.test.ts:7:1
+      5| import { steelSpecificEnthalpy, MATERIAL_MIN_K, MATERIAL_MAX_K } from …
+      6| import { tpsSpecificEnthalpy, TPS_K_MIN_K } from '$core/physics/tps-ma…
+      7| import { createDamageState, cloneDamageState, ComponentFailure, MAX_DA…
+       | ^
+      8|
+      9| describe('bounded standalone damage state', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  14:08:45
+   Duration  300ms (transform 117ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

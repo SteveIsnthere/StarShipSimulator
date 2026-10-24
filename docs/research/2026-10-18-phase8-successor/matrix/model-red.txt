@@ -1,0 +1,739 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/proofs/scenario-model-selection.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/matrix/model-red.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ |unit| tests/proofs/scenario-model-selection.test.ts (2 tests | 2 failed) 65ms
+   × preserves every default state and explicitly selects the actual model for all presets 40ms
+   × preserves exact numeric outputs over custom conversion/clamp boundaries and seeds 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/proofs/scenario-model-selection.test.ts > preserves every default state and explicitly selects the actual model for all presets
+AssertionError: expected { damage: { …(6) }, …(11) } to deeply equal { damage: { …(6) }, …(11) }
+
+- Expected
++ Received
+
+@@ -100,76 +100,99 @@
+          "attached": true,
+          "componentIndex": 2,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+-           "energy": -160280.5802273242,
+-           "temperature": 287.9160013251946,
++           "energy": -158295.166714988,
++           "temperature": 287.98100069122916,
+            "valid": true,
+          },
+          "tps": [
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+          ],
+        },
+        {
+          "attached": true,
+          "componentIndex": 3,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+-           "energy": -160280.5802273242,
+-           "temperature": 287.9160013251946,
++           "energy": -158295.166714988,
++           "temperature": 287.98100069122916,
+            "valid": true,
+          },
+          "tps": [
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+          ],
+        },
+        {
+          "attached": true,
+          "componentIndex": 4,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+-           "energy": -160280.5802273242,
+-           "temperature": 287.9160013251946,
++           "energy": -158295.166714988,
++           "temperature": 287.98100069122916,
+            "valid": true,
+          },
+          "tps": [
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+          ],
+        },
+        {
+          "attached": true,
+          "componentIndex": 5,
++         "loadedAngle": 0,
++         "permanentFailure": 0,
++         "root": {
++           "energy": -158295.166714988,
++           "temperature": 287.98100069122916,
++           "valid": true,
++         },
++         "tps": [
++           {
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
++             "valid": true,
++           },
++           {
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
++             "valid": true,
++           },
++         ],
++       },
++       {
++         "attached": true,
++         "componentIndex": 6,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+            "energy": 0,
+            "temperature": 0,
+@@ -188,11 +211,11 @@
+            },
+          ],
+        },
+        {
+          "attached": true,
+-         "componentIndex": 6,
++         "componentIndex": 7,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+            "energy": 0,
+            "temperature": 0,
+@@ -281,15 +304,25 @@
+          "pitch": 0,
+          "speedX": 0,
+          "speedY": 0,
+          "x": 0,
+        },
++       {
++         "active": false,
++         "altitude": 0,
++         "angularVelocity": 0,
++         "componentIndex": 7,
++         "pitch": 0,
++         "speedX": 0,
++         "speedY": 0,
++         "x": 0,
++       },
+      ],
+      "eventCount": 0,
+      "hull": {
+-       "energy": -362634901.74570256,
+-       "temperature": 287.9160013251946,
++       "energy": -253501405.98336253,
++       "temperature": 287.98100069122916,
+        "valid": true,
+      },
+      "revision": 0,
+      "terminal": {
+        "active": false,
+@@ -310,113 +343,32 @@
+        "x": 0,
+      },
+    },
+    "engines": {
+      "failed": [
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+      ],
+      "ignitionCountdown": [
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+      ],
+      "running": [
+-       false,
+-       false,
+-       false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+      ],
+    },
+    "failures": {
+      "coldGasRunOut": false,
+      "crashed": false,
+@@ -459,26 +411,26 @@
+      "twr": 0,
+    },
+    "kinematics": {
+      "accelerationX": 0,
+      "accelerationY": 0,
+-     "altitude": 36,
++     "altitude": 26,
+      "angleInToTheWind": 0,
+      "angleOfAttack": 0,
+      "angleOfMotion": 0,
+      "angularAcceleration": 0,
+      "angularVelocity": 0,
+-     "distanceToPlanetCenter": 6371036,
++     "distanceToPlanetCenter": 6371026,
+      "downRangeDistance": 20015086.79602057,
+      "downRangeDistanceNextFrame": 20015086.79602057,
+      "machSpeed": 0,
+-     "orbitalVelocityAtCurrentAltitude": 7909.7700551953085,
++     "orbitalVelocityAtCurrentAltitude": 7909.776262803746,
+      "pitch": 0,
+      "pitchRateOfChange": 0,
+      "pitchRecord": [
+-       0,
+-       0,
++       Infinity,
++       Infinity,
+      ],
+      "speedX": 0,
+      "speedY": 0,
+      "totalAcceleration": 9.807,
+      "trueSpeed": 0,
+@@ -501,21 +453,21 @@
+      "onTheGround": false,
+      "rcsActive": false,
+      "translationModeOn": true,
+    },
+    "vehicle": {
+-     "aftFinExtension": 50,
+-     "frontFinExtension": 50,
++     "aftFinExtension": 0,
++     "frontFinExtension": 0,
+      "gimbalPointingDirection": 0,
+      "gimbalPosition": 0,
+      "propellantMass": 350000,
+      "rcsRunTimeRemaining": 25,
+      "throttle": 100,
+      "throttleCurrent": 100,
+-     "vehicleInFlightMaxArea": 648,
+-     "vehicleMass": 550000,
+-     "vehicleMomentOfInertia": 244919045.63827598,
++     "vehicleInFlightMaxArea": 468,
++     "vehicleMass": 470000,
++     "vehicleMomentOfInertia": 108286041.66666667,
+    },
+    "warnings": {
+      "coldGasLow": false,
+      "fuelLow": false,
+      "heatDamagedWarning": false,
+
+ ❯ tests/proofs/scenario-model-selection.test.ts:19:24
+     17|       expect(oracle.vehicle).toBe(model);
+     18|       const explicit = createScenarioState(preset, 12345, model);
+     19|       expect(explicit).toEqual(oracle.state);
+       |                        ^
+     20|       expect(explicit.engines.running).toHaveLength(model.engines.leng…
+     21|       expect(explicit.vehicle.vehicleMass).toBe(model.dryMass + explic…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |unit| tests/proofs/scenario-model-selection.test.ts > preserves exact numeric outputs over custom conversion/clamp boundaries and seeds
+Error: Property failed after 1 tests
+{ seed: 20261018, path: "0:0:0:0:0:0:0:0:0:0", endOnFailure: true }
+Counterexample: [{"altitude":0,"xPosition":0,"speedX":0,"speedY":0,"pitch":0,"propellant":0,"wind":0,"seed":0}]
+Shrunk 9 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ buildError node_modules/fast-check/lib/fast-check.js:2469:16
+ ❯ throwIfFailed node_modules/fast-check/lib/fast-check.js:2476:8
+ ❯ reportRunDetails node_modules/fast-check/lib/fast-check.js:2492:14
+ ❯ Module.assert node_modules/fast-check/lib/fast-check.js:2662:7
+ ❯ tests/proofs/scenario-model-selection.test.ts:32:6
+     30| it('preserves exact numeric outputs over custom conversion/clamp bound…
+     31|   const finite = (min: number, max: number) => fc.double({ min, max, n…
+     32|   fc.assert(fc.property(fc.record({
+       |      ^
+     33|     altitude: finite(-20_000_000, 2_000_000),
+     34|     xPosition: finite(-40_000_000, 40_000_000),
+
+Caused by: AssertionError: expected { damage: { …(6) }, …(11) } to deeply equal { damage: { …(6) }, …(11) }
+
+- Expected
++ Received
+
+@@ -100,76 +100,99 @@
+          "attached": true,
+          "componentIndex": 2,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+-           "energy": -160280.5802273242,
+-           "temperature": 287.9160013251946,
++           "energy": -158295.166714988,
++           "temperature": 287.98100069122916,
+            "valid": true,
+          },
+          "tps": [
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+          ],
+        },
+        {
+          "attached": true,
+          "componentIndex": 3,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+-           "energy": -160280.5802273242,
+-           "temperature": 287.9160013251946,
++           "energy": -158295.166714988,
++           "temperature": 287.98100069122916,
+            "valid": true,
+          },
+          "tps": [
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+          ],
+        },
+        {
+          "attached": true,
+          "componentIndex": 4,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+-           "energy": -160280.5802273242,
+-           "temperature": 287.9160013251946,
++           "energy": -158295.166714988,
++           "temperature": 287.98100069122916,
+            "valid": true,
+          },
+          "tps": [
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+            {
+-             "energy": 0,
+-             "temperature": 0,
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
+              "valid": true,
+            },
+          ],
+        },
+        {
+          "attached": true,
+          "componentIndex": 5,
++         "loadedAngle": 0,
++         "permanentFailure": 0,
++         "root": {
++           "energy": -158295.166714988,
++           "temperature": 287.98100069122916,
++           "valid": true,
++         },
++         "tps": [
++           {
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
++             "valid": true,
++           },
++           {
++             "energy": -2647.7911525028617,
++             "temperature": 287.98100069122916,
++             "valid": true,
++           },
++         ],
++       },
++       {
++         "attached": true,
++         "componentIndex": 6,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+            "energy": 0,
+            "temperature": 0,
+@@ -188,11 +211,11 @@
+            },
+          ],
+        },
+        {
+          "attached": true,
+-         "componentIndex": 6,
++         "componentIndex": 7,
+          "loadedAngle": 0,
+          "permanentFailure": 0,
+          "root": {
+            "energy": 0,
+            "temperature": 0,
+@@ -281,15 +304,25 @@
+          "pitch": 0,
+          "speedX": 0,
+          "speedY": 0,
+          "x": 0,
+        },
++       {
++         "active": false,
++         "altitude": 0,
++         "angularVelocity": 0,
++         "componentIndex": 7,
++         "pitch": 0,
++         "speedX": 0,
++         "speedY": 0,
++         "x": 0,
++       },
+      ],
+      "eventCount": 0,
+      "hull": {
+-       "energy": -362634901.74570256,
+-       "temperature": 287.9160013251946,
++       "energy": -253501405.98336253,
++       "temperature": 287.98100069122916,
+        "valid": true,
+      },
+      "revision": 0,
+      "terminal": {
+        "active": false,
+@@ -310,113 +343,32 @@
+        "x": 0,
+      },
+    },
+    "engines": {
+      "failed": [
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+      ],
+      "ignitionCountdown": [
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+-       null,
+      ],
+      "running": [
+-       false,
+-       false,
+-       false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+-       false,
+      ],
+    },
+    "failures": {
+      "coldGasRunOut": false,
+      "crashed": false,
+@@ -459,26 +411,26 @@
+      "twr": 0,
+    },
+    "kinematics": {
+      "accelerationX": 0,
+      "accelerationY": 0,
+-     "altitude": 36,
++     "altitude": 26,
+      "angleInToTheWind": 0,
+      "angleOfAttack": 0,
+      "angleOfMotion": 0,
+      "angularAcceleration": 0,
+      "angularVelocity": 0,
+-     "distanceToPlanetCenter": 6371036,
++     "distanceToPlanetCenter": 6371026,
+      "downRangeDistance": 20015086.79602057,
+      "downRangeDistanceNextFrame": 20015086.79602057,
+      "machSpeed": 0,
+-     "orbitalVelocityAtCurrentAltitude": 7909.7700551953085,
++     "orbitalVelocityAtCurrentAltitude": 7909.776262803746,
+      "pitch": 0,
+      "pitchRateOfChange": 0,
+      "pitchRecord": [
+-       0,
+-       0,
++       Infinity,
++       Infinity,
+      ],
+      "speedX": 0,
+      "speedY": 0,
+      "totalAcceleration": 9.807,
+      "trueSpeed": 0,
+@@ -501,21 +453,21 @@
+      "onTheGround": false,
+      "rcsActive": false,
+      "translationModeOn": true,
+    },
+    "vehicle": {
+-     "aftFinExtension": 50,
+-     "frontFinExtension": 50,
++     "aftFinExtension": 0,
++     "frontFinExtension": 0,
+      "gimbalPointingDirection": 0,
+      "gimbalPosition": 0,
+      "propellantMass": 0,
+      "rcsRunTimeRemaining": 25,
+      "throttle": 100,
+      "throttleCurrent": 100,
+-     "vehicleInFlightMaxArea": 648,
+-     "vehicleMass": 200000,
+-     "vehicleMomentOfInertia": 87412500,
++     "vehicleInFlightMaxArea": 468,
++     "vehicleMass": 120000,
++     "vehicleMomentOfInertia": 108286041.66666667,
+    },
+    "warnings": {
+      "coldGasLow": false,
+      "fuelLow": false,
+      "heatDamagedWarning": false,
+
+ ❯ tests/proofs/scenario-model-selection.test.ts:44:62
+ ❯ Property.predicate node_modules/fast-check/lib/fast-check.js:1355:99
+ ❯ Property.run node_modules/fast-check/lib/fast-check.js:1324:24
+ ❯ propertyExecution node_modules/fast-check/lib/fast-check.js:2549:23
+ ❯ run node_modules/fast-check/lib/fast-check.js:2639:91
+ ❯ runIt node_modules/fast-check/lib/fast-check.js:2542:15
+ ❯ check node_modules/fast-check/lib/fast-check.js:2655:14
+ ❯ Module.assert node_modules/fast-check/lib/fast-check.js:2660:14
+ ❯ tests/proofs/scenario-model-selection.test.ts:32:6
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  07:34:29
+   Duration  540ms (transform 262ms, setup 0ms, import 335ms, tests 65ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/matrix/model-red.json

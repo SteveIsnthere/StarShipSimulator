@@ -1,0 +1,11 @@
+--- docs/research/2026-10-04-cloud-resume/run-render-kernel-texture-repair.mjs
++++ docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/run-render-kernel-compact-json.mjs.txt
+@@ -22,7 +22,7 @@
+ let exportedBytes=0,consoleBytes=0,collectionTruncated=false;
+ const exportedCap=32*1024*1024,artifactCap=16*1024*1024,consoleCap=512*1024;
+ function lossless(value){if(typeof value==='number')return{$number:Number.isNaN(value)?'NaN':Object.is(value,-0)?'-0':String(value)};if(value===undefined)return{$undefined:true};if(typeof value==='bigint')return{$bigint:String(value)};if(ArrayBuffer.isView(value))return{$typedArray:value.constructor.name,values:Array.from(value instanceof DataView?new Uint8Array(value.buffer,value.byteOffset,value.byteLength):value).map(lossless)};if(Array.isArray(value))return Array.from({length:value.length},(_,index)=>index in value?lossless(value[index]):{$hole:true});if(value!==null&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([key,item])=>[key,lossless(item)]));return value;}
+-function encoded(value,emergency=false){const text=JSON.stringify(value,null,2)+'\n';const bytes=Buffer.byteLength(text);if(bytes>artifactCap||exportedBytes+bytes>exportedCap-(emergency?0:1024*1024)){collectionTruncated=true;throw Error('Declared raw receipt cap exceeded');}exportedBytes+=bytes;return text;}
++function encoded(value,emergency=false){const text=JSON.stringify(value)+'\n';const bytes=Buffer.byteLength(text);if(bytes>artifactCap||exportedBytes+bytes>exportedCap-(emergency?0:1024*1024)){collectionTruncated=true;throw Error('Declared raw receipt cap exceeded');}exportedBytes+=bytes;return text;}
+ const save = (name, value) => fs.writeFile(`${setup}/${name}`,encoded(value),{flag:'wx'});
+ let browser, server, page, browserPid, deadlineTimer, primaryError, launchPromise,launchFailure, stopped = false;
+ const ownedIdentities = new Map();

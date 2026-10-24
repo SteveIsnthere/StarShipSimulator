@@ -1,0 +1,9 @@
+{
+  "src/view/heat-shield.ts": "49a0d793c6a9fe88973c8ae559cb8252e081a94647e674deeb05a65377712a62",
+  "src/view/lighting.ts": "68e49912d1233b3024630bcb71e235a49becd83f28c1768c04bc5f9a9a61dce5",
+  "tests/view/heat-shield.test.ts": "981de8a9a53c2ae2d4a25c635c22673d019004c699eeae7c9b18690789412479",
+  "tests/e2e/renderer/heat-shield-witness.ts": "69c85b943f3d0412f83a16845f2294a00e6538266e18fc14e7e8a88d154dabda",
+  "tests/e2e/post-compositing.spec.ts": "4adf247797aab71cad05b58acd1c289d67cf2c1dd952dd7246f8c4afcb894118",
+  "tests/e2e/reentry.spec.ts": "f50ab6905e92408288b69a262f602f5363419aefe169b4cc40c2a932efe085e5",
+  "tests/e2e/sun.spec.ts": "be35ff610381dd27dbe7abcdd2a7d11c9be7989aaa2012f369cef350e89af3f9"
+}

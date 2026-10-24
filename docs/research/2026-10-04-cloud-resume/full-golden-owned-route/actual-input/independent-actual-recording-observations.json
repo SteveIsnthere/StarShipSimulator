@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "rootElapsedSeconds": 60.45222854614258,
+  "changedSourcePaths": [
+    "tests/golden/fixtures/before-flip-autoland.json",
+    "tests/golden/fixtures/booster-sep-boostback.json",
+    "tests/golden/fixtures/booster/booster-sep-catch.json",
+    "tests/golden/fixtures/booster/rtls-catch.json",
+    "tests/golden/fixtures/intro-demo.json",
+    "tests/golden/fixtures/landing-burn-autoland.json",
+    "tests/golden/fixtures/landing-burn-headwind.json",
+    "tests/golden/fixtures/launch-pad-takeoff.json",
+    "tests/golden/fixtures/reentry-autoland.json",
+    "tests/golden/fixtures/rtls-boostback.json"
+  ],
+  "sourcePaths": 769,
+  "installedBeforePaths": 20355,
+  "installedAfterCompleteEqualityAssertedByPinnedExecutedStage": true,
+  "newFixtureBytes": 10343172,
+  "oldCaptureBytes": 7350024,
+  "actualTrackedCurrentCheck": [
+    {
+      "pid": 86838,
+      "start": "5586360",
+      "current": null
+    },
+    {
+      "pid": 86845,
+      "start": "5586559",
+      "current": null
+    },
+    {
+      "pid": 86856,
+      "start": "5586570",
+      "current": null
+    },
+    {
+      "pid": 86857,
+      "start": "5586570",
+      "current": null
+    }
+  ],
+  "scenarioMetadata": [
+    {
+      "scenario": "launch-pad-takeoff",
+      "model": "Ship",
+      "sha256": "b0acaade1ec64bc3201e27548f12e6a6376e9c162ba523cc5083618d22313faf",
+      "steps": 10800,
+      "samples": 181,
+      "constantKeys": 254,
+      "varyingKeys": 94,
+      "finalRecorded": {
+        "status.landed": false,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 145495.66768603033,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "booster-sep-boostback",
+      "model": "Ship",
+      "sha256": "d69463ab51057ec77203d4104e56a79c65d17203327a5119e76c9b1f4c6716d8",
+      "steps": 14400,
+      "samples": 241,
+      "constantKeys": 243,
+      "varyingKeys": 105,
+      "finalRecorded": {
+        "status.landed": false,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 226688.328236671,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "rtls-boostback",
+      "model": "Ship",
+      "sha256": "660a9cfee76bdf871e8d8edfb3772824848b85bed9f307b125d6187da736a420",
+      "steps": 14400,
+      "samples": 241,
+      "constantKeys": 227,
+      "varyingKeys": 121,
+      "finalRecorded": {
+        "status.landed": false,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 17998.42396424701,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "reentry-autoland",
+      "model": "Ship",
+      "sha256": "8f56ef72e62942414737279fe433c5e9c13aac3f9afdbde4237aea46939b0c32",
+      "steps": 72000,
+      "samples": 1201,
+      "constantKeys": 223,
+      "varyingKeys": 125,
+      "finalRecorded": {
+        "status.landed": true,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 0,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "before-flip-autoland",
+      "model": "Ship",
+      "sha256": "e245e1adfe82d0932b6d6c469f04e293baca32f95cbd4bd3ee090f07c76e0946",
+      "steps": 7200,
+      "samples": 121,
+      "constantKeys": 225,
+      "varyingKeys": 123,
+      "finalRecorded": {
+        "status.landed": true,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 0,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "landing-burn-autoland",
+      "model": "Ship",
+      "sha256": "7ada8d9148f17f608453f3aa9e74f354c6125cc2a8a8232ba3042479049cb0da",
+      "steps": 5400,
+      "samples": 91,
+      "constantKeys": 235,
+      "varyingKeys": 113,
+      "finalRecorded": {
+        "status.landed": true,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 0,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "landing-burn-headwind",
+      "model": "Ship",
+      "sha256": "0b71c1f10dbac3997025cdfd6f001eec3067df9563a2b6fa7514ee8641ec869f",
+      "steps": 5400,
+      "samples": 91,
+      "constantKeys": 231,
+      "varyingKeys": 117,
+      "finalRecorded": {
+        "status.landed": true,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 0,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "intro-demo",
+      "model": "Ship",
+      "sha256": "fcd13bcea315df972300443eb3d8f3703896cf60ce405f56a025eae212d363cb",
+      "steps": 5400,
+      "samples": 91,
+      "constantKeys": 243,
+      "varyingKeys": 105,
+      "finalRecorded": {
+        "status.landed": true,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 350000,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "booster-sep-catch",
+      "model": "Super Heavy",
+      "sha256": "845da274d0e59758fabebf57e734c28ce1f8276ccc33fa33452f59bc3e912e33",
+      "steps": 108000,
+      "samples": 1801,
+      "constantKeys": 302,
+      "varyingKeys": 152,
+      "finalRecorded": {
+        "status.landed": true,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 91764.48641176216,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    },
+    {
+      "scenario": "rtls-catch",
+      "model": "Super Heavy",
+      "sha256": "a20123bb78d3fdf77affd26e2140e142247d07d13319786f2673e1a5a62d9bb9",
+      "steps": 108000,
+      "samples": 1801,
+      "constantKeys": 302,
+      "varyingKeys": 152,
+      "finalRecorded": {
+        "status.landed": true,
+        "status.onTheGround": false,
+        "vehicle.propellantMass": 90827.78944448325,
+        "motion.y": null,
+        "motion.vy": null
+      },
+      "privateReceiptFields": []
+    }
+  ],
+  "notReplayOrPhysicsAcceptance": true
+}

@@ -1,0 +1,37 @@
+{
+  "decision": "HOLD bare SDK imports from private tmp materialization",
+  "files": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-matrix-maker-import-placement-HOLD-review.md",
+      "sha256": "b45e2c842571408512b3e4213f0b1923e37709ea4e01d6edb0e553ff3577a0d1"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-input-maker-source-pins.json",
+      "sha256": "92d469f1a66533e8023bc3f087d96f5c52176bad885faed60b00d92a20086ad2"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-matrix-input.py.txt",
+      "sha256": "985d64c8b5b18042ab673821c9c9fdd08f65a3946f18f91f05f905416cab1ac9"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/matrix-input-maker-contract.md",
+      "sha256": "39b8a7148c35802c5f0caccc80575732417c2eb57e2aabe8708aa1edef4c9cbb"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-budget.config.ts.txt",
+      "sha256": "46604d67813fa2a69c741bb1ff5165a0797f63316dd8a04cac649ae0211e67cf"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/mesa-boundary-hooks.ts.txt",
+      "sha256": "438f5bd0f2b220855430f485ec4daa2a3685d369b424acc926c59f7e9b406ca0"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/playwright/lib/common/index.js",
+      "sha256": "8f2588ccdb7ce2d245fdbe3222ba67817293799dff1ba2e58303f0d558b6526f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/@playwright/test/package.json",
+      "sha256": "be51f784a5742a1aa075e0173f5f04f189a791cc30c40e3bb18be584f696764e"
+    }
+  ]
+}

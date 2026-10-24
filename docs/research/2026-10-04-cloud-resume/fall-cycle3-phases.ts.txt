@@ -1,0 +1,97 @@
+/** Source-frozen cycle3 diagnostic. No timing acceptance or extra repetitions. */
+import {Session} from 'node:inspector';
+import {readFileSync,readdirSync,writeFileSync} from 'node:fs';
+import {join} from 'node:path';
+import {createBurnScratch,createFallResult,landingBurnStartAltitude,unpoweredFallInto} from '$core/control/guidance-physics';
+import {ALL_SCENARIOS,createScenarioState} from '$core/scenarios';
+import * as C from '$core/constants';
+
+const receipt=process.env.STARSHIP_PHASE_RECEIPT;
+if(!receipt)throw new Error('Explicit receipt path required');
+const session=new Session();session.connect();
+function post(method:string):Promise<Record<string,unknown>> {
+ return new Promise((resolve,reject)=>session.post(method,(error,result)=>error?reject(error):resolve(result as Record<string,unknown>)));
+}
+function cgroup() {
+ const values:Record<string,number>={};
+ for(const line of readFileSync('/sys/fs/cgroup/cpu.stat','utf8').trim().split('\n')) {
+  const [key,value]=line.trim().split(/\s+/);values[key!]=Number(value);
+ }
+ return values;
+}
+function delta(after:Record<string,number>,before:Record<string,number>) {
+ return Object.fromEntries(Object.keys(after).map(key=>[key,after[key]!-before[key]!]));
+}
+function census() {
+ const rows=[];
+ for(const entry of readdirSync('/proc'))if(/^\d+$/.test(entry)) {
+  try {
+   const text=readFileSync(`/proc/${entry}/stat`,'utf8'),end=text.lastIndexOf(')');
+   const fields=text.slice(end+2).trim().split(/\s+/);
+   rows.push({pid:Number(entry),name:text.slice(text.indexOf('(')+1,end),state:fields[0],ppid:Number(fields[1]),
+    userTicks:Number(fields[11]),systemTicks:Number(fields[12]),startTicks:Number(fields[19])});
+  }catch(error){if(!['ENOENT','ESRCH','EACCES'].includes((error as NodeJS.ErrnoException).code??''))throw error;}
+ }
+ return rows.sort((a,b)=>a.pid-b.pid);
+}
+let totalBytes=0;
+function boundedWrite(name:string,value:unknown) {
+ const text=JSON.stringify(value,null,2)+'\n',bytes=Buffer.byteLength(text);
+ if(bytes>8*1024*1024||totalBytes+bytes>32*1024*1024)throw new Error('Declared diagnostic artifact storage cap reached');
+ writeFileSync(join(receipt!,name),text,{flag:'wx'});totalBytes+=bytes;
+}
+const sections:Record<string,unknown>[]=[];
+async function phase(label:string,warmOrMeasured:'warm'|'measured',runs:number,run:()=>Record<string,unknown>) {
+ const beforeCensus=census();
+ await post('Profiler.start');
+ const beforeCgroup=cgroup(),beforeCpu=process.cpuUsage(),started=process.hrtime.bigint();
+ const endpoint=run();
+ const wallNs=process.hrtime.bigint()-started,cpu=process.cpuUsage(beforeCpu),afterCgroup=cgroup();
+ const stopped=await post('Profiler.stop'),afterCensus=census();
+ boundedWrite(`${label}.cpuprofile`,stopped.profile);
+ const section={label,phase:warmOrMeasured,runs,diagnosticOnly:true,wallMs:Number(wallNs)/1e6,
+  perCallWallMs:Number(wallNs)/1e6/runs,processCpuUs:cpu,cgroupBefore:beforeCgroup,cgroupAfter:afterCgroup,
+  cgroupDelta:delta(afterCgroup,beforeCgroup),processCensusBefore:beforeCensus,processCensusAfter:afterCensus,
+  accounting:'Wall/process CPU exclude Inspector start/stop and process census; profile includes nearby cgroup reads. No acceptance.',endpoint};
+ sections.push(section);boundedWrite(`${label}.section.json`,section);
+ console.log(JSON.stringify({label,diagnosticOnly:true,wallMs:section.wallMs,perCallWallMs:section.perCallWallMs,processCpuUs:cpu,cgroupDelta:section.cgroupDelta,endpoint}));
+}
+try {
+ await post('Profiler.enable'); // Default Node Inspector sampling interval; no tier/policy change.
+ boundedWrite('environment.json',{node:process.version,versions:process.versions,arch:process.arch,platform:process.platform,
+  cpuMax:readFileSync('/sys/fs/cgroup/cpu.max','utf8').trim(),selfCgroup:readFileSync('/proc/self/cgroup','utf8').trim(),
+  processCpuAccounting:'microseconds; census CPU counters are unscaled kernel ticks; CLK_TCK captured by runner',
+  profiles:'separate warm/measured recordings, default Inspector sampling interval',counts:{burn:[200,2000],normal:[20,200],cap:[5,50]}});
+ const burn=createBurnScratch();let burnResult:number|null=null;
+ await phase('burn-warm','warm',200,()=>{
+  for(let i=0;i<200;i++)burnResult=landingBurnStartAltitude(3,140_000,61,25,burn);
+  return {burnResult,duration:burn.duration};
+ });
+ await phase('burn-measured','measured',2000,()=>{
+  for(let i=0;i<2000;i++)burnResult=landingBurnStartAltitude(3,140_000,61+(i%10)*.1,25,burn);
+  return {burnResult,duration:burn.duration};
+ });
+ for(const config of [
+  {label:'normal',h:79_000,vx:2000,vy:-50,warm:20,runs:200,reached:true,steps:910,time:227.276593764986,downRange:207713.16688728545},
+  {label:'cap',h:60_000,vx:0,vy:7000,warm:5,runs:50,reached:false,steps:4000,time:NaN,downRange:3246.2139561608574},
+ ]) {
+  const state=createScenarioState(ALL_SCENARIOS.find(p=>p.id==='reentry')!);
+  Object.assign(state.kinematics,{altitude:config.h,speedX:config.vx,speedY:config.vy});
+  const scratch=createBurnScratch(),out=createFallResult();
+  for(const part of [{suffix:'warm',runs:config.warm},{suffix:'measured',runs:config.runs}] as const) {
+   await phase(`${config.label}-${part.suffix}`,part.suffix,part.runs,()=>{
+    let totalSteps=0;
+    for(let i=0;i<part.runs;i++) {
+     unpoweredFallInto(state,C.vehicleHeight/2,scratch,out);
+     if(out.reached!==config.reached||scratch.fallWork.steps!==config.steps||!Object.is(out.time,config.time)||!Object.is(out.downRange,config.downRange))
+      throw new Error('Original source-pinned fall endpoint/workload changed');
+     totalSteps+=scratch.fallWork.steps;
+    }
+    return {out:{...out},pitch:state.kinematics.pitch,stepsPerCall:config.steps,totalSteps,
+     forceQueriesPerStep:2,forceQueriesPerCall:2*config.steps,totalForceQueries:2*totalSteps,
+     queryCountBasis:'derived from exact retained two-query midpoint topology, already witnessed by original/prototype proofs; no instrumentation wrapper'};
+   });
+  }
+ }
+ boundedWrite('sections.json',sections);
+}finally {session.disconnect();}

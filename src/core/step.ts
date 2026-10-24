@@ -57,6 +57,7 @@ import { runBoosterPostStep } from './autopilot/booster';
 import { finishMechanicalStep, type MechanicalControl } from './control/mechanical';
 import { invalidateBoosterReturn } from './control/booster-return-plan';
 import { cloneState, type SimState } from './state';
+import { advanceFreeBody } from './mission-free-flight';
 
 /**
  * Everything the outside world can tell the simulation in one step.
@@ -79,7 +80,7 @@ const dynamics = createStepDynamics();
 
 export function step(previous: SimState, dt: number, input: StepInput = NO_INPUT, model: VehicleDefinition = SHIP): SimState {
   const next=advance(previous,dt,input,model,flightControls);
-  if(model.id==='super-heavy')runBoosterPostStep(next,dt,model,advanceMechanics);
+  if(model.id==='super-heavy' && !next.damage?.terminal.active)runBoosterPostStep(next,dt,model,advanceMechanics);
   return next;
 }
 
@@ -94,6 +95,7 @@ export function advanceMechanics(previous:SimState,dt:number,control:MechanicalC
 }
 
 function advance(previous:SimState,dt:number,input:StepInput,model:VehicleDefinition,control:MechanicalControl):SimState {
+  if (previous.damage) return advanceFreeBody(previous, dt, input, model, control);
   const s = cloneState(previous);
   // Chopstick contact carries weight and torque until a scenario restart.
   // A secured booster has no ground contact and cannot restart propulsion.

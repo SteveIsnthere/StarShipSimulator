@@ -1,0 +1,52 @@
+[
+  {
+    "file": "GO",
+    "sha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df",
+    "bytes": 24
+  },
+  {
+    "file": "STOP",
+    "sha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3",
+    "bytes": 5
+  },
+  {
+    "file": "SwiftShader.ini",
+    "sha256": "e43ffe92a9336b19c2d6ffa8d9b0287bbfe9eeb37819924f037b54985ae42260",
+    "bytes": 26
+  },
+  {
+    "file": "before-identity.json",
+    "sha256": "f999f58abca5d6cc718dc6b2af95da725e97d29473b9c056f00a50a1e967ed8f",
+    "bytes": 103188
+  },
+  {
+    "file": "browser-wrapper.sh",
+    "sha256": "2c66b4599679a8795449315fadf9a2babddd7beea5de686ad1732c725db23a39",
+    "bytes": 790
+  },
+  {
+    "file": "cleanup.json",
+    "sha256": "ddd1ecbf7d141deaadd754a4a9ecb7c433195b10186eabf036df22b2ddd2b4c4",
+    "bytes": 1834
+  },
+  {
+    "file": "console.json",
+    "sha256": "bff16e3f5eabcff24f8311e66597daed519ddac0370b2dc137fd2f28bad8324f",
+    "bytes": 86
+  },
+  {
+    "file": "failure.json",
+    "sha256": "79bcc23dbc59ff7d7770733b8768244e24e887d4a46de816cc3581f20810c7ad",
+    "bytes": 717
+  },
+  {
+    "file": "setup-receipt.json",
+    "sha256": "7b8c3dd2375252e3f272d8b49c4331b142e9e75c00148ed4a1b7959cd55d3b91",
+    "bytes": 103978
+  },
+  {
+    "file": "wrapper-owner.json",
+    "sha256": "69deb1e4768e580e706a35f090dbbb296aeda5a321affde71c98482e348088aa",
+    "bytes": 67
+  }
+]

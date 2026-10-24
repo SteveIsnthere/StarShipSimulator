@@ -1,0 +1,150 @@
+{
+  "pinsChecked": 28,
+  "checks": [
+    {
+      "file": "owner.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "owner.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/view-clock-codec.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "pure-controls.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "pure-controls.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/view-clock-codec.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "codec.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "codec.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/view-clock-codec.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "consumer.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "consumer.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/view-clock-codec.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "capture-reporter-v2.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "capture-reporter-v2.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/view-clock-codec.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "progress-guard-owner-candidate.mjs.txt",
+      "argv": [
+        "node",
+        "--input-type=module",
+        "--check"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "file": "progress-guard-owner-candidate.mjs.txt",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "--stdin",
+        "--stdin-filename",
+        "scripts/bench/view-clock-codec.mjs"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "pythonCompileFiles": 2
+}

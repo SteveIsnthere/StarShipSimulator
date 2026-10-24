@@ -1,0 +1,401 @@
+{
+  "sample_count": 1193,
+  "sampled_ms": 1356.331,
+  "profile_duration_ms": 1356.996,
+  "top_self": [
+    {
+      "function": "fallAcceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 302,
+      "self_ms": 255.195,
+      "inclusive_ms": 456.42
+    },
+    {
+      "function": "(idle)",
+      "url": "",
+      "line": 0,
+      "self_ms": 58.731,
+      "inclusive_ms": 58.731
+    },
+    {
+      "function": "compileSourceTextModule",
+      "url": "node:internal/modules/esm/utils",
+      "line": 344,
+      "self_ms": 56.725,
+      "inclusive_ms": 57.811
+    },
+    {
+      "function": "waitForWorker",
+      "url": "node:internal/modules/esm/hooks",
+      "line": 519,
+      "self_ms": 54.048,
+      "inclusive_ms": 54.048
+    },
+    {
+      "function": "advanceUnpoweredFall",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 419,
+      "self_ms": 48.48,
+      "inclusive_ms": 510.187
+    },
+    {
+      "function": "(garbage collector)",
+      "url": "",
+      "line": 0,
+      "self_ms": 42.693,
+      "inclusive_ms": 42.693
+    },
+    {
+      "function": "pressureInLayer",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 96,
+      "self_ms": 27.077,
+      "inclusive_ms": 27.077
+    },
+    {
+      "function": "burnDeceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 178,
+      "self_ms": 25.518,
+      "inclusive_ms": 86.895
+    },
+    {
+      "function": "getCrossSectionalArea",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/aero.ts",
+      "line": 55,
+      "self_ms": 24.421,
+      "inclusive_ms": 24.421
+    },
+    {
+      "function": "writeAccelerationComponents",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+      "line": 85,
+      "self_ms": 24.201,
+      "inclusive_ms": 27.543
+    },
+    {
+      "function": "(program)",
+      "url": "",
+      "line": 0,
+      "self_ms": 20.631,
+      "inclusive_ms": 20.631
+    },
+    {
+      "function": "pressureInLayer",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 96,
+      "self_ms": 19.749,
+      "inclusive_ms": 19.749
+    },
+    {
+      "function": "tailFirstDragDeceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 123,
+      "self_ms": 19.386,
+      "inclusive_ms": 53.405
+    },
+    {
+      "function": "backwardPass",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 142,
+      "self_ms": 18.806,
+      "inclusive_ms": 105.701
+    },
+    {
+      "function": "isaAtmosphereInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 309,
+      "self_ms": 17.797,
+      "inclusive_ms": 59.218
+    },
+    {
+      "function": "verticalGravityAcceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+      "line": 77,
+      "self_ms": 14.56,
+      "inclusive_ms": 18.282
+    },
+    {
+      "function": "jsonParseAst",
+      "url": "file:///workspace/StarShipSimulator/node_modules/rolldown/dist/shared/parse-HzGoFgdF.mjs",
+      "line": 25,
+      "self_ms": 13.094,
+      "inclusive_ms": 13.094
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/node_modules/rolldown/dist/shared/create-bundler-option-Cj0juyCQ.mjs",
+      "line": 1,
+      "self_ms": 13.088,
+      "inclusive_ms": 16.511
+    },
+    {
+      "function": "transformSync",
+      "url": "file:///workspace/StarShipSimulator/node_modules/rolldown/dist/shared/resolve-tsconfig-D2vSIIkR.mjs",
+      "line": 93,
+      "self_ms": 11.083,
+      "inclusive_ms": 11.083
+    },
+    {
+      "function": "tangentialAcceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/gravity.ts",
+      "line": 146,
+      "self_ms": 10.721,
+      "inclusive_ms": 14.11
+    },
+    {
+      "function": "runModule",
+      "url": "file:///workspace/StarShipSimulator/node_modules/vite-node/dist/client.mjs",
+      "line": 358,
+      "self_ms": 10.334,
+      "inclusive_ms": 23.425
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/constants.ts",
+      "line": 10,
+      "self_ms": 9.938,
+      "inclusive_ms": 9.938
+    },
+    {
+      "function": "thermosphereKelvin",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 289,
+      "self_ms": 9.919,
+      "inclusive_ms": 9.919
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/units.ts",
+      "line": 1,
+      "self_ms": 8.812,
+      "inclusive_ms": 8.812
+    },
+    {
+      "function": "Script",
+      "url": "node:vm",
+      "line": 85,
+      "self_ms": 8.755,
+      "inclusive_ms": 8.755
+    }
+  ],
+  "kernel_nodes": [
+    {
+      "function": "unpoweredFallInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 463,
+      "self_ms": 1.085,
+      "inclusive_ms": 519.544
+    },
+    {
+      "function": "advanceUnpoweredFall",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 419,
+      "self_ms": 48.48,
+      "inclusive_ms": 510.187
+    },
+    {
+      "function": "fallAcceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 302,
+      "self_ms": 255.195,
+      "inclusive_ms": 456.42
+    },
+    {
+      "function": "landingBurnStartAltitude",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 220,
+      "self_ms": 1.1,
+      "inclusive_ms": 106.801
+    },
+    {
+      "function": "backwardPass",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 142,
+      "self_ms": 18.806,
+      "inclusive_ms": 105.701
+    },
+    {
+      "function": "burnDeceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 178,
+      "self_ms": 25.518,
+      "inclusive_ms": 86.895
+    },
+    {
+      "function": "isaAtmosphereInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 309,
+      "self_ms": 17.797,
+      "inclusive_ms": 59.218
+    },
+    {
+      "function": "tailFirstDragDeceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 123,
+      "self_ms": 19.386,
+      "inclusive_ms": 53.405
+    },
+    {
+      "function": "tableStateInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 216,
+      "self_ms": 0.025,
+      "inclusive_ms": 31.502
+    },
+    {
+      "function": "writeAccelerationComponents",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+      "line": 85,
+      "self_ms": 24.201,
+      "inclusive_ms": 27.543
+    },
+    {
+      "function": "isaAtmosphereInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 309,
+      "self_ms": 7.676,
+      "inclusive_ms": 27.425
+    },
+    {
+      "function": "pressureInLayer",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 96,
+      "self_ms": 27.077,
+      "inclusive_ms": 27.077
+    },
+    {
+      "function": "tableStateInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 216,
+      "self_ms": 0.0,
+      "inclusive_ms": 19.749
+    },
+    {
+      "function": "pressureInLayer",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 96,
+      "self_ms": 19.749,
+      "inclusive_ms": 19.749
+    },
+    {
+      "function": "thermosphereKelvin",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 289,
+      "self_ms": 9.919,
+      "inclusive_ms": 9.919
+    },
+    {
+      "function": "initializeFallWork",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 389,
+      "self_ms": 2.219,
+      "inclusive_ms": 7.188
+    },
+    {
+      "function": "layerFor",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 124,
+      "self_ms": 4.4,
+      "inclusive_ms": 4.4
+    },
+    {
+      "function": "writeDamageControls",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/damage-controls.ts",
+      "line": 67,
+      "self_ms": 3.349,
+      "inclusive_ms": 3.349
+    },
+    {
+      "function": "writeAccelerationComponents",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+      "line": 85,
+      "self_ms": 3.308,
+      "inclusive_ms": 3.308
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+      "line": 10,
+      "self_ms": 2.278,
+      "inclusive_ms": 2.278
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 1,
+      "self_ms": 0.0,
+      "inclusive_ms": 2.207
+    },
+    {
+      "function": "thrustFor",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 88,
+      "self_ms": 1.104,
+      "inclusive_ms": 2.188
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 1,
+      "self_ms": 0.0,
+      "inclusive_ms": 1.115
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 186,
+      "self_ms": 1.115,
+      "inclusive_ms": 1.115
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 10,
+      "self_ms": 1.106,
+      "inclusive_ms": 1.106
+    },
+    {
+      "function": "",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 10,
+      "self_ms": 1.088,
+      "inclusive_ms": 1.088
+    },
+    {
+      "function": "fallAcceleration",
+      "url": "file:///workspace/StarShipSimulator/src/core/control/guidance-physics.ts",
+      "line": 302,
+      "self_ms": 1.084,
+      "inclusive_ms": 1.084
+    },
+    {
+      "function": "isaAtmosphere",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 263,
+      "self_ms": 0.0,
+      "inclusive_ms": 1.077
+    },
+    {
+      "function": "isaAtmosphereInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 309,
+      "self_ms": 1.077,
+      "inclusive_ms": 1.077
+    },
+    {
+      "function": "isaAtmosphereInto",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/isa.ts",
+      "line": 309,
+      "self_ms": 0.891,
+      "inclusive_ms": 0.891
+    },
+    {
+      "function": "liftSignIsInverted",
+      "url": "file:///workspace/StarShipSimulator/src/core/physics/components.ts",
+      "line": 43,
+      "self_ms": 0.034,
+      "inclusive_ms": 0.034
+    }
+  ]
+}

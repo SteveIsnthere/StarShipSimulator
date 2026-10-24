@@ -1,0 +1,67 @@
+/* DRAFT ONLY during nativebench source freeze. Not collected/executed.
+ * To add to the bounded proof cohort after parent source grant, before candidate.
+ * These are required semantic negatives, not performance assertions. */
+
+// Main proof additions use the existing exact(), seededScratch() and frozen modules.
+// 1. Before-call spies on each helper and each self-validating predicate:
+//    original callbacks return original values and count calls; cert rejects wrappers.
+//    Mirror engineMassFlow/engineThrust/area overrides independently on old oracle
+//    dependencies. Compare Object.is return/fullscratch AND exact helper call log.
+//    Predicate spy must deny initial and mid-call prepared admission, never be trusted.
+// 2. ISA scratch setter installs a changed/throwing engineThrust after initial admission.
+//    Pressure getter installs it later still, after drag but before thrust. Mirror old.
+// 3. ISA scratch setter installs engineMassFlow after the first per-pass entry.
+//    Next backward pass reads live overridden flow at its original entry, before
+//    capped reset; no restart of an already paid pass or repeated prefix.
+// 4. airDensity getter installs area mock after Mach; verify guard executes after
+//    density read. Area mock then installs getDrag: the CURRENT query must use
+//    getDrag captured BEFORE its arguments, next query sees replacement.
+// 5. Every override also has a later throwing form with shared sentinel error;
+//    compare entire read/call logs, error identity and scratch at throw.
+
+// Example full-mock collection (separate .test.ts after freeze) must dynamically
+// import the model AFTER resetModules, otherwise stale model identity could hide
+// a broken certificate fallback. Namespace presence is tested with `in`, not
+// optional property access (Vitest throws when a full mock lacks that export).
+import { expect, it, vi } from 'vitest';
+
+it('a full propulsion mock with no certificate retains the original helper path', async () => {
+  vi.resetModules();
+  const original = await vi.importActual<typeof import('$core/physics/propulsion')>('$core/physics/propulsion');
+  const flow = vi.fn(original.engineMassFlow), thrust = vi.fn(original.engineThrust);
+  vi.doMock('$core/physics/propulsion', () => ({ engineMassFlow: flow, engineThrust: thrust }));
+  try {
+    const current = await import('$core/control/guidance-physics');
+    const before = await import('../../../tests/proofs/fixtures/burn-before-preparation/guidance-physics');
+    const { SUPER_HEAVY } = await import('$core/vehicles/super-heavy');
+    const namespace = await import('$core/physics/propulsion');
+    expect('isCanonicalBurnPropulsion' in namespace).toBe(false);
+    const actual = current.createBurnScratch(), expected = before.createBurnScratch();
+    const got = current.landingBurnStartAltitude(3, 330000, 30, 90.5, actual, SUPER_HEAVY);
+    const want = before.landingBurnStartAltitude(3, 330000, 30, 90.5, expected, SUPER_HEAVY);
+    expect(Object.is(got, want)).toBe(true);
+    // In the real proof use recursive exact(Object.is) for EVERY scratch leaf,
+    // retain identities, and mirrored old helper sequence rather than toEqual.
+    expect(thrust.mock.calls.length).toBeGreaterThan(2);
+    expect(flow.mock.calls.length).toBeGreaterThan(1);
+  } finally {
+    vi.doUnmock('$core/physics/propulsion'); vi.resetModules();
+  }
+});
+
+/* Prepared-tail required JS ordering, not an implementation yet:
+const air = scratch.atmosphere;
+isaAtmosphereInto(altitude, air);
+const mach = speed / speedOfSoundAt(air.airTemperature);
+const dragQuery = getDrag;                     // callee BEFORE arguments
+const density = air.airDensity;                // getter may replace area/drag
+const area = canonicalLiveArea() ? tailArea
+  : getCrossSectionalArea(rad(0), model.maxArea, model);
+const coefficient = getBodyDragCoefficient(mach); // follows area side effects
+return dragQuery(density, speed, area, coefficient) / mass;
+
+After returned drag, read pressure = scratch.atmosphere.airPressure BEFORE
+canonicalLivePropulsion(), then prepared pressure law or original thrustFor.
+The canonical path uses local numbers only; any changed predicate/helper takes
+the original live helper at the original site, without rewind/restart.
+*/

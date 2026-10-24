@@ -1,0 +1,41 @@
+{
+  "label": "pre-controls",
+  "bundleManifestSha256": "07ef404bb5667e951f53099c703ccd06567c8c65e76341d8fc6729b9f200fd49",
+  "files": 287,
+  "directories": 3,
+  "harness": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.spec.ts",
+      "sha256": "b3ee9e89567f0692d6abbd1bfae7779434917be3766eeec2ee037d135e11051b"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-launch-budget.config.ts",
+      "sha256": "de7e33101ecd080b556bbcd7255fdfa8115e848b7762306b278a9e0512175526"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-boundary.ts",
+      "sha256": "13e08edca3c105639d92d37e72c03ea4956543988fb78b9ee1edd6d61bffb0f7"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/isolated-budget-cleanup.ts",
+      "sha256": "614e34c3c12946d2ec279871b8a7b2ad8a9fe1b312786e0603840b640ae0fe2f"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/prepare-isolated-budget-episode.sh",
+      "sha256": "c95b3b268a58b7f172dfb4b933ff48fa2dcb16ac09b57c2ec53665376485dd49"
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-isolated-full-budget-declaration.md",
+      "sha256": "759eab653e3aaeffac2d9964614fd8fa2f903c44faa767643cbaa7d3f9e20c4d"
+    }
+  ],
+  "configSha256": "e43ffe92a9336b19c2d6ffa8d9b0287bbfe9eeb37819924f037b54985ae42260",
+  "librarySha256": "4d39038dd6d448a3a6b5cf6aefb583d50346fd75ea8879e2563d67844f460dd0",
+  "browserSha256": "e11fc9ce65c96313476f7ee9844b6fb6a9220fb048693cfe9eee00acf4170a9f",
+  "node": "v22.23.3",
+  "nodeExecutable": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+  "quota": "400000 100000",
+  "cpuset": "0-4",
+  "cpuStat": "usage_usec 4064932271\nuser_usec 3880901733\nsystem_usec 184030538\nnice_usec 0\nnr_periods 33015\nnr_throttled 3589\nthrottled_usec 237081195\nnr_bursts 0\nburst_usec 0\n",
+  "scope": "complete original/copy identity before any flight/control initialization or after pause"
+}

@@ -1,0 +1,118 @@
+{
+  "kind": "inert20-prototype-diagnostic-actual-independent-high-v1",
+  "scope": "inert20 only; no collector coverage acceptance",
+  "inputs": {
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/input.json": {
+      "sha256": "4aa61af1c29db86e557b59223519e3e5de8544348627ab7f865ab445389942ff",
+      "bytes": 8435
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/root-input.json": {
+      "sha256": "43aae5bf0ee873c3fd18c072adcae30bb290cb75d1a0225fa4c56a888f8bece1",
+      "bytes": 1807
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/root-inventory.json": {
+      "sha256": "8f177838f6521f0cb3e16a1f8d53ba70beca6ed853fd94f3f9d5bae603d7efad",
+      "bytes": 7037
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/selected-before.json": {
+      "sha256": "e16021e08c9c717fc4c70d1f0b115f76df315c319a1a6be5aff08e253e8656e9",
+      "bytes": 37
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/selected-after.json": {
+      "sha256": "e16021e08c9c717fc4c70d1f0b115f76df315c319a1a6be5aff08e253e8656e9",
+      "bytes": 37
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/owner-result.json": {
+      "sha256": "39248fc87598f1899efe4a0b845618c8d496137926828ad79731d0badf8961b7",
+      "bytes": 1008
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/codec.process.json": {
+      "sha256": "4c6aae293fd9f91314d1a581b374a282985624caeffa2bbbffbbfedfc98e524d",
+      "bytes": 500
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/raw-codec-exit.json": {
+      "sha256": "27aacd691598a8ac0bac80f6f51da44642936a87f32cedf590272ddbd7be1792",
+      "bytes": 67
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/codec.stdout.txt": {
+      "sha256": "8555ca7b3218a5754cc1e918e2d0d4518458846cf744d20b70cef05dfb804fcc",
+      "bytes": 1186
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/codec.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/codec-proof-result.json": {
+      "sha256": "5bc3c669518317f855c756e5a2386251a1050b7a87303b41429c84decf38d173",
+      "bytes": 1322
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/owner.mjs": {
+      "sha256": "70dff561d32af8f4cf24ced0939c3ce4ce83abe1c6a7bbda4d4747348ff1474a",
+      "bytes": 2869
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/codec-diagnostic.mjs": {
+      "sha256": "83f6605536af82be8276ec387fa69908210aa4cac6259693b23dbd2aa50c6554",
+      "bytes": 3176
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/prototype-witness.mjs": {
+      "sha256": "51486a65a85a58f3a443e5ef7f6cb16dfc12ca382ab4b51dbc8b1f04dd599858",
+      "bytes": 4112
+    },
+    "/workspace/StarShipSimulator/node_modules/.cache/starship-view-clock-codec-9910bdf9216c4e7cae449156eb9f1dda/driver.mjs": {
+      "sha256": "e0244bb3eb2ee12f6a118e4c75f1bcdc2fb4c6e6e34d21ee8c56a03368b71207",
+      "bytes": 7935
+    },
+    "/tmp/starship-view-clock-codec-root.08na2cny/executed-owner.mjs.txt": {
+      "sha256": "70dff561d32af8f4cf24ced0939c3ce4ce83abe1c6a7bbda4d4747348ff1474a",
+      "bytes": 2869
+    },
+    "/tmp/starship-view-clock-codec-root.08na2cny/root-outcome.json": {
+      "sha256": "f80b85fd4abc0d8fa4235544b9fd45145259e2afc5d813e6e4d468aaa42e62bb",
+      "bytes": 1133
+    },
+    "/tmp/starship-view-clock-codec-root.08na2cny/root-independent-postexit.json": {
+      "sha256": "2a3c48ebeb68c8f45a03b87eb4d1d041aa8eb4c90bfba9575a3a7befce5f10ce",
+      "bytes": 482
+    },
+    "/tmp/starship-view-clock-codec-root.08na2cny/identities.jsonl": {
+      "sha256": "5ba6dfae93ddcb77fd3b757b71622369558670b6f75d8135ed736f54f4f42dce",
+      "bytes": 304
+    },
+    "/tmp/starship-view-clock-codec-root.08na2cny/outer-registration.json": {
+      "sha256": "ed6f5fe179d3bcaa772eda9400cbd1321204807b221de6ea67aaeec44d2c268b",
+      "bytes": 118
+    },
+    "/tmp/starship-view-clock-codec-root.08na2cny/actual-outer-exit-final-independent.json": {
+      "sha256": "a71054a856cb13f54394eee7148c722a710910d05daed4faf1ccf12d12b4ff78",
+      "bytes": 62
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/input-pins.json": {
+      "sha256": "37ba27836a0531951303440fde18f6ec40b23fbdca10ebafd3904e90752b4163",
+      "bytes": 3601
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/independent-repaired-source-HIGH-review.md": {
+      "sha256": "62563d78b38692fd78fca7be9c17f36c1e909c7553ffc40d874220a234f2adb7",
+      "bytes": 3457
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/independent-repaired-source-HIGH-pins.json": {
+      "sha256": "85ce64b0757b53a54aef730f0941a0d1648dfb354dcf39b2d14254610d9ffeae",
+      "bytes": 11801
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/pure-controls.mjs.txt": {
+      "sha256": "e0244bb3eb2ee12f6a118e4c75f1bcdc2fb4c6e6e34d21ee8c56a03368b71207",
+      "bytes": 7935
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/codec-diagnostic.mjs.txt": {
+      "sha256": "83f6605536af82be8276ec387fa69908210aa4cac6259693b23dbd2aa50c6554",
+      "bytes": 3176
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/prototype-witness.mjs.txt": {
+      "sha256": "51486a65a85a58f3a443e5ef7f6cb16dfc12ca382ab4b51dbc8b1f04dd599858",
+      "bytes": 4112
+    },
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/independent-pure20-actual-result-HIGH-review.md": {
+      "sha256": "6e97f4ce21889c13135af4308ca38200e818dfa765e12be8bd65b40c4ffccd41",
+      "bytes": 1750
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "modules": 247,
+  "cases": 2655,
+  "passed": 2654,
+  "skipped": 1,
+  "projectCaseCounts": {
+    "native-flight": 21,
+    "kit": 115,
+    "unit": 2519
+  },
+  "transitions": [
+    {
+      "file": "/workspace/StarShipSimulator/tests/flies-every-scenario.test.ts",
+      "fullName": "the autopilot flies the ones it is meant to > booster-sep: auto-land landed",
+      "before": "failed",
+      "after": "passed"
+    },
+    {
+      "file": "/workspace/StarShipSimulator/tests/core/booster-guidance.test.ts",
+      "fullName": "actual booster scenarios are secured at the tower > booster-sep: autopilot catches the actual33-engine booster within900s",
+      "before": "failed",
+      "after": "passed"
+    }
+  ],
+  "originalSSRProof17": {
+    "tests/proofs/burn-preparation.test.ts": {
+      "casesPassed": 13,
+      "fullNames": [
+        "burn preparation retains original source semantics > admits only genuine helper certificates and rejects a predicate or helper wrapper",
+        "burn preparation retains original source semantics > the admitted booster is a frozen data graph; the ship ignition array is not admitted",
+        "burn preparation retains original source semantics > retains every numerical leaf and scratch identity across boundaries, roots and cap failures",
+        "burn preparation retains original source semantics > retains the exact ISA query sequence, count and full scratch after each call",
+        "burn preparation retains original source semantics > retains custom getter reads, changing values, thrown error identity and scratch at throw",
+        "burn preparation retains original source semantics > retains frozen accessors, early-return read order and distinct-scratch nested calls",
+        "burn preparation retains original source semantics > observes helpers replaced during ISA scratch writes without restarting any paid query",
+        "burn preparation retains original source semantics > public helpers keep IEEE pressure edges independently of the scalar candidate",
+        "burn preparation retains original source semantics > before-call helper wrappers keep original call logs and source-oracle outputs",
+        "burn preparation retains original source semantics > mid-call flow and thrust replacement stays at original dependency-read sites",
+        "burn preparation retains original source semantics > density/area side effects retain getDrag callee-before-arguments order and throws",
+        "burn preparation retains original source semantics > admitted SUPER_HEAVY keeps pressure-getter IEEE edges, every scratch leaf and exact paid ISA sequence",
+        "burn preparation retains original source semantics > predicate wrappers before and during a call deny prepared admission and preserve full source semantics"
+      ]
+    },
+    "tests/proofs/burn-preparation-module-mock.test.ts": {
+      "casesPassed": 4,
+      "fullNames": [
+        "propulsion missing-certificate preserves independent old outputs, scratches and original helper queries",
+        "propulsion partial-helper preserves independent old outputs, scratches and original helper queries",
+        "aero missing-certificate preserves independent old outputs, scratches and original helper queries",
+        "aero partial-helper preserves independent old outputs, scratches and original helper queries"
+      ]
+    }
+  },
+  "ownedIdentities": 254,
+  "uniqueHelperIdentities": 252,
+  "nativeWorkers": [
+    {
+      "pid": 79300,
+      "start": "5224212",
+      "file": "tests/flies-every-scenario.test.ts",
+      "rawParentURL": "file:///workspace/StarShipSimulator/tests/flies-every-scenario.test.ts?vitest=1791143220786",
+      "sourceSha": "ad948c60d31abd37794cc09c4ef378928efbf36c35f7a33d251c170a3afd9ca9",
+      "aliases": 8,
+      "nativeLoads": 3,
+      "certificateBeforeAliases": true
+    },
+    {
+      "pid": 79293,
+      "start": "5224191",
+      "file": "tests/core/booster-guidance.test.ts",
+      "rawParentURL": "file:///workspace/StarShipSimulator/tests/core/booster-guidance.test.ts?vitest=1791143220584",
+      "sourceSha": "3c33d75d067ffc72eddcfee3281f148407ba81f814c2fb7da279860ad09327b7",
+      "aliases": 7,
+      "nativeLoads": 3,
+      "certificateBeforeAliases": true
+    }
+  ]
+}

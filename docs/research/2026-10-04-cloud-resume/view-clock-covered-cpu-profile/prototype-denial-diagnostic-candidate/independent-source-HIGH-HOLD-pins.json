@@ -1,0 +1,23 @@
+{
+  "kind": "prototype-denial-diagnostic-independent-source-hold-v1",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/collector-validation/codec.mjs.txt": "a778009752da84e53010c816b849667f7442a330a7355cdffb8d5b51d1ed8879",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/collector-validation/capture-reporter-v2.mjs.txt": "07b0edf3ccf08b18684fb5f18ee1fa62020bfee0684ce409d4606461d24695a5",
+    "/workspace/StarShipSimulator/node_modules/istanbul-lib-coverage/index.js": "c8fb02897a7fd187d9a5bae519c58643dd786c8b00cecfcc87c17be73b18f561",
+    "/workspace/StarShipSimulator/node_modules/istanbul-lib-coverage/lib/file-coverage.js": "a4ab6b43943dbb95adb0eb517098bc2760d320e2bacf331f0434f7ea0b1ba028",
+    "/workspace/StarShipSimulator/node_modules/istanbul-lib-coverage/lib/coverage-map.js": "97d6c00e714d1171ffd8bcaa2a96b09120f03b823a194e285e797a75774d0a11",
+    "/workspace/StarShipSimulator/node_modules/@vitest/coverage-v8/dist/provider.js": "e8e1c964f317bfacd48d7e24275cdc7dd29e10e6ccab064194df27bfe48065f8",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/declaration.md": "5b6423582238af945ae7ba9f9217ce3e6e7f8431b5f1c6c3a9125ccb58160f3c",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/capture-reporter-diagnostic.mjs.txt": "5abe9433de3447e18766ea6ecc84c9d18912408b9cc9fc3f8381181128d5d025",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/prototype-witness.mjs.txt": "9b36d73c0cf91f1d65e677dbbf0f3a5178efd68296887e422e7c0c3992c797fd",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/codec-diagnostic.mjs.txt": "b153cd627645db1efc4f02583a265caa7f81df732628fc6f1a5c69fca2c62d87"
+  },
+  "manifest": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/input-pins.json",
+    "sha256": "224b68422107ddb0c5ce19ccd2f4f533fc69996b649f4bb38934a2519e28d718"
+  },
+  "review": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/view-clock-covered-cpu-profile/prototype-denial-diagnostic-candidate/independent-source-HIGH-HOLD-review.md",
+    "sha256": "0722ed1f20f4200f043144d58fb58b360928dc5501221304ddd6c55b70718e7f"
+  }
+}

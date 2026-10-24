@@ -1,0 +1,13 @@
+{
+  "classification": "Small actual artifact/failure pins; snapshots compared without full rehash",
+  "files": {
+    "/tmp/starship-native-provider-control.FWIPCK/artifact/control.mjs": "e3c19a4455bff2a3c0f75ae345f795c376dc8c80694eb3fbe7e6e64af0c78254",
+    "/tmp/starship-native-provider-control.FWIPCK/artifact/control.mjs.map": "296533ec2ced913db26632a724ffdbdca49b495f77b11bbd8035a8c5de28a908",
+    "/tmp/starship-native-provider-control.FWIPCK/cohort.mjs": "48709452497a6951815d768deef3e25180c009ad65cfd21a42f09dfb948c2792",
+    "/tmp/starship-native-provider-control.FWIPCK/cohort-outcome.json": "30c819f25d5aeb0f3a50914084ab6caa14c7425aebae611a52536498faa32d3c",
+    "/tmp/starship-native-provider-control.FWIPCK/owner-result.json": "03b0c4d656f934ed2a9a877f047e5c00c8ff0a2e2ddb2552442e1d6375faf389",
+    "/tmp/starship-native-provider-control.FWIPCK/provider-cohort.process.json": "347dcb56736a09a074377ae241adc3e8176bb45f3897d9eb0e1a5ecbade646c1",
+    "/tmp/starship-native-provider-control.FWIPCK/provider-cohort.stderr.txt": "15c13156b9de1230d946fd9247079cdab8f96f0b2fa069eb12e9fe39d6b365de",
+    "docs/research/2026-10-04-cloud-resume/native-provider-remap-controls-root-parent/result.json": "0bfb62413203f43bb0870392c3b118d6191c2bbd0fa2fb632b10056409063ebe"
+  }
+}

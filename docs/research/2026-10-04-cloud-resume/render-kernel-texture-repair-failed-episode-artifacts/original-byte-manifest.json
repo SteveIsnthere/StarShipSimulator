@@ -1,0 +1,596 @@
+{
+  "scope": "Complete unchanged qualified repair build and failed browser episode; no timing-pair or acceptance claim",
+  "source": "/tmp/starship-render-kernel.m9xok0x9",
+  "records": [
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/GO",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/GO",
+      "encoding": "identity",
+      "originalSha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df",
+      "originalBytes": 24,
+      "originalMode": 384,
+      "storedSha256": "784f51f761bf6289a097980d4e804c6e7ff40ee8b2558850660e8d94590da0df",
+      "storedBytes": 24
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/STOP",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/STOP",
+      "encoding": "identity",
+      "originalSha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3",
+      "originalBytes": 5,
+      "originalMode": 384,
+      "storedSha256": "a11c3d917a2149a4b548217038bc8f2dd2130a1966e0c7af5c4225d81f25a8c3",
+      "storedBytes": 5
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/before-bundle-identity.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/before-bundle-identity.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "20f24b1845d4710a44abcd0c0552aa4d0578227f538ae4cbe9db1abede4432d7",
+      "originalBytes": 488,
+      "originalMode": 384,
+      "storedSha256": "1db582dac17203f12afee18b62e98b4e882ed3c591d33fc27a9befd4979cb331",
+      "storedBytes": 309
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/before-identity.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/before-identity.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "61c47eccc98fdcd6663c9487ff5e3f55c559fed9db72dba8f7de88f584018988",
+      "originalBytes": 107639,
+      "originalMode": 384,
+      "storedSha256": "4e8127ba85d8c6d4e7276da3ee2a3ffa3c45f281e1dcb99ac59e44e9fd0246f0",
+      "storedBytes": 41509
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/before-kernel-identity.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/before-kernel-identity.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "a89b603ef9edf2c950dfdc5436a32847ea522b5ca058fd2b75f67499bdc52dc1",
+      "originalBytes": 157,
+      "originalMode": 384,
+      "storedSha256": "349782749f6e0daa76b5ebdbb9fc40fb1b2caafc73c40fc5cf2779196313c850",
+      "storedBytes": 146
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/browser-wrapper.sh",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/browser-wrapper.sh.txt",
+      "encoding": "identity",
+      "originalSha256": "c435b435feee1c1a8ac6cb25658fe8b96169d27a8e22b7a44e89a745d1a0d08b",
+      "originalBytes": 760,
+      "originalMode": 448,
+      "storedSha256": "c435b435feee1c1a8ac6cb25658fe8b96169d27a8e22b7a44e89a745d1a0d08b",
+      "storedBytes": 760
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/bundle-copy-manifest.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/bundle-copy-manifest.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "bfefd1a1d378e5234086d8a84469705c4b04ba29a7564eb71f2bf4dd21703dff",
+      "originalBytes": 54403,
+      "originalMode": 384,
+      "storedSha256": "7286784622332719015dbcb0ab3e253742ea7286967d627c57521e9b4412a9d2",
+      "storedBytes": 8395
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/cleanup.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/cleanup.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "f4a7824525b186de28df7c9852af5517916f8651616a463c9b023d442ca1ef55",
+      "originalBytes": 2010,
+      "originalMode": 384,
+      "storedSha256": "2af88d8fd6f2ef8a08afee6e19ee9b720c943cc31c6b6ab3ba33952d88711dd9",
+      "storedBytes": 406
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/collection-status.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/collection-status.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "b8487d0cf2706c0f9cb1cd0e768ee7dc1540e271589a110468fd7d53d9ea64c7",
+      "originalBytes": 169,
+      "originalMode": 384,
+      "storedSha256": "97f7ea3f3763fa0f6e8d1861f32632c9e6884f67eac2fc76bd3494ebb89df464",
+      "storedBytes": 124
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/BufferResource-uMLrSSVl.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/BufferResource-uMLrSSVl.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "de43598e26f9e06fdeae989884ad26e6f39aa2ddb8042d64100adfbba362cb24",
+      "originalBytes": 13106,
+      "originalMode": 384,
+      "storedSha256": "fbed7971197dd2cb067f13776a521cba70c3efeab333c812ce437a34d93cbec4",
+      "storedBytes": 3232
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/BufferResource-uMLrSSVl.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/BufferResource-uMLrSSVl.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "f1d0cd390aeb736e34c884abf81f4b1c877633d73d7627bea14aa60b93766cd2",
+      "originalBytes": 26721,
+      "originalMode": 384,
+      "storedSha256": "e6d9eacd5ca34b90cbb250b76963aa32159d243625dd5238fb71f4bf6f9d250e",
+      "storedBytes": 6399
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/CanvasPool-4lFBuryO.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/CanvasPool-4lFBuryO.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "10004bbc1155ceff5436e75df7a3310e2bf2b8a73ea644d562833a35bce06a55",
+      "originalBytes": 1013,
+      "originalMode": 384,
+      "storedSha256": "2b367e980bc06a2192902649e9ade1249d97c3947959310b5c4cd2ab1bae8bb5",
+      "storedBytes": 538
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/CanvasPool-4lFBuryO.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/CanvasPool-4lFBuryO.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "af082e25ccae084209201f91347ab6596ecea45d4991b90f04b3f869f7e9a22d",
+      "originalBytes": 3577,
+      "originalMode": 384,
+      "storedSha256": "fa385b698a1d97bfcaf73bf575b6b9717af16fa061ee8d61323f9f4ef4245fa9",
+      "storedBytes": 1392
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/Geometry-CYPxRocb.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/Geometry-CYPxRocb.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "833a670586c0f9aa9516658bafb70fbe80d371b6dbf8f884afbc7dffcffc7db8",
+      "originalBytes": 135017,
+      "originalMode": 384,
+      "storedSha256": "475de12df83875d513a0c5441e480157dd755f73cec4d88e9a4aa5e60f55a97e",
+      "storedBytes": 34988
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/Geometry-CYPxRocb.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/Geometry-CYPxRocb.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "876c7516550347c7d1cd8d0f90c4cb1fe141d68b95555e5d51180b6b5e472a58",
+      "originalBytes": 513925,
+      "originalMode": 384,
+      "storedSha256": "65b3e70b4c982140a389e912e6f18672763e10fc4789d7f6901a4e92379466c0",
+      "storedBytes": 111637
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/RenderTargetSystem-Bs_X-W5p.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/RenderTargetSystem-Bs_X-W5p.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "9c45e9a5b1c07ea4f650986b7d51d9d7335f5f45e1ed4e86301adde257b4e845",
+      "originalBytes": 96078,
+      "originalMode": 384,
+      "storedSha256": "f9eb8863fd8611aaa1f2d1367b966a20d3f92e20ee81bed041431b35a886d827",
+      "storedBytes": 24257
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/RenderTargetSystem-Bs_X-W5p.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/RenderTargetSystem-Bs_X-W5p.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "b47dbf2c63d76d48d08cfc297a51459029e91c2ed9b5012bcc17a9ccd2ea58b8",
+      "originalBytes": 283982,
+      "originalMode": 384,
+      "storedSha256": "7b96d93c6a7e48eb41c44ae1dd058d88e4957cef16228780f2738d0fa61b3f49",
+      "storedBytes": 62988
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/browserAll-D5DBqH_a.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/browserAll-D5DBqH_a.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "e91cd987a327554cca795168e1dbdbb27e6b9826b8089dd031811e6f5a14d370",
+      "originalBytes": 50020,
+      "originalMode": 384,
+      "storedSha256": "9364ef28c01b63c20439293c1df3a080e98391dc27158ecfbfce000701a5775f",
+      "storedBytes": 12009
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/browserAll-D5DBqH_a.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/browserAll-D5DBqH_a.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "c2fbd1cf960f004b29617b980b76610b621e0cc08e88522402f5b8981e35ed85",
+      "originalBytes": 158163,
+      "originalMode": 384,
+      "storedSha256": "4fe16e009de2da5b650a880089d42149d419373defaf3497cc97e5b35bcec143",
+      "storedBytes": 35000
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/canvasUtils-B52VJkLn.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/canvasUtils-B52VJkLn.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "66d90c2c3daba06c01628737d57e3e61ee9e9337f6a3e5f010f07dee0e240988",
+      "originalBytes": 7814,
+      "originalMode": 384,
+      "storedSha256": "67bf1dbf0e244bfa947a93d41c1703d3e82902b0161c8034904c797581e9c1e6",
+      "storedBytes": 2370
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/canvasUtils-B52VJkLn.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/canvasUtils-B52VJkLn.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "6ba8f801ee1a8b6490b58cba84c2c6aa877c4d6973ce8babb289e6ffd59d0d81",
+      "originalBytes": 22115,
+      "originalMode": 384,
+      "storedSha256": "37efe766241d038e5d142dabe2ff5a2f1bb297b561322b94db18615becbdb1d3",
+      "storedBytes": 4725
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/getTextureBatchBindGroup-9HBchnv9.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/getTextureBatchBindGroup-9HBchnv9.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "fe328c00565ca1c7af21f45332411c7684e7a2b62401ec67e8bcc0f96f2d4260",
+      "originalBytes": 608,
+      "originalMode": 384,
+      "storedSha256": "82d76bd4b990a3f6df2b372b1a4cd6dc5987c2d308cdef6af50622f64abbd377",
+      "storedBytes": 410
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/getTextureBatchBindGroup-9HBchnv9.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/getTextureBatchBindGroup-9HBchnv9.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "a4d631b2fc5912b68a265c656cfa3fc36ec742d514057e9ea88a8a0b82c2f1d1",
+      "originalBytes": 1828,
+      "originalMode": 384,
+      "storedSha256": "a075fc4a0f4716f925aad4182f0f97c8eb70711bbb6fbfd496dff65e7c61d92c",
+      "storedBytes": 804
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/init--pTYeZJt.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/init--pTYeZJt.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "56e5ef5af8b86e6d1198a383fc146ca8201a6458d1f3dcbbda3ff03aea9f8b77",
+      "originalBytes": 19206,
+      "originalMode": 384,
+      "storedSha256": "ebf528015508d104fe61288945adfc37901da9187f9659b7b5550cba85f2dc4f",
+      "storedBytes": 5489
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/init--pTYeZJt.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/init--pTYeZJt.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "d00b3193032cf65166efbef2f6a6d8f18d6f8f672727eeb4863c1e2e3ec873a7",
+      "originalBytes": 55449,
+      "originalMode": 384,
+      "storedSha256": "151e69e4437360ab8504a63af097734b45865d1a64942f36085af1eaffcc891b",
+      "storedBytes": 12525
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/init-Dz7_hNy6.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/init-Dz7_hNy6.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "5f9bfeaed42dc8c00f1d29b0a35e9bff20d7cadcfd6ad886944fcfe98e718303",
+      "originalBytes": 31894,
+      "originalMode": 384,
+      "storedSha256": "0fd50182c7468f38d5a6bf38a6aa4108adc3547fe7f59959484ed2f84912a2a5",
+      "storedBytes": 9586
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/init-Dz7_hNy6.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/init-Dz7_hNy6.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "508087364169718fdf731ce6970bd2e70ab4aa43c58317d549c981e53e237bd6",
+      "originalBytes": 106915,
+      "originalMode": 384,
+      "storedSha256": "ee3462586326c4ea676a968608af6d5c15728535147121409690308d5a5f42d7",
+      "storedBytes": 26713
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/kernel.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/kernel.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "b8c97c6569bd2db7d30482448a73132ff61354422baf3a6b2f18570be70179c8",
+      "originalBytes": 602750,
+      "originalMode": 384,
+      "storedSha256": "f52c7698ba6354f624fd60f8050da953ff4d332ce6e7078a46bf5653693e56ca",
+      "storedBytes": 160058
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/kernel.js.map",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/kernel.js.map.gz",
+      "encoding": "gzip",
+      "originalSha256": "f8b765e4c6e0e469f19d05378954e9cbb6c386446b3536c3604bd144acdcea1b",
+      "originalBytes": 2306863,
+      "originalMode": 384,
+      "storedSha256": "995ac0ac7124998368937766dc0bd29d217e2d337fe2d45148e0c63a2a118b63",
+      "storedBytes": 573817
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/compiled/webworkerAll-DXoAr3HC.js",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/compiled/webworkerAll-DXoAr3HC.js.gz",
+      "encoding": "gzip",
+      "originalSha256": "8a923ded16fa3e3c54d06cbe0da7ad668f1c6663b6603c6d5672aef9cb64f8f8",
+      "originalBytes": 58,
+      "originalMode": 384,
+      "storedSha256": "e7b8d41393084b753172fb2ec6e7535d5a65e4b87decb78aa6ffcf8b10c0a764",
+      "storedBytes": 62
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/console.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/console.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "6243016fc9798f9e39bb2c943c01bc88050c9a81e673b5c6f029ec5706cea2c9",
+      "originalBytes": 753,
+      "originalMode": 384,
+      "storedSha256": "19dc708a24bda8425792947598a52a331ffe51a39e2daedc9af05aad3299dc55",
+      "storedBytes": 248
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/current-build-qualification.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/current-build-qualification.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2",
+      "originalBytes": 114295,
+      "originalMode": 384,
+      "storedSha256": "c0514cd4951e8563034bf2a7386d1327aef17c5a06e31d3a9e57b64e65460417",
+      "storedBytes": 43238
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/failure.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/failure.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "2e0decedc710150eef0dce9a03f1abdb77983bc13abb982b5b28bfc610510e48",
+      "originalBytes": 80,
+      "originalMode": 384,
+      "storedSha256": "dd5ac83cc269019e6df9496f66d844033baae40c1b533d12605d003ac367ed36",
+      "storedBytes": 93
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/final-integrity.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/final-integrity.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "a21c1fa525e2796e154033d163deec6e4e0aa1ca4f4faf1389da4956d10f1464",
+      "originalBytes": 123,
+      "originalMode": 384,
+      "storedSha256": "5f4e1968d13003545fa3221faa040a28c961dc84c2c0ef0a5ecccb4ac0953aaf",
+      "storedBytes": 83
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/initial-topology.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/initial-topology.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "6d88ce60666c6a43a6f59699713cd7d86315986b43b4827253dbee2f4d6dcd63",
+      "originalBytes": 25046,
+      "originalMode": 384,
+      "storedSha256": "f5431a12ca189b4b1d2cd0a095e07246a6f26571bc2ded9edbf4e3c990679548",
+      "storedBytes": 3106
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/kernel-build-after.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/kernel-build-after.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "bdc45c590a6f2563d11bb1f7ad7e5463e2237ad81734b4a2db2afe5045ef55c5",
+      "originalBytes": 4355023,
+      "originalMode": 384,
+      "storedSha256": "578f2a385cced4ff1487f2028f755a59c54a9c0b09a49b636ca181ed51f84c86",
+      "storedBytes": 955447
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/kernel-build-before.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/kernel-build-before.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "bdc45c590a6f2563d11bb1f7ad7e5463e2237ad81734b4a2db2afe5045ef55c5",
+      "originalBytes": 4355023,
+      "originalMode": 384,
+      "storedSha256": "578f2a385cced4ff1487f2028f755a59c54a9c0b09a49b636ca181ed51f84c86",
+      "storedBytes": 955447
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/kernel-build-output.txt",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/kernel-build-output.txt",
+      "encoding": "identity",
+      "originalSha256": "2e414c172d59a6e5d437d04bc12ef5ff1cc7b12d14d87454c5052fe121d71463",
+      "originalBytes": 1685,
+      "originalMode": 384,
+      "storedSha256": "2e414c172d59a6e5d437d04bc12ef5ff1cc7b12d14d87454c5052fe121d71463",
+      "storedBytes": 1685
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/kernel-build-owner.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/kernel-build-owner.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "4ed17f15f9c42d4e5f1bf048e8289d3c7c8c4314eceb35fbf918c3a9c0eba785",
+      "originalBytes": 160,
+      "originalMode": 384,
+      "storedSha256": "e0bc19af12073104b4b7013e283f29c1f66a1502be446a646343b5438980e723",
+      "storedBytes": 131
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/kernel-build-result.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/kernel-build-result.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "a5c2cbce7f943ae2335311ff1b8cc1456c47cb367357a0305c82dbf670b32a60",
+      "originalBytes": 920,
+      "originalMode": 384,
+      "storedSha256": "68d394470e343358becb1022c1f8bddc6549e3ff8757135ae56f3f2a10da83b7",
+      "storedBytes": 499
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/kernel-compiled-manifest.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/kernel-compiled-manifest.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+      "originalBytes": 176005,
+      "originalMode": 384,
+      "storedSha256": "9d46510ebd25ab5f6a94a95823ae5752ef25bb5b032278bdfee3e0dfb64e4bc6",
+      "storedBytes": 30291
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/partial-progress.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/partial-progress.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "64738eee64b05db7616c068412cd04de9b774d993ae20db705b11d40b9d7c021",
+      "originalBytes": 1597329,
+      "originalMode": 384,
+      "storedSha256": "52630833a09e3a922a673f3a27197af2ce117c6d9f5579f275bc3e1828730fb3",
+      "storedBytes": 56330
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/preparation-created.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/preparation-created.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "575f70bd5942ad51c1ba7c36fc718365521dbb0d90639f0b01d8baff48cd02e8",
+      "originalBytes": 211,
+      "originalMode": 384,
+      "storedSha256": "b60050c6dd36968be2d18baf749d8b950ca59df599b4a7fbe73564293293fc66",
+      "storedBytes": 183
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/qualification-outcome.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/qualification-outcome.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "7ac214a68a7c49b621ccf46a39b08c0a40d83553531169fc7249601e8a904a92",
+      "originalBytes": 188,
+      "originalMode": 384,
+      "storedSha256": "27ba54f4039f2352ed9daac4a7cec8c6df81b543f9b5fb221942788f1c8afcd1",
+      "storedBytes": 155
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/qualified-browser-receipt.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/qualified-browser-receipt.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "9a0d1d12414b0c251db98ef5bca3fd996b2a5c327600f2abfcef847be5a37e1f",
+      "originalBytes": 104714,
+      "originalMode": 384,
+      "storedSha256": "a731281c98665fe7ef8914bab62bca3c437042fa5fc869a71c242e7d2b6b842a",
+      "storedBytes": 40569
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/setup-receipt.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/setup-receipt.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "0ccc71df3a1cbef94d310cb34707a47ffb82a5c010b3c589127d7c68115602d2",
+      "originalBytes": 111336,
+      "originalMode": 384,
+      "storedSha256": "15ec437416e78d637738280e82fa78b1ab8965a33a782905a0f43f937b94e304",
+      "storedBytes": 42884
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width1-conditioning.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width1-conditioning.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "e9404c1972996ffaa8fdfc2f7fe828885b5352fd76b55290626686f6e1bb3afb",
+      "originalBytes": 6053233,
+      "originalMode": 384,
+      "storedSha256": "5ecc0a6871e1195049e9783920550c4ccf5fa11fc1126dde51b19d5bb85eb6ed",
+      "storedBytes": 183039
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width1-timer-capability.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width1-timer-capability.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "9fbad83b34f4c00f929b607eb264deea55b10929eca3073a5f9ec8006b4d8490",
+      "originalBytes": 1344,
+      "originalMode": 384,
+      "storedSha256": "57bad319c5f8f0b19a7e2249f9d4bee73da737b0fbf97678026a772b145bac1a",
+      "storedBytes": 557
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-actual-program-operations.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-actual-program-operations.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "d14e2dc648efde33d58ea1153cb5a81149f6191a2e7a47cbf76a9e59bc2e75fd",
+      "originalBytes": 3089216,
+      "originalMode": 384,
+      "storedSha256": "21447bf8aa8794d02c4de20b597fa0e181559ecf89fe83413e80a45128a8eca5",
+      "storedBytes": 44136
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-after-topology.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-after-topology.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "2f4fd0a3043da7aee71b99c2b034816afd648df47cad92bfe7843b7b293dd7a8",
+      "originalBytes": 27407,
+      "originalMode": 384,
+      "storedSha256": "7684568e1969b06ba184f14a9e70623e6e87a6e7d366574a097885951769ea5e",
+      "storedBytes": 3280
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-before-topology.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-before-topology.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "e6b19caed778c19adbdc3a575221e9cea75c78c843383a2a08035ec8d44e5ef1",
+      "originalBytes": 27399,
+      "originalMode": 384,
+      "storedSha256": "7063d8cea57cf50d7412ccb73c53876fd35edc53abd372ecf2f827b952200b65",
+      "storedBytes": 3268
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-conditioning-lossless.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-conditioning-lossless.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "4962c34db6a10f13c28c64bffeaba57b2c2ab3e97418930aa2ba7b664f79f70a",
+      "originalBytes": 11415508,
+      "originalMode": 384,
+      "storedSha256": "add33b4c6b687cdcd02dac29a0564236def360a49d51869cf2dd772170c2fc68",
+      "storedBytes": 229515
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-conditioning.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-conditioning.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "3504368454a1bb8b6d35f95cbe92928a89bb644747bbe86efd1774066d951ae1",
+      "originalBytes": 6053237,
+      "originalMode": 384,
+      "storedSha256": "2e7d57e0fd2f55e9192e2911981ca28feddff34471c97ab540df7eb15b16cda0",
+      "storedBytes": 183035
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-draws.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-draws.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "98ad1e4959076a84e936bce360148081e44f982b4b437221782b60fb83af16de",
+      "originalBytes": 1539949,
+      "originalMode": 384,
+      "storedSha256": "d937a8d741574bf8c115f5e48cabc29a0c78eabb8b1f03501871dabcdf3a1b50",
+      "storedBytes": 50238
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-positive.png",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-positive.png",
+      "encoding": "identity",
+      "originalSha256": "439a4ff039407c9d38e7b31e16cfd455fd03bd79e7c5fb15204cd8792160a521",
+      "originalBytes": 237051,
+      "originalMode": 384,
+      "storedSha256": "439a4ff039407c9d38e7b31e16cfd455fd03bd79e7c5fb15204cd8792160a521",
+      "storedBytes": 237051
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-snapshot-lossless.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-snapshot-lossless.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "e9d6304460ef8ccd73227567e64dd5f0e7452377ce59bee1a20b15e9b49aa933",
+      "originalBytes": 2715344,
+      "originalMode": 384,
+      "storedSha256": "f4f74fcf14881786ebbde8f6fa122705e1ec6903d68c997f507972a25225764d",
+      "storedBytes": 60670
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-summary.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-summary.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "33d0b9ba1dcfc598f39fd7e96de42af2c8d83bc62138120eb002b9d5c8be46ef",
+      "originalBytes": 18529,
+      "originalMode": 384,
+      "storedSha256": "f360c00d894bce69a8e4a2bcce48e546eddbd3f13572cbe5a0e23d8fcaa6c6e5",
+      "storedBytes": 3343
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/width32-timer-capability.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/width32-timer-capability.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "9fbad83b34f4c00f929b607eb264deea55b10929eca3073a5f9ec8006b4d8490",
+      "originalBytes": 1344,
+      "originalMode": 384,
+      "storedSha256": "57bad319c5f8f0b19a7e2249f9d4bee73da737b0fbf97678026a772b145bac1a",
+      "storedBytes": 557
+    },
+    {
+      "originalPath": "/tmp/starship-render-kernel.m9xok0x9/wrapper-owner.json",
+      "durablePath": "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-failed-episode-artifacts/wrapper-owner.json.gz",
+      "encoding": "gzip",
+      "originalSha256": "193348f763a24dd7aac99e9a698911fe3e8a88be3c654f6704052b3fe9318bb3",
+      "originalBytes": 68,
+      "originalMode": 384,
+      "storedSha256": "3eb4ee1629d717525567490bee5f0397916c0619de5b4b86d7dffd51f09b8d3e",
+      "storedBytes": 70
+    }
+  ]
+}

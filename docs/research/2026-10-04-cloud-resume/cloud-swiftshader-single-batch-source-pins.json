@@ -1,0 +1,18 @@
+{
+  "purpose": "Read-only inspected startup/batching lifecycle source pins for unapplied proposal",
+  "pixiVersion": "8.20.0",
+  "files": {
+    "src/view/app.ts": "2f9dbd760d61e4edfb722f6521c77fb9e9880f3fe125dba5713af9627863e4bb",
+    "src/view/emission-blending.ts": "ad269fb71a7ea62f65fd9013928eca0297ffd69a25eace04e2669432b289bfc1",
+    "node_modules/pixi.js/lib/app/Application.mjs": "8b4ad57b5b4ea1aa0ee104c4405c25716c5f7de6c8df71c71b6c2f2b3e4bb9ed",
+    "node_modules/pixi.js/lib/app/TickerPlugin.mjs": "bb1c1e6c1cee827336f6344602273b555cab8a9a5d7a7d131a2d96ad26aaa49d",
+    "node_modules/pixi.js/lib/rendering/batcher/shared/DefaultBatcher.mjs": "b22a9a471384f82ebae5312edca6d731f096a02d879cb6d3f62d672c3fb30654",
+    "node_modules/pixi.js/lib/rendering/batcher/shared/BatcherPipe.mjs": "0bda64725a3b84d85dd685e2584b70d7c7e136a2ab01cf0c889223ad00dbe42f",
+    "node_modules/pixi.js/lib/scene/graphics/shared/GraphicsContextSystem.mjs": "4bb896795e190daf33d49866d2dcb25d13edddb2d1bd323dd365b90b8e4c9a92",
+    "node_modules/pixi.js/lib/rendering/renderers/gl/GlLimitsSystem.mjs": "e2e9b34822386740b9ae19078c234efda821c5573de63ae2f51f715a1765adb1",
+    "node_modules/pixi.js/lib/rendering/high-shader/shader-bits/generateTextureBatchBit.mjs": "e583f181713c997c68cc01a0deb9842dfe3c10162ed95ea0745bd8abfa0402d5"
+  },
+  "productionFilesEdited": false,
+  "browserRun": false,
+  "proposalApproved": false
+}

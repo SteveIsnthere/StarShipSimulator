@@ -1,0 +1,3 @@
+/** Hooks precede the untouched canonical suite; no copied scenario/assertion bodies. */
+import './mesa-boundary-hooks';
+import '/workspace/StarShipSimulator/tests/e2e/visual-budget.spec';

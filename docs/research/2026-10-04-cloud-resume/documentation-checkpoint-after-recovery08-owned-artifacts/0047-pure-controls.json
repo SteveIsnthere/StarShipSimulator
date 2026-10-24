@@ -1,0 +1,106 @@
+[
+  {
+    "name": "complete-one-event",
+    "accepted": true
+  },
+  {
+    "name": "partial-string-tail-excluded",
+    "accepted": true
+  },
+  {
+    "name": "escaped-quotes-brackets-private-args",
+    "accepted": true
+  },
+  {
+    "name": "unknown-category-name-redacted",
+    "accepted": true
+  },
+  {
+    "name": "utf8-tail-excluded",
+    "accepted": true
+  },
+  {
+    "name": "malformed-complete-event",
+    "rejected": true
+  },
+  {
+    "name": "malformed-partial-before-tail",
+    "rejected": true
+  },
+  {
+    "name": "invalid-escape",
+    "rejected": true
+  },
+  {
+    "name": "event-string-not-object",
+    "rejected": true
+  },
+  {
+    "name": "invalid-utf8",
+    "rejected": true
+  },
+  {
+    "name": "duplicate-event-key",
+    "rejected": true
+  },
+  {
+    "name": "array-trailing-comma",
+    "rejected": true
+  },
+  {
+    "name": "header-key-not-string",
+    "rejected": true
+  },
+  {
+    "name": "missing-trace-header",
+    "rejected": true
+  },
+  {
+    "name": "category-list-rejected",
+    "rejected": true
+  },
+  {
+    "name": "category-empty-token-rejected",
+    "rejected": true
+  },
+  {
+    "name": "duplicate-category-rejected",
+    "rejected": true
+  },
+  {
+    "name": "name-number-rejected",
+    "rejected": true
+  },
+  {
+    "name": "nonfinite-time-rejected",
+    "rejected": true
+  },
+  {
+    "name": "input-byte-cap-rejected",
+    "rejected": true
+  },
+  {
+    "name": "leading-whitespace-header-exact4096",
+    "accepted": true
+  },
+  {
+    "name": "leading-whitespace-header4097-rejected",
+    "rejected": true
+  },
+  {
+    "name": "header-token-exact4096",
+    "accepted": true
+  },
+  {
+    "name": "header-token4097-rejected",
+    "rejected": true
+  },
+  {
+    "name": "utf8-header-exact4096-bytes",
+    "accepted": true
+  },
+  {
+    "name": "utf8-header4097-bytes-rejected",
+    "rejected": true
+  }
+]

@@ -1,0 +1,109 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/damage-material.test.ts (23 tests | 5 failed) 9ms
+     × keeps source cold knots and bounds interpolation below source fit uncertainty 2ms
+     × matches cold/bridge/hot heat capacity and enthalpy continuously 1ms
+     × bounds startup enthalpy approximation against independent composite Simpson integration 2ms
+     × has positive derivative and monotone invertible energy throughout the cold and bridge branches 0ms
+     × conserves cold/hot energy across the bridge without ambient clipping 0ms
+ ❯ |unit| tests/view/component-vehicle.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/view/component-vehicle.test.ts [ tests/view/component-vehicle.test.ts ]
+Error: Cannot find module '$view/component-vehicle' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/view/component-vehicle.test.ts
+ ❯ tests/view/component-vehicle.test.ts:4:1
+      2| import { DOMAdapter } from 'pixi.js';
+      3| import { createVehicleGeometry } from '$view/vehicle-geometry';
+      4| import { createComponentVehicle } from '$view/component-vehicle';
+       | ^
+      5| import { createCamera, computeViewport } from '$view/camera';
+      6| import { createSunLight, lightInVehicleFrame, writeSun } from '$view/s…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/damage-material.test.ts > matched cryogenic finite energy > keeps source cold knots and bounds interpolation below source fit uncertainty
+AssertionError: expected undefined to be 4 // Object.is equality
+
+- Expected:
+4
+
++ Received:
+undefined
+
+ ❯ tests/core/damage-material.test.ts:95:28
+     93|
+     94|   it('keeps source cold knots and bounds interpolation below source fi…
+     95|     expect(MATERIAL_MIN_K).toBe(4);
+       |                            ^
+     96|     for (const temperature of [4, 40, 186, 273]) {
+     97|       expect(steelSpecificHeat(temperature)).toBeCloseTo(publishedCold…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  |unit| tests/core/damage-material.test.ts > matched cryogenic finite energy > matches cold/bridge/hot heat capacity and enthalpy continuously
+RangeError: 304 thermal temperature must be within293.15–1473.15K
+ ❯ requireThermalTemperature src/core/physics/damage-material.ts:23:11
+     21|   if (!Number.isFinite(temperatureK)
+     22|     || temperatureK < MATERIAL_REFERENCE_K || temperatureK > MATERIAL_…
+     23|     throw new RangeError('304 thermal temperature must be within293.15…
+       |           ^
+     24|   }
+     25| }
+ ❯ steelSpecificHeat src/core/physics/damage-material.ts:29:3
+ ❯ tests/core/damage-material.test.ts:108:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  |unit| tests/core/damage-material.test.ts > matched cryogenic finite energy > bounds startup enthalpy approximation against independent composite Simpson integration
+RangeError: 304 thermal temperature must be within293.15–1473.15K
+ ❯ requireThermalTemperature src/core/physics/damage-material.ts:23:11
+     21|   if (!Number.isFinite(temperatureK)
+     22|     || temperatureK < MATERIAL_REFERENCE_K || temperatureK > MATERIAL_…
+     23|     throw new RangeError('304 thermal temperature must be within293.15…
+       |           ^
+     24|   }
+     25| }
+ ❯ steelSpecificEnthalpy src/core/physics/damage-material.ts:49:3
+ ❯ tests/core/damage-material.test.ts:126:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  |unit| tests/core/damage-material.test.ts > matched cryogenic finite energy > has positive derivative and monotone invertible energy throughout the cold and bridge branches
+RangeError: 304 thermal temperature must be within293.15–1473.15K
+ ❯ requireThermalTemperature src/core/physics/damage-material.ts:23:11
+     21|   if (!Number.isFinite(temperatureK)
+     22|     || temperatureK < MATERIAL_REFERENCE_K || temperatureK > MATERIAL_…
+     23|     throw new RangeError('304 thermal temperature must be within293.15…
+       |           ^
+     24|   }
+     25| }
+ ❯ steelSpecificEnthalpy src/core/physics/damage-material.ts:49:3
+ ❯ tests/core/damage-material.test.ts:131:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  |unit| tests/core/damage-material.test.ts > matched cryogenic finite energy > conserves cold/hot energy across the bridge without ambient clipping
+RangeError: 304 thermal temperature must be within293.15–1473.15K
+ ❯ requireThermalTemperature src/core/physics/damage-material.ts:23:11
+     21|   if (!Number.isFinite(temperatureK)
+     22|     || temperatureK < MATERIAL_REFERENCE_K || temperatureK > MATERIAL_…
+     23|     throw new RangeError('304 thermal temperature must be within293.15…
+       |           ^
+     24|   }
+     25| }
+ ❯ steelSpecificEnthalpy src/core/physics/damage-material.ts:49:3
+ ❯ tests/core/damage-material.test.ts:146:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  5 failed | 18 passed (23)
+   Start at  13:19:14
+   Duration  379ms (transform 54ms, setup 0ms, import 39ms, tests 9ms, environment 0ms)
+

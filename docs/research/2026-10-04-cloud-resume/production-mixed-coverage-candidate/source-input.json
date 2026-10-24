@@ -1,0 +1,98 @@
+{
+  "status": "SOURCE proposal; no scopes/runtime; actual external input still required",
+  "selectedFiles": [
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/capture-reporter.mjs.txt",
+      "sha256": "437bc855ec8f4fafbc2ff081c987efe2d341a077a14005298ac5d34c7a5a864d",
+      "bytes": 4258
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/production-mixed-coverage-candidate/plan.md",
+      "sha256": "94dce5ec183559f2138759c0c6c637099866a2dfcd64d267a779ab01095085b5",
+      "bytes": 6402
+    },
+    {
+      "path": "/workspace/StarShipSimulator/package.json",
+      "sha256": "6c07c3f0935753725cdfbb6d7b39285210c7dd47cfc36d940dbab913df0ebbe5",
+      "bytes": 2614
+    },
+    {
+      "path": "/workspace/StarShipSimulator/vitest.config.ts",
+      "sha256": "d018af95f81389b6239dc95b51049d023e316dea4b4a01bed3e877673693d029",
+      "bytes": 7441
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/run.mjs",
+      "sha256": "e3f42c6d3cadec503215878af7161e52d86c5e69ae2ccff7cc5edd04848633b1",
+      "bytes": 10890
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/projects.mjs",
+      "sha256": "c66962822c99bbc0f810afe57fd8ce6e00828c66b5c758024a42bba40b5d88da",
+      "bytes": 927
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/lifecycle-reporter.mjs",
+      "sha256": "5b05f504211f4571bee7452996c6613632e6f06384e9386bb9b555ab0417a2ae",
+      "bytes": 950
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/test/admission.mjs",
+      "sha256": "ac0ba3c645dcc20842631aaf99c5103c86b334978a956e07e4d63c1d65c699db",
+      "bytes": 6008
+    },
+    {
+      "path": "/workspace/StarShipSimulator/scripts/coverage-exclusions.mjs",
+      "sha256": "e3cdb55da04d0a6b7cc68adb17d8de062093a1c71f165907ed199f646f40ebad",
+      "bytes": 2091
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/@vitest/coverage-v8/dist/provider.js",
+      "sha256": "e8e1c964f317bfacd48d7e24275cdc7dd29e10e6ccab064194df27bfe48065f8",
+      "bytes": 12314
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/@vitest/coverage-v8/dist/index.js",
+      "sha256": "be14126e3dc6e83461555879c53945dd8adbce254d6ffba32e4e83ee04e270e7",
+      "bytes": 1719
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js",
+      "sha256": "e509f3cc1bd81ae6426265253fa926cbde02be5cebfe35b1df422017bffdca31",
+      "bytes": 54974
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vitest/dist/chunks/cli-api.CnMVyzaz.js",
+      "sha256": "a236001d048380e2c67d05423fc9ea3f26b07ee019ba8d6e622082f29d49102e",
+      "bytes": 498779
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/ast-v8-to-istanbul/dist/index.mjs",
+      "sha256": "38b181e915255b28462f341c804709843c1366dd6b5ca68ce91749a17def5e58",
+      "bytes": 20685
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+      "sha256": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd",
+      "bytes": 2812033
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/selection.json",
+      "sha256": "00a16028c4f736dc58a3f1a5f111e91dda8d9b3f515d9d73aff655a2c2f680a2",
+      "bytes": 50026
+    },
+    {
+      "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/native-provider-mixed-only-offline-independent-result-review.md",
+      "sha256": "76e3853b22f02caa8e1e8ab36db33879af0da255541ba7528d7167401c90ca06",
+      "bytes": 2924
+    },
+    {
+      "path": "/workspace/StarShipSimulator/node_modules/vitest/dist/chunks/reporters.d.DtoKVV2s.d.ts",
+      "sha256": "7fa6fdc6eeeb3850e6b3166836f8c9199594c4f4bed3cee02cac0ca33d71894d",
+      "bytes": 113407
+    }
+  ],
+  "installedToolsRescanned": false,
+  "productApplied": false,
+  "coverageAccepted": false
+}

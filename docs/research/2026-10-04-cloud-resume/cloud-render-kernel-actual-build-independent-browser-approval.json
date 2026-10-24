@@ -1,0 +1,41 @@
+{
+  "decision": "ONE paired width32 then width1 render-kernel browser diagnostic approved under separate parent exclusive execution grant",
+  "setup": "/tmp/starship-render-kernel.cwc74xyx",
+  "compiledManifestSha256": "16b1c7e59d6701b9a452236bcf90c92034959da3456f44bc7d0d648ce5736b53",
+  "researchFiles": {
+    "render-kernel-entry.ts": "26ac76fa74c8ecae0cdfe8550b284e99b9fc84c5f9c57df2bc9c981fbd0d5d18",
+    "render-kernel-build.config.mjs": "e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f",
+    "prepare-render-kernel.py": "e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083",
+    "build-render-kernel.mjs": "a43ccf78abbc8b90f621fa978c41c62569d527a04dd6e14e9b47b11796aca10b",
+    "qualify-render-kernel.mjs": "2aec59703ab9adf30be5e46a5d5d023eed571532b65ebf0697beca16ca3afb70",
+    "run-render-kernel.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "cloud-render-kernel-declaration.md": "bd4e2817a24cb61d63bc3683908d90bdb0e4b2529ef023b50bcbb5186b326629"
+  },
+  "independentVerification": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-render-kernel-independent-build-verification.json",
+    "sha256": "250484a474d7f03a619ca666d2f9265ceb333916a619c9eab9632a5685bd8058"
+  },
+  "parentReceipts": {
+    "render-kernel-library-parent/preparation.result.json": "5cb235e816dea8d833d66360bcfa2ab3afdde641689d630a103fe3cca505951d",
+    "render-kernel-library-parent/library-build.result.json": "357dfa4b9a4844669e886d322eabd69ec87bec4d6b5e508516b42061048a3483",
+    "render-kernel-library-parent/parent-result.json": "bcf112e7c7299917d14b758aa9660830173e4bc535e017a58c185ad429a13287",
+    "render-kernel-library-parent/independent-postexit.json": "dc790cd031d426826548b22e3682ae74459be35fb9d30f4bcc586e0cd53f8bb2",
+    "render-kernel-library-parent/declaration.json": "ccd2a37b48cbc6b626f4b5d143b126043c3cb2f2e1a8fc7be0e24bd64194a677",
+    "render-kernel-library-parent/qualification.result.json": "c737ab23bc566280735ef8913f7b8d50bdb95b0b14999cf1f66f7cd207175519"
+  },
+  "setupReceiptSha256": "25468455e843a3125d3787af29017a81f76f5d58e2b5ce6e038b27504768f668",
+  "currentApplicationQualificationSha256": "f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2",
+  "completeUnitAcceptance": "FAILED: two original 30-second separation timeouts; never waived",
+  "conditions": [
+    "One existing reviewed runner invocation, RUN_RENDER_KERNEL=1, pinned compiled manifest",
+    "Original actual browser bundle/INI3/backend/flags; no fallback on unavailable timer-query capability",
+    "Fresh sequential realms; deterministic conditioning; strict lossless state and quality checks; every executed batch generation qualified",
+    "Zero differing pixels above retained6RGB threshold before candidate timing and at final boundary",
+    "90s work plus5s cleanup; preserve partial failures and parent independent process absence",
+    "No product batching/context-restoration/full-session/HUD/phone or16ms acceptance claim"
+  ],
+  "noAutomaticRetry": true,
+  "productSourceChangeApproved": false,
+  "performanceAcceptance": false
+}

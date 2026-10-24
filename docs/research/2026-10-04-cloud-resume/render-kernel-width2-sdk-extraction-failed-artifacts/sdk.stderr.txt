@@ -1,0 +1,8 @@
+file:///tmp/starship-width2-sdk.l2wYbX/controls.mjs:94
+ try{for(const value of [1,0,3,NaN,Infinity,'2',undefined,null]){const prior=reads;await assert.rejects(createKernel(value),/Exactly declared baseline32 or candidate2/);assert.equal(reads,prior);}
+                                                                                                        ^
+
+TypeError: createKernel is not a function
+    at file:///tmp/starship-width2-sdk.l2wYbX/controls.mjs:94:105
+
+Node.js v22.23.3

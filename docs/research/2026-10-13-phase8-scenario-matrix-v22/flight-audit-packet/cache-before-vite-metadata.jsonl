@@ -1,0 +1,8 @@
+{"path":".","type":"directory","mode":448,"uid":1000,"gid":1000,"links":3,"size":4096,"mtimeNs":"1791087259643989362"}
+{"path":"vitest","type":"directory","mode":448,"uid":1000,"gid":1000,"links":5,"size":4096,"mtimeNs":"1791544660805280378"}
+{"path":"vitest/0040b7b85cd6bd9c3185d00dc2a484f868f52a5e","type":"directory","mode":448,"uid":1000,"gid":1000,"links":2,"size":4096,"mtimeNs":"1791188530889359719"}
+{"path":"vitest/0040b7b85cd6bd9c3185d00dc2a484f868f52a5e/results.json","type":"file","mode":384,"uid":1000,"gid":1000,"links":1,"size":216,"mtimeNs":"1791188530889359719","sha256":"19cf399decfb986271139a0b3269f1e3a50e9bd3bd3f7b8783dfa2a5cf0c561f"}
+{"path":"vitest/a3114c242f1c23660411cdebe2fc61c7bdd5e29f","type":"directory","mode":448,"uid":1000,"gid":1000,"links":2,"size":4096,"mtimeNs":"1791544660805280378"}
+{"path":"vitest/a3114c242f1c23660411cdebe2fc61c7bdd5e29f/results.json","type":"file","mode":384,"uid":1000,"gid":1000,"links":1,"size":353,"mtimeNs":"1791544660809280371","sha256":"ad6db99bbc063dab4e0f5b63724dbcda08668e128f1741b565d9e7cac3f047a7"}
+{"path":"vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709","type":"directory","mode":448,"uid":1000,"gid":1000,"links":2,"size":4096,"mtimeNs":"1791087259643989362"}
+{"path":"vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json","type":"file","mode":384,"uid":1000,"gid":1000,"links":1,"size":26209,"mtimeNs":"1791858088859311490","sha256":"fcbbfb7bc99baeef49064203ad5c174ea592e3a586c2497382fa0a8b4c8b3e27"}

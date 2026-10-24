@@ -1,0 +1,651 @@
+[WebServer] (node:94170) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 30 tests using 3 workers
+
+(node:94172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:94171) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:94174) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 32.96640625, right: 78.92265625 },
+  reversed: { left: 77.564453125, right: 33.45234375 },
+  night: { left: 7.069921875, right: 14.816015625 },
+  unshielded: { left: 99, right: 211.425 }
+}
+  ✓   1 [chromium] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (1.4s)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 640,
+    right: 646,
+    top: 322,
+    bottom: 398,
+    widthPx: 7,
+    heightPx: 77,
+    spanPx: 77,
+    count: 504,
+    bandWidthPx: 0
+  }
+}
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 21316,
+      meanLuma: 35.44826618502846,
+      lumaSpread: 9.908604572537795,
+      toneBuckets: 3,
+      brightFraction: 0.000140739350722462,
+      darkFraction: 0.9808125351848377,
+      warmFraction: 0.01055545130418465,
+      greyFraction: 0.09424845186714205,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 221184,
+      meanLuma: 37.219544193959955,
+      lumaSpread: 18.60414926873837,
+      toneBuckets: 3,
+      brightFraction: 0.00022605613425925926,
+      darkFraction: 0.9644865813078703,
+      warmFraction: 0.00014015480324074074,
+      greyFraction: 0.36843080873842593,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 21316,
+      meanLuma: 36.178161756429766,
+      lumaSpread: 11.27976962251535,
+      toneBuckets: 4,
+      brightFraction: 0.000140739350722462,
+      darkFraction: 0.9723212610245825,
+      warmFraction: 0.01477763182585851,
+      greyFraction: 0.08388065303058735,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 221184,
+      meanLuma: 37.248400802032926,
+      lumaSpread: 18.62388293375476,
+      toneBuckets: 3,
+      brightFraction: 0.00022605613425925926,
+      darkFraction: 0.9640977647569444,
+      warmFraction: 0.00025770399305555556,
+      greyFraction: 0.3678927951388889,
+      topColours: [Array]
+    }
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 633,
+    right: 639,
+    top: 322,
+    bottom: 398,
+    widthPx: 7,
+    heightPx: 77,
+    spanPx: 77,
+    count: 504,
+    bandWidthPx: 0
+  },
+  right: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  }
+}
+  ✓   3 [chromium] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (2.8s)
+  ✓   2 [chromium] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (4.2s)
+  ✓   4 [chromium] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (5.5s)
+(node:94213) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 32.96640625, right: 78.92265625 },
+  reversed: { left: 77.564453125, right: 33.45234375 },
+  night: { left: 7.069921875, right: 14.816015625 },
+  unshielded: { left: 99, right: 211.425 }
+}
+  ✓   7 [pixel-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (426ms)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 541,
+    right: 559,
+    top: 919,
+    bottom: 1138,
+    widthPx: 19,
+    heightPx: 220,
+    spanPx: 220,
+    count: 3879,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 521,
+    right: 540,
+    top: 919,
+    bottom: 1138,
+    widthPx: 20,
+    heightPx: 220,
+    spanPx: 220,
+    count: 4033,
+    bandWidthPx: 0
+  },
+  right: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  }
+}
+  ✓   8 [pixel-portrait] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (3.3s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 35.54339854938674,
+      lumaSpread: 9.652953944775591,
+      toneBuckets: 3,
+      brightFraction: 0,
+      darkFraction: 0.9805555555555555,
+      warmFraction: 0.010956790123456791,
+      greyFraction: 0.1030246913580247,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 535122,
+      meanLuma: 35.92366643865204,
+      lumaSpread: 18.721905785941242,
+      toneBuckets: 3,
+      brightFraction: 0.0011417957026621966,
+      darkFraction: 0.9629467672792372,
+      warmFraction: 0.00045783952070742746,
+      greyFraction: 0.35920406935240934,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 36.29990240741067,
+      lumaSpread: 11.037721187116507,
+      toneBuckets: 4,
+      brightFraction: 0,
+      darkFraction: 0.9718827160493827,
+      warmFraction: 0.015216049382716049,
+      greyFraction: 0.08907407407407407,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 535122,
+      meanLuma: 35.96103768483559,
+      lumaSpread: 18.790700404487325,
+      toneBuckets: 3,
+      brightFraction: 0.0011511393663501033,
+      darkFraction: 0.962309529415722,
+      warmFraction: 0.0018014583590284085,
+      greyFraction: 0.35872006757337577,
+      topColours: [Array]
+    }
+  }
+}
+  ✓   9 [pixel-portrait] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.9s)
+  ✓  10 [pixel-portrait] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (5.0s)
+  ✓   5 [chromium] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.2s)
+(node:94242) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [chromium] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.0s)
+(node:94247) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 32.96640625, right: 78.92265625 },
+  reversed: { left: 77.564453125, right: 33.45234375 },
+  night: { left: 7.069921875, right: 14.816015625 },
+  unshielded: { left: 99, right: 211.425 }
+}
+  ✓  13 [pixel-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (697ms)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 1133,
+    right: 1142,
+    top: 418,
+    bottom: 528,
+    widthPx: 10,
+    heightPx: 111,
+    spanPx: 111,
+    count: 1035,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 1122,
+    right: 1132,
+    top: 418,
+    bottom: 528,
+    widthPx: 11,
+    heightPx: 111,
+    spanPx: 111,
+    count: 1098,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 1132,
+    right: 1132,
+    top: 423,
+    bottom: 520,
+    widthPx: 1,
+    heightPx: 98,
+    spanPx: 98,
+    count: 84,
+    bandWidthPx: 0
+  }
+}
+  ✓  14 [pixel-landscape] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (3.2s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 35.547596141979135,
+      lumaSpread: 9.67052349112701,
+      toneBuckets: 3,
+      brightFraction: 0,
+      darkFraction: 0.9805864197530865,
+      warmFraction: 0.011080246913580246,
+      greyFraction: 0.10314814814814814,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 514269,
+      meanLuma: 36.96214141230508,
+      lumaSpread: 18.36870701320102,
+      toneBuckets: 3,
+      brightFraction: 0.0005289060783364348,
+      darkFraction: 0.9608142820197212,
+      warmFraction: 0.0008186377168369083,
+      greyFraction: 0.3718404181469231,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 36.303011697534004,
+      lumaSpread: 11.048119005731733,
+      toneBuckets: 4,
+      brightFraction: 0,
+      darkFraction: 0.9716666666666667,
+      warmFraction: 0.015370370370370371,
+      greyFraction: 0.08888888888888889,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 514269,
+      meanLuma: 37.01983492095513,
+      lumaSpread: 18.435989320080047,
+      toneBuckets: 3,
+      brightFraction: 0.0005386286165411487,
+      darkFraction: 0.960075369116163,
+      warmFraction: 0.0014836593300393375,
+      greyFraction: 0.37076121640619986,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  15 [pixel-landscape] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.8s)
+  ✓  16 [pixel-landscape] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.5s)
+  ✓  11 [pixel-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.7s)
+(node:94271) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [pixel-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.1s)
+(node:94279) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 32.96640625, right: 78.92265625 },
+  reversed: { left: 77.564453125, right: 33.45234375 },
+  night: { left: 7.069921875, right: 14.816015625 },
+  unshielded: { left: 99, right: 211.425 }
+}
+  ✓  19 [iphone-portrait] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (557ms)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 585,
+    right: 602,
+    top: 817,
+    bottom: 1009,
+    widthPx: 18,
+    heightPx: 193,
+    spanPx: 193,
+    count: 3088,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 567,
+    right: 584,
+    top: 817,
+    bottom: 1010,
+    widthPx: 18,
+    heightPx: 194,
+    spanPx: 194,
+    count: 3092,
+    bandWidthPx: 0
+  },
+  right: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  }
+}
+  ✓  20 [iphone-portrait] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (3.4s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 35.593731954060495,
+      lumaSpread: 9.788783465236254,
+      toneBuckets: 3,
+      brightFraction: 0,
+      darkFraction: 0.9805363321799307,
+      warmFraction: 0.010933294886582083,
+      greyFraction: 0.10608900422914264,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 512928,
+      meanLuma: 35.68346599328024,
+      lumaSpread: 18.2578934954272,
+      toneBuckets: 3,
+      brightFraction: 0.0008363746958637469,
+      darkFraction: 0.9623397435897436,
+      warmFraction: 0.00040551500405515005,
+      greyFraction: 0.36051843533595357,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 36.36302381296008,
+      lumaSpread: 11.163318519970552,
+      toneBuckets: 4,
+      brightFraction: 0,
+      darkFraction: 0.9715253748558247,
+      warmFraction: 0.015426758938869665,
+      greyFraction: 0.0918396770472895,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 512928,
+      meanLuma: 35.71324196963589,
+      lumaSpread: 18.295794999164137,
+      toneBuckets: 3,
+      brightFraction: 0.000844173061326346,
+      darkFraction: 0.9620843471208435,
+      warmFraction: 0.0005868270010605777,
+      greyFraction: 0.3604677459604467,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  21 [iphone-portrait] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (2.4s)
+  ✓  17 [pixel-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.9s)
+  ✓  22 [iphone-portrait] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (5.0s)
+(node:94321) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [pixel-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.8s)
+(node:94329) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[heat-shield] {
+  day: { left: 32.96640625, right: 78.92265625 },
+  reversed: { left: 77.564453125, right: 33.45234375 },
+  night: { left: 7.069921875, right: 14.816015625 },
+  unshielded: { left: 99, right: 211.425 }
+}
+  ✓  25 [iphone-landscape] › tests/e2e/post-compositing.spec.ts:7:1 › belly tiles stay dark under the real hull lighting while day and sun direction still matter @mobile (525ms)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 1125,
+    right: 1136,
+    top: 448,
+    bottom: 573,
+    widthPx: 12,
+    heightPx: 126,
+    spanPx: 126,
+    count: 1317,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 1113,
+    right: 1124,
+    top: 447,
+    bottom: 574,
+    widthPx: 12,
+    heightPx: 128,
+    spanPx: 128,
+    count: 1382,
+    bandWidthPx: 0
+  },
+  right: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  }
+}
+  ✓  26 [iphone-landscape] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (3.7s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 35.593731954060495,
+      lumaSpread: 9.788783465236254,
+      toneBuckets: 3,
+      brightFraction: 0,
+      darkFraction: 0.9805363321799307,
+      warmFraction: 0.010933294886582083,
+      greyFraction: 0.10608900422914264,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 550800,
+      meanLuma: 37.07680523414179,
+      lumaSpread: 18.357248848165295,
+      toneBuckets: 4,
+      brightFraction: 0.0006790123456790123,
+      darkFraction: 0.9585294117647059,
+      warmFraction: 0.0009731299927378358,
+      greyFraction: 0.3762672476397967,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 36.36302381296008,
+      lumaSpread: 11.163318519970552,
+      toneBuckets: 4,
+      brightFraction: 0,
+      darkFraction: 0.9715253748558247,
+      warmFraction: 0.015426758938869665,
+      greyFraction: 0.0918396770472895,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 550800,
+      meanLuma: 37.14742567894932,
+      lumaSpread: 18.438221279426262,
+      toneBuckets: 4,
+      brightFraction: 0.0006844589687726942,
+      darkFraction: 0.9576252723311547,
+      warmFraction: 0.0018228031953522149,
+      greyFraction: 0.37493827160493826,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  27 [iphone-landscape] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (2.3s)
+  ✓  28 [iphone-landscape] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.8s)
+  ✓  23 [iphone-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.7s)
+(node:94356) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  24 [iphone-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.8s)
+  ✘  29 [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.2s)
+  ✓  30 [iphone-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.9s)
+
+
+  1) [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+
+    Error: morning L 36.9 R 45.9 · afternoon L 65.0 R 25.7
+    frame 2250x1020 @3.00x  altitude 25 m  vehicle 300 px
+      left       mean   36.9  spread  44.03  tones  7  bright 0.067  dark 0.870  warm 0.0000  top #111111:0.54 #000000:0.21 #222222:0.05 #aaccdd:0.04 #333333:0.03
+      right      mean   45.9  spread  46.44  tones 10  bright 0.062  dark 0.799  warm 0.0000  top #111111:0.69 #222222:0.05 #333333:0.04 #aaccdd:0.04 #445555:0.02
+      bottomLeft mean  123.0  spread  56.76  tones 13  bright 0.263  dark 0.176  warm 0.0079  top #777788:0.29 #ccddee:0.19 #444444:0.04 #333333:0.03 #222222:0.03
+      bottomRight mean  143.3  spread  62.71  tones  6  bright 0.479  dark 0.140  warm 0.0001  top #ccddee:0.45 #667788:0.10 #333344:0.07 #444455:0.06 #334444:0.03
+      |==+++++**###**+++=+**++**#**++++++++***+++++++++++++=++++++=|
+      |++***++**##***+++++++++++++++++++***###**++++++++++++*******|
+      |*####**++++++++++++***+++++++++++********++++++++***********|
+      |*####**++++++++++*******++++++++++++++++++++++++***####***++|
+      |+++++++++++++++++******+++++++++++++++++++++++++*********+++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|
+      |************************************************************|
+      |************************************************************|
+      |************************************************************|
+      |**************%%********************************************|
+      |******%%******%%#*******************************************|
+      |######@@#######%############################################|
+      |######%%######@%%###########################################|
+      |######%%######%%%###%#######################################|
+      |######%%######@#%##%%#####################%###########%#####|
+      |######%#%#####@#%%%%####################==##################|
+      |######%#%%###%@#%%%#####################-#######%#%%########|
+      |%%%%%%%%%%%%%%@%%%%-+%%%%%%%%%%%%%%%%%%#=*###%%%#*=%%%#-%%%%|
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 1.25
+    Received:   1.2455051331746891
+
+      138 |   const note = `morning L ${morning.left.toFixed(1)} R ${morning.right.toFixed(1)} · afternoon L ${afternoon.left.toFixed(1)} R ${afternoon.right.toFixed(1)}`;
+      139 |   // Morning: sun in the east, the right flank lit.
+    > 140 |   expect(morning.right / morning.left, `${note}\n${morning.message}`).toBeGreaterThan(FLANK_RATIO);
+          |                                                                       ^
+      141 |   // Afternoon: sun in the west, the LEFT flank lit — the art alone cannot do this.
+      142 |   expect(afternoon.left / afternoon.right, `${note}\n${afternoon.message}`).toBeGreaterThan(
+      143 |     FLANK_RATIO,
+        at /Users/stevewang/dev/StarShipSimulator-realism/tests/e2e/sun.spec.ts:140:71
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-iphone-landscape/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sun-the-sun-lights-the-fla-bf256-one-in-the-afternoon-mobile-iphone-landscape/error-context.md
+
+  1 failed
+    [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile 
+  29 passed (2.3m)

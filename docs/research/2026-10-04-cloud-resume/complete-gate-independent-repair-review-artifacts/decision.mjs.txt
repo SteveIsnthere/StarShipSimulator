@@ -1,0 +1,5 @@
+import assert from 'node:assert/strict';
+export async function finalizeNativeDecision({code,errors,close,verify,write}){
+ assert(code===0||code===1,'Unexpected native threshold decision');assert.equal(errors.length>0,code===1,'Native threshold errors/status disagreement');
+ await close();await verify();await write();return code;
+}

@@ -1,0 +1,20 @@
+{
+  "approvalSha256": "84d990bef31a3546c68672d1de46e53a429d746bda027fc1c1caf62d8b3caec5",
+  "setup": "/tmp/starship-render-kernel.cwc74xyx",
+  "compiledManifest": "16b1c7e59d6701b9a452236bcf90c92034959da3456f44bc7d0d648ce5736b53",
+  "sourcePins": {
+    "render-kernel-entry.ts": "26ac76fa74c8ecae0cdfe8550b284e99b9fc84c5f9c57df2bc9c981fbd0d5d18",
+    "render-kernel-build.config.mjs": "e27e5eb77df9d6c10643e950e996c4d0c63513df2a2f38e878ad9f643717071f",
+    "prepare-render-kernel.py": "e548d40520a60505764fa35c3688e07ca70ab672597a743defdaf9f8e98d8083",
+    "build-render-kernel.mjs": "a43ccf78abbc8b90f621fa978c41c62569d527a04dd6e14e9b47b11796aca10b",
+    "qualify-render-kernel.mjs": "2aec59703ab9adf30be5e46a5d5d023eed571532b65ebf0697beca16ca3afb70",
+    "run-render-kernel.mjs": "ef94f96a091fd7c8110614c67349e1d00ca314b7537032c339b4b45a2db73bb7",
+    "kernel-program-attribution-hook.mjs": "b0f80f21d1c91f7313710efb7c688bf033c5cabdc8a2a57205a083657e478907",
+    "cloud-render-kernel-declaration.md": "bd4e2817a24cb61d63bc3683908d90bdb0e4b2529ef023b50bcbb5186b326629"
+  },
+  "node": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+  "externalTimeoutSeconds": 120,
+  "harnessWorkSeconds": 90,
+  "harnessCleanupSeconds": 5,
+  "cpuExclusive": true
+}

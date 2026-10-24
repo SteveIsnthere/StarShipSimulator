@@ -1,0 +1,90 @@
+{
+  "checks": [
+    {
+      "name": "admission.mjs",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.02803227600088576
+    },
+    {
+      "name": "admission.mjs",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9069008290025522
+    },
+    {
+      "name": "loader.mjs",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.02848391800216632
+    },
+    {
+      "name": "loader.mjs",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9606760900060181
+    },
+    {
+      "name": "run.mjs",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.030142969997541513
+    },
+    {
+      "name": "run.mjs",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9402223249999224
+    },
+    {
+      "name": "golden-support-policy.mjs",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.03163287699862849
+    },
+    {
+      "name": "golden-support-policy.mjs",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.9141425490015536
+    },
+    {
+      "name": "public-policy-controls.mjs",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.02684705900173867
+    },
+    {
+      "name": "public-policy-controls.mjs",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8746621850004885
+    },
+    {
+      "name": "inert-hook-controls.mjs",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.029005274001974612
+    },
+    {
+      "name": "inert-hook-controls.mjs",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8935944479962927
+    },
+    {
+      "name": "vitest.config.ts",
+      "kind": "syntax",
+      "code": 0,
+      "elapsedSeconds": 0.3884711279970361
+    },
+    {
+      "name": "vitest.config.ts",
+      "kind": "eslint",
+      "code": 0,
+      "elapsedSeconds": 0.8262835969944717
+    }
+  ],
+  "allPinsBeforeAfterMatch": true,
+  "passed": true
+}

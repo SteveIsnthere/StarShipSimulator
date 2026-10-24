@@ -1,0 +1,42 @@
+{
+  "chromiumTag": "151.0.7922.34",
+  "revisionAuthority": "prior14 source manifest Chromium URLs and DEPS; no guessed revision",
+  "treeURL": "https://chromium.googlesource.com/chromium/src/+/151.0.7922.34/ui/gl/init/?format=JSON",
+  "treeSha256": "1e386ad683955c2be09a32ed58c9d56bd4c90750e8d44b92014447c2c88503cd",
+  "decisiveImplementationFiles": 3,
+  "buildMetadataFiles": 1,
+  "entries": [
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/init/BUILD.gn",
+      "durableFile": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/BUILD.gn.txt",
+      "sha256": "72fa4622b4452e53058a0eec4eba51d304c70efa534f6af2f1fa56a4e976a677",
+      "bytes": 1736,
+      "gitBlobSha1": "8ecd6bdc7e37b45c586a0c7d14bbbaebb30a41ec",
+      "matchesGitilesTreeBlob": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/init/gl_initializer_ozone.cc",
+      "durableFile": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/gl_initializer_ozone.cc.txt",
+      "sha256": "8a035ad82b0f92565cfab90bacada57bdd9ec387321e048052424fdf5320f959",
+      "bytes": 2110,
+      "gitBlobSha1": "53a44bb3c05ef8d0543234fab7e909a56ee20073",
+      "matchesGitilesTreeBlob": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/gl/init/gl_display_initializer.cc",
+      "durableFile": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/gl_display_initializer.cc.txt",
+      "sha256": "1bc8f8022161762228677b3c266d7ba1e5c6f9ca0e24a41e5412ca4fc5766339",
+      "bytes": 10775,
+      "gitBlobSha1": "940e8741f18d2f5405c8a0de3e252f88b26e5bab",
+      "matchesGitilesTreeBlob": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/151.0.7922.34/ui/ozone/common/gl_ozone_egl.cc",
+      "durableFile": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-platform-caller-source/gl_ozone_egl.cc.txt",
+      "sha256": "14876fc63151223c36d3e8b3abf85742311a4a98cc84ff26ff1f57a22ec7964c",
+      "bytes": 2908,
+      "gitBlobSha1": "724408733b9ad9402da947208c233f8a1531b402",
+      "matchesGitilesTreeBlob": false
+    }
+  ]
+}

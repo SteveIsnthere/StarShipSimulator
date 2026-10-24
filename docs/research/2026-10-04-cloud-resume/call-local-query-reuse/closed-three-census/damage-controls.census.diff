@@ -1,0 +1,70 @@
+--- damage-controls.ORIGINAL
++++ damage-controls.all-queries-paid-census
+@@ -77,11 +77,18 @@
+ export function writeDamageControls(state: DamageState, model: DamageControlModel,
+   q: number, incidence: number, frontCommand: number, aftCommand: number,
+   out: DamageControlForces): void {
++  __rootCensus.framesStarted++;
++  try {
+   validateDamageControlForcing(state, model, q, incidence, out);
+   out.frontArea = out.aftArea = out.gridLiftArea = out.gridDragArea = 0;
+   out.frontFraction = out.aftFraction = 0;
+   out.proofMask = out.domainMask = 0;
+   out.loadedAngles.fill(0);
++  // Research-only closed-native path: scalar memo belongs to this invocation.
++  let reusePresent = false;
++  let reuseCommand = 0, reuseForce = 0, reuseLever = 0, reuseTemperature = 0;
++  let reuseLength = 0, reuseInertia = 0, reuseAngle = 0;
++  let reuseLaw: 'grid' | 'plate' = 'grid';
+   for (const column of model.columns) {
+     const component = state.components[column.index]!;
+     if (!component.attached || component.permanentFailure !== ComponentFailure.None) continue;
+@@ -93,8 +100,29 @@
+     const command = column.group === 'aft' ? aftCommand : frontCommand;
+     const forceScale = q * column.area * (grid ? 1 : finDragCoefficient * incidence);
+     const law = grid ? 'grid' : 'plate';
+-    const angle = loadedRootAngle(command, forceScale, column.lever,
+-      component.root.temperature, model.root, law);
++    // Preserve original ordered arguments before checking an exact scalar key.
++    const query = loadedRootAngle;
++    const lever = column.lever;
++    const temperature = component.root.temperature;
++    const section = model.root;
++    // Additional reads permitted ONLY by the owned canonical plain-data domain.
++    const length = section.length, inertia = section.inertia;
++    const duplicate = reusePresent && Object.is(command, reuseCommand) && Object.is(forceScale, reuseForce)
++      && Object.is(lever, reuseLever) && Object.is(temperature, reuseTemperature)
++      && law === reuseLaw && Object.is(length, reuseLength) && Object.is(inertia, reuseInertia);
++    __rootCensus.paidQueries++;
++    const angle = query(command, forceScale, lever, temperature, section, law);
++    if (Number.isFinite(angle)) {
++      __rootCensus.successfulQueries++;
++      if (duplicate) {
++        __rootCensus.duplicateInputs++;
++        if (Object.is(angle, reuseAngle)) __rootCensus.bitIdenticalDuplicates++;
++        else __rootCensus.nonIdenticalDuplicates++;
++      }
++      reusePresent = true; reuseCommand = command; reuseForce = forceScale;
++      reuseLever = lever; reuseTemperature = temperature; reuseLaw = law;
++      reuseLength = length; reuseInertia = inertia; reuseAngle = angle;
++    } else reusePresent = false;
+     out.loadedAngles[column.index] = angle;
+     const moment = forceScale * rootLoadCoefficient(Math.abs(angle), law) * column.lever;
+     if (rootUtilization(moment, component.root.temperature, model.root) > 1) {
+@@ -118,4 +146,16 @@
+       }
+     }
+   }
++  } catch (error) { __rootCensus.thrownFrames++; throw error; }
++  finally { __rootCensus.framesClosed++; }
++
+ }
++
++const __rootCensus = { framesStarted: 0, framesClosed: 0, thrownFrames: 0,
++  paidQueries: 0, successfulQueries: 0, duplicateInputs: 0, bitIdenticalDuplicates: 0, nonIdenticalDuplicates: 0 };
++export function resetRootOpportunityCensus(): void {
++  __rootCensus.framesStarted = __rootCensus.framesClosed = __rootCensus.thrownFrames = 0;
++  __rootCensus.paidQueries = __rootCensus.successfulQueries = __rootCensus.duplicateInputs = 0;
++  __rootCensus.bitIdenticalDuplicates = __rootCensus.nonIdenticalDuplicates = 0;
++}
++export function readRootOpportunityCensus(): Readonly<typeof __rootCensus> { return { ...__rootCensus }; }

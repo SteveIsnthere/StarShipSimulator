@@ -1,0 +1,11 @@
+# Mesa functional candidate repaired independent source HIGH
+
+Disposition: **APPROVE repaired source for scoped checks and externally frozen input preparation only**. No browser execution grant or actual backend/functional/performance acceptance is issued here.
+
+I reread actual runner7bced15ccaee04f578476f09606aedc64205bc7d1350ae59f1f2aab6e4c42113 and source manifest608ecc948ffeb2ceebc3958b175b9bad346ebfa4db1a8ea194d33c5e74eba3b7. All four source hashes match. Before-source-high-repair preserves all four original bytes and their original manifest exactly. Stage, observer and contract remain byte-identical; the only executable delta is the finite runner repair.
+
+Both prior findings are closed. Cleanup now emits ownedIdentities containing the same actual pid/starttime/ppid/pgrp rows, matching the observer's canonical raw-identity consumer. No topology field is fabricated or silently defaulted. The runner establishes an absolute90s deadline before input/preflight, checks it before and after synchronous bundle/source snapshots and Playwright loading, uses only the residual budget for its timeout, and checks completion at the functional receipt boundary. Existing browser-close5s, helper residual104s, root112work+8cleanup/whole120s limits remain unchanged. No timeout extension, count change or backend retry was introduced.
+
+Remaining source behavior retains explicit gl-egl and process-local surfaceless, Mesa+llvmpipe unmasked identity refusal, loaded Mesa EGL/Gallium/LLVM corroboration, all20 exact toyRGBA readbacks, GL/context/fence checks, capability-only timer boolean, existing artifact/raw caps, identity-checked root cleanup and independent ALL PID/start verification requirement. It remains a toy functional WebGL2 probe; no application/quality/photo/frame/GPU hardware/physics/provider coverage or release conclusion follows.
+
+Actual input is not frozen yet. Reviewed provenance for the exact303-file/12-directory qualified Chrome plus existing INI, installed launch API and system driver/dependency/symlink closure must be assembled independently and source-pinned. Root owns subsequent scoped checks, concrete input HIGH, exclusive execution grant and actual result review. No reviewer imports, execution, browser launch, source changes, tool scan or driver/library hashing campaign occurred.

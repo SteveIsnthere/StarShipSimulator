@@ -1,0 +1,16 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Executing code lacks external map
+    at mapsMatch (file:///tmp/starship-official-native.0eAlnB/integrity.mjs:48:5)
+    at file:///tmp/starship-official-native.0eAlnB/build.mjs:35:17 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

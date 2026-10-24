@@ -1,0 +1,39 @@
+--- original-failed-owner
++++ distinct-sdk-delimiter-repair-owner
+@@ -4,11 +4,11 @@
+ import {createHash} from 'node:crypto';
+ import {fileURLToPath,pathToFileURL} from 'node:url';
+ import path from 'node:path';
+-const root='/workspace/StarShipSimulator',directory=path.join(root,'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate');
++const root='/workspace/StarShipSimulator',directory=path.join(root,'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/sdk-repair');
+ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+-assert.equal(process.version,'v22.23.3');assert(!process.env.NODE_OPTIONS,'No unqualified owner preload');assert.equal(process.env.RUN_WIDTH2_SDK_CONTROLS,'1','Exclusive parent grant required');
++assert.equal(process.version,'v22.23.3');assert(!process.env.NODE_OPTIONS,'No unqualified owner preload');assert.equal(process.env.RUN_WIDTH2_SDK_REPAIRED_CONTROLS,'1','Exclusive parent grant required');
+ const pinFile=path.join(directory,'owned-sdk-input-pins.json'),pinBytes=readFileSync(pinFile);
+-assert.equal(hash(pinBytes),process.env.WIDTH2_SDK_INPUT_PINS_SHA256);const pins=JSON.parse(pinBytes);
++assert.equal(hash(pinBytes),process.env.WIDTH2_SDK_REPAIRED_INPUT_PINS_SHA256);const pins=JSON.parse(pinBytes);
+ const owner=fileURLToPath(import.meta.url),started=Date.now();
+ function snapshot(){
+  const result={files:{},packages:[],limits:{maxFiles:20000,maxBytes:256*1024*1024,maxPreparationMs:6000}};let bytes=0,count=0;
+@@ -33,10 +33,19 @@
+  packageTree(path.join(root,'node_modules/pixi.js'),'pixi.js');assert(result.packages.some(p=>p.name==='pixi.js'&&p.version==='8.20.0'));
+  result.packages.sort((a,b)=>a.root.localeCompare(b.root));result.inventory={count,bytes};return result;
+ }
+-const before=snapshot();const setup=mkdtempSync('/tmp/starship-width2-sdk.');chmodSync(setup,0o700);
++const before=snapshot();
++// Prior focused actual success is independently source-pinned in this manifest; missing evidence denies this new episode.
++const focused='/tmp/starship-width2-delimiter.Vd8rEw';
++const load=file=>JSON.parse(readFileSync(file,'utf8'));
++const fp=load(path.join(focused,'delimiter.process.json'));assert.equal(fp.exit.code,0);assert.equal(fp.exit.signal,null);assert.equal(fp.failure,null);assert.equal(fp.closed,true);assert.equal(fp.cleanup.executing.length,0);
++const fo=load(path.join(focused,'owner-result.json'));assert.equal(fo.finalized,true);assert.equal(fo.sourceExact,true);assert.equal(fo.failure,null);assert.deepStrictEqual(fo.before,fo.after);
++const proof=load(path.join(focused,'proof-result.json'));assert.equal(proof.finalized,true);assert.equal(proof.actualPublicApi,true);assert.equal(proof.oldJoinUndefined,true);assert.equal(proof.actualGuardNegatives,8);assert.equal(proof.actualGuardAcceptedBoundaries,2);
++const parent=load(path.join(root,'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/delimiter-repair/focused-parent/result.json'));
++assert.equal(parent.childExit,0);assert.equal(parent.timeout,false);assert.equal(parent.sourceExact,true);assert.equal(parent.nodeExact,true);assert.equal(parent.allOwnedNonexecuting,true);assert.equal(parent.receipt,focused);
++const setup=mkdtempSync('/tmp/starship-width2-sdk-repaired.');chmodSync(setup,0o700);
+ const put=(name,data)=>writeFileSync(path.join(setup,name),data,{flag:'wx',mode:0o600});
+ const json=(name,value)=>put(name,JSON.stringify(value,null,2)+'\n');
+-const executed={};for(const [name,template]of [['controls.mjs','locked-batcher-controls.mjs.txt'],['entry.ts.txt','render-kernel-width2-entry.ts.txt']]){
++const executed={};for(const [name,template]of [['controls.mjs','../locked-batcher-controls.mjs.txt'],['entry.ts.txt','../../render-kernel-width2-entry.ts.txt']]){
+  const data=readFileSync(path.join(directory,template));put(name,data);executed[name]=hash(readFileSync(path.join(setup,name)));assert.equal(executed[name],hash(data));}
+ put('executed-owner.mjs.txt',readFileSync(owner));put('executed-owned-command.mjs.txt',readFileSync(path.join(root,'scripts/bench/owned-command.mjs')));
+ json('before.json',before);json('declaration.json',{kind:'width2-sdk-owned-v1',setup,childDeadlineMs:5000,

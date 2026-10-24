@@ -1,0 +1,92 @@
+"""One <=5s offline cohort: pure controls then <=2MiB/10000 complete retained events."""
+import hashlib, importlib.machinery, importlib.util, json, os, pathlib, signal, stat, sys, time
+sys.dont_write_bytecode = True
+started = time.monotonic()
+def timeout(signum, frame): raise TimeoutError('prefix-cohort-five-second-deadline')
+signal.signal(signal.SIGALRM, timeout)
+signal.setitimer(signal.ITIMER_REAL, 5)
+deadline = started+5
+def require(ok, code):
+    if not ok: raise RuntimeError(code)
+def digest(path):
+    p = pathlib.Path(path); s = p.lstat()
+    require(stat.S_ISREG(s.st_mode) and s.st_size <= 2*1024*1024, 'finite-selected-metadata-source')
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+def read(path): return json.loads(pathlib.Path(path).read_text())
+def identity(s):
+    return {'bytes': s.st_size, 'mode': stat.S_IMODE(s.st_mode), 'device': s.st_dev,
+        'inode': s.st_ino, 'mtimeNs': s.st_mtime_ns, 'ctimeNs': s.st_ctime_ns}
+def check_trace(row):
+    p = pathlib.Path(row['path']); require(p.is_absolute() and p.resolve() == p, 'canonical-retained-trace-path')
+    s = p.lstat(); require(stat.S_ISREG(s.st_mode), 'retained-regular-trace')
+    require(identity(s) == {key: row[key] for key in identity(s)}, 'retained-trace-identity-drift')
+    require(s.st_size == 67108864 and len(row['sha256']) == 64, 'exact-original-partial-export-authority')
+    return s
+input_path, input_sha = sys.argv[1:]
+require(digest(input_path) == input_sha, 'root-frozen-assessment-input')
+m = read(input_path)
+require(m['kind'] == 'mesa-retained-trace-prefix-assessment-input-v1', 'wrong-assessment-kind')
+require(m['byteCap'] == 2097152 and m['eventCap'] == 10000 and m['workSeconds'] == 5, 'original-prefix-limits')
+require(pathlib.Path(sys.executable).resolve() == pathlib.Path(m['python']['path']).resolve(), 'managed-python-path')
+require(digest(__file__) == m['diagnostic']['sha'], 'executed-diagnostic-source')
+receipt = pathlib.Path(m['receipt'])
+suffix = receipt.name.removeprefix('starship-trace-prefix.')
+require(receipt.parent == pathlib.Path('/tmp') and len(suffix) == 32 and all(c in '0123456789abcdef' for c in suffix), 'fresh-prefix-receipt-namespace')
+require(receipt.resolve() == receipt and receipt.is_dir() and receipt.stat().st_mode & 0o777 == 0o700 and not list(receipt.iterdir()), 'fresh-empty0700receipt')
+print(json.dumps({'diagnosticReceipt': str(receipt)}), flush=True)
+def save(name, value):
+    data = (json.dumps(value, indent=2, allow_nan=False)+'\n').encode()
+    require(len(data) <= 2*1024*1024, 'public-prefix-output-cap')
+    fd = os.open(receipt/name, os.O_WRONLY|os.O_CREAT|os.O_EXCL, 0o600)
+    try:
+        with os.fdopen(fd, 'wb', closefd=False) as output: output.write(data); output.flush(); os.fsync(fd)
+    finally: os.close(fd)
+def selected():
+    for path, sha in m['files'].items(): require(digest(path) == sha, 'selected-prefix-input-drift')
+    require(digest(input_path) == input_sha, 'frozen-assessment-input-drift')
+def load(name, role):
+    require(m['files'].get(role['path']) == role['sha'] and digest(role['path']) == role['sha'], 'selected-python-module-source')
+    loader = importlib.machinery.SourceFileLoader(name, role['path'])
+    spec = importlib.util.spec_from_loader(name, loader); module = importlib.util.module_from_spec(spec)
+    loader.exec_module(module); return module
+errors = []; after_errors = []; summary = None; controls = None; prefix_sha = None; before = None; fd = None
+try:
+    selected(); before = check_trace(m['trace'])
+    parser = load('mesa_retained_prefix_reader', m['parser'])
+    pure = load('mesa_retained_prefix_controls', m['controls'])
+    controls = pure.controls(parser, deadline); save('pure-controls.json', controls)
+    fd = os.open(m['trace']['path'], os.O_RDONLY|os.O_NOFOLLOW)
+    require(identity(os.fstat(fd)) == identity(before), 'opened-trace-identity')
+    data = os.read(fd, m['byteCap'])
+    require(len(data) == m['byteCap'], 'exact-retained-prefix-read')
+    prefix_sha = hashlib.sha256(data).hexdigest()
+    summary = parser.classify(data, deadline)
+    require(summary['validatedCompleteEvents'] > 0, 'no-complete-prefix-events')
+    require(summary['prefixOnly'] is True and summary['completeTrace'] is False, 'never-complete-trace-claim')
+    save('prefix-statistics.json', summary)
+    require(time.monotonic() <= deadline, 'prefix-work-five-second-bound')
+except BaseException as failure:
+    # Our grammar/guards use constant codes; do not export arbitrary trace strings.
+    errors.append({'type': type(failure).__name__, 'code': str(failure) if isinstance(failure, (RuntimeError, TimeoutError)) else 'assessment-rejected'})
+finally:
+    if fd is not None:
+        try: require(identity(os.fstat(fd)) == identity(before), 'final-open-trace-identity')
+        except BaseException as failure: after_errors.append({'stage': 'open-trace', 'type': type(failure).__name__})
+        try: os.close(fd)
+        except BaseException as failure: after_errors.append({'stage': 'close-trace', 'type': type(failure).__name__})
+    for label, action in [('selected-after', selected), ('trace-after', lambda: check_trace(m['trace']))]:
+        try: action()
+        except BaseException as failure: after_errors.append({'stage': label, 'type': type(failure).__name__})
+    elapsed = time.monotonic()-started
+    if elapsed > 5: after_errors.append({'stage': 'whole-prefix-work', 'type': 'TimeoutError'})
+    result = {'completed': not errors and not after_errors, 'errors': errors, 'afterErrors': after_errors,
+        'elapsedSeconds': elapsed, 'inputSha': input_sha, 'totalBytes': 0 if prefix_sha is None else 2097152,
+        'prefixSha256': prefix_sha, 'originalWholeTraceSha256ExternalAuthority': m['trace']['sha256'],
+        'wholeTraceNotHashedByReader': True, 'rootWholeTraceBeforeAfterHashRequired': True,
+        'prefixOnly': True, 'completeTrace': False, 'criticalPathClaim': False, 'argsURLsEnvironmentNeverOutput': True,
+        'controls': controls, 'validatedCompleteEvents': None if summary is None else summary['validatedCompleteEvents'],
+        'noSourceApplication': True, 'noBrowserOrTest': True, 'noSubprocess': True}
+    save('result.json', result)
+    signal.setitimer(signal.ITIMER_REAL, 0)
+    if time.monotonic()-started > 5: sys.exit(1)
+if errors or after_errors: sys.exit(1)

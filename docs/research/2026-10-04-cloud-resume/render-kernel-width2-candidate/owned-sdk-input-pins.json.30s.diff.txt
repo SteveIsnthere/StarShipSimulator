@@ -1,0 +1,13 @@
+--- before30s/owned-sdk-input-pins.json
++++ after30s/owned-sdk-input-pins.json
+@@ -19,8 +19,8 @@
+   "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-entry.ts": "8d5ddb05c1dabf9b1794a163e64d34ff53a22895874380aba206575e4a346337",
+   "docs/research/2026-10-04-cloud-resume/render-kernel-texture-repair-build.config.mjs": "3c7130ef80bb15d242f7275ef0ad9084f8c91696e8d71c1ce281d49ece3a77b0",
+   "docs/research/2026-10-04-cloud-resume/render-kernel-compact-json-repair/run-render-kernel-compact-json.mjs.txt": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+-  "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-owned-sdk-controls.mjs.txt": "bc7298872e797a629874429d1a32c617a0988b7c1f77cc046558dbd802349b09",
+-  "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/owned-sdk-declaration.md": "0bd8a9aea63ef0c6bffcd7675b7607fc00f0f4a78c754ba7bc6692676b4d3e8d",
++  "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-owned-sdk-controls.mjs.txt": "e0c430b62aae1c15368a831bc12f89e29add511b4c8c60564e745bc92d7e1bb6",
++  "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/owned-sdk-declaration.md": "4af20508c604d80c46ba58007daabf73a1e578a849e3d8b5851c479c47c61115",
+   "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/research-file-pins.json": "9c1adf1a427e7522efc4c747fb0bbfd88bb7b5399d623da38ca25339fceadcac",
+   "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/locked-batcher-controls.mjs.txt.readiness.diff.txt": "335b1e0686fb9ecbf8377c2295d49b75af2a45cb7d0c09de5bd8bdd54dd6697b",
+   "docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/run-render-kernel-width2.mjs.txt.readiness.diff.txt": "7425f55c5331a91f229b96fe59b5544f08137c868885dc3093d14696cfd4d1ff",

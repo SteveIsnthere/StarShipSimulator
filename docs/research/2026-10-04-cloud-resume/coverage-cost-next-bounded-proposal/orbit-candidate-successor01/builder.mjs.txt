@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {build,resolveConfig} from 'vite';
+import {readFileSync,writeFileSync,readdirSync} from 'node:fs';
+import {resolve,dirname,isAbsolute} from 'node:path';
+import {createHash} from 'node:crypto';
+const [input,expected]=process.argv.slice(2),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');assert.equal(sha(input),expected);const m=JSON.parse(readFileSync(input));assert.equal(m.kind,'original-orbit18-qualification-input-v1');
+for(const[p,h]of Object.entries(m.files))assert.equal(sha(p),h,p);
+const config=await resolveConfig({configFile:resolve(m.root,'vite.config.ts')},'build','production');
+writeFileSync(resolve(m.receipt,'production-options.json'),JSON.stringify({target:config.build.target,minify:config.build.minify,sourcemap:config.build.sourcemap,cssMinify:config.build.cssMinify,base:config.base,mode:config.mode,adaptation:'ESM library entry/output only; no numerical transform or passive counters'},null,2)+'\n',{flag:'wx'});
+assert.equal(sha(m.entry.path),m.entry.sha);
+await build({configFile:resolve(m.root,'vite.config.ts'),build:{target:config.build.target,minify:config.build.minify,sourcemap:config.build.sourcemap,cssMinify:config.build.cssMinify,outDir:resolve(m.receipt,'plain'),emptyOutDir:true,lib:{entry:m.entry.path,formats:['es'],fileName:()=> 'entry.mjs'}}});
+const files=[],mapped=new Set();
+for(const name of readdirSync(resolve(m.receipt,'plain')).sort()){const path=resolve(m.receipt,'plain',name);files.push({path,sha:sha(path)});if(!name.endsWith('.map'))continue;const map=JSON.parse(readFileSync(path));assert.equal(map.sources.length,map.sourcesContent.length);for(let i=0;i<map.sources.length;i++){assert.equal(typeof map.sourcesContent[i],'string');assert(!map.sources[i].includes('://'));const source=isAbsolute(map.sources[i])?map.sources[i]:resolve(dirname(path),map.sourceRoot??'',map.sources[i]);assert.equal(map.sourcesContent[i],readFileSync(source,'utf8'));assert.equal(m.files[source],sha(source),'Every mapped source must have external source authority');mapped.add(source);}}
+for(const source of ['src/core/state.ts','src/core/step.ts','src/core/physics/gravity.ts','src/core/constants.ts','tests/core/legacy-models.ts'])assert(mapped.has(resolve(m.root,source)),'Required source absent '+source);
+writeFileSync(resolve(m.receipt,'compiled-manifest.json'),JSON.stringify({files,mapped:[...mapped].sort(),entrySource:m.entry,originalOrbit:m.originalTest},null,2)+'\n',{flag:'wx'});
+for(const[p,h]of Object.entries(m.files))assert.equal(sha(p),h,p);assert.equal(sha(input),expected);

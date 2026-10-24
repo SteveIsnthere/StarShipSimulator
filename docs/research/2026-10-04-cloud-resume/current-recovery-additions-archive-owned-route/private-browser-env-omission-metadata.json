@@ -1,0 +1,58 @@
+{
+  "kind": "private-browser-environment-omission-metadata-v1",
+  "scope": "Metadata only; immutable private raw originals retained; no environment values published",
+  "files": [
+    {
+      "privateOriginal": "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-852d8-adence-mobile-visual-budget-chromium/full-frame-budget.json",
+      "privateOriginalSha256": "4d51b33155e5cc9590ee194c708e804a1d17e8903c813cf327ee73dec5b266f9",
+      "privateOriginalBytes": 414622,
+      "privateOriginalMode": 384,
+      "omittedJsonPointer": "/browser/launch/env",
+      "omittedCanonicalJsonSha256": "48834bdabc42704624734892a78fcff1d6887a2d88580827b9352a7cc1dbed35",
+      "omittedCanonicalJsonBytes": 4207,
+      "canonicalEncoding": "UTF-8 JSON sorted keys compact separators ensure_ascii=false, no newline",
+      "originalRetained": true,
+      "copied": false,
+      "publicBytesIncluded": false
+    },
+    {
+      "privateOriginal": "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-67282-adence-mobile-visual-budget-chromium/full-frame-budget.json",
+      "privateOriginalSha256": "fcda52c0f20a189f3fd85f98c6ba62757b38da1c3594a5387e3ade08c30bab53",
+      "privateOriginalBytes": 100830,
+      "privateOriginalMode": 384,
+      "omittedJsonPointer": "/browser/launch/env",
+      "omittedCanonicalJsonSha256": "b3ac3d6a9c62c4675fec564870f7615174f42a53071ae7d64b80afb489b82835",
+      "omittedCanonicalJsonBytes": 4207,
+      "canonicalEncoding": "UTF-8 JSON sorted keys compact separators ensure_ascii=false, no newline",
+      "originalRetained": true,
+      "copied": false,
+      "publicBytesIncluded": false
+    },
+    {
+      "privateOriginal": "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-7fc94-adence-mobile-visual-budget-chromium/full-frame-budget.json",
+      "privateOriginalSha256": "9f8b20da96ad3d15dc0619e97eb90fa2470626262437dd5b874dd0f54c6fcb4b",
+      "privateOriginalBytes": 100545,
+      "privateOriginalMode": 384,
+      "omittedJsonPointer": "/browser/launch/env",
+      "omittedCanonicalJsonSha256": "75248f26a5da6740eb80cc69a428a4aa1ee15df4cfdf53a055fb31e30f31d6fb",
+      "omittedCanonicalJsonBytes": 4207,
+      "canonicalEncoding": "UTF-8 JSON sorted keys compact separators ensure_ascii=false, no newline",
+      "originalRetained": true,
+      "copied": false,
+      "publicBytesIncluded": false
+    },
+    {
+      "privateOriginal": "/tmp/starship-mesa-app-matrix.ccbecee534ea4c00b481f1b8555e9c29/test-results/mesa-budget-full-frame-vis-d7ab5-adence-mobile-visual-budget-chromium/full-frame-budget.json",
+      "privateOriginalSha256": "3140c0f6de336fecbe819617f6da8fefb2d1e75d12ff78ae4d1d7f67d9dee304",
+      "privateOriginalBytes": 100694,
+      "privateOriginalMode": 384,
+      "omittedJsonPointer": "/browser/launch/env",
+      "omittedCanonicalJsonSha256": "314014e611b3fb746218f9c9dec1ab6b05f06211e49eae2548c7b1b05e996a70",
+      "omittedCanonicalJsonBytes": 4207,
+      "canonicalEncoding": "UTF-8 JSON sorted keys compact separators ensure_ascii=false, no newline",
+      "originalRetained": true,
+      "copied": false,
+      "publicBytesIncluded": false
+    }
+  ]
+}

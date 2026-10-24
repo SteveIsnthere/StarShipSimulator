@@ -7,7 +7,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { act, fireEvent, screen, within } from '@testing-library/react';
 import { advance } from '$app/loop';
-import { vehicleHeight } from '$core/constants';
+import { SHIP } from '$core/vehicle';
 import { getScenario } from '$core/scenarios';
 import { deg } from '$core/units';
 import { createFlightWatch, debrief, type Debrief as FlightDebrief, type Judged } from '$hud/debrief';
@@ -25,7 +25,7 @@ import { renderWithSession } from './render';
 function flyOntoThePad(session: Session, speedY: number): FlightDebrief {
   session.startFlight({
     ...getScenario('landing-burn')!,
-    altitude: vehicleHeight / 2 + 0.5,
+    altitude: SHIP.height / 2 + 0.5,
     xPosition: 0,
     speedX: 0,
     speedY,

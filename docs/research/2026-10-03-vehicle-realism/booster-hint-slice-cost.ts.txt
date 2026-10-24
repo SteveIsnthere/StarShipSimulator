@@ -1,0 +1,31 @@
+/** Timing only, not another flight/candidate search: exact two prior stencil
+ * cutoff states, existing shared fall implementation, unchanged source. */
+import {performance} from 'node:perf_hooks';import {writeFileSync} from 'node:fs';
+import {createScenarioVehicle,PRESETS} from '../../../src/core/scenarios';
+import {step,advanceMechanics} from '../../../src/core/step';
+import {createBoosterCutoffWork,advanceBoosterForecast} from '../../../src/core/control/booster-forecast';
+import {runBoosterPolicy} from '../../../src/core/autopilot/booster';
+import {createBurnScratch,createUnpoweredFallWork,advanceUnpoweredFall} from '../../../src/core/control/guidance-physics';
+import {SUPER_HEAVY,CATCH} from '../../../src/core/vehicles/super-heavy';
+import {rad} from '../../../src/core/units';import * as C from '../../../src/core/constants';
+let s=createScenarioVehicle(PRESETS.find(p=>p.id==='booster-sep')!,123).state;s.autopilot.autoLandOn=true;
+s=step(s,1/120,{},SUPER_HEAVY);const origin=s.autopilot.boosterPrediction!.origin;const rows=[];
+for(const duration of [2901/120,2913/120]){
+ const work=createBoosterCutoffWork(origin,rad(0),duration);advanceBoosterForecast(work,4000,advanceMechanics,runBoosterPolicy,SUPER_HEAVY);
+ const scratch=createBurnScratch();
+ for(let i=0;i<20;i++){
+  const fall=createUnpoweredFallWork(work.state,CATCH.bodyCentreAltitude,SUPER_HEAVY,rad(0));
+  while(!fall.done)advanceUnpoweredFall(fall,512,scratch);
+ }
+ const runs=200,sliceMs:number[]=[],sliceCalls:number[]=[];let out,lastSteps=0;
+ for(let i=0;i<runs;i++){
+  const fall=createUnpoweredFallWork(work.state,CATCH.bodyCentreAltitude,SUPER_HEAVY,rad(0));let index=0;
+  while(!fall.done){const t0=performance.now();advanceUnpoweredFall(fall,512,scratch);
+   sliceMs[index]=(sliceMs[index]??0)+performance.now()-t0;sliceCalls[index]=(sliceCalls[index]??0)+1;index++;}
+  out=fall.result;lastSteps=fall.steps;
+ }
+ rows.push({duration,runs,perSliceMeanMs:sliceMs.map((v,i)=>v/sliceCalls[i]!),slices:sliceCalls.length,midpointSteps:lastSteps,
+  reached:out!.reached,fallTime:out!.time,range:work.state.kinematics.downRangeDistance-C.starBaseXPos+out!.downRange,
+  note:'Exact already evaluated cutoff, identical midpoint order/result,512 iteration slices; timing does not change control.'});
+}
+writeFileSync('docs/research/2026-10-03-vehicle-realism/booster-hint-slice-cost.json',JSON.stringify(rows,null,2)+'\n');console.log(JSON.stringify(rows,null,2));

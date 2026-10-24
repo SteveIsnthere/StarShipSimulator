@@ -1,7 +1,64 @@
 import { expect, test } from '@playwright/test';
 import { build } from 'esbuild';
+import { writeFile } from 'node:fs/promises';
 import type { CompositeReport, WitnessKind } from './renderer/post-witness';
 import type { SamplingRow } from './renderer/post-sampling';
+
+test('authored V3 belly tiles stay dark under the production material lighting while day and sun direction still matter @mobile', async ({ page }) => {
+  await openWitness(page);
+  const rows = await page.evaluate(() => (window as unknown as {
+    heatShieldWitness: typeof import('./renderer/heat-shield-witness').heatShieldWitness;
+  }).heatShieldWitness());
+  console.log('[heat-shield]', { day: { left: rows.day.left, right: rows.day.right },
+    reversed: { left: rows.reversed.left, right: rows.reversed.right },
+    night: { left: rows.night.left, right: rows.night.right },
+    unshielded: { left: rows.unshielded.left, right: rows.unshielded.right } });
+  expect(rows.day.left).toBeGreaterThan(0);
+  expect(rows.day.right).toBeGreaterThan(0);
+  expect(rows.day.right, 'TPS response is darker than steel with the same geometry and illumination').toBeLessThan(rows.unshielded.right);
+  expect(rows.day.left, 'the visible belly remains a dark material on both sides').toBeLessThan(rows.unshielded.left);
+  expect(rows.reversed.left).toBeGreaterThan(rows.day.left);
+  expect(rows.reversed.right).toBeLessThan(rows.day.right);
+  expect(rows.night.left).toBeLessThan(rows.day.left);
+  expect(rows.night.right).toBeLessThan(rows.day.right);
+  for (const [name, row] of Object.entries(rows)) {
+    await writeFile(test.info().outputPath(`heat-shield-${name}.png`), Buffer.from(row.capture.split(',')[1]!, 'base64'));
+  }
+});
+
+test('authored V3 vehicle tile faces follow mirrored sunlight @mobile', async ({ page }, info) => {
+  await openWitness(page);
+  const rows = await page.evaluate(() => (window as unknown as {
+    heatShieldWitness: typeof import('./renderer/heat-shield-witness').heatShieldWitness;
+  }).heatShieldWitness('vehicle'));
+  console.log('[authored-v3-tiles]', { morning: [rows.day.left, rows.day.right], afternoon: [rows.reversed.left, rows.reversed.right] });
+  expect(rows.day.right / rows.day.left, 'authored vehicle morning sun must light the right tile face').toBeGreaterThan(1.25);
+  expect(rows.reversed.left / rows.reversed.right, 'authored vehicle afternoon sun must light the left tile face').toBeGreaterThan(1.25);
+  expect(rows.night.left).toBeLessThan(rows.day.left);
+  expect(rows.night.right).toBeLessThan(rows.day.right);
+  for (const [name, row] of Object.entries(rows)) {
+    await writeFile(info.outputPath(`v3-tiles-${name}.png`), Buffer.from(row.capture.split(',')[1]!, 'base64'));
+  }
+});
+
+test('engine and ground glare follow firing with absence and paused controls @mobile', async ({ page }) => {
+  await openWitness(page);
+  const { capture, ...report } = await page.evaluate(() => (window as unknown as {
+    engineGlareWitness: typeof import('./renderer/engine-glare-witness').engineGlareWitness;
+  }).engineGlareWitness());
+  console.log('[engine-glare]', report);
+  expect(report.offEnergy).toBe(0);
+  expect(report.engineEnergy).toBeGreaterThan(0);
+  expect(report.groundEnergy).toBeGreaterThan(0);
+  expect(report.farGroundEnergy).toBe(0);
+  expect(report.failedEnergy).toBe(0);
+  expect(report.shutdownEnergy).toBe(0);
+  expect(report.pausedDifference).toBe(0);
+  expect(report.bloomMinimum).toBeGreaterThanOrEqual(-1);
+  // The witness releases its renderer before returning. Save its actual
+  // canvas capture taken before teardown, rather than the now-empty page.
+  await writeFile(test.info().outputPath('engine-and-ground-glare.png'), Buffer.from(capture.split(',')[1]!, 'base64'));
+});
 
 let source: string;
 test.beforeAll(async () => {

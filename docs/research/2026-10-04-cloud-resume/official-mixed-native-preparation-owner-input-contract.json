@@ -1,0 +1,13 @@
+{
+  "kind": "official-mixed-native-preparation-owner-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "requiredPinnedObjects": ["node", "helper", "utility", "preparer", "pins", "npmCli", "stage", "observer", "python"],
+  "objectSchema": {"path": "absolute exact reviewed path", "sha": "actual root-frozen SHA256"},
+  "pinsExpectedSha": "b8fdbed8600a6322ac8dbee609771f9f9b8a9e7bb6c2ae43f2778c35c37c1104",
+  "preparerExpectedSha": "820353501e5e6039f92cfb8ac1f50f658aa8170225f142b274a6d9f81256a0cc",
+  "invocation": ["pinned-python3", "materialized-root-observer.py", "absolute-root-frozen-owner-input.json", "actual-owner-input-SHA256"],
+  "materialization": "Root creates exact-byte .py and stage.mjs snapshots; observer creates its owned unique root receipt, stage creates unique inner receipt and exact .mjs preparer copy; neither changes product source",
+  "bounds": "ONE90s whole preparation work; existing TERM5s/KILL2s/drain1s bounded cleanup; no retry. Root observer persists each observed PID/start identity immediately and reconciles ALL actual helper cleanup.tracked after closure.",
+  "result": "actual outer exit and child exit preserved before receipt acceptance; root outcome plus stage/process plus actual parsed private receipt input19 requires independent actual-result review before build",
+  "reuse": "For subsequent private build, separately reviewed stage args can reuse this observer ownership mechanism after actual external input freeze; this preparation-only stage grants no build"
+}

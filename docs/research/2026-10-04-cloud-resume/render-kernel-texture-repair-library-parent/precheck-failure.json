@@ -1,0 +1,8 @@
+{
+  "exitCode": 1,
+  "failure": "Root parent supplied nonexistent approval filename cloud-render-kernel-display-witness-pure-result-approval.json; actual independently saved name contains independent-approval",
+  "preparationExecuted": false,
+  "buildExecuted": false,
+  "qualificationExecuted": false,
+  "fix": "Resolve actual approval path; distinct parent2; original partial source-copy parent preserved"
+}

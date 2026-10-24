@@ -1,0 +1,44 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/ui/camera-follow.test.ts (5 tests | 1 failed) 19ms
+   × preserves the original intro follow and native FOV at every real step on all five canvas sizes 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/ui/camera-follow.test.ts > preserves the original intro follow and native FOV at every real step on all five canvas sizes
+AssertionError: expected { posX: 20015086.79602057, …(10) } to deeply equal { posX: 20015086.79602057, …(10) }
+
+- Expected
++ Received
+
+@@ -1,11 +1,11 @@
+  {
+    "accX": -2.0632372987776643e-19,
+    "accY": 0,
+    "padHeld": false,
+    "posX": 20015086.79602057,
+-   "posY": 100,
++   "posY": 123.6752762213195,
+    "shakeTime": 0.008333333333333333,
+    "shakeX": 0.056475410972554645,
+    "shakeY": 0.04661908095875468,
+    "speedX": -1.7193644156480537e-21,
+    "speedY": 0,
+
+ ❯ tests/ui/camera-follow.test.ts:86:27
+     84|       follow.step(view, state);
+     85|       expect(view.viewport).toEqual(native);
+     86|       expect(view.camera).toEqual(original);
+       |                           ^
+     87|     }
+     88|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  11:23:45
+   Duration  588ms (transform 186ms, setup 0ms, import 441ms, tests 19ms, environment 0ms)
+

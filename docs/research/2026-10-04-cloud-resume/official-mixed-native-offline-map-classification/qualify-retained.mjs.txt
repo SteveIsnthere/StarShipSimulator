@@ -1,0 +1,119 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, realpathSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve, relative, dirname } from 'node:path';
+import { pathToFileURL, fileURLToPath } from 'node:url';
+import { facadeBindings, mappedChunkExports, assertExternalMapRoute, pureRouteControls, pureClosureControls } from './classify-closure.mjs';
+import { assertOutputInventory, assertCopiedPublic, assertMapSource, artifactNegativeControls, strictOutputInventory, collectorControls } from './artifact-validation.mjs';
+const sha = file => createHash('sha256').update(readFileSync(file)).digest('hex');
+const json = file => JSON.parse(readFileSync(file, 'utf8'));
+const [externalPath, externalSha, output] = process.argv.slice(2);
+assert.match(externalSha, /^[a-f0-9]{64}$/); assert.equal(sha(externalPath), externalSha);
+assert.match(output, /^\/tmp\/starship-mixed-map-qualification\.[A-Za-z0-9]+$/);
+const e = json(externalPath);
+assert.equal(e.kind, 'retained-mixed-native-map-qualification-input-v1');
+assert.equal(e.root, process.cwd()); assert.equal(process.version, 'v22.23.3');
+assert.equal(sha(process.execPath), e.nodeSha);
+assert.deepEqual(Object.keys(e.executedInputs).sort(), ['artifact-validation.mjs', 'classify-closure.mjs', 'qualify-retained.mjs', 'run-owned.mjs'].map(name => resolve(dirname(fileURLToPath(import.meta.url)), name)).sort());
+for (const [file, expected] of Object.entries(e.executedInputs)) assert.equal(sha(file), expected);
+assert.equal(sha(e.buildInput.path), e.buildInput.sha);
+assert.equal(e.buildInput.sha, '02420ef966ce52cfbe849afb64cf6f778b9dc9bdb52c99a96b1193ec1d4517fb');
+assert.equal(sha(e.archiveOrigin.path), e.archiveOrigin.sha);
+const old = json(e.buildInput.path);
+assert.equal(old.kind, 'mixed-native-build-input-v1'); assert.equal(old.nodeBinary, e.nodeSha);
+assert.equal(old.ownedCommandDigest, e.ownedSha);
+const utilityFile = resolve(e.root, 'scripts/bench/native-loader.mjs');
+assert.equal(sha(utilityFile), old.utilityDigest);
+const u = await import(pathToFileURL(utilityFile).href);
+let failure, classification, retainedBytes = 0;
+const write = (name, value) => {
+  const raw = JSON.stringify(value) + '\n'; retainedBytes += Buffer.byteLength(raw);
+  assert(retainedBytes <= 16 * 1024 * 1024, 'Qualification export cap exceeded');
+  writeFileSync(resolve(output, name), raw, { flag: 'wx' });
+};
+try {
+  const source = u.sourceSnapshot(e.root), tools = u.installedToolSnapshot(e.root, old.npmCli);
+  write('actual-source-before.json', source); write('actual-tools-before.json', tools);
+  assert.deepEqual(source, old.source); assert.deepEqual(tools, old.installedTools);
+  for (const [file, expected] of Object.entries(old.materializedInputs)) assert.equal(sha(file), expected);
+  assert.equal(Object.keys(old.materializedInputs).length, 19);
+  // No parser/compiler/provider/artifact imports until current full tool identity matches.
+  const { parseAst } = await import(pathToFileURL(resolve(e.root, 'node_modules/rolldown/dist/parse-ast-index.mjs')).href);
+  const pure = [...pureRouteControls(), ...pureClosureControls(parseAst), ...artifactNegativeControls(), ...collectorControls(output)];
+  write('pure-controls.json', pure);
+  const directory = realpathSync(e.privateDirectory);
+  assert.equal(directory, '/tmp/starship-official-native.0eAlnB/native');
+  const outputs = strictOutputInventory(directory);
+  assertOutputInventory(outputs, e.outputFiles);
+  const origin = json(e.archiveOrigin.path);
+  for (const [file, expected] of Object.entries(outputs)) {
+    const record = origin.files.find(row => row.original === resolve(directory, file));
+    assert(record); assert.equal(record.sha256, expected);
+    assert.equal(sha(resolve(dirname(e.archiveOrigin.path), record.retained)), expected);
+  }
+  const chunk = 'simulation-CN0-W409.js', facade = 'entry.mjs', mapName = chunk + '.map';
+  assert(Object.hasOwn(outputs, chunk) && Object.hasOwn(outputs, facade) && Object.hasOwn(outputs, mapName));
+  const facadeCode = readFileSync(resolve(directory, facade), 'utf8');
+  const chunkCode = readFileSync(resolve(directory, chunk), 'utf8');
+  const bindings = facadeBindings(parseAst(facadeCode), chunk);
+  const locals = mappedChunkExports(parseAst(chunkCode), bindings);
+  assertExternalMapRoute(chunkCode, mapName);
+  const map = json(resolve(directory, mapName));
+  assert.equal(map.version, 3); assert.equal(map.file, chunk);
+  assert(Array.isArray(map.sources) && Array.isArray(map.sourcesContent));
+  assert.equal(map.sources.length, map.sourcesContent.length); assert.equal(map.sources.length, 55);
+  const mapped = {};
+  for (let i = 0; i < map.sources.length; i++) {
+    assert.equal(typeof map.sources[i], 'string'); assert(!map.sources[i].includes('://'));
+    assert.equal(typeof map.sourcesContent[i], 'string');
+    const original = realpathSync(resolve(directory, map.sourceRoot ?? '', map.sources[i]));
+    const name = relative(e.root, original); assert(name.startsWith('src/'));
+    assert(Object.hasOwn(old.source, name)); assert.equal(sha(original), old.source[name]);
+    assertMapSource(map.sourcesContent[i], readFileSync(original, 'utf8'));
+    assert(!Object.hasOwn(mapped, name)); mapped[name] = sha(original);
+  }
+  for (const role of ['src/app/loop.ts', 'src/core/autopilot/booster.ts', 'src/core/constants.ts']) assert(Object.hasOwn(mapped, role));
+  // Public decoder validates actual mappings and positions without normalizing source coordinates.
+  const { TraceMap, eachMapping } = await import(pathToFileURL(resolve(e.root, 'node_modules/@jridgewell/trace-mapping/dist/trace-mapping.mjs')).href);
+  const trace = new TraceMap(map), generatedLines = chunkCode.split('\n'); let mappings = 0;
+  eachMapping(trace, record => {
+    assert(Number.isInteger(record.generatedLine) && record.generatedLine >= 1 && record.generatedLine <= generatedLines.length);
+    assert(Number.isInteger(record.generatedColumn) && record.generatedColumn >= 0 && record.generatedColumn <= generatedLines[record.generatedLine - 1].length);
+    if (record.source !== null) {
+      const index = map.sources.indexOf(record.source); assert(index >= 0);
+      const lines = map.sourcesContent[index].split('\n');
+      assert(Number.isInteger(record.originalLine) && record.originalLine >= 1 && record.originalLine <= lines.length);
+      assert(Number.isInteger(record.originalColumn) && record.originalColumn >= 0 && record.originalColumn <= lines[record.originalLine - 1].length);
+    }
+    assert(++mappings <= 1000000);
+  });
+  assert(mappings > 0);
+  const publicOutputs = Object.keys(outputs).filter(file => ![facade, chunk, mapName].includes(file));
+  assert.deepEqual([...publicOutputs].sort(), Object.keys(e.publicInputs).sort());
+  for (const file of publicOutputs) {
+    assert.equal(sha(resolve(e.root, 'public', file)), e.publicInputs[file]);
+    assertCopiedPublic(outputs[file], e.publicInputs[file]);
+  }
+  write('actual-map.json', map); write('actual-output-inventory.json', outputs);
+  classification = { classified: true, originalBuildContract: 'FAILED', compilerPipelineCode: 1,
+    qualified: false, controlsAdmitted: false, productionAcceptance: false,
+    completeClosure: [facade, chunk], bindings, locals, mapped, mappings, copiedPublic: publicOutputs,
+    runtimeCodeUtf16Length: chunkCode.length, options: old.options,
+    note: 'Map/closure/current-integrity evidence only; mapped body/role/source-only semantics and composite admission HOLD' };
+} catch (error) { failure = error; }
+// Independent after checks are attempted even if classification failed; never failure??= hides them.
+const afterErrors = [];
+for (const [name, run] of [
+  ['source', () => { const value = u.sourceSnapshot(e.root); write('actual-source-after.json', value); assert.deepEqual(value, old.source); }],
+  ['tools', () => { const value = u.installedToolSnapshot(e.root, old.npmCli); write('actual-tools-after.json', value); assert.deepEqual(value, old.installedTools); }],
+  ['inputs19', () => { for (const [file, expected] of Object.entries(old.materializedInputs)) assert.equal(sha(file), expected); }],
+  ['compiled', () => assertOutputInventory(strictOutputInventory(e.privateDirectory), e.outputFiles)],
+  ['public', () => { for (const [file, expected] of Object.entries(e.publicInputs)) assert.equal(sha(resolve(e.root, 'public', file)), expected); }],
+  ['executed', () => { for (const [file, expected] of Object.entries(e.executedInputs)) assert.equal(sha(file), expected); }],
+  ['records', () => { assert.equal(sha(externalPath), externalSha); assert.equal(sha(e.buildInput.path), e.buildInput.sha); assert.equal(sha(e.archiveOrigin.path), e.archiveOrigin.sha); assert.equal(sha(process.execPath), e.nodeSha); }],
+]) { try { run(); } catch (error) { afterErrors.push({ name, error: String(error.stack ?? error) }); } }
+write('qualification-result.json', { completed: !failure && !afterErrors.length,
+  error: failure ? String(failure.stack ?? failure) : null, afterErrors, externalSha,
+  classification: failure ? null : classification, retainedBytes });
+if (failure) throw failure;
+assert.equal(afterErrors.length, 0, 'Independent after integrity checks failed');

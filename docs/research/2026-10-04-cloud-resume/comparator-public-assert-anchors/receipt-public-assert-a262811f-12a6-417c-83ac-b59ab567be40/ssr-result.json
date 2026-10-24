@@ -1,0 +1,4048 @@
+{
+  "kind": "primitive-success-guard-canonical-stack-controls-v1",
+  "finalized": true,
+  "node": "v22.23.3",
+  "cases": [
+    {
+      "name": "previously complete immutable descendant reuses certificate under new parent",
+      "status": "passed"
+    },
+    {
+      "name": "fully frozen cycle certification and reused cycle descendant",
+      "status": "passed"
+    },
+    {
+      "name": "partly mutable cyclic graph never publishes partial true certificate",
+      "status": "passed"
+    },
+    {
+      "name": "mutable leaf below frozen parent remains fully compared",
+      "status": "passed"
+    },
+    {
+      "name": "previous negative descendant certificate conservatively rejects new parent",
+      "status": "passed"
+    },
+    {
+      "name": "late freeze after rejected root does not promote cached false to true",
+      "status": "passed"
+    },
+    {
+      "name": "forward alias mismatch after certified descendant remains denied",
+      "status": "passed"
+    },
+    {
+      "name": "reverse alias mismatch remains denied",
+      "status": "passed"
+    },
+    {
+      "name": "Object.is signed zero and NaN semantics remain exact",
+      "status": "passed"
+    },
+    {
+      "name": "accessor denied without invoking getter",
+      "status": "passed"
+    },
+    {
+      "name": "descriptor mismatch remains denied",
+      "status": "passed"
+    },
+    {
+      "name": "unmapped function below frozen graph remains denied",
+      "status": "passed"
+    },
+    {
+      "name": "mapped functions retain role and alias correspondence",
+      "status": "passed"
+    },
+    {
+      "name": "symbols and unsupported prototypes remain denied",
+      "status": "passed"
+    },
+    {
+      "name": "all original cap checks unchanged with bounded scaled-cap negative controls",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity signed-zero scalar",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity NaN inequality",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity primitive-vs-object string formatter throws",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity mapped-function initialization",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity unmapped callback",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity forward alias",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity reverse alias",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity array classification",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity null prototype",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity unsupported left prototype",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity unsupported right prototype",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity deep keys unchanged",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity frozen classification",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity enumerable-first descriptor",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity configurable-before-writable descriptor",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity writable descriptor",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity accessor denial no getter payment",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity unsupported symbol",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity proxy trap failure order",
+      "status": "passed"
+    },
+    {
+      "name": "success full numerical and counts parity undefined bool NaN signed-zero",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity scaled per-call-edge",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity scaled per-call-node",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity scaled aggregate-edge",
+      "status": "passed"
+    },
+    {
+      "name": "full error parity scaled aggregate-node",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot public AssertionError reference identity",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot ordinary Error reference identity",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot explicit string data stack preserves flags",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot rejects unknown-nonstack without getter or setter payment",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot rejects replaced-get without getter or setter payment",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot rejects replaced-set without getter or setter payment",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot rejects enumerable without getter or setter payment",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot rejects configurable without getter or setter payment",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot rejects missing-set without getter or setter payment",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot rejects nonstring-data without getter or setter payment",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot own __proto__ data entry retains keys flags and value",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot own __proto__ accessor rejects without payment",
+      "status": "passed"
+    },
+    {
+      "name": "canonical snapshot inherited selected field accessor rejects without payment",
+      "status": "passed"
+    }
+  ],
+  "passed": 52,
+  "failed": 0,
+  "physicalSteps": 0,
+  "productionImports": 0,
+  "errorEvidence": [
+    {
+      "name": "full error parity signed-zero scalar",
+      "before": {
+        "name": "AssertionError",
+        "message": "root.n: -0 !== 0",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n: -0 !== 0",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root.n: -0 !== 0",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n: -0 !== 0",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 5,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 5,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity NaN inequality",
+      "before": {
+        "name": "AssertionError",
+        "message": "root.n: NaN !== 0",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n: NaN !== 0",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root.n: NaN !== 0",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n: NaN !== 0",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 5,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 5,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity primitive-vs-object string formatter throws",
+      "before": {
+        "name": "Error",
+        "message": "formatter sentinel",
+        "ownKeys": [
+          "stack",
+          "message"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "formatter sentinel",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "Error",
+        "message": "formatter sentinel",
+        "ownKeys": [
+          "stack",
+          "message"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "formatter sentinel",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 0,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 0,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": [
+        "string"
+      ]
+    },
+    {
+      "name": "full error parity mapped-function initialization",
+      "before": {
+        "name": "AssertionError",
+        "message": "f\n+ actual - expected\n\n+ 'number'\n- 'function'\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": "number",
+        "expected": "function",
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "f\n+ actual - expected\n\n+ 'number'\n- 'function'\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": "number",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": "function",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "f\n+ actual - expected\n\n+ 'number'\n- 'function'\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": "number",
+        "expected": "function",
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "f\n+ actual - expected\n\n+ 'number'\n- 'function'\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": "number",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": "function",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": null,
+      "afterCounts": null,
+      "log": []
+    },
+    {
+      "name": "full error parity unmapped callback",
+      "before": {
+        "name": "AssertionError",
+        "message": "unmapped function root.f",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "unmapped function root.f",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "unmapped function root.f",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "unmapped function root.f",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 5,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 5,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity forward alias",
+      "before": {
+        "name": "AssertionError",
+        "message": "forward alias mismatch root",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "forward alias mismatch root",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "forward alias mismatch root",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "forward alias mismatch root",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 2,
+        "totalEdges": 5,
+        "immutableProbeVisits": 1,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 2,
+        "totalEdges": 5,
+        "immutableProbeVisits": 1,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity reverse alias",
+      "before": {
+        "name": "AssertionError",
+        "message": "reverse alias mismatch root",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "reverse alias mismatch root",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "reverse alias mismatch root",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "reverse alias mismatch root",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 2,
+        "totalEdges": 5,
+        "immutableProbeVisits": 1,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 2,
+        "totalEdges": 5,
+        "immutableProbeVisits": 1,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity array classification",
+      "before": {
+        "name": "AssertionError",
+        "message": "root array\n\ntrue !== false\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": true,
+        "expected": false,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root array\n\ntrue !== false\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root array\n\ntrue !== false\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": true,
+        "expected": false,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root array\n\ntrue !== false\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity null prototype",
+      "before": {
+        "name": "AssertionError",
+        "message": "root null prototype",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root null prototype",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root null prototype",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root null prototype",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity unsupported left prototype",
+      "before": {
+        "name": "AssertionError",
+        "message": "root unsupported prototype",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root unsupported prototype",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root unsupported prototype",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root unsupported prototype",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity unsupported right prototype",
+      "before": {
+        "name": "AssertionError",
+        "message": "root unsupported prototype",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root unsupported prototype",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root unsupported prototype",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root unsupported prototype",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity deep keys unchanged",
+      "before": {
+        "name": "AssertionError",
+        "message": "root own keys\n+ actual - expected\n\n  [\n+   'a'\n-   'b'\n  ]\n",
+        "code": "ERR_ASSERTION",
+        "operator": "deepStrictEqual",
+        "actual": [
+          "a"
+        ],
+        "expected": [
+          "b"
+        ],
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root own keys\n+ actual - expected\n\n  [\n+   'a'\n-   'b'\n  ]\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": [
+              "a"
+            ],
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": [
+              "b"
+            ],
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "deepStrictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root own keys\n+ actual - expected\n\n  [\n+   'a'\n-   'b'\n  ]\n",
+        "code": "ERR_ASSERTION",
+        "operator": "deepStrictEqual",
+        "actual": [
+          "a"
+        ],
+        "expected": [
+          "b"
+        ],
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root own keys\n+ actual - expected\n\n  [\n+   'a'\n-   'b'\n  ]\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": [
+              "a"
+            ],
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": [
+              "b"
+            ],
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "deepStrictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity frozen classification",
+      "before": {
+        "name": "AssertionError",
+        "message": "root frozen\n\ntrue !== false\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": true,
+        "expected": false,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root frozen\n\ntrue !== false\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root frozen\n\ntrue !== false\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": true,
+        "expected": false,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root frozen\n\ntrue !== false\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity enumerable-first descriptor",
+      "before": {
+        "name": "AssertionError",
+        "message": "root.n.enumerable\n\nfalse !== true\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n.enumerable\n\nfalse !== true\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root.n.enumerable\n\nfalse !== true\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n.enumerable\n\nfalse !== true\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity configurable-before-writable descriptor",
+      "before": {
+        "name": "AssertionError",
+        "message": "root.n.configurable\n\nfalse !== true\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n.configurable\n\nfalse !== true\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root.n.configurable\n\nfalse !== true\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n.configurable\n\nfalse !== true\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity writable descriptor",
+      "before": {
+        "name": "AssertionError",
+        "message": "root.n.writable\n\nfalse !== true\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n.writable\n\nfalse !== true\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root.n.writable\n\nfalse !== true\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n.writable\n\nfalse !== true\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity accessor denial no getter payment",
+      "before": {
+        "name": "AssertionError",
+        "message": "root.n accessor unsupported",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n accessor unsupported",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root.n accessor unsupported",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n accessor unsupported",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity unsupported symbol",
+      "before": {
+        "name": "AssertionError",
+        "message": "root unsupported symbol\n\n'symbol' !== 'string'\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": "symbol",
+        "expected": "string",
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root unsupported symbol\n\n'symbol' !== 'string'\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": "symbol",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": "string",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root unsupported symbol\n\n'symbol' !== 'string'\n",
+        "code": "ERR_ASSERTION",
+        "operator": "strictEqual",
+        "actual": "symbol",
+        "expected": "string",
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root unsupported symbol\n\n'symbol' !== 'string'\n",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": "symbol",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": "string",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "strictEqual",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 4,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": []
+    },
+    {
+      "name": "full error parity proxy trap failure order",
+      "before": {
+        "name": "AssertionError",
+        "message": "root.n: 0 !== 1",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n: 0 !== 1",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "after": {
+        "name": "AssertionError",
+        "message": "root.n: 0 !== 1",
+        "code": "ERR_ASSERTION",
+        "operator": "==",
+        "actual": false,
+        "expected": true,
+        "ownKeys": [
+          "stack",
+          "message",
+          "generatedMessage",
+          "name",
+          "code",
+          "actual",
+          "expected",
+          "operator",
+          "diff"
+        ],
+        "descriptors": {
+          "stack": {
+            "kind": "accessor",
+            "enumerable": false,
+            "configurable": true,
+            "getRole": "canonical-Error-stack-get",
+            "setRole": "canonical-Error-stack-set"
+          },
+          "message": {
+            "value": "root.n: 0 !== 1",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "generatedMessage": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "name": {
+            "value": "AssertionError",
+            "writable": true,
+            "enumerable": false,
+            "configurable": true
+          },
+          "code": {
+            "value": "ERR_ASSERTION",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "actual": {
+            "value": false,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "expected": {
+            "value": true,
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "operator": {
+            "value": "==",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          },
+          "diff": {
+            "value": "simple",
+            "writable": true,
+            "enumerable": true,
+            "configurable": true
+          }
+        }
+      },
+      "beforeCounts": {
+        "totalNodes": 1,
+        "totalEdges": 5,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "afterCounts": {
+        "totalNodes": 1,
+        "totalEdges": 5,
+        "immutableProbeVisits": 0,
+        "immutableTrueHits": 0,
+        "immutableFalseHits": 0
+      },
+      "log": [
+        "prototype",
+        "keys",
+        "extensible",
+        "descriptor:n"
+      ]
+    },
+    {
+      "name": "per-call-edge",
+      "before": {
+        "error": {
+          "name": "AssertionError",
+          "message": "oracle edge budget",
+          "code": "ERR_ASSERTION",
+          "operator": "==",
+          "actual": false,
+          "expected": true,
+          "ownKeys": [
+            "stack",
+            "message",
+            "generatedMessage",
+            "name",
+            "code",
+            "actual",
+            "expected",
+            "operator",
+            "diff"
+          ],
+          "descriptors": {
+            "stack": {
+              "kind": "accessor",
+              "enumerable": false,
+              "configurable": true,
+              "getRole": "canonical-Error-stack-get",
+              "setRole": "canonical-Error-stack-set"
+            },
+            "message": {
+              "value": "oracle edge budget",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "generatedMessage": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "name": {
+              "value": "AssertionError",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "code": {
+              "value": "ERR_ASSERTION",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "actual": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "expected": {
+              "value": true,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "operator": {
+              "value": "==",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "diff": {
+              "value": "simple",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            }
+          }
+        },
+        "counts": {
+          "totalNodes": 1,
+          "totalEdges": 9,
+          "immutableProbeVisits": 0,
+          "immutableTrueHits": 0,
+          "immutableFalseHits": 0
+        }
+      },
+      "after": {
+        "error": {
+          "name": "AssertionError",
+          "message": "oracle edge budget",
+          "code": "ERR_ASSERTION",
+          "operator": "==",
+          "actual": false,
+          "expected": true,
+          "ownKeys": [
+            "stack",
+            "message",
+            "generatedMessage",
+            "name",
+            "code",
+            "actual",
+            "expected",
+            "operator",
+            "diff"
+          ],
+          "descriptors": {
+            "stack": {
+              "kind": "accessor",
+              "enumerable": false,
+              "configurable": true,
+              "getRole": "canonical-Error-stack-get",
+              "setRole": "canonical-Error-stack-set"
+            },
+            "message": {
+              "value": "oracle edge budget",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "generatedMessage": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "name": {
+              "value": "AssertionError",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "code": {
+              "value": "ERR_ASSERTION",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "actual": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "expected": {
+              "value": true,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "operator": {
+              "value": "==",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "diff": {
+              "value": "simple",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            }
+          }
+        },
+        "counts": {
+          "totalNodes": 1,
+          "totalEdges": 9,
+          "immutableProbeVisits": 0,
+          "immutableTrueHits": 0,
+          "immutableFalseHits": 0
+        }
+      }
+    },
+    {
+      "name": "per-call-node",
+      "before": {
+        "error": {
+          "name": "AssertionError",
+          "message": "oracle node budget",
+          "code": "ERR_ASSERTION",
+          "operator": "==",
+          "actual": false,
+          "expected": true,
+          "ownKeys": [
+            "stack",
+            "message",
+            "generatedMessage",
+            "name",
+            "code",
+            "actual",
+            "expected",
+            "operator",
+            "diff"
+          ],
+          "descriptors": {
+            "stack": {
+              "kind": "accessor",
+              "enumerable": false,
+              "configurable": true,
+              "getRole": "canonical-Error-stack-get",
+              "setRole": "canonical-Error-stack-set"
+            },
+            "message": {
+              "value": "oracle node budget",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "generatedMessage": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "name": {
+              "value": "AssertionError",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "code": {
+              "value": "ERR_ASSERTION",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "actual": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "expected": {
+              "value": true,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "operator": {
+              "value": "==",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "diff": {
+              "value": "simple",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            }
+          }
+        },
+        "counts": {
+          "totalNodes": 4,
+          "totalEdges": 8,
+          "immutableProbeVisits": 0,
+          "immutableTrueHits": 0,
+          "immutableFalseHits": 0
+        }
+      },
+      "after": {
+        "error": {
+          "name": "AssertionError",
+          "message": "oracle node budget",
+          "code": "ERR_ASSERTION",
+          "operator": "==",
+          "actual": false,
+          "expected": true,
+          "ownKeys": [
+            "stack",
+            "message",
+            "generatedMessage",
+            "name",
+            "code",
+            "actual",
+            "expected",
+            "operator",
+            "diff"
+          ],
+          "descriptors": {
+            "stack": {
+              "kind": "accessor",
+              "enumerable": false,
+              "configurable": true,
+              "getRole": "canonical-Error-stack-get",
+              "setRole": "canonical-Error-stack-set"
+            },
+            "message": {
+              "value": "oracle node budget",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "generatedMessage": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "name": {
+              "value": "AssertionError",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "code": {
+              "value": "ERR_ASSERTION",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "actual": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "expected": {
+              "value": true,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "operator": {
+              "value": "==",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "diff": {
+              "value": "simple",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            }
+          }
+        },
+        "counts": {
+          "totalNodes": 4,
+          "totalEdges": 8,
+          "immutableProbeVisits": 0,
+          "immutableTrueHits": 0,
+          "immutableFalseHits": 0
+        }
+      }
+    },
+    {
+      "name": "aggregate-edge",
+      "before": {
+        "error": {
+          "name": "AssertionError",
+          "message": "oracle edge budget",
+          "code": "ERR_ASSERTION",
+          "operator": "==",
+          "actual": false,
+          "expected": true,
+          "ownKeys": [
+            "stack",
+            "message",
+            "generatedMessage",
+            "name",
+            "code",
+            "actual",
+            "expected",
+            "operator",
+            "diff"
+          ],
+          "descriptors": {
+            "stack": {
+              "kind": "accessor",
+              "enumerable": false,
+              "configurable": true,
+              "getRole": "canonical-Error-stack-get",
+              "setRole": "canonical-Error-stack-set"
+            },
+            "message": {
+              "value": "oracle edge budget",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "generatedMessage": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "name": {
+              "value": "AssertionError",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "code": {
+              "value": "ERR_ASSERTION",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "actual": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "expected": {
+              "value": true,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "operator": {
+              "value": "==",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "diff": {
+              "value": "simple",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            }
+          }
+        },
+        "counts": {
+          "totalNodes": 0,
+          "totalEdges": 21,
+          "immutableProbeVisits": 0,
+          "immutableTrueHits": 0,
+          "immutableFalseHits": 0
+        }
+      },
+      "after": {
+        "error": {
+          "name": "AssertionError",
+          "message": "oracle edge budget",
+          "code": "ERR_ASSERTION",
+          "operator": "==",
+          "actual": false,
+          "expected": true,
+          "ownKeys": [
+            "stack",
+            "message",
+            "generatedMessage",
+            "name",
+            "code",
+            "actual",
+            "expected",
+            "operator",
+            "diff"
+          ],
+          "descriptors": {
+            "stack": {
+              "kind": "accessor",
+              "enumerable": false,
+              "configurable": true,
+              "getRole": "canonical-Error-stack-get",
+              "setRole": "canonical-Error-stack-set"
+            },
+            "message": {
+              "value": "oracle edge budget",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "generatedMessage": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "name": {
+              "value": "AssertionError",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "code": {
+              "value": "ERR_ASSERTION",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "actual": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "expected": {
+              "value": true,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "operator": {
+              "value": "==",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "diff": {
+              "value": "simple",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            }
+          }
+        },
+        "counts": {
+          "totalNodes": 0,
+          "totalEdges": 21,
+          "immutableProbeVisits": 0,
+          "immutableTrueHits": 0,
+          "immutableFalseHits": 0
+        }
+      }
+    },
+    {
+      "name": "aggregate-node",
+      "before": {
+        "error": {
+          "name": "AssertionError",
+          "message": "oracle node budget",
+          "code": "ERR_ASSERTION",
+          "operator": "==",
+          "actual": false,
+          "expected": true,
+          "ownKeys": [
+            "stack",
+            "message",
+            "generatedMessage",
+            "name",
+            "code",
+            "actual",
+            "expected",
+            "operator",
+            "diff"
+          ],
+          "descriptors": {
+            "stack": {
+              "kind": "accessor",
+              "enumerable": false,
+              "configurable": true,
+              "getRole": "canonical-Error-stack-get",
+              "setRole": "canonical-Error-stack-set"
+            },
+            "message": {
+              "value": "oracle node budget",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "generatedMessage": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "name": {
+              "value": "AssertionError",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "code": {
+              "value": "ERR_ASSERTION",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "actual": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "expected": {
+              "value": true,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "operator": {
+              "value": "==",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "diff": {
+              "value": "simple",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            }
+          }
+        },
+        "counts": {
+          "totalNodes": 9,
+          "totalEdges": 12,
+          "immutableProbeVisits": 8,
+          "immutableTrueHits": 0,
+          "immutableFalseHits": 0
+        }
+      },
+      "after": {
+        "error": {
+          "name": "AssertionError",
+          "message": "oracle node budget",
+          "code": "ERR_ASSERTION",
+          "operator": "==",
+          "actual": false,
+          "expected": true,
+          "ownKeys": [
+            "stack",
+            "message",
+            "generatedMessage",
+            "name",
+            "code",
+            "actual",
+            "expected",
+            "operator",
+            "diff"
+          ],
+          "descriptors": {
+            "stack": {
+              "kind": "accessor",
+              "enumerable": false,
+              "configurable": true,
+              "getRole": "canonical-Error-stack-get",
+              "setRole": "canonical-Error-stack-set"
+            },
+            "message": {
+              "value": "oracle node budget",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "generatedMessage": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "name": {
+              "value": "AssertionError",
+              "writable": true,
+              "enumerable": false,
+              "configurable": true
+            },
+            "code": {
+              "value": "ERR_ASSERTION",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "actual": {
+              "value": false,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "expected": {
+              "value": true,
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "operator": {
+              "value": "==",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            },
+            "diff": {
+              "value": "simple",
+              "writable": true,
+              "enumerable": true,
+              "configurable": true
+            }
+          }
+        },
+        "counts": {
+          "totalNodes": 9,
+          "totalEdges": 12,
+          "immutableProbeVisits": 8,
+          "immutableTrueHits": 0,
+          "immutableFalseHits": 0
+        }
+      }
+    }
+  ]
+}

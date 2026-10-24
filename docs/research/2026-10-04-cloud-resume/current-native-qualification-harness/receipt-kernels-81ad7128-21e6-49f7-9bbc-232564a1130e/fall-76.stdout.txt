@@ -1,0 +1,38 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ✓ docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/materialized/boundary.test.ts (12 tests) 8806ms
+     ✓ matches complete force scratch and continuation across dense pitch and control domains  4416ms
+     ✓ matches signed-zero, adjacent quadrant, nonfinite and extreme incidence with full scratch/errors  797ms
+     ✓ retains all scratch inputs, conditional fixed thrust, nonfinite products and finite cancellation  529ms
+     ✓ matches sliced interleaving with positively effective mutable scratch at budget 1  2758ms
+ ✓ docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/materialized/preparation.test.ts (25 tests) 28100ms
+     ✓ retains original synchronous and sliced bits for 'ship'/'normal'  1259ms
+     ✓ retains original synchronous and sliced bits for 'ship'/'capped'  5218ms
+     ✓ retains original synchronous and sliced bits for 'ship'/'wind'  1669ms
+     ✓ retains original synchronous and sliced bits for 'ship'/'nonzero'  1344ms
+     ✓ retains original synchronous and sliced bits for 'ship'/'hot'  1206ms
+     ✓ retains original synchronous and sliced bits for 'ship'/'unavailable'  1203ms
+     ✓ retains original synchronous and sliced bits for 'ship'/'detached'  1231ms
+     ✓ retains original synchronous and sliced bits for 'ship'/'invalid-root'  1250ms
+     ✓ retains original synchronous and sliced bits for 'booster'/'normal'  1116ms
+     ✓ retains original synchronous and sliced bits for 'booster'/'capped'  5930ms
+     ✓ retains original synchronous and sliced bits for 'booster'/'wind'  1019ms
+     ✓ retains original synchronous and sliced bits for 'booster'/'nonzero'  1264ms
+     ✓ retains original synchronous and sliced bits for 'booster'/'hot'  1072ms
+     ✓ retains original synchronous and sliced bits for 'booster'/'unavailable'  1005ms
+     ✓ retains original synchronous and sliced bits for 'booster'/'detached'  980ms
+     ✓ retains original synchronous and sliced bits for 'booster'/'invalid-root'  973ms
+ ✓ tests/proofs/acceleration-components.test.ts (2 tests) 694ms
+   ✓ matches scalar bits through dense angles, quadrant edges, cancellation and signed zeros  690ms
+ ✓ tests/proofs/unpowered-fall-preparation.test.ts (25 tests) 604ms
+ ✓ docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/materialized/continuation.test.ts (6 tests) 1192ms
+     ✓ preserves the original synchronous bits for h=79000  1044ms
+ ✓ tests/core/fall-continuation.test.ts (6 tests) 81ms
+
+ Test Files  6 passed (6)
+      Tests  76 passed (76)
+   Start at  10:46:04
+   Duration  41.01s (transform 386ms, setup 0ms, import 768ms, tests 39.48s, environment 1ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-native-qualification-harness/receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e/fall-report.json

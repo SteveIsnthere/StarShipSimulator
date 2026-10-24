@@ -1,0 +1,15 @@
+"""ONE new retained offline consumer input, no compile/test/module import/browser."""
+import hashlib,json,pathlib,sys,tempfile,os
+repo=pathlib.Path('/workspace/StarShipSimulator');original=repo/'docs/research/2026-10-04-cloud-resume/render-kernel-width2-candidate/compile-qualification';directory=original/'exact-facade-continuation'
+sha=lambda p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest();entry=lambda p:{'path':str(p),'sha':sha(p)}
+node=pathlib.Path('/workspace/cloud-bootstrap/starship-v1/node/bin/node')
+if sha(node)!='fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48':raise RuntimeError('ManagedNode drift')
+continuation=pathlib.Path(tempfile.mkdtemp(prefix='starship-width2-qualified.',dir='/tmp'));continuation.chmod(0o700)
+m={'kind':'width2-concrete-stage-owner-input-v1','root':str(repo),'mode':'qualify','outerMs':30000,'setup':'/tmp/starship-render-kernel.2co6w1rl','continuationReceipt':str(continuation),
+'node':entry(node),'python':entry(pathlib.Path(sys.executable).resolve()),'helper':entry(repo/'scripts/bench/owned-command.mjs'),
+'preparer':entry(original/'prepare-width2.py.txt'),'builder':entry(original/'build-width2.mjs.txt'),'qualifier':entry(directory/'qualify-exact-facade-width2.mjs.txt'),
+'pins':entry(directory/'input-pins.json'),'stage':entry(directory/'business-stage.mjs.txt'),'observer':entry(original/'width2-root-observer.py.txt'),
+'bridge':entry(original/'width2-python-preparation-bridge.mjs.txt'),'lineageBridge':entry(directory/'lineage-bridge.json')}
+receipt=pathlib.Path(tempfile.mkdtemp(prefix='starship-width2-stage-input.',dir='/tmp'));receipt.chmod(0o700);file=receipt/'owner-input.json'
+with file.open('x') as out:json.dump(m,out,indent=2);out.write('\n')
+print(json.dumps({'manifestPath':str(file),'manifestSha':sha(file),'mode':'qualify','outerMs':30000,'python':m['python']['path'],'continuationReceipt':str(continuation)}))

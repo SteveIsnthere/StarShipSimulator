@@ -1,0 +1,28 @@
+{
+  "checkedAt": 1791171330.651165,
+  "identities": [
+    {
+      "identity": {
+        "pid": 128142,
+        "state": "R",
+        "parent": 128141,
+        "group": 128142,
+        "session": 128142,
+        "start": "8030187"
+      },
+      "status": "ABSENT"
+    },
+    {
+      "identity": {
+        "pid": 128141,
+        "start": "8030166",
+        "parent": 128140,
+        "group": 128128,
+        "session": 128128
+      },
+      "status": "ABSENT"
+    }
+  ],
+  "allAbsent": true,
+  "limitation": "owner paidHistoriesExecuted true is mode-derived; helper rejected850000>300000 before child spawn, processes empty. No histories ran."
+}

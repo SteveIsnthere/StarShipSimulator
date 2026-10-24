@@ -9,6 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { cloneState, createInitialState, type SimState } from '$core/state';
 import { step } from '$core/step';
 import { commandIgnition } from '$core/physics/engines';
+import { SHIP } from '$core/vehicle';
 
 const DT = 1 / 120;
 
@@ -135,13 +136,13 @@ describe('runs headless', () => {
 
 describe('it actually simulates something', () => {
   it('spawns resting on the pad, not falling', () => {
-    // altitude spawns at vehicleHeight / 2 = 25 m, which is exactly the ground
+    // Altitude spawns at the selected hull's half-height, exactly the ground
     // contact threshold `vehicleHeight * |cos(pitch)| * 0.5`. So the vehicle is
     // on the pad from frame one and checkIfCrash zeroes its velocity. This is
     // 2021 behaviour, asserted so a change to either constant shows up here.
     const s = run(createInitialState(), 240);
     expect(s.status.onTheGround).toBe(true);
-    expect(s.kinematics.altitude).toBe(25);
+    expect(s.kinematics.altitude).toBe(SHIP.height / 2);
 
     // The pad HOLDS it — M11.3. Up to M11.3 the 2021 phase order zeroed the
     // velocity in checkIfCrash (phase 2) and then re-accelerated it under
@@ -158,7 +159,7 @@ describe('it actually simulates something', () => {
     expect(s.kinematics.accelerationY).toBe(0);
     expect(s.kinematics.accelerationX).toBe(0);
     expect(s.kinematics.angularVelocity).toBe(0);
-    expect(run(createInitialState(), 10_000).kinematics.altitude).toBe(25);
+    expect(run(createInitialState(), 10_000).kinematics.altitude).toBe(SHIP.height / 2);
   });
 
   it('a vehicle dropped from altitude falls', () => {

@@ -11,6 +11,11 @@ import { gravityAt } from '$core/physics/gravity';
 import { ALL_SCENARIOS, createScenarioState } from '$core/scenarios';
 import { step } from '$core/step';
 import { rad } from '$core/units';
+import { SHIP } from '$core/vehicle';
+import { centreOfMass } from '$core/physics/mass';
+import { engineThrust } from '$core/physics/propulsion';
+import { isaAtmosphere } from '$core/physics/isa';
+import { HISTORICAL_SHIP } from '../reference/historical-vehicles';
 
 function coasting(altitude: number) {
   const s = createScenarioState(ALL_SCENARIOS.find((p) => p.id === 'landing-burn')!);
@@ -38,7 +43,8 @@ describe('felt g', () => {
     expect(s.status.onTheGround).toBe(true);
     // Gravity less the turning ground's centrifugal term, written out (zero
     // until the frame turns, Phase 6 Task 9).
-    const r = C.planetRadius + s.kinematics.altitude;
+    const r = C.planetRadius + s.kinematics.altitude
+      + centreOfMass(s.vehicle.propellantMass, SHIP) - SHIP.height / 2;
     expect(s.forces.perceivedG).toBeCloseTo((gravityAt(r) - C.frameRotationRate ** 2 * r) / C.standardGravity, 12);
   });
 
@@ -50,7 +56,12 @@ describe('felt g', () => {
     s0.kinematics.pitch = rad(0);
     s0.vehicle.propellantMass = 1_000;
     s0.vehicle.vehicleMass = C.vehicleDryMass + 1_000;
-    s0.vehicle.throttle = s0.vehicle.throttleCurrent = 100;
+    // Keep this witness's physical thrust: full Raptor3 thrust would exceed
+    // BOTH bounds and no longer distinguish felt from net acceleration.
+    const pressure = isaAtmosphere(20_000).airPressure;
+    const thrust = (model: typeof SHIP) => model.engines.reduce((sum, mount) =>
+      sum + engineThrust(model.propulsion, mount.kind, pressure), 0);
+    s0.vehicle.throttle = s0.vehicle.throttleCurrent = 100 * thrust(HISTORICAL_SHIP) / thrust(SHIP);
     s0.engines.running.fill(true);
     const s = step(s0, DT);
     expect(s.kinematics.totalAcceleration / C.standardGravity).toBeLessThan(C.gLimit);

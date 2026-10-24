@@ -1,0 +1,33 @@
+{
+  "kind": "independent-inert-boundary-actual-input-HIGH-observations-v1",
+  "inputSha256": "341c2d01cd3ffcee1600278f99b6c978e32c98c5de2720b2e3a5eec2c7027159",
+  "rootInputSha256": "e98d47895252010372959df4f23814cede3faa8cf02bb8111232ed4013a9a40a",
+  "setup": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4",
+  "selectedMatched": 23,
+  "inventoryMatched": 24,
+  "privateMode": "0700",
+  "regularFileCount": 6,
+  "allFileModes": "0600",
+  "privateSourceCopyCount": 3,
+  "allMaterialSourceBytesExact": true,
+  "outputsAbsent": true,
+  "expectedCaseCount": 14,
+  "rootWholeMs": 30000,
+  "ownerWorkMs": 22000,
+  "cleanupReserveMs": 8000,
+  "childDeadlineMs": 5000,
+  "onlyStep": "boundary-controls",
+  "physicalQualification": false,
+  "installedToolQualification": false,
+  "publicWorkerLifecycleQualification": false,
+  "maker": {
+    "pid": 126063,
+    "start": "7902705",
+    "status": 0,
+    "reaped": true,
+    "umask": "077",
+    "elapsedSeconds": 0.03222344900132157
+  },
+  "readyForOneRootOwnedInertProof": true,
+  "physicalExecutionApproved": false
+}

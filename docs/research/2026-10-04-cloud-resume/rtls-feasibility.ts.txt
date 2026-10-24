@@ -1,0 +1,122 @@
+// Research only. No production scheduling or source edits.
+import { readFileSync,writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { deepStrictEqual,strictEqual,ok } from 'node:assert';
+import { createScenarioVehicle,PRESETS } from '../../../src/core/scenarios';
+import { step,advanceMechanics } from '../../../src/core/step';
+import { runBoosterPolicy } from '../../../src/core/autopilot/booster';
+import { advanceBoosterPrediction } from '../../../src/core/control/booster-prediction';
+import { cloneBoosterMechanics } from '../../../src/core/control/booster-source';
+import { SUPER_HEAVY,RETURN_ENGINES } from '../../../src/core/vehicles/super-heavy';
+import type { SimState } from '../../../src/core/state';
+import type { MechanicalAdvance } from '../../../src/core/control/mechanical';
+const dir='docs/research/2026-10-04-cloud-resume/';
+const pins=JSON.parse(readFileSync(dir+'source-hashes.json','utf8'));
+function checkPins(){for(const [path,hash] of Object.entries(pins))strictEqual(createHash('sha256').update(readFileSync(path)).digest('hex'),hash,path);}
+checkPins();
+const dt=1/120;
+const old=readFileSync('docs/research/2026-10-03-vehicle-realism/booster-cycle2-attempt1-rtls.jsonl','utf8').trim().split('\n').map(JSON.parse);
+let initial=createScenarioVehicle(PRESETS.find(p=>p.id==='rtls')!).state;
+initial.autopilot.autoLandOn=true;
+initial=step(initial,dt,{},SUPER_HEAVY); // original source initialization only
+const source=initial.autopilot.boosterSource!;
+const origin=cloneBoosterMechanics(initial.autopilot.boosterPrediction!.origin);
+const scheduler=cloneBoosterMechanics(origin);
+scheduler.autopilot.boosterSource={...source,valid:true,checked:true};
+const prefix:{input:SimState;pre:SimState|undefined;returned:SimState}[]=[];
+const events:any[]=[],historicalDeltas:any[]=[];
+const checkedCandidates=new Set<number>();
+let tick=0,calls=0,forceBefore=0,stageBefore='',common=true;
+const counted:MechanicalAdvance=(input,interval,policy,model)=>{
+  calls++;
+  let pre:SimState|undefined;
+  const returned=advanceMechanics(input,interval,(endpoint,t,v)=>{
+    pre=cloneBoosterMechanics(endpoint);policy(endpoint,t,v);
+  },model);
+  if(common){
+    if(interval===dt && (input.autopilot.boosterPhase==='align-boost'
+      || (input.autopilot.boosterPhase==='boostback' && !RETURN_ENGINES.every(i=>input.engines.running[i])))){
+      prefix.push({input:cloneBoosterMechanics(input),pre,returned:cloneBoosterMechanics(returned)});
+    }else common=false;
+  }
+  return returned;
+};
+while(tick<2500){
+  tick++;calls=0;
+  stageBefore=scheduler.autopilot.boosterPrediction?.stage ?? 'upper';
+  forceBefore=scheduler.autopilot.boosterPrediction?.hintForceIterations ?? 0;
+  const used=advanceBoosterPrediction(scheduler,dt,counted,runBoosterPolicy,SUPER_HEAVY);
+  strictEqual(used,calls);ok(calls<=3);
+  const job=scheduler.autopilot.boosterPrediction!;
+  const force=(job.hintForceIterations ?? 0)-forceBefore;ok(force<=512);
+  const duration=job.lastCandidate?.burnDuration;
+  if(duration!==undefined){
+    const recorded=old.find(r=>r.after?.job?.lastCandidate?.burnDuration===duration)?.after.job.lastCandidate;
+    ok(recorded,'only recorded candidate '+duration);
+    if(!checkedCandidates.has(duration)){
+      checkedCandidates.add(duration);
+      const actual=job.lastCandidate!.forecast;
+      for(const field of ['steps','ignitionDraws','reached','failed','time','fuel','pitch','speedY'])strictEqual((actual as any)[field],recorded.forecast[field],field);
+      const deltas:any[]=[];
+      function audit(a:any,b:any,path='forecast'){
+        if(Object.is(a,b))return;
+        if(typeof a==='object' && a!==null && typeof b==='object' && b!==null){for(const key of new Set([...Object.keys(a),...Object.keys(b)]))audit(a[key],b[key],path+'.'+key);}
+        else deltas.push({path,current:a,historical:b});
+      }
+      audit(actual,recorded.forecast);historicalDeltas.push({duration,deltas});
+    }
+    strictEqual(job.lastCandidate!.shutdownAt,recorded.shutdownAt);
+  }
+  events.push({tick,stage:stageBefore,calls,force,afterStage:job.stage,duration:job.duration,
+    totalSteps:job.rollout.result.steps,done:job.done,
+    startupSteps:job.rollout.startupPrefix?.steps,reused:job.rollout.prefix?.steps});
+  if(job.done){ok(job.rollout.state.status.landed,'existing successful fine proof');break;}
+  scheduler.world.environmentTime+=dt;
+}
+ok(tick<2500);
+const mismatches=new Map<string,number>();
+function diffs(a:any,b:any,path=''):void{
+  if(Object.is(a,b))return;
+  if(a===null || b===null || typeof a!=='object' || typeof b!=='object'){
+    mismatches.set(path,(mismatches.get(path) ?? 0)+1);return;
+  }
+  for(const k of new Set([...Object.keys(a),...Object.keys(b)]))diffs(a[k],b[k],path?path+'.'+k:k);
+}
+const contextKeys=['boosterFallTime','boosterCoastPitch','boosterForecastBurn'];
+function restore(s:SimState,context:SimState):void{
+  for(const key of contextKeys){
+    if(Object.hasOwn(context.autopilot,key))(s.autopilot as any)[key]=(context.autopilot as any)[key];
+    else delete (s.autopilot as any)[key];
+  }
+}
+let observer=cloneBoosterMechanics(origin);
+let normalized=cloneBoosterMechanics(origin);
+let bytes=0,maxBytes=0;
+for(const [i,r] of prefix.entries()){
+  ok(!observer.autopilot.boosterReturnPlan);
+  diffs(r.input,observer);
+  const input=cloneBoosterMechanics(r.input);restore(input,observer);
+  deepStrictEqual(input,observer,'complete normalized input '+i);
+  deepStrictEqual(normalized,observer,'independent returned chain '+i);
+  let normalizedPre:SimState|undefined,observerPre:SimState|undefined;
+  normalized=advanceMechanics(input,dt,(s,t,v)=>{normalizedPre=cloneBoosterMechanics(s);runBoosterPolicy(s,t,v);},SUPER_HEAVY);
+  observer=advanceMechanics(observer,dt,(s,t,v)=>{observerPre=cloneBoosterMechanics(s);runBoosterPolicy(s,t,v);},SUPER_HEAVY);
+  deepStrictEqual(normalizedPre,observerPre,'independent pre-policy '+i);
+  deepStrictEqual(normalized,observer,'independent returned '+i);
+  const restoredPre=cloneBoosterMechanics(normalizedPre!);restore(restoredPre,r.pre!);
+  const restoredReturn=cloneBoosterMechanics(normalized);restore(restoredReturn,r.returned);
+  deepStrictEqual(restoredPre,r.pre,'original pre-policy output '+i);
+  deepStrictEqual(restoredReturn,r.returned,'original returned output '+i);
+  const size=Buffer.byteLength(JSON.stringify({input,pre:normalizedPre,returned:normalized}));
+  bytes+=size;maxBytes=Math.max(maxBytes,size);
+}
+checkPins();
+const result={node:process.version,historicalDeltas,original:{ticks:tick,calls:events.reduce((n,e)=>n+e.calls,0),
+  forceIterations:events.reduce((n,e)=>n+e.force,0),
+  forceOnlyTicks:events.filter(e=>e.calls===0&&e.force>0).length,
+  doneAt:scheduler.world.environmentTime,cutoff:scheduler.autopilot.boosterPrediction!.selected!.shutdownAt,
+  fineSteps:scheduler.autopilot.boosterPrediction!.rollout.result.steps},
+  normalization:{matches:prefix.length,mismatches:Object.fromEntries(mismatches),
+  serializedReceiptBytes:bytes,maxReceiptBytes:maxBytes,completeTreeEquality:true},events};
+writeFileSync(dir+'rtls-feasibility-measured.json',JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({...result,events:undefined},null,2));

@@ -1,0 +1,615 @@
+[WebServer] (node:1632) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 88 tests using 1 worker
+
+(node:1633) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (16.8s)
+  ✓   2 [chromium] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (5.6s)
+  ✓   3 [chromium] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (425ms)
+  ✓   4 [chromium] › tests/e2e/intro.spec.ts:14:1 › the intro plays end to end and lands @smoke (8.3s)
+  ✓   5 [chromium] › tests/e2e/intro.spec.ts:41:1 › it decelerates rather than arriving fast (6.7s)
+  ✓   6 [chromium] › tests/e2e/intro.spec.ts:62:1 › the vehicle is drawn throughout, not just at the end (4.4s)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 640,
+    right: 646,
+    top: 322,
+    bottom: 398,
+    widthPx: 7,
+    heightPx: 77,
+    spanPx: 77,
+    count: 509,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 633,
+    right: 639,
+    top: 322,
+    bottom: 398,
+    widthPx: 7,
+    heightPx: 77,
+    spanPx: 77,
+    count: 510,
+    bandWidthPx: 0
+  },
+  right: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  }
+}
+  ✓   7 [chromium] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (1.7s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 21316,
+      meanLuma: 37.770161005820576,
+      lumaSpread: 14.716451282143462,
+      toneBuckets: 4,
+      brightFraction: 0.001829611559392006,
+      darkFraction: 0.9519609682867329,
+      warmFraction: 0.009945580784387315,
+      greyFraction: 0.12830737474197787,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 221184,
+      meanLuma: 36.1046334047603,
+      lumaSpread: 18.551089724528698,
+      toneBuckets: 3,
+      brightFraction: 0.0010986328125,
+      darkFraction: 0.9608877676504629,
+      warmFraction: 0.00013563368055555556,
+      greyFraction: 0.2618453414351852,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 21316,
+      meanLuma: 38.49710166072668,
+      lumaSpread: 16.74747013757264,
+      toneBuckets: 5,
+      brightFraction: 0.002392568962281854,
+      darkFraction: 0.9445017826984425,
+      warmFraction: 0.014214674422968662,
+      greyFraction: 0.08819665978607619,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 221184,
+      meanLuma: 36.13342416268133,
+      lumaSpread: 18.61851119094449,
+      toneBuckets: 3,
+      brightFraction: 0.001103153935185185,
+      darkFraction: 0.9605396412037037,
+      warmFraction: 0.0003888165509259259,
+      greyFraction: 0.2599690755208333,
+      topColours: [Array]
+    }
+  }
+}
+  ✓   8 [chromium] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.2s)
+  ✓   9 [chromium] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.6s)
+  ✓  10 [chromium] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (28.7s)
+  ✓  11 [chromium] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.6s)
+  ✓  12 [chromium] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.8s)
+  ✓  13 [chromium] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.7s)
+  ✓  14 [chromium] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.2s)
+  ✓  15 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓  16 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.0s)
+  ✓  17 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓  18 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.0s)
+  ✓  19 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓  20 [chromium] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (5.5s)
+(node:1774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  21 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (18.0s)
+  ✓  22 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (5.8s)
+  ✓  23 [pixel-portrait] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (477ms)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: true,
+    left: 540,
+    right: 540,
+    top: 935,
+    bottom: 1120,
+    widthPx: 1,
+    heightPx: 186,
+    spanPx: 186,
+    count: 143,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 541,
+    right: 560,
+    top: 919,
+    bottom: 1138,
+    widthPx: 20,
+    heightPx: 220,
+    spanPx: 220,
+    count: 3923,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 521,
+    right: 540,
+    top: 919,
+    bottom: 1138,
+    widthPx: 20,
+    heightPx: 220,
+    spanPx: 220,
+    count: 4073,
+    bandWidthPx: 0
+  },
+  right: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  }
+}
+  ✓  24 [pixel-portrait] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (2.2s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 37.94176719136193,
+      lumaSpread: 14.26428072867488,
+      toneBuckets: 5,
+      brightFraction: 0.00040123456790123454,
+      darkFraction: 0.948179012345679,
+      warmFraction: 0.010771604938271605,
+      greyFraction: 0.1372530864197531,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 535122,
+      meanLuma: 35.286994573237294,
+      lumaSpread: 18.942402329882942,
+      toneBuckets: 3,
+      brightFraction: 0.0012427072704915888,
+      darkFraction: 0.9588972234368985,
+      warmFraction: 0.0004597082534450088,
+      greyFraction: 0.2534618273963694,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 38.69597268518812,
+      lumaSpread: 16.428929562656187,
+      toneBuckets: 5,
+      brightFraction: 0.000925925925925926,
+      darkFraction: 0.9399074074074074,
+      warmFraction: 0.015154320987654322,
+      greyFraction: 0.09299382716049383,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 535122,
+      meanLuma: 35.32415765754347,
+      lumaSpread: 19.065264904577464,
+      toneBuckets: 3,
+      brightFraction: 0.0012670007960801461,
+      darkFraction: 0.9586785817066015,
+      warmFraction: 0.0022181857595090465,
+      greyFraction: 0.25246953031271374,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  25 [pixel-portrait] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.5s)
+  ✓  26 [pixel-portrait] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.3s)
+  ✓  27 [pixel-portrait] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (29.2s)
+  ✓  28 [pixel-portrait] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.1s)
+  ✓  29 [pixel-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.0s)
+  ✓  30 [pixel-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.7s)
+  ✓  31 [pixel-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.8s)
+  ✓  32 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.4s)
+  ✓  33 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.3s)
+  ✓  34 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.4s)
+  ✓  35 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓  36 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.5s)
+  ✓  37 [pixel-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (6.1s)
+(node:1862) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  38 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (17.7s)
+  ✓  39 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (5.8s)
+  ✓  40 [pixel-landscape] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (404ms)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: true,
+    left: 1132,
+    right: 1132,
+    top: 424,
+    bottom: 520,
+    widthPx: 1,
+    heightPx: 97,
+    spanPx: 97,
+    count: 79,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 1132,
+    right: 1142,
+    top: 418,
+    bottom: 528,
+    widthPx: 11,
+    heightPx: 111,
+    spanPx: 111,
+    count: 1124,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 1122,
+    right: 1132,
+    top: 418,
+    bottom: 528,
+    widthPx: 11,
+    heightPx: 111,
+    spanPx: 111,
+    count: 1111,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 1132,
+    right: 1132,
+    top: 422,
+    bottom: 522,
+    widthPx: 1,
+    heightPx: 101,
+    spanPx: 101,
+    count: 88,
+    bandWidthPx: 0
+  }
+}
+  ✓  41 [pixel-landscape] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (2.3s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 37.947308117287825,
+      lumaSpread: 14.306721447613159,
+      toneBuckets: 5,
+      brightFraction: 0.00033950617283950616,
+      darkFraction: 0.9486111111111111,
+      warmFraction: 0.010709876543209877,
+      greyFraction: 0.13719135802469135,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 514269,
+      meanLuma: 36.228525509036494,
+      lumaSpread: 18.66807818442469,
+      toneBuckets: 4,
+      brightFraction: 0.0011103138629783246,
+      darkFraction: 0.9565499767631337,
+      warmFraction: 0.000795303625145595,
+      greyFraction: 0.2663469896104957,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 32400,
+      meanLuma: 38.70015635802761,
+      lumaSpread: 16.45923323158926,
+      toneBuckets: 5,
+      brightFraction: 0.0008641975308641976,
+      darkFraction: 0.9398765432098766,
+      warmFraction: 0.015154320987654322,
+      greyFraction: 0.09296296296296297,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 514269,
+      meanLuma: 36.286007009963306,
+      lumaSpread: 18.817438102937338,
+      toneBuckets: 4,
+      brightFraction: 0.0011472595081562372,
+      darkFraction: 0.9559413458715186,
+      warmFraction: 0.0015925517579321328,
+      greyFraction: 0.26334078079759815,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  42 [pixel-landscape] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.5s)
+  ✓  43 [pixel-landscape] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.7s)
+  ✓  44 [pixel-landscape] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (29.2s)
+  ✓  45 [pixel-landscape] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.9s)
+  ✓  46 [pixel-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.9s)
+  ✓  47 [pixel-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (30.0s)
+  ✓  48 [pixel-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.9s)
+  ✓  49 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.5s)
+  ✓  50 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.1s)
+  ✓  51 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.5s)
+  ✓  52 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓  53 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.7s)
+  ✓  54 [pixel-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (5.8s)
+(node:1933) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  55 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (18.1s)
+  ✓  56 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (6.0s)
+  ✓  57 [iphone-portrait] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (472ms)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 585,
+    right: 602,
+    top: 817,
+    bottom: 1010,
+    widthPx: 18,
+    heightPx: 194,
+    spanPx: 194,
+    count: 3124,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 567,
+    right: 584,
+    top: 817,
+    bottom: 1010,
+    widthPx: 18,
+    heightPx: 194,
+    spanPx: 194,
+    count: 3161,
+    bandWidthPx: 0
+  },
+  right: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  }
+}
+  ✓  58 [iphone-portrait] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (2.2s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 38.02283715398378,
+      lumaSpread: 14.332197771377077,
+      toneBuckets: 5,
+      brightFraction: 0.0002883506343713956,
+      darkFraction: 0.9470876585928489,
+      warmFraction: 0.010861207227989235,
+      greyFraction: 0.13965782391387926,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 512928,
+      meanLuma: 35.27537620295111,
+      lumaSpread: 18.48092979784453,
+      toneBuckets: 3,
+      brightFraction: 0.0008870640713706408,
+      darkFraction: 0.9587622434337763,
+      warmFraction: 0.0004035654126895003,
+      greyFraction: 0.2612647389107243,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 38.79006026528621,
+      lumaSpread: 16.522266416200132,
+      toneBuckets: 5,
+      brightFraction: 0.0007689350249903883,
+      darkFraction: 0.9385332564398309,
+      warmFraction: 0.015474817377931565,
+      greyFraction: 0.09472318339100345,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 512928,
+      meanLuma: 35.305112680585374,
+      lumaSpread: 18.562315906613648,
+      toneBuckets: 3,
+      brightFraction: 0.0009065599850271383,
+      darkFraction: 0.9584425104498098,
+      warmFraction: 0.000600474140620126,
+      greyFraction: 0.2600150508453428,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  59 [iphone-portrait] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.5s)
+  ✓  60 [iphone-portrait] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.8s)
+  ✓  61 [iphone-portrait] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (29.3s)
+  ✓  62 [iphone-portrait] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.8s)
+  ✓  63 [iphone-portrait] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (2.0s)
+  ✓  64 [iphone-portrait] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.8s)
+  ✓  65 [iphone-portrait] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (29.7s)
+  ✓  66 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.5s)
+  ✓  67 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.3s)
+  ✓  68 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.4s)
+  ✓  69 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.3s)
+  ✓  70 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.5s)
+  ✓  71 [iphone-portrait] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (6.2s)
+(node:2123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  72 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › booster-sep actually returns to an airborne tower catch @mobile (18.7s)
+  ✓  73 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:9:3 › rtls actually returns to an airborne tower catch @mobile (6.0s)
+  ✓  74 [iphone-landscape] › tests/e2e/booster-catch.spec.ts:56:1 › a lug beyond the catch box cannot announce a caught booster @mobile (442ms)
+[windward-skin] -1.5707963267948966 {
+  left: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  },
+  right: {
+    found: true,
+    left: 1125,
+    right: 1136,
+    top: 448,
+    bottom: 574,
+    widthPx: 12,
+    heightPx: 127,
+    spanPx: 127,
+    count: 1352,
+    bandWidthPx: 0
+  }
+}
+[windward-skin] 1.5707963267948966 {
+  left: {
+    found: true,
+    left: 1113,
+    right: 1124,
+    top: 447,
+    bottom: 574,
+    widthPx: 12,
+    heightPx: 128,
+    spanPx: 128,
+    count: 1400,
+    bandWidthPx: 0
+  },
+  right: {
+    found: false,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    widthPx: 0,
+    heightPx: 0,
+    spanPx: 0,
+    count: 0,
+    bandWidthPx: 0
+  }
+}
+  ✓  75 [iphone-landscape] › tests/e2e/reentry.spec.ts:55:1 › skin follows opposite windward faces and clears across restart and booster selection @mobile (2.3s)
+[skin-temperature] {
+  cold: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 38.02868769223829,
+      lumaSpread: 14.376463815790114,
+      toneBuckets: 5,
+      brightFraction: 0.0003364090734332949,
+      darkFraction: 0.9472318339100346,
+      warmFraction: 0.010789119569396386,
+      greyFraction: 0.13994617454825067,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 550800,
+      meanLuma: 36.868617656138305,
+      lumaSpread: 18.904535554079477,
+      toneBuckets: 5,
+      brightFraction: 0.0011111111111111111,
+      darkFraction: 0.9536801016702977,
+      warmFraction: 0.0009604212055192448,
+      greyFraction: 0.2738671023965142,
+      topColours: [Array]
+    }
+  },
+  hot: {
+    inset: {
+      pixels: 41616,
+      meanLuma: 38.79570857362912,
+      lumaSpread: 16.55598716237986,
+      toneBuckets: 5,
+      brightFraction: 0.0008410226835832372,
+      darkFraction: 0.9387254901960784,
+      warmFraction: 0.015426758938869665,
+      greyFraction: 0.094939446366782,
+      topColours: [Array]
+    },
+    subject: {
+      pixels: 550800,
+      meanLuma: 36.93913229484588,
+      lumaSpread: 19.083900985744332,
+      toneBuckets: 4,
+      brightFraction: 0.0011601307189542485,
+      darkFraction: 0.9529575163398692,
+      warmFraction: 0.001971677559912854,
+      greyFraction: 0.27017429193899783,
+      topColours: [Array]
+    }
+  }
+}
+  ✓  76 [iphone-landscape] › tests/e2e/reentry.spec.ts:108:1 › skin temperature changes actual main and inset pixels independently of equal plasma flux @mobile (1.5s)
+  ✓  77 [iphone-landscape] › tests/e2e/reentry.spec.ts:142:1 › the onboard inset shows the vehicle in its sheath, and only while it is hot @mobile (4.8s)
+  ✓  78 [iphone-landscape] › tests/e2e/shake.spec.ts:282:1 › the frame shakes near max-Q, and holds still when asked not to @mobile (29.3s)
+  ✓  79 [iphone-landscape] › tests/e2e/shake.spec.ts:395:1 › and does not shake a vehicle standing on the ground @mobile (12.8s)
+  ✓  80 [iphone-landscape] › tests/e2e/staging.spec.ts:12:1 › both real staging bodies render and selection preserves the shared paused clock @mobile (1.9s)
+  ✓  81 [iphone-landscape] › tests/e2e/sun.spec.ts:126:1 › the sun lights the flank it faces, and the other one in the afternoon @mobile (29.6s)
+  ✓  82 [iphone-landscape] › tests/e2e/sun.spec.ts:147:1 › the shadow falls away from the sun, and moves with it @mobile (30.1s)
+  ✓  83 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual launch has drawn vehicle structure with a same-state absence control @mobile (1.6s)
+  ✓  84 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual staging has drawn vehicle structure with a same-state absence control @mobile (1.1s)
+  ✓  85 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual belly-flop has drawn vehicle structure with a same-state absence control @mobile (1.5s)
+  ✓  86 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual entry has drawn vehicle structure with a same-state absence control @mobile (1.2s)
+  ✓  87 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual landing has drawn vehicle structure with a same-state absence control @mobile (1.7s)
+  ✓  88 [iphone-landscape] › tests/e2e/visual-scenes.spec.ts:10:3 › actual catch has drawn vehicle structure with a same-state absence control @mobile (5.9s)
+
+  88 passed (12.8m)

@@ -1,0 +1,70 @@
+{
+  "kind": "official-original21-owner-input-v1",
+  "mode": "golden-record",
+  "root": "/workspace/StarShipSimulator",
+  "outerMs": 338000,
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "npmCli": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/lib/node_modules/npm/bin/npm-cli.js",
+    "sha": "8e5f6f3429f8cdbe693cdc29904e9d5a7b127a494bd15c804bd54c7403bfcbe7"
+  },
+  "qualification": {
+    "path": "/workspace/StarShipSimulator/docs/verification/native-flight-qualification-v7.json",
+    "sha": "73a6932e92ae09b08666f5812ace960704a73ca2b3e13c1b72bd9399560138bd"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/actual-input/inventory.json",
+    "sha": "b87219c75947380b08cd922d7f71b9d13d542578becb578663c613cc317f6233"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/business-stage.mjs.txt",
+    "sha": "6300fc2e62dc97b3ea769a2b02c97374354be6d13ed60fe0798ae36cdab0c446"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/full-golden-owned-route/root-observer.py.txt",
+    "sha": "226098f55a634edb88ace5c0ff08dc684fe9d70badc437f58bcd75430d53f7a8"
+  },
+  "snapshotHelper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/native-loader.mjs",
+    "sha": "2c2e7510705ae08dc265da4ea2c3522c4be92e9adc4e0bfaa5f44448b4d8d9fb"
+  },
+  "prediction": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/predictions.json",
+    "sha": "ec68e8ab990cf833140bd3e94859425da1a409d326ad71125346d8a8235adf25"
+  },
+  "predictionReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/phase8-full-golden-prelook-2026-10-04/independent-policy-truth-and-prelook-review.md",
+    "sha": "f0d0e375db42ae19672dbaaa7187f986f6e9e5da7d5cc45f4b397353b21a8c3e"
+  },
+  "truthEvidence": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/current-truth-after-full247/actual-status.json",
+    "sha": "a73c0d02fa4567e4d4918740f0cddd2feeec40465e41418f2698e03c7cb849a4"
+  },
+  "unitEvidence": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/official-original21-root-routing/full-nongolden-route/actual-input/independent-actual-result-HIGH-pins.json",
+    "sha": "9effdc2f941efc605b274f9c56d93f7a1e6201c32efadbb7fb6cac8ff2060475"
+  },
+  "fixturePaths": [
+    "/workspace/StarShipSimulator/tests/golden/fixtures/before-flip-autoland.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/booster-sep-boostback.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/booster/booster-sep-catch.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/booster/rtls-catch.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/intro-demo.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/landing-burn-autoland.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/landing-burn-headwind.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/launch-pad-takeoff.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/reentry-autoland.json",
+    "/workspace/StarShipSimulator/tests/golden/fixtures/rtls-boostback.json"
+  ]
+}

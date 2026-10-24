@@ -1,0 +1,1 @@
+The first file-authoring manifest command referenced a nonexistent assessment-pins filename and stopped before writing either manifest. The actual retained file is actual-native-accessor-failure-independent-pins.json; the corrected preparation reads/pins that exact file. This was not a witness/control/Node execution. No old evidence or product source changed.

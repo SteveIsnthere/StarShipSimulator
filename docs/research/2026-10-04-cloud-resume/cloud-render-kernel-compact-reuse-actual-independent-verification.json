@@ -1,0 +1,25 @@
+{
+  "setup": "/tmp/starship-render-kernel.vlntmfw7",
+  "compositeSha256": "5e9a5426c68101f3de6440ce82c6c62643aa1626c8bb64233df3f44dab100c80",
+  "compiledManifestSha256": "00a30ff1e01222f6913a01e5e45838dedfc75e30d63b3cd22852c6702d36fa4f",
+  "setupReceiptSha256": "37d73d9405d6dff48281f53668cff12830d946ca4f4036c4772dae5a6b027ef0",
+  "wrapperSha256": "fe3850849b93cfbe7aadf53bd3ff5affe44fc59b3c35af168c62c4404477d350",
+  "compactRunnerSha256": "eedc6c457fa6352351404154129f68f45c8265870583ee79647b271698040a26",
+  "compiledFiles": 21,
+  "maps": 10,
+  "currentSourcesContent": 492,
+  "inputBoundaryPins": 1373,
+  "currentSmallAndMappedBoundaryHashesExact": true,
+  "largeToolBinaryRehashThisReview": false,
+  "freshOwnershipNoPriorGO_STOP": true,
+  "codecProcessDigestMandatoryExact": true,
+  "oldFailedStatusPreserved": "FAILED aggregate32MiB export before candidate measurement",
+  "parentPins": {
+    "executed-prepare.py.txt": "21a9a5645f75bba149bcc69a7968242cf346b516b82e8058d784847ad6354d85",
+    "result.json": "7d90b3729789395bc0b2871ff3f6d02c9695677d379b2a4d9089743d8a2c92d7",
+    "independent-all-owned-postexit.json": "2b746613e9884ad80898a7b9854b20481e161b8c883bcadbabfa294763ac58e5",
+    "stdout.txt": "5752a802dd3311c1f0a257f3c1d77a392a8067588d2277832c0db8f1d3ba174a",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "browserExecuted": false
+}

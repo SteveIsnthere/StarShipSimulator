@@ -1,0 +1,167 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { registerHooks } from 'node:module';
+import { appendFileSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const digest = file => createHash('sha256').update(readFileSync(file)).digest('hex');
+import { admitArtifacts } from './admission.mjs';
+import { goldenAliases, supportFileForURL, assertSupportAdmission, relativeTarget } from '/workspace/StarShipSimulator/scripts/test/golden-support-policy.mjs';
+const {m: input,artifact:m}=await admitArtifacts(process.env.QUERY_CENSUS_NATIVE_MANIFEST,process.env.QUERY_CENSUS_NATIVE_MANIFEST_SHA);
+const originalTests=['tests/golden/booster-replay.test.ts'];const runtimeAliases={};const q={root:input.root,aliases:['$core/step','$core/vehicles/super-heavy','$core/constants','$core/scenarios','$core/vehicle'],originalTests:input.originalSources,goldenSourceFiles:input.originalSources,mappedCode:m.mappedCode};
+assert.equal(process.platform, 'linux');
+assert.equal(process.env.NODE_OPTIONS??'','');assert.equal(process.env.NODE_PATH??'','');
+const suppression=resolve(input.root,'node_modules/vitest/suppress-warnings.cjs');
+assert.deepEqual(process.execArgv,['--experimental-import-meta-resolve','--require',suppression,...input.workerConditions.flatMap(condition=>['--conditions',condition]),'--import',resolve(input.setup,'loader.mjs')]);
+// Capture before original root loading. This is a closed-worker consistency guard,
+// not detection of arbitrary preexisting monkeypatches outside the source domain.
+const closedGlobal=globalThis,readDescriptors=Object.getOwnPropertyDescriptors,readDescriptor=Object.getOwnPropertyDescriptor,compareDescriptors=assert.deepEqual,compareIdentity=assert.equal;
+const intrinsicNames=['Math','Number','Object','Array','Reflect','globalThis'];
+const bindingBaseline=[],intrinsicOwners=[],intrinsicBaseline=[];
+for(let index=0;index<intrinsicNames.length;index++){
+ const binding=readDescriptor(closedGlobal,intrinsicNames[index]);compareDescriptors(typeof binding.value,intrinsicNames[index]==='Number'||intrinsicNames[index]==='Object'||intrinsicNames[index]==='Array'?'function':'object');
+ bindingBaseline.push(binding);intrinsicOwners.push(binding.value);intrinsicBaseline.push(intrinsicNames[index]==='globalThis'?null:readDescriptors(binding.value));
+}
+export function assertClosedWorkerIntrinsics(){
+ for(let index=0;index<intrinsicNames.length;index++){
+  const binding=readDescriptor(closedGlobal,intrinsicNames[index]);compareIdentity(binding?.value,intrinsicOwners[index]);
+  compareDescriptors(binding,bindingBaseline[index]);
+  // Captured reader/comparator and owners survive a replaced Object binding.
+  if(intrinsicBaseline[index]!==null)compareDescriptors(readDescriptors(intrinsicOwners[index]),intrinsicBaseline[index]);
+ }
+}
+assertClosedWorkerIntrinsics();
+
+const stat = readFileSync('/proc/self/stat', 'utf8');
+const start = stat.slice(stat.lastIndexOf(')') + 2).trim().split(/\s+/)[19];
+assert.match(start, /^\d+$/);
+const entryURL = pathToFileURL(resolve(m.directory, 'entry.mjs')).href;
+const chunkURL = pathToFileURL(resolve(m.directory, q.mappedCode)).href;
+const constantsURL = pathToFileURL(resolve(m.directory, 'constants.mjs')).href;
+const receipt = resolve(m.directory + '.receipts', 'native-worker-' + process.pid + '-' + start + '.jsonl');
+let bytes = 0;
+function record(row) {
+  const line = JSON.stringify({ pid: process.pid, start, ...row }) + '\n';
+  bytes += Buffer.byteLength(line); assert(bytes <= 65536);
+  appendFileSync(receipt, line, { flag: 'a' });
+}
+record({ kind: 'startup', nodeVersion: process.version, nodeBinary: digest(process.execPath),
+  runSha: process.env.QUERY_CENSUS_NATIVE_MANIFEST_SHA, loaderSha: digest(new URL(import.meta.url)),
+  entryURL, chunkURL, constantsURL, code: m.files, execArgv: [...process.execArgv], nodeOptions: process.env.NODE_OPTIONS??'', nodePath: process.env.NODE_PATH??'',
+  observer: input.observer, admissionSha: digest(new URL('./admission.mjs',import.meta.url)), workerConditions: input.workerConditions });
+const parents = new Map(originalTests.map(file => [pathToFileURL(resolve(q.root, file)).href, goldenAliases[file]]));
+const originalLoads = new Map();
+const certificates = new Map();
+const cacheTokenDigits = String(Date.now()).length;
+// BEGIN exact original-parent validator
+function identifyOriginalParent(url, originals, tokenDigits) {
+  if (typeof url !== 'string') return null;
+  for (const canonicalParentURL of originals.keys()) {
+    if (url === canonicalParentURL) return { canonicalParentURL, cacheToken: null };
+    const prefix = canonicalParentURL + '?vitest=';
+    if (!url.startsWith(prefix)) continue;
+    const token = url.slice(prefix.length);
+    if (new RegExp('^[0-9]{' + tokenDigits + '}$').test(token)
+      && Number.isSafeInteger(Number(token)) && String(Number(token)) === token) {
+      return { canonicalParentURL, cacheToken: token };
+    }
+  }
+  return null;
+}
+// END exact original-parent validator
+function sourceBytes(result) {
+  assert(typeof result.source === 'string' || ArrayBuffer.isView(result.source) || result.source instanceof ArrayBuffer);
+  const source = typeof result.source === 'string' ? Buffer.from(result.source, 'utf8')
+    : result.source instanceof ArrayBuffer ? Buffer.from(result.source)
+    : Buffer.from(result.source.buffer, result.source.byteOffset, result.source.byteLength);
+  assert(source.length <= 16 * 1024 * 1024);
+  return source;
+}
+function denyAlias(specifier, parentURL, reason) {
+  record({ kind: 'rejected-original-alias', specifier, parentURL: parentURL ?? null, reason });
+  assert(false, reason);
+}
+
+const observerURL=pathToFileURL(resolve(input.setup,'observer.mjs')).href;
+const observerParents=new Map([[observerURL,[]]]),observerLoads=new Map(),authorizedArtifactURLs=new Set();
+const artifactPrefix=pathToFileURL(m.directory+'/').href;
+const executingURLs=new Set(Object.entries(m.files).filter(([file])=>/\.(?:mjs|js)$/.test(file)).map(([file])=>pathToFileURL(resolve(m.directory,file)).href));
+function artifactTarget(url){
+ if(typeof url!=='string'||!url.startsWith(artifactPrefix))return false;
+ assert(!url.includes('?')&&!url.includes('#'),'Native artifact query/fragment denied');assert(executingURLs.has(url),'Unknown/nonexecuting native artifact URL');return true;
+}
+function allowArtifact(url,parentURL,kind){authorizedArtifactURLs.add(url);record({kind,parentURL,url});}
+registerHooks({ resolve(specifier, context, nextResolve) {
+  if (q.aliases.includes(specifier)) {
+    const certificate = certificates.get(context.parentURL);
+    if (!certificate) denyAlias(specifier, context.parentURL, 'Native application alias requested by foreign or uncertified parent');
+    if (!(runtimeAliases[certificate.file] ?? goldenAliases[certificate.file])?.includes(specifier)) {
+      denyAlias(specifier, context.parentURL, 'Alias outside exact original runtime import inventory');
+    }
+    const url = specifier === '$core/constants' ? constantsURL : entryURL;
+    record({ kind: 'original-alias', specifier, parentURL: context.parentURL,
+      canonicalParentURL: certificate.canonicalParentURL, cacheToken: certificate.cacheToken,
+      parentSourceSha: certificate.sourceSha, url });
+    allowArtifact(url,context.parentURL,'certified-alias-artifact-edge');return { url, shortCircuit: true };
+  }
+  if (/^\$(core|app|view|hud|ui|audio)\//.test(specifier)) denyAlias(specifier, context.parentURL, 'Unknown native application alias: ' + specifier);
+  const relative = relativeTarget(q.root, specifier, context.parentURL, certificates);
+  if (relative) {
+    record({ kind: 'golden-relative', specifier, parentURL: context.parentURL,
+      parentSourceSha: relative.certificate.sourceSha, file: relative.file, url: relative.url });
+    return { url: relative.url, shortCircuit: true };
+  }
+  const result = nextResolve(specifier, context);
+  const parentFile=[...m.edges.map(edge=>edge.fileName),'constants.mjs'].find(file=>pathToFileURL(resolve(m.directory,file)).href===context.parentURL);
+  if(parentFile){const allowed=parentFile==='constants.mjs'?['entry.mjs']:m.edges.find(edge=>edge.fileName===parentFile).imports;
+    assert(allowed.some(file=>result.url===pathToFileURL(resolve(m.directory,file)).href),'Foreign emitted native edge');
+    allowArtifact(result.url,context.parentURL,'certified-native-artifact-edge');record({kind:'native-module-edge',specifier,parentURL:context.parentURL,url:result.url});}
+  if(artifactTarget(result.url)){
+   if(!parentFile){const observer=observerLoads.get(context.parentURL);assert(observer&&result.url===entryURL,'Foreign inbound native artifact import denied');allowArtifact(result.url,context.parentURL,'certified-observer-artifact-bootstrap');}
+  }
+  return result;
+}, load(url, context, nextLoad) {
+  if(artifactTarget(url))assert(authorizedArtifactURLs.has(url),'Native artifact load without certified resolution');
+
+  const support = supportFileForURL(q.root, url); // Reject exact known support variants BEFORE delegation.
+  const result = nextLoad(url, context);
+  const observer=identifyOriginalParent(url,observerParents,cacheTokenDigits);
+  if(observer){assert(['module','module-typescript'].includes(result.format));const source=sourceBytes(result);const sourceSha=createHash('sha256').update(source).digest('hex');assert.equal(sourceSha,input.observer.sha256);assert.equal(digest(new URL(observerURL)),sourceSha);assert.equal(observerLoads.size,0);const certificate={kind:'observer-load',url,...observer,sourceSha,sourceBytes:source.length,format:result.format};observerLoads.set(url,certificate);record(certificate);}
+  const original = identifyOriginalParent(url, parents, cacheTokenDigits);
+  if (original) {
+    assert(originalLoads.size === 0 || originalLoads.has(url), 'Multiple original parent URLs in one isolated worker');
+    assert(['module', 'module-typescript'].includes(result.format), 'Unexpected original ESM module format');
+    const source = sourceBytes(result);
+    const sourceSha = createHash('sha256').update(source).digest('hex');
+    const file = originalTests.find(file => pathToFileURL(resolve(q.root, file)).href === original.canonicalParentURL);
+    assert.equal(sourceSha, q.originalTests[file]);
+    assert.equal(digest(new URL(original.canonicalParentURL)), sourceSha);
+    assert(!originalLoads.has(url), 'Duplicate original parent load');
+    const certificate = { kind: 'original-load', url, ...original, file, format: result.format,
+      tokenDigits: cacheTokenDigits, sourceBytes: source.length, sourceSha };
+    record(certificate);
+    originalLoads.set(url, certificate);
+    certificates.set(url, certificate);
+  }
+  if (support) {
+    assertSupportAdmission(q.root, support, url, originalLoads);
+    assert(['module', 'module-typescript'].includes(result.format));
+    const source = sourceBytes(result);
+    const sourceSha = createHash('sha256').update(source).digest('hex');
+    assert.equal(sourceSha, q.goldenSourceFiles[support]);
+    assert.equal(digest(new URL(url)), sourceSha);
+    assert(!certificates.has(url), 'Duplicate support load');
+    const certificate = { kind: 'support-load', file: support, url, canonicalParentURL: url,
+      cacheToken: null, format: result.format, sourceBytes: source.length, sourceSha };
+    record(certificate); certificates.set(url, certificate);
+  }
+  const expected=new Map(Object.entries(m.files).filter(([file])=>/\.(?:mjs|js)$/.test(file)).map(([file,h])=>[pathToFileURL(resolve(m.directory,file)).href,h]));
+  if (expected.has(url)) {
+    assert.equal(result.format, 'module');
+    const source = sourceBytes(result);
+    const sourceSha = createHash('sha256').update(source).digest('hex');
+    assert.equal(sourceSha, expected.get(url)); assert.equal(digest(new URL(url)), sourceSha);
+    record({ kind: 'native-load', url, format: result.format, sourceBytes: source.length, sourceSha });
+  }
+  return result;
+} });

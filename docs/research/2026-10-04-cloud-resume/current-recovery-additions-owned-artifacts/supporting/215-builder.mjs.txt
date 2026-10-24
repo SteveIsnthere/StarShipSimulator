@@ -1,0 +1,82 @@
+// Ordinary locked Vite production options; isolated graphs and passive copies only.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve,relative,dirname,isAbsolute} from 'node:path';
+import {createHash} from 'node:crypto';
+import {build,resolveConfig} from 'vite';
+const [input,inputSha]=process.argv.slice(2),sha=s=>createHash('sha256').update(s).digest('hex');
+assert.equal(sha(readFileSync(input)),inputSha);const m=JSON.parse(readFileSync(input,'utf8'));
+assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);
+assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-reuse-pure-proof');
+assert.equal(process.version,'v22.23.3');assert.equal(sha(readFileSync(process.execPath)),m.node.sha256);
+const configFile=resolve(m.root,'vite.config.ts'),resolved=await resolveConfig({configFile},'build','production');
+const q=JSON.parse(readFileSync(resolve(m.root,'scripts/bench/qualification.json'),'utf8'));
+const options={target:resolved.build.target,minify:resolved.build.minify,sourcemap:resolved.build.sourcemap,cssMinify:resolved.build.cssMinify,mode:resolved.mode,base:resolved.base,
+ tools:{vite:JSON.parse(readFileSync(resolve(m.root,'node_modules/vite/package.json'),'utf8')).version,rolldown:JSON.parse(readFileSync(resolve(m.root,'node_modules/rolldown/package.json'),'utf8')).version},
+ adaptation:'ESM library entry/output retains proof API; Vite library-specific annotation/whitespace policy applies. No math/tier/fast-math overrides.'};
+assert.deepEqual(options,q.options);assert.equal(options.sourcemap,true);
+const save=(name,value)=>writeFileSync(resolve(m.setup,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+const loader=await import(new URL('file://'+m.loader.path));const before=loader.sourceSnapshot(m.root),tools=loader.installedToolSnapshot(m.root);const graphs={};
+for(const role of ['original','candidate','original-counted','candidate-counted']){
+ const candidate=role.startsWith('candidate'),counted=role.endsWith('counted'),overrides={};
+ for(const name of ['damage-controls','damage-thermal']){
+  const path=resolve(m.root,'src/core/physics',name+'.ts');
+  const text=readFileSync(resolve(m.setup,name+'.'+(candidate?'candidate':'original')+'.ts.txt'),'utf8');
+  if(!candidate)assert.equal(text,readFileSync(path,'utf8'));overrides[path]=text;
+ }
+ if(counted)for(const [name,fn]of[['damage-root','loadedRootAngle'],['damage-material','steelTemperatureFromEnthalpy']]){
+  const path=resolve(m.root,'src/core/physics',name+'.ts'),text=readFileSync(path,'utf8');
+  const marker='export function '+fn+'(';assert.equal(text.split(marker).length-1,1);
+  const start=text.indexOf(marker),end=text.indexOf('): number {',start);assert.ok(end>start);
+  const at=end+'): number {'.length;
+  const argument=fn==='loadedRootAngle'?'[command, forceScale, loadLever, temperature, section.length, section.inertia, law]':'[specificEnthalpy]';
+  // Entry-only passive witnesses: no arguments/returns/math/throws are changed.
+  overrides[path]=text.slice(0,at)+'\n  if (__queryWitness.length >= 8192) throw new Error("Passive witness cap");\n  __queryWitness.push('+argument+');'+text.slice(at)+
+   '\nconst __queryWitness: unknown[][] = [];\nexport function resetWitness'+fn+'(): void { __queryWitness.length = 0; }\nexport function readWitness'+fn+'(): unknown[][] { return __queryWitness.map(row => row.slice()); }\n';
+ }
+ const directory=resolve(m.setup,role),entry=resolve(m.setup,'entry.ts');
+ if(counted)writeFileSync(resolve(m.setup,'entry-'+role+'.ts'),readFileSync(entry,'utf8')+
+  "export {resetWitnessloadedRootAngle,readWitnessloadedRootAngle} from '$core/physics/damage-root';\nexport {resetWitnesssteelTemperatureFromEnthalpy,readWitnesssteelTemperatureFromEnthalpy} from '$core/physics/damage-material';\n",{flag:'wx'});
+ save(role+'-virtual-source.json',Object.fromEntries(Object.entries(overrides).map(([path,text])=>[relative(m.root,path),{sha256:sha(text),text}])));
+ const built=await build({configFile,plugins:[{name:'reviewed-query-reuse-virtual-copy',enforce:'pre',load(id){return Object.hasOwn(overrides,id)?overrides[id]:null;}}],
+  build:{target:resolved.build.target,minify:resolved.build.minify,sourcemap:resolved.build.sourcemap,cssMinify:resolved.build.cssMinify,copyPublicDir:false,
+  outDir:directory,emptyOutDir:true,lib:{entry:counted?resolve(m.setup,'entry-'+role+'.ts'):entry,formats:['es'],fileName:()=> 'entry.mjs'}}});
+ const files=Object.fromEntries(loader.filesUnder(directory).map(path=>[relative(directory,path),sha(readFileSync(path))]));assert.ok(files['entry.mjs']);
+ const mapped={};
+ for(const path of loader.filesUnder(directory).filter(path=>path.endsWith('.map'))){
+  const map=JSON.parse(readFileSync(path,'utf8'));assert.equal(map.sources.length,map.sourcesContent.length);assert.ok(map.sources.length<=64);
+  for(let i=0;i<map.sources.length;i++){
+   const source=isAbsolute(map.sources[i])?map.sources[i]:resolve(dirname(path),map.sourceRoot??'',map.sources[i]);
+   const expected=overrides[source]??readFileSync(source,'utf8');assert.equal(map.sourcesContent[i],expected,'Virtual/current source map mismatch');
+   mapped[source]=sha(expected);
+  }
+ }
+ const expectedSources=['src/core/vehicle.ts','src/core/vehicles/super-heavy.ts','src/core/vehicles/v3.ts','src/core/constants.ts','src/core/units.ts','src/core/physics/vehicle-components.ts','src/core/damage-state.ts','src/core/physics/damage-controls.ts','src/core/physics/damage-thermal.ts','src/core/physics/damage-root.ts','src/core/physics/damage-material.ts','src/core/physics/tps-material.ts'].map(path=>resolve(m.root,path));
+ expectedSources.push(counted?resolve(m.setup,'entry-'+role+'.ts'):entry);
+ assert.deepEqual(Object.keys(mapped).sort(),expectedSources.sort(),'Unreviewed pure native import closure');
+ const outputs=Array.isArray(built)?built:[built];assert.equal(outputs.length,1,'One ESM output per role');
+ assert.ok(Array.isArray(outputs[0].output));const chunks=outputs[0].output.filter(item=>item.type==='chunk');assert.ok(chunks.length>0&&chunks.length<=16);
+ const ownedChunks=new Set(chunks.map(chunk=>chunk.fileName));assert.equal(ownedChunks.size,chunks.length);assert.ok(ownedChunks.has('entry.mjs'));
+ const moduleIds=new Set(),edges=[];
+ for(const chunk of chunks){
+  assert.ok(Object.hasOwn(files,chunk.fileName),'Emitted chunk must be retained role artifact');
+  assert.equal(resolve(directory,chunk.fileName),resolve(directory,relative(directory,resolve(directory,chunk.fileName))));
+  assert.ok(!isAbsolute(chunk.fileName)&&!relative(directory,resolve(directory,chunk.fileName)).startsWith('..'),'Foreign emitted chunk path');
+  assert.ok(Array.isArray(chunk.moduleIds));assert.ok(chunk.moduleIds.length<=expectedSources.length);
+  for(const id of chunk.moduleIds){assert.ok(expectedSources.includes(id),'Unreviewed emitted module ID: '+id);moduleIds.add(id);}
+  assert.ok(Array.isArray(chunk.imports)&&Array.isArray(chunk.dynamicImports));assert.deepEqual(chunk.dynamicImports,[],'Inert proof denies dynamic imports');
+  for(const imported of chunk.imports){
+   assert.equal(typeof imported,'string');assert.ok(!isAbsolute(imported)&&!imported.includes('\\')&&!imported.includes(':')&&!/[?#]/.test(imported));
+   assert.ok(ownedChunks.has(imported)&&Object.hasOwn(files,imported),'External/cross-role emitted import');
+   assert.ok(!relative(directory,resolve(directory,imported)).startsWith('..'),'Escaping emitted import');
+  }
+  edges.push({fileName:chunk.fileName,moduleIds:chunk.moduleIds,imports:chunk.imports,dynamicImports:chunk.dynamicImports,
+   returnedCodeSha256:sha(chunk.code),artifactSha256:files[chunk.fileName]});
+ }
+ assert.deepEqual([...moduleIds].sort(),expectedSources.sort(),'Exact emitted pure module closure');
+ const emittedEdges={kind:'query-reuse-role-emitted-edge-certificate-v1',role,expectedSources:expectedSources.slice(),edges};
+ save(role+'-emitted-edges.json',emittedEdges);
+ graphs[role]={directory,entry:resolve(directory,'entry.mjs'),files,mapped,emittedEdges};
+}
+assert.deepEqual(loader.sourceSnapshot(m.root),before);assert.deepEqual(loader.installedToolSnapshot(m.root),tools);
+save('graphs.json',{kind:'query-reuse-four-native-graphs-v1',options,graphs,source:before,tools,passiveCopiesNeverTimed:true});

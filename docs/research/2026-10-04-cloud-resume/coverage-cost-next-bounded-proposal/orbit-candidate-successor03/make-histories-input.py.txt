@@ -1,0 +1,23 @@
+# Separate root-owned metadata continuation ONLY after actual compiled-output HIGH.
+import json,hashlib,os,sys,uuid
+from pathlib import Path
+h=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();path,expected=sys.argv[1:];assert h(path)==expected;seed=json.loads(Path(path).read_text());assert seed['kind']=='original-orbit18-accepted-artifact-history-seed-v1';assert os.environ.get('STARSHIP_CPU_SLOT_GRANTED')=='original-orbit18-history-preparation'
+for role in ['compileInput','compiledAcceptance','maker']:
+ row=seed[role];assert h(row['path'])==row['sha']
+assert Path(__file__).resolve()==Path(seed['maker']['path']).resolve();original=json.loads(Path(seed['compileInput']['path']).read_text());assert original['mode']=='compile';accepted=json.loads(Path(seed['compiledAcceptance']['path']).read_text());assert accepted['kind']=='independently-accepted-original-orbit18-production-artifacts-v1' and accepted['compiledArtifactsAccepted'] is True and accepted['historyExecutionAccepted'] is False;assert accepted['sourceAuthority']==original['authorityRole'] and accepted['originalTest']==original['originalTest']
+for role in ['manifest','productionOptions','producerResult','independentReview','independentReviewPins']:
+ row=accepted[role];assert h(row['path'])==row['sha']
+manifest=json.loads(Path(accepted['manifest']['path']).read_text());assert manifest['kind']=='original-orbit18-compiled-artifacts-v1';assert manifest['entrySource']==original['entry'];assert manifest['originalOrbit']==original['originalTest'];directory=Path(original['receipt'])/'plain';assert sorted(p.name for p in directory.iterdir())==sorted(Path(r['path']).name for r in manifest['files'])
+for row in manifest['files']:assert Path(row['path']).parent==directory and h(row['path'])==row['sha']
+# New owner setup, same immutable native graph/evidence; no rebuild or controls repeat.
+setup=Path(original['root'])/'node_modules/.cache'/('starship-orbit18-qualification-'+uuid.uuid4().hex);setup.mkdir(mode=0o700);oldsetup=Path(original['setup']);owner=oldsetup/'owner.mjs';assert h(owner)==original['files'][str(owner)];(setup/'owner.mjs').write_bytes(owner.read_bytes());os.chmod(setup/'owner.mjs',0o600)
+binding=oldsetup/'slot-bindings.mjs';assert h(binding)==original['files'][str(binding)];(setup/'slot-bindings.mjs').write_bytes(binding.read_bytes());os.chmod(setup/'slot-bindings.mjs',0o600)
+files={**original['files'],str(setup/'owner.mjs'):h(setup/'owner.mjs'),str(setup/'slot-bindings.mjs'):h(setup/'slot-bindings.mjs'),str(Path(path).resolve()):expected};files.update({row['path']:row['sha']for row in accepted.values()if isinstance(row,dict) and set(row)=={'path','sha'}});files[seed['compiledAcceptance']['path']]=seed['compiledAcceptance']['sha'];files.update({r['path']:r['sha']for r in manifest['files']});m={**original,'mode':'histories','setup':str(setup),'files':files,'compileAcceptance':seed['compiledAcceptance']}
+def emit(name,value):
+ p=setup/name
+ with p.open('x')as out:json.dump(value,out,indent=2);out.write('\n')
+ os.chmod(p,0o600);return{'path':str(p),'sha':h(p)}
+inner=emit('input.json',m);inventory=emit('root-inventory.json',{'kind':'orbit18-qualification-root-inventory-v1','files':{**files,inner['path']:inner['sha']}})
+root={'kind':'orbit18-qualification-root-input-v1','mode':'orbit18-histories','outerMs':900000,'root':original['root'],'setup':str(setup),'steps':['orbit-histories'],'node':original['node'],'helper':original['helper'],'pureInput':inner,'pins':inventory,'executionSlot':original['executionSlot'],'slotContract':original['slotContract'],'stage':{'path':str(setup/'owner.mjs'),'sha':h(setup/'owner.mjs')},'observer':seed['observer'],'python':seed['python']}
+for role in ['observer','python']:assert h(seed[role]['path'])==seed[role]['sha']
+out=emit('root-input.json',root);print(json.dumps({'setup':str(setup),'input':inner,'rootInput':out,'noBuildOrControlRepeat':True,'acceptedArtifacts':seed['compiledAcceptance']}))

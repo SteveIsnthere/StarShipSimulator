@@ -1,0 +1,101 @@
+
+> starship-simulator-v2@0.1.0 test
+> node scripts/test/run.mjs run tests/app/debug-progress.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile.json=docs/research/2026-10-18-phase8-successor/progress/red.json
+
+Native flight ineligible; running original SSR selection: No durable native qualification for this checkout/runtime
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ |unit| tests/app/debug-progress.test.ts (10 tests | 10 failed) 42ms
+     × agrees with full telemetry without changing state, counters or its prior snapshot 8ms
+     × follows replaced selected state and loop, and reports a missing live simulation 1ms
+     × never traverses unrelated future/planner trees; full telemetry is a negative control 1ms
+   × preserves the first landed stop on tick 1, physics, counters and observers 8ms
+   × preserves the first landed stop on tick 4, physics, counters and observers 6ms
+   × preserves the first crashed stop on tick 1, physics, counters and observers 6ms
+   × preserves the first crashed stop on tick 4, physics, counters and observers 3ms
+   × preserves the first inFlightBreakUp stop on tick 1, physics, counters and observers 2ms
+   × preserves the first inFlightBreakUp stop on tick 4, physics, counters and observers 3ms
+   × preserves the nonterminal tick cap and final full telemetry 3ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/app/debug-progress.test.ts > lightweight live flight progress > agrees with full telemetry without changing state, counters or its prior snapshot
+TypeError: debug.flightProgress is not a function
+ ❯ progress tests/app/debug-progress.test.ts:11:56
+      9|   altitude: number; speedY: number }>;
+     10| const progress = (debug: SimDebug): Progress =>
+     11|   (debug as SimDebug & { flightProgress(): Progress }).flightProgress(…
+       |                                                        ^
+     12|
+     13| function setup(loop: () => LoopState | undefined, onStep?: (state: Sim…
+ ❯ tests/app/debug-progress.test.ts:24:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  |unit| tests/app/debug-progress.test.ts > lightweight live flight progress > follows replaced selected state and loop, and reports a missing live simulation
+TypeError: debug.flightProgress is not a function
+ ❯ progress tests/app/debug-progress.test.ts:11:56
+      9|   altitude: number; speedY: number }>;
+     10| const progress = (debug: SimDebug): Progress =>
+     11|   (debug as SimDebug & { flightProgress(): Progress }).flightProgress(…
+       |                                                        ^
+     12|
+     13| function setup(loop: () => LoopState | undefined, onStep?: (state: Sim…
+ ❯ tests/app/debug-progress.test.ts:38:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  |unit| tests/app/debug-progress.test.ts > lightweight live flight progress > never traverses unrelated future/planner trees; full telemetry is a negative control
+TypeError: debug.flightProgress is not a function
+ ❯ progress tests/app/debug-progress.test.ts:11:56
+      9|   altitude: number; speedY: number }>;
+     10| const progress = (debug: SimDebug): Progress =>
+     11|   (debug as SimDebug & { flightProgress(): Progress }).flightProgress(…
+       |                                                        ^
+     12|
+     13| function setup(loop: () => LoopState | undefined, onStep?: (state: Sim…
+ ❯ tests/app/debug-progress.test.ts:53:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  |unit| tests/app/debug-progress.test.ts > preserves the first landed stop on tick 1, physics, counters and observers
+ FAIL  |unit| tests/app/debug-progress.test.ts > preserves the first landed stop on tick 4, physics, counters and observers
+ FAIL  |unit| tests/app/debug-progress.test.ts > preserves the first crashed stop on tick 1, physics, counters and observers
+ FAIL  |unit| tests/app/debug-progress.test.ts > preserves the first crashed stop on tick 4, physics, counters and observers
+ FAIL  |unit| tests/app/debug-progress.test.ts > preserves the first inFlightBreakUp stop on tick 1, physics, counters and observers
+ FAIL  |unit| tests/app/debug-progress.test.ts > preserves the first inFlightBreakUp stop on tick 4, physics, counters and observers
+TypeError: debug.flightProgress is not a function
+ ❯ progress tests/app/debug-progress.test.ts:11:56
+      9|   altitude: number; speedY: number }>;
+     10| const progress = (debug: SimDebug): Progress =>
+     11|   (debug as SimDebug & { flightProgress(): Progress }).flightProgress(…
+       |                                                        ^
+     12|
+     13| function setup(loop: () => LoopState | undefined, onStep?: (state: Sim…
+ ❯ flight tests/app/debug-progress.test.ts:80:21
+ ❯ tests/app/debug-progress.test.ts:91:62
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  |unit| tests/app/debug-progress.test.ts > preserves the nonterminal tick cap and final full telemetry
+TypeError: debug.flightProgress is not a function
+ ❯ progress tests/app/debug-progress.test.ts:11:56
+      9|   altitude: number; speedY: number }>;
+     10| const progress = (debug: SimDebug): Progress =>
+     11|   (debug as SimDebug & { flightProgress(): Progress }).flightProgress(…
+       |                                                        ^
+     12|
+     13| function setup(loop: () => LoopState | undefined, onStep?: (state: Sim…
+ ❯ flight tests/app/debug-progress.test.ts:80:21
+ ❯ tests/app/debug-progress.test.ts:100:51
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  10 failed (10)
+   Start at  15:03:48
+   Duration  1.11s (transform 792ms, setup 0ms, import 917ms, tests 42ms, environment 0ms)
+
+JSON report written to /workspace/StarShipSimulator/docs/research/2026-10-18-phase8-successor/progress/red.json

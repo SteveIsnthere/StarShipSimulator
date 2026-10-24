@@ -1,0 +1,123 @@
+"""ROOT-only exact finite lossless packing. No Git, tree scans, application imports, or source edits."""
+from pathlib import Path
+import gzip,hashlib,json,os,stat,sys,time,traceback
+root=Path('/workspace/StarShipSimulator');sha=lambda b:hashlib.sha256(b).hexdigest()
+proposal_path=Path(sys.argv[1]);expected=sys.argv[2]
+assert sha(proposal_path.read_bytes())==expected
+m=json.loads(proposal_path.read_text());assert m['kind']=='docs-after08-lossless-packing-v1'
+assert sha(Path(__file__).read_bytes())==m['scriptSha256']
+assert os.environ['STARSHIP_DOC_LOSSLESS_PACK_APPROVED']==expected
+inventory_path=Path(m['inventory']['path']);assert sha(inventory_path.read_bytes())==m['inventory']['sha256']
+inventory=json.loads(inventory_path.read_text());source=inventory['files']
+assert len(source)==12319 and sum(v['bytes'] for v in source)==414013070
+assert len({v['path'] for v in source})==len(source)
+patch=m['exactPlainPatchException'];targets=set(m['targets'])
+derived={v['path'] for v in source if v['bytes']>=65536 and v['path']!=patch['path'] and Path(v['path']).suffix not in ['.md','.gz']}
+assert targets==derived and len(targets)==277
+assert sum(v['bytes'] for v in source if v['path'] in targets)==355802508
+output=root/'docs/research/2026-10-04-cloud-resume/documentation-checkpoint-after-recovery08-lossless-packed-artifacts'
+assert str(output)==m['output'] and not os.path.lexists(output)
+started=time.monotonic();rows=[];payloads={};failure=None;audits=[];audit_failures=0;published=58210562;completed=False
+RESULT_RESERVE=1048576
+def audit_failure(value):
+    global audit_failures
+    audit_failures+=1
+    if len(audits)<128:audits.append(value)
+
+def bound():assert time.monotonic()-started<45, 'Packing/inverse/publication soft deadline'
+
+def durable(p,b):
+    bound()
+    with p.open('xb') as f:f.write(b);f.flush();os.fsync(f.fileno())
+    p.chmod(0o600)
+    fd=os.open(p.parent,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(fd)
+    finally:os.close(fd)
+
+def private_environment(value):
+    # Inspect structured data only; do not print values or treat source text as instructions.
+    stack=[value]
+    while stack:
+        v=stack.pop()
+        if isinstance(v,dict):
+            browser=v.get('browser')
+            if isinstance(browser,dict) and isinstance(browser.get('launch'),dict):
+                assert browser['launch'].get('env') in (None,{}), 'Private browser launch environment cannot be published'
+            stack.extend(v.values())
+        elif isinstance(v,list):stack.extend(v)
+
+def privacy(b):
+    stripped=b.lstrip()
+    if stripped[:1] not in (b'{',b'['):return
+    try:value=json.loads(b)
+    except (json.JSONDecodeError,UnicodeDecodeError):
+        assert not (b'"browser"' in b and b'"env"' in b), 'Unclassifiable structured environment input needs safe omission'
+        return
+    private_environment(value)
+
+def read(v,check_privacy=False):
+    bound();rel=Path(v['path'])
+    assert not rel.is_absolute() and '..' not in rel.parts and str(rel)==os.path.normpath(str(rel)) and rel.parts[0]=='docs'
+    assert 'browser.launch.env' not in str(rel) and not str(rel).startswith('docs/research/2026-10-04-cloud-resume/cloud-frame-diagnostic-artifacts/')
+    p=root/rel
+    for a in [p,*p.parents]:assert not a.is_symlink()
+    st=p.lstat();assert stat.S_ISREG(st.st_mode) and st.st_size==v['bytes'] and stat.S_IMODE(st.st_mode)==v['mode']
+    cap=18837675 if str(rel)==patch['path'] else 16777216
+    assert st.st_size<=cap
+    b=p.read_bytes();assert len(b)==st.st_size
+    if str(rel)==patch['path']:assert sha(b)==patch['sha256'] and len(b)==patch['bytes']
+    if check_privacy:privacy(b)
+    return b
+
+try:
+    output.mkdir(mode=0o700);(output/'payloads').mkdir(mode=0o700)
+    for v in source:
+        b=read(v,True);original_sha=sha(b)
+        row={**v,'originalSha256':original_sha,'originalsUntouched':True}
+        if v['path'] in targets:
+            canonical=output/'payloads'/(original_sha+'.gz')
+            if original_sha not in payloads:
+                encoded=gzip.compress(b,compresslevel=1,mtime=0)
+                assert len(encoded)<=16777216 and gzip.decompress(encoded)==b
+                published+=len(encoded);assert published+RESULT_RESERVE<=268435456
+                durable(canonical,encoded)
+                payloads[original_sha]={'path':str(canonical.relative_to(root)),'bytes':len(encoded),'sha256':sha(encoded),'mode':384}
+            else:
+                encoded=canonical.read_bytes();assert gzip.decompress(encoded)==b
+            row.update({'encoding':'gzip','canonical':payloads[original_sha]})
+        else:row.update({'encoding':'identity','canonical':{'path':v['path'],'bytes':v['bytes'],'sha256':original_sha,'mode':v['mode']}})
+        rows.append(row)
+except BaseException:failure=traceback.format_exc()
+finally:
+    # Every copied/kept source is rechecked; no completed claim from a partial packing.
+    for row in rows:
+        try:
+            b=read(row);assert sha(b)==row['originalSha256']
+            if row['encoding']=='gzip':
+                p=root/row['canonical']['path'];encoded=p.read_bytes()
+                assert len(encoded)==row['canonical']['bytes'] and sha(encoded)==row['canonical']['sha256'] and stat.S_IMODE(p.lstat().st_mode)==384
+                assert gzip.decompress(encoded)==b
+        except BaseException:audit_failure({'path':row['path'],'error':traceback.format_exc()})
+    try:
+        assert len(rows)==12319
+        assert sha(inventory_path.read_bytes())==m['inventory']['sha256'] and sha(proposal_path.read_bytes())==expected and sha(Path(__file__).read_bytes())==m['scriptSha256']
+        bound()
+        if failure is None and audit_failures==0:
+            manifest={'kind':'exact-lossless-after08-publication-map-v1','rows':rows,'uniqueGzipPayloads':list(payloads.values()),'sourceExpandedBytes':414013070,'plainBytes':58210562,'publishedPayloadBytes':published,'proposalSha256':expected,'inventorySha256':m['inventory']['sha256'],'scope':m['scope'],'privacy':m['privacy'],'oldProofReceiptsRewritten':False,'restoreRule':'Decode into an explicit fresh scratch root only; never overwrite the existing checkout. Identity rows remain original published paths; every alias keeps exact bytes/SHA/mode.'}
+            encoded=(json.dumps(manifest,indent=2)+'\n').encode();assert len(encoded)<=16777216
+            published+=len(encoded);assert published+RESULT_RESERVE<=268435456
+            durable(output/'origin-alias-manifest.json',encoded);bound();completed=True
+    except BaseException:audit_failure({'stage':'publication','error':traceback.format_exc()})
+    result={'completed':completed,'primaryFailure':failure,'posterrors':audits,'posterrorCount':audit_failures,'errorRecordsCappedAt':128,'sourceRows':len(rows),'sourceExpandedBytes':414013070,'gzipAliases':sum(v['encoding']=='gzip' for v in rows),'uniqueGzipPayloads':len(payloads),'publishedBytesIncludingManifest':published,'publicationCap':268435456,'resultReserveBytes':RESULT_RESERVE,'elapsedSeconds':time.monotonic()-started,'proposalSha256':expected,'executedScriptSha256':m['scriptSha256']}
+    # Durable failure is retained even after the soft deadline. No originals are removed.
+    p=output/'copy-result.json'
+    encoded=(json.dumps(result,indent=2)+'\n').encode();assert len(encoded)<=RESULT_RESERVE
+    with p.open('xb') as f:f.write(encoded);f.flush();os.fsync(f.fileno())
+    p.chmod(0o600)
+    fd=os.open(output,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(fd)
+    finally:os.close(fd)
+# Outer owner independently enforces the result-boundary and whole work deadline.
+# A late fsync cannot turn a late process into a successful publication.
+if time.monotonic()-started>=45:sys.exit(1)
+sys.exit(0 if completed else 1)

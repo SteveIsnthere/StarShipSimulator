@@ -1,0 +1,29 @@
+{
+  "sourcePinsSha": "39e8ab8a4713d95c8e2ed06556ba8e79e4121acd663c3afacda6f1e197bd98e1",
+  "route7AndNeutral7HashesAndBytes": "PASS",
+  "twoPythonAstCompile": "PASS",
+  "nodeParse": "PASS",
+  "eslintErrors": 0,
+  "eslintWarnings": 0,
+  "exactNeutral13ByteDelta": "PASS",
+  "managedInterpreters": [
+    {
+      "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+      "bytes": 124827920,
+      "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48",
+      "mode": 448
+    },
+    {
+      "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "bytes": 30894944,
+      "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+      "mode": 493
+    }
+  ],
+  "materializedApplication": {
+    "path": "/tmp/starship-receipt-pathspec-application-source.285a2a0d06ca49979c79abd4ffa8378c/application.mjs",
+    "sha": "45a22b1e1c13ca76310e628d0119ff004bd3f09e1826c9be714a89a4e1ccc602",
+    "mode": 384
+  },
+  "noApplication": true
+}

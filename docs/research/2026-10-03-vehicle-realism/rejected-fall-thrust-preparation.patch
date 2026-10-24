@@ -1,0 +1,185 @@
+--- a/src/core/physics/components.ts
++++ b/src/core/physics/components.ts
+@@ -154,6 +154,23 @@
+  */
+ export function writeAccelerationComponents(i: AccelerationInputs, gravity: number,
+   out: { x: number; y: number }): void {
++  writeThrustComponents(i, out);
++  writeAccelerationWithPreparedThrust(i, gravity, out, out);
++}
++
++/** Exact scalar thrust products, reusable while these input fields stay held. */
++export function writeThrustComponents(i: AccelerationInputs, out: { x: number; y: number }): void {
++  out.x = thrustAlong(i, horizontalThrustCoefficient);
++  out.y = thrustAlong(i, verticalThrustCoefficient);
++}
++
++/** Canonical sums with already evaluated thrust products. Never omit their
++ * additions even for zero thrust: the scalar signed-zero contract still applies.
++ * `thrust` may alias `out`; capture both components before writing either axis.
++ */
++export function writeAccelerationWithPreparedThrust(i: AccelerationInputs, gravity: number,
++  thrust: { x: number; y: number }, out: { x: number; y: number }): void {
++  const thrustX = thrust.x, thrustY = thrust.y;
+   const sine = Math.sin(i.angleOfMotion), cosine = Math.cos(i.angleOfMotion);
+   const inverted = liftSignIsInverted(i.angleOfAttack);
+   const dragX = -sine * i.aerodynamicDragAcceleration;
+@@ -163,12 +180,6 @@
+     : liftXCoefficient * i.aerodynamicLiftAcceleration;
+   const liftY = inverted ? -liftYCoefficient * i.aerodynamicLiftAcceleration
+     : liftYCoefficient * i.aerodynamicLiftAcceleration;
+-  let thrustX = Math.sin(i.gimbalPointingDirection) * i.thrustAcceleration;
+-  let thrustY = Math.cos(i.gimbalPointingDirection) * i.thrustAcceleration;
+-  if (i.fixedThrustAcceleration !== 0) {
+-    thrustX = thrustX + Math.sin(i.pitch) * i.fixedThrustAcceleration;
+-    thrustY = thrustY + Math.cos(i.pitch) * i.fixedThrustAcceleration;
+-  }
+   out.x = dragX + thrustX + liftX;
+   out.y = -gravity + dragY + thrustY + liftY;
+ }
+--- a/src/core/control/guidance-physics.ts
++++ b/src/core/control/guidance-physics.ts
+@@ -24,7 +24,7 @@
+   getLift,
+   wrappedAttackAngle,
+ } from '../physics/aero';
+-import { writeAccelerationComponents, type AccelerationInputs } from '../physics/components';
++import { writeAccelerationComponents, writeAccelerationWithPreparedThrust, writeThrustComponents, type AccelerationInputs } from '../physics/components';
+ import { tangentialAcceleration, verticalGravityAcceleration, verticalWeight } from '../physics/gravity';
+ import { isaAtmosphereInto } from '../physics/isa';
+ import { meanWindAt } from '../physics/wind';
+@@ -95,6 +95,8 @@
+   capped: boolean;
+   /** The fall's force composition, fed like `step()`'s. */
+   readonly inputs: AccelerationInputs;
++  /** Exact thrust products, refreshed from current inputs for every fall slice. */
++  readonly thrust: { x: number; y: number };
+   /** m/s² — the fall's acceleration at the point last evaluated. */
+   readonly acc: { x: number; y: number };
+ }
+@@ -118,6 +120,7 @@
+       pitch: rad(0),
+     },
+     acc: { x: 0, y: 0 },
++    thrust: { x: 0, y: 0 },
+   };
+ }
+ 
+@@ -408,7 +411,8 @@
+   inputs.angleOfAttack = rad(attack);
+   inputs.aerodynamicDragAcceleration = getDrag(air.airDensity, speed, area, getBodyDragCoefficient(mach)) / mass;
+   inputs.aerodynamicLiftAcceleration = getLift(air.airDensity, speed, rad(intoWind), maxArea) / mass;
+-  writeAccelerationComponents(inputs, C.gravity, acc);
++  if (held) writeAccelerationWithPreparedThrust(inputs, C.gravity, scratch.thrust, acc);
++  else writeAccelerationComponents(inputs, C.gravity, acc);
+   acc.x = acc.x + tangentialAcceleration(r, vx, vy);
+   acc.y = acc.y + C.gravity + verticalGravityAcceleration(r, vx);
+ }
+@@ -490,6 +494,9 @@
+   const acc=scratch.acc,half=FALL_STEP*.5;
+   let h=work.h,x=work.x,vx=work.vx,vy=work.vy,steps=work.steps,used=0;
+   const sliceLimit=Math.min(Math.floor(budget),FALL_STEP_CAP-steps);
++  // A scratch may serve interleaved work, and its inputs may change between
++  // slices. Only this synchronous invocation owns these invariant products.
++  if (sliceLimit > 0) writeThrustComponents(scratch.inputs, scratch.thrust);
+   for(let slice=0;slice<sliceLimit;slice++) {
+     fallAcceleration(h,vx,vy,pitch,mass,maxArea,referenceWind,scratch,model,0,0,state,work);
+     const mvx=vx+acc.x*half;
+--- a/tests/proofs/acceleration-components.test.ts
++++ b/tests/proofs/acceleration-components.test.ts
+@@ -1,12 +1,17 @@
+ /** Refactor: the vector form must retain both original scalar outputs exactly. */
+ import { expect, it } from 'vitest';
+-import { getHorizontalAcceleration, getVerticalAcceleration, writeAccelerationComponents, type AccelerationInputs } from '$core/physics/components';
++import { getHorizontalAcceleration, getVerticalAcceleration, writeAccelerationComponents, writeAccelerationWithPreparedThrust, writeThrustComponents, type AccelerationInputs } from '$core/physics/components';
+ import { rad } from '$core/units';
+ 
+ const out = { x: 0, y: 0 };
++const thrust = { x: 0, y: 0 };
+ function verify(input: AccelerationInputs, gravity: number) {
+   const x = getHorizontalAcceleration(input), y = getVerticalAcceleration(input, gravity);
+   writeAccelerationComponents(input, gravity, out);
++  expect(Object.is(out.x, x)).toBe(true);
++  expect(Object.is(out.y, y)).toBe(true);
++  writeThrustComponents(input, thrust);
++  writeAccelerationWithPreparedThrust(input, gravity, thrust, out);
+   expect(Object.is(out.x, x)).toBe(true);
+   expect(Object.is(out.y, y)).toBe(true);
+ }
+--- a/tests/proofs/unpowered-fall-preparation.test.ts
++++ b/tests/proofs/unpowered-fall-preparation.test.ts
+@@ -13,6 +13,7 @@
+ import { ComponentFailure, MAX_DAMAGE_COMPONENTS } from '$core/damage-state';
+ import { originalUnpoweredFall } from './fixtures/unpowered-fall-original';
+ import receipts from './fixtures/unpowered-fall-before-preparation.json';
++import type { AccelerationInputs } from '$core/physics/components';
+ 
+ function source(params: typeof receipts[number]['params']) {
+   const model = params.kind === 'ship' ? SHIP : SUPER_HEAVY;
+@@ -61,6 +62,35 @@
+     const scratch = createBurnScratch();
+     while (jobs.some(job => !job.done)) for (const job of jobs) advanceUnpoweredFall(job, 37, scratch);
+     jobs.forEach((job, index) => expect(job.result).toEqual(expected(selected[index]!)));
++  });
++
++  it('refreshes exact thrust products from current shared scratch at every slice', () => {
++    const thrusts = [
++      { gimbalPointingDirection: rad(.2), thrustAcceleration: .4, fixedThrustAcceleration: .3, pitch: rad(-.5) },
++      { gimbalPointingDirection: rad(-.4), thrustAcceleration: -.2, fixedThrustAcceleration: 0, pitch: rad(NaN) },
++      { gimbalPointingDirection: rad(-0), thrustAcceleration: -0, fixedThrustAcceleration: -0, pitch: rad(Infinity) },
++      { gimbalPointingDirection: rad(.7), thrustAcceleration: .5, fixedThrustAcceleration: -.1, pitch: rad(.3) },
++    ];
++    for (const size of [1, 37, 512]) {
++      const sources = [source(receipts[0]!.params), source(receipts[0]!.params)];
++      sources[1]!.state.kinematics.speedX += 200;
++      const jobs = sources.map(({ state, model }) => createUnpoweredFallWork(state, model.height / 2, model));
++      const stimulus = (index: number, step: number, inputs: AccelerationInputs) => {
++        Object.assign(inputs, thrusts[(Math.floor(step / size) + index) % thrusts.length]);
++      };
++      const references = sources.map(({ state, model }, index) => originalUnpoweredFall(state,
++        model.height / 2, model, state.kinematics.pitch, (step, inputs) => stimulus(index, step, inputs)));
++      const scratch = createBurnScratch();
++      while (jobs.some(job => !job.done)) for (const [index, job] of jobs.entries()) {
++        stimulus(index, job.steps, scratch.inputs);
++        advanceUnpoweredFall(job, size, scratch);
++      }
++      jobs.forEach((job, index) => {
++        expect(job.result).toEqual(references[index]);
++        const { state, model } = sources[index]!;
++        expect(job.result).not.toEqual(originalUnpoweredFall(state, model.height / 2, model));
++      });
++    }
+   });
+ 
+   it('pays one canonical query for held zero controls while retaining nonzero queries', () => {
+--- a/tests/proofs/fixtures/unpowered-fall-original.ts
++++ b/tests/proofs/fixtures/unpowered-fall-original.ts
+@@ -12,7 +12,7 @@
+ import { speedOfSoundAt } from '$core/physics/atmosphere';
+ import { meanWindAt } from '$core/physics/wind';
+ import { wrappedAttackAngle, foldedIntoWind, getCrossSectionalArea, getBodyDragCoefficient, getDrag, getLift } from '$core/physics/aero';
+-import { getHorizontalAcceleration, getVerticalAcceleration } from '$core/physics/components';
++import { getHorizontalAcceleration, getVerticalAcceleration, type AccelerationInputs } from '$core/physics/components';
+ import { tangentialAcceleration, verticalGravityAcceleration } from '$core/physics/gravity';
+ import { createDamageMassProperties } from '$core/physics/damage-mass';
+ import { writeFlightMassQuery } from '$core/physics/flight-mass-query';
+@@ -21,7 +21,8 @@
+ import { MAX_DAMAGE_COMPONENTS } from '$core/damage-state';
+ 
+ export function originalUnpoweredFall(state: SimState, groundAltitude: number,
+-  model: VehicleDefinition = SHIP, pitch: Rad = state.kinematics.pitch): FallResult {
++  model: VehicleDefinition = SHIP, pitch: Rad = state.kinematics.pitch,
++  beforeStep?: (index: number, inputs: AccelerationInputs) => void): FallResult {
+   const scratch = createBurnScratch(), controls = createDamageControlForces(MAX_DAMAGE_COMPONENTS);
+   const queriedMass = createDamageMassProperties();
+   if (state.damage) writeFlightMassQuery(state, model, queriedMass);
+@@ -57,6 +58,9 @@
+   const dt = .25, half = dt * .5;
+   let h = state.kinematics.altitude, x = 0, vx = state.kinematics.speedX, vy = state.kinematics.speedY;
+   for (let index = 0; index < 4000; index++) {
++    // Optional test stimulus changes caller scratch fields between whole steps;
++    // the original force expressions and midpoint arithmetic below stay frozen.
++    beforeStep?.(index, scratch.inputs);
+     acceleration(h, vx, vy);
+     const mvx = vx + scratch.acc.x * half, mvy = vy + scratch.acc.y * half;
+     acceleration(h + vy * half, mvx, mvy);

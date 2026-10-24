@@ -1,0 +1,598 @@
+
+ RUN  v4.1.11 /workspace/StarShipSimulator
+
+ ❯ |unit| tests/core/booster-guidance.test.ts (4 tests | 1 failed) 60664ms
+     × booster-sep: autopilot catches the actual33-engine booster within900s 33378ms
+ ❯ |unit| tests/flies-every-scenario.test.ts (17 tests | 1 failed) 53178ms
+     × booster-sep: auto-land landed 33718ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+ ❯ |unit| tests/core/booster-scheduling-boundaries.test.ts (8 tests | 2 failed) 70ms
+     × fine-validates an actual retained ready endpoint when the interior paid tick is exhausted 22ms
+     × continues a valid low diagnostic through fine mechanics before any paid command is published 7ms
+ ❯ |unit| tests/proofs/ship-guidance.test.ts (8 tests | 1 failed) 66ms
+     × preserves drag and fuel-limited burn predictions including cap/null cases 11ms
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/flies-every-scenario.test.ts > the autopilot flies the ones it is meant to > booster-sep: auto-land landed
+AssertionError: booster-sep after 341.6 s: expected 'crashed' to be 'landed' // Object.is equality
+
+Expected: "landed"
+Received: "crashed"
+
+ ❯ tests/flies-every-scenario.test.ts:118:76
+    116|       assertFinite(result.state, id);
+    117|
+    118|       expect(result.outcome, `${id} after ${result.seconds.toFixed(1)}…
+       |                                                                            ^
+    119|       if(flight.vehicle.id==='super-heavy') {
+    120|         expect(result.state.status.onTheGround,id).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  |unit| tests/core/booster-guidance.test.ts > actual booster scenarios are secured at the tower > booster-sep: autopilot catches the actual33-engine booster within900s
+AssertionError: {"id":"booster-sep","h":12.28997741970019,"x":0.8273727111518383,"fuel":0,"failures":{"crashed":true,"inFlightBreakUp":false,"coldGasRunOut":false,"fuelRunOut":false,"heatDamaged":false,"overPressure":false,"overGLoad":false,"flippedOver":false,"randomFailure":false}}: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/core/booster-guidance.test.ts:87:192
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  |unit| tests/core/booster-scheduling-boundaries.test.ts > retained physical scheduling boundaries > fine-validates an actual retained ready endpoint when the interior paid tick is exhausted
+AssertionError: expected { damage: null, rng: { …(2) }, …(10) } to deeply equal { damage: null, rng: { …(2) }, …(10) }
+
+- Expected
++ Received
+
+@@ -1,10 +1,10 @@
+  {
+    "atmosphere": {
+-     "airDensity": 0.9203525199489324,
+-     "airPressure": 71.17968309658097,
+-     "airTemperature": -3.723844378739045,
++     "airDensity": 0.9222717948836892,
++     "airPressure": 71.36304178126417,
++     "airTemperature": -3.5919314131267583,
+    },
+    "autopilot": {
+      "accelerationStageCompleted": false,
+      "aeroDescentCompleted": false,
+      "autoBoostBackOn": false,
+@@ -17,10 +17,11 @@
+      "boostBackAeroDeceleration": true,
+      "boostBackDecelerationCheckCountdown": null,
+      "boostBackDecelerationStageInitCompleted": false,
+      "boostBackDirection": -1,
+      "boostBackInitCompleted": true,
++     "boosterArrivalTime": 20.705927784164295,
+      "boosterCoastPitch": 0,
+      "boosterFallTime": 2,
+      "boosterFinControl": 0,
+      "boosterPhase": "terminal",
+      "boosterRangeError": 14400.871276782967,
+@@ -41,11 +42,11 @@
+      "horizontalAdjustmentStageInitialised": false,
+      "horizontalAdjustmentVerticalSpeedLimit": -30,
+      "initVehicleConfigCompleted": false,
+      "landingSiteXPos": 20015086.79602057,
+      "manualControlOn": false,
+-     "pitchControl": 4.884606415024435,
++     "pitchControl": 2.7455405330660723,
+      "pitchHoldOn": false,
+      "rcsThrustCommand": 0,
+    },
+    "damage": null,
+    "engines": {
+@@ -165,61 +166,61 @@
+      "overGLoad": false,
+      "overPressure": false,
+      "randomFailure": false,
+    },
+    "forces": {
+-     "aerodynamicDrag": 1336017.6491249844,
+-     "aerodynamicDragAcceleration": 4.008971533798518,
+-     "aerodynamicLift": 44070.43875094906,
+-     "aerodynamicLiftAcceleration": 0.13224161713004268,
+-     "aftFinDrag": 0,
++     "aerodynamicDrag": 1331181.8885132624,
++     "aerodynamicDragAcceleration": 3.995370632192679,
++     "aerodynamicLift": 47738.74604746654,
++     "aerodynamicLiftAcceleration": 0.1432816849610044,
++     "aftFinDrag": -0,
+      "aftFinDragAngularAcceleration": 0,
+      "aftFinEffectiveAreaFraction": 0.49253484903610867,
+-     "angularDragAcceleration": 1.1963215983294138e-7,
+-     "crossSectionalArea": 31.179656076003663,
+-     "dynamicPressure": 33.896349969019944,
++     "angularDragAcceleration": 2.690717808983772e-8,
++     "crossSectionalArea": 31.28199683602763,
++     "dynamicPressure": 33.676959753119924,
+      "frontFinDrag": 0,
+      "frontFinDragAngularAcceleration": 0,
+      "frontFinEffectiveAreaFraction": 0.49253484903610867,
+      "offAxisThrustDifferenceAcceleration": 0,
+-     "perceivedG": 2.522443056008525,
+-     "perceivedG_X": -0.010871084401354446,
+-     "perceivedG_Y": 2.522419630103121,
+-     "rcsThrust": 0,
+-     "rcsThrustAngularAcceleration": 0.00011737952870297538,
+-     "surfaceTemperature": 441.2903263857435,
+-     "thermalPower": 1573.8241485625533,
+-     "thrust": 6908185.186648488,
+-     "thrustAcceleration": 20.72930532139366,
+-     "thrustVectorAcceleration": 0.014211114569002026,
+-     "thrustVectorForce": 88338.56425990698,
+-     "twr": 2.1137254329961923,
++     "perceivedG": 2.670712292931669,
++     "perceivedG_X": 0.0010255611736706186,
++     "perceivedG_Y": 2.6707120960224473,
++     "rcsThrust": -35988.085754682514,
++     "rcsThrustAngularAcceleration": -0.00871741902912315,
++     "surfaceTemperature": 440.19684619217907,
++     "thermalPower": 1555.2770976173817,
++     "thrust": 7395341.377043648,
++     "thrustAcceleration": 22.19616267907568,
++     "thrustVectorAcceleration": 0.008360691538042711,
++     "thrustVectorForce": 53013.716392063434,
++     "twr": 2.2632979177195556,
+    },
+    "kinematics": {
+-     "accelerationX": -0.10663511891386389,
+-     "accelerationY": 14.925072599001174,
+-     "altitude": 2868.3459347273724,
+-     "angleInToTheWind": 0.001424267686170655,
+-     "angleOfAttack": 3.1401683859036225,
+-     "angleOfMotion": -3.1393389948752275,
+-     "angularAcceleration": 0.014328613729864834,
+-     "angularVelocity": -0.0007956676272581238,
+-     "distanceToPlanetCenter": 6373868.345934727,
+-     "downRangeDistance": 20015093.39594684,
+-     "downRangeDistanceNextFrame": 20015093.39594684,
+-     "machSpeed": 0.8225336144636862,
+-     "orbitalVelocityAtCurrentAltitude": 7908.012433824983,
+-     "pitch": 0.0007716968798697345,
+-     "pitchRateOfChange": -0.0006045524868760789,
++     "accelerationX": 0.010031141423703302,
++     "accelerationY": 16.379297163380297,
++     "altitude": 2859.333304644925,
++     "angleInToTheWind": 0.001531303106159676,
++     "angleOfAttack": 3.1400613504836334,
++     "angleOfMotion": -3.139306445924712,
++     "angularAcceleration": -0.0003567005839023498,
++     "angularVelocity": -0.0006747227031640623,
++     "distanceToPlanetCenter": 6373859.333304645,
++     "downRangeDistance": 20015093.375354525,
++     "downRangeDistanceNextFrame": 20015093.375354525,
++     "machSpeed": 0.8206563471281629,
++     "orbitalVelocityAtCurrentAltitude": 7908.018024783446,
++     "pitch": 0.0007492942551649839,
++     "pitchRateOfChange": -0.0006693009644419571,
+      "pitchRecord": [
+-       0.0008596186527387756,
+-       0.0008293910283949717,
++       0.000760482066958093,
++       0.0007549045589210767,
+      ],
+-     "speedX": -0.6169805740166662,
+-     "speedY": -270.65588020745207,
+-     "totalAcceleration": 14.92545353193803,
+-     "trueSpeed": 270.65658343350776,
++     "speedX": -0.6177439587010344,
++     "speedY": -270.1042562653313,
++     "totalAcceleration": 16.379300235056323,
++     "trueSpeed": 270.10496267237716,
+    },
+    "rng": {
+      "counters": {
+        "ignitionDelay": 68,
+        "ignitionFailure": 68,
+@@ -239,34 +240,34 @@
+      "translationModeOn": true,
+    },
+    "vehicle": {
+      "aftFinExtension": 50,
+      "frontFinExtension": 50,
+-     "gimbalPointingDirection": -0.01195847866253698,
+-     "gimbalPosition": 4.884606415024435,
+-     "propellantMass": 133256.95577067416,
+-     "rcsRunTimeRemaining": 15.528249105590692,
+-     "throttle": 100,
+-     "throttleCurrent": 100,
+-     "vehicleInFlightMaxArea": 639,
+-     "vehicleMass": 333256.95577067416,
+-     "vehicleMomentOfInertia": 161386829.55722108,
++     "gimbalPointingDirection": -0.006413685468605516,
++     "gimbalPosition": 2.7455405330660723,
++     "propellantMass": 133181.07656578117,
++     "rcsRunTimeRemaining": 15.526441959979655,
++     "throttle": 86.24436061064492,
++     "throttleCurrent": 98,
++     "vehicleInFlightMaxArea": 648,
++     "vehicleMass": 333181.07656578114,
++     "vehicleMomentOfInertia": 168031516.599676,
+    },
+    "warnings": {
+      "coldGasLow": false,
+      "fuelLow": false,
+      "heatDamagedWarning": false,
+      "overGLoadWarning": false,
+      "overPressureWarning": false,
+    },
+    "world": {
+-     "environmentTime": 100.01782289732039,
++     "environmentTime": 100.05115623065375,
+      "gust": 0,
+      "gustVertical": 0,
+-     "timeSpent": 100.01782289732039,
++     "timeSpent": 100.05115623065375,
+      "turbulenceU": 0,
+      "turbulenceW1": 0,
+      "turbulenceW2": 0,
+-     "updatedFrameCount": 766,
++     "updatedFrameCount": 770,
+      "wind": 0,
+    },
+  }
+
+ ❯ tests/core/booster-scheduling-boundaries.test.ts:56:32
+     54|     expect(next.stage).toBe('validate'); expect(next.done).toBe(false);
+     55|     expect(next.selected).toEqual(j.low); expect(next.rollout.step).to…
+     56|     expect(next.rollout.state).toEqual(paidReady); expect(next.rollout…
+       |                                ^
+     57|     expect(next.iterations).toBe(j.iterations); noAuthority(s, before);
+     58|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  |unit| tests/core/booster-scheduling-boundaries.test.ts > retained physical scheduling boundaries > continues a valid low diagnostic through fine mechanics before any paid command is published
+AssertionError: expected { damage: null, rng: { …(2) }, …(10) } to deeply equal { damage: null, rng: { …(2) }, …(10) }
+
+- Expected
++ Received
+
+@@ -1,10 +1,10 @@
+  {
+    "atmosphere": {
+-     "airDensity": 0.9203525199489324,
+-     "airPressure": 71.17968309658097,
+-     "airTemperature": -3.723844378739045,
++     "airDensity": 0.9222717948836892,
++     "airPressure": 71.36304178126417,
++     "airTemperature": -3.5919314131267583,
+    },
+    "autopilot": {
+      "accelerationStageCompleted": false,
+      "aeroDescentCompleted": false,
+      "autoBoostBackOn": false,
+@@ -17,10 +17,11 @@
+      "boostBackAeroDeceleration": true,
+      "boostBackDecelerationCheckCountdown": null,
+      "boostBackDecelerationStageInitCompleted": false,
+      "boostBackDirection": -1,
+      "boostBackInitCompleted": true,
++     "boosterArrivalTime": 20.705927784164295,
+      "boosterCoastPitch": 0,
+      "boosterFallTime": 2,
+      "boosterFinControl": 0,
+      "boosterPhase": "terminal",
+      "boosterRangeError": 14400.871276782967,
+@@ -41,11 +42,11 @@
+      "horizontalAdjustmentStageInitialised": false,
+      "horizontalAdjustmentVerticalSpeedLimit": -30,
+      "initVehicleConfigCompleted": false,
+      "landingSiteXPos": 20015086.79602057,
+      "manualControlOn": false,
+-     "pitchControl": 4.884606415024435,
++     "pitchControl": 2.7455405330660723,
+      "pitchHoldOn": false,
+      "rcsThrustCommand": 0,
+    },
+    "damage": null,
+    "engines": {
+@@ -165,61 +166,61 @@
+      "overGLoad": false,
+      "overPressure": false,
+      "randomFailure": false,
+    },
+    "forces": {
+-     "aerodynamicDrag": 1336017.6491249844,
+-     "aerodynamicDragAcceleration": 4.008971533798518,
+-     "aerodynamicLift": 44070.43875094906,
+-     "aerodynamicLiftAcceleration": 0.13224161713004268,
+-     "aftFinDrag": 0,
++     "aerodynamicDrag": 1331181.8885132624,
++     "aerodynamicDragAcceleration": 3.995370632192679,
++     "aerodynamicLift": 47738.74604746654,
++     "aerodynamicLiftAcceleration": 0.1432816849610044,
++     "aftFinDrag": -0,
+      "aftFinDragAngularAcceleration": 0,
+      "aftFinEffectiveAreaFraction": 0.49253484903610867,
+-     "angularDragAcceleration": 1.1963215983294138e-7,
+-     "crossSectionalArea": 31.179656076003663,
+-     "dynamicPressure": 33.896349969019944,
++     "angularDragAcceleration": 2.690717808983772e-8,
++     "crossSectionalArea": 31.28199683602763,
++     "dynamicPressure": 33.676959753119924,
+      "frontFinDrag": 0,
+      "frontFinDragAngularAcceleration": 0,
+      "frontFinEffectiveAreaFraction": 0.49253484903610867,
+      "offAxisThrustDifferenceAcceleration": 0,
+-     "perceivedG": 2.522443056008525,
+-     "perceivedG_X": -0.010871084401354446,
+-     "perceivedG_Y": 2.522419630103121,
+-     "rcsThrust": 0,
+-     "rcsThrustAngularAcceleration": 0.00011737952870297538,
+-     "surfaceTemperature": 441.2903263857435,
+-     "thermalPower": 1573.8241485625533,
+-     "thrust": 6908185.186648488,
+-     "thrustAcceleration": 20.72930532139366,
+-     "thrustVectorAcceleration": 0.014211114569002026,
+-     "thrustVectorForce": 88338.56425990698,
+-     "twr": 2.1137254329961923,
++     "perceivedG": 2.670712292931669,
++     "perceivedG_X": 0.0010255611736706186,
++     "perceivedG_Y": 2.6707120960224473,
++     "rcsThrust": -35988.085754682514,
++     "rcsThrustAngularAcceleration": -0.00871741902912315,
++     "surfaceTemperature": 440.19684619217907,
++     "thermalPower": 1555.2770976173817,
++     "thrust": 7395341.377043648,
++     "thrustAcceleration": 22.19616267907568,
++     "thrustVectorAcceleration": 0.008360691538042711,
++     "thrustVectorForce": 53013.716392063434,
++     "twr": 2.2632979177195556,
+    },
+    "kinematics": {
+-     "accelerationX": -0.10663511891386389,
+-     "accelerationY": 14.925072599001174,
+-     "altitude": 2868.3459347273724,
+-     "angleInToTheWind": 0.001424267686170655,
+-     "angleOfAttack": 3.1401683859036225,
+-     "angleOfMotion": -3.1393389948752275,
+-     "angularAcceleration": 0.014328613729864834,
+-     "angularVelocity": -0.0007956676272581238,
+-     "distanceToPlanetCenter": 6373868.345934727,
+-     "downRangeDistance": 20015093.39594684,
+-     "downRangeDistanceNextFrame": 20015093.39594684,
+-     "machSpeed": 0.8225336144636862,
+-     "orbitalVelocityAtCurrentAltitude": 7908.012433824983,
+-     "pitch": 0.0007716968798697345,
+-     "pitchRateOfChange": -0.0006045524868760789,
++     "accelerationX": 0.010031141423703302,
++     "accelerationY": 16.379297163380297,
++     "altitude": 2859.333304644925,
++     "angleInToTheWind": 0.001531303106159676,
++     "angleOfAttack": 3.1400613504836334,
++     "angleOfMotion": -3.139306445924712,
++     "angularAcceleration": -0.0003567005839023498,
++     "angularVelocity": -0.0006747227031640623,
++     "distanceToPlanetCenter": 6373859.333304645,
++     "downRangeDistance": 20015093.375354525,
++     "downRangeDistanceNextFrame": 20015093.375354525,
++     "machSpeed": 0.8206563471281629,
++     "orbitalVelocityAtCurrentAltitude": 7908.018024783446,
++     "pitch": 0.0007492942551649839,
++     "pitchRateOfChange": -0.0006693009644419571,
+      "pitchRecord": [
+-       0.0008596186527387756,
+-       0.0008293910283949717,
++       0.000760482066958093,
++       0.0007549045589210767,
+      ],
+-     "speedX": -0.6169805740166662,
+-     "speedY": -270.65588020745207,
+-     "totalAcceleration": 14.92545353193803,
+-     "trueSpeed": 270.65658343350776,
++     "speedX": -0.6177439587010344,
++     "speedY": -270.1042562653313,
++     "totalAcceleration": 16.379300235056323,
++     "trueSpeed": 270.10496267237716,
+    },
+    "rng": {
+      "counters": {
+        "ignitionDelay": 68,
+        "ignitionFailure": 68,
+@@ -239,34 +240,34 @@
+      "translationModeOn": true,
+    },
+    "vehicle": {
+      "aftFinExtension": 50,
+      "frontFinExtension": 50,
+-     "gimbalPointingDirection": -0.01195847866253698,
+-     "gimbalPosition": 4.884606415024435,
+-     "propellantMass": 133256.95577067416,
+-     "rcsRunTimeRemaining": 15.528249105590692,
+-     "throttle": 100,
+-     "throttleCurrent": 100,
+-     "vehicleInFlightMaxArea": 639,
+-     "vehicleMass": 333256.95577067416,
+-     "vehicleMomentOfInertia": 161386829.55722108,
++     "gimbalPointingDirection": -0.006413685468605516,
++     "gimbalPosition": 2.7455405330660723,
++     "propellantMass": 133181.07656578117,
++     "rcsRunTimeRemaining": 15.526441959979655,
++     "throttle": 86.24436061064492,
++     "throttleCurrent": 98,
++     "vehicleInFlightMaxArea": 648,
++     "vehicleMass": 333181.07656578114,
++     "vehicleMomentOfInertia": 168031516.599676,
+    },
+    "warnings": {
+      "coldGasLow": false,
+      "fuelLow": false,
+      "heatDamagedWarning": false,
+      "overGLoadWarning": false,
+      "overPressureWarning": false,
+    },
+    "world": {
+-     "environmentTime": 100.01782289732039,
++     "environmentTime": 100.05115623065375,
+      "gust": 0,
+      "gustVertical": 0,
+-     "timeSpent": 100.01782289732039,
++     "timeSpent": 100.05115623065375,
+      "turbulenceU": 0,
+      "turbulenceW1": 0,
+      "turbulenceW2": 0,
+-     "updatedFrameCount": 766,
++     "updatedFrameCount": 770,
+      "wind": 0,
+    },
+  }
+
+ ❯ tests/core/booster-scheduling-boundaries.test.ts:107:68
+    105|     const next = s.autopilot.boosterPrediction!;
+    106|     expect(next.stage).toBe('validate'); expect(next.selected!.burnDur…
+    107|     expect(next.rollout.step).toBe(DT); expect(next.rollout.state).toE…
+       |                                                                    ^
+    108|     noAuthority(s, before);
+    109|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  |unit| tests/proofs/ship-guidance.test.ts > Ship guidance numerical equivalence > preserves drag and fuel-limited burn predictions including cap/null cases
+AssertionError: expected { …(6) } to deeply equal { atmosphere: { …(3) }, …(4) }
+
+- Expected
++ Received
+
+@@ -8,10 +8,103 @@
+      "airPressure": 0,
+      "airTemperature": 0,
+    },
+    "capped": false,
+    "duration": 0,
++   "fallWork": {
++     "controlModel": null,
++     "done": true,
++     "groundAltitude": 0,
++     "h": 0,
++     "mass": 0,
++     "maxArea": 0,
++     "model": {
++       "aftFinArea": 45.8,
++       "aftFinStation": 9.568000000000001,
++       "ch4TankBottom": 22.25059610881429,
++       "ch4TankHeight": 12.895001415197262,
++       "diameter": 9,
++       "dryCentreOfMass": 22.672,
++       "dryMass": 120000,
++       "engines": [
++         {
++           "kind": "sea-level",
++           "offAxis": -1,
++           "offAxisForceFraction": 0.03843312210120439,
++         },
++         {
++           "kind": "sea-level",
++           "offAxis": 0.5,
++           "offAxisForceFraction": -0.019227214231343204,
++         },
++         {
++           "kind": "sea-level",
++           "offAxis": 0.5,
++           "offAxisForceFraction": -0.019227214231343204,
++         },
++         {
++           "kind": "vacuum",
++           "offAxis": -3,
++           "offAxisForceFraction": 0.11462410798513052,
++         },
++         {
++           "kind": "vacuum",
++           "offAxis": 1.5,
++           "offAxisForceFraction": -0.05759653509666974,
++         },
++         {
++           "kind": "vacuum",
++           "offAxis": 1.5,
++           "offAxisForceFraction": -0.05759653509666974,
++         },
++       ],
++       "frontFinArea": 24.2,
++       "frontFinStation": 46.904,
++       "height": 52,
++       "id": "ship",
++       "ignitionGroup": [
++         0,
++         1,
++         2,
++       ],
++       "initialPropellant": 350000,
++       "loxTankHeight": 17.25059610881429,
++       "maxArea": 468,
++       "minArea": 63.61725123519331,
++       "propellantCapacity": 1600000,
++       "propulsion": {
++         "referencePressurePa": 101325,
++         "seaLevel": {
++           "ispSeaLevel": 327,
++           "ispVacuum": 350,
++           "thrustSeaLevel": 2451662.5,
++         },
++         "standardGravity": 9.80665,
++         "vacuum": {
++           "effectiveExitArea": 4.1547562843725006,
++           "ispVacuum": 380,
++           "thrustVacuum": 2696828.75,
++         },
++       },
++       "rcsStation": 43.472,
++       "tankBottom": 5,
++     },
++     "pitch": 0,
++     "referenceWind": 0,
++     "result": {
++       "downRange": 0,
++       "reached": false,
++       "time": NaN,
++     },
++     "state": null,
++     "steps": 0,
++     "vx": 0,
++     "vy": 0,
++     "x": 0,
++     "zeroControlArea": null,
++     "zeroControlColumnArea": 0,
++   },
+    "inputs": {
+      "aerodynamicDragAcceleration": 0,
+      "aerodynamicLiftAcceleration": 0,
+      "angleOfAttack": 0,
+      "angleOfMotion": 0,
+
+ ❯ tests/proofs/ship-guidance.test.ts:92:21
+     90|           expect(guidance.landingBurnStartAltitude(engines, mass, spee…
+     91|             .toBe(shipped.landingBurnStartAltitude(engines, mass, spee…
+     92|           expect(a).toEqual(b);
+       |                     ^
+     93|         }
+     94|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  4 failed | 210 passed (214)
+      Tests  5 failed | 2506 passed | 1 skipped (2512)
+   Start at  05:51:34
+   Duration  288.10s (transform 6.46s, setup 0ms, import 81.28s, tests 681.18s, environment 10.36s)
+

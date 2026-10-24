@@ -1,0 +1,57 @@
+--- old/launcher.mjs
++++ new/launcher.mjs
+@@ -6,7 +6,7 @@
+ import {sourceSnapshot,installedToolSnapshot,digestFile} from 'NATIVE_LOADER_PLACEHOLDER';
+ import {runOwnedCommand,verifyNoOwnedProcesses} from 'OWNED_COMMAND_PLACEHOLDER';
+ import {auditCompletedFall} from 'LABEL_AUDIT_PLACEHOLDER';
+-const root=process.cwd(),draft=resolve('docs/research/2026-10-04-cloud-resume/current-native-composite-paired');
++const root=process.cwd(),draft=resolve('docs/research/2026-10-04-cloud-resume/current-native-composite-paired-descendants');
+ const continuationDraft=resolve('docs/research/2026-10-04-cloud-resume/current-native-burn-continuation');
+ const originalDraft=resolve('docs/research/2026-10-04-cloud-resume/current-native-qualification-harness');
+ const original=resolve(originalDraft,'receipt-kernels-81ad7128-21e6-49f7-9bbc-232564a1130e');
+@@ -44,7 +44,7 @@
+ }
+ try{
+  stage='preflight';mkdirSync(task);assert.equal(process.version,'v22.23.3');assert.equal(process.platform,'linux');
+- assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'current-native-composite-paired');
++ assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'current-native-composite-paired-descendants');
+  const review=resolve(draft,'independent-review.md'),reviewPinsPath=resolve(draft,'independent-review-pins.json');
+  assert.equal(digestFile(review),process.env.STARSHIP_CURRENT_NATIVE_REVIEW_SHA);assert.equal(digestFile(reviewPinsPath),process.env.STARSHIP_CURRENT_NATIVE_REVIEW_PINS_SHA);
+  const reviewPins=JSON.parse(readFileSync(reviewPinsPath,'utf8'));assert.equal(reviewPins.review,digestFile(review));assert.equal(reviewPins.inputManifest,digestFile(resolve(draft,'input-pins.json')));
+@@ -93,6 +93,36 @@
+  const burnProcess=JSON.parse(readFileSync(resolve(acceptedReceipt,'burn-2300.process.json'),'utf8'));assert.equal(burnProcess.exit.code,0);assert.equal(burnProcess.failure,null);assert.deepEqual(burnProcess.cleanup.executing,[]);
+  prior={acceptedReceipt,approvalPath,approvalDigest:digestFile(approvalPath),compositeDigest:accepted.compositeDigest,originalCompiledOwner:original,originalStatus:'failed'};
+  writeFileSync(resolve(receipt,'prior-composite.json'),JSON.stringify(prior,null,2)+'\n');writeFileSync(resolve(receipt,'artifact-pins.json'),JSON.stringify(artifactPins,null,2)+'\n');
++ stage='accepted-control-and-failed-paired-lineage';
++ const controlDraft=resolve(root,'docs/research/2026-10-04-cloud-resume/comparator-descendant-certificates');
++ const controlPath=resolve(controlDraft,'accepted-controls.json');
++ assert.equal(digestFile(controlPath),'557e74811919e5438a0dc18c4419bf4fa621e1812b9b4ceac11d47936a606a3f');
++ const control=JSON.parse(readFileSync(controlPath,'utf8'));
++ assert.equal(control.kind,'accepted-descendant-certificates-controls-v1');assert.equal(control.accepted,true);
++ assert.equal(control.receipt,resolve(controlDraft,'receipt-controls-9a62a009-5818-402e-a3f1-4494cdddcc86'));
++ assert(!controlPath.startsWith(control.receipt+'/'));
++ for(const [file,field]of [['finalized.json','finalizedDigest'],['control-result.json','controlResultDigest'],['before-pins.json','beforePinsDigest'],['after-pins.json','afterPinsDigest']])assert.equal(digestFile(resolve(control.receipt,file)),control[field]);
++ assert.equal(control.beforePinsDigest,control.afterPinsDigest);
++ const controlFinal=JSON.parse(readFileSync(resolve(control.receipt,'finalized.json'),'utf8'));assert(controlFinal.finalized&&controlFinal.status==='pass'&&controlFinal.stage==='completed'&&controlFinal.failure===null);
++ const controlResult=JSON.parse(readFileSync(resolve(control.receipt,'control-result.json'),'utf8'));assert(controlResult.finalized&&controlResult.kind==='descendant-certificates-controls-v1'&&controlResult.passed===15&&controlResult.failed===0&&controlResult.physicalSteps===0&&controlResult.productionImports===0);
++ assert.equal(controlResult.cases.length,15);assert.equal(new Set(controlResult.cases.map(row=>row.name)).size,15);assert(controlResult.cases.every(row=>row.status==='passed'));
++ for(const [file,field]of [['graph-oracle.ts.txt','candidateDigest'],['graph-oracle-before.ts.txt','originalDigest'],['controls.mjs.txt','controlsDigest'],['input-pins.json','candidateInputManifestDigest'],['launch-input-pins.json','launchInputManifestDigest']])assert.equal(digestFile(resolve(controlDraft,file)),control[field]);
++ assert.equal(digestFile(resolve(draft,'graph-oracle.ts.txt')),control.candidateDigest);
++ assert.equal(digestFile(resolve(root,'docs/research/2026-10-04-cloud-resume/current-native-composite-paired/graph-oracle.ts.txt')),control.originalDigest);
++ assert.equal(digestFile(control.independentResultReview),control.independentResultReviewDigest);assert.equal(digestFile(control.independentResultReviewPins),control.independentResultReviewPinsDigest);
++ const supplemental=resolve(controlDraft,'parent/independent-all-owned-postexit.json');assert.equal(digestFile(supplemental),control.supplementalOwnershipDigest);
++ const controlProcess=JSON.parse(readFileSync(resolve(control.receipt,'controls.process.json'),'utf8'));assert(controlProcess.exit.code===0&&controlProcess.exit.signal===null&&controlProcess.failure===null&&controlProcess.firstFailure===null&&controlProcess.closed);assert.deepEqual(controlProcess.cleanup.executing,[]);
++ previousPins={...previousPins,...evidence(control.receipt,control.evidenceDigest),[controlPath]:digestFile(controlPath),[control.independentResultReview]:control.independentResultReviewDigest,[control.independentResultReviewPins]:control.independentResultReviewPinsDigest,[supplemental]:control.supplementalOwnershipDigest};
++ const controlEvidence=JSON.parse(readFileSync(resolve(control.receipt,'evidence-manifest.json'),'utf8'));
++ const controlBefore=JSON.parse(readFileSync(resolve(control.receipt,'before-pins.json'),'utf8')),controlAfter=JSON.parse(readFileSync(resolve(control.receipt,'after-pins.json'),'utf8'));assert.deepEqual(controlBefore,controlAfter);
++ for(const [p,h]of Object.entries({...controlEvidence.inputs,...controlBefore})){assert.equal(digestFile(p),h,p);previousPins[p]=h;}
++ const failedPair=resolve(root,'docs/research/2026-10-04-cloud-resume/current-native-composite-paired/receipt-paired-be927172-3623-42de-8670-8a68993445c5');
++ const failedFinal=JSON.parse(readFileSync(resolve(failedPair,'finalized.json'),'utf8'));assert(failedFinal.finalized&&failedFinal.status==='failed'&&failedFinal.mode==='composite-paired'&&failedFinal.stage==='paired-flight');assert.match(failedFinal.failure,/process-timeout: 900000ms/);
++ const failedPrefix=JSON.parse(readFileSync(resolve(failedPair,'paired-first-failure.json'),'utf8'));assert.equal(failedPrefix.status,'failed');assert.equal(failedPrefix.ticks,2875);assert.match(failedPrefix.text,/research flight supervision bound/);
++ assert.equal(failedPrefix.counts.totalNodes,8876134);assert.equal(failedPrefix.counts.totalEdges,66211688);
++ previousPins={...previousPins,...evidence(failedPair,inputs[relative(root,resolve(failedPair,'evidence-manifest.json'))])};verifyCoreLineage(failedPair);
++ prior={...prior,controlAcceptance:controlPath,controlAcceptanceDigest:digestFile(controlPath),failedPair,failedPairStatus:'failed',oracleDigest:control.candidateDigest};
++ writeFileSync(resolve(receipt,'paired-predecessors.json'),JSON.stringify(prior,null,2)+'\n');
+  stage='materialize-paired';
+  const entry=render('entry.ts',{ORIGINAL_ORACLE_PLACEHOLDER:resolve('tests/proofs/fixtures/unpowered-fall-original.ts')});
+  const helper=render('graph-oracle.ts');const driver=render('full-flight.ts',{GRAPH_ORACLE_PLACEHOLDER:relative(task,helper),SSR_ENTRY_PLACEHOLDER:relative(task,entry)});

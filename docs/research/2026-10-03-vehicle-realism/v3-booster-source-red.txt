@@ -1,0 +1,25 @@
+
+ RUN  v4.1.11 /Users/stevewang/dev/StarShipSimulator-realism
+
+ ❯ |unit| tests/core/booster-source.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| tests/core/booster-source.test.ts [ tests/core/booster-source.test.ts ]
+Error: Cannot find module '$core/control/booster-source' imported from /Users/stevewang/dev/StarShipSimulator-realism/tests/core/booster-source.test.ts
+ ❯ tests/core/booster-source.test.ts:4:1
+      2| import { cloneState, createInitialState, type SimState } from '$core/s…
+      3| import { SUPER_HEAVY } from '$core/vehicles/super-heavy';
+      4| import { ensureBoosterSource, advanceBoosterSource, verifyBoosterSourc…
+       | ^
+      5| import { damageModelFor } from '$core/physics/damage-model';
+      6| import { steelSpecificEnthalpy } from '$core/physics/damage-material';
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  16:11:33
+   Duration  497ms (transform 190ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)
+

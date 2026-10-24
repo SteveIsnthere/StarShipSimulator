@@ -1,0 +1,31 @@
+{
+  "kind": "mesa-app-build-single-helper-bridge-seed-v1",
+  "oldOwner": {
+    "path": "/tmp/starship-mesa-app-build-input.okqpblnr/owner-input.json",
+    "sha": "c1f79f8c16e1603f841ca376903aed43efce993fc18c71a979a61742e0775a46"
+  },
+  "applicationResult": {
+    "path": "/tmp/starship-receipt-pathspec-application.51675fb8037b4dbd967f80117cb27a59/application-result.json",
+    "sha": "ccc5d249f8d0f42eb559bfd54b9ac0cc4d6b8f210f7265efd2f7099b12c0dd4d"
+  },
+  "applicationReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-receipt-pathspec-owned60-actual-application-HIGH-review.md",
+    "sha": "f75c1aafbdb2c2884cc4500166446fc158527494599fca31a52b422bf8a07d74"
+  },
+  "wrapper": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/structural-root-wrapper-independent-final-checker-v2.py.txt",
+    "sha": "9c3b045bd79fc8fbd6b862458f5feb1ab0e1709c2c2de7bc4065600f29fd7236"
+  },
+  "wrapperReview": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/independent-final-checker-v2-repaired-source-HIGH-review.md",
+    "sha": "2fae98f53cb196d0d6f7f6fb05de9eac4daf0430e893fa5cd731af9ca4e86738"
+  },
+  "maker": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/make-app-build-receipt-bridge-input.py.txt",
+    "sha": "9b9cffda34369e2b426bbc47dc3a7fa102de2dbf5710ba04cf5df15f2d5005a8"
+  },
+  "sourcePins": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-full-application-budget-proposal/receipt-pathspec-exact-once-application-source-pins.json",
+    "sha": "9d2e0ed8d38a8b7181f4fb666c7c491c57f976c423dd6c9f307d5774a0879055"
+  }
+}

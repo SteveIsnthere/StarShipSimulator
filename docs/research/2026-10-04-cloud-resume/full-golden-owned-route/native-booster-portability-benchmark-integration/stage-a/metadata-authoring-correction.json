@@ -1,0 +1,8 @@
+{
+  "originalDraftUnexecuted": "composite.pending.json",
+  "originalFieldWasEdgeListNotPublicObjectShape": true,
+  "correctedDraft": "composite.metadata-corrected.pending.json",
+  "helperSourceRead": "golden-support-policy.mjs.txt lines13-16",
+  "status": "BOTH UNAPPLIED/PENDING; no completed qualification or product admission",
+  "correctedSha256": "3067069d91aef74b952a9a18601ac36cae2741c721d00eec278a7f86507fc8ac"
+}

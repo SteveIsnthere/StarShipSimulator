@@ -1,0 +1,155 @@
+[WebServer] (node:10924) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:10949) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › launch: CPU + GPU completion and actual cadence @mobile @visual-budget (1.1m)
+(node:11174) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › staging: CPU + GPU completion and actual cadence @mobile @visual-budget (1.1m)
+(node:11544) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › belly-flop: CPU + GPU completion and actual cadence @mobile @visual-budget (54.4s)
+(node:11708) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › entry: CPU + GPU completion and actual cadence @mobile @visual-budget (1.1m)
+(node:11927) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › landing: CPU + GPU completion and actual cadence @mobile @visual-budget (24.3s)
+(node:12045) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › catch: CPU + GPU completion and actual cadence @mobile @visual-budget (35.5s)
+
+
+  1) [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › launch: CPU + GPU completion and actual cadence @mobile @visual-budget
+
+    TimeoutError: page.waitForFunction: Timeout 60000ms exceeded.
+
+      153 |         }, count);
+      154 |         // Timer polling avoids adding benchmark-owned RAF callbacks to the CPU sum.
+    > 155 |         await page.waitForFunction(() => (window as unknown as WindowDebug).__visualBudget.result().done,
+          |                    ^
+      156 |           undefined, { polling: 100, timeout: 60_000 });
+      157 |         const measured = await probe(page);
+      158 |         const after = await state(page);
+        at /workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts:155:20
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/visual-budget/visual-budget-full-frame-v-47315-adence-mobile-visual-budget-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-budget/visual-budget-full-frame-v-47315-adence-mobile-visual-budget-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › staging: CPU + GPU completion and actual cadence @mobile @visual-budget
+
+    TimeoutError: page.waitForFunction: Timeout 60000ms exceeded.
+
+      153 |         }, count);
+      154 |         // Timer polling avoids adding benchmark-owned RAF callbacks to the CPU sum.
+    > 155 |         await page.waitForFunction(() => (window as unknown as WindowDebug).__visualBudget.result().done,
+          |                    ^
+      156 |           undefined, { polling: 100, timeout: 60_000 });
+      157 |         const measured = await probe(page);
+      158 |         const after = await state(page);
+        at /workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts:155:20
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/visual-budget/visual-budget-full-frame-v-b26d7-adence-mobile-visual-budget-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-budget/visual-budget-full-frame-v-b26d7-adence-mobile-visual-budget-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › belly-flop: CPU + GPU completion and actual cadence @mobile @visual-budget
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      169 |         if (scene !== 'simultaneous-failure') {
+      170 |           expect(after['status.landed'], 'active window must end before touchdown/catch').toBe(false);
+    > 171 |           expect(after['failures.crashed']).toBe(false);
+          |                                             ^
+      172 |           expect(after['failures.inFlightBreakUp']).toBe(false);
+      173 |           if (scene === 'launch' || scene === 'staging' || scene === 'landing')
+      174 |             expect(Number(after['forces.thrust'])).toBeGreaterThan(0);
+        at /workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts:171:45
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/visual-budget/visual-budget-full-frame-v-25263-adence-mobile-visual-budget-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-budget/visual-budget-full-frame-v-25263-adence-mobile-visual-budget-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › entry: CPU + GPU completion and actual cadence @mobile @visual-budget
+
+    TimeoutError: page.waitForFunction: Timeout 60000ms exceeded.
+
+      153 |         }, count);
+      154 |         // Timer polling avoids adding benchmark-owned RAF callbacks to the CPU sum.
+    > 155 |         await page.waitForFunction(() => (window as unknown as WindowDebug).__visualBudget.result().done,
+          |                    ^
+      156 |           undefined, { polling: 100, timeout: 60_000 });
+      157 |         const measured = await probe(page);
+      158 |         const after = await state(page);
+        at /workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts:155:20
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/visual-budget/visual-budget-full-frame-v-eb057-adence-mobile-visual-budget-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-budget/visual-budget-full-frame-v-eb057-adence-mobile-visual-budget-chromium/error-context.md
+
+  5) [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › landing: CPU + GPU completion and actual cadence @mobile @visual-budget
+
+    Error: active window must end before touchdown/catch
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      168 |         expect(Number(after['world.environmentTime'])).toBeGreaterThan(Number(before['world.environmentTime']));
+      169 |         if (scene !== 'simultaneous-failure') {
+    > 170 |           expect(after['status.landed'], 'active window must end before touchdown/catch').toBe(false);
+          |                                                                                           ^
+      171 |           expect(after['failures.crashed']).toBe(false);
+      172 |           expect(after['failures.inFlightBreakUp']).toBe(false);
+      173 |           if (scene === 'launch' || scene === 'staging' || scene === 'landing')
+        at /workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts:170:91
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/visual-budget/visual-budget-full-frame-v-31093-adence-mobile-visual-budget-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-budget/visual-budget-full-frame-v-31093-adence-mobile-visual-budget-chromium/error-context.md
+
+  6) [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › catch: CPU + GPU completion and actual cadence @mobile @visual-budget
+
+    Test was interrupted.
+
+    Error: page.evaluate: Test ended.
+
+      43 |   });
+      44 |   await tap(page, 'auto-land'); await foldControls(page);
+    > 45 |   const approach = await page.evaluate(() => {
+         |                               ^
+      46 |     const debug = (window as unknown as WindowDebug).__simDebug;
+      47 |     for (let steps = 0; steps < 108000; steps++) {
+      48 |       debug.step(1);
+        at setupCatch (/workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts:45:31)
+        at /workspace/StarShipSimulator/tests/e2e/visual-budget.spec.ts:129:32
+
+    Error Context: test-results/visual-budget/visual-budget-full-frame-v-b3ef2-adence-mobile-visual-budget-chromium/error-context.md
+
+  5 failed
+    [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › launch: CPU + GPU completion and actual cadence @mobile @visual-budget
+    [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › staging: CPU + GPU completion and actual cadence @mobile @visual-budget
+    [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › belly-flop: CPU + GPU completion and actual cadence @mobile @visual-budget
+    [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › entry: CPU + GPU completion and actual cadence @mobile @visual-budget
+    [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › landing: CPU + GPU completion and actual cadence @mobile @visual-budget
+  1 interrupted
+    [chromium] › tests/e2e/visual-budget.spec.ts:115:5 › full-frame visual budgets › catch: CPU + GPU completion and actual cadence @mobile @visual-budget
+  15 did not run

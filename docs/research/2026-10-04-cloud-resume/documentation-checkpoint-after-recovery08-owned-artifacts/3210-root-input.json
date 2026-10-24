@@ -1,0 +1,38 @@
+{
+  "kind": "query-census-boundary-controls-root-input-v1",
+  "root": "/workspace/StarShipSimulator",
+  "mode": "query-census-boundary-controls",
+  "outerMs": 30000,
+  "setup": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4",
+  "steps": [
+    "boundary-controls"
+  ],
+  "node": {
+    "path": "/workspace/cloud-bootstrap/starship-v1/node/bin/node",
+    "sha": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+  },
+  "helper": {
+    "path": "/workspace/StarShipSimulator/scripts/bench/owned-command.mjs",
+    "sha": "0a931046319ce42edf20c59face91f535fc5ca41dd9bd875a20a9644a366b2db"
+  },
+  "pureInput": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/input.json",
+    "sha": "341c2d01cd3ffcee1600278f99b6c978e32c98c5de2720b2e3a5eec2c7027159"
+  },
+  "pins": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/root-inventory.json",
+    "sha": "f22376d8b2a0c21c7f281ea8cf8c555cea87a7a888af985ee29866e8103cd1e3"
+  },
+  "stage": {
+    "path": "/workspace/StarShipSimulator/node_modules/.cache/starship-query-census-boundary-controls-16412f78be63484f8d3e8c17066f23c4/owner.mjs",
+    "sha": "5e22c7478abb0b619eec69d418b94d341abde9621e68e49a3724663ffb6735f4"
+  },
+  "observer": {
+    "path": "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/call-local-query-reuse/closed-three-census/boundary-control-owned-route/root-observer.py.txt",
+    "sha": "ed671e7fd55095af38c0056e0ea48dba05a23a5f7953206ae2a865e8500db6cb"
+  },
+  "python": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sha": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7"
+  }
+}

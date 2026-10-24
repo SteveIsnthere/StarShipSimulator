@@ -1,0 +1,58 @@
+// Two owned commands only; no physics in owner or product application.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,existsSync,readdirSync} from 'node:fs';
+import {resolve,relative} from 'node:path';
+import {createHash} from 'node:crypto';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+const started=performance.now(),[input,inputSha]=process.argv.slice(2),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+assert.equal(sha(input),inputSha);const m=JSON.parse(readFileSync(input,'utf8'));
+assert.equal(m.kind,'closed-three-census-source-input-v1');assert.equal(process.env.STARSHIP_CPU_SLOT_GRANTED,'query-census-closed-three');
+assert.equal(process.env.NODE_OPTIONS??'','');assert.deepEqual(process.execArgv,[]);assert.equal(process.version,'v22.23.3');assert.equal(sha(process.execPath),m.node.sha256);
+assert.equal(fileURLToPath(import.meta.url),resolve(m.setup,'owner.mjs'));assert.match(relative(m.root,m.setup),/^node_modules\/\.cache\/starship-closed-three-census-[a-f0-9]{32}$/);
+process.chdir(m.root);process.env.npm_execpath=m.npmCli;
+const save=(name,value)=>writeFileSync(resolve(m.setup,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+let primary=null,status=1,stage='preflight',owned=null,loader=null,before=null,tools=null;const postErrors=[],processes=[];
+function selected(){const rows={[input]:sha(input),[process.execPath]:sha(process.execPath)};assert.equal(rows[input],inputSha);assert.equal(rows[process.execPath],m.node.sha256);
+ assert.equal(sha(m.sourceInputs.path),m.sourceInputs.sha256);for(const[path,h]of Object.entries(m.selected)){rows[path]=sha(path);assert.equal(rows[path],h,path);}
+ for(const[path,row]of Object.entries(m.materialized)){rows[path]=sha(path);assert.equal(rows[path],row.sha256);assert.equal(sha(row.source),row.sourceSha256);}
+ assert.equal(sha(m.authoritySuccessor.path),m.authoritySuccessor.sha256);const successor=JSON.parse(readFileSync(m.authoritySuccessor.path,'utf8'));assert.equal(successor.kind,'query-census-source-authority-successor-v1');assert.deepEqual(m.authority,successor.current);for(const role of ['historical','current','application','review','reviewPins'])assert.equal(sha(successor[role].path),successor[role].sha256);assert.equal(sha(m.authority.path),m.authority.sha256);assert.equal(sha(m.utility.path),m.utility.sha256);assert.equal(sha(m.helper.path),m.helper.sha256);return rows;}
+function artifacts(){const file=resolve(m.setup,'native-artifact.json');assert.ok(existsSync(file),'Full native graph unavailable');const artifact=JSON.parse(readFileSync(file,'utf8'));const actual=loader.filesUnder(artifact.directory);assert.deepEqual(actual.map(path=>relative(artifact.directory,path)).sort(),Object.keys(artifact.files).sort());let bytes=0;const rows={};for(const[name,h]of Object.entries(artifact.files)){const path=resolve(artifact.directory,name);bytes+=readFileSync(path).length;rows[path]=sha(path);assert.equal(rows[path],h);}assert.ok(bytes<=64*1024*1024);return rows;}
+async function command(name,args,deadlineMs){stage=name;const code=await owned.runOwnedCommand({name,args,deadlineMs,root:m.root,receipt:m.setup,env:{...process.env,NODE_OPTIONS:''}});
+ const receipt=JSON.parse(readFileSync(resolve(m.setup,name+'.process.json'),'utf8'));processes.push({name,code,receipt});assert.equal(code,0,name);
+ assert.equal(receipt.exit.code,0);assert.equal(receipt.exit.signal,null);assert.equal(receipt.failure,null);assert.equal(receipt.closed,true);assert.equal(receipt.finished,true);assert.deepEqual(receipt.cleanup.executing,[]);}
+try{
+ save('selected-before.json',selected());owned=await import(pathToFileURL(m.helper.path).href);loader=await import(pathToFileURL(m.utility.path).href);
+ before=loader.sourceSnapshot(m.root);tools=loader.installedToolSnapshot(m.root);save('source-before.json',before);save('tools-before.json',tools);
+ const authority=JSON.parse(readFileSync(m.authority.path,'utf8'));assert.deepEqual(before,authority.source);assert.deepEqual(tools,authority.tools);
+ await command('native-build',[resolve(m.setup,'builder.mjs'),input,inputSha],60000);save('artifacts-before.json',artifacts());
+ await command('physical-census',[resolve(m.setup,'run-public.mjs'),input,inputSha],200000);
+ const result=JSON.parse(readFileSync(resolve(m.setup,'public-run-result.json'),'utf8'));assert.equal(result.kind,'closed-three-public-original-census-result-v1');assert.equal(result.status,0);assert.equal(result.primary,null);assert.deepEqual(result.postErrors,[]);assert.equal(result.closed,true);assert.equal(result.originalCases,3);
+ const artifact=JSON.parse(readFileSync(resolve(m.setup,'native-artifact.json'),'utf8'));
+ const directory=artifact.directory+'.receipts',files=readdirSync(directory).filter(name=>/^native-worker-[0-9]+-[0-9]+\.jsonl$/.test(name));assert.equal(files.length,1);
+ const workerRows=readFileSync(resolve(directory,files[0]),'utf8').trim().split('\n').map(line=>JSON.parse(line));
+ const startup=workerRows[0];assert.equal(startup.kind,'startup');assert.equal(startup.nodeVersion,'v22.23.3');assert.equal(startup.nodeBinary,m.node.sha256);
+ assert.equal(startup.runSha,sha(resolve(m.setup,'native-artifact.json')));assert.equal(startup.loaderSha,m.materialized[resolve(m.setup,'loader.mjs')].sha256);
+ assert.deepEqual(startup.execArgv,['--experimental-import-meta-resolve','--require',resolve(m.root,'node_modules/vitest/suppress-warnings.cjs'),...m.workerConditions.flatMap(condition=>['--conditions',condition]),'--import',resolve(m.setup,'loader.mjs')]);
+ assert.equal(startup.nodeOptions,'');assert.equal(startup.nodePath,'');assert.deepEqual(startup.observer,m.observer);assert.equal(startup.admissionSha,m.materialized[resolve(m.setup,'admission.mjs')].sha256);assert.deepEqual(startup.workerConditions,m.workerConditions);assert.deepEqual(startup.code,artifact.files);
+ for(const row of workerRows){assert.equal(row.pid,startup.pid);assert.equal(row.start,startup.start);}assert(Number.isSafeInteger(startup.pid)&&startup.pid>0);assert.match(startup.start,/^[0-9]+$/);
+ const policy=await import(pathToFileURL(resolve(m.root,'scripts/test/golden-support-policy.mjs')).href);policy.assertGoldenWorker(workerRows,m.root,{goldenSourceFiles:m.originalSources});
+ const observerLoads=workerRows.filter(row=>row.kind==='observer-load');assert.equal(observerLoads.length,1);assert.equal(observerLoads[0].canonicalParentURL,pathToFileURL(m.observer.path).href);assert.equal(observerLoads[0].sourceSha,m.observer.sha256);
+ const bootstraps=workerRows.filter(row=>row.kind==='certified-observer-artifact-bootstrap');assert.equal(bootstraps.length,1);assert.equal(bootstraps[0].parentURL,observerLoads[0].url);assert.equal(bootstraps[0].url,startup.entryURL);assert(workerRows.indexOf(observerLoads[0])<workerRows.indexOf(bootstraps[0]));
+ const expectedLoads=Object.entries(artifact.files).filter(([file])=>/\.(mjs|js)$/.test(file)).map(([file,h])=>({url:pathToFileURL(resolve(artifact.directory,file)).href,sha:h}));const actualLoads=workerRows.filter(row=>row.kind==='native-load');assert.equal(actualLoads.length,expectedLoads.length);
+ for(const expected of expectedLoads){const matches=actualLoads.filter(row=>row.url===expected.url);assert.equal(matches.length,1);assert.equal(matches[0].format,'module');assert.equal(matches[0].sourceSha,expected.sha);assert(Number.isSafeInteger(matches[0].sourceBytes)&&matches[0].sourceBytes>0);}
+ save('worker-evidence-qualified.json',{kind:'closed-three-actual-worker-evidence-v1',startup,workerRows,publicOriginalAssertionsPassed:true,independentParentAllOwnedAbsenceStillRequired:true});
+ const rows=[];for(let index=0;index<3;index++){
+  const record=JSON.parse(readFileSync(resolve(m.setup,'case-'+index+'.json'),'utf8'));rows.push(record);assert.equal(record.kind,'original-query-opportunity-census-v2');assert.equal(record.name,m.originalCaseNames[index]);assert.equal(record.index,index);assert.equal(record.allOriginalQueriesPaid,true);assert.equal(record.queryResultsNeverSubstituted,true);assert.equal(record.acceptance,false);assert.equal(record.timed,false);
+  for(const value of Object.values(record.steps))assert.ok(Number.isSafeInteger(value)&&value>=0);assert.deepEqual(record.steps,{attempted:index===0?0:108000,completed:index===0?0:108000,thrown:0,closed:index===0?0:108000});
+  for(const stats of [record.root,record.steel]){for(const value of Object.values(stats))assert.ok(Number.isSafeInteger(value)&&value>=0);assert.equal(stats.framesStarted,stats.framesClosed);assert.equal(stats.thrownFrames,0);assert.equal(stats.nonIdenticalDuplicates,0);assert.equal(stats.duplicateInputs,stats.bitIdenticalDuplicates);assert.ok(stats.duplicateInputs<=stats.successfulQueries&&stats.successfulQueries<=stats.paidQueries);if(index===0)for(const value of Object.values(stats))assert.equal(value,0);}
+  assert.equal(record.topLevelReturnsComplete,true);assert.equal(record.finalStateTimeAndSamplesVerified,false);
+ }
+ save('physical-census-result.json',{kind:'closed-three-original-assertion-census-result-v1',records:rows,originalPublicCasesPassed:true,fullOriginalAssertionsUnchanged:true,finalStateTimeAndSampleEvidence:'Original complete case assertion pass after public context close',coverageAcceptance:false,timingAcceptance:false,physicsOptimizationSelected:false});status=0;
+}catch(error){primary=String(error.stack??error);}
+finally{
+ for(const[name,fn]of[['selected-after',selected],['source-after',()=>{assert(before);const actual=loader.sourceSnapshot(m.root);save('source-after-observed.json',actual);assert.deepEqual(actual,before);return actual;}],['tools-after',()=>{assert(tools);const actual=loader.installedToolSnapshot(m.root);save('tools-after-observed.json',actual);assert.deepEqual(actual,tools);return actual;}],['artifact-after',artifacts],['owned-final',()=>owned.verifyNoOwnedProcesses()]]){
+  try{save(name+'.json',fn());}catch(error){postErrors.push({name,message:String(error.stack??error)});}}
+ if(postErrors.length)status=70;if(performance.now()-started>292000){status=70;postErrors.push({name:'whole-owner',message:'292s work bound exceeded'});}
+ save('owner-result.json',{kind:'closed-three-census-owner-result-v1',completed:status===0&&primary===null&&postErrors.length===0,status,stage,primary,postErrors,processes,elapsedMs:performance.now()-started,
+ application:false,timing:false,goldenReplayPassed:status===0,parentAllActualTrackedAbsenceRequired:true});process.exitCode=status;
+}

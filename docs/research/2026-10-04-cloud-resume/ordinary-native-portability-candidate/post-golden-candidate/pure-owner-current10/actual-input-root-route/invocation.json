@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "/tmp/starship-portable-native-post-golden-pure.fe8dd7d13eae409e96a240b4321e832a/root-observer.py",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/ordinary-native-portability-candidate/post-golden-candidate/pure-owner-current10/actual-input-root-route/root-input.json",
+    "4db328ae71bcaa6f4d00bd6451eddd026c5008fc301440af67ee6d1d7d2e4592"
+  ],
+  "externalDeadlineMs": 30000,
+  "noInvocationPerformed": true,
+  "rootCopyAndDigestCheckRequiredBeforeOtherActualInputReview": true
+}

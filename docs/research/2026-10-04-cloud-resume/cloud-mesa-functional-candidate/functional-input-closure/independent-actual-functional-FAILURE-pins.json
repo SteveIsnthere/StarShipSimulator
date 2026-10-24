@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "decision": "accepted-truthful-failed-functional-probe",
+  "inputs": {
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/functional-input.json": "0f374980edc2c201e823ebeaaa3785a286d98c05c7324cbec1440d26e9c1e63b",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/owner-input.json": "cd4959cf598e986172715132639f2f2e33d6a9f005bbecda0269e697ecf048d6",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/parent-closure.json": "c6a2e0ac2eb70d50c71cc3af1844609fde273a6ee3e0dbc1d41dec43c52c1db0",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/root-structural-check.py.txt": "e067697416124dd707b1d217542260f4e10c6f3e2013678f45d545979a797a13",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/root-structural-before.json": "47be64d5d662b286c4ac4516cbb2de86f6937dc09009efdb58c54032da70a25f",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/root-structural-after.json": "84921a2b4dcf78d9a4b21d09aff668232e473674660ff4298ed92020d9d14e57",
+    "/tmp/starship-width2-root.t8pivrl9/root-outcome.json": "a0ef7ded987bc56ef39ef3a1d1efc1bc79c9be6d14cd83291be388b5f00992a9",
+    "/tmp/starship-width2-root.t8pivrl9/root-independent-postexit.json": "ed15ff47fd954324639aacd804be6c0d1d260d2eaeb5e1863506dd5a6bfaf44a",
+    "/tmp/starship-width2-root.t8pivrl9/outer-registration.json": "61999f29671e691fa8439d9bce787401792c34d640d2f4fdaafd0ab92e3fce61",
+    "/tmp/starship-width2-root.t8pivrl9/identities.jsonl": "33fb621ba73941494b0e3591afb705e056e32620b70bad6cff3173a5ae81887d",
+    "/tmp/starship-width2-stage.b55j6q/stage-result.json": "8c92a27e1a59245c6d0a3736cda89443fc5144ed6799aaec4ad51b60b350955d",
+    "/tmp/starship-width2-stage.b55j6q/actual-child-exit.json": "73f66370dfc33949b4331217379777a0bdbeca199ccc404d61645118c6df24d9",
+    "/tmp/starship-width2-stage.b55j6q/preparation.process.json": "f5b701f6aa77cf47e4ddf8cbc4bbc962030cbe49ce6a363d7b18fd5777fcd364",
+    "/tmp/starship-width2-stage.b55j6q/preparation.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-width2-stage.b55j6q/preparation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/starship-mesa-functional.ff9739748edc461bb23bd0979d73a1e9/before.json": "249f47905bd533e779b5c3c1d273c62e4fc9a0a6fe2513b53f67fefe67868e2e",
+    "/tmp/starship-mesa-functional.ff9739748edc461bb23bd0979d73a1e9/after.json": "249f47905bd533e779b5c3c1d273c62e4fc9a0a6fe2513b53f67fefe67868e2e",
+    "/tmp/starship-mesa-functional.ff9739748edc461bb23bd0979d73a1e9/outcome.json": "9f1c67893bf5d716fe5bb7c5d84213a8d98b4ae1ac98acae45ae64577679869d",
+    "/tmp/starship-mesa-functional.ff9739748edc461bb23bd0979d73a1e9/cleanup.json": "ee497d4945178033acfe91ef95d86d76a2b5d9fa8dc56af2f244ef59858bc8eb",
+    "/workspace/StarShipSimulator/docs/research/2026-10-04-cloud-resume/cloud-mesa-functional-candidate/functional-input-closure/independent-actual-functional-FAILURE-review.md": "01ff334985a3695053a7f11411b22cd20376ae3ee1ea8e595ec2b64afacc82ec"
+  },
+  "currentIdentityObservations": [
+    {
+      "pid": 90013,
+      "start": "5754135",
+      "current": null
+    },
+    {
+      "pid": 90020,
+      "start": "5754176",
+      "current": null
+    },
+    {
+      "pid": 90032,
+      "start": "5754395",
+      "current": null
+    },
+    {
+      "pid": 90036,
+      "start": "5754398",
+      "current": {
+        "start": "5754398",
+        "state": "Z"
+      }
+    },
+    {
+      "pid": 90039,
+      "start": "5754398",
+      "current": {
+        "start": "5754398",
+        "state": "Z"
+      }
+    },
+    {
+      "pid": 90061,
+      "start": "5754401",
+      "current": null
+    },
+    {
+      "pid": 90064,
+      "start": "5754403",
+      "current": null
+    },
+    {
+      "pid": 90066,
+      "start": "5754405",
+      "current": null
+    },
+    {
+      "pid": 90106,
+      "start": "5754413",
+      "current": null
+    },
+    {
+      "pid": 90107,
+      "start": "5754413",
+      "current": null
+    }
+  ],
+  "actualRootExit": 1,
+  "draws": 0,
+  "allRecordedIdentitiesNonexecuting": true,
+  "allAbsentAtRootAudit": false,
+  "allGroupsCleared": false,
+  "functionalAccepted": false,
+  "causeEstablished": false,
+  "furtherExecutionApproved": false
+}

@@ -1,0 +1,14 @@
+import {it,expect,afterEach,beforeEach} from 'vitest';
+let tries=0;
+const kind=process.env.STARSHIP_GATE_CONTROL_CASE;
+if(kind==='before-hook')beforeEach(()=>{throw new Error('expected beforeEach fault');});
+if(kind==='after-hook')afterEach(()=>{throw new Error('expected afterEach fault');});
+if(kind==='retry')it('control',{retry:1},()=>{expect(tries++).toBe(1);});
+else if(kind==='repeat')it('control',{repeats:1},()=>expect(true).toBe(true));
+else if(kind==='fails')it.fails('control',()=>expect(false).toBe(true));
+else if(kind==='only')it.only('control',()=>expect(true).toBe(true));
+else if(kind==='skip')it.skip('control',()=>expect(true).toBe(true));
+else if(kind==='todo')it.todo('control');
+else if(kind==='dynamic-skip')it('control',context=>context.skip());
+else if(kind==='timeout')it('control',{timeout:20},()=>new Promise(done=>setTimeout(done,100)));
+else it('control',()=>{expect(true).toBe(true);if(kind==='unhandled')void Promise.reject(new Error('expected unhandled fault'));});

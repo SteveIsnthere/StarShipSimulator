@@ -1,0 +1,27 @@
+import { it, expect } from 'vitest';
+import { writeFileSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { PRESETS, ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle } from '$core/scenarios';
+import { cloneState } from '$core/state';
+import { step } from '$core/step';
+import { SHIP } from '$core/vehicle';
+import { SUPER_HEAVY, CATCH } from '$core/vehicles/super-heavy';
+import { createCatchPose, writeCatchPose } from '$core/physics/tower-catch';
+import { runBoosterAutopilot } from '$core/autopilot/booster';
+import { toggleAutoLand } from '$core/control/commands';
+import { starBaseXPos, heatLimit } from '$core/constants';
+import { DT } from '$app/loop';
+import { exercise } from './fixture.mjs';
+const g = { PRESETS, ALL_SCENARIOS, createIntroState, createScenarioState, createScenarioVehicle,
+  cloneState, step, SHIP, SUPER_HEAVY, CATCH, createCatchPose, writeCatchPose,
+  runBoosterAutopilot, toggleAutoLand, starBaseXPos, heatLimit, DT };
+it('native b: isolated graph roles and exact short recipe', async () => {
+  expect(Object.hasOwn(globalThis, '__nativeFlightControl')).toBe(false);
+  globalThis.__nativeFlightControl = 'b';
+  const entry = await import('./native/entry.mjs');
+  for (const [role, value] of Object.entries(g)) expect(value, role).toBe(entry[role]);
+  const stat = readFileSync('/proc/self/stat', 'utf8');
+  const fields = stat.slice(stat.lastIndexOf(')') + 2).trim().split(/\s+/);
+  const result = { pid: process.pid, starttime: fields[19], marker: 'b', value: exercise(g) };
+  writeFileSync(fileURLToPath(new URL('./native-b-result.json', import.meta.url)), JSON.stringify(result) + '\n', { flag: 'wx' });
+});

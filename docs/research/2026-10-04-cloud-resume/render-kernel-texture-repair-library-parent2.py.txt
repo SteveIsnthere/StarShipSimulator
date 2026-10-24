@@ -1,0 +1,52 @@
+import hashlib,json,pathlib,subprocess,time,os,signal,re
+base=pathlib.Path('docs/research/2026-10-04-cloud-resume').resolve()
+parent=base/'render-kernel-texture-repair-library-parent2';parent.mkdir()
+files=['kernel-display-witness.ts','kernel-display-witness-controls.mjs','render-kernel-texture-repair-entry.ts','render-kernel-texture-repair-build.config.mjs','prepare-render-kernel-texture-repair.py','build-render-kernel-texture-repair.mjs','qualify-render-kernel-texture-repair.mjs','run-render-kernel-texture-repair.mjs','cloud-render-kernel-display-witness-repair-declaration.md','kernel-program-attribution-hook.mjs']
+sha=lambda b:hashlib.sha256(b).hexdigest()
+def pins():return {f:sha((base/f).read_bytes()) for f in files}
+before=pins()
+for f in files:(parent/(f+'.txt')).write_bytes((base/f).read_bytes())
+node=subprocess.check_output(['which','node'],text=True).strip()
+qualification=base/'current-render-build-qualification/qualification.json'
+qualified='f17768516f4eb80bbb32c57fc389d08d12ca902556b88118c6ed9190ed3cb4d2'
+assert sha(qualification.read_bytes())==qualified
+approval=base/'cloud-render-kernel-display-witness-pure-result-independent-approval.json'
+assert approval.is_file()
+declaration={'sourcePins':before,'qualification':qualified,'approvalSha256':sha(approval.read_bytes()),'parentSourceSha256':sha(pathlib.Path(__file__).read_bytes()),'node':node,'timeouts':{'preparationSeconds':15,'supervisedBuildSeconds':190,'qualifierSeconds':30},'browserGranted':False}
+(parent/'declaration.json').write_text(json.dumps(declaration,indent=2)+'\n')
+env={**os.environ,'PROGRAM_BUILD_QUALIFICATION_SHA256':qualified};results=[]
+def run(name,cmd,bound):
+ started=time.monotonic()
+ with (parent/(name+'.output.txt')).open('xb') as output:
+  proc=subprocess.Popen(cmd,stdout=output,stderr=subprocess.STDOUT,start_new_session=True,env=env)
+  raw=pathlib.Path(f'/proc/{proc.pid}/stat').read_text();identity={'pid':proc.pid,'starttime':raw[raw.rfind(')')+2:].split()[19]}
+  expired=False
+  try:code=proc.wait(timeout=bound)
+  except subprocess.TimeoutExpired:
+   expired=True;os.killpg(proc.pid,signal.SIGTERM)
+   try:code=proc.wait(timeout=6)
+   except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);code=proc.wait(timeout=2)
+ result={'name':name,'command':cmd,'childExit':code,'timeout':expired,'elapsedSeconds':time.monotonic()-started,'owned':identity,'nonexecuting':not pathlib.Path(f'/proc/{proc.pid}').exists()}
+ results.append(result);(parent/(name+'.result.json')).write_text(json.dumps(result,indent=2)+'\n')
+ if code or expired or not result['nonexecuting']:raise RuntimeError(str(result))
+ return (parent/(name+'.output.txt')).read_text()
+setup=None;error=None
+try:
+ out=run('preparation',['python3',str(base/'prepare-render-kernel-texture-repair.py'),str(qualification)],15)
+ match=re.fullmatch(r'Prepared ownership only: (/tmp/starship-render-kernel\.[A-Za-z0-9]+)\n',out);assert match
+ setup=match.group(1);(parent/'setup-path.txt').write_text(setup+'\n')
+ run('library-build',[node,str(base/'build-render-kernel-texture-repair.mjs'),setup],190)
+ run('qualification',[node,str(base/'qualify-render-kernel-texture-repair.mjs'),setup],30)
+ build=json.loads(pathlib.Path(setup,'kernel-build-result.json').read_text())
+ post=[]
+ for identity in build['owned']:
+  path=pathlib.Path(f"/proc/{identity['pid']}/stat");executing=False
+  if path.exists():
+   raw=path.read_text();fields=raw[raw.rfind(')')+2:].split();executing=fields[19]==str(identity['starttime']) and fields[0] not in ['Z','X']
+  post.append({**identity,'executing':executing})
+ (parent/'independent-postexit.json').write_text(json.dumps(post,indent=2)+'\n');assert not any(item['executing'] for item in post)
+except BaseException as exc:error=repr(exc)
+result={'results':results,'before':before,'after':pins(),'sourcesExact':before==pins(),'setup':setup,'error':error,'browserExecuted':False}
+(parent/'parent-result.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({'setup':setup,'results':results,'sourceExact':result['sourcesExact'],'error':error},indent=2))
+if error or not result['sourcesExact']:raise SystemExit(1)

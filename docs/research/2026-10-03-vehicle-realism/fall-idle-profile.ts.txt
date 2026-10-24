@@ -1,0 +1,13 @@
+/** Read-only cost attribution for the exact existing timing-test inputs.
+ * Node25.8.1, no flight integration or source changes. */
+import {createScenarioState,ALL_SCENARIOS} from '../../../src/core/scenarios';
+import {createBurnScratch,createFallResult,unpoweredFallInto} from '../../../src/core/control/guidance-physics';
+import * as C from '../../../src/core/constants';
+for(const [h,vx,vy,runs] of [[79000,2000,-50,500],[60000,0,7000,200]]){
+ const s=createScenarioState(ALL_SCENARIOS.find(p=>p.id==='reentry')!);
+ s.kinematics.altitude=h!;s.kinematics.speedX=vx!;s.kinematics.speedY=vy!;
+ const out=createFallResult(),scratch=createBurnScratch();
+ for(let i=0;i<20;i++)unpoweredFallInto(s,C.vehicleHeight/2,scratch,out);
+ const t0=performance.now();for(let i=0;i<runs!;i++)unpoweredFallInto(s,C.vehicleHeight/2,scratch,out);
+ console.log(JSON.stringify({node:process.version,h,vx,vy,runs,perCallMs:(performance.now()-t0)/runs!,out}));
+}
