@@ -73,6 +73,16 @@ absent runtime acceptance. Continue independent authorized work while a genuinel
 missing access or product answer is pending. Preserve the current docs/audit
 edits and checkpoint durable work with reviewed commits/pushes when possible.
 
+Current production checkpoint is `df16fb2c59cf69883cf1440d90795b135dfc2a40`
+on `claude/visuals`, after terminal coallocation `3fa8c522` and C1 WIP
+`d30d23f9`. The [early-acquisition packet](../../research/2026-10-18-phase8-successor/early-acquisition/README.md)
+preserves the reviewed nominal design and recorded 3 s constraints. Acquisition
+source and its RED boundary test are not implemented. Next write that boundary
+witness, implement only supported paid acquisition, then obtain independent
+HIGH source/readiness review before one changed before-flip test. Keep one
+arrival clock, real central cohorts and orientation-gated ignition; no free
+coast authority or deadline reset. Reentry/orbital range remains separate.
+
 ## Remaining work and dependencies
 
 Execute [C0–C6](modernization-completion-plan.md) as bounded work packages.

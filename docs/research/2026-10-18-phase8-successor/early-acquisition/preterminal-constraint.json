@@ -1,0 +1,466 @@
+{
+  "description": "Recorded constraints at3s, not exact full historical state; no new flight. Independent design boundary only.",
+  "sourceHead": "3fa8c522f4dd3e2c6170988ee967a3f39a9a8b2e",
+  "trace": "docs/research/2026-10-18-phase8-successor/terminal-coallocation/flight-attempt1/before-flip.trace.json",
+  "traceSha256": "44e330d11bf965dae3470f4c4605fe8d56010dfb8707377a9105d8473ed82687",
+  "sample": {
+    "tick": 360,
+    "reason": "cadence",
+    "time": 2.999999999999992,
+    "kinematics": {
+      "altitude": 788.757184422798,
+      "downRangeDistance": 20014982.379066367,
+      "downRangeDistanceNextFrame": 20014982.379066367,
+      "distanceToPlanetCenter": 6371788.757184423,
+      "orbitalVelocityAtCurrentAltitude": 7909.302814964386,
+      "trueSpeed": 72.75450459567615,
+      "speedX": -3.2746115724246363,
+      "speedY": -72.68077364758855,
+      "machSpeed": 0.2157279572361964,
+      "accelerationX": -0.8648516826032062,
+      "accelerationY": -3.0683540432684646,
+      "totalAcceleration": 3.187909184362618,
+      "pitch": 0.7582894571427257,
+      "pitchRateOfChange": -0.3187146307015132,
+      "pitchRecord": [
+        0.7635953888294494,
+        0.7609394335736035
+      ],
+      "angularVelocity": -0.31763750474027025,
+      "angularAcceleration": 0.0863200716184549,
+      "angleOfMotion": -3.096651707348523,
+      "angleOfAttack": -2.4255941662574596,
+      "angleInToTheWind": -0.7159984873323335
+    },
+    "lug": {
+      "x": 20015002.95136976,
+      "altitude": 810.476232561594,
+      "speedX": -10.173395828565601,
+      "speedY": -66.14623853141589
+    },
+    "vehicle": {
+      "propellant": 30000,
+      "mass": 230000,
+      "inertia": 110846652.8421474,
+      "throttle": 100,
+      "actualThrottle": 100,
+      "gimbal": 0,
+      "gimbalDirection": 0.7609394335736035,
+      "frontFin": 99.9969482421875,
+      "aftFin": 50,
+      "rcs": 23.362021243459036
+    },
+    "engines": {
+      "running": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "failed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "pending": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "control": {
+      "phase": "coast",
+      "centreOnly": {
+        "$diagnostic": "undefined"
+      },
+      "rangeError": -99.99996919445863,
+      "fallTime": 8.43371484903509,
+      "coastPitch": {
+        "$diagnostic": "undefined"
+      },
+      "finControl": 99.993896484375,
+      "pitchControl": 0,
+      "rcsCommand": 0,
+      "arrivalTime": {
+        "$diagnostic": "undefined"
+      },
+      "terminalMissed": {
+        "$diagnostic": "undefined"
+      },
+      "terminalIgnitionTime": {
+        "$diagnostic": "undefined"
+      }
+    },
+    "forces": {
+      "thrust": 0,
+      "paidAX": 0,
+      "paidAY": 0,
+      "thrustVector": 0,
+      "finTorque": 0.008506276743732253,
+      "rcsTorque": 0.0696431919375941,
+      "angularDrag": 0.008170602937128534,
+      "offAxisTorque": 0,
+      "temperature": 289.04259337450395,
+      "q": 3.0013255679843707,
+      "g": 0.7361441623451563
+    },
+    "planner": {
+      "stage": "low",
+      "duration": 0,
+      "iterations": 0,
+      "attemptedTicks": [],
+      "done": false,
+      "hintForceIterations": {
+        "$diagnostic": "undefined"
+      },
+      "hintForceSlices": {
+        "$diagnostic": "undefined"
+      },
+      "rollout": {
+        "done": false,
+        "burnRemaining": 0,
+        "burnTicks": 0,
+        "shutdownAt": {
+          "$diagnostic": "undefined"
+        },
+        "result": {
+          "reached": false,
+          "rangeError": -137.64063949510455,
+          "time": 5.01666666666669,
+          "fuel": 29770.642201834926,
+          "speedX": -11.573657325638282,
+          "speedY": -98.53450620621732,
+          "pitch": 0.060570627154578234,
+          "steps": 162,
+          "ignitionDraws": 3,
+          "failed": false,
+          "handoff": {
+            "$diagnostic": "undefined"
+          }
+        }
+      },
+      "published": {
+        "$diagnostic": "undefined"
+      }
+    },
+    "plan": {
+      "$diagnostic": "undefined"
+    },
+    "damage": {
+      "revision": 0,
+      "eventCount": 0,
+      "hull": {
+        "valid": true,
+        "temperature": 281.65102237176757,
+        "energy": -793406408.5249778
+      },
+      "terminal": {
+        "active": false,
+        "reason": 0,
+        "time": 0,
+        "x": 0,
+        "altitude": 0,
+        "pitch": 0,
+        "speedX": 0,
+        "speedY": 0,
+        "angularVelocity": 0,
+        "retainedDryMass": 0,
+        "retainedPropellant": 0,
+        "releasedEnergy": 0,
+        "releasedMomentumX": 0,
+        "releasedMomentumY": 0,
+        "releasedAngularMomentum": 0,
+        "releasedKineticEnergy": 0
+      },
+      "components": [
+        {
+          "componentIndex": 0,
+          "attached": true,
+          "permanentFailure": 0,
+          "loadedAngle": 0,
+          "root": {
+            "valid": true,
+            "temperature": 0,
+            "energy": 0
+          },
+          "tps": [
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            },
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            }
+          ]
+        },
+        {
+          "componentIndex": 1,
+          "attached": true,
+          "permanentFailure": 0,
+          "loadedAngle": 0,
+          "root": {
+            "valid": true,
+            "temperature": 0,
+            "energy": 0
+          },
+          "tps": [
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            },
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            }
+          ]
+        },
+        {
+          "componentIndex": 2,
+          "attached": true,
+          "permanentFailure": 0,
+          "loadedAngle": 0.7853180587230988,
+          "root": {
+            "valid": true,
+            "temperature": 281.65203280971684,
+            "energy": -350646.2382638065
+          },
+          "tps": [
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            },
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            }
+          ]
+        },
+        {
+          "componentIndex": 3,
+          "attached": true,
+          "permanentFailure": 0,
+          "loadedAngle": 0.7853180587230988,
+          "root": {
+            "valid": true,
+            "temperature": 281.65203280971684,
+            "energy": -350646.2382638065
+          },
+          "tps": [
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            },
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            }
+          ]
+        },
+        {
+          "componentIndex": 4,
+          "attached": true,
+          "permanentFailure": 0,
+          "loadedAngle": 0.7853180587230988,
+          "root": {
+            "valid": true,
+            "temperature": 281.65203280971684,
+            "energy": -350646.2382638065
+          },
+          "tps": [
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            },
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            }
+          ]
+        },
+        {
+          "componentIndex": 5,
+          "attached": true,
+          "permanentFailure": 0,
+          "loadedAngle": 0,
+          "root": {
+            "valid": true,
+            "temperature": 0,
+            "energy": 0
+          },
+          "tps": [
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            },
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            }
+          ]
+        },
+        {
+          "componentIndex": 6,
+          "attached": true,
+          "permanentFailure": 0,
+          "loadedAngle": 0,
+          "root": {
+            "valid": true,
+            "temperature": 0,
+            "energy": 0
+          },
+          "tps": [
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            },
+            {
+              "valid": true,
+              "temperature": 0,
+              "energy": 0
+            }
+          ]
+        }
+      ]
+    },
+    "status": {
+      "onTheGround": false,
+      "landed": false,
+      "rcsActive": true,
+      "finActive": true,
+      "finLocked": false,
+      "gearDown": false,
+      "dumpingFuel": false,
+      "forceDump": false,
+      "translationModeOn": true
+    },
+    "warnings": {
+      "coldGasLow": false,
+      "fuelLow": false,
+      "heatDamagedWarning": false,
+      "overPressureWarning": false,
+      "overGLoadWarning": false
+    },
+    "failures": {
+      "crashed": false,
+      "inFlightBreakUp": false,
+      "coldGasRunOut": false,
+      "fuelRunOut": false,
+      "heatDamaged": false,
+      "overPressure": false,
+      "overGLoad": false,
+      "flippedOver": false,
+      "randomFailure": false
+    },
+    "rng": {
+      "seed": 1463897163,
+      "counters": {
+        "ignitionDelay": 0,
+        "ignitionFailure": 0,
+        "turbulence": 0
+      }
+    }
+  }
+}

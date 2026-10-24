@@ -73,10 +73,17 @@ remains binding; independent C2/C3 work continues.
       plane, but lateral error −129.26 m and speed +11.84 m/s reject contact.
       This is a bounded correction, not scenario acceptance.
       [Evidence and retained failed trials](../../research/2026-10-18-phase8-successor/terminal-coallocation/README.md).
-- [ ] **Next bounded physical task:** design and review earlier lateral/range
-      acquisition from this retained paid trace. Establish future-event proof
-      scheduling feasibility before adding coast authority; keep current caps,
-      deadlines and actual paid mechanics. Do not rerun the consumed torque row.
+- [x] Reviewed the nominal early paid acquisition design, recorded 3 s
+      constraints and central-cohort scalar union. This admits RED preparation
+      only; orientation-gated ignition still needs concrete supported logic.
+      [Design and review](../../research/2026-10-18-phase8-successor/early-acquisition/README.md).
+- [ ] **Next bounded physical task:** write the pre-terminal RED boundary and
+      aligned control, then implement supported acquisition with one charged
+      arrival clock, real cohorts and paid ignition/rotation. Obtain independent
+      HIGH source/readiness review before one changed before-flip invocation.
+      Keep original caps/deadlines and do not rerun the consumed torque row.
+      A future coast switch separately requires source-matched paid validation
+      before that event; this local mode grants no free coast authority.
 - [x] Implemented reviewed call-local root-kernel reuse with exact scalar key,
       original per-component helper/validation/material/getter prefix and literal
       fallback. Frozen old oracles, 43 focused tests across selections, build

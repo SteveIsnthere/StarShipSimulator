@@ -5,6 +5,11 @@ whose runtime ancestor is `cd0118c0d9aeefdf2729581b9168caabb6eb75af`.
 This selects committed implementation for a reviewed successor under C0;
 it does not reconstruct the unknown later workspace or accept its results.
 
+Current production checkpoint: `df16fb2c59cf69883cf1440d90795b135dfc2a40`.
+The [early-acquisition packet](early-acquisition/README.md) records the next
+reviewed nominal design and preserved constraints; implementation and RED
+boundary test are still absent. No acquisition outcome or phase pass is claimed.
+
 ## Recovery observations
 
 Fresh versioned startup/reconciliation and the actual Chromium functional

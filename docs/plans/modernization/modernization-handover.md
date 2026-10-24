@@ -66,13 +66,23 @@ committed `8126077a`, independently reviewed at high depth. The pre-change
 are recorded separately. No patch was applied or historical acceptance inherited.
 See the [successor checkpoint](../../research/2026-10-18-phase8-successor/README.md).
 
+Current production checkpoint is `df16fb2c59cf69883cf1440d90795b135dfc2a40`
+on `claude/visuals`, after terminal coallocation `3fa8c522` and C1 WIP
+`d30d23f9`. The [early-acquisition packet](../../research/2026-10-18-phase8-successor/early-acquisition/README.md)
+preserves the reviewed nominal design and recorded 3 s constraints. Acquisition
+source and its RED boundary test are not implemented. Next write that boundary
+witness, implement only supported paid acquisition, then obtain independent
+HIGH source/readiness review before one changed before-flip test. Keep one
+arrival clock, real central cohorts and orientation-gated ignition; no free
+coast authority or deadline reset. Reentry/orbital range remains separate.
+
 ## Acceptance state
 
 | Area | Last recorded state | Current interpretation |
 |---|---|---|
 | RTLS scheduling feasibility | Completed bounded task; paid receipts and default-catch evidence retained in research | Preserve; do not restart this task |
 | V3/damage source | Catalogue, propulsion, thermal/material/control/mass/detachment/debris and shared rendering exist | Whole R1/R2/R3 acceptance open |
-| Lint/build | Latest bounded build passes 299.2/300 kB; scoped lint 0. Retained 300.4 kB and removed esbuild 308.2 kB trials fail | Current bounded patch only; full lint/gate open |
+| Lint/build | Latest bounded root-kernel build passes 299.6/300 kB; scoped lint 0. Earlier terminal build passes 299.2 kB. Retained 300.4 kB and removed esbuild 308.2 kB trials fail | Current bounded patch only; full lint/gate open |
 | Scenario matrix | New 30-test successor includes all 18 ID/model rows; horizon 4/4, model proof/existing 53/53, mocked clock/contact 4/4 | Ship/landing-burn, Super Heavy/landing-burn and Super Heavy/intro pass across separate selections. Super Heavy/before-flip and reentry fail; other 13 rows unrun |
 | Descending booster mode | Auto-land now starts coast when descending unless explicit boostback is requested; existing phases/ascending initialization preserved | 25/25 direct/boundary checks and changed genuine catch pass; full golden replay/audit and whole Fidelity acceptance open |
 | Projection allocation | Six render sites use factory-owned output; focused 5/5 and expanded 85/85 pass, independent high code review | One C3 allocation debt addressed; no optical/frame/gate acceptance |

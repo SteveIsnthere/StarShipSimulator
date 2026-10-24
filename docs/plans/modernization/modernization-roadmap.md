@@ -50,6 +50,16 @@ trace byte-for-byte and the same crash. Reduced kernel work is proved;
 23.015 s versus prior instrumented 23.429 s does not establish a wall-time cure.
 Broad CPU, matrix, golden, coverage, gate and release acceptance stay open.
 
+Current production checkpoint is `df16fb2c59cf69883cf1440d90795b135dfc2a40`
+on `claude/visuals`, after terminal coallocation `3fa8c522` and C1 WIP
+`d30d23f9`. The [early-acquisition packet](../../research/2026-10-18-phase8-successor/early-acquisition/README.md)
+preserves the reviewed nominal design and recorded 3 s constraints. Acquisition
+source and its RED boundary test are not implemented. Next write that boundary
+witness, implement only supported paid acquisition, then obtain independent
+HIGH source/readiness review before one changed before-flip test. Keep one
+arrival clock, real central cohorts and orientation-gated ignition; no free
+coast authority or deadline reset. Reentry/orbital range remains separate.
+
 ## Approved decisions retained
 
 - React 19/Tailwind 4 shell, PixiJS 8, read-only vendored flight_sim kit and its

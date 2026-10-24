@@ -37,7 +37,9 @@ mutation. Continue claude/visuals. Durable allocation checkpoint a41df348 and
 documentation checkpoint 0d87c758 follow admitted source basis
 8126077a851b3a31e2b662a6953859adb112169b (runtime ancestor cd0118c0).
 Requested dd72908e9e5e277f63af27fbdb64d560bc9af355 is an ancestor.
-Constructor Refactor/proof is committed as f76d740c; debug/catch as bd018042.
+Current production checkpoint is df16fb2c59cf69883cf1440d90795b135dfc2a40
+(scoped root-kernel Refactor), after 3fa8c522 terminal coallocation and d30d23f9
+C1 WIP. Constructor Refactor/proof is f76d740c; debug/catch is bd018042.
 The C1 horizon/matrix/descending initializer and diagnostic source/evidence are
 checkpointed as unfinished WIP with this handoff. Inspect actual HEAD/diff and
 preserve newer dirty work. Do not check out an old pin over this source.
@@ -75,8 +77,7 @@ the generic, heat and protected intro tests. One charged loop includes every
 support/ascent/circularization/coast/return tick; engines use actual ignition
 and throttle slew. Model selection uses the unchanged private constructor and
 literal SHIP default: Refactor all-leaf Object.is proof plus existing tests pass
-53/53, including 500 seeded custom inputs. Four mocked clock/contact units prove
-sequencing only. A real 1,000 m upward launch milestone and Ship RTLS boostback
+53/53, including 500 seeded custom inputs. Mocked clock/contact units prove sequencing only. A real 1,000 m upward launch milestone and Ship RTLS boostback
 are successor policies reviewed from existing requirements, not recovered bytes.
 
 Across separate real selections, Ship/landing-burn, Super Heavy/landing-burn and
@@ -86,8 +87,10 @@ is requested. Existing phases, ascending defaults and guards are preserved;
 25/25 direct/boundary checks pass. Truth before/after is byte-identical: 25/26,
 all Tier A IN; existing Tier B max-Q altitude 9,528 m OUT. Predict no golden moves;
 full ten-fixture replay/audit remains open. No fixture was regenerated here.
-Super Heavy/before-flip crashes at 13.875 s; reentry crashes at 350.850 s and takes
-35.381 s wall time, exceeding the unchanged 30 s case budget. Other 13 rows are
+The original descending selection crashed before-flip at 13.875 s and reentry
+at 350.850 s, with reentry taking 35.381 s beyond the unchanged 30 s case budget.
+The later terminal coallocation and root-kernel results are recorded below;
+these original epochs remain history. Other 13 rows are
 unrun. Do not claim full matrix acceptance or rerun unchanged failures for luck.
 
 C3: six projection call sites now use factory-owned output, preserving math and
@@ -119,11 +122,25 @@ The build passes299.2/300kB after moving authoredGLSLcomments to TypeScript docs
 all1519shader tokens and568startup source-map entries remain unchanged.
 Removed esbuild trial failed308.2kB; preserve it. Two built-render smoke checks
 pass on SwiftShader1280x720/DPR1, not reference/frame/whole Fidelity acceptance.
-NEXT design/review earlier lateral acquisition from the paid trace. A future
-coast switch needs scheduling feasibility and source-matched paid validation
-within unchanged4shared advances,16trials and future publication deadlines.
-Neither an unpowered hint nor arbitrary terminal tilt grants range authority.
-Keep reentry716km range failure and paid orbital feasibility separate.
+NEXT read early-acquisition/README.md, design.md and review.md. Its independent
+HIGH review admits RED boundary preparation only; no acquisition source/test is
+implemented. Use the preserved 3 s constraints, explicitly labelling unrecorded
+reconstructed fields. Write the smallest pre-terminal failing witness and an
+aligned in-envelope control before implementing supported local acquisition.
+Keep one charged arrival clock through preparation, paid ignition and handoff;
+never reset it. Use real nested centre cohorts [0], [0,1], [0,1,2], actual mount
+torque/funding and physical commands >=40%. The healthy three-centre scalar
+union may use proposal-only equivalent floor 40/3%, never physical actuation.
+Preserve ordinary request arithmetic/query order/40% floor with an exact-output
+witness and the existing bounded scan. Account for ignition gated on delivered
+orientation: max(rotation,ignition) alone is not conservative. Include missing
+hardware, depleted RCS, pending ignition, funding and deadline boundaries.
+Build/focused checks and fresh independent HIGH source/readiness review must
+precede ONE changed before-flip invocation at original limits. Preserve failure.
+A future coast switch separately needs scheduling feasibility and source-matched
+paid validation within four shared advances, 16 trials and original publication
+deadlines. Neither an unpowered hint nor arbitrary terminal tilt grants range
+authority. Keep the 716 km reentry miss and paid orbital feasibility separate.
 Profiles identify grid-root/control work, not ISA, as the stronger CPU path.
 The scoped pure-root-kernel Refactor is now implemented/reviewed, with original
 per-component six-argument helper, material/getter/validation prefixes and literal

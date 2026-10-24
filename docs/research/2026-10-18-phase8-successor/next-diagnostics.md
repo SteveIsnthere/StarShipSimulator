@@ -24,6 +24,19 @@ work; free-coast stopping prediction alone is insufficient. A separate future
 coast-switch proposal would require full paid validation before that switch,
 including source-prefix and terminal work under the same four-advance budget.
 
+## Immediate implementation entry point
+
+Production is checkpointed at `df16fb2c59cf69883cf1440d90795b135dfc2a40`.
+Read the [early-acquisition packet](early-acquisition/README.md), including its
+nominal design and independent HIGH review. Source and RED test remain absent.
+Write the recorded-constraint boundary plus aligned control first. Preserve
+ordinary force-request bits/query order, the 40% physical throttle floor and
+existing scan. The equivalent `40/3%` scalar-union floor is proposal-only and
+requires all three healthy centres; a real supported cohort always supplies
+physical thrust. Include orientation-gated ignition in preparation accounting,
+then source/readiness review before one changed flight. No new forecast, trial,
+mechanical advance, deadline reset or authority is admitted.
+
 ## C1/C2 — Two failed descending booster rows
 
 **The following capture is consumed.** Do not rerun it unchanged. Both original
